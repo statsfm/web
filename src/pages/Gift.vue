@@ -2,6 +2,10 @@
   <Header />
   <Loading v-if="loading" />
   <Container>
+    <br />
+    <br />
+    <br />
+    <br />
     <div class="cards">
       <Card>
         <Heading :size="1">Gift Plus coupons</Heading>
@@ -21,7 +25,7 @@
         >
       </Card>
       <div>
-        <Card>
+        <!-- <Card>
           <Heading :size="1">Holliday special 🎄</Heading>
           <Text
             >When purchasing a gift package, there's a 1% chance your package
@@ -32,15 +36,97 @@
             >If you buy a package with 5 codes, and you're lucky, you'll receive
             10 codes instead of just 5</Text
           >
-        </Card>
-        <Card>
-          <Heading :size="1">Your coupons</Heading>
-          <Text v-if="!giftCodes">loading...</Text>
-          <Text v-if="giftCodes?.length == 0">no codes found</Text>
-          <h3 v-for="code in giftCodes" :key="code.id">
-            <pre>{{ formatCode(code.code) }}</pre>
-          </h3>
-        </Card>
+        </Card> -->
+        <div></div>
+      </div>
+    </div>
+    <br />
+    <br />
+    <br />
+    <br />
+    <div style="width: 100%">
+      <Heading :size="1">Your coupons</Heading>
+      <Text v-if="!giftCodes">loading...</Text>
+      <Heading :size="3" v-if="giftCodes">Unclaimed coupons</Heading>
+      <Text
+        v-if="
+          giftCodes?.filter((code) => code.claimedBy == undefined)?.length == 0
+        "
+        >no codes found</Text
+      >
+      <div style="display: flex; gap: var(--space-s); flex-wrap: wrap">
+        <div
+          v-for="code in giftCodes?.filter(
+            (code) => code.claimedBy == undefined
+          )"
+          :key="code.id"
+          style="
+            flex-direction: column;
+            border-radius: 15px;
+            padding: 17px;
+            flex: 1;
+            min-width: 150px;
+            background: var(--color-body-secundary);
+          "
+        >
+          <Text
+            >Bought on
+            {{ new Date(code.purchaseDate).toLocaleDateString() }}</Text
+          >
+          <br />
+          <Text
+            style="
+              background: #182419;
+              padding: 5px 10px;
+              border-radius: 8px;
+              color: var(--color-text-secundary);
+              text-align: center;
+              font-weight: bold;
+            "
+            >{{ formatCode(code.code) }}</Text
+          >
+        </div>
+      </div>
+      <br />
+      <Heading :size="3" v-if="giftCodes">Claimed coupons</Heading>
+      <Text
+        v-if="
+          giftCodes?.filter((code) => code.claimedBy != undefined)?.length == 0
+        "
+        >no codes found</Text
+      >
+      <div style="display: flex; gap: var(--space-s); flex-wrap: wrap">
+        <div
+          v-for="code in giftCodes?.filter(
+            (code) => code.claimedBy != undefined
+          )"
+          :key="code.id"
+          style="
+            flex-direction: column;
+            border-radius: 15px;
+            padding: 17px;
+            flex: 1;
+            min-width: 150px;
+            background: var(--color-body-secundary);
+          "
+        >
+          <Text
+            >Bought on
+            {{ new Date(code.purchaseDate).toLocaleDateString() }}</Text
+          >
+          <br />
+          <Text
+            style="
+              background: #182419;
+              padding: 5px 10px;
+              border-radius: 8px;
+              color: var(--color-text-secundary);
+              text-align: center;
+              font-weight: bold;
+            "
+            >{{ formatCode(code.code) }}</Text
+          >
+        </div>
       </div>
     </div>
   </Container>
@@ -87,7 +173,7 @@ export default defineComponent({
   },
   setup() {
     const auth = useAuth();
-    const giftCodes = ref(null);
+    const giftCodes: Ref<Array<unknown>> = ref(null);
     const loading = ref(false);
 
     onBeforeMount(() => {
