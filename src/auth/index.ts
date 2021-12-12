@@ -12,7 +12,7 @@ export interface Response {
 }
 
 export default class auth {
-  private readonly clientId: string = "10a0c86a444b4e7bad722e9d08da0be6";
+  private readonly clientId: string = "52242e73817e4096ad71500937a1fb58"; //process.env.VUE_APP_SPOTIFY_CLIENT_ID
   private readonly redirectUri: string = `${location.origin}/auth/spotify/callback`;
   private readonly api = api;
   private readonly store = store;
