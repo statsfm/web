@@ -19,13 +19,13 @@
 
 .content {
   padding: var(--space-s);
-  background-color: var(--color-body-primary);
+  background-color: var(--color-body-secundary);
   position: absolute;
   width: max-content;
   max-width: 350px;
   height: max-content;
   right: 0px;
-  box-shadow: var(--shadow-xxl);
+  box-shadow: var(--shadow-xs);
   z-index: 1000;
   margin-top: var(--space-s);
   display: flex;
