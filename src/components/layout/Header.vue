@@ -2,24 +2,21 @@
   <header>
     <Container class="header-content">
       <div class="logo">
-        <NuxtLink to="/" class="invisible-link">
+        <router-link to="/" class="invisible-link">
           <Logo />
           <Heading :size="1">Spotistats</Heading>
-        </NuxtLink>
+        </router-link>
       </div>
       <div class="info">
-        <Button
-          v-if="!this.auth.isLoggedIn()"
-          size="small"
-          @click="this.auth.login"
+        <Button v-if="!auth.isLoggedIn()" size="small" @click="auth.login"
           >Login</Button
         >
 
         <Dropdown>
           <template v-slot:button>
             <Avatar
-              v-if="this.auth.isLoggedIn()"
-              :src="user.image"
+              v-if="auth.isLoggedIn()"
+              :src="user?.image"
               class="avatar"
             />
           </template>
@@ -33,22 +30,13 @@
 
           <Text size="s" type="secundary" truncate>{{ user?.email }}</Text>
           <Divider />
-          <Button size="small" @click="this.auth.logout" class="logout"
+          <Button size="small" @click="auth.logout" class="logout"
             >Logout</Button
           >
         </Dropdown>
       </div>
     </Container>
   </header>
-
-  <!-- <Modal>
-    <Text size="m" class="mb-s">Are you sure you want to log out?</Text>
-
-    <div class="flex gap-xs">
-      <Button>Cancel</Button>
-      <Button>Contiue</Button>
-    </div>
-  </Modal> -->
 </template>
 
 <style lang="scss" scoped>
@@ -109,9 +97,8 @@ import Divider from "../base/Divider.vue";
 import Text from "../base/Text.vue";
 import Badge from "../base/Badge.vue";
 import Modal from "../base/modals/Modal.vue";
-import { useStore } from "~/store";
-import { useUser } from "~/hooks/user";
-import { useAuth } from "~/hooks/auth";
+import { useAuth } from "~/hooks";
+import { useUser } from "~/hooks";
 
 export default defineComponent({
   components: {
