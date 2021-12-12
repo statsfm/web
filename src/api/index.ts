@@ -20,7 +20,7 @@ export default class api {
     init = {
       ...init,
       headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
+        Authorization: `${localStorage.getItem("token")}`,
         "Content-Type": "application/json",
         ...init?.headers,
       },
