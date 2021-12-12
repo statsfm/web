@@ -30,7 +30,9 @@
                 }}</Text>
                 <Badge v-if="user?.isPlus">Plus</Badge>
               </div>
-              <Text size="s" type="secundary" truncate>{{ user?.email }}</Text>
+              <Text size="s" weight="semi-bold" type="secundary" truncate>{{
+                user?.email
+              }}</Text>
             </div>
           </div>
 
