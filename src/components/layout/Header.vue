@@ -21,14 +21,19 @@
             />
           </template>
 
-          <div class="name">
-            <Text size="l" weight="semi-bold" truncate>{{
-              user?.displayName
-            }}</Text>
-            <Badge v-if="user?.isPlus">Plus</Badge>
+          <div class="profile">
+            <Avatar :src="user?.image" />
+            <div class="profile-info">
+              <div class="name">
+                <Text size="l" weight="semi-bold" truncate>{{
+                  user?.displayName
+                }}</Text>
+                <Badge v-if="user?.isPlus">Plus</Badge>
+              </div>
+              <Text size="s" type="secundary" truncate>{{ user?.email }}</Text>
+            </div>
           </div>
 
-          <Text size="s" type="secundary" truncate>{{ user?.email }}</Text>
           <Divider />
           <Button size="small" @click="auth.logout" class="logout"
             >Logout</Button
@@ -71,10 +76,23 @@ header {
       cursor: pointer;
     }
 
-    .name {
+    .profile {
       display: flex;
       align-items: center;
       gap: var(--space-xs);
+
+      .profile-info {
+        display: flex;
+        align-content: flex-start;
+        justify-content: center;
+        flex-direction: column;
+      }
+
+      .name {
+        display: flex;
+        align-items: center;
+        gap: var(--space-xs);
+      }
     }
 
     .logout {
