@@ -4,7 +4,10 @@
     <div class="cards">
       <Card>
         <Heading :size="1">Gift Plus coupons</Heading>
-        <Button v-if="user == null" size="small" @click="login"
+        <Button
+          v-if="!this.auth.isLoggedIn()"
+          size="small"
+          @click="this.auth.login"
           >Log in through Spotify</Button
         >
         <Divider />
@@ -59,6 +62,7 @@ import Divider from "~/components/base/Divider.vue";
 import Text from "~/components/base/Text.vue";
 import Button from "~/components/base/Button.vue";
 import api from "~/api";
+import { useAuth } from "~/hooks/auth";
 
 export default defineComponent({
   components: {
@@ -71,77 +75,9 @@ export default defineComponent({
     Button,
   },
   setup() {
-    const store = useStore();
+    const auth = useAuth();
 
-    const user = ref(null);
-    const redirectUri = ref("");
-    const clientId = ref("10a0c86a444b4e7bad722e9d08da0be6");
-    const apiToken = ref();
-
-    onMounted(() => {
-      redirectUri.value = location.origin;
-      apiToken.value = localStorage.getItem("apiToken");
-
-      const params = new URLSearchParams(location.search);
-      if (params.has("code")) {
-        const code = params.get("code");
-
-        if (code && code.length > 100) {
-          exchangeToken(code);
-        }
-      }
-
-      if (apiToken.value) {
-        const expired = isTokenExpired(apiToken.value);
-
-        // if (!expired) {
-        //   user.value =
-        // }
-      }
-    });
-
-    const login = () => {
-      const loginUrl = `https://accounts.spotify.com/authorize?client_id=${
-        clientId.value
-      }&redirect_uri=${encodeURIComponent(
-        redirectUri.value
-      )}&scope=user-read-private&response_type=code&response_mode=query&state=${Date.now()}`;
-
-      // location.replace(loginUrl);
-      console.log(loginUrl);
-    };
-
-    const exchangeToken = async (code: string) => {
-      const res = await api.post("/auth/token", {
-        body: JSON.stringify({
-          code,
-          client_id: clientId.value,
-          redirect_uri: redirectUri.value,
-        }),
-        redirect: "follow",
-      });
-
-      const data = res.data.data;
-
-      if (data.apiToken?.length > 10 && data.user) {
-        apiToken.value = data.apiToken;
-        store.commit("setUser", data.user);
-
-        localStorage.setItem("apiToken", apiToken.value);
-        location.search = "";
-      }
-    };
-
-    const isTokenExpired = (token: string) => {
-      // maybe turn this into computed with this.apiToken
-      const expiry = JSON.parse(
-        // Buffer.from(token.split(".")[1], "base64").toString() // since atob is deprecated
-        atob(token.split(".")[1])
-      ).exp;
-      return Math.floor(new Date().getTime() / 1000) >= expiry;
-    };
-
-    return { user, login };
+    return { auth };
   },
 });
 </script>

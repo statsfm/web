@@ -1,0 +1,45 @@
+<template>
+  <Header />
+  <Container>
+    <Heading>auth</Heading>
+  </Container>
+</template>
+
+<style lang="scss" scoped></style>
+
+<script lang="ts">
+import { defineComponent, onBeforeMount } from "vue";
+import Heading from "~/components/base/Heading.vue";
+import Header from "~/components/layout/Header.vue";
+import Container from "~/components/layout/Container.vue";
+import { useAuth } from "~/hooks/auth";
+import router from "~/router";
+
+export default defineComponent({
+  components: {
+    Container,
+    Header,
+    Heading,
+  },
+  setup() {
+    const auth = useAuth();
+
+    onBeforeMount(() => {
+      const params = new URLSearchParams(location.search);
+      if (params.has("code")) {
+        const code = params.get("code");
+
+        if (code && code.length > 100) {
+          return auth.exchangeSpotifyToken(code);
+        }
+      }
+
+      if (auth.isLoggedIn()) {
+        router.push("/");
+      } else {
+        auth.login();
+      }
+    });
+  },
+});
+</script>

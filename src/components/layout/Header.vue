@@ -8,11 +8,20 @@
         </NuxtLink>
       </div>
       <div class="info">
-        <Button size="small">Redeem</Button>
+        <Button
+          v-if="!this.auth.isLoggedIn()"
+          size="small"
+          @click="this.auth.login"
+          >Login</Button
+        >
 
         <Dropdown>
           <template v-slot:button>
-            <Avatar v-if="user" :src="user.image" class="avatar" />
+            <Avatar
+              v-if="this.auth.isLoggedIn()"
+              :src="user.image"
+              class="avatar"
+            />
           </template>
 
           <div class="name">
@@ -24,7 +33,9 @@
 
           <Text size="s" type="secundary" truncate>{{ user?.email }}</Text>
           <Divider />
-          <Button size="small" @click="logout" class="logout">Logout</Button>
+          <Button size="small" @click="this.auth.logout" class="logout"
+            >Logout</Button
+          >
         </Dropdown>
       </div>
     </Container>
@@ -100,6 +111,7 @@ import Badge from "../base/Badge.vue";
 import Modal from "../base/modals/Modal.vue";
 import { useStore } from "~/store";
 import { useUser } from "~/hooks/user";
+import { useAuth } from "~/hooks/auth";
 
 export default defineComponent({
   components: {
@@ -116,14 +128,9 @@ export default defineComponent({
   },
   setup() {
     const user = useUser();
+    const auth = useAuth();
 
-    const logout = () => {
-      if (!confirm("Are you sure you want to log out?")) return;
-      localStorage.clear();
-      location.reload();
-    };
-
-    return { user, logout };
+    return { user, auth };
   },
 });
 </script>

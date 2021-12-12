@@ -7,6 +7,11 @@ const routes: RouteRecordRaw[] = [
     component: () => import("../pages/Home.vue"),
   },
   {
+    path: "/auth:route(.*)",
+    name: "Auth",
+    component: () => import("../pages/Auth.vue"),
+  },
+  {
     path: "/gift",
     name: "Gift",
     component: () => import("../pages/Gift.vue"),
