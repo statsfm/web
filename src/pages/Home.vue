@@ -2,6 +2,7 @@
   <Header />
   <Container>
     <Heading :size="1">home</Heading>
+    <h1 class="text-3xl font-bold underline">Hello world!</h1>
   </Container>
 </template>
 
