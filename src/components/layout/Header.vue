@@ -8,7 +8,7 @@
         </router-link>
       </div>
       <div class="info">
-        <Button v-if="!auth.isLoggedIn()" size="small" @click="auth.login"
+        <Button v-if="!auth.isLoggedIn()" size="small" @click="auth.login()"
           >Login</Button
         >
 

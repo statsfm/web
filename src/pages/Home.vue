@@ -1,7 +1,7 @@
 <template>
   <Header />
   <Container>
-    <Heading>home</Heading>
+    <Heading :size="1">home</Heading>
   </Container>
 </template>
 

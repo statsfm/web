@@ -9,10 +9,7 @@
     <div class="cards">
       <Card>
         <Heading :size="1">Gift Plus coupons</Heading>
-        <Button
-          v-if="!this.auth.isLoggedIn()"
-          size="small"
-          @click="this.auth.login"
+        <Button v-if="!auth.isLoggedIn()" size="small" @click="auth.login()"
           >Log in through Spotify</Button
         >
         <Button @click="initCheckout(1)"> buy 1 giftcode </Button>
@@ -173,7 +170,16 @@ export default defineComponent({
   },
   setup() {
     const auth = useAuth();
-    const giftCodes: Ref<Array<unknown>> = ref(null);
+    const giftCodes: Ref<Array<{
+      id: number;
+      stripePaymentId: string;
+      purchaseDate: Date;
+      claimedDate: Date | null;
+      boughtBy: string;
+      claimedBy: string | null;
+      productId: string;
+      code: string;
+    }> | null> = ref(null);
     const loading = ref(false);
 
     onBeforeMount(() => {
