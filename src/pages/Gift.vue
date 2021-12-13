@@ -3,7 +3,7 @@
   <Loading v-if="loading" />
 
   <Container>
-    <div class="flex gap-3 mb-5">
+    <div class="flex gap-3 mb-5 flex-col md:flex-row">
       <Card>
         <h1 class="text-2xl font-bold">Gift Plus coupons</h1>
         <Button v-if="!auth.isLoggedIn()" size="small" @click="auth.login()"
@@ -78,7 +78,6 @@ import { defineComponent, ref, Ref, onBeforeMount } from "vue";
 import Container from "~/components/layout/Container.vue";
 import Header from "~/components/layout/Header.vue";
 import Card from "~/components/layout/Card.vue";
-import Heading from "~/components/base/Heading.vue";
 import Divider from "~/components/base/Divider.vue";
 import Loading from "~/components/base/Loading.vue";
 import Text from "~/components/base/Text.vue";
@@ -93,7 +92,6 @@ export default defineComponent({
     Container,
     Header,
     Card,
-    Heading,
     Divider,
     Loading,
     Text,
