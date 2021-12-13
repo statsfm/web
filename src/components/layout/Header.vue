@@ -4,7 +4,7 @@
       <div class="logo">
         <router-link to="/" class="invisible-link">
           <Logo />
-          <Heading :size="1">Spotistats</Heading>
+          <Heading :size="1" class="name">Spotistats</Heading>
         </router-link>
       </div>
       <div class="info">
@@ -67,6 +67,12 @@ header {
     display: flex;
     align-items: center;
     gap: var(--space-s);
+  }
+
+  @media only screen and (max-width: 600px) {
+    .logo .name {
+      display: none;
+    }
   }
 
   .info {
