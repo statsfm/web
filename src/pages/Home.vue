@@ -122,7 +122,7 @@
   </section>
   <section class="bg-primary text-[black] pt-8 pb-8">
     <Container class="flex items-center gap-10">
-      <div class="w-6/12">
+      <div class="w-full md:w-6/12">
         <h1 class="text-4xl font-bold">Lorem ipsum dolor samet</h1>
         <p>Lorem ipsum dolor samet</p>
 
@@ -137,7 +137,7 @@
         </div>
       </div>
 
-      <div class="w-6/12 flex gap-5 overflow-x-scroll">
+      <div class="hidden md:flex w-6/12 gap-5 overflow-x-auto">
         <Review
           title="Amazing!"
           description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Nam, corporis a esse id rem "
