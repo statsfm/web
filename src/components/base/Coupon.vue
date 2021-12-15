@@ -1,5 +1,5 @@
 <template>
-  <Card>
+  <Card class="max-w-max">
     <Text class="mb-3"
       >Purchased {{ dayjs(giftcode.purchaseDate).fromNow() }}</Text
     >
@@ -8,16 +8,6 @@
     }}</Badge>
   </Card>
 </template>
-
-<style lang="scss" scoped>
-.coupon {
-  padding: var(--space-s);
-
-  .code {
-    cursor: copy;
-  }
-}
-</style>
 
 <script lang="ts">
 import { defineComponent, PropType } from "vue";
