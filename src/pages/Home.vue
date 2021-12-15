@@ -256,6 +256,7 @@
       </Card>
     </Container>
   </section>
+  <Footer />
 </template>
 
 <script lang="ts">
@@ -269,6 +270,7 @@ import Text from "~/components/base/Text.vue";
 import Button from "~/components/base/Button.vue";
 import StepperItem from "~/components/base/stepper/StepperItem.vue";
 import Review from "~/components/base/Review.vue";
+import Footer from "~/components/base/Footer.vue";
 
 export default defineComponent({
   components: {
@@ -280,6 +282,7 @@ export default defineComponent({
     Button,
     StepperItem,
     Review,
+    Footer,
   },
 });
 </script>
