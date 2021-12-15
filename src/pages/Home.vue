@@ -8,7 +8,7 @@
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Nam, corporis
           a esse id rem quasi placeat, laudantium.
         </p>
-        <a href="" class="text-primary">Watch the video -></a>
+        <a href="" class="text-primary font-bold">Watch the video -></a>
         <div class="flex gap-2 mt-6 flex-col md:flex-row items-center mb-5">
           <img
             src="../assets/apple_appstore_badge.png"
@@ -29,7 +29,7 @@
   </section>
   <section class="bg-bodySecundary pt-28 pb-28">
     <Container class="flex justify-between flex-col md:flex-row gap-10">
-      <div class="w-full flex justify-center mb-5">
+      <div class="w-full flex justify-center mb-5 md:w-6/12">
         <img
           src="../assets/mobile_full.png"
           alt="app"
@@ -162,52 +162,50 @@
     </Container>
   </section>
   <section>
-    <Container>
-      <div ref="scrollContainer">
-        <Card
+    <Container class="pt-14 pb-14">
+      <Card
+        class="
+          rounded-xxxl
+          overflow-hidden
+          flex flex-col
+          max-h-[575px]
+          md:flex-row md:gap-5 md:max-h-[365px]
+          sm:p-0
+        "
+      >
+        <div class="p-12 flex flex-col justify-between w-full md:w-8/12">
+          <div>
+            <h1 class="text-4xl font-bold">Lorem ipsum, <br />dolor samet</h1>
+            <p class="mt-2 mb-2 max-w-prose text-xl">
+              Lorem ipsum dolor samet, sit amet consecteteur
+            </p>
+          </div>
+          <a href="" class="text-primary font-bold">Watch the video -></a>
+        </div>
+        <div
           class="
-            mt-14
-            p-0
-            gap-0
+            hidden
+            md:flex
+            w-[500px]
+            gap-3
             overflow-hidden
-            flex flex-col
-            max-h-[575px]
-            md:flex-row md:gap-5 md:max-h-[365px]
+            translate-x-[75px]
+            min-w-[350px]
           "
         >
-          <div class="max-w-fit p-8">
-            <h1 class="text-3xl font-bold">Lorem ipsum, <br />dolor samet</h1>
-            <p class="leading-5 mt-2 mb-2 max-w-prose">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Nam,
-              corporis a esse id rem quasi placeat, laudantium.
-            </p>
-            <a href="" class="text-primary">Watch the video -></a>
+          <div class="w-6/12 flex flex-col gap-5 translate-y-[-300px]">
+            <img src="../assets/mobile_full.png" class="w-full" />
+            <img src="../assets/mobile_full.png" class="w-full" />
           </div>
-          <div
-            class="
-              hidden
-              md:flex
-              w-[500px]
-              gap-3
-              overflow-hidden
-              translate-x-[50px]
-              min-w-[350px]
-            "
-          >
-            <div class="w-6/12 flex flex-col gap-3 translate-y-[-300px]">
-              <img src="../assets/mobile_full.png" class="w-full" />
-              <img src="../assets/mobile_full.png" class="w-full" />
-            </div>
-            <div class="w-6/12 flex flex-col gap-3 translate-y-[-150px]">
-              <img src="../assets/mobile_full.png" class="w-full" />
-              <img src="../assets/mobile_full.png" class="w-full" />
-            </div>
+          <div class="w-6/12 flex flex-col gap-5 translate-y-[-150px]">
+            <img src="../assets/mobile_full.png" class="w-full" />
+            <img src="../assets/mobile_full.png" class="w-full" />
           </div>
-          <div class="flex justify-center pl-5 pr-5 md:hidden">
-            <img src="../assets/mobile_full.png" />
-          </div>
-        </Card>
-      </div>
+        </div>
+        <div class="flex justify-center pl-5 pr-5 md:hidden">
+          <img src="../assets/mobile_full.png" />
+        </div>
+      </Card>
     </Container>
   </section>
 </template>
