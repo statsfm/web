@@ -1,5 +1,4 @@
 <template>
-  <Header />
   <Loading v-if="loading" />
 
   <Container>
@@ -76,7 +75,6 @@
 import { defineComponent, ref, Ref, onBeforeMount } from "vue";
 
 import Container from "~/components/layout/Container.vue";
-import Header from "~/components/layout/Header.vue";
 import Card from "~/components/layout/Card.vue";
 import Divider from "~/components/base/Divider.vue";
 import Loading from "~/components/base/Loading.vue";
@@ -90,7 +88,6 @@ import { GiftCode } from "~/types";
 export default defineComponent({
   components: {
     Container,
-    Header,
     Card,
     Divider,
     Loading,

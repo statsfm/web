@@ -1,5 +1,4 @@
 <template>
-  <Header />
   <section class="mt-28 mb-28">
     <Container class="flex justify-between flex-col md:flex-row">
       <div>
@@ -256,33 +255,28 @@
       </Card>
     </Container>
   </section>
-  <Footer />
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
 
 import Container from "~/components/layout/Container.vue";
-import Header from "~/components/layout/Header.vue";
 import Card from "~/components/layout/Card.vue";
 import Divider from "~/components/base/Divider.vue";
 import Text from "~/components/base/Text.vue";
 import Button from "~/components/base/Button.vue";
 import StepperItem from "~/components/base/stepper/StepperItem.vue";
 import Review from "~/components/base/Review.vue";
-import Footer from "~/components/base/Footer.vue";
 
 export default defineComponent({
   components: {
     Container,
-    Header,
     Card,
     Divider,
     Text,
     Button,
     StepperItem,
     Review,
-    Footer,
   },
 });
 </script>
