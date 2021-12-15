@@ -1,5 +1,5 @@
 <template>
-  <Loading v-if="loading" />
+  <LoadingOverlay v-if="loading" />
 
   <Container>
     <div class="flex gap-3 mb-5 flex-col md:flex-row">
@@ -77,7 +77,7 @@ import { defineComponent, ref, Ref, onBeforeMount } from "vue";
 import Container from "~/components/layout/Container.vue";
 import Card from "~/components/layout/Card.vue";
 import Divider from "~/components/base/Divider.vue";
-import Loading from "~/components/base/Loading.vue";
+import LoadingOverlay from "~/components/base/LoadingOverlay.vue";
 import Text from "~/components/base/Text.vue";
 import Button from "~/components/base/Button.vue";
 import Coupon from "~/components/base/Coupon.vue";
@@ -90,7 +90,7 @@ export default defineComponent({
     Container,
     Card,
     Divider,
-    Loading,
+    LoadingOverlay,
     Text,
     Button,
     Coupon,

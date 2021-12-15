@@ -1,6 +1,5 @@
 <template>
-  <Header />
-  <Container>
+  <Container class="grid place-items-center h-[70vh]">
     <Loading />
   </Container>
 </template>
@@ -9,7 +8,7 @@
 
 <script lang="ts">
 import { defineComponent, onBeforeMount } from "vue";
-import Header from "~/components/layout/Header.vue";
+
 import Container from "~/components/layout/Container.vue";
 import Loading from "~/components/base/Loading.vue";
 import { useAuth } from "~/hooks/auth";
@@ -18,7 +17,6 @@ import router from "~/router";
 export default defineComponent({
   components: {
     Container,
-    Header,
     Loading,
   },
   setup() {

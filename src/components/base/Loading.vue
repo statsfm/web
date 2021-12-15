@@ -1,37 +1,26 @@
 <template>
-  <div class="overlay">
-    <div class="loader"></div>
+  <div class="loader">
+    <div class="loading"></div>
   </div>
 </template>
 
 <style lang="scss" scoped>
-.overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+.loader {
+  height: 100px;
+  width: 100px;
   display: grid;
   place-items: center;
-  width: 100vw;
-  height: 100vh;
-  background: rgba(0, 0, 0, 0.3);
-  z-index: 10000;
-  animation-duration: 0.3s;
-  animation-fill-mode: both;
-  animation-name: fade;
-  cursor: pointer;
 }
 
-.loader {
+.loading {
   color: var(--color-primary);
   position: relative;
   font-size: 11px;
 }
 
-.loader,
-.loader::before,
-.loader::after {
+.loading,
+.loading::before,
+.loading::after {
   background: var(--color-primary);
   animation: load 1.05s infinite ease-in-out;
   border-radius: 10px;
@@ -39,18 +28,18 @@
   height: 4em;
 }
 
-.loader:before,
-.loader:after {
+.loading:before,
+.loading:after {
   position: absolute;
   content: "";
 }
 
-.loader:before {
+.loading:before {
   left: -1.5em;
   animation-delay: -0.32s;
 }
 
-.loader:after {
+.loading:after {
   left: 1.5em;
   animation-delay: -0.12s;
 }
