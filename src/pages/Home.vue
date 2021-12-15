@@ -161,9 +161,56 @@
       </div>
     </Container>
   </section>
+  <section>
+    <Container>
+      <div ref="scrollContainer">
+        <Card
+          class="
+            mt-14
+            p-0
+            gap-0
+            overflow-hidden
+            flex flex-col
+            max-h-[575px]
+            md:flex-row md:gap-5 md:max-h-[365px]
+          "
+        >
+          <div class="max-w-fit p-8">
+            <h1 class="text-3xl font-bold">Lorem ipsum, <br />dolor samet</h1>
+            <p class="leading-5 mt-2 mb-2 max-w-prose">
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Nam,
+              corporis a esse id rem quasi placeat, laudantium.
+            </p>
+            <a href="" class="text-primary">Watch the video -></a>
+          </div>
+          <div
+            class="
+              hidden
+              md:flex
+              w-[500px]
+              gap-3
+              overflow-hidden
+              translate-x-[50px]
+              min-w-[350px]
+            "
+          >
+            <div class="w-6/12 flex flex-col gap-3 translate-y-[-300px]">
+              <img src="../assets/mobile_full.png" class="w-full" />
+              <img src="../assets/mobile_full.png" class="w-full" />
+            </div>
+            <div class="w-6/12 flex flex-col gap-3 translate-y-[-150px]">
+              <img src="../assets/mobile_full.png" class="w-full" />
+              <img src="../assets/mobile_full.png" class="w-full" />
+            </div>
+          </div>
+          <div class="flex justify-center pl-5 pr-5 md:hidden">
+            <img src="../assets/mobile_full.png" />
+          </div>
+        </Card>
+      </div>
+    </Container>
+  </section>
 </template>
-
-<style lang="scss" scoped></style>
 
 <script lang="ts">
 import { defineComponent } from "vue";
