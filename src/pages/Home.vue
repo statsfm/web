@@ -33,7 +33,14 @@
         <img
           src="../assets/mobile_full.png"
           alt="app"
-          class="w-60 md:w-auto h-max"
+          class="
+            w-60
+            md:w-auto
+            h-max
+            transition-transform
+            duration-200
+            hover:scale-[1.02]
+          "
         />
       </div>
       <div class="w-full md:w-6/12">
