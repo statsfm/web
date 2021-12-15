@@ -13,12 +13,12 @@
           <img
             src="../assets/apple_appstore_badge.png"
             alt="Apple Appstore"
-            class="w-[125px]"
+            class="w-[145px]"
           />
           <img
             src="../assets/google_play_badge.png"
             alt="Google Play"
-            class="w-[135px]"
+            class="w-[155px]"
           />
         </div>
       </div>
@@ -210,7 +210,17 @@
   </section>
   <section class="bg-bodySecundary pt-14 pb-14 text-[black]">
     <Container>
-      <Card class="bg-primary text-center p-14 flex flex-col">
+      <Card
+        class="
+          bg-primary
+          text-center
+          p-14
+          flex flex-col
+          transition-transform
+          duration-200
+          hover:scale-[1.02]
+        "
+      >
         <h1 class="text-4xl font-bold">Lorem ipsum dolar samet</h1>
         <p class="mt-2 text-xl">Download today</p>
 
@@ -228,12 +238,12 @@
           <img
             src="../assets/apple_appstore_badge.png"
             alt="Apple Appstore"
-            class="w-[125px]"
+            class="w-[145px]"
           />
           <img
             src="../assets/google_play_badge.png"
             alt="Google Play"
-            class="w-[135px]"
+            class="w-[155px]"
           />
         </div>
       </Card>
