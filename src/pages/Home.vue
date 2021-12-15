@@ -208,6 +208,37 @@
       </Card>
     </Container>
   </section>
+  <section class="bg-bodySecundary pt-14 pb-14 text-[black]">
+    <Container>
+      <Card class="bg-primary text-center p-14 flex flex-col">
+        <h1 class="text-4xl font-bold">Lorem ipsum dolar samet</h1>
+        <p class="mt-2 text-xl">Download today</p>
+
+        <div
+          class="
+            flex
+            gap-2
+            flex-col
+            justify-center
+            md:flex-row
+            items-center
+            mt-8
+          "
+        >
+          <img
+            src="../assets/apple_appstore_badge.png"
+            alt="Apple Appstore"
+            class="w-[125px]"
+          />
+          <img
+            src="../assets/google_play_badge.png"
+            alt="Google Play"
+            class="w-[135px]"
+          />
+        </div>
+      </Card>
+    </Container>
+  </section>
 </template>
 
 <script lang="ts">
