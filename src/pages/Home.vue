@@ -142,21 +142,21 @@
           title="Amazing!"
           description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Nam, corporis a esse id rem "
           author="Sjoerd"
-          date="17-12-2021"
+          date="2021-12-15T18:34:05+0000"
         />
 
         <Review
           title="Amazing!"
           description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Nam, corporis a esse id rem quasi placeat, laudantium repellendus doloribus repudiandae suscipit pariatur."
           author="Martijn"
-          date="20-10-2021"
+          date="2021-03-09T10:21:15+0000"
         />
 
         <Review
           title="Amazing!"
           description="Lorem ipsum laudantium repellendus doloribus repudiandae suscipit pariatur."
           author="Stijn"
-          date="20-10-2021"
+          date="2020-10-29T07:07:16+0000"
         />
       </div>
     </Container>
@@ -261,7 +261,7 @@ import Divider from "~/components/base/Divider.vue";
 import Text from "~/components/base/Text.vue";
 import Button from "~/components/base/Button.vue";
 import StepperItem from "~/components/base/stepper/StepperItem.vue";
-import Review from "~/components/Review.vue";
+import Review from "~/components/base/Review.vue";
 
 export default defineComponent({
   components: {
