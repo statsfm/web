@@ -12,13 +12,9 @@
           >Login</Button
         >
 
-        <Dropdown>
+        <Dropdown v-if="auth.isLoggedIn()">
           <template v-slot:button>
-            <Avatar
-              v-if="auth.isLoggedIn()"
-              :src="user?.image"
-              class="avatar"
-            />
+            <Avatar :src="user?.image" class="avatar" />
           </template>
 
           <div class="profile">

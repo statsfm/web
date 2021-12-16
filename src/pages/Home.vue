@@ -9,16 +9,21 @@
         </p>
         <a href="" class="text-primary font-bold">Watch the video -></a>
         <div class="flex gap-2 mt-6 flex-col md:flex-row items-center mb-5">
-          <img
-            src="../assets/apple_appstore_badge.png"
-            alt="Apple Appstore"
+          <a
             class="w-[145px]"
-          />
-          <img
-            src="../assets/google_play_badge.png"
-            alt="Google Play"
-            class="w-[155px]"
-          />
+            href="https://apps.apple.com/app/spotistats-for-spotify/id1526912392"
+            target="blank"
+            ><img
+              src="../assets/apple_appstore_badge.png"
+              alt="Apple Appstore"
+            />
+          </a>
+          <a
+            class="w-[145px]"
+            href="https://play.google.com/store/apps/details?id=dev.netlob.spotistats"
+            target="blank"
+            ><img src="../assets/google_play_badge.png" alt="Google Play" />
+          </a>
         </div>
       </div>
       <div>
