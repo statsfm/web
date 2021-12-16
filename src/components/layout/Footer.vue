@@ -31,16 +31,21 @@
       <div class="flex flex-col gap-2 mt-5 md:mt-0">
         <p class="text-textGrey">Download</p>
         <div class="flex gap-2 justify-center w-full">
-          <img
-            src="../../assets/apple_appstore_badge.png"
-            alt="Apple Appstore"
-            class="w-6/12"
-          />
-          <img
-            src="../../assets/google_play_badge.png"
-            alt="Google Play"
-            class="w-6/12"
-          />
+          <a
+            class="h-6/12"
+            href="https://apps.apple.com/app/spotistats-for-spotify/id1526912392"
+            target="blank"
+            ><img
+              src="../../assets/apple_appstore_badge.png"
+              alt="Apple Appstore"
+            />
+          </a>
+          <a
+            class="h-6/12"
+            href="https://play.google.com/store/apps/details?id=dev.netlob.spotistats"
+            target="blank"
+            ><img src="../../assets/google_play_badge.png" alt="Google PLay" />
+          </a>
         </div>
         <Button class="hidden md:block">Open webapp</Button>
       </div>
