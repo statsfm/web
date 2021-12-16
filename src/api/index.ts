@@ -27,10 +27,7 @@ export default class api {
     };
 
     // TODO: put this in a config file
-    const res = await fetch(
-      `https://cors.sjoerd.dev/https://laa-laa.backtrack.dev/api/v1${slug}`,
-      init
-    );
+    const res = await fetch(`https://local.backtrack.dev/api/v1${slug}`, init);
     const newRes = {
       success: res.ok,
       status: res.status,
