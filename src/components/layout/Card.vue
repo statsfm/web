@@ -1,15 +1,5 @@
 <template>
-  <div class="card">
+  <div class="w-full max-h-max bg-bodySecundary p-5 rounded-2xl">
     <slot />
   </div>
 </template>
-
-<style lang="scss" scoped>
-.card {
-  width: fit-content;
-  height: max-content;
-  background-color: var(--color-body-secundary);
-  padding: var(--space-s) var(--space-m);
-  border-radius: var(--radius-default);
-}
-</style>
