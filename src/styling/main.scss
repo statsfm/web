@@ -8,15 +8,5 @@ body {
   font-weight: var(--weight-normal);
   background-color: var(--color-body-primary);
   color: var(--color-text-primary);
-}
-
-.invisible-link {
-  text-decoration: none;
-  color: inherit;
-}
-
-.truncate {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  overflow-x: hidden;
 }
