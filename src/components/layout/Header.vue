@@ -1,39 +1,34 @@
 <template>
   <header>
-    <Container class="header-content">
-      <div class="logo">
-        <router-link to="/" class="invisible-link">
-          <Logo />
-          <Heading :size="1" class="name">Spotistats</Heading>
-        </router-link>
-      </div>
-      <div class="info">
+    <Container class="flex justify-between items-center py-3">
+      <router-link to="/" class="flex gap-3">
+        <Logo class="w-[2rem] h-[2rem]" />
+        <h1 class="text-2xl font-bold sm:hidden md:block">Spotistats</h1>
+      </router-link>
+      <div class="flex items-center gap-5">
         <Button v-if="!auth.isLoggedIn()" size="small" @click="auth.login()"
           >Login</Button
         >
-
         <Dropdown v-if="auth.isLoggedIn()">
           <template v-slot:button>
-            <Avatar :src="user?.image" class="avatar" />
+            <Avatar :src="user?.image" class="cursor-pointer" />
           </template>
 
-          <div class="profile">
+          <div class="flex items-center gap-5">
             <Avatar :src="user?.image" />
-            <div class="profile-info">
-              <div class="name">
+            <div class="flex content-start justify-center flex-col">
+              <div class="flex items-center gap-2">
                 <Text size="l" weight="semi-bold" truncate>{{
                   user?.displayName
                 }}</Text>
                 <Badge v-if="user?.isPlus">Plus</Badge>
               </div>
-              <Text size="s" weight="semi-bold" type="secundary" truncate>{{
-                user?.email
-              }}</Text>
+              <p class="font-bold text-textGrey">{{ user?.email }}</p>
             </div>
           </div>
 
           <Divider />
-          <Button size="small" @click="auth.logout" class="logout"
+          <Button size="small" @click="auth.logout" class="w-full"
             >Logout</Button
           >
         </Dropdown>
@@ -41,70 +36,6 @@
     </Container>
   </header>
 </template>
-
-<style lang="scss" scoped>
-header {
-  background: var(--body-lighter);
-  width: 100%;
-
-  svg {
-    display: block;
-    width: 2rem;
-    height: 2rem;
-  }
-}
-.header-content {
-  padding: var(--space-s) 0;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-
-  .logo > a {
-    display: flex;
-    align-items: center;
-    gap: var(--space-s);
-  }
-
-  @media only screen and (max-width: 600px) {
-    .logo .name {
-      display: none;
-    }
-  }
-
-  .info {
-    display: flex;
-    align-items: center;
-    gap: var(--space-s);
-
-    .avatar {
-      cursor: pointer;
-    }
-
-    .profile {
-      display: flex;
-      align-items: center;
-      gap: var(--space-xs);
-
-      .profile-info {
-        display: flex;
-        align-content: flex-start;
-        justify-content: center;
-        flex-direction: column;
-      }
-
-      .name {
-        display: flex;
-        align-items: center;
-        gap: var(--space-xs);
-      }
-    }
-
-    .logout {
-      width: 100%;
-    }
-  }
-}
-</style>
 
 <script lang="ts">
 import { defineComponent } from "vue";
@@ -120,7 +51,7 @@ import Text from "../base/Text.vue";
 import Badge from "../base/Badge.vue";
 import Modal from "../base/modals/Modal.vue";
 import { useAuth } from "~/hooks";
-import { useUser } from "~/hooks";
+import { useStore } from "~/store";
 
 export default defineComponent({
   components: {
@@ -136,7 +67,8 @@ export default defineComponent({
     Modal,
   },
   setup() {
-    const user = useUser();
+    const store = useStore();
+    const user = store.state.user;
     const auth = useAuth();
 
     return { user, auth };
