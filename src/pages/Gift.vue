@@ -78,7 +78,7 @@
         >no codes found</Text
       >
 
-      <div class="flex flex-nowrap gap-3 overflow-x-scroll md:flex-wrap">
+      <div class="flex flex-nowrap overflow-x-auto gap-3 md:flex-wrap">
         <Coupon
           v-for="(code, index) in giftCodes?.filter(
             (code) => code.claimedBy == undefined
@@ -95,7 +95,7 @@
         >no codes found</Text
       >
 
-      <div class="flex flex-nowrap gap-3 overflow-x-scroll md:flex-wrap">
+      <div class="flex flex-nowrap gap-3 overflow-x-auto md:flex-wrap">
         <Coupon
           v-for="(code, index) in giftCodes?.filter(
             (code) => code.claimedBy != undefined
