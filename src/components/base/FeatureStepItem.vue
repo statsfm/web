@@ -4,6 +4,7 @@
       class="
         text-primary
         bg-primaryLighter
+        hover:
         w-12
         aspect-square
         rounded-full

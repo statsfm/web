@@ -56,22 +56,22 @@
           Doloremque odio perspiciatis mollitia.
         </p>
         <div class="flex flex-col gap-3 mt-3 mb-8">
-          <StepperItem
+          <FeatureStepItem
             :index="1"
             title="Lorem ipsum dolor samet"
             description="Lorem ipsum dolor sit amet consectetur adipisicing elit."
           />
-          <StepperItem
+          <FeatureStepItem
             :index="2"
             title="Lorem ipsum dolor samet"
             description="Lorem ipsum dolor sit amet consectetur adipisicing elit."
           />
-          <StepperItem
+          <FeatureStepItem
             :index="3"
             title="Lorem ipsum dolor samet"
             description="Lorem ipsum dolor sit amet consectetur adipisicing elit."
           />
-          <StepperItem
+          <FeatureStepItem
             :index="4"
             title="Lorem ipsum dolor samet"
             description="Lorem ipsum dolor sit amet consectetur adipisicing elit."
@@ -270,7 +270,7 @@ import Card from "~/components/layout/Card.vue";
 import Divider from "~/components/base/Divider.vue";
 import Text from "~/components/base/Text.vue";
 import Button from "~/components/base/Button.vue";
-import StepperItem from "~/components/base/stepper/StepperItem.vue";
+import FeatureStepItem from "~/components/base/FeatureStepItem.vue";
 import Review from "~/components/base/Review.vue";
 
 export default defineComponent({
@@ -280,7 +280,7 @@ export default defineComponent({
     Divider,
     Text,
     Button,
-    StepperItem,
+    FeatureStepItem,
     Review,
   },
 });
