@@ -1,29 +1,15 @@
 <template>
   <div class="w-full flex flex-col justify-between">
-    <StepperSteps>
-      <StepperStep
-        :index="1"
-        :isCurrent="currentStep == 1"
-        @click="currentStep = 1"
-        >Select your plan</StepperStep
-      >
+    <StepperSteps
+      :steps="[
+        { name: 'Select your plan' },
+        { name: 'Personalize' },
+        { name: 'Checkout' },
+      ]"
+      @step="currentStep = $event"
+    />
 
-      <StepperStep
-        :index="2"
-        :isCurrent="currentStep == 2"
-        @stepclick="currentStep = 2"
-        >Personalize</StepperStep
-      >
-
-      <StepperStep
-        :index="3"
-        :isCurrent="currentStep == 3"
-        @click="currentStep = 3"
-        >Checkout</StepperStep
-      >
-    </StepperSteps>
-
-    <div v-if="currentStep == 1">
+    <div v-if="currentStep == 0">
       <div class="flex gap-3 justify-center mb-5">
         <PricePlanCard
           :isSelected="selectedIndex == index"
@@ -36,10 +22,10 @@
           "
         ></PricePlanCard>
       </div>
-      <Button @click="currentStep = 2">Continue</Button>
+      <Button @click="currentStep = 1">Continue</Button>
     </div>
 
-    <div v-if="currentStep == 2">
+    <div v-if="currentStep == 1">
       <h1 class="text-2xl font-bold">Personalize</h1>
       <p class="font-bold text-textGrey mb-5">
         You can personalize your gift by adding a message.
@@ -52,10 +38,10 @@
         :value="message"
         @input="message = $event"
       />
-      <Button @click="currentStep = 3">Continue</Button>
+      <Button @click="currentStep = 2">Continue</Button>
     </div>
 
-    <div v-if="currentStep == 3">
+    <div v-if="currentStep == 2">
       <h1 class="text-2xl font-bold">Checkout</h1>
       <p class="font-bold text-textGrey mb-5">Check your details.</p>
 
