@@ -1,0 +1,32 @@
+[
+  {
+    "id": "lifetime_plus_1_redeem_code",
+    "name": "Lifetime Plus 1x",
+    "quantity": 1,
+    "price": {
+      "amount": 400,
+      "currency": "USD"
+    },
+    "isMostChosen": false
+  },
+  {
+    "id": "lifetime_plus_3_redeem_code",
+    "name": "Lifetime Plus 3x",
+    "quantity": 3,
+    "price": {
+      "amount": 1000,
+      "currency": "USD"
+    },
+    "isMostChosen": false
+  },
+  {
+    "id": "lifetime_plus_5_redeem_code",
+    "name": "Lifetime Plus 5x",
+    "quantity": 5,
+    "price": {
+      "amount": 1500,
+      "currency": "USD"
+    },
+    "isMostChosen": true
+  }
+]
