@@ -96,7 +96,7 @@ export default defineComponent({
 
     const selectedPlan: Ref<Plan> = ref({} as Plan);
     const selectedIndex = ref();
-    const currentStep = ref(1);
+    const currentStep = ref(0);
 
     const getPlans = async () => {
       const plans = await fetch("/plans.json");
