@@ -11,7 +11,6 @@
         w-12
         aspect-square
         rounded-full
-        font-bold
         text-xl
         grid
         place-items-center
@@ -19,7 +18,7 @@
         duration-200
       "
       :class="{
-        'bg-primaryLighter': isCurrent,
+        'bg-primaryLighter font-bold': isCurrent,
         'hover:bg-primary/20 active:bg-primary/5': isClickable,
       }"
     >
