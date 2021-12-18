@@ -53,7 +53,10 @@
           </div>
           <div class="flex justify-between">
             <span class="text-textGrey font-bold">Price</span>
-            <span>{{ priceToString(selectedPlan?.price) }}</span>
+            <span
+              >{{ priceToString(selectedPlan?.price) }}
+              <span class="text-textGrey">(incl vat/fees)</span></span
+            >
           </div>
           <div class="flex justify-between gap-10">
             <span class="text-textGrey font-bold">Message</span>
