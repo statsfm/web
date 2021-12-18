@@ -1,0 +1,29 @@
+{
+  "buttons.continue": "Continue",
+  "buttons.checkout": "Checkout",
+
+  "gift.select_plan": "Select your plan",
+
+  "gift.personalize": "Personalize",
+  "gift.personalize.description": "You can personalize your gift by adding a message",
+
+  "gift.checkout": "Checkout",
+  "gift.checkout.description": "Check your details",
+
+  "gift.your_coupons": "Your coupons",
+  "gift.unclaimed_coupons": "Unclaimed coupons",
+  "gift.claimed_coupons": "Claimed coupons",
+  "gift.coupon_codes_not_found": "No coupon codes found",
+  "gift.select_plan_first": "You need to select a plan first",
+  "gift.plan": "Plan",
+  "gift.price": "Price",
+  "gift.message": "Message",
+
+  "coupon.coupon": "Coupon",
+  "coupon.purchased_on": "Purchased on",
+  "coupon.purchased": "Purchased",
+  "coupon.bought_by": "Bought by",
+  "coupon.claimed_by": "Claimed by",
+  "coupon.claimed_on": "Claimed on",
+  "coupon.redeem_code": "Redeem code"
+}

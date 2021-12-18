@@ -19,14 +19,16 @@
       <GiftStepper />
     </div>
     <div>
-      <h1 class="text-2xl font-bold">Your coupons</h1>
+      <h1 class="text-2xl font-bold">{{ t("gift.your_coupons") }}</h1>
       <Text v-if="!giftCodes">loading...</Text>
-      <h3 class="text-l font-bold text-textGrey mb-2">Unclaimed coupons</h3>
+      <h3 class="text-l font-bold text-textGrey mb-2">
+        {{ t("gift.unclaimed_coupons") }}
+      </h3>
       <Text
         v-if="
           giftCodes?.filter((code) => code.claimedBy == undefined)?.length == 0
         "
-        >no codes found</Text
+        >{{ t("gift.coupon_codes_not_found") }}</Text
       >
 
       <div class="flex flex-nowrap overflow-x-auto gap-3 md:flex-wrap">
@@ -38,12 +40,14 @@
           :giftcode="code"
         />
       </div>
-      <h3 class="text-l font-bold text-textGrey mb-2 mt-2">Claimed coupons</h3>
+      <h3 class="text-l font-bold text-textGrey mb-2 mt-2">
+        {{ t("gift.claimed_coupons") }}
+      </h3>
       <Text
         v-if="
           giftCodes?.filter((code) => code.claimedBy != undefined)?.length == 0
         "
-        >no codes found</Text
+        >{{ t("gift.coupons_not_found") }}</Text
       >
 
       <div class="flex flex-nowrap gap-3 overflow-x-auto md:flex-wrap">
@@ -73,6 +77,7 @@ import GiftStepper from "~/components/base/GiftStepper.vue";
 import api from "~/api";
 import { useAuth } from "~/hooks/auth";
 import { GiftCode } from "~/types";
+import { useI18n } from "vue-i18n";
 
 export default defineComponent({
   components: {
@@ -86,6 +91,7 @@ export default defineComponent({
     GiftStepper,
   },
   setup() {
+    const { t } = useI18n();
     const auth = useAuth();
     const giftCodes: Ref<GiftCode[] | null> = ref(null);
     const loading = ref(false);
@@ -102,6 +108,7 @@ export default defineComponent({
     };
 
     return {
+      t,
       auth,
       loading,
       giftCodes,

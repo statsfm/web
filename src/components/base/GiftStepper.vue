@@ -2,9 +2,9 @@
   <div class="w-full flex flex-col justify-between">
     <StepperSteps
       :steps="[
-        { name: 'Select your plan' },
-        { name: 'Personalize' },
-        { name: 'Checkout' },
+        { name: t('gift.select_plan') },
+        { name: t('gift.personalize') },
+        { name: t('gift.checkout') },
       ]"
       @step="currentStep = $event"
     />
@@ -22,13 +22,13 @@
           "
         ></PricePlanCard>
       </div>
-      <Button @click="currentStep = 1">Continue</Button>
+      <Button @click="currentStep = 1">{{ t("buttons.continue") }}</Button>
     </div>
 
     <div v-if="currentStep == 1">
-      <h1 class="text-2xl font-bold">Personalize</h1>
+      <h1 class="text-2xl font-bold">{{ t("gift.personalize") }}</h1>
       <p class="font-bold text-textGrey mb-5">
-        You can personalize your gift by adding a message.
+        {{ t("gift.personalize.description") }}
       </p>
 
       <Textarea
@@ -38,36 +38,40 @@
         :value="message"
         @input="message = $event"
       />
-      <Button @click="currentStep = 2">Continue</Button>
+      <Button @click="currentStep = 2">{{ t("buttons.continue") }}</Button>
     </div>
 
     <div v-if="currentStep == 2">
-      <h1 class="text-2xl font-bold">Checkout</h1>
-      <p class="font-bold text-textGrey mb-5">Check your details.</p>
+      <h1 class="text-2xl font-bold">{{ t("gift.checkout") }}</h1>
+      <p class="font-bold text-textGrey mb-5">
+        {{ t("gift.checkout.description") }}
+      </p>
 
       <Card class="flex flex-col w-full mb-5" v-if="selectedPlan.id">
         <div class="flex flex-col gap-2">
           <div class="flex justify-between">
-            <span class="text-textGrey font-bold">Plan</span>
+            <span class="text-textGrey font-bold">{{ t("gift.plan") }}</span>
             <span>{{ selectedPlan.name }}</span>
           </div>
           <div class="flex justify-between">
-            <span class="text-textGrey font-bold">Price</span>
+            <span class="text-textGrey font-bold">{{ t("gift.price") }}</span>
             <span
               >{{ priceToString(selectedPlan?.price) }}
               <span class="text-textGrey">(incl vat/fees)</span></span
             >
           </div>
           <div class="flex justify-between gap-10">
-            <span class="text-textGrey font-bold">Message</span>
+            <span class="text-textGrey font-bold">{{ t("gift.message") }}</span>
             <span class="truncate">{{ message }}</span>
           </div>
         </div>
       </Card>
       <Card v-else class="mb-5">
-        <p>You need to select a plan first</p>
+        <p>{{ t("gift.select_plan_first") }}</p>
       </Card>
-      <Button @click="initCheckout(selectedPlan.quantity)">Checkout</Button>
+      <Button @click="initCheckout(selectedPlan.quantity)">{{
+        t("buttons.checkout")
+      }}</Button>
     </div>
   </div>
 </template>
@@ -83,6 +87,7 @@ import Button from "./Button.vue";
 import Card from "~/components/layout/Card.vue";
 import { Plan, Price } from "~/types";
 import api from "~/api";
+import { useI18n } from "vue-i18n";
 
 export default defineComponent({
   components: {
@@ -94,6 +99,7 @@ export default defineComponent({
     Card,
   },
   setup() {
+    const { t } = useI18n();
     const message = ref("");
     const plans: Ref<Plan[]> = ref([]);
 
@@ -127,6 +133,7 @@ export default defineComponent({
     });
 
     return {
+      t,
       currentStep,
       plans,
       selectedPlan,
