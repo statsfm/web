@@ -55,6 +55,44 @@
   resolved "https://registry.yarnpkg.com/@emmetio/scanner/-/scanner-1.0.0.tgz#065b2af6233fe7474d44823e3deb89724af42b5f"
   integrity sha512-8HqW8EVqjnCmWXVpqAOZf+EGESdkR27odcMMMGefgKXtar00SoYNSryGv//TELI4T3QFsECo78p+0lmalk/CFA==
 
+"@intlify/core-base@9.2.0-beta.23":
+  version "9.2.0-beta.23"
+  resolved "https://registry.yarnpkg.com/@intlify/core-base/-/core-base-9.2.0-beta.23.tgz#4fc0609c44d66d17d2b98dd2fc8f5adb30f2d495"
+  integrity sha512-sNet9/RpU/qydW1bOwVICYzGIC/SWyV+1gakcSP12XD1tGEiaoI1Ln+6nHh4dICfegR/5XyaoJ7NC4/ukH7/Ew==
+  dependencies:
+    "@intlify/devtools-if" "9.2.0-beta.23"
+    "@intlify/message-compiler" "9.2.0-beta.23"
+    "@intlify/shared" "9.2.0-beta.23"
+    "@intlify/vue-devtools" "9.2.0-beta.23"
+
+"@intlify/devtools-if@9.2.0-beta.23":
+  version "9.2.0-beta.23"
+  resolved "https://registry.yarnpkg.com/@intlify/devtools-if/-/devtools-if-9.2.0-beta.23.tgz#a5dee1d69c2f17c83ca4ae5f2f3d3be93c0fd78c"
+  integrity sha512-f2iY2LFRHTwPnBpT0R/kG8CwZbUWiSccMzfXYLwhjJC1irCcFCXmVtL9Mkz5gc0Elqvl+zOWxk5g9rwhah5bBQ==
+  dependencies:
+    "@intlify/shared" "9.2.0-beta.23"
+
+"@intlify/message-compiler@9.2.0-beta.23":
+  version "9.2.0-beta.23"
+  resolved "https://registry.yarnpkg.com/@intlify/message-compiler/-/message-compiler-9.2.0-beta.23.tgz#8db72181f520f7dd58048916d7ef05abc5f4a9f7"
+  integrity sha512-qmGN8k5yGGdZ5St8yg8U4Tg2K9Sc6h3BhWCdJKAqQVs5jnfZG+nMtsLVgnJUWkDvhjzyg7/rEOhHm2uJcu4vjw==
+  dependencies:
+    "@intlify/shared" "9.2.0-beta.23"
+    source-map "0.6.1"
+
+"@intlify/shared@9.2.0-beta.23":
+  version "9.2.0-beta.23"
+  resolved "https://registry.yarnpkg.com/@intlify/shared/-/shared-9.2.0-beta.23.tgz#0ba032df786f6a7fda33dc24f804167fc76aa145"
+  integrity sha512-3aELL2KTp1MWKGm2gIUKSagthgKzcK5hpQEFzOwkJ1SAthpTXR7BHeWGEaD+Lj+Pbiz3U8cspvp8s2lFWVbYxg==
+
+"@intlify/vue-devtools@9.2.0-beta.23":
+  version "9.2.0-beta.23"
+  resolved "https://registry.yarnpkg.com/@intlify/vue-devtools/-/vue-devtools-9.2.0-beta.23.tgz#182f16adec3abfb038edd727d9977bf1fa958501"
+  integrity sha512-5uGvrtUQhiyEqrMpDYh1FAU5uZviLaiEy1HAs+ypX46EdaDvyEYYpWvhezTWZ7hsDBsbsKJ9ICjgTvZxm6PDcw==
+  dependencies:
+    "@intlify/core-base" "9.2.0-beta.23"
+    "@intlify/shared" "9.2.0-beta.23"
+
 "@nodelib/fs.scandir@2.1.5":
   version "2.1.5"
   resolved "https://registry.yarnpkg.com/@nodelib/fs.scandir/-/fs.scandir-2.1.5.tgz#7619c2eb21b25483f6d167548b4cfd5a7488c3d5"
@@ -205,7 +243,7 @@
     "@vue/compiler-dom" "3.2.26"
     "@vue/shared" "3.2.26"
 
-"@vue/devtools-api@^6.0.0-beta.11", "@vue/devtools-api@^6.0.0-beta.18":
+"@vue/devtools-api@^6.0.0-beta.11", "@vue/devtools-api@^6.0.0-beta.13", "@vue/devtools-api@^6.0.0-beta.18":
   version "6.0.0-beta.20.1"
   resolved "https://registry.yarnpkg.com/@vue/devtools-api/-/devtools-api-6.0.0-beta.20.1.tgz#5b499647e929c35baf2a66a399578f9aa4601142"
   integrity sha512-R2rfiRY+kZugzWh9ZyITaovx+jpU4vgivAEAiz80kvh3yviiTU3CBuGuyWpSwGz9/C7TkSWVM/FtQRGlZ16n8Q==
@@ -1344,7 +1382,7 @@ semver@^7.3.5:
   resolved "https://registry.yarnpkg.com/source-map-js/-/source-map-js-1.0.1.tgz#a1741c131e3c77d048252adfa24e23b908670caf"
   integrity sha512-4+TN2b3tqOCd/kaGRJ/sTYA0tR0mdXx26ipdolxcwtJVqEnqNYvlCAt1q3ypy4QMlYus+Zh34RNtYLoq2oQ4IA==
 
-source-map@^0.6.1:
+source-map@0.6.1, source-map@^0.6.1:
   version "0.6.1"
   resolved "https://registry.yarnpkg.com/source-map/-/source-map-0.6.1.tgz#74722af32e9614e9c287a8d0bbde48b5e2f1a263"
   integrity sha512-UjgapumWlbMhkBgzT7Ykc5YXUT46F0iKu8SGXq0bcwP5dz/h0Plj6enJqjz1Zbq2l5WaqYnrVbwWOWMyF3F47g==
@@ -1586,6 +1624,16 @@ vscode-vue-languageservice@0.29.8:
     vscode-languageserver-textdocument "^1.0.1"
     vscode-pug-languageservice "0.29.8"
     vscode-typescript-languageservice "0.29.8"
+
+vue-i18n@^9.2.0-beta.23:
+  version "9.2.0-beta.23"
+  resolved "https://registry.yarnpkg.com/vue-i18n/-/vue-i18n-9.2.0-beta.23.tgz#a07f766ac5d109d93d1367b283fa912d4eb2701a"
+  integrity sha512-9zpylFVjhMDiNnSpa8pFf/lXiALKzxDKEo9QrSV906cN0m6jtyjvjCWw6dRx/7Q4ZJuwXYg0wi/UtUkgu0wkQw==
+  dependencies:
+    "@intlify/core-base" "9.2.0-beta.23"
+    "@intlify/shared" "9.2.0-beta.23"
+    "@intlify/vue-devtools" "9.2.0-beta.23"
+    "@vue/devtools-api" "^6.0.0-beta.13"
 
 vue-router@^4.0.12:
   version "4.0.12"
