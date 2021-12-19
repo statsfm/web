@@ -8,7 +8,17 @@ module.exports = {
       bodySecundary: "#18181c",
       textGrey: "#727272",
     },
-    extend: {},
+    extend: {
+      keyframes: {
+        fade: {
+          from: { opacity: 0 },
+          to: { opacity: 1 },
+        },
+      },
+      animation: {
+        fade: "fade 0.3s ease-in-out",
+      },
+    },
   },
   plugins: [require("@tailwindcss/line-clamp")],
 };
