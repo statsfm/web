@@ -13,6 +13,7 @@
         type === 'primary',
       'py-2 px-5 rounded-xl': size === 'small',
       'py-3 px-5 rounded-2xl': size === 'medium',
+      'bg-[#727272]/25 text-[#727272]': disabled,
     }"
     @click="(e) => $emit('click', e)"
   >
@@ -40,6 +41,11 @@ export default defineComponent({
       validation: (value: string) => {
         return value.match(/(small|medium)/);
       },
+    },
+    disabled: {
+      type: Boolean,
+      required: false,
+      default: false,
     },
   },
   emits: ["click"],
