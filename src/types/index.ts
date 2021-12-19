@@ -3,3 +3,4 @@ export * from "./giftCode";
 export * from "./currency";
 export * from "./plan";
 export * from "./step";
+export * from "./error";
