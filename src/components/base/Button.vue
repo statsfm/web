@@ -1,49 +1,28 @@
 <template>
   <button
-    class="button"
-    :class="['button', type, size]"
+    class="
+      w-full
+      border-0
+      cursor-pointer
+      transition-colors
+      duration-300
+      font-bold
+    "
+    :class="{
+      'bg-primary/10 hover:bg-primary/20 active:bg-primary/5 text-primary':
+        type === 'primary',
+      'py-2 px-5 rounded-xl': size === 'small',
+      'py-3 px-5 rounded-2xl': size === 'medium',
+    }"
     @click="(e) => $emit('click', e)"
   >
     <slot />
   </button>
 </template>
 
-<style lang="scss" scoped>
-.button {
-  width: 100%;
-  border: 0;
-  cursor: pointer;
-  transition: background var(--duration-normal);
-  font-weight: var(--weight-semi-bold);
-}
-
-.primary {
-  background: var(--primary-button-bg);
-  color: var(--primary-button-text);
-
-  &:hover {
-    background: var(--primary-button-bg-hover);
-  }
-  &:active {
-    background: var(--primary-button-bg-active);
-  }
-}
-
-.small {
-  width: max-content;
-  border-radius: var(--radius-small);
-  padding: 8px 20px;
-}
-
-.medium {
-  border-radius: var(--radius-default);
-  padding: 12px 20px;
-}
-</style>
-
 <script lang="ts">
-// Import Vue
 import { defineComponent } from "vue";
+
 export default defineComponent({
   props: {
     type: {
