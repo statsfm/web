@@ -48,7 +48,7 @@ export default defineComponent({
 
     const segmentChars = 4;
     const segmentCount = 3;
-    const totalCharLength = segmentChars * segmentCount + segmentChars;
+    const totalCharLength = segmentChars * segmentCount + (segmentCount - 1);
 
     watch(code, (newCode, oldCode) => {
       if (newCode.length == totalCharLength) {
@@ -66,7 +66,7 @@ export default defineComponent({
           isButtonDisabled.value = true;
         }
 
-        if (newCode.length % 5 == 0) {
+        if (newCode.length % (segmentChars + 1) == 0) {
           if (newCode.length >= oldCode.length) {
             newCode =
               newCode.slice(0, newCode.length - 1) +
