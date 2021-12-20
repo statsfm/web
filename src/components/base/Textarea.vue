@@ -8,7 +8,9 @@
       :maxlength="max"
       class="bg-bodySecundary rounded-2xl p-5 w-full focus:outline-none"
     ></textarea>
-    <span v-if="max" class="text-xs">{{ charCount }}/{{ max }}</span>
+    <span v-if="max" class="text-xs text-textGrey font-bold"
+      >{{ charCount }}/{{ max }}</span
+    >
   </div>
 </template>
 
