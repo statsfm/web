@@ -1,4 +1,5 @@
 <template>
+  <LoadingOverlay v-if="isLoading" />
   <Container class="flex flex-col items-center">
     <GiftCard v-if="giftCode" :giftCode="giftCode" />
     <Button class="max-w-xl" @click="redeemGiftCode">{{
@@ -18,12 +19,14 @@ import { useRoute } from "vue-router";
 import Button from "~/components/base/Button.vue";
 import { useI18n } from "vue-i18n";
 import { useStore } from "~/store";
+import LoadingOverlay from "~/components/base/LoadingOverlay.vue";
 
 export default defineComponent({
   components: {
     Container,
     GiftCard,
     Button,
+    LoadingOverlay,
   },
   setup() {
     const { t } = useI18n();
@@ -32,8 +35,10 @@ export default defineComponent({
 
     const giftCode: Ref<GiftCode | null> = ref(null);
     const code = ref("");
+    const isLoading = ref(false);
 
     const getGiftCode = async (code: string) => {
+      isLoading.value = true;
       const res = await api.get(`/plus/giftcodes/${code}`);
 
       if (res.success) {
@@ -41,6 +46,8 @@ export default defineComponent({
       } else {
         console.log(res.data.message);
       }
+
+      isLoading.value = false;
     };
 
     const redeemGiftCode = async () => {
@@ -64,7 +71,7 @@ export default defineComponent({
       getGiftCode(code.value);
     });
 
-    return { t, giftCode, redeemGiftCode };
+    return { t, giftCode, isLoading, redeemGiftCode };
   },
 });
 </script>
