@@ -7,6 +7,7 @@
         { name: t('gift.checkout') },
       ]"
       @step="currentStep = $event"
+      :step="currentStep"
     />
 
     <div v-if="currentStep == 0">
