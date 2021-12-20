@@ -36,14 +36,12 @@
           select-none
           flex flex-col
           justify-center
-          items-end
           absolute
           aspect-[5/3]
         "
       >
-        <p>
-          {{ giftCode.message }}
-        </p>
+        <p v-if="giftCode.message">{{ giftCode.message }}</p>
+        <p v-else class="italic font-normal">{{ t("gift.no_message") }}</p>
         <span class="font-bold text-textGrey">{{ giftCode.boughtBy }}</span>
       </Card>
     </div>
@@ -73,6 +71,7 @@
 
 <script lang="ts">
 import { defineComponent, PropType, ref, watch } from "vue";
+import { useI18n } from "vue-i18n";
 import { GiftCode } from "~/types";
 
 import Card from "../layout/Card.vue";
@@ -93,6 +92,7 @@ export default defineComponent({
     },
   },
   setup(props) {
+    const { t } = useI18n();
     const flipped = ref(false);
 
     watch(
@@ -102,7 +102,7 @@ export default defineComponent({
       }
     );
 
-    return { flipped };
+    return { t, flipped };
   },
 });
 </script>
