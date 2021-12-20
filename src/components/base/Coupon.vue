@@ -4,7 +4,7 @@
       >{{ t("coupon.purchased") }}
       {{ dayjs(giftcode.purchaseDate).fromNow() }}</Text
     >
-    <Badge @click="copyRedeemCode" class="cursor-copy w-full">{{
+    <Badge @click="copyRedeemLink" class="cursor-copy w-full">{{
       formatCode(giftcode.code)
     }}</Badge>
   </Card>
@@ -51,11 +51,11 @@
         <span class="text-textGrey font-bold">{{
           t("coupon.redeem_code")
         }}</span>
-        <Badge @click="copyRedeemCode" class="cursor-copy w-full">{{
-          formatCode(giftcode.code)
-        }}</Badge>
+        <Badge class="w-full">{{ formatCode(giftcode.code) }}</Badge>
       </div>
     </div>
+    <Divider />
+    <Button @click="copyRedeemLink">{{ t("buttons.copy_link") }}</Button>
   </Modal>
 </template>
 
@@ -66,12 +66,14 @@ import Card from "~/components/layout/Card.vue";
 import Text from "~/components/base/Text.vue";
 import Badge from "~/components/base/Badge.vue";
 import Modal from "./Modals/Modal.vue";
-
-import dayjs from "~/dayjs";
-import { GiftCode } from "~/types";
-import { useStore } from "~/store";
 import Divider from "./Divider.vue";
+import Button from "./Button.vue";
+
 import { useI18n } from "vue-i18n";
+import { useStore } from "~/store";
+import { GiftCode } from "~/types";
+import dayjs from "~/dayjs";
+import { useRouter } from "vue-router";
 
 export default defineComponent({
   components: {
@@ -80,6 +82,7 @@ export default defineComponent({
     Badge,
     Modal,
     Divider,
+    Button,
   },
   props: {
     giftcode: {
@@ -90,6 +93,8 @@ export default defineComponent({
   setup(props) {
     const { t } = useI18n();
     const store = useStore();
+    const router = useRouter();
+
     const user = store.state.user;
     const isModalActive = ref(false);
 
@@ -97,8 +102,15 @@ export default defineComponent({
       return code.match(new RegExp(".{1,4}", "g"))!.join("-");
     };
 
-    const copyRedeemCode = () => {
-      navigator.clipboard.writeText(props.giftcode.code);
+    const copyRedeemLink = () => {
+      navigator.clipboard.writeText(
+        `${window.location.origin}${
+          router.resolve({
+            name: "RedeemCode",
+            params: { code: props.giftcode.code },
+          }).fullPath
+        }`
+      );
     };
 
     const showModal = () => {
@@ -114,7 +126,7 @@ export default defineComponent({
       dayjs,
       user,
       formatCode,
-      copyRedeemCode,
+      copyRedeemLink,
       isModalActive,
       showModal,
       hideModal,
