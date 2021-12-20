@@ -36,7 +36,7 @@
             ? giftcode.claimedBy == user?.id
               ? "You"
               : giftcode.claimedBy
-            : "/"
+            : "-"
         }}</span>
       </div>
       <div class="flex justify-between">
@@ -44,10 +44,10 @@
           t("coupon.claimed_on")
         }}</span>
         <span>{{
-          giftcode.claimedDate ? dayjs(giftcode.claimedDate).format("L") : "/"
+          giftcode.claimedDate ? dayjs(giftcode.claimedDate).format("L") : "-"
         }}</span>
       </div>
-      <div class="flex justify-between">
+      <div class="flex justify-between gap-3">
         <span class="text-textGrey font-bold">{{
           t("coupon.redeem_code")
         }}</span>

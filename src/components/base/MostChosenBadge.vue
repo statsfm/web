@@ -1,15 +1,6 @@
 <template>
   <div
-    class="
-      bg-primary
-      rounded-xl
-      max-w-max
-      select-none
-      text-bodyPrimary
-      font-bold
-      py-1
-      px-2
-    "
+    class="bg-primary rounded-lg select-none text-bodyPrimary font-bold px-3"
   >
     <span>Most chosen</span>
   </div>
