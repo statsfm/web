@@ -7,4 +7,5 @@ export type GiftCode = {
   boughtBy: string;
   productId: string;
   code: string;
+  message: string;
 };
