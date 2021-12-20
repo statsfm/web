@@ -1,6 +1,5 @@
 <template>
   <div
-    v-if="giftCodeData"
     class="
       w-full
       max-w-xl
@@ -32,7 +31,7 @@
       <Card
         class="face back flex justify-center items-center absolute aspect-[5/3]"
       >
-        <p>{{ giftCodeData.message }}</p>
+        <p>{{ giftCode.boughtBy }}</p>
       </Card>
     </div>
   </div>
@@ -60,8 +59,7 @@
 </style>
 
 <script lang="ts">
-import { defineComponent, onMounted, Ref, ref } from "vue";
-import api from "~/api";
+import { defineComponent, PropType, ref } from "vue";
 import { GiftCode } from "~/types";
 
 import Card from "../layout/Card.vue";
@@ -71,30 +69,15 @@ export default defineComponent({
     Card,
   },
   props: {
-    code: {
-      type: String,
+    giftCode: {
+      type: Object as PropType<GiftCode>,
       required: true,
     },
   },
   setup(props) {
     const flipped = ref(false);
-    const giftCodeData: Ref<GiftCode | null> = ref(null);
 
-    const getGiftCode = async () => {
-      const res = await api.get(
-        `/plus/giftcodes/${props.code.split("-").join("")}`
-      );
-
-      if (res.success) {
-        giftCodeData.value = res.data.item;
-      }
-    };
-
-    onMounted(() => {
-      getGiftCode();
-    });
-
-    return { flipped, giftCodeData };
+    return { flipped };
   },
 });
 </script>

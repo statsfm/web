@@ -24,7 +24,12 @@ const routes: RouteRecordRaw[] = [
   {
     path: "/redeem",
     name: "Redeem",
-    component: () => import("../pages/Redeem.vue"),
+    component: () => import("../pages/Redeem/Redeem.vue"),
+  },
+  {
+    path: "/redeem/:code",
+    name: "RedeemCode",
+    component: () => import("../pages/Redeem/RedeemCode.vue"),
   },
 ];
 

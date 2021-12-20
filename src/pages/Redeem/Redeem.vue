@@ -1,46 +1,33 @@
 <template>
-  <Loading v-if="loading" />
   <Container>
-    <div v-if="!isRedeemPageActive">
-      <h1 class="text-4xl font-bold mb-5">Redeem a Plus coupon</h1>
+    <h1 class="text-4xl font-bold mb-5">Redeem a Plus coupon</h1>
 
-      <input
-        placeholder="XXXX-XXXX-XXXX"
-        @input="code = $event.target?.value"
-        :value="code"
-        class="bg-bodySecundary font-bold rounded-2xl p-5 mb-5"
-      />
+    <input
+      placeholder="XXXX-XXXX-XXXX"
+      @input="code = $event.target?.value"
+      :value="code"
+      class="bg-bodySecundary font-bold rounded-2xl p-5 mb-5"
+    />
 
-      <Button
-        @click="isRedeemPageActive = true"
-        :disabled="isContinueButtonDisabled"
-        >{{ t("buttons.continue") }}</Button
-      >
-    </div>
-
-    <div class="flex flex-col items-center">
-      <GiftCard v-if="isRedeemPageActive" :code="code" />
-
-      <Button class="max-w-xl">{{ t("buttons.redeem") }}</Button>
-    </div>
+    <Button @click="routeToCode" :disabled="isContinueButtonDisabled">{{
+      t("buttons.continue")
+    }}</Button>
   </Container>
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, ref, watch } from "vue";
+import { defineComponent, ref, watch } from "vue";
 
 import Container from "~/components/layout/Container.vue";
 import Header from "~/components/layout/Header.vue";
 import Card from "~/components/layout/Card.vue";
 import Heading from "~/components/base/Heading.vue";
 import Divider from "~/components/base/Divider.vue";
-import Loading from "~/components/base/Loading.vue";
 import Text from "~/components/base/Text.vue";
 import Button from "~/components/base/Button.vue";
 import GiftCard from "~/components/base/GiftCard.vue";
-import api from "~/api";
-import { useStore } from "~/store";
 import { useI18n } from "vue-i18n";
+import { useRouter } from "vue-router";
 
 export default defineComponent({
   components: {
@@ -49,17 +36,14 @@ export default defineComponent({
     Card,
     Heading,
     Divider,
-    Loading,
     Text,
     Button,
     GiftCard,
   },
   setup() {
     const { t } = useI18n();
-    const store = useStore();
-    const loading = ref(false);
+    const router = useRouter();
 
-    const isRedeemPageActive = ref(false);
     const isContinueButtonDisabled = ref(true);
     const code = ref("");
 
@@ -98,28 +82,16 @@ export default defineComponent({
       code.value = newCode.toUpperCase().substring(0, totalCharLength);
     });
 
-    const submitCode = async () => {
-      loading.value = true;
-      const res = await api.post(
-        `/plus/giftcodes/${code.value.split("-").join("")}/redeem`
-      );
-
-      if (res.success) {
-        store.commit("setError", { message: res.data.message, type: "info" });
-      } else {
-        store.commit("setError", { message: res.data.message, type: "error" });
-      }
-
-      loading.value = false;
+    const routeToCode = () => {
+      const parsed = code.value.split("-").join("");
+      router.push({ name: "RedeemCode", params: { code: parsed } });
     };
 
     return {
       t,
-      loading,
-      isRedeemPageActive,
       isContinueButtonDisabled,
       code,
-      submitCode,
+      routeToCode,
     };
   },
 });
