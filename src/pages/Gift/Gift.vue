@@ -47,11 +47,8 @@
         </li>
         <li>
           Share the giftcodes to your friends so they can redeem them at
-          <a
-            class="text-primary font-bold"
-            href="https://spotistats.app/redeem"
-            target="blank"
-            >spotistats.app/redeem</a
+          <router-link class="text-primary font-bold" :to="{ name: 'Redeem' }"
+            >spotistats.app/redeem</router-link
           >
         </li>
       </ol>
