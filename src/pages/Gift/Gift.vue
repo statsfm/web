@@ -4,18 +4,18 @@
   <Container>
     <Card class="mb-5">
       <h1 class="text-2xl font-bold">Holliday special 🎄</h1>
-      <Text
-        >When purchasing a gift package, there's a 1% chance your package
-        contents will be doubled</Text
-      >
+      <p>
+        When purchasing a gift package, there's a 1% chance your package
+        contents will be doubled
+      </p>
       <h2 class="text-xl font-bold mt-2">Example</h2>
-      <Text
-        >If you buy a package with 5 codes, and you're lucky, you'll receive 10
-        codes instead of just 5</Text
-      >
+      <p>
+        If you buy a package with 5 codes, and you're lucky, you'll receive 10
+        codes instead of just 5
+      </p>
     </Card>
     <h1 class="text-3xl font-bold">Gift Plus coupons</h1>
-    <br />
+
     <div class="flex gap-3 mb-5 flex-col">
       <div class="w-full flex flex-col justify-between">
         <div class="flex gap-3 justify-center mb-2">
@@ -56,44 +56,54 @@
     <Divider class="pb-4" />
     <div>
       <h1 class="text-2xl font-bold">{{ t("gift.your_coupons") }}</h1>
-      <Text v-if="!giftCodes">loading...</Text>
-      <h3 class="text-l font-bold text-textGrey mb-2">
-        {{ t("gift.unclaimed_coupons") }}
-      </h3>
-      <Text
-        v-if="
-          giftCodes?.filter((code) => code.claimedBy == undefined)?.length == 0
-        "
-        >{{ t("gift.coupon_codes_not_found") }}</Text
-      >
+      <p v-if="!giftCodes">Loading...</p>
 
-      <div class="flex flex-nowrap overflow-x-auto gap-3 md:flex-wrap">
-        <Coupon
-          v-for="(code, index) in giftCodes?.filter(
-            (code) => code.claimedBy == undefined
-          )"
-          :key="index"
-          :giftcode="code"
-        />
+      <div>
+        <h3 class="text-l font-bold text-textGrey mb-2">
+          {{ t("gift.unclaimed_coupons") }}
+        </h3>
+        <p
+          v-if="
+            giftCodes?.filter((code) => code.claimedBy == undefined)?.length ==
+            0
+          "
+        >
+          {{ t("gift.coupon_codes_not_found") }}
+        </p>
+
+        <div class="flex flex-nowrap overflow-x-auto gap-3 md:flex-wrap">
+          <Coupon
+            v-for="(code, index) in giftCodes?.filter(
+              (code) => code.claimedBy == undefined
+            )"
+            :key="index"
+            :giftcode="code"
+          />
+        </div>
       </div>
-      <h3 class="text-l font-bold text-textGrey mb-2 mt-2">
-        {{ t("gift.claimed_coupons") }}
-      </h3>
-      <Text
-        v-if="
-          giftCodes?.filter((code) => code.claimedBy != undefined)?.length == 0
-        "
-        >{{ t("gift.coupons_not_found") }}</Text
-      >
 
-      <div class="flex flex-nowrap gap-3 overflow-x-auto md:flex-wrap">
-        <Coupon
-          v-for="(code, index) in giftCodes?.filter(
-            (code) => code.claimedBy != undefined
-          )"
-          :key="index"
-          :giftcode="code"
-        />
+      <div>
+        <h3 class="text-l font-bold text-textGrey mb-2 mt-2">
+          {{ t("gift.claimed_coupons") }}
+        </h3>
+        <p
+          v-if="
+            giftCodes?.filter((code) => code.claimedBy != undefined)?.length ==
+            0
+          "
+        >
+          {{ t("gift.coupons_not_found") }}
+        </p>
+
+        <div class="flex flex-nowrap gap-3 overflow-x-auto md:flex-wrap">
+          <Coupon
+            v-for="(code, index) in giftCodes?.filter(
+              (code) => code.claimedBy != undefined
+            )"
+            :key="index"
+            :giftcode="code"
+          />
+        </div>
       </div>
     </div>
   </Container>
