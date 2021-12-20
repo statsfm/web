@@ -1,7 +1,12 @@
 <template>
   <LoadingOverlay v-if="isLoading" />
-  <Container class="flex flex-col items-center">
-    <GiftCard v-if="giftCode" :giftCode="giftCode" :isFlipped="isFlipped" />
+  <Container class="h-screen flex flex-col items-center">
+    <GiftCard
+      v-if="giftCode"
+      :giftCode="giftCode"
+      :isFlipped="isFlipped"
+      class="mt-24"
+    />
     <Button class="max-w-xl" @click="redeemGiftCode">{{
       t("buttons.redeem")
     }}</Button>
