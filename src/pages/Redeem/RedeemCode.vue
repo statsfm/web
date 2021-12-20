@@ -45,7 +45,7 @@ export default defineComponent({
       if (res.success) {
         giftCode.value = res.data.item;
       } else {
-        console.log(res.data.message);
+        store.commit("setError", { message: res.data.message, type: "error" });
       }
 
       isLoading.value = false;
