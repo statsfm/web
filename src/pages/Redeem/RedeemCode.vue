@@ -17,6 +17,7 @@ import api from "~/api";
 import { useRoute } from "vue-router";
 import Button from "~/components/base/Button.vue";
 import { useI18n } from "vue-i18n";
+import { useStore } from "~/store";
 
 export default defineComponent({
   components: {
@@ -26,7 +27,9 @@ export default defineComponent({
   },
   setup() {
     const { t } = useI18n();
+    const store = useStore();
     const route = useRoute();
+
     const giftCode: Ref<GiftCode | null> = ref(null);
     const code = ref("");
 
@@ -44,9 +47,15 @@ export default defineComponent({
       const res = await api.post(`/plus/giftcodes/${code.value}/redeem`);
 
       if (res.success) {
-        console.log("aaaaa");
+        store.commit("setError", {
+          message: t("errors.successfully_redeemed"),
+          type: "info",
+        });
       } else {
-        console.log("aaaaaa");
+        store.commit("setError", {
+          message: res.data.message,
+          type: "error",
+        });
       }
     };
 

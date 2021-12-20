@@ -4,6 +4,8 @@
   "buttons.copy_link": "Copy link",
   "buttons.redeem": "Redeem",
 
+  "errors.successfully_redeemed": "Successfully redeemed code",
+
   "gift.select_plan": "Select your plan",
 
   "gift.personalize": "Personalize",
