@@ -1,21 +1,33 @@
 <template>
   <Loading v-if="loading" />
   <Container>
-    <h1 class="text-4xl font-bold mb-5">Redeem a Plus coupon</h1>
+    <div v-if="!isRedeemPageActive">
+      <h1 class="text-4xl font-bold mb-5">Redeem a Plus coupon</h1>
 
-    <input
-      placeholder="XXXX-XXXX-XXXX"
-      @input="code = $event.target?.value"
-      :value="code"
-      class="bg-bodySecundary font-bold rounded-2xl p-5 mb-5"
-    />
+      <input
+        placeholder="XXXX-XXXX-XXXX"
+        @input="code = $event.target?.value"
+        :value="code"
+        class="bg-bodySecundary font-bold rounded-2xl p-5 mb-5"
+      />
 
-    <Button @click="submitCode" :disabled="isButtonDisabled">Redeem</Button>
+      <Button
+        @click="isRedeemPageActive = true"
+        :disabled="isContinueButtonDisabled"
+        >{{ t("buttons.continue") }}</Button
+      >
+    </div>
+
+    <div class="flex flex-col items-center">
+      <GiftCard v-if="isRedeemPageActive" :code="code" />
+
+      <Button>{{ t("buttons.redeem") }}</Button>
+    </div>
   </Container>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, watch } from "vue";
+import { defineComponent, onMounted, ref, watch } from "vue";
 
 import Container from "~/components/layout/Container.vue";
 import Header from "~/components/layout/Header.vue";
@@ -25,8 +37,10 @@ import Divider from "~/components/base/Divider.vue";
 import Loading from "~/components/base/Loading.vue";
 import Text from "~/components/base/Text.vue";
 import Button from "~/components/base/Button.vue";
+import GiftCard from "~/components/base/GiftCard.vue";
 import api from "~/api";
 import { useStore } from "~/store";
+import { useI18n } from "vue-i18n";
 
 export default defineComponent({
   components: {
@@ -38,12 +52,15 @@ export default defineComponent({
     Loading,
     Text,
     Button,
+    GiftCard,
   },
   setup() {
+    const { t } = useI18n();
     const store = useStore();
     const loading = ref(false);
 
-    const isButtonDisabled = ref(true);
+    const isRedeemPageActive = ref(false);
+    const isContinueButtonDisabled = ref(true);
     const code = ref("");
 
     const segmentChars = 4;
@@ -52,7 +69,7 @@ export default defineComponent({
 
     watch(code, (newCode, oldCode) => {
       if (newCode.length == totalCharLength) {
-        isButtonDisabled.value = false;
+        isContinueButtonDisabled.value = false;
       }
 
       if (newCode.length > 0) {
@@ -63,7 +80,7 @@ export default defineComponent({
 
       if (newCode.length > 0) {
         if (newCode.length < totalCharLength) {
-          isButtonDisabled.value = true;
+          isContinueButtonDisabled.value = true;
         }
 
         if (newCode.length % (segmentChars + 1) == 0) {
@@ -97,8 +114,10 @@ export default defineComponent({
     };
 
     return {
+      t,
       loading,
-      isButtonDisabled,
+      isRedeemPageActive,
+      isContinueButtonDisabled,
       code,
       submitCode,
     };
