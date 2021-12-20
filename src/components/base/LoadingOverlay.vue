@@ -20,7 +20,6 @@
   animation-duration: 0.3s;
   animation-fill-mode: both;
   animation-name: fade;
-  cursor: pointer;
 }
 </style>
 
