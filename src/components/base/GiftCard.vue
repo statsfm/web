@@ -29,9 +29,22 @@
       >
       </Card>
       <Card
-        class="face back flex justify-center items-center absolute aspect-[5/3]"
+        class="
+          face
+          back
+          p-10
+          select-none
+          flex flex-col
+          justify-center
+          items-end
+          absolute
+          aspect-[5/3]
+        "
       >
-        <p>{{ giftCode.boughtBy }}</p>
+        <p>
+          {{ giftCode.message }}
+        </p>
+        <span class="font-bold text-textGrey">{{ giftCode.boughtBy }}</span>
       </Card>
     </div>
   </div>
