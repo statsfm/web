@@ -21,7 +21,7 @@
     <div class="flex flex-col items-center">
       <GiftCard v-if="isRedeemPageActive" :code="code" />
 
-      <Button>{{ t("buttons.redeem") }}</Button>
+      <Button class="max-w-xl">{{ t("buttons.redeem") }}</Button>
     </div>
   </Container>
 </template>
