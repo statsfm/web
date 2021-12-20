@@ -24,6 +24,9 @@
   "gift.plan": "Plan",
   "gift.price": "Price",
   "gift.message": "Message",
+  "gift.thanks_plus": "Thanks for buying Spotistats Plus!",
+  "gift.order_info": "Your gift codes will probably be there right away. If they aren't there, it could take a few hours. If you haven't received anything after 24 hours, send an email with your payment id to giftcodes{'@'}spotistats.app",
+  "gift.take_to_coupons_page": "Take me to the coupons page",
 
   "coupon.coupon": "Coupon",
   "coupon.purchased_on": "Purchased on",
