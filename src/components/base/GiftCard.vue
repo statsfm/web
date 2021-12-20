@@ -12,8 +12,8 @@
     @click="flipped = !flipped"
   >
     <div
-      class="flip relative transition-transform duration-700"
-      :class="{ flipped: flipped }"
+      class="flip relative transition-transform duration-1000"
+      :class="{ flipped }"
     >
       <Card
         class="
@@ -59,7 +59,7 @@
 </style>
 
 <script lang="ts">
-import { defineComponent, PropType, ref } from "vue";
+import { defineComponent, PropType, ref, watch } from "vue";
 import { GiftCode } from "~/types";
 
 import Card from "../layout/Card.vue";
@@ -73,9 +73,21 @@ export default defineComponent({
       type: Object as PropType<GiftCode>,
       required: true,
     },
+    isFlipped: {
+      type: Boolean,
+      default: false,
+      required: false,
+    },
   },
   setup(props) {
     const flipped = ref(false);
+
+    watch(
+      () => props.isFlipped,
+      (newVal) => {
+        flipped.value = newVal;
+      }
+    );
 
     return { flipped };
   },

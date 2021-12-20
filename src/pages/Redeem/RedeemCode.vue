@@ -1,7 +1,7 @@
 <template>
   <LoadingOverlay v-if="isLoading" />
   <Container class="flex flex-col items-center">
-    <GiftCard v-if="giftCode" :giftCode="giftCode" />
+    <GiftCard v-if="giftCode" :giftCode="giftCode" :isFlipped="isFlipped" />
     <Button class="max-w-xl" @click="redeemGiftCode">{{
       t("buttons.redeem")
     }}</Button>
@@ -36,6 +36,7 @@ export default defineComponent({
     const giftCode: Ref<GiftCode | null> = ref(null);
     const code = ref("");
     const isLoading = ref(false);
+    const isFlipped = ref(false);
 
     const getGiftCode = async (code: string) => {
       isLoading.value = true;
@@ -58,6 +59,8 @@ export default defineComponent({
           message: t("errors.successfully_redeemed"),
           type: "info",
         });
+
+        isFlipped.value = true;
       } else {
         store.commit("setError", {
           message: res.data.message,
@@ -71,7 +74,7 @@ export default defineComponent({
       getGiftCode(code.value);
     });
 
-    return { t, giftCode, isLoading, redeemGiftCode };
+    return { t, giftCode, isLoading, isFlipped, redeemGiftCode };
   },
 });
 </script>
