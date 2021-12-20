@@ -33,9 +33,10 @@
 
       <Textarea
         class="mb-5"
-        placeholder="Enter a message"
+        :placeholder="t('placeholders.enter_message')"
         :isResizeable="false"
         :value="message"
+        :max="100"
         @input="message = $event"
       />
       <Button @click="currentStep = 2">{{ t("buttons.continue") }}</Button>
