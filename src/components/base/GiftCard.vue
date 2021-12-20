@@ -40,9 +40,13 @@
           aspect-[5/3]
         "
       >
-        <p v-if="giftCode.message">{{ giftCode.message }}</p>
-        <p v-else class="italic font-normal">{{ t("gift.no_message") }}</p>
-        <span class="font-bold text-textGrey">{{ giftCode.boughtBy }}</span>
+        <p v-if="giftCode.message" class="text-xl">{{ giftCode.message }}</p>
+        <p v-else class="italic font-normal text-xl">
+          {{ t("gift.no_message") }}
+        </p>
+        <span class="font-bold text-textGrey mt-2">{{
+          giftCode.boughtBy
+        }}</span>
       </Card>
     </div>
   </div>
