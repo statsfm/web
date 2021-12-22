@@ -1,13 +1,5 @@
 <template>
-  <div class="container">
+  <div class="w-11/12 w-max-[1140px] mx-auto">
     <slot />
   </div>
 </template>
-
-<style lang="scss" scoped>
-.container {
-  width: 90%;
-  max-width: 1140px;
-  margin: 0 auto;
-}
-</style>
