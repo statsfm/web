@@ -31,6 +31,11 @@ const routes: RouteRecordRaw[] = [
     name: "RedeemCode",
     component: () => import("../pages/Redeem/RedeemCode.vue"),
   },
+  {
+    path: "/import",
+    name: "Import",
+    component: () => import("../pages/Import/Import.vue"),
+  },
 ];
 
 const router = createRouter({

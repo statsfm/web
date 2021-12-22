@@ -5,17 +5,17 @@
   "buttons.redeem": "Redeem",
 
   "errors.successfully_redeemed": "Successfully redeemed code",
+  "errors.invalid_filename": "Invalid filename",
+  "errors.invalid_filename_streaminghistory": "It looks like you've selected one or more 'StreamingHistory.json' files. This means Spotify unfortunately has sent you the wrong files... \nYou can find a guide on how to request the endsong.json files at https://support.spotistats.app/import/guide",
+  "errors.no_files_selected": "No files selected",
+  "errors.multiple_files": "You can only upload 1 file at a time. You can immediatly upload another file after this one has been uploaded",
 
   "placeholders.enter_message": "Enter message",
-
   "gift.select_plan": "Select your plan",
-
   "gift.personalize": "Personalize",
   "gift.personalize.description": "You can personalize your gift by adding a message",
-
   "gift.checkout": "Checkout",
   "gift.checkout.description": "Check your details",
-
   "gift.your_coupons": "Your coupons",
   "gift.unclaimed_coupons": "Unclaimed coupons",
   "gift.claimed_coupons": "Claimed coupons",
@@ -28,6 +28,8 @@
   "gift.order_info": "Your gift codes will probably be there right away. If they aren't there, it could take a few hours. If you haven't received anything after 24 hours, send an email with your payment id to giftcodes{'@'}spotistats.app",
   "gift.take_to_coupons_page": "Take me to the coupons page",
   "gift.no_message": "No message",
+
+  "import.successfully_uploaded_file": "Successfully uploaded {filename}",
 
   "coupon.coupon": "Coupon",
   "coupon.purchased_on": "Purchased on",
