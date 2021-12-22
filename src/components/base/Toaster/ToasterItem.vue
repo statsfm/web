@@ -26,13 +26,13 @@ export default defineComponent({
       required: true,
     },
   },
-  setup() {
+  setup(props) {
     let isActive = ref(true);
 
     onMounted(() => {
       setTimeout(() => {
         isActive.value = false;
-      }, 5000);
+      }, props.error.duration ?? 5 * 1000);
     });
 
     return { isActive };
