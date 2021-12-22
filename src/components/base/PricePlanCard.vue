@@ -24,10 +24,7 @@
       <p class="font-bold text-textGrey">{{ plan.name }}</p>
     </Card>
     <Divider></Divider>
-    <Button
-      class="w-full mt-2 text-lg"
-      size="small"
-      @click="console.log('ddas')"
+    <Button class="w-full mt-2 text-lg" size="small"
       >{{ plan.price }} <small>incl vat & fees</small></Button
     >
   </div>
