@@ -1,7 +1,8 @@
 <template>
+  {{ disabled }}
   <div
     class="flex flex-1 flex-col items-center gap-2 cursor-pointer"
-    @click="() => (isClickable ? $emit('stepclick') : '')"
+    @click="!disabled ? $emit('click') : ''"
   >
     <div
       class="
@@ -19,7 +20,7 @@
       "
       :class="{
         'bg-primaryLighter font-bold': isCurrent,
-        'hover:bg-primary/20 active:bg-primary/5': isClickable,
+        'hover:bg-primary/20 active:bg-primary/5': !disabled,
       }"
     >
       {{ index }}
@@ -43,10 +44,10 @@ export default defineComponent({
       type: Boolean,
       required: false,
     },
-    isClickable: {
+    disabled: {
       type: Boolean,
       required: false,
-      default: true,
+      default: false,
     },
   },
 });

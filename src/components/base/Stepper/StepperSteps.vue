@@ -5,6 +5,7 @@
         :index="index + 1"
         @click="setCurrentStep(index)"
         :isCurrent="currentStep == index"
+        :disabled="step.disabled"
         >{{ step.name }}
       </StepperStep>
     </div>
@@ -36,7 +37,7 @@ export default defineComponent({
     watch(
       () => props.step,
       (newVal) => {
-        currentStep.value = newVal;
+        currentStep.value = newVal as number;
       }
     );
 
