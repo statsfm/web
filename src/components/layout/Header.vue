@@ -49,7 +49,6 @@ import Dropdown from "../base/dropdowns/Dropdown.vue";
 import Divider from "../base/Divider.vue";
 import Text from "../base/Text.vue";
 import Badge from "../base/Badge.vue";
-import Modal from "../base/modals/Modal.vue";
 import { useAuth } from "~/hooks";
 import { useStore } from "~/store";
 
@@ -64,7 +63,6 @@ export default defineComponent({
     Divider,
     Text,
     Badge,
-    Modal,
   },
   setup() {
     const store = useStore();
