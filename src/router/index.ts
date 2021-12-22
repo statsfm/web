@@ -36,6 +36,11 @@ const routes: RouteRecordRaw[] = [
     name: "Import",
     component: () => import("../pages/Import/Import.vue"),
   },
+  {
+    path: "/:route(.*)",
+    name: "NotFound",
+    component: () => import("../pages/NotFound.vue"),
+  },
 ];
 
 const router = createRouter({
