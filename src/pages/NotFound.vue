@@ -1,16 +1,12 @@
 <template>
-  <canvas ref="canvas" class="absolute -z-50" />
-  <div class="grid place-items-center">
-    <div ref="content" class="max-w-max max-h-max">
-      <Container class="h-screen grid place-items-center">
-        <div class="-mt-64 text-center">
-          <h1 class="text-7xl font-bold mb-2">Whoops...</h1>
-          <p class="font-bold text-textGrey mb-5">this page is not available</p>
-          <router-link :to="{ name: 'Home' }">
-            <Button>Back to homepage</Button>
-          </router-link>
-        </div>
-      </Container>
+  <canvas ref="canvas" class="absolute top-0 -z-50" />
+  <div class="grid place-items-center h-screen" ref="content">
+    <div class="-mt-64 text-center">
+      <h1 class="text-7xl font-bold mb-2">Whoops...</h1>
+      <p class="font-bold text-textGrey mb-5">this page is not available</p>
+      <router-link :to="{ name: 'Home' }">
+        <Button>Back to homepage</Button>
+      </router-link>
     </div>
   </div>
 </template>
