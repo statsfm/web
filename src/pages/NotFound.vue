@@ -1,7 +1,7 @@
 <template>
   <canvas ref="canvas" class="absolute top-0 -z-50" />
-  <div class="grid place-items-center h-screen" ref="content">
-    <div class="-mt-64 text-center">
+  <div class="grid place-items-center h-screen">
+    <div class="-mt-64 text-center" ref="content">
       <h1 class="text-7xl font-bold mb-2">Whoops...</h1>
       <p class="font-bold text-textGrey mb-5">this page is not available</p>
       <router-link :to="{ name: 'Home' }">
@@ -35,11 +35,22 @@ export default defineComponent({
       "https://i.scdn.co/image/ab6761610000e5eb70783ea42c106f3f325f53af",
     ];
 
-    const minRadius = 100;
+    type Point = {
+      x: number;
+      y: number;
+    };
+
+    type Circle = {
+      point: Point;
+      radius: number;
+    };
+
+    const minRadius = window.innerWidth / 15;
     const margin = minRadius + 5;
-    const artists: Ref<{ x: number; y: number; radius: number }[]> = ref([]);
+    const artists: Ref<Circle[]> = ref([]);
 
     let index = 0;
+    let continueCount = 0;
 
     onMounted(() => {
       if (canvas.value) {
@@ -47,47 +58,49 @@ export default defineComponent({
         canvas.value.height = window.innerHeight;
 
         const ctx = canvas.value.getContext("2d");
+        const canvasSize: Point = {
+          x: canvas.value.width,
+          y: canvas.value.height,
+        };
+        const bounding = content.value?.getBoundingClientRect();
 
-        if (ctx && content.value) {
+        if (ctx && content.value && bounding) {
+          const bbX = (bounding.left + bounding.right) / 2;
+          const bbY = (bounding.top + bounding.bottom) / 2;
+          const bbR = bounding.right - bbX;
+          const bbC: Circle = { point: { x: bbX, y: bbY }, radius: bbR };
+
           while (artists.value.length < images.length) {
-            const { x, y } = getRandomPositionInRange(
-              canvas.value.width,
-              canvas.value.height
-            );
-
-            const bounding = content.value?.getBoundingClientRect();
+            const randomPoint = getRandomPositionInRange(canvasSize);
 
             if (
-              x > bounding.left - minRadius &&
-              x < bounding.right + minRadius &&
-              y > bounding.top - minRadius &&
-              y < bounding.bottom + minRadius
+              continueCount < 100 &&
+              randomPoint.x > bounding.left - minRadius &&
+              randomPoint.x < bounding.right + minRadius &&
+              randomPoint.y > bounding.top - minRadius &&
+              randomPoint.y < bounding.bottom + minRadius
             ) {
+              continueCount++;
               continue;
             }
 
-            let maxRadius = 200;
+            let maxRadius = minRadius * 2.5;
 
             for (const artist of artists.value) {
-              const deltaX = x - artist.x;
-              const deltaY = y - artist.y;
-              let distance = 0;
-
-              distance = Math.floor(
-                Math.sqrt(deltaX * deltaX + deltaY * deltaY) -
-                  artist.radius -
-                  margin
+              maxRadius = getMaxDistance(
+                randomPoint,
+                artist,
+                maxRadius,
+                margin
               );
-
-              if (distance < maxRadius) {
-                maxRadius = distance;
-              }
             }
+
+            maxRadius = getMaxDistance(randomPoint, bbC, maxRadius, margin);
 
             if (maxRadius > minRadius) {
               const radius = getRandomIntInRange(minRadius, maxRadius);
 
-              artists.value.push({ x, y, radius });
+              artists.value.push({ point: randomPoint, radius });
 
               const img = new Image(radius, radius);
               img.src = images[index];
@@ -98,16 +111,22 @@ export default defineComponent({
                 ctx.save();
 
                 ctx.beginPath();
-                ctx.arc(x, y, radius, 0, Math.PI * 2, true);
-
+                ctx.arc(
+                  randomPoint.x,
+                  randomPoint.y,
+                  radius,
+                  0,
+                  Math.PI * 2,
+                  true
+                );
                 ctx.closePath();
                 ctx.clip();
                 ctx.fill();
 
                 ctx.drawImage(
                   img,
-                  x - radius,
-                  y - radius,
+                  randomPoint.x - radius,
+                  randomPoint.y - radius,
                   img.width * 2,
                   img.height * 2
                 );
@@ -120,8 +139,32 @@ export default defineComponent({
       }
     });
 
-    const getRandomPositionInRange = (x: number, y: number) => {
-      return { x: getRandomIntInRange(0, x), y: getRandomIntInRange(0, y) };
+    const getMaxDistance = (
+      point: Point,
+      target: Circle,
+      maxRadius: number,
+      margin: number
+    ): number => {
+      const deltaX = target.point.x - point.x;
+      const deltaY = target.point.y - point.y;
+      let distance = 0;
+
+      distance = Math.floor(
+        Math.sqrt(deltaX * deltaX + deltaY * deltaY) - target.radius - margin
+      );
+
+      if (distance < maxRadius) {
+        maxRadius = distance;
+      }
+
+      return maxRadius;
+    };
+
+    const getRandomPositionInRange = (point: Point): Point => {
+      return {
+        x: getRandomIntInRange(0, point.x),
+        y: getRandomIntInRange(0, point.y),
+      };
     };
 
     const getRandomIntInRange = (min: number, max: number): number => {
