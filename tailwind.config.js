@@ -19,6 +19,9 @@ module.exports = {
         fade: "fade 0.3s ease-in-out",
       },
     },
+    container: {
+      center: true,
+    },
   },
   plugins: [require("@tailwindcss/line-clamp")],
 };
