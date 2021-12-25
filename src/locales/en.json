@@ -31,6 +31,8 @@
 
   "import.successfully_uploaded_file": "Successfully uploaded {filename}",
 
+  "artist.followers": "{count} followers",
+
   "coupon.coupon": "Coupon",
   "coupon.purchased_on": "Purchased on",
   "coupon.purchased": "Purchased",
