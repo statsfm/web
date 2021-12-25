@@ -1,0 +1,57 @@
+[
+  {
+    "name": "Ed Sheeran",
+    "followers": 87078021,
+    "image": "https://i.scdn.co/image/ab6761610000e5eb12a2ef08d00dd7451a6dbed6",
+    "spotifyPopularity": 97,
+    "genres": ["pop", "uk pop"],
+    "id": 8752,
+    "externalIds": {
+      "spotify": ["6eUKZXaKkcviH0Ku9w2n3V"]
+    }
+  },
+  {
+    "name": "Dua Lipa",
+    "followers": 29304349,
+    "image": "https://i.scdn.co/image/ab6761610000e5ebd42a27db3286b58553da8858",
+    "spotifyPopularity": 94,
+    "genres": ["dance pop", "pop", "uk pop"],
+    "id": 2089,
+    "externalIds": {
+      "spotify": ["6M2wZ9GZgrQXHCFfjv46we"]
+    }
+  },
+  {
+    "name": "Adele",
+    "followers": 30297473,
+    "image": "https://i.scdn.co/image/ab6761610000e5eb68f6e5892075d7f22615bd17",
+    "spotifyPopularity": 94,
+    "genres": ["british soul", "pop", "pop soul", "uk pop"],
+    "id": 18609,
+    "externalIds": {
+      "spotify": ["4dpARuHxo51G3z768sgnrY"]
+    }
+  },
+  {
+    "name": "The Kid LAROI",
+    "followers": 2786196,
+    "image": "https://i.scdn.co/image/ab6761610000e5eb70783ea42c106f3f325f53af",
+    "spotifyPopularity": 92,
+    "genres": ["australian hip hop"],
+    "id": 47896,
+    "externalIds": {
+      "spotify": ["2tIP7SsRs7vjIcLrU85W8J"]
+    }
+  },
+  {
+    "name": "Justin Bieber",
+    "followers": 52260206,
+    "image": "https://i.scdn.co/image/ab6761610000e5eb8ae7f2aaa9817a704a87ea36",
+    "spotifyPopularity": 97,
+    "genres": ["canadian pop", "pop"],
+    "id": 16,
+    "externalIds": {
+      "spotify": ["1uNFoZAHBGtllmzznpCI3s"]
+    }
+  }
+]
