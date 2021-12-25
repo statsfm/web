@@ -1,4 +1,5 @@
 <template>
+  <Header />
   <LoadingOverlay v-if="isLoading" />
   <Container class="h-screen flex flex-col items-center">
     <GiftCard
@@ -16,6 +17,7 @@
 <script lang="ts">
 import { defineComponent, onMounted, Ref, ref } from "vue";
 
+import Header from "~/components/layout/Header.vue";
 import Container from "~/components/layout/Container.vue";
 import GiftCard from "~/components/base/GiftCard.vue";
 import { GiftCode } from "~/types";
@@ -28,6 +30,7 @@ import LoadingOverlay from "~/components/base/LoadingOverlay.vue";
 
 export default defineComponent({
   components: {
+    Header,
     Container,
     GiftCard,
     Button,

@@ -1,4 +1,5 @@
 <template>
+  <Header />
   <section class="mt-28 mb-28">
     <Container class="flex justify-between flex-col md:flex-row">
       <div>
@@ -265,6 +266,7 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 
+import Header from "~/components/layout/Header.vue";
 import Container from "~/components/layout/Container.vue";
 import Card from "~/components/layout/Card.vue";
 import Divider from "~/components/base/Divider.vue";
@@ -282,6 +284,7 @@ export default defineComponent({
     Button,
     FeatureStepItem,
     Review,
+    Header,
   },
 });
 </script>

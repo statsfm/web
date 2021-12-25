@@ -1,4 +1,5 @@
 <template>
+  <Header />
   <Container>
     <Stepper :steps="steps" />
   </Container>
@@ -7,6 +8,7 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 
+import Header from "~/components/layout/Header.vue";
 import Container from "~/components/layout/Container.vue";
 import StepperSteps from "~/components/base/Stepper/StepperSteps.vue";
 import Stepper from "~/components/base/Stepper/Stepper.vue";
@@ -19,6 +21,7 @@ import { Step } from "~/types";
 
 export default defineComponent({
   components: {
+    Header,
     Container,
     StepperSteps,
     Stepper,

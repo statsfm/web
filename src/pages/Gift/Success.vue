@@ -1,4 +1,5 @@
 <template>
+  <Header />
   <Container class="h-screen">
     <div class="mt-20 grid place-items-center text-center">
       <img
@@ -22,6 +23,7 @@
 import { defineComponent } from "vue";
 import { useI18n } from "vue-i18n";
 
+import Header from "~/components/layout/Header.vue";
 import Container from "~/components/layout/Container.vue";
 import Button from "~/components/base/Button.vue";
 

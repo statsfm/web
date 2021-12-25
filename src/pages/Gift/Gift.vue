@@ -1,6 +1,7 @@
 <template>
   <LoadingOverlay v-if="loading" />
 
+  <Header />
   <Container>
     <Card class="mb-5">
       <h1 class="text-2xl font-bold">Holliday special 🎄</h1>
@@ -112,6 +113,7 @@
 <script lang="ts">
 import { defineComponent, ref, Ref, onBeforeMount } from "vue";
 
+import Header from "~/components/layout/Header.vue";
 import Container from "~/components/layout/Container.vue";
 import Card from "~/components/layout/Card.vue";
 import Divider from "~/components/base/Divider.vue";
@@ -127,6 +129,7 @@ import { useI18n } from "vue-i18n";
 
 export default defineComponent({
   components: {
+    Header,
     Container,
     Card,
     Divider,

@@ -1,4 +1,5 @@
 <template>
+  <Header />
   <Container>
     <h1 class="text-4xl font-bold mb-5">Redeem a Plus coupon</h1>
 
@@ -18,8 +19,8 @@
 <script lang="ts">
 import { defineComponent, ref, watch } from "vue";
 
-import Container from "~/components/layout/Container.vue";
 import Header from "~/components/layout/Header.vue";
+import Container from "~/components/layout/Container.vue";
 import Card from "~/components/layout/Card.vue";
 import Heading from "~/components/base/Heading.vue";
 import Divider from "~/components/base/Divider.vue";
@@ -31,8 +32,8 @@ import { useRouter } from "vue-router";
 
 export default defineComponent({
   components: {
-    Container,
     Header,
+    Container,
     Card,
     Heading,
     Divider,

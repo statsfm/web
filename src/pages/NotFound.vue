@@ -1,4 +1,5 @@
 <template>
+  <Header />
   <canvas ref="canvas" class="absolute top-0 -z-50" />
   <div class="grid place-items-center h-screen" @click="onCanvasClick">
     <div class="-mt-64 text-center" ref="content">
@@ -14,12 +15,14 @@
 <script lang="ts">
 import { defineComponent, onMounted, Ref, ref } from "vue";
 
+import Header from "~/components/layout/Header.vue";
 import Container from "~/components/layout/Container.vue";
 import Button from "~/components/base/Button.vue";
 import { useRouter } from "vue-router";
 
 export default defineComponent({
   components: {
+    Header,
     Container,
     Button,
   },
