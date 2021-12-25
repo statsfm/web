@@ -1,18 +1,16 @@
 <template>
-  <div class="badge">
+  <div
+    class="
+      bg-primary/10
+      text-primary
+      py-1
+      px-4
+      w-max
+      font-bold
+      select-none
+      rounded-xl
+    "
+  >
     <slot />
   </div>
 </template>
-
-<style lang="scss" scoped>
-.badge {
-  background-color: var(--primary-button-bg);
-  color: var(--primary-button-text);
-  padding: var(--space-xxs) var(--space-xs);
-  border-radius: var(--radius-small);
-  width: max-content;
-  font-size: var(--size-s);
-  font-weight: var(--weight-semi-bold);
-  user-select: none;
-}
-</style>
