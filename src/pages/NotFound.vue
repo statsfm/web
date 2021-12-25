@@ -1,6 +1,6 @@
 <template>
   <canvas ref="canvas" class="absolute top-0 -z-50" />
-  <div class="grid place-items-center h-screen">
+  <div class="grid place-items-center h-screen" @click="onCanvasClick">
     <div class="-mt-64 text-center" ref="content">
       <h1 class="text-7xl font-bold mb-2">Whoops...</h1>
       <p class="font-bold text-textGrey mb-5">this page is not available</p>
@@ -16,6 +16,7 @@ import { defineComponent, onMounted, Ref, ref } from "vue";
 
 import Container from "~/components/layout/Container.vue";
 import Button from "~/components/base/Button.vue";
+import { useRouter } from "vue-router";
 
 export default defineComponent({
   components: {
@@ -23,6 +24,8 @@ export default defineComponent({
     Button,
   },
   setup() {
+    const router = useRouter();
+
     const content: Ref<HTMLDivElement | undefined> = ref();
     const canvas: Ref<HTMLCanvasElement | undefined> = ref();
     const artistBubbles: Ref<Circle[]> = ref([]);
@@ -173,19 +176,22 @@ export default defineComponent({
       }
     };
 
+    const getDistance = (point: Point, target: Circle): number => {
+      const deltaX = target.point.x - point.x;
+      const deltaY = target.point.y - point.y;
+
+      return Math.floor(
+        Math.sqrt(deltaX * deltaX + deltaY * deltaY) - target.radius
+      );
+    };
+
     const getMaxDistance = (
       point: Point,
       target: Circle,
       maxRadius: number,
       margin: number
     ): number => {
-      const deltaX = target.point.x - point.x;
-      const deltaY = target.point.y - point.y;
-      let distance = 0;
-
-      distance = Math.floor(
-        Math.sqrt(deltaX * deltaX + deltaY * deltaY) - target.radius - margin
-      );
+      const distance = getDistance(point, target) - margin;
 
       if (distance < maxRadius) {
         maxRadius = distance;
@@ -205,7 +211,32 @@ export default defineComponent({
       return Math.floor(Math.random() * (max - min + 1) + min);
     };
 
-    return { canvas, content };
+    const getMousePosInElement = (el: HTMLElement, e: any): Point => {
+      const rect = el.getBoundingClientRect();
+
+      return {
+        x: e.clientX - rect.left,
+        y: e.clientY - rect.top,
+      };
+    };
+
+    const onCanvasClick = (e: any) => {
+      if (canvas) {
+        const mousePos = getMousePosInElement(canvas.value, e);
+
+        for (let i = 0; i < artistBubbles.value.length; i++) {
+          const bubble = artistBubbles.value[i];
+          const artist = artists.value[i];
+          const distance = getDistance(mousePos, bubble);
+
+          if (distance <= bubble.radius) {
+            router.push({ name: "Artist", params: { id: artist.id } });
+          }
+        }
+      }
+    };
+
+    return { canvas, content, onCanvasClick };
   },
 });
 </script>
