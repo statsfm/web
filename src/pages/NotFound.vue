@@ -42,11 +42,12 @@ export default defineComponent({
     const minRadius = window.innerWidth / 15;
     const margin = minRadius + strokeWidth + 5;
 
-    let index = 0;
     let continueCount = 0;
 
     onMounted(async () => {
-      artists.value = await getTopArtists();
+      artists.value = (await getTopArtists()).sort(
+        (a, b) => a.spotifyPopularity < b.spotifyPopularity
+      );
 
       if (canvas.value) {
         canvas.value.width = window.innerWidth;
@@ -102,11 +103,15 @@ export default defineComponent({
             if (maxRadius > minRadius) {
               const radius = getRandomIntInRange(minRadius, maxRadius);
               artistBubbles.value.push({ point: randomPoint, radius });
-
-              drawArtistBubble(randomPoint, radius, artists.value[index]);
-              index++;
             }
           }
+
+          let index = 0;
+          artistBubbles.value.sort((a, b) => a.radius < b.radius);
+          artistBubbles.value.forEach((artist) => {
+            drawArtistBubble(artist.point, artist.radius, artists.value[index]);
+            index++;
+          });
         }
       }
     });
