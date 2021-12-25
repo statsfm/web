@@ -45,6 +45,7 @@ export default defineComponent({
       radius: number;
     };
 
+    const strokeWidth = 50;
     const minRadius = window.innerWidth / 15;
     const margin = minRadius + 5;
     const artists: Ref<Circle[]> = ref([]);
@@ -109,7 +110,36 @@ export default defineComponent({
 
               img.onload = () => {
                 ctx.save();
+                ctx.beginPath();
+                ctx.ellipse(
+                  randomPoint.x,
+                  randomPoint.y,
+                  radius,
+                  radius,
+                  0,
+                  0,
+                  Math.PI * 2
+                );
+                ctx.lineWidth = strokeWidth;
+                ctx.strokeStyle = "rgba(24, 24, 28, 1)";
+                ctx.stroke();
 
+                ctx.beginPath();
+                ctx.ellipse(
+                  randomPoint.x,
+                  randomPoint.y,
+                  radius + 25,
+                  radius + 25,
+                  0,
+                  0,
+                  Math.PI * 2
+                );
+                ctx.lineWidth = strokeWidth;
+                ctx.strokeStyle = "rgba(24, 24, 28, 0.5)";
+                ctx.stroke();
+                ctx.restore();
+
+                ctx.save();
                 ctx.beginPath();
                 ctx.arc(
                   randomPoint.x,
@@ -121,7 +151,6 @@ export default defineComponent({
                 );
                 ctx.closePath();
                 ctx.clip();
-                ctx.fill();
 
                 ctx.drawImage(
                   img,
