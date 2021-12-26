@@ -47,11 +47,11 @@
           giftcode.claimedDate ? dayjs(giftcode.claimedDate).format("L") : "-"
         }}</span>
       </div>
-      <div class="flex justify-between gap-3">
+      <div class="flex justify-between">
         <span class="text-textGrey font-bold">{{
           t("coupon.redeem_code")
         }}</span>
-        <Badge class="w-full">{{ formatCode(giftcode.code) }}</Badge>
+        <span>{{ formatCode(giftcode.code) }}</span>
       </div>
     </div>
     <Divider />
