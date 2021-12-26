@@ -16,8 +16,7 @@
       </p>
     </Card> -->
     <h1 class="text-3xl font-bold">Gift Plus coupons</h1>
-
-    <div class="flex gap-3 mb-5 flex-col">
+    <div class="flex gap-3 mb-5 flex-col mt-2">
       <div class="w-full flex flex-col justify-between">
         <div class="flex gap-3 justify-center mb-2">
           <PricePlanCard
@@ -120,11 +119,8 @@ import { ref, Ref, onBeforeMount } from "vue";
 
 import Header from "~/components/layout/Header.vue";
 import Container from "~/components/layout/Container.vue";
-import Card from "~/components/layout/Card.vue";
 import Divider from "~/components/base/Divider.vue";
 import LoadingOverlay from "~/components/base/LoadingOverlay.vue";
-import Text from "~/components/base/Text.vue";
-import Button from "~/components/base/Button.vue";
 import Coupon from "~/components/base/Coupon.vue";
 import PricePlanCard from "~/components/base/PricePlanCard.vue";
 
