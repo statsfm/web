@@ -1,59 +1,70 @@
 <template>
+  <Header class="bg-bodySecundary" />
+  <LoadingOverlay v-if="isLoading" />
+  <div class="bg-bodySecundary" v-if="user">
+    <Container class="flex gap-5 pt-24 pb-10 flex-col items-center md:flex-row">
+      <Avatar :src="user.image" :size="48" />
+      <div class="flex flex-col justify-end">
+        <h1 class="text-4xl font-black text-center md:text-6xl">
+          {{ user.displayName }}
+        </h1>
+      </div>
+    </Container>
+  </div>
   <Container>
-    <div v-if="user" class="flex flex-col">
-      <div class="flex flex-col items-center">
-        <Avatar class="w-32" :src="user.image" />
-        <h1 class="text-4xl font-bold">{{ user.displayName }}</h1>
-      </div>
-      <div v-if="stats" class="flex">
+    <div class="flex gap-2 overflow-x-auto">
+      <router-link
+        v-for="(artist, index) in stats?.artists"
+        :key="index"
+        :to="{
+          name: 'Artist',
+          params: {
+            id: artist.artist.id,
+            slug: artist.artist.name.toLowerCase().split(' ').join('-'),
+          },
+        }"
+      >
         <div
-          class="w-32 aspect-square bg-center bg-cover bg-no-repeat rounded-2xl"
           :style="{ backgroundImage: `url(${artist.artist.image})` }"
-          v-for="(artist, index) in stats.artists.sort(
-            (a, b) => a.position > b.position
-          )"
-          :key="index"
-        ></div>
-      </div>
+          class="h-32 aspect-square bg-cover bg-center rounded-2xl"
+        ></div
+      ></router-link>
     </div>
   </Container>
 </template>
 
-<script lang="ts">
-import { defineComponent, onMounted, Ref, ref } from "vue";
+<script lang="ts" setup>
+import { onMounted, Ref, ref } from "vue";
 
+import Header from "~/components/layout/Header.vue";
 import Container from "~/components/layout/Container.vue";
 import Avatar from "~/components/base/Avatar.vue";
+import LoadingOverlay from "~/components/base/LoadingOverlay.vue";
 import api from "~/api";
 import { useRoute } from "vue-router";
+import { useI18n } from "vue-i18n";
 
-export default defineComponent({
-  components: {
-    Container,
-    Avatar,
-  },
-  setup() {
-    const route = useRoute();
+const route = useRoute();
+const { t } = useI18n();
 
-    const user: Ref<BacktrackFriend | null> = ref(null);
-    const stats: Ref<BacktrackFriendStats | null> = ref(null);
+const isLoading = ref(false);
+const user: Ref<BacktrackFriend | null> = ref(null);
+const stats: Ref<BacktrackFriendStats | null> = ref(null);
 
-    const getUser = async (): Promise<BacktrackFriend> => {
-      const res = await api.get(`/friends/get/${route.params.id}`);
-      return res.data.data;
-    };
+const getUser = async (): Promise<BacktrackFriend> => {
+  const res = await api.get(`/friends/get/${route.params.id}`);
+  return res.data.data;
+};
 
-    const getUserStats = async (): Promise<BacktrackFriendStats> => {
-      const res = await api.get(`/friends/stats/${route.params.id}`);
-      return res.data.data;
-    };
+const getUserStats = async (): Promise<BacktrackFriendStats> => {
+  const res = await api.get(`/friends/stats/${route.params.id}`);
+  return res.data.data;
+};
 
-    onMounted(async () => {
-      user.value = await getUser();
-      stats.value = await getUserStats();
-    });
-
-    return { user, stats };
-  },
+onMounted(async () => {
+  isLoading.value = true;
+  user.value = await getUser();
+  stats.value = await getUserStats();
+  isLoading.value = false;
 });
 </script>

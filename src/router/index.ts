@@ -37,7 +37,12 @@ const routes: RouteRecordRaw[] = [
     component: () => import("../pages/Import/Import.vue"),
   },
   {
-    path: "/artist/:id",
+    path: "/user/:id",
+    name: "User",
+    component: () => import("../pages/User.vue"),
+  },
+  {
+    path: "/artist/:id/:slug?",
     name: "Artist",
     component: () => import("../pages/Artist.vue"),
   },
@@ -48,9 +53,7 @@ const routes: RouteRecordRaw[] = [
   },
 ];
 
-const router = createRouter({
+export default createRouter({
   history: createWebHistory(),
   routes,
 });
-
-export default router;
