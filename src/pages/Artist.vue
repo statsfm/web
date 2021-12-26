@@ -5,14 +5,16 @@
     <Container class="flex gap-5 pt-24 pb-10 flex-col items-center md:flex-row">
       <Avatar :src="artist.image" :size="48" />
       <div class="flex flex-col justify-end">
-        <span class="font-bold text-textGrey text-center md:text-left">
+        <span class="font-medium text-textGrey text-center md:text-left">
           {{
             t("artist.followers", {
               count: formatFollowers(artist.followers),
             })
           }}</span
         >
-        <h1 class="text-4xl font-bold text-center">{{ artist.name }}</h1>
+        <h1 class="text-4xl font-black text-center md:text-6xl">
+          {{ artist.name }}
+        </h1>
       </div>
     </Container>
   </div>
@@ -39,7 +41,6 @@ import Avatar from "~/components/base/Avatar.vue";
 import { useI18n } from "vue-i18n";
 import ChipGroup from "~/components/base/Chip/ChipGroup.vue";
 import Chip from "~/components/base/Chip/Chip.vue";
-import Button from "~/components/base/Button.vue";
 
 const { t } = useI18n();
 const route = useRoute();
