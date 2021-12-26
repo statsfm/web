@@ -8,8 +8,8 @@ const routes: RouteRecordRaw[] = [
   },
   {
     path: "/auth:route(.*)",
-    name: "Auth",
-    component: () => import("../pages/Auth.vue"),
+    name: "AuthCallback",
+    component: () => import("../pages/Auth/AuthCallback.vue"),
   },
   {
     path: "/gift",

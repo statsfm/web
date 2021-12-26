@@ -27,7 +27,7 @@ onBeforeMount(() => {
   }
 
   if (auth.isLoggedIn()) {
-    router.push("/");
+    router.back();
   } else {
     auth.login();
   }
