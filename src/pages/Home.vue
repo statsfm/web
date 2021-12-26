@@ -263,9 +263,7 @@
   </section>
 </template>
 
-<script lang="ts">
-import { defineComponent } from "vue";
-
+<script lang="ts" setup>
 import Header from "~/components/layout/Header.vue";
 import Container from "~/components/layout/Container.vue";
 import Card from "~/components/layout/Card.vue";
@@ -274,17 +272,4 @@ import Text from "~/components/base/Text.vue";
 import Button from "~/components/base/Button.vue";
 import FeatureStepItem from "~/components/base/FeatureStepItem.vue";
 import Review from "~/components/base/Review.vue";
-
-export default defineComponent({
-  components: {
-    Container,
-    Card,
-    Divider,
-    Text,
-    Button,
-    FeatureStepItem,
-    Review,
-    Header,
-  },
-});
 </script>

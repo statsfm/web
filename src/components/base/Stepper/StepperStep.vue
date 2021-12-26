@@ -31,24 +31,14 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent } from "vue";
+<script lang="ts" setup>
+interface Props {
+  index: number;
+  isCurrent?: boolean;
+  disabled: boolean;
+}
 
-export default defineComponent({
-  props: {
-    index: {
-      type: Number,
-      required: true,
-    },
-    isCurrent: {
-      type: Boolean,
-      required: false,
-    },
-    disabled: {
-      type: Boolean,
-      required: false,
-      default: false,
-    },
-  },
+withDefaults(defineProps<Props>(), {
+  disabled: true,
 });
 </script>

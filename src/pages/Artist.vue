@@ -27,8 +27,8 @@
   </Container>
 </template>
 
-<script lang="ts">
-import { defineComponent, onMounted, Ref, ref } from "vue";
+<script lang="ts" setup>
+import { onMounted, Ref, ref } from "vue";
 import { useRoute } from "vue-router";
 import api from "~/api";
 
@@ -41,44 +41,29 @@ import ChipGroup from "~/components/base/Chip/ChipGroup.vue";
 import Chip from "~/components/base/Chip/Chip.vue";
 import Button from "~/components/base/Button.vue";
 
-export default defineComponent({
-  components: {
-    Header,
-    Container,
-    LoadingOverlay,
-    Avatar,
-    ChipGroup,
-    Chip,
-    Button,
-  },
-  setup() {
-    const { t } = useI18n();
-    const route = useRoute();
+const { t } = useI18n();
+const route = useRoute();
 
-    const isLoading = ref(false);
-    const artist: Ref<BacktrackArtist | null> = ref(null);
-    const stats: Ref<BacktrackTopArtist | null> = ref(null);
+const isLoading = ref(false);
+const artist: Ref<BacktrackArtist | null> = ref(null);
+const stats: Ref<BacktrackTopArtist | null> = ref(null);
 
-    const getArtist = async (): Promise<BacktrackArtist> => {
-      isLoading.value = true;
-      const res = await api.get(`/artists/${route.params.id}`);
+const getArtist = async (): Promise<BacktrackArtist> => {
+  isLoading.value = true;
+  const res = await api.get(`/artists/${route.params.id}`);
 
-      if (res.success) {
-        isLoading.value = false;
-      }
+  if (res.success) {
+    isLoading.value = false;
+  }
 
-      return res.data.item;
-    };
+  return res.data.item;
+};
 
-    const formatFollowers = (followers: number): string => {
-      return followers.toLocaleString("en-US");
-    };
+const formatFollowers = (followers: number): string => {
+  return followers.toLocaleString("en-US");
+};
 
-    onMounted(async () => {
-      artist.value = await getArtist();
-    });
-
-    return { t, isLoading, artist, formatFollowers };
-  },
+onMounted(async () => {
+  artist.value = await getArtist();
 });
 </script>

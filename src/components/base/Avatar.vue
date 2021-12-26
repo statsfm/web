@@ -7,20 +7,13 @@
   ></div>
 </template>
 
-<script lang="ts">
-import { defineComponent } from "vue";
+<script lang="ts" setup>
+interface Props {
+  size: number;
+  src: string;
+}
 
-export default defineComponent({
-  props: {
-    size: {
-      type: Number,
-      default: 12,
-      required: false,
-    },
-    src: {
-      type: String,
-      required: false,
-    },
-  },
+withDefaults(defineProps<Props>(), {
+  size: 12,
 });
 </script>

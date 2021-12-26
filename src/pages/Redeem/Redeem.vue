@@ -16,8 +16,8 @@
   </Container>
 </template>
 
-<script lang="ts">
-import { defineComponent, ref, watch } from "vue";
+<script lang="ts" setup>
+import { ref, watch } from "vue";
 
 import Header from "~/components/layout/Header.vue";
 import Container from "~/components/layout/Container.vue";
@@ -30,70 +30,49 @@ import GiftCard from "~/components/base/GiftCard.vue";
 import { useI18n } from "vue-i18n";
 import { useRouter } from "vue-router";
 
-export default defineComponent({
-  components: {
-    Header,
-    Container,
-    Card,
-    Heading,
-    Divider,
-    Text,
-    Button,
-    GiftCard,
-  },
-  setup() {
-    const { t } = useI18n();
-    const router = useRouter();
+const { t } = useI18n();
+const router = useRouter();
 
-    const isContinueButtonDisabled = ref(true);
-    const code = ref("");
+const isContinueButtonDisabled = ref(true);
+const code = ref("");
 
-    const segmentChars = 4;
-    const segmentCount = 3;
-    const totalCharLength = segmentChars * segmentCount + (segmentCount - 1);
+const segmentChars = 4;
+const segmentCount = 3;
+const totalCharLength = segmentChars * segmentCount + (segmentCount - 1);
 
-    watch(code, (newCode, oldCode) => {
-      if (newCode.length == totalCharLength) {
-        isContinueButtonDisabled.value = false;
+watch(code, (newCode, oldCode) => {
+  if (newCode.length == totalCharLength) {
+    isContinueButtonDisabled.value = false;
+  }
+
+  if (newCode.length > 0) {
+    if (!newCode[newCode.length - 1].match(/^[a-z0-9]+$/i)) {
+      newCode = newCode.slice(0, newCode.length - 1);
+    }
+  }
+
+  if (newCode.length > 0) {
+    if (newCode.length < totalCharLength) {
+      isContinueButtonDisabled.value = true;
+    }
+
+    if (newCode.length % (segmentChars + 1) == 0) {
+      if (newCode.length >= oldCode.length) {
+        newCode =
+          newCode.slice(0, newCode.length - 1) +
+          "-" +
+          newCode[newCode.length - 1];
+      } else {
+        newCode = newCode.slice(0, newCode.length - 1);
       }
+    }
+  }
 
-      if (newCode.length > 0) {
-        if (!newCode[newCode.length - 1].match(/^[a-z0-9]+$/i)) {
-          newCode = newCode.slice(0, newCode.length - 1);
-        }
-      }
-
-      if (newCode.length > 0) {
-        if (newCode.length < totalCharLength) {
-          isContinueButtonDisabled.value = true;
-        }
-
-        if (newCode.length % (segmentChars + 1) == 0) {
-          if (newCode.length >= oldCode.length) {
-            newCode =
-              newCode.slice(0, newCode.length - 1) +
-              "-" +
-              newCode[newCode.length - 1];
-          } else {
-            newCode = newCode.slice(0, newCode.length - 1);
-          }
-        }
-      }
-
-      code.value = newCode.toUpperCase().substring(0, totalCharLength);
-    });
-
-    const routeToCode = () => {
-      const parsed = code.value.split("-").join("");
-      router.push({ name: "RedeemCode", params: { code: parsed } });
-    };
-
-    return {
-      t,
-      isContinueButtonDisabled,
-      code,
-      routeToCode,
-    };
-  },
+  code.value = newCode.toUpperCase().substring(0, totalCharLength);
 });
+
+const routeToCode = () => {
+  const parsed = code.value.split("-").join("");
+  router.push({ name: "RedeemCode", params: { code: parsed } });
+};
 </script>

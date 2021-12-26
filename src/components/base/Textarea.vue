@@ -14,41 +14,23 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, ref } from "vue";
+<script lang="ts" setup>
+import { ref } from "vue";
 
-export default defineComponent({
-  props: {
-    placeholder: {
-      type: String,
-      required: false,
-    },
-    isResizeable: {
-      type: Boolean,
-      default: true,
-      required: false,
-    },
-    value: {
-      type: String,
-      required: false,
-    },
-    max: {
-      type: Number,
-      required: false,
-    },
-  },
-  emits: ["input"],
-  setup(props, { emit }) {
-    const charCount = ref(0);
+const emit = defineEmits(["input"]);
+defineProps<{
+  placeholder?: string;
+  isResizeable?: boolean;
+  value?: string;
+  max?: number;
+}>();
 
-    const onInput = (e: any) => {
-      const value = e.target.value;
+const charCount = ref(0);
 
-      charCount.value = value.length;
-      emit("input", value);
-    };
+const onInput = (e: any) => {
+  const value = e.target.value;
 
-    return { charCount, onInput };
-  },
-});
+  charCount.value = value.length;
+  emit("input", value);
+};
 </script>

@@ -42,27 +42,18 @@
 }
 </style>
 
-<script lang="ts">
-import { defineComponent, ref } from "vue";
+<script lang="ts" setup>
+import { ref } from "vue";
 
 import Card from "~/components/layout/Card.vue";
 
-export default defineComponent({
-  components: {
-    Card,
-  },
-  setup() {
-    const isDropdownActive = ref(false);
+const isDropdownActive = ref(false);
 
-    const toggle = () => {
-      isDropdownActive.value = !isDropdownActive.value;
-    };
+const toggle = () => {
+  isDropdownActive.value = !isDropdownActive.value;
+};
 
-    const onClickAway = () => {
-      isDropdownActive.value = false;
-    };
-
-    return { isDropdownActive, toggle, onClickAway };
-  },
-});
+const onClickAway = () => {
+  isDropdownActive.value = false;
+};
 </script>

@@ -115,8 +115,8 @@
   </Container>
 </template>
 
-<script lang="ts">
-import { defineComponent, ref, Ref, onBeforeMount } from "vue";
+<script lang="ts" setup>
+import { ref, Ref, onBeforeMount } from "vue";
 
 import Header from "~/components/layout/Header.vue";
 import Container from "~/components/layout/Container.vue";
@@ -127,82 +127,58 @@ import Text from "~/components/base/Text.vue";
 import Button from "~/components/base/Button.vue";
 import Coupon from "~/components/base/Coupon.vue";
 import PricePlanCard from "~/components/base/PricePlanCard.vue";
+
 import api from "~/api";
 import { useAuth } from "~/hooks/auth";
 import { GiftCode, Plan } from "~/types";
 import { useI18n } from "vue-i18n";
 
-export default defineComponent({
-  components: {
-    Header,
-    Container,
-    Card,
-    Divider,
-    LoadingOverlay,
-    Text,
-    Button,
-    Coupon,
-    PricePlanCard,
+const { t } = useI18n();
+const auth = useAuth();
+const giftCodes: Ref<GiftCode[] | null> = ref(null);
+const loading = ref(false);
+const plans: Plan[] = [
+  {
+    name: "1x lifetime Spotistats Plus",
+    quantity: 1,
+    price: "4$",
+    isMostChosen: false,
   },
-  setup() {
-    const { t } = useI18n();
-    const auth = useAuth();
-    const giftCodes: Ref<GiftCode[] | null> = ref(null);
-    const loading = ref(false);
-    const plans: Plan[] = [
-      {
-        name: "1x lifetime Spotistats Plus",
-        quantity: 1,
-        price: "4$",
-        isMostChosen: false,
-      },
-      {
-        name: "3x lifetime Spotistats Plus",
-        quantity: 3,
-        price: "10$",
-        isMostChosen: false,
-      },
-      {
-        name: "5x lifetime Spotistats Plus",
-        quantity: 5,
-        price: "15$",
-        isMostChosen: true,
-      },
-    ];
-
-    onBeforeMount(() => {
-      listGiftCodes();
-    });
-
-    const listGiftCodes = async () => {
-      giftCodes.value = await api
-        .get("/plus/giftcodes/list")
-        .then((res) => res.data.items);
-      loading.value = false;
-    };
-
-    const initCheckout = async (quantity: number) => {
-      loading.value = true;
-      const session = await api
-        .get(`/plus/giftcodes/purchase?quantity=${quantity}`)
-        .then((res) => res.data.item);
-
-      location.href = session.url;
-    };
-
-    return {
-      t,
-      auth,
-      plans,
-      loading,
-      giftCodes,
-      initCheckout,
-    };
+  {
+    name: "3x lifetime Spotistats Plus",
+    quantity: 3,
+    price: "10$",
+    isMostChosen: false,
   },
-  methods: {
-    formatCode(code: string) {
-      return code.match(new RegExp(".{1,4}", "g"))!.join("-");
-    },
+  {
+    name: "5x lifetime Spotistats Plus",
+    quantity: 5,
+    price: "15$",
+    isMostChosen: true,
   },
+];
+
+onBeforeMount(() => {
+  listGiftCodes();
 });
+
+const listGiftCodes = async () => {
+  giftCodes.value = await api
+    .get("/plus/giftcodes/list")
+    .then((res) => res.data.items);
+  loading.value = false;
+};
+
+const initCheckout = async (quantity: number) => {
+  loading.value = true;
+  const session = await api
+    .get(`/plus/giftcodes/purchase?quantity=${quantity}`)
+    .then((res) => res.data.item);
+
+  location.href = session.url;
+};
+
+const formatCode = (code: string): string => {
+  return code.match(new RegExp(".{1,4}", "g"))!.join("-");
+};
 </script>

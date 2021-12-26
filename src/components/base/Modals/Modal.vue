@@ -28,21 +28,12 @@
 }
 </style>
 
-<script lang="ts">
-import { defineComponent } from "vue";
+<script lang="ts" setup>
 import Container from "~/components/layout/Container.vue";
 
-export default defineComponent({
-  components: {
-    Container,
-  },
-  emits: ["hide"],
-  setup(props, { emit }) {
-    const hide = (e: Event) => {
-      emit("hide", e);
-    };
+const emit = defineEmits(["hide"]);
 
-    return { hide };
-  },
-});
+const hide = (e: Event) => {
+  emit("hide", e);
+};
 </script>

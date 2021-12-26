@@ -23,14 +23,6 @@
 }
 </style>
 
-<script lang="ts">
-import { defineComponent } from "vue";
-
+<script lang="ts" setup>
 import Loading from "./Loading.vue";
-
-export default defineComponent({
-  components: {
-    Loading,
-  },
-});
 </script>

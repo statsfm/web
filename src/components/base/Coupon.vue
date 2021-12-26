@@ -59,8 +59,8 @@
   </Modal>
 </template>
 
-<script lang="ts">
-import { defineComponent, PropType, ref } from "vue";
+<script lang="ts" setup>
+import { ref, defineProps } from "vue";
 
 import Card from "~/components/layout/Card.vue";
 import Text from "~/components/base/Text.vue";
@@ -75,62 +75,37 @@ import { GiftCode } from "~/types";
 import dayjs from "~/dayjs";
 import { useRouter } from "vue-router";
 
-export default defineComponent({
-  components: {
-    Card,
-    Text,
-    Badge,
-    Modal,
-    Divider,
-    Button,
-  },
-  props: {
-    giftcode: {
-      type: Object as PropType<GiftCode>,
-      required: true,
-    },
-  },
-  setup(props) {
-    const { t } = useI18n();
-    const store = useStore();
-    const router = useRouter();
+const props = defineProps<{
+  giftcode: GiftCode;
+}>();
 
-    const user = store.state.user;
-    const isModalActive = ref(false);
+const { t } = useI18n();
+const store = useStore();
+const router = useRouter();
 
-    const formatCode = (code: string) => {
-      return code.match(new RegExp(".{1,4}", "g"))!.join("-");
-    };
+const user = store.state.user;
+const isModalActive = ref(false);
 
-    const copyRedeemLink = () => {
-      navigator.clipboard.writeText(
-        `${window.location.origin}${
-          router.resolve({
-            name: "RedeemCode",
-            params: { code: props.giftcode.code },
-          }).fullPath
-        }`
-      );
-    };
+const formatCode = (code: string) => {
+  return code.match(new RegExp(".{1,4}", "g"))!.join("-");
+};
 
-    const showModal = () => {
-      isModalActive.value = true;
-    };
+const copyRedeemLink = () => {
+  navigator.clipboard.writeText(
+    `${window.location.origin}${
+      router.resolve({
+        name: "RedeemCode",
+        params: { code: props.giftcode.code },
+      }).fullPath
+    }`
+  );
+};
 
-    const hideModal = () => {
-      isModalActive.value = false;
-    };
+const showModal = () => {
+  isModalActive.value = true;
+};
 
-    return {
-      t,
-      dayjs,
-      user,
-      formatCode,
-      copyRedeemLink,
-      isModalActive,
-      showModal,
-      hideModal,
-    };
-  },
-});
+const hideModal = () => {
+  isModalActive.value = false;
+};
 </script>

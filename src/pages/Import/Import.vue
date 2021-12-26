@@ -5,9 +5,7 @@
   </Container>
 </template>
 
-<script lang="ts">
-import { defineComponent } from "vue";
-
+<script lang="ts" setup>
 import Header from "~/components/layout/Header.vue";
 import Container from "~/components/layout/Container.vue";
 import StepperSteps from "~/components/base/Stepper/StepperSteps.vue";
@@ -19,35 +17,23 @@ import AuthenticateStep from "./AuthenticationStep.vue";
 
 import { Step } from "~/types";
 
-export default defineComponent({
-  components: {
-    Header,
-    Container,
-    StepperSteps,
-    Stepper,
+const steps: Step[] = [
+  {
+    name: "Authenticate",
+    description: "Please enter your import code to continue",
+    component: AuthenticateStep,
+    disabled: true,
   },
-  setup() {
-    const steps: Step[] = [
-      {
-        name: "Authenticate",
-        description: "Please enter your import code to continue",
-        component: AuthenticateStep,
-        disabled: true,
-      },
-      {
-        name: "Import",
-        description: "Select the endsong_*.json file you want to import",
-        component: ImportStep,
-        disabled: true,
-      },
-      {
-        name: "Success",
-        component: SuccessStep,
-        disabled: true,
-      },
-    ];
-
-    return { steps };
+  {
+    name: "Import",
+    description: "Select the endsong_*.json file you want to import",
+    component: ImportStep,
+    disabled: true,
   },
-});
+  {
+    name: "Success",
+    component: SuccessStep,
+    disabled: true,
+  },
+];
 </script>

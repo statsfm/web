@@ -12,41 +12,28 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, PropType, ref, watch } from "vue";
+<script lang="ts" setup>
+import { ref, watch } from "vue";
 import { Step } from "~/types";
 import StepperStep from "./StepperStep.vue";
 
-export default defineComponent({
-  props: {
-    steps: {
-      type: Array as PropType<Step[]>,
-    },
-    step: {
-      type: Number,
-      required: false,
-    },
-  },
-  emits: ["step"],
-  components: {
-    StepperStep,
-  },
-  setup(props, { emit }) {
-    const currentStep = ref(0);
+const props = defineProps<{
+  steps: Step[];
+  step?: number;
+}>();
 
-    watch(
-      () => props.step,
-      (newVal) => {
-        currentStep.value = newVal as number;
-      }
-    );
+const emit = defineEmits(["step"]);
+const currentStep = ref(0);
 
-    const setCurrentStep = (index: number) => {
-      currentStep.value = index;
-      emit("step", index);
-    };
+watch(
+  () => props.step,
+  (newVal) => {
+    currentStep.value = newVal as number;
+  }
+);
 
-    return { currentStep, setCurrentStep };
-  },
-});
+const setCurrentStep = (index: number) => {
+  currentStep.value = index;
+  emit("step", index);
+};
 </script>

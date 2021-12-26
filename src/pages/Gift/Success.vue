@@ -19,39 +19,29 @@
   </Container>
 </template>
 
-<script lang="ts">
-import { defineComponent } from "vue";
+<script lang="ts" setup>
 import { useI18n } from "vue-i18n";
 
 import Header from "~/components/layout/Header.vue";
 import Container from "~/components/layout/Container.vue";
 import Button from "~/components/base/Button.vue";
 
-export default defineComponent({
-  components: {
-    Container,
-    Button,
-  },
-  setup() {
-    const { t } = useI18n();
+const { t } = useI18n();
 
-    const gifs = [
-      "https://c.tenor.com/BnEKiDKJisEAAAAC/claire-dancing.gif",
-      "https://c.tenor.com/4-C47Bn_MUgAAAAd/friday-happy-dance.gif",
-      "https://c.tenor.com/2_6lWnksyaUAAAAd/dancing-dirty.gif",
-      "https://c.tenor.com/cKf7FeLja6cAAAAC/cant-wait-excited.gif",
-      "https://c.tenor.com/uFy_1B10El0AAAAC/aye-ouu.gif",
-      "https://c.tenor.com/LzFmt_ca1AEAAAAd/aye-aye-aye-turnup.gif",
-      "https://c.tenor.com/1vzjD25uEjcAAAAC/clapping-yay.gif",
-      "https://c.tenor.com/PXVgzio7BmcAAAAC/happy-dance.gif",
-      "https://c.tenor.com/xgDmUszn5PYAAAAd/clapping-happy.gif",
-      "https://c.tenor.com/Hrzj4EjdX58AAAAd/dance-happy.gif",
-      "https://media2.giphy.com/media/26DOpJRJMhRPGqUsE/giphy.gif",
-      "https://media0.giphy.com/media/3o85g2cRAMwUTuPfGM/giphy.gif",
-    ];
+const gifs = [
+  "https://c.tenor.com/BnEKiDKJisEAAAAC/claire-dancing.gif",
+  "https://c.tenor.com/4-C47Bn_MUgAAAAd/friday-happy-dance.gif",
+  "https://c.tenor.com/2_6lWnksyaUAAAAd/dancing-dirty.gif",
+  "https://c.tenor.com/cKf7FeLja6cAAAAC/cant-wait-excited.gif",
+  "https://c.tenor.com/uFy_1B10El0AAAAC/aye-ouu.gif",
+  "https://c.tenor.com/LzFmt_ca1AEAAAAd/aye-aye-aye-turnup.gif",
+  "https://c.tenor.com/1vzjD25uEjcAAAAC/clapping-yay.gif",
+  "https://c.tenor.com/PXVgzio7BmcAAAAC/happy-dance.gif",
+  "https://c.tenor.com/xgDmUszn5PYAAAAd/clapping-happy.gif",
+  "https://c.tenor.com/Hrzj4EjdX58AAAAd/dance-happy.gif",
+  "https://media2.giphy.com/media/26DOpJRJMhRPGqUsE/giphy.gif",
+  "https://media0.giphy.com/media/3o85g2cRAMwUTuPfGM/giphy.gif",
+];
 
-    const gif = gifs[Math.floor(Math.random() * gifs.length)];
-    return { t, gif };
-  },
-});
+const gif = gifs[Math.floor(Math.random() * gifs.length)];
 </script>

@@ -30,31 +30,15 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, PropType } from "vue";
+<script lang="ts" setup>
 import { Plan } from "~/types";
 
 import Card from "../layout/Card.vue";
 import Button from "../base/Button.vue";
 import MostChosenBadge from "./MostChosenBadge.vue";
 
-export default defineComponent({
-  components: {
-    Card,
-    Button,
-    MostChosenBadge,
-  },
-  props: {
-    plan: {
-      type: Object as PropType<Plan>,
-      required: true,
-    },
-    isSelected: {
-      type: Boolean,
-      required: false,
-      default: false,
-    },
-  },
-  setup() {},
-});
+const props = defineProps<{
+  plan: Plan;
+  isSelected?: boolean;
+}>();
 </script>

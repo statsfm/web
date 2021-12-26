@@ -9,53 +9,38 @@
   />
 </template>
 
-<script lang="ts">
-import { defineComponent, Ref, ref } from "vue";
+<script lang="ts" setup>
+import { Ref, ref } from "vue";
 import api from "~/api";
 
 import Button from "~/components/base/Button.vue";
 import { useStore } from "~/store";
 
-export default defineComponent({
-  components: {
-    Button,
-  },
-  props: {
-    currentStep: {
-      type: Number,
-      required: true,
-    },
-  },
-  emits: ["setDisabledState"],
-  setup(props, { emit }) {
-    const store = useStore();
+const store = useStore();
+const emits = defineEmits(["setDisabledState"]);
 
-    const code: Ref<string | null> = ref(null);
-    const codeLength = 6;
+const code: Ref<string | null> = ref(null);
+const codeLength = 6;
 
-    const onCodeInput = async (e: any) => {
-      const value = e.target.value;
+const onCodeInput = async (e: any) => {
+  const value = e.target.value;
 
-      if (value.length == codeLength) {
-        emit("setDisabledState", false);
+  if (value.length == codeLength) {
+    emits("setDisabledState", false);
 
-        const { data, success } = await api.post("/import/code", {
-          body: JSON.stringify({
-            code: value,
-          }),
-        });
+    const { data, success } = await api.post("/import/code", {
+      body: JSON.stringify({
+        code: value,
+      }),
+    });
 
-        if (!success) {
-          store.commit("setError", { message: data.message, type: "error" });
-        }
+    if (!success) {
+      store.commit("setError", { message: data.message, type: "error" });
+    }
 
-        console.log(data);
-      } else {
-        emit("setDisabledState", true);
-      }
-    };
-
-    return { onCodeInput };
-  },
-});
+    console.log(data);
+  } else {
+    emits("setDisabledState", true);
+  }
+};
 </script>

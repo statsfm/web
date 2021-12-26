@@ -10,32 +10,21 @@
   >
 </template>
 
-<script lang="ts">
-import { defineComponent, onMounted, PropType, ref } from "vue";
+<script lang="ts" setup>
+import { onMounted, ref } from "vue";
 
 import Card from "~/components/layout/Card.vue";
 import { Error } from "~/types";
 
-export default defineComponent({
-  components: {
-    Card,
-  },
-  props: {
-    error: {
-      type: Object as PropType<Error>,
-      required: true,
-    },
-  },
-  setup(props) {
-    let isActive = ref(true);
+const props = defineProps<{
+  error: Error;
+}>();
 
-    onMounted(() => {
-      setTimeout(() => {
-        isActive.value = false;
-      }, props.error.duration ?? 5 * 1000);
-    });
+let isActive = ref(true);
 
-    return { isActive };
-  },
+onMounted(() => {
+  setTimeout(() => {
+    isActive.value = false;
+  }, props.error.duration ?? 5 * 1000);
 });
 </script>

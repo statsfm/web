@@ -4,24 +4,12 @@
   /></Container>
 </template>
 
-<script lang="ts">
-import { defineComponent } from "vue";
-
+<script lang="ts" setup>
 import Container from "~/components/layout/Container.vue";
-import { useStore } from "~/store";
 import ToasterItem from "./ToasterItem.vue";
 
-export default defineComponent({
-  components: {
-    Container,
-    ToasterItem,
-  },
-  setup() {
-    const store = useStore();
+import { useStore } from "~/store";
 
-    const errors = store.state.errors;
-
-    return { errors };
-  },
-});
+const store = useStore();
+const errors = store.state.errors;
 </script>

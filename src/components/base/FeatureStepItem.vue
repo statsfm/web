@@ -23,23 +23,10 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent } from "vue";
-
-export default defineComponent({
-  props: {
-    index: {
-      type: Number,
-      required: true,
-    },
-    title: {
-      type: String,
-      required: true,
-    },
-    description: {
-      type: String,
-      required: true,
-    },
-  },
-});
+<script lang="ts" setup>
+const props = defineProps<{
+  index: number;
+  title: string;
+  description: string;
+}>();
 </script>

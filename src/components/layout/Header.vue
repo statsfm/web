@@ -9,19 +9,19 @@
         <Button v-if="!auth.isLoggedIn()" size="small" @click="auth.login()"
           >Login</Button
         >
-        <Dropdown v-if="auth.isLoggedIn()">
+        <Dropdown v-if="auth.isLoggedIn() && user">
           <template v-slot:button>
-            <Avatar :src="user?.image" class="cursor-pointer" />
+            <Avatar :src="user.image" class="cursor-pointer" />
           </template>
 
           <div class="flex items-center gap-5">
-            <Avatar :src="user?.image" />
+            <Avatar :src="user.image" />
             <div class="flex content-start justify-center flex-col">
               <div class="flex items-center gap-2">
                 <Text size="l" weight="semi-bold" truncate>{{
                   user?.displayName
                 }}</Text>
-                <Badge v-if="user?.isPlus">Plus</Badge>
+                <Badge v-if="user.isPlus">Plus</Badge>
               </div>
               <p class="font-bold text-textGrey">{{ user?.email }}</p>
             </div>
@@ -37,9 +37,7 @@
   </header>
 </template>
 
-<script lang="ts">
-import { defineComponent } from "vue";
-
+<script lang="ts" setup>
 import Container from "./Container.vue";
 import Logo from "../base/Logo.vue";
 import Avatar from "../base/Avatar.vue";
@@ -52,24 +50,7 @@ import Badge from "../base/Badge.vue";
 import { useAuth } from "~/hooks";
 import { useStore } from "~/store";
 
-export default defineComponent({
-  components: {
-    Container,
-    Logo,
-    Avatar,
-    Heading,
-    Button,
-    Dropdown,
-    Divider,
-    Text,
-    Badge,
-  },
-  setup() {
-    const store = useStore();
-    const user = store.state.user;
-    const auth = useAuth();
-
-    return { user, auth };
-  },
-});
+const store = useStore();
+const user = store.state.user;
+const auth = useAuth();
 </script>

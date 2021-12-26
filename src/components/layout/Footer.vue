@@ -3,24 +3,26 @@
     <div class="font-bold grid grid-cols-3 md:grid-cols-5 mb-6">
       <div class="flex flex-col gap-2">
         <p class="text-textGrey">Spotistats</p>
-        <a>Home</a>
-        <a>Support</a>
+        <router-link :to="{ name: 'Home' }">Home</router-link>
+        <a href="https://support.spotistats.app/" target="blank">Support</a>
         <a>About</a>
       </div>
 
       <div class="hidden md:flex flex-col gap-2">
         <p class="text-textGrey">Socials</p>
-        <a>Twitter</a>
-        <a>Discord</a>
-        <a>Instagram</a>
+        <a href="https://twitter.com/spotistats" target="blank">Twitter</a>
+        <a href="https://discord.com/invite/aV9EtB3" target="blank">Discord</a>
+        <a href="https://www.instagram.com/spotistats" target="blank"
+          >Instagram</a
+        >
       </div>
 
-      <div class="flex flex-col gap-2">
+      <!-- <div class="flex flex-col gap-2">
         <p class="text-textGrey">Explore</p>
         <a>Artists</a>
         <a>Tracks</a>
         <a>Albums</a>
-      </div>
+      </div> -->
 
       <div class="flex flex-col gap-2">
         <p class="text-textGrey">Legal</p>
@@ -57,16 +59,7 @@
   </Container>
 </template>
 
-<script lang="ts">
-import { defineComponent } from "vue";
-
+<script lang="ts" setup>
 import Container from "../layout/Container.vue";
 import Button from "../base/Button.vue";
-
-export default defineComponent({
-  components: {
-    Container,
-    Button,
-  },
-});
 </script>

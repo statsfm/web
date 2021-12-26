@@ -28,58 +28,44 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, PropType, Ref, ref, watch } from "vue";
+<script lang="ts" setup>
+import { Ref, ref, watch } from "vue";
 import { Step } from "~/types";
 
 import StepperSteps from "./StepperSteps.vue";
 import Button from "../Button.vue";
 import { useI18n } from "vue-i18n";
 
-export default defineComponent({
-  components: {
-    StepperSteps,
-    Button,
-  },
-  props: {
-    steps: {
-      type: Array as PropType<Step[]>,
-      required: true,
-    },
-    step: {
-      type: Number,
-      required: false,
-    },
-  },
-  emits: ["continue"],
-  setup(props, { emit }) {
-    const { t } = useI18n();
+const props = defineProps<{
+  steps: Step[];
+  step?: number;
+}>();
 
-    const currentStep: Ref<number> = ref(0);
-    const mutatedSteps: Ref<Step[]> = ref(props.steps);
+defineEmits(["continue"]);
 
-    watch(
-      () => props.step,
-      (newVal) => {
-        currentStep.value = newVal as number;
-      }
-    );
+const { t } = useI18n();
 
-    const setDisabledState = (state: boolean) => {
-      mutatedSteps.value[currentStep.value].disabled = state;
+const currentStep: Ref<number> = ref(0);
+const mutatedSteps: Ref<Step[]> = ref(props.steps);
 
-      // TODO: improve
-      // set next step disabled state
-      if (mutatedSteps.value[currentStep.value + 1]) {
-        mutatedSteps.value[currentStep.value + 1].disabled = state;
-      }
-    };
+watch(
+  () => props.step,
+  (newVal) => {
+    currentStep.value = newVal as number;
+  }
+);
 
-    const onContinue = () => {
-      currentStep.value = currentStep.value + 1;
-    };
+const setDisabledState = (state: boolean) => {
+  mutatedSteps.value[currentStep.value].disabled = state;
 
-    return { t, currentStep, mutatedSteps, setDisabledState, onContinue };
-  },
-});
+  // TODO: improve
+  // set next step disabled state
+  if (mutatedSteps.value[currentStep.value + 1]) {
+    mutatedSteps.value[currentStep.value + 1].disabled = state;
+  }
+};
+
+const onContinue = () => {
+  currentStep.value = currentStep.value + 1;
+};
 </script>

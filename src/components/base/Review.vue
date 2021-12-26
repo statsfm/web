@@ -9,36 +9,14 @@
   </Card>
 </template>
 
-<script lang="ts">
-import { defineComponent } from "vue";
-
+<script lang="ts" setup>
 import Card from "~/components/layout/Card.vue";
 import dayjs from "~/dayjs";
 
-export default defineComponent({
-  components: {
-    Card,
-  },
-  props: {
-    title: {
-      type: String,
-      required: true,
-    },
-    description: {
-      type: String,
-      required: true,
-    },
-    author: {
-      type: String,
-      required: true,
-    },
-    date: {
-      type: String,
-      required: true,
-    },
-  },
-  setup() {
-    return { dayjs };
-  },
-});
+const props = defineProps<{
+  title: string;
+  description: string;
+  author: string;
+  date: string;
+}>();
 </script>

@@ -73,40 +73,25 @@
 }
 </style>
 
-<script lang="ts">
-import { defineComponent, PropType, ref, watch } from "vue";
+<script lang="ts" setup>
+import { ref, watch } from "vue";
 import { useI18n } from "vue-i18n";
 import { GiftCode } from "~/types";
+const { t } = useI18n();
 
 import Card from "../layout/Card.vue";
 
-export default defineComponent({
-  components: {
-    Card,
-  },
-  props: {
-    giftCode: {
-      type: Object as PropType<GiftCode>,
-      required: true,
-    },
-    isFlipped: {
-      type: Boolean,
-      default: false,
-      required: false,
-    },
-  },
-  setup(props) {
-    const { t } = useI18n();
-    const flipped = ref(false);
+const props = defineProps<{
+  giftCode: GiftCode;
+  isFlipped?: boolean;
+}>();
 
-    watch(
-      () => props.isFlipped,
-      (newVal) => {
-        flipped.value = newVal;
-      }
-    );
+const flipped = ref(false);
 
-    return { t, flipped };
-  },
-});
+watch(
+  () => props.isFlipped,
+  (newVal) => {
+    flipped.value = newVal;
+  }
+);
 </script>
