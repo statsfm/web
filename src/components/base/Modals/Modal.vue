@@ -1,6 +1,16 @@
 <template>
   <div class="overlay" @click="$emit('hide')">
-    <div class="bg-bodySecundary rounded-2xl sm:9/10 md:w-1/3 max-h-max p-5">
+    <div
+      class="
+        bg-bodySecundary
+        rounded-2xl
+        sm:9/10
+        md:w-1/3
+        max-h-max
+        p-5
+        shadow-xl
+      "
+    >
       <Container>
         <slot />
       </Container>
