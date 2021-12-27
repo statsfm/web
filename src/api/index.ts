@@ -11,8 +11,7 @@ export default class api {
   public baseUrl: string;
 
   constructor() {
-    this.baseUrl =
-      "https://cors.sjoerd.dev/https://laa-laa.backtrack.dev/api/v1";
+    this.baseUrl = "https://cors.sjoerd.dev/https://local.backtrack.dev/api/v1";
   }
 
   /**
@@ -35,7 +34,7 @@ export default class api {
 
     // TODO: use baseUrl
     const res = await fetch(
-      `https://cors.sjoerd.dev/https://laa-laa.backtrack.dev/api/v1${slug}`,
+      `https://cors.sjoerd.dev/https://local.backtrack.dev/api/v1${slug}`,
       init
     );
     const newRes = {
