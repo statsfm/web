@@ -84,46 +84,69 @@
       </div>
     </Container>
   </section>
-  <section class="bg-primary text-[black] pt-8 pb-8">
-    <Container class="flex items-center gap-10">
-      <div class="w-full md:w-6/12">
-        <h1 class="text-4xl font-bold">Lorem ipsum dolor samet</h1>
-        <p>Lorem ipsum dolor samet</p>
+  <section class="bg-primary text-[black] pt-8 pb-8 relative">
+    <Container class="absolute min-h-[185px]">
+      <div class="flex items-center gap-10">
+        <div class="w-full md:w-6/12">
+          <h1 class="text-4xl font-bold">Lorem ipsum dolor samet</h1>
+          <p>Lorem ipsum dolor samet</p>
 
-        <div class="flex gap-8 mt-5">
-          <h3 class="text-3xl font-bold">
-            4.792 <span class="text-xl">rating</span>
-          </h3>
+          <div class="flex gap-8 mt-5">
+            <h3 class="text-3xl font-bold">
+              4.792 <span class="text-xl">rating</span>
+            </h3>
 
-          <h3 class="text-3xl font-bold">
-            43.284 <span class="text-xl">reviews</span>
-          </h3>
+            <h3 class="text-3xl font-bold">
+              43.284 <span class="text-xl">reviews</span>
+            </h3>
+          </div>
         </div>
-      </div>
 
-      <div class="hidden md:flex w-6/12 gap-5 overflow-x-auto">
-        <Review
-          title="Amazing!"
-          description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Nam, corporis a esse id rem "
-          author="Sjoerd"
-          date="2021-12-15T18:34:05+0000"
-        />
-
-        <Review
-          title="Amazing!"
-          description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Nam, corporis a esse id rem quasi placeat, laudantium repellendus doloribus repudiandae suscipit pariatur."
-          author="Martijn"
-          date="2021-03-09T10:21:15+0000"
-        />
-
-        <Review
-          title="Amazing!"
-          description="Lorem ipsum laudantium repellendus doloribus repudiandae suscipit pariatur."
-          author="Stijn"
-          date="2020-10-29T07:07:16+0000"
-        />
+        <div class="w-6/12 min-h-[150px]"></div>
       </div>
     </Container>
+    <div class="absolute" style="top: 32px">
+      <div class="flex items-center gap-10">
+        <div class="w-full md:w-6/12"></div>
+
+        <div class="hidden md:flex w-6/12 gap-5 overflow-x-auto rounded-2xl">
+          <Review
+            title="Amazing!"
+            description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Nam, corporis a esse id rem "
+            author="Sjoerd"
+            date="2021-12-15T18:34:05+0000"
+          />
+
+          <Review
+            title="Amazing!"
+            description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Nam, corporis a esse id rem quasi placeat, laudantium repellendus doloribus repudiandae suscipit pariatur."
+            author="Martijn"
+            date="2021-03-09T10:21:15+0000"
+          />
+
+          <Review
+            title="Amazing!"
+            description="Lorem ipsum laudantium repellendus doloribus repudiandae suscipit pariatur."
+            author="Stijn"
+            date="2020-10-29T07:07:16+0000"
+          />
+
+          <Review
+            title="Amazing!"
+            description="Lorem ipsum laudantium repellendus doloribus repudiandae suscipit pariatur."
+            author="Stijn"
+            date="2020-10-29T07:07:16+0000"
+          />
+
+          <Review
+            title="Amazing!"
+            description="Lorem ipsum laudantium repellendus doloribus repudiandae suscipit pariatur."
+            author="Stijn"
+            date="2020-10-29T07:07:16+0000"
+          />
+        </div>
+      </div>
+    </div>
   </section>
   <section>
     <Container class="pt-14 pb-14">
