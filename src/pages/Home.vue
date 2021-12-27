@@ -178,11 +178,13 @@
         class="
           bg-primary
           text-center
-          p-14
+          px-6
+          py-10
           flex flex-col
           transition-transform
           duration-200
           hover:scale-[1.02]
+          sm:px-12 sm:py-20
         "
       >
         <h1 class="text-4xl font-bold">Lorem ipsum dolar samet</h1>
