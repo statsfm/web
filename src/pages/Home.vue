@@ -1,17 +1,15 @@
 <template>
   <Header />
   <section class="mt-28">
-    <Container class="flex justify-between flex-col md:flex-row">
-      <div class="w-6/12">
+    <Container class="flex justify-between flex-col gap-5 md:flex-row">
+      <div class="w-full md:w-6/12">
         <h1 class="text-6xl font-bold">Lorem ipsum, <br />dolor samet</h1>
-        <br />
-        <p class="text-xl leading-5 mt-2 mb-2 max-w-prose">
+        <p class="text-xl leading-5 my-5 max-w-prose">
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Nam, corporis
           a esse id rem quasi placeat, laudantium.
         </p>
-        <br />
         <a href="" class="text-primary font-bold">Watch the video -></a>
-        <div class="flex gap-2 mt-6 flex-col md:flex-row items-center mb-5">
+        <div class="flex gap-2 my-8 flex-col md:flex-row items-center">
           <a
             class="w-[145px]"
             href="https://apps.apple.com/app/spotistats-for-spotify/id1526912392"
@@ -29,11 +27,9 @@
           </a>
         </div>
       </div>
-      <div
-        class="w-4/12"
-        style="position: relative; top: -0px; left: 120px; width: 1000px"
-      >
+      <div class="w-full md:w-6/12 flex items-end">
         <img
+          class="object-contain"
           src="https://cdn.discordapp.com/attachments/756495774975655987/925148729781153872/Frame_8.png"
           alt="Desktop Mobile"
         />
