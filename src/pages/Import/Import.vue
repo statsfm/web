@@ -8,7 +8,6 @@
 <script lang="ts" setup>
 import Header from "~/components/layout/Header.vue";
 import Container from "~/components/layout/Container.vue";
-import StepperSteps from "~/components/base/Stepper/StepperSteps.vue";
 import Stepper from "~/components/base/Stepper/Stepper.vue";
 
 import ImportStep from "./ImportStep.vue";
@@ -26,7 +25,6 @@ const steps: Step[] = [
   },
   {
     name: "Import",
-    description: "Select the endsong_*.json file you want to import",
     component: ImportStep,
     disabled: true,
   },

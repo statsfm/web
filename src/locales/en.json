@@ -1,4 +1,5 @@
 {
+  "buttons.cancel": "Cancel",
   "buttons.continue": "Continue",
   "buttons.checkout": "Checkout",
   "buttons.copy_link": "Copy link",
@@ -9,6 +10,7 @@
   "errors.invalid_filename_streaminghistory": "It looks like you've selected one or more 'StreamingHistory.json' files. This means Spotify unfortunately has sent you the wrong files... \nYou can find a guide on how to request the endsong.json files at https://support.spotistats.app/import/guide",
   "errors.no_files_selected": "No files selected",
   "errors.multiple_files": "You can only upload 1 file at a time. You can immediatly upload another file after this one has been uploaded",
+  "errors.failed_removing_import": "Failed to remove import",
 
   "placeholders.enter_message": "Enter message",
   "gift.select_plan": "Select your plan",
@@ -30,6 +32,14 @@
   "gift.no_message": "No message",
 
   "import.successfully_uploaded_file": "Successfully uploaded {filename}",
+  "import.import": "Import",
+  "import.import.description": "Select the endsong_*.json file you want to import",
+  "import.previous_imports": "Previous imports",
+  "import.previous_imports.description": "You can close this page while your files are being imported",
+  "import.imported_on": "Imported on",
+  "import.count": "Count",
+  "import.select_file": "Select file",
+  "import.delete_notice": "Are you sure you want to remove this import and the {count} associated with it? This is irreversable and you'll have to import the file again if you want these streams back in your streaminghistory",
 
   "artist.followers": "{count} followers",
 
