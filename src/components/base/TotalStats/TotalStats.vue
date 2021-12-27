@@ -1,16 +1,12 @@
 <template>
   <div class="grid grid-cols-2 gap-x-4 gap-y-6" v-if="stats">
-    <TotalStatsItem label="Users" :current="stats.users" :ping="true" />
-    <TotalStatsItem
-      label="Plus users"
-      :current="stats.plusUsers"
-      :ping="false"
-    />
-    <TotalStatsItem label="Streams" :current="stats.streams" :ping="false" />
+    <TotalStatsItem label="Users" :item="stats.users" :ping="false" />
+    <TotalStatsItem label="Plus users" :item="stats.plusUsers" :ping="false" />
+    <TotalStatsItem label="Streams" :item="stats.streams" :ping="true" />
 
-    <TotalStatsItem label="Tracks" :current="stats.tracks" :ping="false" />
-    <TotalStatsItem label="Artists" :current="stats.artists" :ping="false" />
-    <TotalStatsItem label="Albums" :current="stats.albums" :ping="false" />
+    <TotalStatsItem label="Tracks" :item="stats.tracks" :ping="false" />
+    <TotalStatsItem label="Artists" :item="stats.artists" :ping="false" />
+    <TotalStatsItem label="Albums" :item="stats.albums" :ping="false" />
   </div>
 </template>
 
@@ -26,62 +22,62 @@ const getStats = async (): Promise<TotalSize> => {
   return {
     users: {
       current: {
-        count: 2189101,
+        count: 2196279,
         date: "2021-12-26T22:23:01.561Z",
       },
       previous: {
-        count: 1189101,
-        date: "2021-12-26T22:22:28.198Z",
+        count: 2189149,
+        date: "2021-12-25T22:23:01.561Z",
       },
     },
     plusUsers: {
       current: {
-        count: 1070227,
+        count: 85751,
         date: "2021-12-26T22:23:01.561Z",
       },
       previous: {
-        count: 1070227,
-        date: "2021-12-26T22:22:28.198Z",
+        count: 85451,
+        date: "2021-12-25T22:23:01.561Z",
       },
     },
     streams: {
       current: {
-        count: 389,
+        count: 1193989669,
         date: "2021-12-26T22:23:01.561Z",
       },
       previous: {
-        count: 29,
-        date: "2021-12-26T22:22:28.198Z",
+        count: 1191796851,
+        date: "2021-12-25T22:23:01.561Z",
       },
     },
     tracks: {
       current: {
-        count: 23425901,
+        count: 33523551,
         date: "2021-12-26T22:23:01.561Z",
       },
       previous: {
-        count: 2142301,
-        date: "2021-12-26T22:22:28.198Z",
+        count: 33456774,
+        date: "2021-12-25T22:23:01.561Z",
       },
     },
     artists: {
       current: {
-        count: 2559739,
+        count: 2639886,
         date: "2021-12-26T22:23:01.561Z",
       },
       previous: {
-        count: 1559739,
-        date: "2021-12-26T22:22:28.198Z",
+        count: 2634187,
+        date: "2021-12-25T22:23:01.561Z",
       },
     },
     albums: {
       current: {
-        count: 4047436,
+        count: 4666796,
         date: "2021-12-26T22:23:01.561Z",
       },
       previous: {
-        count: 2047436,
-        date: "2021-12-26T22:22:28.198Z",
+        count: 4656270,
+        date: "2021-12-25T22:23:01.561Z",
       },
     },
   };
