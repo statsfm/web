@@ -1,14 +1,16 @@
 <template>
-  <div class="grid grid-cols-2 gap-2" v-if="stats">
-    <div>
-      <TotalStatsItem label="Users" :current="stats.users" />
-    </div>
-    <TotalStatsItem label="Plus users" :current="stats.plusUsers" />
-    <TotalStatsItem label="Streams" :current="stats.streams" />
+  <div class="grid grid-cols-2 gap-x-4 gap-y-6" v-if="stats">
+    <TotalStatsItem label="Users" :current="stats.users" :ping="true" />
+    <TotalStatsItem
+      label="Plus users"
+      :current="stats.plusUsers"
+      :ping="false"
+    />
+    <TotalStatsItem label="Streams" :current="stats.streams" :ping="false" />
 
-    <TotalStatsItem label="Tracks" :current="stats.tracks" />
-    <TotalStatsItem label="Artists" :current="stats.artists" />
-    <TotalStatsItem label="Albums" :current="stats.albums" />
+    <TotalStatsItem label="Tracks" :current="stats.tracks" :ping="false" />
+    <TotalStatsItem label="Artists" :current="stats.artists" :ping="false" />
+    <TotalStatsItem label="Albums" :current="stats.albums" :ping="false" />
   </div>
 </template>
 
@@ -24,11 +26,11 @@ const getStats = async (): Promise<TotalSize> => {
   return {
     users: {
       current: {
-        count: 1189101,
+        count: 2189101,
         date: "2021-12-26T22:23:01.561Z",
       },
       previous: {
-        count: 2189101,
+        count: 1189101,
         date: "2021-12-26T22:22:28.198Z",
       },
     },
