@@ -79,56 +79,8 @@
           />
         </div>
         <Divider />
-        <div class="mt-5 grid grid-cols-2 gap-2">
-          <div class="leading-3">
-            <span class="text-textGrey font-bold">Streams</span>
-            <h4 class="text-2xl font-bold relative max-w-max">
-              <span class="truncate w-auto block">1,243,232,244</span>
-              <div
-                class="
-                  w-3
-                  h-3
-                  bg-primary
-                  rounded-full
-                  absolute
-                  top-0
-                  right-[-8px]
-                "
-              >
-                <div class="w-3 h-3 bg-primary/50 animate-ping rounded-full">
-                  <div
-                    class="w-3 h-3 bg-primary/25 animate-pulse rounded-full"
-                  ></div>
-                </div>
-              </div>
-            </h4>
-          </div>
 
-          <div class="leading-3">
-            <span class="text-textGrey font-bold">Users</span>
-            <h4 class="text-2xl font-bold truncate">1,243,232,244</h4>
-          </div>
-
-          <div class="leading-3">
-            <span class="text-textGrey font-bold">Artists</span>
-            <h4 class="text-2xl font-bold truncate">1,243,232,244</h4>
-          </div>
-
-          <div class="leading-3">
-            <span class="text-textGrey font-bold">Albums</span>
-            <h4 class="text-2xl font-bold truncate">1,243,232,244</h4>
-          </div>
-
-          <div class="leading-3">
-            <span class="text-textGrey font-bold">Tracks</span>
-            <h4 class="text-2xl font-bold truncate">1,243,232,244</h4>
-          </div>
-
-          <div class="leading-3">
-            <span class="text-textGrey font-bold">Genres</span>
-            <h4 class="text-2xl font-bold truncate">1,243,232,244</h4>
-          </div>
-        </div>
+        <TotalStats />
       </div>
     </Container>
   </section>
@@ -268,8 +220,7 @@ import Header from "~/components/layout/Header.vue";
 import Container from "~/components/layout/Container.vue";
 import Card from "~/components/layout/Card.vue";
 import Divider from "~/components/base/Divider.vue";
-import Text from "~/components/base/Text.vue";
-import Button from "~/components/base/Button.vue";
 import FeatureStepItem from "~/components/base/FeatureStepItem.vue";
 import Review from "~/components/base/Review.vue";
+import TotalStats from "~/components/base/TotalStats/TotalStats.vue";
 </script>
