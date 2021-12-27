@@ -1,6 +1,8 @@
 <template>
   <div class="grid grid-cols-2 gap-2" v-if="stats">
-    <TotalStatsItem label="Users" :current="stats.users" />
+    <div>
+      <TotalStatsItem label="Users" :current="stats.users" />
+    </div>
     <TotalStatsItem label="Plus users" :current="stats.plusUsers" />
     <TotalStatsItem label="Streams" :current="stats.streams" />
 

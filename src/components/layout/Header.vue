@@ -41,7 +41,6 @@
 import Container from "./Container.vue";
 import Logo from "../base/Logo.vue";
 import Avatar from "../base/Avatar.vue";
-import Heading from "../base/Heading.vue";
 import Button from "../base/Button.vue";
 import Dropdown from "../base/dropdowns/Dropdown.vue";
 import Divider from "../base/Divider.vue";

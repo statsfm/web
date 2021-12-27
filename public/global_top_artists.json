@@ -6,6 +6,7 @@
     "spotifyPopularity": 97,
     "genres": ["pop", "uk pop"],
     "id": 8752,
+    "slug": "ed-sheeran",
     "externalIds": {
       "spotify": ["6eUKZXaKkcviH0Ku9w2n3V"]
     }
@@ -17,6 +18,7 @@
     "spotifyPopularity": 94,
     "genres": ["dance pop", "pop", "uk pop"],
     "id": 2089,
+    "slug": "dua-lipa",
     "externalIds": {
       "spotify": ["6M2wZ9GZgrQXHCFfjv46we"]
     }
@@ -28,6 +30,7 @@
     "spotifyPopularity": 94,
     "genres": ["british soul", "pop", "pop soul", "uk pop"],
     "id": 18609,
+    "slug": "adele",
     "externalIds": {
       "spotify": ["4dpARuHxo51G3z768sgnrY"]
     }
@@ -39,6 +42,7 @@
     "spotifyPopularity": 92,
     "genres": ["australian hip hop"],
     "id": 47896,
+    "slug": "the-kid-laroi",
     "externalIds": {
       "spotify": ["2tIP7SsRs7vjIcLrU85W8J"]
     }
@@ -50,6 +54,7 @@
     "spotifyPopularity": 97,
     "genres": ["canadian pop", "pop"],
     "id": 16,
+    "slug": "justin-bieber",
     "externalIds": {
       "spotify": ["1uNFoZAHBGtllmzznpCI3s"]
     }

@@ -16,7 +16,6 @@
 import { onMounted, Ref, ref } from "vue";
 
 import Header from "~/components/layout/Header.vue";
-import Container from "~/components/layout/Container.vue";
 import Button from "~/components/base/Button.vue";
 import { useRouter } from "vue-router";
 
@@ -221,7 +220,10 @@ const onCanvasClick = (e: any) => {
       const distance = getDistance(mousePos, bubble);
 
       if (distance <= bubble.radius) {
-        router.push({ name: "Artist", params: { id: artist.id } });
+        router.push({
+          name: "Artist",
+          params: { id: artist.id, slug: artist.slug },
+        });
       }
     }
   }

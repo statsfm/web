@@ -47,17 +47,20 @@ const route = useRoute();
 
 const isLoading = ref(false);
 const artist: Ref<BacktrackArtist | null> = ref(null);
-const stats: Ref<BacktrackTopArtist | null> = ref(null);
 
-const getArtist = async (): Promise<BacktrackArtist> => {
-  isLoading.value = true;
-  const res = await api.get(`/artists/${route.params.id}`);
-
-  if (res.success) {
-    isLoading.value = false;
-  }
-
+const getArtist = async (id: number): Promise<BacktrackArtist> => {
+  const res = await api.get(`/artists/${id}`);
   return res.data.item;
+};
+
+const getArtistStreamCount = async (id: number): Promise<number> => {
+  const res = await api.get(`/streams/artist/${route.params.id}/count`);
+  return res.data.data;
+};
+
+const getArtistStreamDuration = async (id: number): Promise<number> => {
+  const res = await api.get(`/streams/artist/${id}/duration`);
+  return res.data.data;
 };
 
 const formatFollowers = (followers: number): string => {
@@ -65,6 +68,10 @@ const formatFollowers = (followers: number): string => {
 };
 
 onMounted(async () => {
-  artist.value = await getArtist();
+  const id = parseInt(route.params.id.toString());
+
+  isLoading.value = true;
+  artist.value = await getArtist(id);
+  isLoading.value = false;
 });
 </script>

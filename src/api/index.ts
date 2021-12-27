@@ -8,6 +8,13 @@ export interface Response {
 }
 
 export default class api {
+  public baseUrl: string;
+
+  constructor() {
+    this.baseUrl =
+      "https://cors.sjoerd.dev/https://laa-laa.backtrack.dev/api/v1";
+  }
+
   /**
    * @param  {string} slug
    * @param  {RequestInit} init?
@@ -26,8 +33,11 @@ export default class api {
       },
     };
 
-    // TODO: put this in a config file
-    const res = await fetch(`https://local.backtrack.dev/api/v1${slug}`, init);
+    // TODO: use baseUrl
+    const res = await fetch(
+      `https://cors.sjoerd.dev/https://laa-laa.backtrack.dev/api/v1${slug}`,
+      init
+    );
     const newRes = {
       success: res.ok,
       status: res.status,
