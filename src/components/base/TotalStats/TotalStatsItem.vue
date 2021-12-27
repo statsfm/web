@@ -1,7 +1,7 @@
 <template>
   <div class="leading-3">
-    <span class="text-textGrey font-bold">{{ label }}</span>
-    <h4 class="text-2xl font-bold truncate">
+    <span class="text-textGrey font-medium">{{ label }}</span>
+    <h4 class="text-3xl font-black truncate">
       {{ formatCount(count) }}
     </h4>
   </div>
