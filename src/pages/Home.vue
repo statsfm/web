@@ -1,13 +1,15 @@
 <template>
   <Header />
-  <section class="mt-28 mb-28">
+  <section class="mt-28">
     <Container class="flex justify-between flex-col md:flex-row">
-      <div>
-        <h1 class="text-5xl font-bold">Lorem ipsum, <br />dolor samet</h1>
-        <p class="leading-5 mt-2 mb-2 max-w-prose">
+      <div class="w-6/12">
+        <h1 class="text-6xl font-bold">Lorem ipsum, <br />dolor samet</h1>
+        <br />
+        <p class="text-xl leading-5 mt-2 mb-2 max-w-prose">
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Nam, corporis
           a esse id rem quasi placeat, laudantium.
         </p>
+        <br />
         <a href="" class="text-primary font-bold">Watch the video -></a>
         <div class="flex gap-2 mt-6 flex-col md:flex-row items-center mb-5">
           <a
@@ -27,8 +29,14 @@
           </a>
         </div>
       </div>
-      <div>
-        <img src="../assets/home_desktop_mobile.png" alt="Desktop Mobile" />
+      <div
+        class="w-4/12"
+        style="position: relative; top: -0px; left: 120px; width: 1000px"
+      >
+        <img
+          src="https://cdn.discordapp.com/attachments/756495774975655987/925148729781153872/Frame_8.png"
+          alt="Desktop Mobile"
+        />
       </div>
     </Container>
   </section>
@@ -79,7 +87,7 @@
           />
         </div>
         <Divider />
-
+        <br />
         <TotalStats />
       </div>
     </Container>
