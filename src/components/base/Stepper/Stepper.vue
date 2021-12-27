@@ -13,10 +13,12 @@
       </p>
     </div>
 
-    <component
-      :is="steps[currentStep].component"
-      @setDisabledState="setDisabledState"
-    />
+    <KeepAlive>
+      <component
+        :is="steps[currentStep].component"
+        @setDisabledState="setDisabledState"
+      />
+    </KeepAlive>
 
     <Button
       class="mt-5"
