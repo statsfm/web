@@ -22,6 +22,7 @@
 
     <Button
       class="mt-5"
+      :class="{ 'cursor-default': mutatedSteps[currentStep].disabled }"
       v-if="currentStep + 1 < steps.length"
       @click="onContinue"
       :disabled="mutatedSteps[currentStep].disabled"
@@ -63,7 +64,7 @@ const setDisabledState = (state: boolean) => {
   // TODO: improve
   // set next step disabled state
   if (mutatedSteps.value[currentStep.value + 1]) {
-    mutatedSteps.value[currentStep.value + 1].disabled = state;
+    mutatedSteps.value[currentStep.value + 1].disabled = true;
   }
 };
 
