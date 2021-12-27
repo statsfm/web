@@ -24,20 +24,7 @@
       </span>
       <br />
       <div class="text-textGrey flex flex-row items-center">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-          class="w-4 h-4"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M8 7l4-4m0 0l4 4m-4-4v18"
-          ></path>
-        </svg>
+        <Icon :path="mdiArrowUpThin" />
         <span class="text-sm font-normal tracking-normal">
           {{ formatCount(diff) }} in the last day
         </span>
@@ -49,6 +36,9 @@
 <script lang="ts" setup>
 import { reactive, ref } from "vue";
 import { TotalSizeItem } from "~/types/totalStats";
+
+import { mdiArrowUpThin } from "@mdi/js";
+import Icon from "../Icon.vue";
 
 const props = defineProps<{
   ping: boolean;
