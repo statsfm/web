@@ -7,6 +7,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@mdi/js": "^6.5.95",
     "@tailwindcss/line-clamp": "^0.3.0",
     "dayjs": "^1.10.7",
     "path": "^0.12.7",
