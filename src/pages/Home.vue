@@ -4,7 +4,7 @@
     <Container class="flex justify-between flex-col gap-5 md:flex-row">
       <div class="w-full md:w-6/12">
         <h1 class="text-6xl font-bold">Lorem ipsum, <br />dolor samet</h1>
-        <p class="text-xl leading-5 my-5 max-w-prose">
+        <p class="text-xl my-5 max-w-prose">
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Nam, corporis
           a esse id rem quasi placeat, laudantium.
         </p>
