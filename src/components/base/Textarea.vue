@@ -3,7 +3,7 @@
     <textarea
       @input="onInput"
       :value="value"
-      :style="{ resize: isResizeable ? 'auto' : 'none' }"
+      :style="{ resize: isResizeable ? 'vertical' : 'none' }"
       :placeholder="placeholder"
       :maxlength="max"
       class="bg-bodySecundary rounded-2xl p-5 w-full focus:outline-none"

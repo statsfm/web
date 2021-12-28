@@ -43,8 +43,8 @@ const margin = minRadius + strokeWidth + 5;
 let continueCount = 0;
 
 onMounted(async () => {
-  artists.value = (await getTopArtists()).sort(
-    (a, b) => a.spotifyPopularity < b.spotifyPopularity
+  artists.value = (await getTopArtists()).sort((a, b) =>
+    a.spotifyPopularity < b.spotifyPopularity ? -1 : 0
   );
 
   if (canvas.value) {
@@ -100,7 +100,7 @@ onMounted(async () => {
       }
 
       let index = 0;
-      artistBubbles.value.sort((a, b) => a.radius < b.radius);
+      artistBubbles.value.sort((a, b) => (a.radius < b.radius ? -1 : 0));
       artistBubbles.value.forEach((artist) => {
         drawArtistBubble(artist.point, artist.radius, artists.value[index]);
         index++;
@@ -201,7 +201,7 @@ const getRandomIntInRange = (min: number, max: number): number => {
   return Math.floor(Math.random() * (max - min + 1) + min);
 };
 
-const getMousePosInElement = (el: HTMLElement, e: any): Point => {
+const getMousePosInElement = (el: HTMLCanvasElement, e: any): Point => {
   const rect = el.getBoundingClientRect();
 
   return {
@@ -211,7 +211,7 @@ const getMousePosInElement = (el: HTMLElement, e: any): Point => {
 };
 
 const onCanvasClick = (e: any) => {
-  if (canvas) {
+  if (canvas.value) {
     const mousePos = getMousePosInElement(canvas.value, e);
 
     for (let i = 0; i < artistBubbles.value.length; i++) {

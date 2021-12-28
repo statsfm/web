@@ -5,7 +5,7 @@
 
     <input
       placeholder="XXXX-XXXX-XXXX"
-      @input="code = $event.target?.value"
+      @input="code = ($event.target as any)?.value"
       :value="code"
       class="bg-bodySecundary font-bold rounded-2xl p-5 mb-5"
     />
