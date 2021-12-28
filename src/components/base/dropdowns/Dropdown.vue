@@ -5,7 +5,7 @@
     </div>
 
     <transition name="dropdown">
-      <Card class="content" v-if="isDropdownActive">
+      <Card class="content" v-if="isDropdownActive" v-click-away="onClickAway">
         <slot />
       </Card>
     </transition>
