@@ -4,7 +4,7 @@
     name="code"
     pattern="[A-Z,a-z,0-9]"
     :maxlength="maxLength"
-    class="bg-bodySecundary font-bold rounded-2xl text-3xl p-4 uppercase tracking-[0.15em]"
+    class="w-full bg-bodySecundary font-bold rounded-2xl text-3xl p-4 uppercase tracking-[0.15em]"
     v-model="input"
   />
 </template>
