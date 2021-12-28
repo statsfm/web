@@ -172,7 +172,7 @@
   <section class="bg-bodySecundary pt-14 pb-14 text-[black]">
     <Container>
       <Card
-        class="bg-primary text-center px-6 py-10 flex flex-col transition-transform duration-200 sm:px-12 sm:py-20"
+        class="bg-primary text-center px-6 py-10 flex flex-col transition-transform duration-200 sm:px-12 sm:py-20 hover:scale-105"
       >
         <h1 class="text-4xl font-bold">Lorem ipsum dolar samet</h1>
         <p class="mt-2 text-xl">Download today</p>
