@@ -29,6 +29,8 @@ watch(
 );
 
 watch(input, (val) => {
-  emit('code', val);
+  if (val.length == props.maxLength) {
+    emit('code', val);
+  }
 });
 </script>
