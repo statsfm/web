@@ -25,7 +25,14 @@ const routes: RouteRecordRaw[] = [
   {
     path: '/gift',
     name: 'Gift',
-    component: () => import('../pages/Gift/Gift.vue')
+    component: () => import('../pages/Gift/Gift.vue'),
+    children: [
+      {
+        path: '/gift/:code',
+        name: 'GiftCoupon',
+        component: () => import('../pages/Gift/GiftCoupon.vue')
+      }
+    ]
   },
 
   {

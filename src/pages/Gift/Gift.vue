@@ -47,6 +47,7 @@
     </div>
     <Divider class="pb-4" />
     <div>
+      <router-view />
       <h1 class="text-2xl font-bold">{{ t('gift.your_coupons') }}</h1>
       <p v-if="!auth.isLoggedIn()">Log in to view your previously purchased coupons</p>
       <div v-if="auth.isLoggedIn()">
