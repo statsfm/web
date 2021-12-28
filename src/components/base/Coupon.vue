@@ -1,6 +1,6 @@
 <template>
   <Card class="max-w-max cursor-pointer" @click="showModal">
-    <p class="mb-3"></p>
+    <p class="mb-3">
       {{ t("coupon.purchased") }} {{ dayjs(giftcode.purchaseDate).fromNow() }}
     </p>
     <Badge @click="copyRedeemLink" class="cursor-copy w-full">{{
