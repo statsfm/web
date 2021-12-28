@@ -13,11 +13,11 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted, Ref, ref } from "vue";
+import { onMounted, Ref, ref } from 'vue';
 
-import Header from "~/components/layout/Header.vue";
-import Button from "~/components/base/Button.vue";
-import { useRouter } from "vue-router";
+import Header from '~/components/layout/Header.vue';
+import Button from '~/components/base/Button.vue';
+import { useRouter } from 'vue-router';
 
 const router = useRouter();
 
@@ -53,7 +53,7 @@ onMounted(async () => {
 
     const canvasSize: Point = {
       x: canvas.value.width,
-      y: canvas.value.height,
+      y: canvas.value.height
     };
 
     const bounding = content.value?.getBoundingClientRect();
@@ -63,7 +63,7 @@ onMounted(async () => {
       const boundingRadius = bounding.right - boundingX;
       const boundingCircle: Circle = {
         point: { x: boundingX, y: boundingY },
-        radius: boundingRadius,
+        radius: boundingRadius
       };
 
       while (artistBubbles.value.length < artists.value.length) {
@@ -86,12 +86,7 @@ onMounted(async () => {
           maxRadius = getMaxDistance(randomPoint, artist, maxRadius, margin);
         }
 
-        maxRadius = getMaxDistance(
-          randomPoint,
-          boundingCircle,
-          maxRadius,
-          margin
-        );
+        maxRadius = getMaxDistance(randomPoint, boundingCircle, maxRadius, margin);
 
         if (maxRadius > minRadius) {
           const radius = getRandomIntInRange(minRadius, maxRadius);
@@ -110,15 +105,11 @@ onMounted(async () => {
 });
 
 const getTopArtists = async (): Promise<BacktrackArtist[]> => {
-  return await fetch("/global_top_artists.json").then((res) => res.json());
+  return await fetch('/global_top_artists.json').then((res) => res.json());
 };
 
-const drawArtistBubble = (
-  point: Point,
-  radius: number,
-  artist: BacktrackArtist
-) => {
-  const ctx = canvas.value?.getContext("2d");
+const drawArtistBubble = (point: Point, radius: number, artist: BacktrackArtist) => {
+  const ctx = canvas.value?.getContext('2d');
 
   if (canvas && ctx) {
     const img = new Image(radius, radius);
@@ -129,21 +120,13 @@ const drawArtistBubble = (
       ctx.beginPath();
       ctx.ellipse(point.x, point.y, radius, radius, 0, 0, Math.PI * 2);
       ctx.lineWidth = strokeWidth;
-      ctx.strokeStyle = "rgba(24, 24, 28, 1)";
+      ctx.strokeStyle = 'rgba(24, 24, 28, 1)';
       ctx.stroke();
 
       ctx.beginPath();
-      ctx.ellipse(
-        point.x,
-        point.y,
-        radius + 25,
-        radius + 25,
-        0,
-        0,
-        Math.PI * 2
-      );
+      ctx.ellipse(point.x, point.y, radius + 25, radius + 25, 0, 0, Math.PI * 2);
       ctx.lineWidth = strokeWidth;
-      ctx.strokeStyle = "rgba(24, 24, 28, 0.5)";
+      ctx.strokeStyle = 'rgba(24, 24, 28, 0.5)';
       ctx.stroke();
       ctx.restore();
 
@@ -153,13 +136,7 @@ const drawArtistBubble = (
       ctx.closePath();
       ctx.clip();
 
-      ctx.drawImage(
-        img,
-        point.x - radius,
-        point.y - radius,
-        img.width * 2,
-        img.height * 2
-      );
+      ctx.drawImage(img, point.x - radius, point.y - radius, img.width * 2, img.height * 2);
 
       ctx.restore();
     };
@@ -170,9 +147,7 @@ const getDistance = (point: Point, target: Circle): number => {
   const deltaX = target.point.x - point.x;
   const deltaY = target.point.y - point.y;
 
-  return Math.floor(
-    Math.sqrt(deltaX * deltaX + deltaY * deltaY) - target.radius
-  );
+  return Math.floor(Math.sqrt(deltaX * deltaX + deltaY * deltaY) - target.radius);
 };
 
 const getMaxDistance = (
@@ -193,7 +168,7 @@ const getMaxDistance = (
 const getRandomPositionInRange = (point: Point): Point => {
   return {
     x: getRandomIntInRange(0, point.x),
-    y: getRandomIntInRange(0, point.y),
+    y: getRandomIntInRange(0, point.y)
   };
 };
 
@@ -206,7 +181,7 @@ const getMousePosInElement = (el: HTMLCanvasElement, e: any): Point => {
 
   return {
     x: e.clientX - rect.left,
-    y: e.clientY - rect.top,
+    y: e.clientY - rect.top
   };
 };
 
@@ -221,8 +196,8 @@ const onCanvasClick = (e: any) => {
 
       if (distance <= bubble.radius) {
         router.push({
-          name: "Artist",
-          params: { id: artist.id, slug: artist.slug },
+          name: 'Artist',
+          params: { id: artist.id, slug: artist.slug }
         });
       }
     }

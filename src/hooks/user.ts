@@ -1,5 +1,5 @@
-import { useStore } from "~/store";
-import { User } from "~/types";
+import { useStore } from '~/store';
+import { User } from '~/types';
 
 export function useUser(): User | null {
   const store = useStore();

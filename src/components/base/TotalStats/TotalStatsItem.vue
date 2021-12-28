@@ -6,21 +6,10 @@
       <span v-if="ping" class="h-3 w-3">
         <span
           style="margin-left: -2px; margin-top: -2px; animation-duration: 1.5s"
-          class="
-            animate-ping
-            absolute
-            inline-flex
-            h-4
-            w-4
-            rounded-full
-            bg-primary
-            opacity-75
-          "
+          class="animate-ping absolute inline-flex h-4 w-4 rounded-full bg-primary opacity-75"
         >
         </span>
-        <span
-          class="absolute rounded-full h-3 w-3 bg-primary opacity-80"
-        ></span>
+        <span class="absolute rounded-full h-3 w-3 bg-primary opacity-80"></span>
       </span>
       <!-- <br />
       <div class="text-textGrey flex flex-row items-center">
@@ -34,11 +23,11 @@
 </template>
 
 <script lang="ts" setup>
-import { reactive, ref } from "vue";
-import { TotalSizeItem } from "~/types/totalStats";
+import { reactive, ref } from 'vue';
+import { TotalSizeItem } from '~/types/totalStats';
 
-import { mdiArrowUpThin } from "@mdi/js";
-import Icon from "../Icon.vue";
+import { mdiArrowUpThin } from '@mdi/js';
+import Icon from '../Icon.vue';
 
 const props = defineProps<{
   ping: boolean;
@@ -50,16 +39,13 @@ const item = reactive(props.item);
 const current = ref(item.current);
 const refreshInterval = 50;
 
-const timeDiff =
-  new Date(item.current.date).getTime() -
-  new Date(item.previous.date).getTime();
+const timeDiff = new Date(item.current.date).getTime() - new Date(item.previous.date).getTime();
 
-const diffPerInterval =
-  (item.current.count - item.previous.count) / (timeDiff / refreshInterval);
+const diffPerInterval = (item.current.count - item.previous.count) / (timeDiff / refreshInterval);
 
 setInterval(() => (current.value.count += diffPerInterval), refreshInterval);
 
 const formatCount = (count: number): string => {
-  return Math.round(count).toLocaleString("en-US");
+  return Math.round(count).toLocaleString('en-US');
 };
 </script>

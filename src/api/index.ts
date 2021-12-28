@@ -11,7 +11,7 @@ export default class api {
   public baseUrl: string;
 
   constructor() {
-    this.baseUrl = "https://cors.sjoerd.dev/https://local.backtrack.dev/api/v1";
+    this.baseUrl = 'https://cors.sjoerd.dev/https://local.backtrack.dev/api/v1';
   }
 
   /**
@@ -19,17 +19,14 @@ export default class api {
    * @param  {RequestInit} init?
    * @returns {Promise<Response>} Returns a promise with the {@link Response response}.
    */
-  static request = async (
-    slug: string,
-    init?: RequestInit
-  ): Promise<Response> => {
+  static request = async (slug: string, init?: RequestInit): Promise<Response> => {
     init = {
       ...init,
       headers: {
-        Authorization: `${localStorage.getItem("token")}`,
-        "Content-Type": "application/json",
-        ...init?.headers,
-      },
+        Authorization: `${localStorage.getItem('token')}`,
+        'Content-Type': 'application/json',
+        ...init?.headers
+      }
     };
 
     // TODO: use baseUrl
@@ -43,7 +40,7 @@ export default class api {
       statusText: res.statusText,
       url: res.url,
       headers: res.headers,
-      data: await res.json(),
+      data: await res.json()
     };
 
     return newRes;
@@ -54,13 +51,10 @@ export default class api {
    * @param  {RequestInit} options?
    * @returns {Promise<Response>} Returns a promise with the {@link Response response}.
    */
-  static get = async (
-    slug: string,
-    options?: RequestInit
-  ): Promise<Response> => {
+  static get = async (slug: string, options?: RequestInit): Promise<Response> => {
     return await api.request(slug, {
-      method: "GET",
-      ...options,
+      method: 'GET',
+      ...options
     });
   };
 
@@ -69,13 +63,10 @@ export default class api {
    * @param  {RequestInit} options?
    * @returns {Promise<Response>} Returns a promise with the {@link Response response}.
    */
-  static post = async (
-    slug: string,
-    options?: RequestInit
-  ): Promise<Response> => {
+  static post = async (slug: string, options?: RequestInit): Promise<Response> => {
     return await api.request(slug, {
-      method: "POST",
-      ...options,
+      method: 'POST',
+      ...options
     });
   };
 
@@ -84,13 +75,10 @@ export default class api {
    * @param  {RequestInit} options?
    * @returns {Promise<Response>} Returns a promise with the {@link Response response}.
    */
-  static put = async (
-    slug: string,
-    options?: RequestInit
-  ): Promise<Response> => {
+  static put = async (slug: string, options?: RequestInit): Promise<Response> => {
     return await api.request(slug, {
-      method: "PUT",
-      ...options,
+      method: 'PUT',
+      ...options
     });
   };
 
@@ -99,13 +87,10 @@ export default class api {
    * @param  {RequestInit} options?
    * @returns {Promise<Response>} Returns a promise with the {@link Response response}.
    */
-  static remove = async (
-    slug: string,
-    options?: RequestInit
-  ): Promise<Response> => {
+  static remove = async (slug: string, options?: RequestInit): Promise<Response> => {
     return await api.request(slug, {
-      method: "DELETE",
-      ...options,
+      method: 'DELETE',
+      ...options
     });
   };
 }

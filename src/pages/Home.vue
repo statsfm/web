@@ -5,8 +5,8 @@
       <div class="w-full md:w-6/12">
         <h1 class="text-6xl font-bold">Lorem ipsum, <br />dolor samet</h1>
         <p class="text-xl my-5 max-w-prose">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Nam, corporis
-          a esse id rem quasi placeat, laudantium.
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Nam, corporis a esse id rem quasi
+          placeat, laudantium.
         </p>
         <a href="" class="text-primary font-bold">Watch the video -></a>
         <div class="flex gap-2 my-8 flex-col md:flex-row items-center">
@@ -14,21 +14,13 @@
             class="hover:scale-[1.02]"
             href="https://apps.apple.com/app/spotistats-for-spotify/id1526912392"
             target="blank"
-            ><img
-              src="../assets/apple_appstore_badge.png"
-              alt="Apple Appstore"
-              class="h-14"
-            />
+            ><img src="../assets/apple_appstore_badge.png" alt="Apple Appstore" class="h-14" />
           </a>
           <a
             class="hover:scale-[1.02]"
             href="https://play.google.com/store/apps/details?id=dev.netlob.spotistats"
             target="blank"
-            ><img
-              src="../assets/google_play_badge.png"
-              alt="Google Play"
-              class="h-14"
-            />
+            ><img src="../assets/google_play_badge.png" alt="Google Play" class="h-14" />
           </a>
         </div>
       </div>
@@ -47,23 +39,15 @@
         <img
           src="../assets/mobile_full.png"
           alt="app"
-          class="
-            w-60
-            md:w-auto
-            h-max
-            transition-transform
-            duration-200
-            hover:scale-[1.02]
-          "
+          class="w-60 md:w-auto h-max transition-transform duration-200 hover:scale-[1.02]"
         />
       </div>
       <div class="w-full md:w-6/12">
         <h1 class="text-4xl font-bold">Lorem ipsum dolor samet</h1>
         <p class="mt-2 max-w-prose">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Nam, corporis
-          a esse id rem quasi placeat, laudantium repellendus doloribus
-          repudiandae suscipit pariatur accusantium aspernatur deserunt commodi.
-          Doloremque odio perspiciatis mollitia.
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Nam, corporis a esse id rem quasi
+          placeat, laudantium repellendus doloribus repudiandae suscipit pariatur accusantium
+          aspernatur deserunt commodi. Doloremque odio perspiciatis mollitia.
         </p>
         <div class="flex flex-col gap-3 mt-3 mb-8">
           <FeatureStepItem
@@ -101,13 +85,9 @@
           <p>Lorem ipsum dolor samet</p>
 
           <div class="flex gap-8 mt-5">
-            <h3 class="text-3xl font-bold">
-              4.792 <span class="text-xl">rating</span>
-            </h3>
+            <h3 class="text-3xl font-bold">4.792 <span class="text-xl">rating</span></h3>
 
-            <h3 class="text-3xl font-bold">
-              43.284 <span class="text-xl">reviews</span>
-            </h3>
+            <h3 class="text-3xl font-bold">43.284 <span class="text-xl">reviews</span></h3>
           </div>
         </div>
 
@@ -160,14 +140,7 @@
   <section>
     <Container class="pt-14 pb-14">
       <Card
-        class="
-          rounded-xxxl
-          overflow-hidden
-          flex flex-col
-          max-h-[575px]
-          md:flex-row md:gap-5 md:max-h-[365px]
-          sm:p-0
-        "
+        class="rounded-xxxl overflow-hidden flex flex-col max-h-[575px] md:flex-row md:gap-5 md:max-h-[365px] sm:p-0"
       >
         <div class="p-12 flex flex-col justify-between w-full md:w-8/12">
           <div>
@@ -179,15 +152,7 @@
           <a href="" class="text-primary font-bold">Watch the video -></a>
         </div>
         <div
-          class="
-            hidden
-            md:flex
-            w-[500px]
-            gap-3
-            overflow-hidden
-            translate-x-[75px]
-            min-w-[350px]
-          "
+          class="hidden md:flex w-[500px] gap-3 overflow-hidden translate-x-[75px] min-w-[350px]"
         >
           <div class="w-6/12 flex flex-col gap-5 translate-y-[-300px]">
             <img src="../assets/mobile_full.png" class="w-full" />
@@ -207,50 +172,23 @@
   <section class="bg-bodySecundary pt-14 pb-14 text-[black]">
     <Container>
       <Card
-        class="
-          bg-primary
-          text-center
-          px-6
-          py-10
-          flex flex-col
-          transition-transform
-          duration-200
-          sm:px-12 sm:py-20
-        "
+        class="bg-primary text-center px-6 py-10 flex flex-col transition-transform duration-200 sm:px-12 sm:py-20"
       >
         <h1 class="text-4xl font-bold">Lorem ipsum dolar samet</h1>
         <p class="mt-2 text-xl">Download today</p>
 
-        <div
-          class="
-            flex
-            gap-2
-            flex-col
-            justify-center
-            md:flex-row
-            items-center
-            mt-8
-          "
-        >
+        <div class="flex gap-2 flex-col justify-center md:flex-row items-center mt-8">
           <a
             class="hover:scale-[1.02]"
             href="https://apps.apple.com/app/spotistats-for-spotify/id1526912392"
             target="blank"
-            ><img
-              src="../assets/apple_appstore_badge.png"
-              alt="Apple Appstore"
-              class="h-14"
-            />
+            ><img src="../assets/apple_appstore_badge.png" alt="Apple Appstore" class="h-14" />
           </a>
           <a
             class="hover:scale-[1.02]"
             href="https://play.google.com/store/apps/details?id=dev.netlob.spotistats"
             target="blank"
-            ><img
-              src="../assets/google_play_badge.png"
-              alt="Google Play"
-              class="h-14"
-            />
+            ><img src="../assets/google_play_badge.png" alt="Google Play" class="h-14" />
           </a>
         </div>
       </Card>
@@ -259,11 +197,11 @@
 </template>
 
 <script lang="ts" setup>
-import Header from "~/components/layout/Header.vue";
-import Container from "~/components/layout/Container.vue";
-import Card from "~/components/layout/Card.vue";
-import Divider from "~/components/base/Divider.vue";
-import FeatureStepItem from "~/components/base/FeatureStepItem.vue";
-import Review from "~/components/base/Review.vue";
-import TotalStats from "~/components/base/TotalStats/TotalStats.vue";
+import Header from '~/components/layout/Header.vue';
+import Container from '~/components/layout/Container.vue';
+import Card from '~/components/layout/Card.vue';
+import Divider from '~/components/base/Divider.vue';
+import FeatureStepItem from '~/components/base/FeatureStepItem.vue';
+import Review from '~/components/base/Review.vue';
+import TotalStats from '~/components/base/TotalStats/TotalStats.vue';
 </script>

@@ -7,8 +7,8 @@
       <div class="flex flex-col justify-end">
         <span class="font-medium text-textGrey text-center md:text-left">
           {{
-            t("artist.followers", {
-              count: formatFollowers(artist.followers),
+            t('artist.followers', {
+              count: formatFollowers(artist.followers)
             })
           }}</span
         >
@@ -21,26 +21,24 @@
   <Container>
     <div v-if="artist">
       <ChipGroup class="mt-5">
-        <Chip v-for="(genre, index) in artist.genres" :key="index">{{
-          genre
-        }}</Chip>
+        <Chip v-for="(genre, index) in artist.genres" :key="index">{{ genre }}</Chip>
       </ChipGroup>
     </div>
   </Container>
 </template>
 
 <script lang="ts" setup>
-import { onMounted, Ref, ref } from "vue";
-import { useRoute } from "vue-router";
-import api from "~/api";
+import { onMounted, Ref, ref } from 'vue';
+import { useRoute } from 'vue-router';
+import api from '~/api';
 
-import Header from "~/components/layout/Header.vue";
-import Container from "~/components/layout/Container.vue";
-import LoadingOverlay from "~/components/base/LoadingOverlay.vue";
-import Avatar from "~/components/base/Avatar.vue";
-import { useI18n } from "vue-i18n";
-import ChipGroup from "~/components/base/Chip/ChipGroup.vue";
-import Chip from "~/components/base/Chip/Chip.vue";
+import Header from '~/components/layout/Header.vue';
+import Container from '~/components/layout/Container.vue';
+import LoadingOverlay from '~/components/base/LoadingOverlay.vue';
+import Avatar from '~/components/base/Avatar.vue';
+import { useI18n } from 'vue-i18n';
+import ChipGroup from '~/components/base/Chip/ChipGroup.vue';
+import Chip from '~/components/base/Chip/Chip.vue';
 
 const { t } = useI18n();
 const route = useRoute();
@@ -64,7 +62,7 @@ const getArtistStreamDuration = async (id: number): Promise<number> => {
 };
 
 const formatFollowers = (followers: number): string => {
-  return followers.toLocaleString("en-US");
+  return followers.toLocaleString('en-US');
 };
 
 onMounted(async () => {

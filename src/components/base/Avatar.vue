@@ -14,6 +14,6 @@ interface Props {
 }
 
 withDefaults(defineProps<Props>(), {
-  size: 12,
+  size: 12
 });
 </script>

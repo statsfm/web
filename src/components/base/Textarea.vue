@@ -8,16 +8,14 @@
       :maxlength="max"
       class="bg-bodySecundary rounded-2xl p-5 w-full focus:outline-none"
     ></textarea>
-    <span v-if="max" class="text-xs text-textGrey font-bold"
-      >{{ charCount }}/{{ max }}</span
-    >
+    <span v-if="max" class="text-xs text-textGrey font-bold">{{ charCount }}/{{ max }}</span>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { ref } from "vue";
+import { ref } from 'vue';
 
-const emit = defineEmits(["input"]);
+const emit = defineEmits(['input']);
 defineProps<{
   placeholder?: string;
   isResizeable?: boolean;
@@ -31,6 +29,6 @@ const onInput = (e: any) => {
   const value = e.target.value;
 
   charCount.value = value.length;
-  emit("input", value);
+  emit('input', value);
 };
 </script>

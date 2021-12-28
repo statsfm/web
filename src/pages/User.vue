@@ -20,8 +20,8 @@
           name: 'Artist',
           params: {
             id: artist.artist.id,
-            slug: artist.artist.name.toLowerCase().split(' ').join('-'),
-          },
+            slug: artist.artist.name.toLowerCase().split(' ').join('-')
+          }
         }"
       >
         <div
@@ -34,15 +34,15 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted, Ref, ref } from "vue";
+import { onMounted, Ref, ref } from 'vue';
 
-import Header from "~/components/layout/Header.vue";
-import Container from "~/components/layout/Container.vue";
-import Avatar from "~/components/base/Avatar.vue";
-import LoadingOverlay from "~/components/base/LoadingOverlay.vue";
-import api from "~/api";
-import { useRoute } from "vue-router";
-import { useI18n } from "vue-i18n";
+import Header from '~/components/layout/Header.vue';
+import Container from '~/components/layout/Container.vue';
+import Avatar from '~/components/base/Avatar.vue';
+import LoadingOverlay from '~/components/base/LoadingOverlay.vue';
+import api from '~/api';
+import { useRoute } from 'vue-router';
+import { useI18n } from 'vue-i18n';
 
 const route = useRoute();
 const { t } = useI18n();

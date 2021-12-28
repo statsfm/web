@@ -43,9 +43,9 @@
 </style>
 
 <script lang="ts" setup>
-import { ref } from "vue";
+import { ref } from 'vue';
 
-import Card from "~/components/layout/Card.vue";
+import Card from '~/components/layout/Card.vue';
 
 const isDropdownActive = ref(false);
 

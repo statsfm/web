@@ -12,9 +12,7 @@
         <p class="text-textGrey">Socials</p>
         <a href="https://twitter.com/spotistats" target="blank">Twitter</a>
         <a href="https://discord.com/invite/aV9EtB3" target="blank">Discord</a>
-        <a href="https://www.instagram.com/spotistats" target="blank"
-          >Instagram</a
-        >
+        <a href="https://www.instagram.com/spotistats" target="blank">Instagram</a>
       </div>
 
       <!-- <div class="flex flex-col gap-2">
@@ -37,10 +35,7 @@
             class="hover:scale-[1.02] h-6/12"
             href="https://apps.apple.com/app/spotistats-for-spotify/id1526912392"
             target="blank"
-            ><img
-              src="../../assets/apple_appstore_badge.png"
-              alt="Apple Appstore"
-            />
+            ><img src="../../assets/apple_appstore_badge.png" alt="Apple Appstore" />
           </a>
           <a
             class="hover:scale-[1.02] h-6/12"
@@ -53,13 +48,12 @@
       </div>
     </div>
     <span class="text-textGrey font-bold"
-      >@ 2021 Spotistats. All rights reserverd. Made with ❤️ in the
-      Netherlands</span
+      >@ 2021 Spotistats. All rights reserverd. Made with ❤️ in the Netherlands</span
     >
   </Container>
 </template>
 
 <script lang="ts" setup>
-import Container from "../layout/Container.vue";
-import Button from "../base/Button.vue";
+import Container from '../layout/Container.vue';
+import Button from '../base/Button.vue';
 </script>

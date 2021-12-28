@@ -1,3 +1,3 @@
-import { ActionTree } from "vuex";
+import { ActionTree } from 'vuex';
 
 export const actions: ActionTree<{}, {}> = {};

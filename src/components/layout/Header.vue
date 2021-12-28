@@ -6,9 +6,7 @@
         <h1 class="text-2xl font-bold hidden md:block">Spotistats</h1>
       </router-link>
       <div class="flex items-center gap-5">
-        <Button v-if="!auth.isLoggedIn()" size="small" @click="auth.login()"
-          >Login</Button
-        >
+        <Button v-if="!auth.isLoggedIn()" size="small" @click="auth.login()">Login</Button>
         <Dropdown v-if="auth.isLoggedIn() && user">
           <template v-slot:button>
             <Avatar :src="user.image" class="cursor-pointer" />
@@ -26,9 +24,7 @@
           </div>
 
           <Divider />
-          <Button size="small" @click="auth.logout" class="w-full"
-            >Logout</Button
-          >
+          <Button size="small" @click="auth.logout" class="w-full">Logout</Button>
         </Dropdown>
       </div>
     </Container>
@@ -36,16 +32,16 @@
 </template>
 
 <script lang="ts" setup>
-import Container from "./Container.vue";
-import Logo from "../base/Logo.vue";
-import Avatar from "../base/Avatar.vue";
-import Button from "../base/Button.vue";
-import Dropdown from "../base/dropdowns/Dropdown.vue";
-import Divider from "../base/Divider.vue";
-import Text from "../base/Text.vue";
-import Badge from "../base/Badge.vue";
-import { useAuth } from "~/hooks";
-import { useStore } from "~/store";
+import Container from './Container.vue';
+import Logo from '../base/Logo.vue';
+import Avatar from '../base/Avatar.vue';
+import Button from '../base/Button.vue';
+import Dropdown from '../base/dropdowns/Dropdown.vue';
+import Divider from '../base/Divider.vue';
+import Text from '../base/Text.vue';
+import Badge from '../base/Badge.vue';
+import { useAuth } from '~/hooks';
+import { useStore } from '~/store';
 
 const store = useStore();
 const user = store.state.user;

@@ -1,18 +1,7 @@
 <template>
   <div class="flex items-center gap-3">
     <div
-      class="
-        text-primary
-        bg-primaryLighter
-        hover:
-        w-12
-        aspect-square
-        rounded-full
-        font-bold
-        text-xl
-        grid
-        place-items-center
-      "
+      class="text-primary bg-primaryLighter hover: w-12 aspect-square rounded-full font-bold text-xl grid place-items-center"
     >
       {{ index }}
     </div>

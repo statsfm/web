@@ -2,38 +2,31 @@
   <Header />
   <LoadingOverlay v-if="isLoading" />
   <Container class="h-screen flex flex-col items-center">
-    <GiftCard
-      v-if="giftCode"
-      :giftCode="giftCode"
-      :isFlipped="isFlipped"
-      class="mt-24"
-    />
-    <Button class="max-w-xl" @click="redeemGiftCode">{{
-      t("buttons.redeem")
-    }}</Button>
+    <GiftCard v-if="giftCode" :giftCode="giftCode" :isFlipped="isFlipped" class="mt-24" />
+    <Button class="max-w-xl" @click="redeemGiftCode">{{ t('buttons.redeem') }}</Button>
   </Container>
 </template>
 
 <script lang="ts" setup>
-import { onMounted, Ref, ref } from "vue";
+import { onMounted, Ref, ref } from 'vue';
 
-import Header from "~/components/layout/Header.vue";
-import Container from "~/components/layout/Container.vue";
-import GiftCard from "~/components/base/GiftCard.vue";
-import { GiftCode } from "~/types";
-import api from "~/api";
-import { useRoute } from "vue-router";
-import Button from "~/components/base/Button.vue";
-import { useI18n } from "vue-i18n";
-import { useStore } from "~/store";
-import LoadingOverlay from "~/components/base/LoadingOverlay.vue";
+import Header from '~/components/layout/Header.vue';
+import Container from '~/components/layout/Container.vue';
+import GiftCard from '~/components/base/GiftCard.vue';
+import { GiftCode } from '~/types';
+import api from '~/api';
+import { useRoute } from 'vue-router';
+import Button from '~/components/base/Button.vue';
+import { useI18n } from 'vue-i18n';
+import { useStore } from '~/store';
+import LoadingOverlay from '~/components/base/LoadingOverlay.vue';
 
 const { t } = useI18n();
 const store = useStore();
 const route = useRoute();
 
 const giftCode: Ref<GiftCode | null> = ref(null);
-const code = ref("");
+const code = ref('');
 const isLoading = ref(false);
 const isFlipped = ref(false);
 
@@ -44,7 +37,7 @@ const getGiftCode = async (code: string) => {
   if (res.success) {
     giftCode.value = res.data.item;
   } else {
-    store.commit("setError", { message: res.data.message, type: "error" });
+    store.commit('setError', { message: res.data.message, type: 'error' });
   }
 
   isLoading.value = false;
@@ -54,16 +47,16 @@ const redeemGiftCode = async () => {
   const res = await api.post(`/plus/giftcodes/${code.value}/redeem`);
 
   if (res.success) {
-    store.commit("setError", {
-      message: t("errors.successfully_redeemed"),
-      type: "info",
+    store.commit('setError', {
+      message: t('errors.successfully_redeemed'),
+      type: 'info'
     });
 
     isFlipped.value = true;
   } else {
-    store.commit("setError", {
+    store.commit('setError', {
       message: res.data.message,
-      type: "error",
+      type: 'error'
     });
   }
 };

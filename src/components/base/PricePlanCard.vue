@@ -1,24 +1,9 @@
 <template>
   <div
-    class="
-      w-full
-      select-none
-      cursor-pointer
-      relative
-      transform
-      transition
-      duration-200
-      hover:scale-105
-    "
+    class="w-full select-none cursor-pointer relative transform transition duration-200 hover:scale-105"
   >
-    <Card
-      class="flex flex-col items-center"
-      :class="{ 'outline outline-primary': isSelected }"
-    >
-      <MostChosenBadge
-        v-if="plan.isMostChosen"
-        class="absolute top-0 -translate-y-1/2"
-      />
+    <Card class="flex flex-col items-center" :class="{ 'outline outline-primary': isSelected }">
+      <MostChosenBadge v-if="plan.isMostChosen" class="absolute top-0 -translate-y-1/2" />
 
       <h1 class="text-5xl font-bold">{{ plan.quantity }}x</h1>
       <p class="font-bold text-textGrey">{{ plan.name }}</p>
@@ -31,11 +16,11 @@
 </template>
 
 <script lang="ts" setup>
-import { Plan } from "~/types";
+import { Plan } from '~/types';
 
-import Card from "../layout/Card.vue";
-import Button from "../base/Button.vue";
-import MostChosenBadge from "./MostChosenBadge.vue";
+import Card from '../layout/Card.vue';
+import Button from '../base/Button.vue';
+import MostChosenBadge from './MostChosenBadge.vue';
 
 const props = defineProps<{
   plan: Plan;

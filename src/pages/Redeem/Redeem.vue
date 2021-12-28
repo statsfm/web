@@ -11,30 +11,30 @@
     />
 
     <Button @click="routeToCode" :disabled="isContinueButtonDisabled">{{
-      t("buttons.continue")
+      t('buttons.continue')
     }}</Button>
   </Container>
 </template>
 
 <script lang="ts" setup>
-import { ref, watch } from "vue";
+import { ref, watch } from 'vue';
 
-import Header from "~/components/layout/Header.vue";
-import Container from "~/components/layout/Container.vue";
-import Card from "~/components/layout/Card.vue";
-import Heading from "~/components/base/Heading.vue";
-import Divider from "~/components/base/Divider.vue";
-import Text from "~/components/base/Text.vue";
-import Button from "~/components/base/Button.vue";
-import GiftCard from "~/components/base/GiftCard.vue";
-import { useI18n } from "vue-i18n";
-import { useRouter } from "vue-router";
+import Header from '~/components/layout/Header.vue';
+import Container from '~/components/layout/Container.vue';
+import Card from '~/components/layout/Card.vue';
+import Heading from '~/components/base/Heading.vue';
+import Divider from '~/components/base/Divider.vue';
+import Text from '~/components/base/Text.vue';
+import Button from '~/components/base/Button.vue';
+import GiftCard from '~/components/base/GiftCard.vue';
+import { useI18n } from 'vue-i18n';
+import { useRouter } from 'vue-router';
 
 const { t } = useI18n();
 const router = useRouter();
 
 const isContinueButtonDisabled = ref(true);
-const code = ref("");
+const code = ref('');
 
 const segmentChars = 4;
 const segmentCount = 3;
@@ -58,10 +58,7 @@ watch(code, (newCode, oldCode) => {
 
     if (newCode.length % (segmentChars + 1) == 0) {
       if (newCode.length >= oldCode.length) {
-        newCode =
-          newCode.slice(0, newCode.length - 1) +
-          "-" +
-          newCode[newCode.length - 1];
+        newCode = newCode.slice(0, newCode.length - 1) + '-' + newCode[newCode.length - 1];
       } else {
         newCode = newCode.slice(0, newCode.length - 1);
       }
@@ -72,7 +69,7 @@ watch(code, (newCode, oldCode) => {
 });
 
 const routeToCode = () => {
-  const parsed = code.value.split("-").join("");
-  router.push({ name: "RedeemCode", params: { code: parsed } });
+  const parsed = code.value.split('-').join('');
+  router.push({ name: 'RedeemCode', params: { code: parsed } });
 };
 </script>

@@ -13,16 +13,16 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, watch } from "vue";
-import { Step } from "~/types";
-import StepperStep from "./StepperStep.vue";
+import { ref, watch } from 'vue';
+import { Step } from '~/types';
+import StepperStep from './StepperStep.vue';
 
 const props = defineProps<{
   steps: Step[];
   step?: number;
 }>();
 
-const emit = defineEmits(["step"]);
+const emit = defineEmits(['step']);
 const currentStep = ref(0);
 
 watch(
@@ -34,6 +34,6 @@ watch(
 
 const setCurrentStep = (index: number) => {
   currentStep.value = index;
-  emit("step", index);
+  emit('step', index);
 };
 </script>

@@ -33,18 +33,10 @@
         <li>Choose between one of the packages</li>
         <li>
           You'll be redirected to a secure
-          <a
-            class="text-primary font-bold"
-            href="https://stripe.com"
-            target="blank"
-            >Stripe</a
-          >
+          <a class="text-primary font-bold" href="https://stripe.com" target="blank">Stripe</a>
           checkout page
         </li>
-        <li>
-          After finishing the checkout process your coupons will be shown in the
-          list below
-        </li>
+        <li>After finishing the checkout process your coupons will be shown in the list below</li>
         <li>
           Share the giftcodes to your friends so they can redeem them at
           <router-link class="text-primary font-bold" :to="{ name: 'Redeem' }"
@@ -55,31 +47,22 @@
     </div>
     <Divider class="pb-4" />
     <div>
-      <h1 class="text-2xl font-bold">{{ t("gift.your_coupons") }}</h1>
-      <p v-if="!auth.isLoggedIn()">
-        Log in to view your previously purchased coupons
-      </p>
+      <h1 class="text-2xl font-bold">{{ t('gift.your_coupons') }}</h1>
+      <p v-if="!auth.isLoggedIn()">Log in to view your previously purchased coupons</p>
       <div v-if="auth.isLoggedIn()">
         <p v-if="!giftCodes">Loading...</p>
 
         <div>
           <h3 class="text-l font-bold text-textGrey mb-2">
-            {{ t("gift.unclaimed_coupons") }}
+            {{ t('gift.unclaimed_coupons') }}
           </h3>
-          <p
-            v-if="
-              giftCodes?.filter((code) => code.claimedBy == undefined)
-                ?.length == 0
-            "
-          >
-            {{ t("gift.coupon_codes_not_found") }}
+          <p v-if="giftCodes?.filter((code) => code.claimedBy == undefined)?.length == 0">
+            {{ t('gift.coupon_codes_not_found') }}
           </p>
 
           <div class="flex flex-nowrap overflow-x-auto gap-3 md:flex-wrap">
             <Coupon
-              v-for="(code, index) in giftCodes?.filter(
-                (code) => code.claimedBy == undefined
-              )"
+              v-for="(code, index) in giftCodes?.filter((code) => code.claimedBy == undefined)"
               :key="index"
               :giftcode="code"
             />
@@ -88,22 +71,15 @@
 
         <div>
           <h3 class="text-l font-bold text-textGrey mb-2 mt-2">
-            {{ t("gift.claimed_coupons") }}
+            {{ t('gift.claimed_coupons') }}
           </h3>
-          <p
-            v-if="
-              giftCodes?.filter((code) => code.claimedBy != undefined)
-                ?.length == 0
-            "
-          >
-            {{ t("gift.coupons_not_found") }}
+          <p v-if="giftCodes?.filter((code) => code.claimedBy != undefined)?.length == 0">
+            {{ t('gift.coupons_not_found') }}
           </p>
 
           <div class="flex flex-nowrap gap-3 overflow-x-auto md:flex-wrap">
             <Coupon
-              v-for="(code, index) in giftCodes?.filter(
-                (code) => code.claimedBy != undefined
-              )"
+              v-for="(code, index) in giftCodes?.filter((code) => code.claimedBy != undefined)"
               :key="index"
               :giftcode="code"
             />
@@ -115,19 +91,19 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, Ref, onBeforeMount } from "vue";
+import { ref, Ref, onBeforeMount } from 'vue';
 
-import Header from "~/components/layout/Header.vue";
-import Container from "~/components/layout/Container.vue";
-import Divider from "~/components/base/Divider.vue";
-import LoadingOverlay from "~/components/base/LoadingOverlay.vue";
-import Coupon from "~/components/base/Coupon.vue";
-import PricePlanCard from "~/components/base/PricePlanCard.vue";
+import Header from '~/components/layout/Header.vue';
+import Container from '~/components/layout/Container.vue';
+import Divider from '~/components/base/Divider.vue';
+import LoadingOverlay from '~/components/base/LoadingOverlay.vue';
+import Coupon from '~/components/base/Coupon.vue';
+import PricePlanCard from '~/components/base/PricePlanCard.vue';
 
-import api from "~/api";
-import { useAuth } from "~/hooks/auth";
-import { GiftCode, Plan } from "~/types";
-import { useI18n } from "vue-i18n";
+import api from '~/api';
+import { useAuth } from '~/hooks/auth';
+import { GiftCode, Plan } from '~/types';
+import { useI18n } from 'vue-i18n';
 
 const { t } = useI18n();
 const auth = useAuth();
@@ -135,23 +111,23 @@ const giftCodes: Ref<GiftCode[] | null> = ref(null);
 const loading = ref(false);
 const plans: Plan[] = [
   {
-    name: "1x lifetime Spotistats Plus",
+    name: '1x lifetime Spotistats Plus',
     quantity: 1,
-    price: "4$",
-    isMostChosen: false,
+    price: '4$',
+    isMostChosen: false
   },
   {
-    name: "3x lifetime Spotistats Plus",
+    name: '3x lifetime Spotistats Plus',
     quantity: 3,
-    price: "10$",
-    isMostChosen: false,
+    price: '10$',
+    isMostChosen: false
   },
   {
-    name: "5x lifetime Spotistats Plus",
+    name: '5x lifetime Spotistats Plus',
     quantity: 5,
-    price: "15$",
-    isMostChosen: true,
-  },
+    price: '15$',
+    isMostChosen: true
+  }
 ];
 
 onBeforeMount(() => {
@@ -159,9 +135,7 @@ onBeforeMount(() => {
 });
 
 const listGiftCodes = async () => {
-  giftCodes.value = await api
-    .get("/plus/giftcodes/list")
-    .then((res) => res.data.items);
+  giftCodes.value = await api.get('/plus/giftcodes/list').then((res) => res.data.items);
   loading.value = false;
 };
 
@@ -175,6 +149,6 @@ const initCheckout = async (quantity: number) => {
 };
 
 const formatCode = (code: string): string => {
-  return code.match(new RegExp(".{1,4}", "g"))!.join("-");
+  return code.match(new RegExp('.{1,4}', 'g'))!.join('-');
 };
 </script>

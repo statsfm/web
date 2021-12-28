@@ -11,9 +11,9 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted, ref, Ref } from "vue";
-import { TotalSize } from "~/types/totalStats";
-import TotalStatsItem from "./TotalStatsItem.vue";
+import { onMounted, ref, Ref } from 'vue';
+import { TotalSize } from '~/types/totalStats';
+import TotalStatsItem from './TotalStatsItem.vue';
 
 const stats: Ref<TotalSize | null> = ref(null);
 
@@ -23,63 +23,63 @@ const getStats = async (): Promise<TotalSize> => {
     users: {
       current: {
         count: 2196279,
-        date: "2021-12-26T22:23:01.561Z",
+        date: '2021-12-26T22:23:01.561Z'
       },
       previous: {
         count: 2189149,
-        date: "2021-12-25T22:23:01.561Z",
-      },
+        date: '2021-12-25T22:23:01.561Z'
+      }
     },
     plusUsers: {
       current: {
         count: 85751,
-        date: "2021-12-26T22:23:01.561Z",
+        date: '2021-12-26T22:23:01.561Z'
       },
       previous: {
         count: 85451,
-        date: "2021-12-25T22:23:01.561Z",
-      },
+        date: '2021-12-25T22:23:01.561Z'
+      }
     },
     streams: {
       current: {
         count: 1193989669,
-        date: "2021-12-26T22:23:01.561Z",
+        date: '2021-12-26T22:23:01.561Z'
       },
       previous: {
         count: 1191796851,
-        date: "2021-12-25T22:23:01.561Z",
-      },
+        date: '2021-12-25T22:23:01.561Z'
+      }
     },
     tracks: {
       current: {
         count: 33523551,
-        date: "2021-12-26T22:23:01.561Z",
+        date: '2021-12-26T22:23:01.561Z'
       },
       previous: {
         count: 33456774,
-        date: "2021-12-25T22:23:01.561Z",
-      },
+        date: '2021-12-25T22:23:01.561Z'
+      }
     },
     artists: {
       current: {
         count: 2639886,
-        date: "2021-12-26T22:23:01.561Z",
+        date: '2021-12-26T22:23:01.561Z'
       },
       previous: {
         count: 2634187,
-        date: "2021-12-25T22:23:01.561Z",
-      },
+        date: '2021-12-25T22:23:01.561Z'
+      }
     },
     albums: {
       current: {
         count: 4666796,
-        date: "2021-12-26T22:23:01.561Z",
+        date: '2021-12-26T22:23:01.561Z'
       },
       previous: {
         count: 4656270,
-        date: "2021-12-25T22:23:01.561Z",
-      },
-    },
+        date: '2021-12-25T22:23:01.561Z'
+      }
+    }
   };
 };
 

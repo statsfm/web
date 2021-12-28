@@ -5,22 +5,10 @@
     @click="!disabled ? $emit('click') : ''"
   >
     <div
-      class="
-        select-none
-        cursor-pointer
-        text-primary
-        w-12
-        aspect-square
-        rounded-full
-        text-xl
-        grid
-        place-items-center
-        transition-colors
-        duration-200
-      "
+      class="select-none cursor-pointer text-primary w-12 aspect-square rounded-full text-xl grid place-items-center transition-colors duration-200"
       :class="{
         'bg-primaryLighter font-bold': isCurrent,
-        'hover:bg-primary/20 active:bg-primary/5': !disabled,
+        'hover:bg-primary/20 active:bg-primary/5': !disabled
       }"
     >
       {{ index }}
@@ -39,6 +27,6 @@ interface Props {
 }
 
 withDefaults(defineProps<Props>(), {
-  disabled: true,
+  disabled: true
 });
 </script>

@@ -1,52 +1,19 @@
 <template>
   <div
-    class="
-      w-full
-      max-w-xl
-      perspective
-      cursor-pointer
-      flex flex-col
-      aspect-[5/3]
-      mb-5
-    "
+    class="w-full max-w-xl perspective cursor-pointer flex flex-col aspect-[5/3] mb-5"
     @click="flipped = !flipped"
   >
-    <div
-      class="flip relative transition-transform duration-1000"
-      :class="{ flipped }"
-    >
+    <div class="flip relative transition-transform duration-1000" :class="{ flipped }">
       <Card
-        class="
-          face
-          flex
-          justify-center
-          items-center
-          absolute
-          aspect-[5/3]
-          bg-[url('/giftcard_pattern.svg')]
-          bg-contain
-        "
+        class="face flex justify-center items-center absolute aspect-[5/3] bg-[url('/giftcard_pattern.svg')] bg-contain"
       >
       </Card>
-      <Card
-        class="
-          face
-          back
-          p-10
-          select-none
-          flex flex-col
-          justify-center
-          absolute
-          aspect-[5/3]
-        "
-      >
+      <Card class="face back p-10 select-none flex flex-col justify-center absolute aspect-[5/3]">
         <p v-if="giftCode.message" class="text-xl">{{ giftCode.message }}</p>
         <p v-else class="italic font-normal text-xl">
-          {{ t("gift.no_message") }}
+          {{ t('gift.no_message') }}
         </p>
-        <span class="font-bold text-textGrey mt-2">{{
-          giftCode.boughtBy
-        }}</span>
+        <span class="font-bold text-textGrey mt-2">{{ giftCode.boughtBy }}</span>
       </Card>
     </div>
   </div>
@@ -74,12 +41,12 @@
 </style>
 
 <script lang="ts" setup>
-import { ref, watch } from "vue";
-import { useI18n } from "vue-i18n";
-import { GiftCode } from "~/types";
+import { ref, watch } from 'vue';
+import { useI18n } from 'vue-i18n';
+import { GiftCode } from '~/types';
 const { t } = useI18n();
 
-import Card from "../layout/Card.vue";
+import Card from '../layout/Card.vue';
 
 const props = defineProps<{
   giftCode: GiftCode;

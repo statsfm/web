@@ -10,10 +10,10 @@
 </template>
 
 <script lang="ts" setup>
-import Card from "~/components/layout/Card.vue";
-import dayjs from "~/dayjs";
+import Card from '~/components/layout/Card.vue';
+import dayjs from '~/dayjs';
 
-const props = defineProps<{
+defineProps<{
   title: string;
   description: string;
   author: string;

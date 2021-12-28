@@ -11,7 +11,7 @@
 
   &::before,
   &::after {
-    content: "";
+    content: '';
     width: 100%;
     height: 1px;
     background: var(--border);

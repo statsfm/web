@@ -24,5 +24,5 @@
 </style>
 
 <script lang="ts" setup>
-import Loading from "./Loading.vue";
+import Loading from './Loading.vue';
 </script>

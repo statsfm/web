@@ -1,4 +1,4 @@
-type ErrorType = "info" | "error";
+type ErrorType = 'info' | 'error';
 
 export type Error = {
   message: string;

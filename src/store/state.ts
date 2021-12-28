@@ -1,4 +1,4 @@
-import { Error, User } from "~/types";
+import { Error, User } from '~/types';
 
 export interface State {
   user: User | null;
@@ -7,5 +7,5 @@ export interface State {
 
 export const state: State = {
   user: null,
-  errors: [],
+  errors: []
 };

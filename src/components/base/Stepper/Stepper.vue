@@ -1,9 +1,5 @@
 <template>
-  <StepperSteps
-    :steps="mutatedSteps"
-    @step="currentStep = $event"
-    :step="currentStep"
-  />
+  <StepperSteps :steps="mutatedSteps" @step="currentStep = $event" :step="currentStep" />
 
   <div>
     <div v-if="steps[currentStep].description" class="mb-2">
@@ -14,10 +10,7 @@
     </div>
 
     <KeepAlive>
-      <component
-        :is="steps[currentStep].component"
-        @setDisabledState="setDisabledState"
-      />
+      <component :is="steps[currentStep].component" @setDisabledState="setDisabledState" />
     </KeepAlive>
 
     <Button
@@ -26,25 +19,25 @@
       v-if="currentStep + 1 < steps.length"
       @click="onContinue"
       :disabled="mutatedSteps[currentStep].disabled"
-      >{{ t("buttons.continue") }}</Button
+      >{{ t('buttons.continue') }}</Button
     >
   </div>
 </template>
 
 <script lang="ts" setup>
-import { Ref, ref, watch } from "vue";
-import { Step } from "~/types";
+import { Ref, ref, watch } from 'vue';
+import { Step } from '~/types';
 
-import StepperSteps from "./StepperSteps.vue";
-import Button from "../Button.vue";
-import { useI18n } from "vue-i18n";
+import StepperSteps from './StepperSteps.vue';
+import Button from '../Button.vue';
+import { useI18n } from 'vue-i18n';
 
 const props = defineProps<{
   steps: Step[];
   step?: number;
 }>();
 
-defineEmits(["continue"]);
+defineEmits(['continue']);
 
 const { t } = useI18n();
 

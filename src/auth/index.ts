@@ -1,6 +1,6 @@
-import api from "~/api";
-import router from "~/router";
-import store from "~/store";
+import api from '~/api';
+import router from '~/router';
+import store from '~/store';
 
 export interface Response {
   success: boolean;
@@ -12,7 +12,7 @@ export interface Response {
 }
 
 export default class auth {
-  private readonly clientId: string = "52242e73817e4096ad71500937a1fb58"; //process.env.VUE_APP_SPOTIFY_CLIENT_ID
+  private readonly clientId: string = '52242e73817e4096ad71500937a1fb58'; //process.env.VUE_APP_SPOTIFY_CLIENT_ID
   private readonly redirectUri: string = `${location.origin}/auth/spotify/callback`;
   private readonly api = api;
   private readonly store = store;
@@ -23,8 +23,8 @@ export default class auth {
 
   public init = () => {
     if (this.isLoggedIn()) {
-      const user = JSON.parse(localStorage.getItem("user") as string);
-      this.store.commit("setUser", user);
+      const user = JSON.parse(localStorage.getItem('user') as string);
+      this.store.commit('setUser', user);
     }
   };
 
@@ -36,39 +36,39 @@ export default class auth {
     )}&scope=user-read-private&response_type=code&response_mode=query&state=${Date.now()}`;
 
     localStorage.setItem(
-      "redirectPage",
-      redirectPage == "string" ? redirectPage : location.pathname
+      'redirectPage',
+      redirectPage == 'string' ? redirectPage : location.pathname
     );
 
     location.replace(loginUrl);
   };
 
   public logout = () => {
-    localStorage.removeItem("token");
+    localStorage.removeItem('token');
     location.reload();
   };
 
   public exchangeSpotifyToken = async (code: string) => {
-    const res = await this.api.post("/auth/token", {
+    const res = await this.api.post('/auth/token', {
       body: JSON.stringify({
         code,
         client_id: this.clientId,
-        redirect_uri: this.redirectUri,
-      }),
+        redirect_uri: this.redirectUri
+      })
     });
 
     const data = res.data.data;
 
     if (data.apiToken?.length > 10 && data.user) {
-      this.store.commit("setUser", data.user);
+      this.store.commit('setUser', data.user);
 
-      localStorage.setItem("token", data.apiToken);
+      localStorage.setItem('token', data.apiToken);
     }
 
-    let page = localStorage.getItem("redirectPage") ?? "/";
+    let page = localStorage.getItem('redirectPage') ?? '/';
 
-    if (page.startsWith("/auth")) {
-      page = "/";
+    if (page.startsWith('/auth')) {
+      page = '/';
     }
 
     router.push(page);
@@ -76,15 +76,15 @@ export default class auth {
 
   public isLoggedIn = () => {
     if (!this.hasValidToken()) return false;
-    const user = localStorage.getItem("user");
+    const user = localStorage.getItem('user');
 
     return user != null && user != undefined;
   };
 
   public hasValidToken = () => {
-    const token = localStorage.getItem("token");
-    if (token?.startsWith("ey")) {
-      const expiry = JSON.parse(atob(token.split(".")[1])).exp; // falsely marked as deprecated -> https://github.com/microsoft/TypeScript/issues/45566
+    const token = localStorage.getItem('token');
+    if (token?.startsWith('ey')) {
+      const expiry = JSON.parse(atob(token.split('.')[1])).exp; // falsely marked as deprecated -> https://github.com/microsoft/TypeScript/issues/45566
 
       return Math.floor(new Date().getTime() / 1000) <= expiry;
     }

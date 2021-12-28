@@ -31,7 +31,7 @@
 .loading:before,
 .loading:after {
   position: absolute;
-  content: "";
+  content: '';
 }
 
 .loading:before {

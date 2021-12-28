@@ -3,7 +3,7 @@ enum BacktrackTopIndicator {
   DOWN,
   NEW,
   SAME,
-  NONE,
+  NONE
 }
 
 /*
@@ -175,12 +175,12 @@ interface BacktrackFriendRequest {
 enum BacktrackSharingSettings {
   NONE,
   FRIENDS,
-  ALL,
+  ALL
 }
 
 enum BacktrackFriendStatus {
   NONE,
   FRIENDS,
   REQUEST_INCOMING,
-  REQUEST_OUTGOING,
+  REQUEST_OUTGOING
 }
