@@ -35,15 +35,26 @@ const props = defineProps<{
   item: TotalSizeItem;
 }>();
 
+// refresh interval in milliseconds
+const timeUnit = 50;
+
 const item = reactive(props.item);
 const current = ref(item.current);
-const refreshInterval = 50;
 
+// difference between the 2 datasnapshots in milliseconds
 const timeDiff = new Date(item.current.date).getTime() - new Date(item.previous.date).getTime();
 
-const diffPerInterval = (item.current.count - item.previous.count) / (timeDiff / refreshInterval);
+// offset in timeunits since the last snapshot
+const epochOffset = (Date.now() - new Date(item.current.date).getTime()) / timeUnit;
 
-setInterval(() => (current.value.count += diffPerInterval), refreshInterval);
+// increase per timeunit
+const diffPerUnit = (item.current.count - item.previous.count) / (timeDiff / timeUnit);
+
+// add the initial epoch offset to the value
+current.value.count += epochOffset * diffPerUnit;
+
+// every timeunit update the value
+setInterval(() => (current.value.count += diffPerUnit), timeUnit);
 
 const formatCount = (count: number): string => {
   return Math.round(count).toLocaleString('en-US');
