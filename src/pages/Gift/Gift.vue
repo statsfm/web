@@ -152,6 +152,7 @@ const initCheckout = async (quantity: number) => {
       message: t('errors.not_authenticated'),
       type: 'error'
     });
+    return;
   }
 
   location.href = data.item.url;
