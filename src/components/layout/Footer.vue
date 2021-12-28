@@ -24,8 +24,8 @@
 
       <div class="flex flex-col gap-2">
         <p class="text-textGrey">Legal</p>
-        <a>Privacy</a>
-        <a>Terms</a>
+        <router-link :to="{ name: 'Privacy' }">Privacy</router-link>
+        <router-link :to="{ name: 'Terms' }">Terms</router-link>
       </div>
 
       <div class="flex flex-col gap-2 mt-5 md:mt-0">
