@@ -91,7 +91,9 @@ const flipped = ref(false);
 watch(
   () => props.isFlipped,
   (newVal) => {
-    flipped.value = newVal;
+    if (newVal) {
+      flipped.value = newVal;
+    }
   }
 );
 </script>

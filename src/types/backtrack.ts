@@ -40,6 +40,7 @@ interface BacktrackRecentlyPlayedTrack {
 
 interface BacktrackArtistSimple {
   id: number;
+  slug: string;
   name: string;
 }
 

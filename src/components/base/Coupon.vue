@@ -1,9 +1,8 @@
 <template>
   <Card class="max-w-max cursor-pointer" @click="showModal">
-    <Text class="mb-3"
-      >{{ t("coupon.purchased") }}
-      {{ dayjs(giftcode.purchaseDate).fromNow() }}</Text
-    >
+    <p class="mb-3">
+      {{ t("coupon.purchased") }} {{ dayjs(giftcode.purchaseDate).fromNow() }}
+    </p>
     <Badge @click="copyRedeemLink" class="cursor-copy w-full">{{
       formatCode(giftcode.code)
     }}</Badge>

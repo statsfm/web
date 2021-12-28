@@ -18,9 +18,7 @@
             <Avatar :src="user.image" />
             <div class="flex content-start justify-center flex-col">
               <div class="flex items-center gap-2">
-                <Text size="l" weight="semi-bold" truncate>{{
-                  user?.displayName
-                }}</Text>
+                <h1 weight="semi-bold" truncate>{{ user?.displayName }}</h1>
                 <Badge v-if="user.isPlus">Plus</Badge>
               </div>
               <p class="font-bold text-textGrey">{{ user?.email }}</p>
