@@ -27,7 +27,7 @@
           <ImportCard v-for="(importFile, index) in imports" :key="index" :import="importFile" />
         </div>
         <div v-else>
-          <Card>{{ t('import.not_imported_yet') }}</Card>
+          <Card>{{ t('import.no_imports_yet') }}</Card>
         </div>
       </div>
     </div>

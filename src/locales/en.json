@@ -13,6 +13,7 @@
   "errors.failed_removing_import": "Failed to remove import",
 
   "placeholders.enter_message": "Enter message",
+
   "gift.select_plan": "Select your plan",
   "gift.personalize": "Personalize",
   "gift.personalize.description": "You can personalize your gift by adding a message",
@@ -40,9 +41,9 @@
   "import.count": "Count",
   "import.select_file": "Select file",
   "import.delete_notice": "Are you sure you want to remove this import and the {count} associated with it? This is irreversable and you'll have to import the file again if you want these streams back in your streaminghistory",
+  "import.no_imports_yet": "It looks like you have no imports yet",
 
   "artist.followers": "{count} followers",
-
   "coupon.coupon": "Coupon",
   "coupon.purchased_on": "Purchased on",
   "coupon.purchased": "Purchased",
