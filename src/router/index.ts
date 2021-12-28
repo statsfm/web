@@ -9,12 +9,12 @@ const routes: RouteRecordRaw[] = [
   },
   {
     path: '/terms',
-    name: 'Terms & Conditions',
+    name: 'Terms',
     component: () => import('../pages/Terms.vue')
   },
   {
     path: '/privacy',
-    name: 'Privacy Policy',
+    name: 'Privacy',
     component: () => import('../pages/Privacy.vue')
   },
   {
