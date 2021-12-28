@@ -140,9 +140,9 @@
   <section>
     <Container class="pt-14 pb-14">
       <Card
-        class="rounded-xxxl overflow-hidden flex flex-col max-h-[575px] md:flex-row md:gap-5 md:max-h-[365px] sm:p-0"
+        class="rounded-xxxl overflow-hidden flex flex-col max-h-[575px] p-0 md:flex-row md:gap-5 md:max-h-[365px]"
       >
-        <div class="p-12 flex flex-col justify-between w-full md:w-8/12">
+        <div class="flex flex-col justify-between w-full p-5 md:w-8/12 md:p-10 mb-10">
           <div>
             <h1 class="text-4xl font-bold">Lorem ipsum, <br />dolor samet</h1>
             <p class="mt-2 mb-2 max-w-prose text-xl">
