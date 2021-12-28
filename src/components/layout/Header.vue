@@ -12,14 +12,17 @@
             <Avatar :src="user.image" class="cursor-pointer" />
           </template>
 
-          <div class="flex items-center gap-5">
+          <div
+            class="flex items-center gap-5 cursor-pointer"
+            @click="router.push({ name: 'User', params: { id: user?.id } })"
+          >
             <Avatar :src="user.image" />
             <div class="flex content-start justify-center flex-col">
               <div class="flex items-center gap-2">
-                <h1 class="font-medium text-xl truncate">{{ user?.displayName }}</h1>
+                <h1 class="font-medium text-xl truncate">{{ user.displayName }}</h1>
                 <Badge v-if="user.isPlus">Plus</Badge>
               </div>
-              <p class="font-bold text-textGrey">{{ user?.email }}</p>
+              <p class="font-bold text-textGrey">{{ user.email }}</p>
             </div>
           </div>
 
@@ -42,8 +45,10 @@ import Text from '../base/Text.vue';
 import Badge from '../base/Badge.vue';
 import { useAuth } from '~/hooks';
 import { useStore } from '~/store';
+import { useRouter } from 'vue-router';
 
 const store = useStore();
+const router = useRouter();
 const user = store.state.user;
 const auth = useAuth();
 </script>
