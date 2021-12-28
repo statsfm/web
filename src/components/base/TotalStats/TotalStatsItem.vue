@@ -40,9 +40,11 @@ const current = ref(item.current);
 const refreshInterval = 50;
 
 const timeDiff = new Date(item.current.date).getTime() - new Date(item.previous.date).getTime();
+const unitOffset = (Date.now() - new Date(item.current.date).getTime()) / refreshInterval;
 
 const diffPerInterval = (item.current.count - item.previous.count) / (timeDiff / refreshInterval);
 
+current.value.count += unitOffset * diffPerInterval;
 setInterval(() => (current.value.count += diffPerInterval), refreshInterval);
 
 const formatCount = (count: number): string => {
