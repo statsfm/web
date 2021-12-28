@@ -7,10 +7,10 @@
       placeholder="XXXX-XXXX-XXXX"
       @input="code = ($event.target as any)?.value"
       :value="code"
-      class="bg-bodySecundary font-bold rounded-2xl p-5 mb-5"
+      class="bg-bodySecundary font-bold rounded-2xl text-3xl p-4 uppercase tracking-[0.15em]"
     />
 
-    <Button @click="routeToCode" :disabled="isContinueButtonDisabled">{{
+    <Button @click="routeToCode" :disabled="isContinueButtonDisabled" class="mt-5">{{
       t('buttons.continue')
     }}</Button>
   </Container>
@@ -21,12 +21,7 @@ import { ref, watch } from 'vue';
 
 import Header from '~/components/layout/Header.vue';
 import Container from '~/components/layout/Container.vue';
-import Card from '~/components/layout/Card.vue';
-import Heading from '~/components/base/Heading.vue';
-import Divider from '~/components/base/Divider.vue';
-import Text from '~/components/base/Text.vue';
 import Button from '~/components/base/Button.vue';
-import GiftCard from '~/components/base/GiftCard.vue';
 import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
 
@@ -65,7 +60,7 @@ watch(code, (newCode, oldCode) => {
     }
   }
 
-  code.value = newCode.toUpperCase().substring(0, totalCharLength);
+  code.value = newCode.substring(0, totalCharLength);
 });
 
 const routeToCode = () => {
