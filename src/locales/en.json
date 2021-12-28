@@ -4,16 +4,13 @@
   "buttons.checkout": "Checkout",
   "buttons.copy_link": "Copy link",
   "buttons.redeem": "Redeem",
-
   "errors.successfully_redeemed": "Successfully redeemed code",
   "errors.invalid_filename": "Invalid filename",
   "errors.invalid_filename_streaminghistory": "It looks like you've selected one or more 'StreamingHistory.json' files. This means Spotify unfortunately has sent you the wrong files... \nYou can find a guide on how to request the endsong.json files at https://support.spotistats.app/import/guide",
   "errors.no_files_selected": "No files selected",
   "errors.multiple_files": "You can only upload 1 file at a time. You can immediatly upload another file after this one has been uploaded",
   "errors.failed_removing_import": "Failed to remove import",
-
   "placeholders.enter_message": "Enter message",
-
   "gift.select_plan": "Select your plan",
   "gift.personalize": "Personalize",
   "gift.personalize.description": "You can personalize your gift by adding a message",
@@ -31,7 +28,6 @@
   "gift.order_info": "Your gift codes will probably be there right away. If they aren't there, it could take a few hours. If you haven't received anything after 24 hours, send an email with your payment id to giftcodes{'@'}spotistats.app",
   "gift.take_to_coupons_page": "Take me to the coupons page",
   "gift.no_message": "No message",
-
   "import.successfully_uploaded_file": "Successfully uploaded {filename}",
   "import.import": "Import",
   "import.import.description": "Select the endsong_*.json file you want to import",
@@ -42,7 +38,6 @@
   "import.select_file": "Select file",
   "import.delete_notice": "Are you sure you want to remove this import and the {count} associated with it? This is irreversable and you'll have to import the file again if you want these streams back in your streaminghistory",
   "import.no_imports_yet": "It looks like you have no imports yet",
-
   "artist.followers": "{count} followers",
   "coupon.coupon": "Coupon",
   "coupon.purchased_on": "Purchased on",
@@ -50,5 +45,7 @@
   "coupon.bought_by": "Bought by",
   "coupon.claimed_by": "Claimed by",
   "coupon.claimed_on": "Claimed on",
-  "coupon.redeem_code": "Redeem code"
+  "coupon.redeem_code": "Redeem code",
+  "buttons.login": "Login",
+  "errors.redeem_not_authenticated": "to redeem the giftcard you need to be logged in"
 }

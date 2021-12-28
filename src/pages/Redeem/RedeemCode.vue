@@ -1,9 +1,17 @@
 <template>
   <Header />
   <LoadingOverlay v-if="isLoading" />
-  <Container class="h-screen flex flex-col items-center" v-if="giftCode">
-    <GiftCard :giftCode="giftCode" :isFlipped="isFlipped" class="mt-24" />
-    <Button class="max-w-xl" @click="redeemGiftCode">{{ t('buttons.redeem') }}</Button>
+  <Container class="h-screen flex flex-col items-center">
+    <GiftCard
+      :giftCode="giftCode"
+      :isFlipped="isFlipped"
+      @click="onGiftCardNotAuthenticatedClick"
+      class="mt-24"
+    />
+    <Button class="max-w-xl" v-if="!auth.isLoggedIn()" @click="auth.login()">{{
+      t('buttons.login')
+    }}</Button>
+    <Button class="max-w-xl" v-else @click="redeemGiftCode">{{ t('buttons.redeem') }}</Button>
   </Container>
 </template>
 
@@ -20,11 +28,13 @@ import Button from '~/components/base/Button.vue';
 import { useI18n } from 'vue-i18n';
 import { useStore } from '~/store';
 import LoadingOverlay from '~/components/base/LoadingOverlay.vue';
+import { useAuth } from '~/hooks';
 
 const { t } = useI18n();
 const store = useStore();
 const router = useRouter();
 const route = useRoute();
+const auth = useAuth();
 
 const giftCode: Ref<GiftCode | null> = ref(null);
 const code = ref('');
@@ -36,12 +46,16 @@ const getGiftCode = async (code: string) => {
   const res = await api.get(`/plus/giftcodes/${code}`);
 
   if (!res.success) {
-    // route back to the redeem page if gift code isn't found
-    if (res.status == 404) {
-      router.push({ name: 'Redeem' });
+    switch (res.status) {
+      case 403:
+        isLoading.value = false;
+        break;
+      case 404:
+        router.push({ name: 'Redeem' });
+        store.commit('setError', { message: res.data.message, type: 'error' });
+        break;
     }
 
-    store.commit('setError', { message: res.data.message, type: 'error' });
     return;
   }
 
@@ -67,6 +81,13 @@ const redeemGiftCode = async () => {
   });
 
   isFlipped.value = true;
+};
+
+const onGiftCardNotAuthenticatedClick = () => {
+  store.commit('setError', {
+    message: t('errors.redeem_not_authenticated'),
+    type: 'error'
+  });
 };
 
 onMounted(() => {
