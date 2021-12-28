@@ -1,3 +1,4 @@
 {
-  "editor.tabSize": 2
+  "editor.tabSize": 2,
+  "i18n-ally.localesPaths": ["src/i18n", "src/locales"]
 }
