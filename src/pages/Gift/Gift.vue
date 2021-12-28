@@ -1,5 +1,5 @@
 <template>
-  <LoadingOverlay v-if="loading" />
+  <LoadingOverlay v-if="isLoading" />
 
   <Header />
   <Container class="pt-5">
@@ -105,11 +105,13 @@ import api from '~/api';
 import { useAuth } from '~/hooks/auth';
 import { GiftCode, Plan } from '~/types';
 import { useI18n } from 'vue-i18n';
+import { useStore } from '~/store';
 
 const { t } = useI18n();
+const store = useStore();
 const auth = useAuth();
 const giftCodes: Ref<GiftCode[] | null> = ref(null);
-const loading = ref(false);
+const isLoading = ref(false);
 const plans: Plan[] = [
   {
     name: '1x lifetime Spotistats Plus',
@@ -137,16 +139,22 @@ onBeforeMount(() => {
 
 const listGiftCodes = async () => {
   giftCodes.value = await api.get('/plus/giftcodes/list').then((res) => res.data.items);
-  loading.value = false;
+  isLoading.value = false;
 };
 
 const initCheckout = async (quantity: number) => {
-  loading.value = true;
-  const session = await api
-    .get(`/plus/giftcodes/purchase?quantity=${quantity}`)
-    .then((res) => res.data.item);
+  isLoading.value = true;
+  const { data, status } = await api.get(`/plus/giftcodes/purchase?quantity=${quantity}`);
 
-  location.href = session.url;
+  if (status == 403) {
+    isLoading.value = false;
+    store.commit('setError', {
+      message: t('errors.not_authenticated'),
+      type: 'error'
+    });
+  }
+
+  location.href = data.item.url;
 };
 
 const formatCode = (code: string): string => {

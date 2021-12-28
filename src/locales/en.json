@@ -47,5 +47,6 @@
   "coupon.claimed_on": "Claimed on",
   "coupon.redeem_code": "Redeem code",
   "buttons.login": "Login",
-  "errors.redeem_not_authenticated": "to redeem the giftcard you need to be logged in"
+  "errors.redeem_not_authenticated": "to redeem the giftcard you need to be logged in",
+  "errors.not_authenticated": "it looks like you're not logged in"
 }
