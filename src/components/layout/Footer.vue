@@ -34,7 +34,7 @@
         <p class="text-textGrey">Download</p>
         <div class="flex gap-2 justify-center w-full">
           <a
-            class="h-6/12"
+            class="hover:scale-[1.02] h-6/12"
             href="https://apps.apple.com/app/spotistats-for-spotify/id1526912392"
             target="blank"
             ><img
@@ -43,10 +43,10 @@
             />
           </a>
           <a
-            class="h-6/12"
+            class="hover:scale-[1.02] h-6/12"
             href="https://play.google.com/store/apps/details?id=dev.netlob.spotistats"
             target="blank"
-            ><img src="../../assets/google_play_badge.png" alt="Google PLay" />
+            ><img src="../../assets/google_play_badge.png" alt="Google Play" />
           </a>
         </div>
         <Button class="hidden md:block">Open webapp</Button>
