@@ -11,19 +11,24 @@
         <a href="" class="text-primary font-bold">Watch the video -></a>
         <div class="flex gap-2 my-8 flex-col md:flex-row items-center">
           <a
-            class="w-[145px]"
+            class="hover:scale-[1.02]"
             href="https://apps.apple.com/app/spotistats-for-spotify/id1526912392"
             target="blank"
             ><img
               src="../assets/apple_appstore_badge.png"
               alt="Apple Appstore"
+              class="h-14"
             />
           </a>
           <a
-            class="w-[145px]"
+            class="hover:scale-[1.02]"
             href="https://play.google.com/store/apps/details?id=dev.netlob.spotistats"
             target="blank"
-            ><img src="../assets/google_play_badge.png" alt="Google Play" />
+            ><img
+              src="../assets/google_play_badge.png"
+              alt="Google Play"
+              class="h-14"
+            />
           </a>
         </div>
       </div>
@@ -210,7 +215,6 @@
           flex flex-col
           transition-transform
           duration-200
-          hover:scale-[1.02]
           sm:px-12 sm:py-20
         "
       >
@@ -228,16 +232,26 @@
             mt-8
           "
         >
-          <img
-            src="../assets/apple_appstore_badge.png"
-            alt="Apple Appstore"
-            class="w-[145px]"
-          />
-          <img
-            src="../assets/google_play_badge.png"
-            alt="Google Play"
-            class="w-[155px]"
-          />
+          <a
+            class="hover:scale-[1.02]"
+            href="https://apps.apple.com/app/spotistats-for-spotify/id1526912392"
+            target="blank"
+            ><img
+              src="../assets/apple_appstore_badge.png"
+              alt="Apple Appstore"
+              class="h-14"
+            />
+          </a>
+          <a
+            class="hover:scale-[1.02]"
+            href="https://play.google.com/store/apps/details?id=dev.netlob.spotistats"
+            target="blank"
+            ><img
+              src="../assets/google_play_badge.png"
+              alt="Google Play"
+              class="h-14"
+            />
+          </a>
         </div>
       </Card>
     </Container>
