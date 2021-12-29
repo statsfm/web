@@ -14,15 +14,15 @@
       <div class="text-textGrey flex flex-row items-center" v-if="hasIndicator">
         <Icon
           :path="
-            diffWithPreviousSnapshot == 0
+            diffBetweenCurrentAndPreviousSnapshot == 0
               ? mdiArrowRightThin
-              : diffWithPreviousSnapshot > 0
+              : diffBetweenCurrentAndPreviousSnapshot > 0
               ? mdiArrowUpThin
               : mdiArrowDownThin
           "
         />
         <span class="text-sm font-normal tracking-normal">
-          {{ formatCount(diffWithPreviousSnapshot) }}
+          {{ formatCount(indicator) }}
           {{ dayjs(snapshot.current.date).from(snapshot.previous.date) }}
         </span>
       </div>
@@ -51,25 +51,29 @@ const timeUnit = 50;
 
 const snapshot = reactive(props.snapshot);
 const count = ref(snapshot.current.count);
+const indicator = ref(0);
 
 // difference between the 2 datasnapshots in milliseconds
 const timeDiff =
   new Date(snapshot.current.date).getTime() - new Date(snapshot.previous.date).getTime();
 
-// difference between current snapshot and previous snapshot
-const diffWithPreviousSnapshot = snapshot.current.count - snapshot.previous.count;
-
 // offset in timeunits since the last snapshot
 const epochOffset = (Date.now() - new Date(snapshot.current.date).getTime()) / timeUnit;
 
+// difference between current and previous snapshot
+const diffBetweenCurrentAndPreviousSnapshot = snapshot.current.count - snapshot.previous.count;
+
 // increase per timeunit
-const diffPerUnit = (snapshot.current.count - snapshot.previous.count) / (timeDiff / timeUnit);
+const diffPerUnit = diffBetweenCurrentAndPreviousSnapshot / (timeDiff / timeUnit);
 
 // add the initial epoch offset to the value
 count.value += epochOffset * diffPerUnit;
 
 // every timeunit update the value
-setInterval(() => (count.value += diffPerUnit), timeUnit);
+setInterval(() => {
+  count.value += diffPerUnit;
+  indicator.value = count.value - snapshot.previous.count;
+}, timeUnit);
 
 const formatCount = (count: number): string => {
   return Math.round(count).toLocaleString('en-US');
