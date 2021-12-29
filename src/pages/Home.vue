@@ -15,13 +15,13 @@
         <a href="" class="text-primary font-bold">Watch the video -></a>
         <div class="flex gap-2 my-8 flex-col md:flex-row items-center">
           <a
-            class="duration-100 hover:scale-[1.02]"
+            class="duration-100"
             href="https://apps.apple.com/app/spotistats-for-spotify/id1526912392"
             target="blank"
             ><img src="../assets/apple_appstore_badge.png" alt="Apple Appstore" class="h-14" />
           </a>
           <a
-            class="duration-100 hover:scale-[1.02]"
+            class="duration-100"
             href="https://play.google.com/store/apps/details?id=dev.netlob.spotistats"
             target="blank"
             ><img src="../assets/google_play_badge.png" alt="Google Play" class="h-14" />
@@ -180,20 +180,20 @@
   <section class="bg-bodySecundary pt-14 pb-14 text-[black]">
     <Container>
       <Card
-        class="bg-primary text-center px-6 py-10 flex flex-col transition-transform duration-200 sm:px-12 sm:py-20 hover:scale-105"
+        class="bg-primary text-center px-6 py-10 flex flex-col transition-transform duration-200 sm:px-12 sm:py-20"
       >
         <h1 class="text-4xl font-bold">Lorem ipsum dolar samet</h1>
         <p class="mt-2 text-xl">Download today</p>
 
         <div class="flex gap-2 flex-col justify-center md:flex-row items-center mt-8">
           <a
-            class="duration-100 hover:scale-[1.02]"
+            class="duration-100"
             href="https://apps.apple.com/app/spotistats-for-spotify/id1526912392"
             target="blank"
             ><img src="../assets/apple_appstore_badge.png" alt="Apple Appstore" class="h-14" />
           </a>
           <a
-            class="duration-100 hover:scale-[1.02]"
+            class="duration-100"
             href="https://play.google.com/store/apps/details?id=dev.netlob.spotistats"
             target="blank"
             ><img src="../assets/google_play_badge.png" alt="Google Play" class="h-14" />
