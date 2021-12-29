@@ -106,11 +106,11 @@ import { useAuth } from '~/hooks/auth';
 import { GiftCode, Plan } from '~/types';
 import { useI18n } from 'vue-i18n';
 import { useStore } from '~/store';
+import { giftCodes } from './state';
 
 const { t } = useI18n();
 const store = useStore();
 const auth = useAuth();
-const giftCodes: Ref<GiftCode[] | null> = ref(null);
 const isLoading = ref(false);
 const plans: Plan[] = [
   {
@@ -133,13 +133,12 @@ const plans: Plan[] = [
   }
 ];
 
-onBeforeMount(() => {
-  listGiftCodes();
+onBeforeMount(async () => {
+  giftCodes.value = await getGiftCodes();
 });
 
-const listGiftCodes = async () => {
-  giftCodes.value = await api.get('/plus/giftcodes/list').then((res) => res.data.items);
-  isLoading.value = false;
+const getGiftCodes = async (): Promise<GiftCode[]> => {
+  return await api.get('/plus/giftcodes/list').then((res) => res.data.items);
 };
 
 const initCheckout = async (quantity: number) => {
