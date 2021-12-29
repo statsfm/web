@@ -1,5 +1,5 @@
 <template>
-  <Container>
+  <Container class="pt-14 pb-14">
     <div class="xl:grid xl:gap-8 font-bold">
       <div class="grid grid-cols-2 gap-8 xl:col-span-2">
         <div class="md:grid md:grid-cols-2 md:gap-8">
