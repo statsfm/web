@@ -6,9 +6,9 @@
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
   >
-    <rect y="152.375" width="110.056" height="359.625" rx="55.028" />
-    <rect x="200.972" width="110.056" height="512" rx="55.028" />
-    <rect x="401.944" y="292.495" width="110.056" height="219.505" rx="55.028" />
+    <rect y="150" width="110" height="360" rx="40" />
+    <rect x="200" width="110" height="512" rx="40" />
+    <rect x="400" width="110" height="220" rx="40" y="292" />
   </svg>
 </template>
 
