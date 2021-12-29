@@ -1,7 +1,7 @@
 <template>
   <div class="grid grid-cols-2 gap-x-4 gap-y-6" v-if="stats">
     <TotalStatsItem label="Users" :snapshot="stats.users" hasIndicator />
-    <TotalStatsItem label="Plus users" :snapshot="stats.plusUsers" hasIndicator />
+    <TotalStatsItem label="Plus users" :snapshot="stats.plusUsers" />
     <TotalStatsItem label="Streams" :snapshot="stats.streams" hasLiveIndicator />
 
     <TotalStatsItem label="Tracks" :snapshot="stats.tracks" />
