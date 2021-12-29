@@ -4,16 +4,14 @@
       <slot name="button" />
     </div>
 
-    <!-- TODO: fix animations -->
-    <transition name="dropdown">
-      <Card
-        class="mt-2 absolute w-max h-max right-0 shadow-xl z-50"
-        v-if="isDropdownActive"
-        v-click-away="onClickAway"
-      >
-        <slot />
-      </Card>
-    </transition>
+    <!-- TODO: add fade out animtion -->
+    <Card
+      class="mt-2 absolute w-max h-max right-0 shadow-xl z-50 animate-fadeIn"
+      v-if="isDropdownActive"
+      v-click-away="onClickAway"
+    >
+      <slot />
+    </Card>
   </div>
 </template>
 
