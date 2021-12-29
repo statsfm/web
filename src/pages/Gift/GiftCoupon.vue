@@ -27,10 +27,10 @@
       </div>
     </div>
     <Divider />
-    <h2 class="text-xl font-bold">Edit message</h2>
+    <h2 class="text-xl font-bold">{{ t('gift.edit_message') }}</h2>
     <textarea
       v-model="giftCode.message"
-      placeholder="Enter a message"
+      :placeholder="t('placeholders.enter_message')"
       class="mt-2 bg-transparent resize-none focus:outline-none"
     />
     <Divider />
