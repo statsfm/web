@@ -3,7 +3,7 @@
     <dt class="text-base font-bold text-textGrey">{{ label }}</dt>
     <dd class="text-3xl font-bold tracking-tight text-white">
       {{ formatCount(current.count) }}
-      <span v-if="ping" class="h-3 w-3">
+      <span v-if="hasLiveIndicator" class="h-3 w-3">
         <span
           style="margin-left: -2px; margin-top: -2px; animation-duration: 1.5s"
           class="animate-ping absolute inline-flex h-4 w-4 rounded-full bg-primary opacity-75"
@@ -11,13 +11,21 @@
         </span>
         <span class="absolute rounded-full h-3 w-3 bg-primary opacity-80"></span>
       </span>
-      <!-- <br />
-      <div class="text-textGrey flex flex-row items-center">
-        <Icon :path="mdiArrowUpThin" />
+      <div class="text-textGrey flex flex-row items-center" v-if="hasIndicator">
+        <Icon
+          :path="
+            diffWithPreviousSnapshot == 0
+              ? mdiArrowRightThin
+              : diffWithPreviousSnapshot > 0
+              ? mdiArrowUpThin
+              : mdiArrowDownThin
+          "
+        />
         <span class="text-sm font-normal tracking-normal">
-          {{ formatCount(diff) }} in the last day
+          {{ formatCount(diffWithPreviousSnapshot) }}
+          {{ dayjs(snapshot.current.date).from(snapshot.previous.date) }}
         </span>
-      </div> -->
+      </div>
     </dd>
   </div>
 </template>
@@ -26,29 +34,36 @@
 import { reactive, ref } from 'vue';
 import { TotalSizeItem } from '~/types/totalStats';
 
-import { mdiArrowUpThin } from '@mdi/js';
+import { mdiArrowUpThin, mdiArrowDownThin, mdiArrowRightThin } from '@mdi/js';
 import Icon from '../Icon.vue';
 
+import dayjs from '~/dayjs';
+
 const props = defineProps<{
-  ping: boolean;
+  hasLiveIndicator?: boolean;
   label: string;
-  item: TotalSizeItem;
+  snapshot: TotalSizeItem;
+  hasIndicator?: boolean;
 }>();
 
 // refresh interval in milliseconds
 const timeUnit = 50;
 
-const item = reactive(props.item);
-const current = ref(item.current);
+const snapshot = reactive(props.snapshot);
+console.log(snapshot.current.date, snapshot.previous.date);
+const current = ref(snapshot.current);
 
 // difference between the 2 datasnapshots in milliseconds
-const timeDiff = new Date(item.current.date).getTime() - new Date(item.previous.date).getTime();
+const timeDiff =
+  new Date(snapshot.current.date).getTime() - new Date(snapshot.previous.date).getTime();
+
+const diffWithPreviousSnapshot = snapshot.current.count - snapshot.previous.count;
 
 // offset in timeunits since the last snapshot
-const epochOffset = (Date.now() - new Date(item.current.date).getTime()) / timeUnit;
+const epochOffset = (Date.now() - new Date(snapshot.current.date).getTime()) / timeUnit;
 
 // increase per timeunit
-const diffPerUnit = (item.current.count - item.previous.count) / (timeDiff / timeUnit);
+const diffPerUnit = (snapshot.current.count - snapshot.previous.count) / (timeDiff / timeUnit);
 
 // add the initial epoch offset to the value
 current.value.count += epochOffset * diffPerUnit;
