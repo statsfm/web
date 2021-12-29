@@ -5,7 +5,7 @@
       {{ formatCount(current.count) }}
       <span v-if="ping" class="h-3 w-3">
         <span
-          style="margin-left: -2px; margin-top: -2px; animation-duration: 1.5s"
+          style="margin-left: -2px; margin-top: -2px; animation-duration: 1s"
           class="animate-ping absolute inline-flex h-4 w-4 rounded-full bg-primary opacity-75"
         >
         </span>
