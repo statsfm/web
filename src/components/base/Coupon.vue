@@ -1,5 +1,4 @@
 <template>
-  {{ giftcode.id }}
   <Card
     class="max-w-max cursor-pointer"
     @click="router.push({ name: 'GiftCoupon', params: { code: giftcode.code } })"
