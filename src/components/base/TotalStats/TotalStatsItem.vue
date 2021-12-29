@@ -2,7 +2,7 @@
   <div>
     <dt class="text-base font-bold text-textGrey">{{ label }}</dt>
     <dd class="text-3xl font-bold tracking-tight text-white">
-      {{ formatCount(current.count) }}
+      {{ formatCount(count) }}
       <span v-if="hasLiveIndicator" class="h-3 w-3">
         <span
           style="margin-left: -2px; margin-top: -2px; animation-duration: 1.5s"
@@ -50,13 +50,13 @@ const props = defineProps<{
 const timeUnit = 50;
 
 const snapshot = reactive(props.snapshot);
-console.log(snapshot.current.date, snapshot.previous.date);
-const current = ref(snapshot.current);
+const count = ref(snapshot.current.count);
 
 // difference between the 2 datasnapshots in milliseconds
 const timeDiff =
   new Date(snapshot.current.date).getTime() - new Date(snapshot.previous.date).getTime();
 
+// difference between current snapshot and previous snapshot
 const diffWithPreviousSnapshot = snapshot.current.count - snapshot.previous.count;
 
 // offset in timeunits since the last snapshot
@@ -66,10 +66,10 @@ const epochOffset = (Date.now() - new Date(snapshot.current.date).getTime()) / t
 const diffPerUnit = (snapshot.current.count - snapshot.previous.count) / (timeDiff / timeUnit);
 
 // add the initial epoch offset to the value
-current.value.count += epochOffset * diffPerUnit;
+count.value += epochOffset * diffPerUnit;
 
 // every timeunit update the value
-setInterval(() => (current.value.count += diffPerUnit), timeUnit);
+setInterval(() => (count.value += diffPerUnit), timeUnit);
 
 const formatCount = (count: number): string => {
   return Math.round(count).toLocaleString('en-US');
