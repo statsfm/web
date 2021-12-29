@@ -1,4 +1,5 @@
 {
   "editor.tabSize": 2,
-  "i18n-ally.localesPaths": ["src/i18n", "src/locales"]
+  "i18n-ally.localesPaths": ["src/i18n", "src/locales"],
+  "i18n-ally.keystyle": "flat"
 }
