@@ -74,7 +74,9 @@
             description="Thanks to state of the art algorithms you'll always be welcomed with relevant, advanced and personalized stats for each item you click on."
           />
           <small class="text-textGrey"
-            >* import of streaminghistory may be required to unlock (part of) this feature</small
+            >*
+            <Link :to="{ name: 'Import' }" class="underline">import of streaminghistory</Link> may
+            be required to unlock (part of) this feature</small
           >
         </div>
         <Divider />
@@ -208,8 +210,9 @@ import Container from '~/components/layout/Container.vue';
 import Card from '~/components/layout/Card.vue';
 import Divider from '~/components/base/Divider.vue';
 import FeatureStepItem from '~/components/base/FeatureStepItem.vue';
-import Review from '~/components/base/Review.vue';
 import TotalStats from '~/components/base/TotalStats/TotalStats.vue';
+import Link from '~/components/base/Link.vue';
+
 import {
   mdiLock,
   mdiHistory,
