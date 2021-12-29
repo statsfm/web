@@ -59,9 +59,9 @@
             description="Privacy is key, and I've build the platform keeping security and privacy at the highest priority. As far as possible, all data is saved anonymously, and is stored and transferred fully encrypted. Unless you import your streaminghistory no data is saved on the servers."
           />
           <FeatureStepItem
-            :icon="mdiHistory"
-            title="Import your lifetime history*"
-            description="Follow the unique import process to import your lifetime streaminghistory and unlock the full potential of the platform by getting access to lots of cool features. It's really cool, I promise  : )"
+            :icon="mdiChartTimelineVariantShimmer"
+            title="Enhanced personalized stats"
+            description="Thanks to state of the art algorithms you'll always be welcomed with relevant, advanced and personalized stats for each item you click on."
           />
           <FeatureStepItem
             :icon="mdiFormatListBulletedTriangle"
@@ -69,9 +69,9 @@
             description="Of course most people are here to check their top lists, which becomes an amazing experience on this platform. For example: order the lists by times played, minutes streamed or by advanced machine learning!"
           />
           <FeatureStepItem
-            :icon="mdiChartTimelineVariantShimmer"
-            title="Enhanced personalized stats"
-            description="Thanks to state of the art algorithms you'll always be welcomed with relevant, advanced and personalized stats for each item you click on."
+            :icon="mdiHistory"
+            title="Import your lifetime history*"
+            description="Follow the unique import process to import your lifetime streaminghistory and unlock the full potential of the platform by getting access to lots of cool features. It's really cool, I promise  : )"
           />
           <small class="text-textGrey"
             >*
