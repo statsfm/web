@@ -3,7 +3,11 @@
   <section class="mt-28">
     <Container class="flex justify-between flex-col gap-5 md:flex-row">
       <div class="w-full md:w-6/12">
-        <h1 class="text-6xl font-bold">Lorem ipsum, <br />dolor samet</h1>
+        <h1 class="text-6xl font-bold">
+          Your music,<br />
+          <span class="opacity-30">your</span> stats,<br />
+          <span class="opacity-30">your</span> story.
+        </h1>
         <p class="text-xl my-5 max-w-prose">
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Nam, corporis a esse id rem quasi
           placeat, laudantium.
@@ -35,7 +39,7 @@
   </section>
   <section class="bg-bodySecundary pt-28 pb-28">
     <Container class="flex justify-between flex-col md:flex-row gap-10">
-      <div class="w-full flex justify-center mb-5 md:w-6/12">
+      <div class="w-full flex justify-center mb-5 md:w-6/12 hidden md:flex">
         <img
           src="../assets/mobile_full.png"
           alt="app"
@@ -43,33 +47,35 @@
         />
       </div>
       <div class="w-full md:w-6/12">
-        <h1 class="text-4xl font-bold">Lorem ipsum dolor samet</h1>
+        <h1 class="text-4xl font-bold">Easy, extensive and secure</h1>
         <p class="mt-2 max-w-prose">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Nam, corporis a esse id rem quasi
-          placeat, laudantium repellendus doloribus repudiandae suscipit pariatur accusantium
-          aspernatur deserunt commodi. Doloremque odio perspiciatis mollitia.
+          With the click of a button you'll be logged with your Spotify account and you'll instantly
+          gain access to a valhalla of cool stats and insights
         </p>
-        <div class="flex flex-col gap-3 mt-3 mb-8">
+        <div class="flex flex-col gap-3 mt-5 mb-8">
           <FeatureStepItem
-            :index="1"
-            title="Lorem ipsum dolor samet"
-            description="Lorem ipsum dolor sit amet consectetur adipisicing elit."
+            :icon="mdiLock"
+            title="Safe & secure"
+            description="Privacy is key, and I've build the platform keeping security and privacy at the highest priority. As far as possible, all data is saved anonymously, and is stored and transferred fully encrypted. Unless you import your streaminghistory no data is saved on the servers."
           />
           <FeatureStepItem
-            :index="2"
-            title="Lorem ipsum dolor samet"
-            description="Lorem ipsum dolor sit amet consectetur adipisicing elit."
+            :icon="mdiHistory"
+            title="Import your lifetime history*"
+            description="Follow the unique import process to import your lifetime streaminghistory and unlock the full potential of the platform by getting access to lots of cool features. It's really cool, I promise  : )"
           />
           <FeatureStepItem
-            :index="3"
-            title="Lorem ipsum dolor samet"
-            description="Lorem ipsum dolor sit amet consectetur adipisicing elit."
+            :icon="mdiFormatListBulletedTriangle"
+            title="Top tracks, artists and albums at a glance*"
+            description="Of course most people are here to check their top lists, which becomes an amazing experience on this platform. For example: order the lists by times played, minutes streamed or by advanced machine learning!"
           />
           <FeatureStepItem
-            :index="4"
-            title="Lorem ipsum dolor samet"
-            description="Lorem ipsum dolor sit amet consectetur adipisicing elit."
+            :icon="mdiChartTimelineVariantShimmer"
+            title="Enhanced personalized stats"
+            description="Thanks to state of the art algorithms you'll always be welcomed with relevant, advanced and personalized stats for each item you click on."
           />
+          <small class="text-textGrey"
+            >* import of streaminghistory may be required to unlock (part of) this feature</small
+          >
         </div>
         <Divider />
         <br />
@@ -77,7 +83,7 @@
       </div>
     </Container>
   </section>
-  <section class="bg-primary text-[black] pt-8 pb-8 relative">
+  <!-- <section class="bg-primary text-[black] pt-8 pb-8 relative">
     <Container class="absolute min-h-[185px]">
       <div class="flex items-center gap-10">
         <div class="w-full md:w-6/12">
@@ -136,7 +142,7 @@
         </div>
       </div>
     </div>
-  </section>
+  </section> -->
   <section>
     <Container class="pt-14 pb-14">
       <Card
@@ -204,4 +210,10 @@ import Divider from '~/components/base/Divider.vue';
 import FeatureStepItem from '~/components/base/FeatureStepItem.vue';
 import Review from '~/components/base/Review.vue';
 import TotalStats from '~/components/base/TotalStats/TotalStats.vue';
+import {
+  mdiLock,
+  mdiHistory,
+  mdiFormatListBulletedTriangle,
+  mdiChartTimelineVariantShimmer
+} from '@mdi/js';
 </script>
