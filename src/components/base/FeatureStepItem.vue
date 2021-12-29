@@ -1,9 +1,9 @@
 <template>
-  <div class="flex items-center gap-3">
+  <div class="flex items-start gap-3">
     <div
-      class="text-primary bg-primaryLighter hover: w-12 aspect-square rounded-full font-bold text-xl grid place-items-center"
+      class="text-primary bg-primaryLighter min-w-[3rem] aspect-square rounded-full font-bold text-xl grid place-items-center"
     >
-      {{ index }}
+      <Icon :path="icon" color="#1ed760" />
     </div>
     <div class="flex flex-col align-middle">
       <h2 class="text-2xl font-bold">{{ title }}</h2>
@@ -13,8 +13,10 @@
 </template>
 
 <script lang="ts" setup>
+import Icon from './Icon.vue';
+
 const props = defineProps<{
-  index: number;
+  icon: string;
   title: string;
   description: string;
 }>();
