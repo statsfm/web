@@ -7,7 +7,7 @@
     </div>
     <div class="flex flex-col align-middle">
       <h2 class="text-2xl font-bold">{{ title }}</h2>
-      <p><slot /></p>
+      <p class="text-neutral-400"><slot /></p>
     </div>
   </div>
 </template>

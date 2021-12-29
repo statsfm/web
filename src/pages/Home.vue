@@ -48,7 +48,7 @@
       </div>
       <div class="w-full md:w-6/12">
         <h1 class="text-4xl font-bold">Easy, extensive and secure</h1>
-        <p class="mt-2 max-w-prose">
+        <p class="mt-2 max-w-prose text-neutral-400">
           With the click of a button you'll be logged with your Spotify account and you'll instantly
           gain access to a valhalla of cool stats and insights
         </p>
