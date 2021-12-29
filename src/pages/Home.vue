@@ -15,13 +15,13 @@
         <a href="" class="text-primary font-bold">Watch the video -></a>
         <div class="flex gap-2 my-8 flex-col md:flex-row items-center">
           <a
-            class="hover:scale-[1.02]"
+            class="duration-100 hover:scale-[1.02]"
             href="https://apps.apple.com/app/spotistats-for-spotify/id1526912392"
             target="blank"
             ><img src="../assets/apple_appstore_badge.png" alt="Apple Appstore" class="h-14" />
           </a>
           <a
-            class="hover:scale-[1.02]"
+            class="duration-100 hover:scale-[1.02]"
             href="https://play.google.com/store/apps/details?id=dev.netlob.spotistats"
             target="blank"
             ><img src="../assets/google_play_badge.png" alt="Google Play" class="h-14" />
@@ -39,7 +39,7 @@
   </section>
   <section class="bg-bodySecundary pt-28 pb-28">
     <Container class="flex justify-between flex-col md:flex-row gap-10">
-      <div class="w-full flex justify-center mb-5 md:w-6/12 hidden md:flex">
+      <div class="w-full hidden justify-center mb-5 md:w-6/12 md:flex">
         <img
           src="../assets/mobile_full.png"
           alt="app"
@@ -187,13 +187,13 @@
 
         <div class="flex gap-2 flex-col justify-center md:flex-row items-center mt-8">
           <a
-            class="hover:scale-[1.02]"
+            class="duration-100 hover:scale-[1.02]"
             href="https://apps.apple.com/app/spotistats-for-spotify/id1526912392"
             target="blank"
             ><img src="../assets/apple_appstore_badge.png" alt="Apple Appstore" class="h-14" />
           </a>
           <a
-            class="hover:scale-[1.02]"
+            class="duration-100 hover:scale-[1.02]"
             href="https://play.google.com/store/apps/details?id=dev.netlob.spotistats"
             target="blank"
             ><img src="../assets/google_play_badge.png" alt="Google Play" class="h-14" />
