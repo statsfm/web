@@ -150,7 +150,7 @@
   <section>
     <Container class="pt-14 pb-14">
       <Card
-        class="rounded-xxxl overflow-hidden flex flex-col max-h-[575px] px-0 py-0 md:flex-row md:gap-5 md:max-h-[365px]"
+        class="rounded-[2.5rem] overflow-hidden flex flex-col max-h-[575px] px-0 py-0 md:flex-row md:gap-5 md:max-h-[365px]"
       >
         <div class="flex flex-col justify-between w-full p-5 md:w-8/12 md:p-10 mb-10">
           <div>
@@ -177,6 +177,36 @@
           <img src="../assets/mobile_full.png" />
         </div>
       </Card>
+
+      <!-- TODO: responiveness -->
+      <div class="mt-10 flex gap-10 max-h-[575px] md:max-h-[365px]">
+        <Card class="rounded-[2.5rem] p-0 overflow-hidden">
+          <div class="md:flex w-[500px] translate-x-[35px] gap-3 min-w-[350px]">
+            <div class="w-6/12 flex flex-col gap-5 translate-y-[-300px]">
+              <img src="../assets/mobile_full.png" class="w-full" />
+              <img src="../assets/mobile_full.png" class="w-full" />
+            </div>
+            <div class="w-6/12 flex flex-col gap-5 translate-y-[-190px]">
+              <img src="../assets/mobile_full.png" class="w-full" />
+              <img src="../assets/mobile_full.png" class="w-full" />
+            </div>
+          </div>
+          <div class="flex justify-center pl-5 pr-5 md:hidden">
+            <img src="../assets/mobile_full.png" />
+          </div>
+        </Card>
+
+        <Card
+          class="rounded-[2.5rem] flex flex-col justify-between max-h-[575px] p-5 md:p-10 md:gap-5 md:max-h-[365px]"
+        >
+          <h1 class="text-4xl font-bold">Lorem ipsum, <br />dolor samet</h1>
+          <p class="mt-2 mb-2 max-w-prose text-xl">
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Laborum hic quo totam quae
+            ducimus quos odio consequuntur dolores earum perferendis.
+          </p>
+          <a href="" class="text-primary font-bold">Watch the video -></a>
+        </Card>
+      </div>
     </Container>
   </section>
   <section class="bg-bodySecundary pt-14 pb-14 text-[black]">
