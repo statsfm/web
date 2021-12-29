@@ -15,13 +15,13 @@
         <a href="" class="text-primary font-bold">Watch the video -></a>
         <div class="flex gap-2 my-8 flex-col md:flex-row items-center">
           <a
-            class="hover:scale-[1.02]"
+            class="duration-100 hover:scale-[1.02]"
             href="https://apps.apple.com/app/spotistats-for-spotify/id1526912392"
             target="blank"
             ><img src="../assets/apple_appstore_badge.png" alt="Apple Appstore" class="h-14" />
           </a>
           <a
-            class="hover:scale-[1.02]"
+            class="duration-100 hover:scale-[1.02]"
             href="https://play.google.com/store/apps/details?id=dev.netlob.spotistats"
             target="blank"
             ><img src="../assets/google_play_badge.png" alt="Google Play" class="h-14" />
@@ -39,7 +39,7 @@
   </section>
   <section class="bg-bodySecundary pt-28 pb-28">
     <Container class="flex justify-between flex-col md:flex-row gap-10">
-      <div class="w-full flex justify-center mb-5 md:w-6/12 hidden md:flex">
+      <div class="w-full hidden justify-center mb-5 md:w-6/12 md:flex">
         <img
           src="../assets/mobile_full.png"
           alt="app"
@@ -74,7 +74,9 @@
             description="Thanks to state of the art algorithms you'll always be welcomed with relevant, advanced and personalized stats for each item you click on."
           />
           <small class="text-textGrey"
-            >* import of streaminghistory may be required to unlock (part of) this feature</small
+            >*
+            <Link :to="{ name: 'Import' }" class="underline">import of streaminghistory</Link> may
+            be required to unlock (part of) this feature</small
           >
         </div>
         <Divider />
@@ -185,13 +187,13 @@
 
         <div class="flex gap-2 flex-col justify-center md:flex-row items-center mt-8">
           <a
-            class="hover:scale-[1.02]"
+            class="duration-100 hover:scale-[1.02]"
             href="https://apps.apple.com/app/spotistats-for-spotify/id1526912392"
             target="blank"
             ><img src="../assets/apple_appstore_badge.png" alt="Apple Appstore" class="h-14" />
           </a>
           <a
-            class="hover:scale-[1.02]"
+            class="duration-100 hover:scale-[1.02]"
             href="https://play.google.com/store/apps/details?id=dev.netlob.spotistats"
             target="blank"
             ><img src="../assets/google_play_badge.png" alt="Google Play" class="h-14" />
@@ -208,8 +210,9 @@ import Container from '~/components/layout/Container.vue';
 import Card from '~/components/layout/Card.vue';
 import Divider from '~/components/base/Divider.vue';
 import FeatureStepItem from '~/components/base/FeatureStepItem.vue';
-import Review from '~/components/base/Review.vue';
 import TotalStats from '~/components/base/TotalStats/TotalStats.vue';
+import Link from '~/components/base/Link.vue';
+
 import {
   mdiLock,
   mdiHistory,
