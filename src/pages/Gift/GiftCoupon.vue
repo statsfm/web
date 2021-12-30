@@ -26,13 +26,15 @@
         <span>{{ formatCode(giftCode.code) }}</span>
       </div>
     </div>
-    <Divider />
-    <h2 class="text-xl font-bold">{{ t('gift.edit_message') }}</h2>
-    <textarea
-      v-model="giftCode.message"
-      :placeholder="t('placeholders.enter_message')"
-      class="mt-2 bg-transparent resize-none focus:outline-none"
-    />
+    <div v-if="!giftCode.claimedBy">
+      <Divider />
+      <h2 class="text-xl font-bold">{{ t('gift.edit_message') }}</h2>
+      <textarea
+        v-model="giftCode.message"
+        :placeholder="t('placeholders.enter_message')"
+        class="mt-2 bg-transparent resize-none focus:outline-none"
+      />
+    </div>
     <Divider />
     <Button @click="copyRedeemLink">{{ t('buttons.copy_link') }}</Button>
   </Modal>
