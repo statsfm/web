@@ -180,7 +180,7 @@
 
       <!-- TODO: responiveness -->
       <div class="mt-10 flex gap-10 max-h-[575px] md:max-h-[365px]">
-        <Card class="rounded-[2.5rem] p-0 overflow-hidden">
+        <Card class="rounded-[2.5rem] p-0 overflow-hidden hidden md:block">
           <div class="md:flex w-[500px] translate-x-[35px] gap-3 min-w-[350px]">
             <div class="w-6/12 flex flex-col gap-5 translate-y-[-300px]">
               <img src="../assets/mobile_full.png" class="w-full" />
