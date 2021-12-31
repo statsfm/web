@@ -1,15 +1,11 @@
 <template>
   <div class="relative w-[600px] h-[600px]">
     <canvas ref="canvas" class="absolute"></canvas>
-    <!-- TODO: show the label and the value -->
-    <div
+    <AudioFeatureBubble
       v-for="(feature, index) in featuresWithPos"
       :key="index"
-      class="absolute bg-primary w-14 aspect-square -translate-y-1/2 -translate-x-1/2 grid place-items-center rounded-full border-bodyPrimary border-4"
-      :style="{ top: `${feature.point.y}px`, left: `${feature.point.x}px` }"
-    >
-      <Icon :path="feature.feature.icon" />
-    </div>
+      :feature="feature"
+    />
   </div>
 </template>
 
@@ -18,7 +14,6 @@ import { onMounted, Ref, ref } from 'vue';
 import { useAuth } from '~/hooks';
 import { BacktrackTrack } from '~/types/backtrack';
 
-import Icon from '../Icon.vue';
 import {
   mdiMusic,
   mdiGuitarAcoustic,
@@ -28,6 +23,8 @@ import {
   mdiEmoticonHappy,
   mdiRecord
 } from '@mdi/js';
+import { AudioFeature, Point } from './feature';
+import AudioFeatureBubble from './AudioFeatureBubble.vue';
 
 const props = defineProps<{
   topTracks: BacktrackTrack[];
@@ -36,21 +33,6 @@ const props = defineProps<{
 const auth = useAuth();
 
 const canvas: Ref<HTMLCanvasElement | undefined> = ref();
-
-interface AudioFeature {
-  label: string;
-  icon: string;
-  value: number;
-  range: {
-    min: number;
-    max: number;
-  };
-}
-
-type Point = {
-  x: number;
-  y: number;
-};
 
 const getAudioFeatures = async (): Promise<AudioFeature[]> => {
   const tracks = props.topTracks;
