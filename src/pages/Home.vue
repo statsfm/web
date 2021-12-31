@@ -40,7 +40,7 @@
     <Container class="flex justify-between flex-col md:flex-row gap-10">
       <div class="w-full hidden justify-center mb-5 md:w-6/12 md:flex">
         <img
-          src="../assets/mobile_full.png"
+          src="https://cdn.discordapp.com/attachments/756495774975655987/926242429022113802/Group_21.png"
           alt="app"
           class="w-60 md:w-auto h-max transition-transform duration-200 hover:scale-[1.02]"
         />
