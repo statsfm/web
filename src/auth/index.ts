@@ -28,6 +28,20 @@ export default class auth {
     }
   };
 
+  // TODO: rewrite this function
+  public getSpotifyToken = async (): Promise<string | undefined> => {
+    const localStorageItem = localStorage.getItem('user');
+    if (localStorageItem && !this.hasValidToken()) {
+      return JSON.parse(localStorageItem).settings.accessToken;
+    }
+
+    const res = await api.get('/auth/token');
+
+    if (res.success) {
+      return res.data.data.settings.accessToken;
+    }
+  };
+
   public login = (redirectPage?: string) => {
     const loginUrl = `https://accounts.spotify.com/authorize?client_id=${
       this.clientId
