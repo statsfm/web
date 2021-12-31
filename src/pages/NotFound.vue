@@ -198,7 +198,7 @@ const onCanvasClick = (e: any) => {
       if (distance <= bubble.radius) {
         router.push({
           name: 'Artist',
-          params: { id: artist.id, slug: artist.slug }
+          params: { id: artist.id, slug: '' } // TODO: generate slug or get it by the api
         });
       }
     }
