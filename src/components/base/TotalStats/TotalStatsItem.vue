@@ -21,7 +21,7 @@
               : mdiArrowDownThin
           "
         />
-        <span class="text-sm font-normal tracking-normal">
+        <span class="text-sm font-medium tracking-normal">
           {{ formatCount(indicator) }}
           {{ dayjs(snapshot.current.date).from(snapshot.previous.date) }}
         </span>
