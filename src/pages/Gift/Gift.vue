@@ -15,7 +15,6 @@
         codes instead of just 5
       </p>
     </Card> -->
-    <h1 class="text-3xl font-bold">Gift Plus coupons</h1>
     <div class="flex gap-3 mb-5 flex-col mt-2">
       <div class="w-full flex flex-col justify-between">
         <div class="flex gap-3 justify-center mb-2">
@@ -28,22 +27,7 @@
         </div>
       </div>
       <h3 class="text-2xl font-bold">How does it work?</h3>
-      <ol class="list-decimal pl-5">
-        <li>Log in through Spotify</li>
-        <li>Choose between one of the packages</li>
-        <li>
-          You'll be redirected to a secure
-          <a class="text-primary font-bold" href="https://stripe.com" target="blank">Stripe</a>
-          checkout page
-        </li>
-        <li>After finishing the checkout process your coupons will be shown in the list below</li>
-        <li>
-          Share the giftcodes to your friends so they can redeem them at
-          <router-link class="text-primary font-bold" :to="{ name: 'Redeem' }"
-            >spotistats.app/redeem</router-link
-          >
-        </li>
-      </ol>
+      <Markdown src="/gift_guide.md" />
     </div>
     <Divider class="pb-4" />
     <div>
@@ -107,6 +91,7 @@ import { GiftCode, Plan } from '~/types';
 import { useI18n } from 'vue-i18n';
 import { useStore } from '~/store';
 import { giftCodes } from './state';
+import Markdown from '~/components/base/Markdown/Markdown.vue';
 
 const { t } = useI18n();
 const store = useStore();
