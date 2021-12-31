@@ -6,6 +6,7 @@ export * from './top';
 export * from './track';
 export * from './stream';
 export * from './friend';
+export * from './import';
 
 export interface BacktrackObject {
   id: number;

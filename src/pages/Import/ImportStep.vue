@@ -46,7 +46,7 @@ import ImportCard from '~/components/base/ImportCard.vue';
 import { useStore } from '~/store';
 import { code } from './state';
 import NProgress from 'nprogress';
-import { BacktrackUserImport } from '~/types/backtrack';
+import { BacktrackUserImport } from '~/types';
 
 const { t } = useI18n();
 const store = useStore();
