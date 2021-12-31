@@ -12,7 +12,7 @@
 <script lang="ts" setup>
 import { onMounted, Ref, ref } from 'vue';
 import { useAuth } from '~/hooks';
-import { BacktrackTrack } from '~/types/backtrack';
+import { BacktrackTrack } from '~/types';
 
 import {
   mdiMusic,
