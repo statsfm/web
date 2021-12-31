@@ -5,10 +5,12 @@
       :value="value"
       :style="{ resize: isResizeable ? 'vertical' : 'none' }"
       :placeholder="placeholder"
-      :maxlength="max"
+      :maxlength="maxLength"
       class="bg-bodySecundary rounded-2xl p-5 w-full focus:outline-none"
     ></textarea>
-    <span v-if="max" class="text-xs text-textGrey font-bold">{{ charCount }}/{{ max }}</span>
+    <span v-if="maxLength" class="text-xs text-textGrey font-bold"
+      >{{ charCount }}/{{ maxLength }}</span
+    >
   </div>
 </template>
 
@@ -20,7 +22,7 @@ defineProps<{
   placeholder?: string;
   isResizeable?: boolean;
   value?: string;
-  max?: number;
+  maxLength?: number;
 }>();
 
 const charCount = ref(0);
