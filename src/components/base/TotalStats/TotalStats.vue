@@ -24,6 +24,5 @@ const getStats = async (): Promise<TotalSize> => {
 
 onMounted(async () => {
   stats.value = await getStats();
-  console.log(stats.value);
 });
 </script>
