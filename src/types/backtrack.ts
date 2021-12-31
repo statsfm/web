@@ -1,4 +1,9 @@
-enum BacktrackTopIndicator {
+export interface BacktrackObject {
+  id: number;
+  updatedAt?: Date;
+}
+
+export enum BacktrackTopIndicator {
   UP,
   DOWN,
   NEW,
@@ -10,7 +15,7 @@ enum BacktrackTopIndicator {
  * Track
  */
 
-interface BacktrackTrack {
+export interface BacktrackTrack {
   id: number;
   name: string;
   explicit: boolean;
@@ -21,7 +26,7 @@ interface BacktrackTrack {
   artists: BacktrackArtistSimple[];
 }
 
-interface BacktrackTopTrack {
+export interface BacktrackTopTrack {
   position: number;
   streams: number;
   playedMs: number;
@@ -29,7 +34,7 @@ interface BacktrackTopTrack {
   track: BacktrackTrack;
 }
 
-interface BacktrackRecentlyPlayedTrack {
+export interface BacktrackRecentlyPlayedTrack {
   endTime: Date;
   track: BacktrackTrack;
 }
@@ -38,13 +43,13 @@ interface BacktrackRecentlyPlayedTrack {
  * Artist
  */
 
-interface BacktrackArtistSimple {
+export interface BacktrackArtistSimple {
   id: number;
   slug: string;
   name: string;
 }
 
-interface BacktrackArtist extends BacktrackArtistSimple {
+export interface BacktrackArtist extends BacktrackArtistSimple {
   image: string;
   followers: number;
   genres: string[];
@@ -52,7 +57,7 @@ interface BacktrackArtist extends BacktrackArtistSimple {
   externalIds: Record<string, unknown>;
 }
 
-interface BacktrackTopArtist {
+export interface BacktrackTopArtist {
   position: number;
   streams: number;
   playedMs: number;
@@ -60,7 +65,7 @@ interface BacktrackTopArtist {
   artist: BacktrackArtist;
 }
 
-interface BacktrackAlbumSimple {
+export interface BacktrackAlbumSimple {
   id: number;
   name: string;
   image: string;
@@ -70,7 +75,7 @@ interface BacktrackAlbumSimple {
  * Album
  */
 
-interface BacktrackAlbum extends BacktrackAlbumSimple {
+export interface BacktrackAlbum extends BacktrackAlbumSimple {
   label: string;
   totalTracks: number;
   releaseDate: Date;
@@ -81,7 +86,7 @@ interface BacktrackAlbum extends BacktrackAlbumSimple {
   artists: BacktrackArtist[];
 }
 
-interface BacktrackTopAlbum {
+export interface BacktrackTopAlbum {
   position: number;
   streams: number;
   playedMs: number;
@@ -92,19 +97,19 @@ interface BacktrackTopAlbum {
 /*
  * Genre
  */
-interface BacktrackGenre extends BacktrackGenreSimple {
+export interface BacktrackGenre extends BacktrackGenreSimple {
   related: BacktrackGenreSimple[];
   artists: BacktrackArtist[];
 }
 
-interface BacktrackGenreSimple {
+export interface BacktrackGenreSimple {
   tag: string;
 }
 
 /*
  * Stream
  */
-interface BacktrackStream {
+export interface BacktrackStream {
   id: string;
   userId: string;
   endTime: Date;
@@ -119,7 +124,7 @@ interface BacktrackStream {
 /*
  * User
  */
-interface BacktrackUser {
+export interface BacktrackUser {
   id: string;
   displayName: string;
   disabled: boolean;
@@ -131,12 +136,12 @@ interface BacktrackUser {
   sharingSettings: BacktrackSharingSettings;
 }
 
-interface BacktrackUserSettings {
+export interface BacktrackUserSettings {
   accessToken: string;
   accessTokenExpiration: Date;
 }
 
-interface BacktrackUserImport {
+export interface BacktrackUserImport {
   id: number;
   hash: string;
   count: number;
@@ -152,7 +157,7 @@ interface BacktrackUserImport {
  * Friend
  */
 
-interface BacktrackFriend {
+export interface BacktrackFriend {
   id: string;
   displayName: string;
   image: string;
@@ -160,25 +165,25 @@ interface BacktrackFriend {
   sharingSettings: BacktrackSharingSettings;
 }
 
-interface BacktrackFriendStats {
+export interface BacktrackFriendStats {
   user: BacktrackFriend;
   recentlyPlayed: BacktrackRecentlyPlayedTrack[];
   artists: BacktrackTopArtist[];
   tracks: BacktrackTopTrack[];
 }
 
-interface BacktrackFriendRequest {
+export interface BacktrackFriendRequest {
   friend: BacktrackFriend;
   createdAt: Date;
 }
 
-enum BacktrackSharingSettings {
+export enum BacktrackSharingSettings {
   NONE,
   FRIENDS,
   ALL
 }
 
-enum BacktrackFriendStatus {
+export enum BacktrackFriendStatus {
   NONE,
   FRIENDS,
   REQUEST_INCOMING,

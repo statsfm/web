@@ -1,5 +1,6 @@
 <template>
-  <Card class="flex justify-between items-center py-2">
+  <Card class="flex justify-between items-center py-2 relative overflow-hidden">
+    <!-- <div class="absolute top-0 h-1 bg-primary left-2 right-2 rounded-2xl"></div> -->
     <div class="w-full">
       <div class="flex justify-between">
         <span class="text-textGrey font-medium truncate">{{ t('import.imported_on') }}</span>
@@ -39,6 +40,7 @@ import Button from './Button.vue';
 import { ref } from 'vue';
 import api from '~/api';
 import { useStore } from '~/store';
+import { BacktrackUserImport } from '~/types/backtrack';
 
 const { t } = useI18n();
 const store = useStore();

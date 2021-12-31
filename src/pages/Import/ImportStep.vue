@@ -45,6 +45,8 @@ import ImportCard from '~/components/base/ImportCard.vue';
 
 import { useStore } from '~/store';
 import { code } from './state';
+import NProgress from 'nprogress';
+import { BacktrackUserImport } from '~/types/backtrack';
 
 const { t } = useI18n();
 const store = useStore();
@@ -105,7 +107,8 @@ const onFileSelect = async (e: any) => {
 
     // check if filename is valid
     if (file && file.name.match(/endsong_[0-9]+\.json/i)) {
-      isLoading.value = true;
+      // isLoading.value = true;
+      NProgress.start();
       formData.append('files', file);
 
       const res = await fetch(`${new api().baseUrl}/import/upload`, {
@@ -113,6 +116,7 @@ const onFileSelect = async (e: any) => {
         body: formData
       });
       const data = await res.json();
+      NProgress.done();
 
       if (!res.ok) {
         store.commit('setError', {
@@ -123,7 +127,6 @@ const onFileSelect = async (e: any) => {
         return;
       }
 
-      isLoading.value = false;
       emit('setDisabledState', false);
 
       store.commit('setError', {

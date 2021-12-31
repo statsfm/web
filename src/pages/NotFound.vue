@@ -18,6 +18,7 @@ import { onMounted, Ref, ref } from 'vue';
 import Header from '~/components/layout/Header.vue';
 import Button from '~/components/base/Button.vue';
 import { useRouter } from 'vue-router';
+import { BacktrackArtist } from '~/types/backtrack';
 
 const router = useRouter();
 

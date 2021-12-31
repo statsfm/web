@@ -39,6 +39,7 @@ import Avatar from '~/components/base/Avatar.vue';
 import { useI18n } from 'vue-i18n';
 import ChipGroup from '~/components/base/Chip/ChipGroup.vue';
 import Chip from '~/components/base/Chip/Chip.vue';
+import { BacktrackArtist } from '~/types/backtrack';
 
 const { t } = useI18n();
 const route = useRoute();
