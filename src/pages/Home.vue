@@ -1,8 +1,8 @@
 <template>
   <Header />
-  <section class="md:mt-28 mt-12">
+  <section>
     <Container class="flex justify-between flex-col gap-5 md:flex-row">
-      <div class="w-full md:w-6/12">
+      <div class="w-full md:w-6/12 my-12 md:my-28">
         <h1 class="lg:text-6xl text-5xl font-bold">
           Your music,<br />
           <span class="opacity-30">your</span> stats,<br />
@@ -11,8 +11,8 @@
         <p class="text-xl my-5 max-w-prose">
           Enter a new dimension of music by getting unique insights into your music taste.
         </p>
-        <a href="" class="text-primary font-bold">Watch the video -></a>
-        <div class="flex gap-2 my-8 flex-col md:flex-row items-center">
+        <ChevronLink :to="{ name: 'Gift' }">Watch the video</ChevronLink>
+        <div class="flex gap-2 mt-8 flex-col md:flex-row items-center">
           <a
             class="duration-100"
             href="https://apps.apple.com/app/spotistats-for-spotify/id1526912392"
@@ -86,66 +86,6 @@
       </div>
     </Container>
   </section>
-  <!-- <section class="bg-primary text-[black] pt-8 pb-8 relative">
-    <Container class="absolute min-h-[185px]">
-      <div class="flex items-center gap-10">
-        <div class="w-full md:w-6/12">
-          <h1 class="text-4xl font-bold">Lorem ipsum dolor samet</h1>
-          <p>Lorem ipsum dolor samet</p>
-
-          <div class="flex gap-8 mt-5">
-            <h3 class="text-3xl font-bold">4.792 <span class="text-xl">rating</span></h3>
-
-            <h3 class="text-3xl font-bold">43.284 <span class="text-xl">reviews</span></h3>
-          </div>
-        </div>
-
-        <div class="w-6/12 min-h-[150px]"></div>
-      </div>
-    </Container>
-    <div class="absolute" style="top: 32px">
-      <div class="flex items-center gap-10">
-        <div class="w-full md:w-6/12"></div>
-
-        <div class="hidden md:flex w-6/12 gap-5 overflow-x-auto rounded-2xl">
-          <Review
-            title="Amazing!"
-            description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Nam, corporis a esse id rem "
-            author="Sjoerd"
-            date="2021-12-15T18:34:05+0000"
-          />
-
-          <Review
-            title="Amazing!"
-            description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Nam, corporis a esse id rem quasi placeat, laudantium repellendus doloribus repudiandae suscipit pariatur."
-            author="Martijn"
-            date="2021-03-09T10:21:15+0000"
-          />
-
-          <Review
-            title="Amazing!"
-            description="Lorem ipsum laudantium repellendus doloribus repudiandae suscipit pariatur."
-            author="Stijn"
-            date="2020-10-29T07:07:16+0000"
-          />
-
-          <Review
-            title="Amazing!"
-            description="Lorem ipsum laudantium repellendus doloribus repudiandae suscipit pariatur."
-            author="Stijn"
-            date="2020-10-29T07:07:16+0000"
-          />
-
-          <Review
-            title="Amazing!"
-            description="Lorem ipsum laudantium repellendus doloribus repudiandae suscipit pariatur."
-            author="Stijn"
-            date="2020-10-29T07:07:16+0000"
-          />
-        </div>
-      </div>
-    </div>
-  </section> -->
   <section>
     <Container class="pt-14 pb-14">
       <Card
@@ -158,7 +98,7 @@
               Lorem ipsum dolor samet, sit amet consecteteur
             </p>
           </div>
-          <a href="" class="text-primary font-bold">Watch the video -></a>
+          <ChevronLink to="/">Watch the video</ChevronLink>
         </div>
         <div
           class="hidden md:flex w-[500px] gap-3 overflow-hidden translate-x-[75px] min-w-[350px]"
@@ -203,7 +143,7 @@
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Laborum hic quo totam quae
             ducimus quos odio consequuntur dolores earum perferendis.
           </p>
-          <a href="" class="text-primary font-bold">Watch the video -></a>
+          <ChevronLink to="/">Watch the video</ChevronLink>
         </Card>
       </div>
     </Container>
@@ -241,6 +181,7 @@ import Card from '~/components/layout/Card.vue';
 import Divider from '~/components/base/Divider.vue';
 import FeatureItem from '~/components/base/FeatureItem.vue';
 import TotalStats from '~/components/base/TotalStats/TotalStats.vue';
+import ChevronLink from '~/components/base/ChevronLink.vue';
 import Link from '~/components/base/Link.vue';
 
 import {
