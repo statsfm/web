@@ -1,6 +1,7 @@
 <template>
+  <!-- old classes: class="w-full border-0 cursor-pointer transition-colors duration-300 font-bold bg-primary/10 hover:bg-primary/20 active:bg-primary/5 text-primary" -->
   <button
-    class="w-full border-0 cursor-pointer transition-colors duration-300 font-bold bg-primary/10 hover:bg-primary/20 active:bg-primary/5 text-primary"
+    class="whitespace-nowrap inline-flex items-center justify-center px-5 py-2 border border-transparent rounded-lg shadow-sm text-base font-bold text-primary bg-primary/10 hover:bg-primary/20 active:bg-primary/5"
     :class="{
       'py-2 px-5 rounded-xl': size === 'small',
       'py-3 px-5 rounded-2xl': size === 'medium',
