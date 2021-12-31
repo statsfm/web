@@ -1,4 +1,4 @@
-import { BacktrackObject } from './backtrack';
+import { BacktrackObject } from './index';
 
 export interface BacktrackAudioFeatures extends BacktrackObject {
   danceability: number;
