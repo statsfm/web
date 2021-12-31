@@ -1,16 +1,15 @@
 <template>
   <Header />
-  <section class="mt-28">
+  <section class="md:mt-28 mt-12">
     <Container class="flex justify-between flex-col gap-5 md:flex-row">
       <div class="w-full md:w-6/12">
-        <h1 class="text-6xl font-bold">
+        <h1 class="lg:text-6xl text-5xl font-bold">
           Your music,<br />
           <span class="opacity-30">your</span> stats,<br />
           <span class="opacity-30">your</span> story.
         </h1>
         <p class="text-xl my-5 max-w-prose">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Nam, corporis a esse id rem quasi
-          placeat, laudantium.
+          Enter a new dimension of music by getting unique insights into your music taste.
         </p>
         <a href="" class="text-primary font-bold">Watch the video -></a>
         <div class="flex gap-2 my-8 flex-col md:flex-row items-center">
