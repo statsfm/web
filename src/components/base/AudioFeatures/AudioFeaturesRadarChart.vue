@@ -1,0 +1,250 @@
+<template>
+  <div class="relative w-[600px] h-[600px]">
+    <canvas ref="canvas" class="absolute"></canvas>
+    <!-- TODO: show the label and the value -->
+    <div
+      v-for="(feature, index) in featuresWithPos"
+      :key="index"
+      class="absolute bg-primary w-14 aspect-square -translate-y-1/2 -translate-x-1/2 grid place-items-center rounded-full border-bodyPrimary border-4"
+      :style="{ top: `${feature.point.y}px`, left: `${feature.point.x}px` }"
+    >
+      <Icon :path="feature.feature.icon" />
+    </div>
+  </div>
+</template>
+
+<script lang="ts" setup>
+import { onMounted, Ref, ref } from 'vue';
+import { useAuth } from '~/hooks';
+import { BacktrackTrack } from '~/types/backtrack';
+
+import Icon from '../Icon.vue';
+import {
+  mdiMusic,
+  mdiGuitarAcoustic,
+  mdiLightningBolt,
+  mdiInstrumentTriangle,
+  mdiAccountVoice,
+  mdiEmoticonHappy,
+  mdiRecord
+} from '@mdi/js';
+
+const props = defineProps<{
+  topTracks: BacktrackTrack[];
+}>();
+
+const auth = useAuth();
+
+const canvas: Ref<HTMLCanvasElement | undefined> = ref();
+
+interface AudioFeature {
+  label: string;
+  icon: string;
+  value: number;
+  range: {
+    min: number;
+    max: number;
+  };
+}
+
+type Point = {
+  x: number;
+  y: number;
+};
+
+const getAudioFeatures = async (): Promise<AudioFeature[]> => {
+  const tracks = props.topTracks;
+
+  // TODO: improve
+  let features: AudioFeature[] = [
+    {
+      label: 'acousticness',
+      icon: mdiGuitarAcoustic,
+      value: 0,
+      range: {
+        min: 0,
+        max: 1
+      }
+    },
+    {
+      label: 'danceability',
+      icon: mdiMusic,
+      value: 0,
+      range: {
+        min: 0,
+        max: 1
+      }
+    },
+    {
+      label: 'energy',
+      icon: mdiLightningBolt,
+      value: 0,
+      range: {
+        min: 0,
+        max: 1
+      }
+    },
+    {
+      label: 'instrumentalness',
+      icon: mdiInstrumentTriangle,
+      value: 0,
+      range: {
+        min: 0,
+        max: 1
+      }
+    },
+    {
+      label: 'liveness',
+      icon: mdiRecord,
+      value: 0,
+      range: {
+        min: 0,
+        max: 1
+      }
+    },
+    {
+      label: 'speechiness',
+      icon: mdiAccountVoice,
+      value: 0,
+      range: {
+        min: 0,
+        max: 1
+      }
+    },
+    {
+      label: 'valence',
+      icon: mdiEmoticonHappy,
+      value: 0,
+      range: {
+        min: 0,
+        max: 1
+      }
+    }
+  ];
+
+  if (tracks && tracks.length > 0) {
+    const spotifyIds = tracks.map((track) => (track.externalIds.spotify as string[])[0]);
+    const token = await auth.getSpotifyToken();
+
+    const res = await fetch(
+      `https://api.spotify.com/v1/audio-features?ids=${spotifyIds.slice(0, 10).join(',')}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      }
+    );
+
+    if (res.ok) {
+      const json = await res.json();
+      const data: Record<string, number>[] = json.audio_features;
+
+      for (const audioFeature of data) {
+        for (let i = 0; i < features.length; i++) {
+          features[i].value += audioFeature[features[i].label];
+        }
+      }
+
+      for (let i = 0; i < features.length; i++) {
+        features[i].value = features[i].value / features.length;
+      }
+    }
+  }
+
+  return features;
+};
+
+const featuresWithPos: Ref<{ point: Point; feature: AudioFeature }[]> = ref([]);
+
+onMounted(async () => {
+  const features = await getAudioFeatures();
+  drawRadarChart(features);
+});
+
+const drawRadarChart = (features: AudioFeature[]) => {
+  if (canvas.value) {
+    canvas.value.width = 600;
+    canvas.value.height = 600;
+    const width = ref(canvas.value.width);
+    const height = ref(canvas.value.height);
+
+    const strokeWidth = 2;
+    const maxRadius = Math.min(width.value / 2, height.value / 2);
+    const radius = maxRadius / 3 - strokeWidth;
+    const centrum: Point = { x: width.value / 2, y: height.value / 2 };
+
+    const deltaAngle = (Math.PI * 2) / features.length;
+
+    const ctx = canvas.value?.getContext('2d');
+    if (ctx) {
+      ctx.strokeStyle = 'rgb(39,41,43)';
+      ctx.lineWidth = strokeWidth;
+
+      // draw the spider web
+      for (let i = 0; i <= 3; i++) {
+        ctx.beginPath();
+        ctx.ellipse(width.value / 2, height.value / 2, radius * i, radius * i, 0, 0, Math.PI * 2);
+        ctx.stroke();
+        ctx.closePath();
+      }
+
+      // draw the crosshair
+      for (let i = 0; i < features.length; i++) {
+        const angle = deltaAngle * i;
+        const crosshair: Point = {
+          x: centrum.x + (maxRadius - strokeWidth * 2) * Math.cos(angle),
+          y: centrum.y + (maxRadius - strokeWidth * 2) * Math.sin(angle)
+        };
+
+        ctx.beginPath();
+        ctx.moveTo(centrum.x, centrum.y);
+        ctx.lineTo(crosshair.x, crosshair.y);
+        ctx.stroke();
+        ctx.closePath();
+      }
+
+      // TODO: move this outside the draw function
+      //  calculate the positions
+      for (let i = 0; i < features.length; i++) {
+        const feature = features[i];
+        const ratio = (feature.value - feature.range.min) / (feature.range.max - feature.range.min);
+        const featureRadius = maxRadius * ratio;
+
+        const angle = deltaAngle * i;
+        const pos: Point = {
+          x: centrum.x + featureRadius * Math.cos(angle),
+          y: centrum.y + featureRadius * Math.sin(angle)
+        };
+
+        featuresWithPos.value.push({
+          point: {
+            x: pos.x,
+            y: pos.y
+          },
+          feature
+        });
+      }
+
+      // draw the lines between the points and fill it
+      ctx.beginPath();
+      for (let i = 0; i <= featuresWithPos.value.length; i++) {
+        if (i == 0) {
+          const startPos = featuresWithPos.value[0];
+          ctx.moveTo(startPos.point.x, startPos.point.y);
+        } else {
+          const index = i == featuresWithPos.value.length ? 0 : i;
+          const pos = featuresWithPos.value[index];
+
+          ctx.strokeStyle = 'rgb(30, 215, 96)';
+          ctx.lineWidth = strokeWidth;
+          ctx.fillStyle = 'rgba(30, 215, 96, 0.2)';
+          ctx.lineTo(pos.point.x, pos.point.y);
+          ctx.stroke();
+        }
+      }
+      ctx.closePath();
+      ctx.fill();
+    }
+  }
+};
+</script>

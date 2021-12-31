@@ -30,6 +30,11 @@
         ></div
       ></router-link>
     </div>
+
+    <AudioFeaturesRadarChart
+      v-if="stats?.recentlyPlayed"
+      :topTracks="stats.recentlyPlayed.map((stream) => stream.track)"
+    />
   </Container>
 </template>
 
@@ -40,9 +45,11 @@ import Header from '~/components/layout/Header.vue';
 import Container from '~/components/layout/Container.vue';
 import Avatar from '~/components/base/Avatar.vue';
 import LoadingOverlay from '~/components/base/LoadingOverlay.vue';
+import AudioFeaturesRadarChart from '~/components/base/AudioFeatures/AudioFeaturesRadarChart.vue';
 import api from '~/api';
 import { useRoute } from 'vue-router';
 import { useI18n } from 'vue-i18n';
+import { BacktrackFriend, BacktrackFriendStats } from '~/types/backtrack';
 
 const route = useRoute();
 const { t } = useI18n();
