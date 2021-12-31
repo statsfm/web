@@ -23,8 +23,9 @@ import {
   mdiEmoticonHappy,
   mdiRecord
 } from '@mdi/js';
-import { AudioFeature, Point } from './feature';
+import { AudioFeature } from './feature';
 import AudioFeatureBubble from './AudioFeatureBubble.vue';
+import { Point } from '~/types/point';
 
 const props = defineProps<{
   topTracks: BacktrackTrack[];

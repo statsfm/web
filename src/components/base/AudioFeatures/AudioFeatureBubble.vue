@@ -11,8 +11,9 @@
 </template>
 
 <script lang="ts" setup>
+import { Point } from '~/types/point';
 import Icon from '../Icon.vue';
-import { Point, AudioFeature } from './feature';
+import { AudioFeature } from './feature';
 
 defineProps<{
   feature: { point: Point; feature: AudioFeature };
