@@ -2,8 +2,8 @@
   <LoadingOverlay v-if="isLoading" />
   <div class="flex gap-5 flex-col md:flex-row">
     <div class="w-full md:basis-6/12">
-      <h1 class="text-2xl font-bold">{{ t('import.import') }}</h1>
-      <p class="font-medium text-textGrey">
+      <h2>{{ t('import.import') }}</h2>
+      <p>
         {{ t('import.import.description') }}
       </p>
 
@@ -17,8 +17,8 @@
     </div>
 
     <div class="w-full md:basis-6/12">
-      <h1 class="text-2xl font-bold">{{ t('import.previous_imports') }}</h1>
-      <p class="font-medium text-textGrey">
+      <h2>{{ t('import.previous_imports') }}</h2>
+      <p>
         {{ t('import.previous_imports.description') }}
       </p>
 

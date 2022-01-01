@@ -1,14 +1,15 @@
 <template>
   <Card class="flex justify-between items-center py-2 relative overflow-hidden">
-    <!-- <div class="absolute top-0 h-1 bg-primary left-2 right-2 rounded-2xl"></div> -->
     <div class="w-full">
       <div class="flex justify-between">
-        <span class="text-textGrey font-medium truncate">{{ t('import.imported_on') }}</span>
-        <span>{{ dayjs(props.import.createdAt).format('DD/M/YYYY hh:mm') }}</span>
+        <span class="truncate">{{ t('import.imported_on') }}</span>
+        <span class="text-white">{{
+          dayjs(props.import.createdAt).format('DD/M/YYYY hh:mm')
+        }}</span>
       </div>
       <div class="flex justify-between truncate">
-        <span class="text-textGrey font-medium">{{ t('import.count') }}</span>
-        <span>{{ props.import.count }}</span>
+        <span class="truncate">{{ t('import.count') }}</span>
+        <span class="text-white">{{ props.import.count }}</span>
       </div>
     </div>
     <div class="pl-5 py-5 cursor-pointer" @click="showDeleteModal">

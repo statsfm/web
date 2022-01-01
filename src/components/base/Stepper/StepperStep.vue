@@ -5,16 +5,17 @@
     @click="!isDisabled ? $emit('click') : ''"
   >
     <div
-      class="select-none cursor-pointer text-primary w-12 aspect-square rounded-full text-xl grid place-items-center transition-colors duration-200"
+      class="select-none cursor-pointer w-12 aspect-square rounded-full text-xl grid place-items-center transition-colors duration-200"
       :class="{
         'bg-primaryLighter font-bold': isCurrent,
         'hover:bg-primary/20 active:bg-primary/5': !isDisabled
       }"
     >
-      <span v-if="!isCompleted">{{ index }}</span>
-      <Icon v-else :path="mdiCheck"></Icon>
+      <span v-if="!isCompleted" class="text-primary">{{ index }}</span>
+      <!-- TODO: use primary color -->
+      <Icon v-else :path="mdiCheck" color="rgb(30 215 96)"></Icon>
     </div>
-    <span class="font-bold truncate">
+    <span class="text-white truncate">
       <slot />
     </span>
   </div>

@@ -1,6 +1,6 @@
 <template>
-  <h1 class="text-2xl font-bold">{{ t('import.authentication') }}</h1>
-  <p class="font-medium text-textGrey">
+  <h2>{{ t('import.authentication') }}</h2>
+  <p>
     {{ t('import.authentication.description') }}
   </p>
   <CodeInput class="mt-2" :maxLength="6" @code="onCodeInput" />

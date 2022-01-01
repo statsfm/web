@@ -1,7 +1,7 @@
 <template>
   <Header />
   <Container>
-    <h1 class="text-4xl font-bold mb-5">Redeem a Plus coupon</h1>
+    <h2 class="mb-5">Redeem a Plus coupon</h2>
 
     <input
       placeholder="XXXX-XXXX-XXXX"

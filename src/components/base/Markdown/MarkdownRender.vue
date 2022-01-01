@@ -1,6 +1,6 @@
 <template>
   <article
-    class="prose max-w-full text-gray-500 prose-headings:text-white prose-a:text-primary font-medium prose-li:my-1"
+    class="prose max-w-full text-neutral-400 prose-headings:text-white prose-a:text-primary font-medium prose-li:my-0.5"
     v-html="marked(markdown)"
   />
 </template>
