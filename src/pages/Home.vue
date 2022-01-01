@@ -3,12 +3,12 @@
   <section>
     <Container class="flex justify-between flex-col gap-5 md:flex-row">
       <div class="w-full md:w-6/12 my-12 md:my-28">
-        <h1 class="lg:text-6xl text-5xl font-bold">
+        <h1>
           Your music,<br />
           <span class="opacity-30">your</span> stats,<br />
           <span class="opacity-30">your</span> story.
         </h1>
-        <p class="text-xl my-5 max-w-prose">
+        <p class="mb-5">
           Enter a new dimension of music by getting unique insights into your music taste.
         </p>
         <ChevronLink :to="{ name: 'Gift' }">Watch the video</ChevronLink>
@@ -46,8 +46,8 @@
         />
       </div>
       <div class="w-full md:w-6/12">
-        <h1 class="text-4xl font-bold">Easy, extensive and secure</h1>
-        <p class="mt-2 max-w-prose text-neutral-400">
+        <h1>Easy, extensive and secure</h1>
+        <p>
           With the click of a button you'll be logged with your Spotify account and you'll instantly
           gain access to a valhalla of cool stats and insights
         </p>
@@ -74,30 +74,27 @@
             the full potential of the platform by getting access to lots of cool features. It's
             really cool, I promise : )</FeatureItem
           >
-          <small class="text-textGrey"
-            >*
-            <Link :to="{ name: 'Import' }" class="underline">import of streaminghistory</Link> may
-            be required to unlock (part of) this feature</small
-          >
+          <p>
+            * <Link :to="{ name: 'Import' }">import of streaminghistory</Link> may be required to
+            unlock (part of) this feature
+          </p>
         </div>
         <Divider />
-        <br />
-        <TotalStats />
+        <TotalStats class="mt-5" />
       </div>
     </Container>
   </section>
   <section>
     <Container class="pt-14 pb-14">
       <Card
-        class="rounded-[2.5rem] overflow-hidden flex flex-col max-h-[575px] px-0 py-0 md:flex-row md:gap-5 md:max-h-[365px]"
+        class="rounded-[2.5rem] overflow-hidden flex flex-col justify-between max-h-[575px] px-0 py-0 md:flex-row md:gap-5 md:max-h-[365px]"
       >
         <div class="flex flex-col justify-between w-full p-5 md:w-8/12 md:p-10 mb-10">
-          <div>
-            <h1 class="text-4xl font-bold">Lorem ipsum, <br />dolor samet</h1>
-            <p class="mt-2 mb-2 max-w-prose text-xl">
-              Lorem ipsum dolor samet, sit amet consecteteur
-            </p>
-          </div>
+          <h1>Lorem ipsum, <br />dolor samet</h1>
+          <p>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Laborum hic quo totam quae
+            ducimus quos odio consequuntur dolores earum perferendis.
+          </p>
           <ChevronLink to="/">Watch the video</ChevronLink>
         </div>
         <div
@@ -138,8 +135,8 @@
         <Card
           class="rounded-[2.5rem] flex flex-col justify-between max-h-[575px] p-5 md:p-10 md:max-h-[365px]"
         >
-          <h1 class="text-4xl font-bold">Lorem ipsum, <br />dolor samet</h1>
-          <p class="mt-2 mb-2 max-w-prose text-xl">
+          <h1>Lorem ipsum, <br />dolor samet</h1>
+          <p>
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Laborum hic quo totam quae
             ducimus quos odio consequuntur dolores earum perferendis.
           </p>
@@ -151,10 +148,10 @@
   <section class="bg-bodySecundary pt-14 pb-14 text-[black]">
     <Container>
       <Card
-        class="bg-primary text-center px-6 py-10 flex flex-col transition-transform duration-200 hover:scale-[1.02] sm:px-12 sm:py-20"
+        class="bg-primary text-center px-6 py-10 flex items-center flex-col transition-transform duration-200 hover:scale-[1.02] sm:px-12 sm:py-20"
       >
-        <h1 class="text-4xl font-bold">Download today and start your journey</h1>
-        <p class="mt-2 text-xl">Available on Android & iOS</p>
+        <h1 class="text-bodySecundary">Download today and start your journey</h1>
+        <h4 class="text-bodySecundary py-2">Available on Android & iOS</h4>
         <div class="flex gap-2 flex-col justify-center md:flex-row items-center mt-8">
           <a
             class="duration-100"

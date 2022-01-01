@@ -1,32 +1,32 @@
 <template>
   <div>
-    <dt class="text-base font-bold text-textGrey">{{ label }}</dt>
-    <dd class="text-3xl font-bold tracking-tight text-white">
+    <span>{{ label }}</span>
+    <h3 class="tracking-tight">
       {{ formatCount(count) }}
-      <span v-if="hasLiveIndicator" class="h-3 w-3">
+
+      <span v-if="hasLiveIndicator" class="w-3 aspect-square">
         <span
           style="margin-left: -2px; margin-top: -2px; animation-duration: 1s"
           class="animate-ping absolute inline-flex h-4 w-4 rounded-full bg-primary opacity-75"
         >
         </span>
-        <span class="absolute rounded-full h-3 w-3 bg-primary opacity-80"></span>
+        <span class="absolute rounded-full w-3 aspect-square bg-primary opacity-80"></span>
       </span>
-      <div class="text-textGrey flex flex-row items-center" v-if="hasIndicator">
-        <Icon
-          :path="
-            diffBetweenCurrentAndPreviousSnapshot == 0
-              ? mdiArrowRightThin
-              : diffBetweenCurrentAndPreviousSnapshot > 0
-              ? mdiArrowUpThin
-              : mdiArrowDownThin
-          "
-        />
-        <p class="text-sm font-medium tracking-normal">
-          <span class="font-bold">{{ formatCount(indicator) }}</span>
-          {{ dayjs(snapshot.current.date).from(snapshot.previous.date) }}
-        </p>
-      </div>
-    </dd>
+    </h3>
+
+    <p class="inline-flex" v-if="hasIndicator">
+      <Icon
+        :path="
+          diffBetweenCurrentAndPreviousSnapshot == 0
+            ? mdiArrowRightThin
+            : diffBetweenCurrentAndPreviousSnapshot > 0
+            ? mdiArrowUpThin
+            : mdiArrowDownThin
+        "
+      />
+      <span class="font-bold mr-1">{{ formatCount(indicator) }}</span>
+      {{ dayjs(snapshot.current.date).from(snapshot.previous.date) }}
+    </p>
   </div>
 </template>
 
