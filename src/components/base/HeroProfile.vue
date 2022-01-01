@@ -2,16 +2,14 @@
   <Hero>
     <Avatar :src="image" :size="48" />
     <div class="flex flex-col justify-end">
-      <span class="font-medium text-textGrey text-center md:text-left" v-if="followers">
+      <span class="md:text-left" v-if="followers">
         {{
           t('artist.followers', {
             count: formatFollowers(followers)
           })
         }}</span
       >
-      <h1 class="text-4xl font-black text-center md:text-6xl">
-        {{ name }}
-      </h1>
+      <h1>{{ name }}</h1>
     </div>
   </Hero>
 </template>
