@@ -1,20 +1,10 @@
 <template>
-  <Header class="bg-bodySecundary" />
   <LoadingOverlay v-if="isLoading" />
-  <div class="bg-bodySecundary" v-if="user">
-    <Container class="flex gap-5 pt-24 pb-10 flex-col items-center md:flex-row">
-      <Avatar :src="user.image" :size="48" />
-      <div class="flex flex-col justify-end">
-        <h1 class="text-4xl font-black text-center md:text-6xl">
-          {{ user.displayName }}
-        </h1>
-      </div>
-    </Container>
-  </div>
+  <HeroProfile v-if="user" :name="user.displayName" :image="user.image" />
   <Container>
     <div class="flex gap-2 overflow-x-auto">
       <router-link
-        v-for="(artist, index) in stats?.artists"
+        v-for="(artist, index) in topArtists"
         :key="index"
         :to="{
           name: 'Artist',
@@ -32,8 +22,8 @@
     </div>
 
     <AudioFeaturesRadarChart
-      v-if="stats?.recentlyPlayed"
-      :topTracks="stats.recentlyPlayed.map((stream) => stream.track)"
+      v-if="recentlyPlayed"
+      :topTracks="recentlyPlayed.map((stream) => stream.track)"
     />
   </Container>
 </template>
@@ -41,37 +31,42 @@
 <script lang="ts" setup>
 import { onMounted, Ref, ref } from 'vue';
 
-import Header from '~/components/layout/Header.vue';
 import Container from '~/components/layout/Container.vue';
-import Avatar from '~/components/base/Avatar.vue';
 import LoadingOverlay from '~/components/base/LoadingOverlay.vue';
+import HeroProfile from '~/components/base/HeroProfile.vue';
 import AudioFeaturesRadarChart from '~/components/base/AudioFeatures/AudioFeaturesRadarChart.vue';
 import api from '~/api';
 import { useRoute } from 'vue-router';
 import { useI18n } from 'vue-i18n';
-import { BacktrackFriend, BacktrackFriendStats } from '~/types/backtrack';
+import { BacktrackFriend, BacktrackRecentlyPlayedTrack, BacktrackTopArtist } from '~/types';
 
 const route = useRoute();
 const { t } = useI18n();
 
 const isLoading = ref(false);
 const user: Ref<BacktrackFriend | null> = ref(null);
-const stats: Ref<BacktrackFriendStats | null> = ref(null);
+const recentlyPlayed: Ref<BacktrackRecentlyPlayedTrack[] | null> = ref(null);
+const topArtists: Ref<BacktrackTopArtist[] | null> = ref(null);
 
-const getUser = async (): Promise<BacktrackFriend> => {
-  const res = await api.get(`/friends/get/${route.params.id}`);
+const getUser = async (id: string): Promise<BacktrackFriend> => {
+  const res = await api.get(`/friends/get/${id}`);
   return res.data.data;
 };
 
-const getUserStats = async (): Promise<BacktrackFriendStats> => {
-  const res = await api.get(`/friends/stats/${route.params.id}`);
-  return res.data.data;
+const getUsersRecentlyPlayed = async (id: string): Promise<BacktrackRecentlyPlayedTrack[]> => {
+  return await api.get(`/friends/stats/${id}`).then((res) => res.data.data.recentlyPlayed);
+};
+
+const getShortTermTopArtist = async (id: string): Promise<BacktrackTopArtist[]> => {
+  return await api.get(`/users/${id}/top/artists/short_term`).then((res) => res.data.items);
 };
 
 onMounted(async () => {
+  const id = route.params.id.toString();
   isLoading.value = true;
-  user.value = await getUser();
-  stats.value = await getUserStats();
+  user.value = await getUser(id);
+  recentlyPlayed.value = await getUsersRecentlyPlayed(id);
+  topArtists.value = await getShortTermTopArtist(id);
   isLoading.value = false;
 });
 </script>
