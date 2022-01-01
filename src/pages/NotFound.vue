@@ -177,7 +177,7 @@ const getRandomIntInRange = (min: number, max: number): number => {
   return Math.floor(Math.random() * (max - min + 1) + min);
 };
 
-const getMousePosInElement = (el: HTMLCanvasElement, e: any): Point => {
+const getMousePosInElement = (el: HTMLCanvasElement, e: MouseEvent): Point => {
   const rect = el.getBoundingClientRect();
 
   return {
@@ -186,7 +186,7 @@ const getMousePosInElement = (el: HTMLCanvasElement, e: any): Point => {
   };
 };
 
-const onCanvasClick = (e: any) => {
+const onCanvasClick = (e: MouseEvent) => {
   if (canvas.value) {
     const mousePos = getMousePosInElement(canvas.value, e);
 
