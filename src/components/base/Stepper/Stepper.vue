@@ -3,7 +3,12 @@
 
   <div>
     <KeepAlive>
-      <component :is="steps[currentStep].component" @setDisabledState="setDisabledState" />
+      <component
+        :is="steps[currentStep].component"
+        @setDisabledState="setDisabledState"
+        @continue="onContinue"
+        @back="onBack"
+      />
     </KeepAlive>
 
     <Button
@@ -59,6 +64,10 @@ const setDisabledState = (state: boolean) => {
 };
 
 const onContinue = () => {
-  currentStep.value = currentStep.value + 1;
+  currentStep.value = currentStep.value + 1 ?? currentStep.value;
+};
+
+const onBack = () => {
+  currentStep.value = currentStep.value - 1 ?? currentStep.value;
 };
 </script>
