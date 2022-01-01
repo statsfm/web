@@ -1,7 +1,9 @@
 <template>
-  <Container class="flex flex-col gap-2 sticky left-0 bottom-5 right-0">
-    <ToasterItem v-for="(error, index) in errors" :key="index" :error="error"
-  /></Container>
+  <Teleport to="body">
+    <Container class="flex flex-col gap-2 sticky left-0 bottom-5 right-0">
+      <ToasterItem v-for="(error, index) in errors" :key="index" :error="error"
+    /></Container>
+  </Teleport>
 </template>
 
 <script lang="ts" setup>
