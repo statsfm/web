@@ -1,5 +1,9 @@
 <template>
-  <CodeInput :maxLength="6" @code="onCodeInput" />
+  <h1 class="text-2xl font-bold">{{ t('import.authentication') }}</h1>
+  <p class="font-medium text-textGrey">
+    {{ t('import.authentication.description') }}
+  </p>
+  <CodeInput class="mt-2" :maxLength="6" @code="onCodeInput" />
 </template>
 
 <script lang="ts" setup>
@@ -8,8 +12,10 @@ import { useStore } from '~/store';
 import { code } from './state';
 
 import CodeInput from '~/components/base/CodeInput.vue';
+import { useI18n } from 'vue-i18n';
 
 const store = useStore();
+const { t } = useI18n();
 const emit = defineEmits(['setDisabledState']);
 
 const onCodeInput = async (value: string) => {
