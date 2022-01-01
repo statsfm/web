@@ -19,15 +19,18 @@ import { Step } from '~/types';
 const steps: Step[] = [
   {
     name: 'Authenticate',
-    component: AuthenticateStep
+    component: AuthenticateStep,
+    disabled: true
   },
   {
     name: 'Import',
-    component: ImportStep
+    component: ImportStep,
+    disabled: true
   },
   {
     name: 'Success',
-    component: SuccessStep
+    component: SuccessStep,
+    disabled: true
   }
 ];
 </script>
