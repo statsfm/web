@@ -26,12 +26,11 @@ import api from '~/api';
 import { useRoute, useRouter } from 'vue-router';
 import Button from '~/components/base/Button.vue';
 import { useI18n } from 'vue-i18n';
-import { useStore } from '~/store';
 import LoadingOverlay from '~/components/base/LoadingOverlay.vue';
-import { useAuth } from '~/hooks';
+import { useAuth, useToaster } from '~/hooks';
 
 const { t } = useI18n();
-const store = useStore();
+const toaster = useToaster();
 const router = useRouter();
 const route = useRoute();
 const auth = useAuth();
@@ -52,7 +51,7 @@ const getGiftCode = async (code: string) => {
         break;
       case 404:
         router.push({ name: 'Redeem' });
-        store.commit('setError', { message: res.data.message, type: 'error' });
+        toaster.error({ message: res.data.message });
         break;
     }
 
@@ -67,26 +66,23 @@ const redeemGiftCode = async () => {
   const res = await api.post(`/plus/giftcodes/${code.value}/redeem`);
 
   if (!res.success) {
-    store.commit('setError', {
-      message: res.data.message,
-      type: 'error'
+    toaster.error({
+      message: res.data.message
     });
 
     return;
   }
 
-  store.commit('setError', {
-    message: t('errors.successfully_redeemed'),
-    type: 'info'
+  toaster.success({
+    message: t('errors.successfully_redeemed')
   });
 
   isFlipped.value = true;
 };
 
 const onGiftCardNotAuthenticatedClick = () => {
-  store.commit('setError', {
-    message: t('errors.redeem_not_authenticated'),
-    type: 'error'
+  toaster.error({
+    message: t('errors.redeem_not_authenticated')
   });
 };
 

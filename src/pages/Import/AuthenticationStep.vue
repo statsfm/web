@@ -8,13 +8,13 @@
 
 <script lang="ts" setup>
 import api from '~/api';
-import { useStore } from '~/store';
 import { code } from './state';
 
 import CodeInput from '~/components/base/CodeInput.vue';
 import { useI18n } from 'vue-i18n';
+import { useToaster } from '~/hooks';
 
-const store = useStore();
+const toaster = useToaster();
 const { t } = useI18n();
 const emit = defineEmits(['setDisabledState']);
 
@@ -24,7 +24,7 @@ const onCodeInput = async (value: string) => {
   });
 
   if (!success) {
-    store.commit('setError', { message: data.message, type: 'error' });
+    toaster.error({ message: data.message });
     return;
   }
 

@@ -80,13 +80,14 @@ import api from '~/api';
 import { useAuth } from '~/hooks/auth';
 import { GiftCode, Plan } from '~/types';
 import { useI18n } from 'vue-i18n';
-import { useStore } from '~/store';
 import { giftCodes } from './state';
 import Markdown from '~/components/base/Markdown/Markdown.vue';
+import { useToaster } from '~/hooks';
 
 const { t } = useI18n();
-const store = useStore();
 const auth = useAuth();
+const toaster = useToaster();
+
 const isLoading = ref(false);
 const plans: Plan[] = [
   {
@@ -123,10 +124,7 @@ const initCheckout = async (quantity: number) => {
 
   if (status == 403) {
     isLoading.value = false;
-    store.commit('setError', {
-      message: t('errors.not_authenticated'),
-      type: 'error'
-    });
+    toaster.error({ message: t('errors.not_authenticated') });
     return;
   }
 

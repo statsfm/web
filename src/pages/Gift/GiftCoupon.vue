@@ -56,15 +56,14 @@ import Button from '~/components/base/Button.vue';
 import { GiftCode } from '~/types';
 import dayjs from 'dayjs';
 import api from '~/api';
-import { useUser } from '~/hooks';
-import { useStore } from '~/store';
+import { useToaster, useUser } from '~/hooks';
 import { giftCodes } from './state';
 
 const { t } = useI18n();
 const router = useRouter();
 const route = useRoute();
 const user = useUser();
-const store = useStore();
+const toaster = useToaster();
 
 const giftCode: Ref<GiftCode | null> = ref(null);
 
@@ -95,9 +94,8 @@ const onModalHide = async () => {
   });
 
   if (!success) {
-    store.commit('setError', {
-      message: data.message,
-      type: 'error'
+    toaster.error({
+      message: data.message
     });
 
     return;

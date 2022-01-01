@@ -43,13 +43,13 @@ import LoadingOverlay from '~/components/base/LoadingOverlay.vue';
 import Card from '~/components/layout/Card.vue';
 import ImportCard from '~/components/base/ImportCard.vue';
 
-import { useStore } from '~/store';
 import { code } from './state';
 import NProgress from 'nprogress';
 import { BacktrackUserImport } from '~/types';
+import { useToaster } from '~/hooks';
 
 const { t } = useI18n();
-const store = useStore();
+const toaster = useToaster();
 
 const formData = new FormData();
 const isLoading = ref(false);
@@ -74,9 +74,8 @@ onMounted(async () => {
 
 const onFileSelect = async (e: any) => {
   if (!code.value) {
-    store.commit('setError', {
-      message: t('errors.no_code_recieved'),
-      type: 'error'
+    toaster.error({
+      message: t('errors.no_code_recieved')
     });
 
     emit('back');
@@ -89,16 +88,15 @@ const onFileSelect = async (e: any) => {
   const files: FileList = e.target.files;
 
   if (files.length === 0) {
-    store.commit('setError', {
-      message: t('errors.no_files_selected'),
-      type: 'error'
+    toaster.error({
+      message: t('errors.no_files_selected')
     });
 
     return;
   }
 
   if (files.length > 1) {
-    store.commit('setError', {
+    toaster.error({
       message: t('errors.multiple_files')
     });
 
@@ -122,9 +120,8 @@ const onFileSelect = async (e: any) => {
       NProgress.done();
 
       if (!res.ok) {
-        store.commit('setError', {
-          message: data.message,
-          type: 'error'
+        toaster.error({
+          message: data.message
         });
 
         return;
@@ -135,22 +132,19 @@ const onFileSelect = async (e: any) => {
       // continue to the next step
       emit('continue');
 
-      store.commit('setError', {
+      toaster.success({
         message: t('import.successfully_uploaded_file', {
           filename: file.name
-        }),
-        type: 'info'
+        })
       });
     } else if (file?.name.match(/StreamingHistory[0-9][0-9]?.json/g)) {
-      store.commit('setError', {
+      toaster.error({
         message: t('errors.invalid_filename_streaminghistory'),
-        type: 'error',
         duration: 8 * 1000 // show the toaster for 8 seconds
       });
     } else {
-      store.commit('setError', {
-        message: t('errors.invalid_filename'),
-        type: 'error'
+      toaster.error({
+        message: t('errors.invalid_filename')
       });
     }
   }

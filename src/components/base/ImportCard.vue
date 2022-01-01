@@ -40,11 +40,11 @@ import { useI18n } from 'vue-i18n';
 import Button from './Button.vue';
 import { ref } from 'vue';
 import api from '~/api';
-import { useStore } from '~/store';
 import { BacktrackUserImport } from '~/types';
+import { useToaster } from '~/hooks';
 
 const { t } = useI18n();
-const store = useStore();
+const toaster = useToaster();
 
 const props = defineProps<{
   import: BacktrackUserImport;
@@ -56,9 +56,8 @@ const deleteImport = async () => {
   const { data } = await api.post(`/import/remove/${props.import.hash}`);
 
   if (data[0] !== 200) {
-    store.commit('setError', {
-      message: t('errors.failed_removing_import'),
-      type: 'error'
+    toaster.error({
+      message: t('errors.failed_removing_import')
     });
   }
 
