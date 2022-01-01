@@ -1,5 +1,4 @@
 <template>
-  <LoadingOverlay v-if="isLoading" />
   <HeroProfile v-if="user" :name="user.displayName" :image="user.image" />
   <Container>
     <div class="flex gap-2 overflow-x-auto">
@@ -32,7 +31,6 @@
 import { onMounted, Ref, ref } from 'vue';
 
 import Container from '~/components/layout/Container.vue';
-import LoadingOverlay from '~/components/base/LoadingOverlay.vue';
 import HeroProfile from '~/components/base/HeroProfile.vue';
 import AudioFeaturesRadarChart from '~/components/base/AudioFeatures/AudioFeaturesRadarChart.vue';
 import api from '~/api';
@@ -49,8 +47,7 @@ const recentlyPlayed: Ref<BacktrackRecentlyPlayedTrack[] | null> = ref(null);
 const topArtists: Ref<BacktrackTopArtist[] | null> = ref(null);
 
 const getUser = async (id: string): Promise<BacktrackFriend> => {
-  const res = await api.get(`/friends/get/${id}`);
-  return res.data.data;
+  return await api.get(`/friends/get/${id}`).then((res) => res.data.data);
 };
 
 const getUsersRecentlyPlayed = async (id: string): Promise<BacktrackRecentlyPlayedTrack[]> => {
@@ -63,10 +60,8 @@ const getShortTermTopArtist = async (id: string): Promise<BacktrackTopArtist[]> 
 
 onMounted(async () => {
   const id = route.params.id.toString();
-  isLoading.value = true;
   user.value = await getUser(id);
   recentlyPlayed.value = await getUsersRecentlyPlayed(id);
   topArtists.value = await getShortTermTopArtist(id);
-  isLoading.value = false;
 });
 </script>

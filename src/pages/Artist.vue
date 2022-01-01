@@ -1,5 +1,4 @@
 <template>
-  <LoadingOverlay v-if="isLoading" />
   <HeroProfile
     v-if="artist"
     :name="artist.name"
@@ -27,7 +26,6 @@ import { useRoute } from 'vue-router';
 import api from '~/api';
 
 import Container from '~/components/layout/Container.vue';
-import LoadingOverlay from '~/components/base/LoadingOverlay.vue';
 import Link from '~/components/base/Link.vue';
 import HeroProfile from '~/components/base/HeroProfile.vue';
 import ChipGroup from '~/components/base/Chip/ChipGroup.vue';
@@ -39,7 +37,6 @@ import { BacktrackArtist } from '~/types/backtrack';
 const { t } = useI18n();
 const route = useRoute();
 
-const isLoading = ref(false);
 const artist: Ref<BacktrackArtist | null> = ref(null);
 
 const getArtist = async (id: number): Promise<BacktrackArtist> => {
@@ -60,8 +57,6 @@ const getArtistStreamDuration = async (id: number): Promise<number> => {
 onMounted(async () => {
   const id = parseInt(route.params.id.toString());
 
-  isLoading.value = true;
   artist.value = await getArtist(id);
-  isLoading.value = false;
 });
 </script>

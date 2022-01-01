@@ -1,3 +1,6 @@
+import NProgress from 'nprogress';
+import * as toaster from '../components/base/Toaster/api';
+
 export interface Response {
   success: boolean;
   status: number;
@@ -27,6 +30,8 @@ export default class api {
       }
     };
 
+    NProgress.start();
+
     // TODO: use baseUrl
     const res = await fetch(`${this.baseUrl}${slug}`, init);
     const newRes = {
@@ -37,6 +42,13 @@ export default class api {
       headers: res.headers,
       data: await res.json()
     };
+
+    NProgress.done();
+    if (!newRes.success) {
+      toaster.error({
+        message: newRes.data.message
+      });
+    }
 
     return newRes;
   };
