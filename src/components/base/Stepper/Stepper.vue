@@ -2,13 +2,6 @@
   <StepperSteps :steps="mutatedSteps" @step="currentStep = $event" :step="currentStep" />
 
   <div>
-    <div v-if="steps[currentStep].description" class="mb-2">
-      <h1 class="font-bold text-2xl">{{ steps[currentStep].name }}</h1>
-      <p class="font-bold text-textGrey">
-        {{ steps[currentStep].description }}
-      </p>
-    </div>
-
     <KeepAlive>
       <component :is="steps[currentStep].component" @setDisabledState="setDisabledState" />
     </KeepAlive>
@@ -25,7 +18,7 @@
 </template>
 
 <script lang="ts" setup>
-import { Ref, ref, watch } from 'vue';
+import { reactive, Ref, ref, watch } from 'vue';
 import { Step } from '~/types';
 
 import StepperSteps from './StepperSteps.vue';
@@ -42,7 +35,7 @@ defineEmits(['continue']);
 const { t } = useI18n();
 
 const currentStep: Ref<number> = ref(0);
-const mutatedSteps: Ref<Step[]> = ref(props.steps);
+const mutatedSteps: Step[] = reactive(props.steps);
 
 watch(
   () => props.step,
@@ -52,12 +45,16 @@ watch(
 );
 
 const setDisabledState = (state: boolean) => {
-  mutatedSteps.value[currentStep.value].disabled = state;
+  // set curent step disabled state
+  mutatedSteps[currentStep.value].disabled = state;
+
+  // set current step to completed
+  mutatedSteps[currentStep.value].completed = true;
 
   // TODO: improve
   // set next step disabled state
-  if (mutatedSteps.value[currentStep.value + 1]) {
-    mutatedSteps.value[currentStep.value + 1].disabled = true;
+  if (mutatedSteps[currentStep.value + 1]) {
+    mutatedSteps[currentStep.value + 1].disabled = false;
   }
 };
 

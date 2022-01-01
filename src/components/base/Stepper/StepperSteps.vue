@@ -5,7 +5,8 @@
         :index="index + 1"
         @click="setCurrentStep(index)"
         :isCurrent="currentStep == index"
-        :disabled="step.disabled"
+        :isDisabled="step.disabled"
+        :isCompleted="step.completed"
         >{{ step.name }}
       </StepperStep>
     </div>
