@@ -110,7 +110,7 @@
           </div>
         </div>
         <div class="flex justify-center pl-5 pr-5 md:hidden">
-          <img src="../assets/mobile_full.png" />
+          <img src="../assets/mobile_half.png" />
         </div>
       </Card>
 
