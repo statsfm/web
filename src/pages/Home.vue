@@ -42,7 +42,7 @@
         <img
           src="https://cdn.discordapp.com/attachments/756495774975655987/926242429022113802/Group_21.png"
           alt="app"
-          class="w-60 md:w-auto h-max transition-transform duration-200 hover:scale-[1.02]"
+          class="w-60 md:w-auto object-contain transition-transform duration-200 hover:scale-[1.02]"
         />
       </div>
       <div class="w-full md:w-6/12">
@@ -136,7 +136,7 @@
         </Card>
 
         <Card
-          class="rounded-[2.5rem] flex flex-col justify-between max-h-[575px] p-5 md:p-10 md:gap-5 md:max-h-[365px]"
+          class="rounded-[2.5rem] flex flex-col justify-between max-h-[575px] p-5 md:p-10 md:max-h-[365px]"
         >
           <h1 class="text-4xl font-bold">Lorem ipsum, <br />dolor samet</h1>
           <p class="mt-2 mb-2 max-w-prose text-xl">
