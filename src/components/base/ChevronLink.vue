@@ -1,5 +1,5 @@
 <template>
-  <Link :to="to" class="text-primary font-bold flex items-center"
+  <Link :to="to" class="flex items-center text-primary hover:text-primary/80"
     ><slot /><Icon :path="mdiChevronRight"
   /></Link>
 </template>
