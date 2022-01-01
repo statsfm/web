@@ -48,6 +48,7 @@ const getGiftCode = async (code: string) => {
     switch (res.status) {
       case 403:
         isLoading.value = false;
+        toaster.error({ message: t('errors.not_authenticated') });
         break;
       case 404:
         router.push({ name: 'Redeem' });
