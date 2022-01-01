@@ -45,7 +45,7 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted, Ref, ref } from 'vue';
+import { onMounted, Ref, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRoute, useRouter } from 'vue-router';
 
@@ -87,18 +87,20 @@ const formatCode = (code: string) => {
 };
 
 const onModalHide = async () => {
-  const { data, success } = await api.put(`/plus/giftcodes/${giftCode.value?.code}`, {
-    body: JSON.stringify({
-      message: giftCode.value?.message ?? ' ' // TODO: accept empty string
-    })
-  });
-
-  if (!success) {
-    toaster.error({
-      message: data.message
+  if (giftCode.value && giftCode.value.message.length > 0) {
+    const { data, success } = await api.put(`/plus/giftcodes/${giftCode.value?.code}`, {
+      body: JSON.stringify({
+        message: giftCode.value?.message ?? ' ' // TODO: accept empty string
+      })
     });
 
-    return;
+    if (!success) {
+      toaster.error({
+        message: data.message
+      });
+
+      return;
+    }
   }
 
   router.push({ name: 'Gift' });
