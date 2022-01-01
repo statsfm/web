@@ -1,6 +1,4 @@
 <template>
-  <LoadingOverlay v-if="isLoading" />
-
   <Header />
   <Container class="pt-5">
     <section class="flex gap-3 mb-5 flex-col mt-2">
@@ -72,7 +70,6 @@ import { ref, Ref, onBeforeMount } from 'vue';
 import Header from '~/components/layout/Header.vue';
 import Container from '~/components/layout/Container.vue';
 import Divider from '~/components/base/Divider.vue';
-import LoadingOverlay from '~/components/base/LoadingOverlay.vue';
 import Coupon from '~/components/base/Coupon.vue';
 import PricePlanCard from '~/components/base/PricePlanCard.vue';
 
@@ -88,7 +85,6 @@ const { t } = useI18n();
 const auth = useAuth();
 const toaster = useToaster();
 
-const isLoading = ref(false);
 const plans: Plan[] = [
   {
     name: '1x lifetime Spotistats Plus',
@@ -119,19 +115,13 @@ const getGiftCodes = async (): Promise<GiftCode[]> => {
 };
 
 const initCheckout = async (quantity: number) => {
-  isLoading.value = true;
   const { data, status } = await api.get(`/plus/giftcodes/purchase?quantity=${quantity}`);
 
   if (status == 403) {
-    isLoading.value = false;
     toaster.error({ message: t('errors.not_authenticated') });
     return;
   }
 
   location.href = data.item.url;
-};
-
-const formatCode = (code: string): string => {
-  return code.match(new RegExp('.{1,4}', 'g'))!.join('-');
 };
 </script>

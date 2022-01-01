@@ -1,6 +1,5 @@
 <template>
   <Header />
-  <LoadingOverlay v-if="isLoading" />
   <Container class="h-screen flex flex-col items-center">
     <GiftCard
       :giftCode="giftCode"
@@ -26,7 +25,6 @@ import api from '~/api';
 import { useRoute, useRouter } from 'vue-router';
 import Button from '~/components/base/Button.vue';
 import { useI18n } from 'vue-i18n';
-import LoadingOverlay from '~/components/base/LoadingOverlay.vue';
 import { useAuth, useToaster } from '~/hooks';
 
 const { t } = useI18n();
@@ -37,17 +35,14 @@ const auth = useAuth();
 
 const giftCode: Ref<GiftCode | null> = ref(null);
 const code = ref('');
-const isLoading = ref(false);
 const isFlipped = ref(false);
 
 const getGiftCode = async (code: string) => {
-  isLoading.value = true;
   const res = await api.get(`/plus/giftcodes/${code}`);
 
   if (!res.success) {
     switch (res.status) {
       case 403:
-        isLoading.value = false;
         toaster.error({ message: t('errors.not_authenticated') });
         break;
       case 404:
@@ -60,7 +55,6 @@ const getGiftCode = async (code: string) => {
   }
 
   giftCode.value = res.data.item;
-  isLoading.value = false;
 };
 
 const redeemGiftCode = async () => {

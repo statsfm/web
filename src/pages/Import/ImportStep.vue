@@ -1,5 +1,4 @@
 <template>
-  <LoadingOverlay v-if="isLoading" />
   <div class="flex gap-5 flex-col md:flex-row">
     <div class="w-full md:basis-6/12">
       <h2>{{ t('import.import') }}</h2>
@@ -39,7 +38,6 @@ import { onMounted, Ref, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import api from '~/api';
 
-import LoadingOverlay from '~/components/base/LoadingOverlay.vue';
 import Card from '~/components/layout/Card.vue';
 import ImportCard from '~/components/base/ImportCard.vue';
 
@@ -52,7 +50,6 @@ const { t } = useI18n();
 const toaster = useToaster();
 
 const formData = new FormData();
-const isLoading = ref(false);
 
 const emit = defineEmits(['setDisabledState', 'continue', 'back']);
 
@@ -108,8 +105,6 @@ const onFileSelect = async (e: any) => {
 
     // check if filename is valid
     if (file && file.name.match(/endsong_[0-9]+\.json/i)) {
-      // isLoading.value = true;
-      NProgress.start();
       formData.append('files', file);
 
       const res = await fetch(`${new api().baseUrl}/import/upload`, {
@@ -117,7 +112,6 @@ const onFileSelect = async (e: any) => {
         body: formData
       });
       const data = await res.json();
-      NProgress.done();
 
       if (!res.ok) {
         toaster.error({

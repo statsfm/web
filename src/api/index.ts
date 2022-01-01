@@ -1,3 +1,6 @@
+import NProgress from 'nprogress';
+import * as toaster from '../components/base/Toaster/api';
+
 export interface Response {
   success: boolean;
   status: number;
@@ -29,11 +32,14 @@ export default class api {
       }
     };
 
+    NProgress.start();
+
     // TODO: use baseUrl
     const res = await fetch(
       `https://cors.sjoerd.dev/https://local.backtrack.dev/api/v1${slug}`,
       init
     );
+
     const newRes = {
       success: res.ok,
       status: res.status,
@@ -42,6 +48,13 @@ export default class api {
       headers: res.headers,
       data: await res.json()
     };
+
+    NProgress.done();
+    if (!newRes.success) {
+      toaster.error({
+        message: newRes.data.message
+      });
+    }
 
     return newRes;
   };
