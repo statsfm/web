@@ -5,8 +5,8 @@
       <div class="w-full md:w-6/12 my-12 md:my-28">
         <h1>
           Your music,<br />
-          <span class="opacity-30">your</span> stats,<br />
-          <span class="opacity-30">your</span> story.
+          <span class="opacity-30 font-extrabold">your</span> stats,<br />
+          <span class="opacity-30 font-extrabold">your</span> story.
         </h1>
         <p class="mb-5">
           Enter a new dimension of music by getting unique insights into your music taste.
