@@ -1,11 +1,7 @@
 <template>
-  <div
-    class="flex gap-2 flex-nowrap overflow-x-auto"
-    @wheel.prevent="onWheelScroll"
-    ref="chipgroup"
-  >
+  <ul class="flex gap-2 flex-nowrap overflow-x-auto" @wheel.prevent="onWheelScroll" ref="chipgroup">
     <slot />
-  </div>
+  </ul>
 </template>
 
 <script lang="ts" setup>
