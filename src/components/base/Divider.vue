@@ -1,20 +1,3 @@
 <template>
-  <div class="divider" />
+  <div class="my-2 w-full h-[1px] bg-neutral-600" />
 </template>
-
-<style lang="scss" scoped>
-.divider {
-  width: 100%;
-  display: flex;
-  margin: var(--space-xs) 0;
-  align-items: center;
-
-  &::before,
-  &::after {
-    content: '';
-    width: 100%;
-    height: 1px;
-    background: var(--border);
-  }
-}
-</style>
