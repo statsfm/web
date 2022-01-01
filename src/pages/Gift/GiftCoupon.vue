@@ -1,34 +1,38 @@
 <template>
   <Modal v-if="giftCode" @hide="onModalHide">
-    <h1 class="font-bold text-2xl">{{ t('coupon.coupon') }} {{ giftCode.id }}</h1>
+    <h1>{{ t('coupon.coupon') }} {{ giftCode.id }}</h1>
     <Divider />
     <div class="flex flex-col gap-2">
       <div class="flex justify-between gap-5">
-        <span class="text-textGrey font-bold">{{ t('coupon.purchased_on') }}</span>
-        <span>{{ dayjs(giftCode.purchaseDate).format('L') }}</span>
+        <span>{{ t('coupon.purchased_on') }}</span>
+        <span class="text-white">{{ dayjs(giftCode.purchaseDate).format('L') }}</span>
       </div>
       <div class="flex justify-between gap-5">
-        <span class="text-textGrey font-bold">{{ t('coupon.bought_by') }}</span>
-        <span>{{ giftCode.boughtBy == user?.id ? 'You' : giftCode.boughtBy }}</span>
+        <span>{{ t('coupon.bought_by') }}</span>
+        <span class="text-white">{{
+          giftCode.boughtBy == user?.id ? 'You' : giftCode.boughtBy
+        }}</span>
       </div>
       <div class="flex justify-between gap-5">
-        <span class="text-textGrey font-bold">{{ t('coupon.claimed_by') }}</span>
-        <span>{{
+        <span>{{ t('coupon.claimed_by') }}</span>
+        <span class="text-white">{{
           giftCode.claimedBy ? (giftCode.claimedBy == user?.id ? 'You' : giftCode.claimedBy) : '-'
         }}</span>
       </div>
       <div class="flex justify-between gap-5">
-        <span class="text-textGrey font-bold">{{ t('coupon.claimed_on') }}</span>
-        <span>{{ giftCode.claimedDate ? dayjs(giftCode.claimedDate).format('L') : '-' }}</span>
+        <span>{{ t('coupon.claimed_on') }}</span>
+        <span class="text-white">{{
+          giftCode.claimedDate ? dayjs(giftCode.claimedDate).format('L') : '-'
+        }}</span>
       </div>
       <div class="flex justify-between gap-5">
-        <span class="text-textGrey font-bold">{{ t('coupon.redeem_code') }}</span>
-        <span>{{ formatCode(giftCode.code) }}</span>
+        <span>{{ t('coupon.redeem_code') }}</span>
+        <span class="text-white">{{ formatCode(giftCode.code) }}</span>
       </div>
     </div>
     <div v-if="!giftCode.claimedBy">
       <Divider />
-      <h2 class="text-xl font-bold">{{ t('gift.edit_message') }}</h2>
+      <h3>{{ t('gift.edit_message') }}</h3>
       <textarea
         v-model="giftCode.message"
         :placeholder="t('placeholders.enter_message')"
@@ -36,7 +40,7 @@
       />
     </div>
     <Divider />
-    <Button @click="copyRedeemLink">{{ t('buttons.copy_link') }}</Button>
+    <Button @click="copyRedeemLink" class="w-full">{{ t('buttons.copy_link') }}</Button>
   </Modal>
 </template>
 
