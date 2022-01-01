@@ -7,25 +7,13 @@
             <h3 class="text-md font-bold text-textGrey tracking-wider">Backtrack</h3>
             <ul class="mt-4 space-y-4">
               <li>
-                <router-link class="text-base text-gray-300 hover:text-white" :to="{ name: 'Home' }"
-                  >Home</router-link
-                >
+                <Link :to="{ name: 'Home' }">Home</Link>
               </li>
               <li>
-                <a
-                  class="text-base text-gray-300 hover:text-white"
-                  href="https://support.spotistats.app/"
-                  target="blank"
-                  >Support</a
-                >
+                <Link to="https://support.spotistats.app/">Support</Link>
               </li>
               <li>
-                <a
-                  class="text-base text-gray-300 hover:text-white"
-                  href="https://discord.gg/NeaBE96Vs6"
-                  target="_blank"
-                  >Discord</a
-                >
+                <Link to="https://discord.gg/NeaBE96Vs6">Discord</Link>
               </li>
             </ul>
           </div>
@@ -33,28 +21,13 @@
             <h3 class="text-md font-bold text-textGrey tracking-wider">Socials</h3>
             <ul class="mt-4 space-y-4">
               <li>
-                <a
-                  class="text-base text-gray-300 hover:text-white"
-                  href="https://discord.gg/backtrack"
-                  target="blank"
-                  >Discord</a
-                >
+                <Link to="https://discord.gg/backtrack">Discord</Link>
               </li>
               <li>
-                <a
-                  class="text-base text-gray-300 hover:text-white"
-                  href="https://twitter.com/spotistats"
-                  target="blank"
-                  >Twitter</a
-                >
+                <Link to="https://twitter.com/spotistats">Twitter</Link>
               </li>
               <li>
-                <a
-                  class="text-base text-gray-300 hover:text-white"
-                  href="https://www.instagram.com/spotistats"
-                  target="blank"
-                  >Instagram</a
-                >
+                <Link to="https://www.instagram.com/spotistats">Instagram</Link>
               </li>
             </ul>
           </div>
@@ -64,18 +37,10 @@
             <h3 class="text-md font-bold text-textGrey tracking-wider">Legal</h3>
             <ul class="mt-4 space-y-4">
               <li>
-                <router-link
-                  class="text-base text-gray-300 hover:text-white"
-                  :to="{ name: 'Privacy' }"
-                  >Privacy</router-link
-                >
+                <Link :to="{ name: 'Privacy' }">Privacy</Link>
               </li>
               <li>
-                <router-link
-                  class="text-base text-gray-300 hover:text-white"
-                  :to="{ name: 'Terms' }"
-                  >Terms</router-link
-                >
+                <Link :to="{ name: 'Terms' }">Terms</Link>
               </li>
             </ul>
           </div>
@@ -98,25 +63,6 @@
             <div class="mt-2">
               <Button class="hidden md:block">Open webapp</Button>
             </div>
-            <!-- <h3 class="text-md font-bold text-textGrey tracking-wider">Explore</h3>
-            <ul class="mt-4 space-y-4">
-              <li>
-                <a
-                  href="https://twitter.com/hiettdigital"
-                  target="_blank"
-                  class="text-base text-gray-300 hover:text-white"
-                  >@hiettdigital</a
-                >
-              </li>
-              <li>
-                <a
-                  href="https://twitter.com/roberttwestbury"
-                  target="_blank"
-                  class="text-base text-gray-300 hover:text-white"
-                  >@roberttwestbury</a
-                >
-              </li>
-            </ul> -->
           </div>
         </div>
       </div>
@@ -130,4 +76,5 @@
 <script lang="ts" setup>
 import Container from '../layout/Container.vue';
 import Button from '../base/Button.vue';
+import Link from '../base/Link.vue';
 </script>
