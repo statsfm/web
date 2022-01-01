@@ -54,7 +54,7 @@ const store = useStore();
 const formData = new FormData();
 const isLoading = ref(false);
 
-const emit = defineEmits(['setDisabledState']);
+const emit = defineEmits(['setDisabledState', 'continue', 'back']);
 
 const imports: Ref<BacktrackUserImport[]> = ref([]);
 
@@ -78,6 +78,9 @@ const onFileSelect = async (e: any) => {
       message: t('errors.no_code_recieved'),
       type: 'error'
     });
+
+    emit('back');
+
     return;
   }
 
@@ -96,7 +99,7 @@ const onFileSelect = async (e: any) => {
 
   if (files.length > 1) {
     store.commit('setError', {
-      message: t('errors.multiple_file')
+      message: t('errors.multiple_files')
     });
 
     return;
@@ -127,7 +130,10 @@ const onFileSelect = async (e: any) => {
         return;
       }
 
-      emit('setDisabledState', false);
+      // set current step to disabled so you can't go back to the import step
+      emit('setDisabledState', true);
+      // continue to the next step
+      emit('continue');
 
       store.commit('setError', {
         message: t('import.successfully_uploaded_file', {

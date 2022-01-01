@@ -5,7 +5,6 @@
   "buttons.copy_link": "Copy link",
   "buttons.redeem": "Redeem",
   "buttons.login": "Login",
-
   "errors.successfully_redeemed": "Successfully redeemed code",
   "errors.invalid_filename": "Invalid filename",
   "errors.invalid_filename_streaminghistory": "It looks like you've selected one or more 'StreamingHistory.json' files. This means Spotify unfortunately has sent you the wrong files... \nYou can find a guide on how to request the endsong.json files at https://support.spotistats.app/import/guide",
@@ -14,9 +13,8 @@
   "errors.failed_removing_import": "Failed to remove import",
   "errors.redeem_not_authenticated": "to redeem the giftcard you need to be logged in",
   "errors.not_authenticated": "it looks like you're not logged in",
-
+  "errors.no_code_recieved": "It looks like you don't entered a code",
   "placeholders.enter_message": "Enter message",
-
   "gift.select_plan": "Select your plan",
   "gift.personalize": "Personalize",
   "gift.personalize.description": "You can personalize your gift by adding a message",
@@ -35,9 +33,7 @@
   "gift.take_to_coupons_page": "Take me to the coupons page",
   "gift.no_message": "No message",
   "gift.edit_message": "Edit message",
-
   "artist.followers": "{count} followers",
-
   "import.successfully_uploaded_file": "Successfully uploaded {filename}",
   "import.import": "Import",
   "import.import.description": "Select the endsong_*.json file you want to import",
@@ -50,7 +46,6 @@
   "import.no_imports_yet": "It looks like you have no imports yet",
   "import.authentication": "Authentication",
   "import.authentication.description": "Please enter your import code to continue",
-
   "coupon.coupon": "Coupon",
   "coupon.purchased_on": "Purchased on",
   "coupon.purchased": "Purchased",
