@@ -8,11 +8,9 @@ export interface Response {
 }
 
 export default class api {
-  public baseUrl: string;
+  static baseUrl: string = 'https://local.backtrack.dev/api/v1';
 
-  constructor() {
-    this.baseUrl = 'https://cors.sjoerd.dev/https://local.backtrack.dev/api/v1';
-  }
+  constructor() {}
 
   /**
    * @param  {string} slug
@@ -30,10 +28,7 @@ export default class api {
     };
 
     // TODO: use baseUrl
-    const res = await fetch(
-      `https://cors.sjoerd.dev/https://local.backtrack.dev/api/v1${slug}`,
-      init
-    );
+    const res = await fetch(`${this.baseUrl}${slug}`, init);
     const newRes = {
       success: res.ok,
       status: res.status,
