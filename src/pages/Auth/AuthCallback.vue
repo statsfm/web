@@ -18,11 +18,11 @@ const auth = useAuth();
 
 onBeforeMount(() => {
   const params = new URLSearchParams(location.search);
-  if (params.has('code')) {
-    const code = params.get('code');
+  if (params.has('token')) {
+    const token = params.get('token');
 
-    if (code && code.length > 100) {
-      return auth.exchangeSpotifyToken(code);
+    if (token && token.startsWith('ey')) {
+      return auth.setToken(token);
     }
   }
 

@@ -13,7 +13,7 @@ export interface Response {
 
 export default class auth {
   private readonly clientId: string = '52242e73817e4096ad71500937a1fb58'; //process.env.VUE_APP_SPOTIFY_CLIENT_ID
-  private readonly redirectUri: string = `${location.origin}/auth/spotify/callback`;
+  private readonly redirectUri: string = `${location.origin}/auth/callback`;
   private readonly api = api;
   private readonly store = store;
 
@@ -43,11 +43,37 @@ export default class auth {
   };
 
   public login = (redirectPage?: string) => {
-    const loginUrl = `https://accounts.spotify.com/authorize?client_id=${
-      this.clientId
-    }&redirect_uri=${encodeURIComponent(
-      this.redirectUri
-    )}&scope=user-read-private&response_type=code&response_mode=query&state=${Date.now()}`;
+    const scope = [
+      // Images
+      'ugc-image-upload',
+      // Spotify Connect
+      'user-read-playback-state',
+      'user-modify-playback-state',
+      'user-read-currently-playing',
+      // Playback
+      // "streaming",
+      // "app-remote-control",
+      // Users
+      'user-read-email',
+      'user-read-private',
+      // "user-read-birthdate",
+      // Playlists
+      'playlist-read-collaborative',
+      'playlist-modify-public',
+      'playlist-read-private',
+      'playlist-modify-private',
+      // Library
+      'user-library-modify',
+      'user-library-read',
+      // Listening History
+      'user-top-read',
+      'user-read-playback-position',
+      'user-read-recently-played',
+      // Follow
+      'user-follow-read',
+      'user-follow-modify'
+    ].join('%20');
+    const loginUrl = `${this.api.baseUrl}/auth/redirect/spotify?scope=${scope}&redirect_uri=${this.redirectUri}`;
 
     localStorage.setItem(
       'redirectPage',
@@ -62,21 +88,14 @@ export default class auth {
     location.reload();
   };
 
-  public exchangeSpotifyToken = async (code: string) => {
-    const res = await this.api.post('/auth/token', {
-      body: JSON.stringify({
-        code,
-        client_id: this.clientId,
-        redirect_uri: this.redirectUri
-      })
-    });
-
-    const data = res.data.data;
-
-    if (data.apiToken?.length > 10 && data.user) {
-      this.store.commit('setUser', data.user);
-
-      localStorage.setItem('token', data.apiToken);
+  public setToken = async (token: string) => {
+    localStorage.setItem('token', token);
+    const { data } = await this.api.get('/users/me');
+    if (data.item) {
+      // todo ff anders checken
+      this.store.commit('setUser', data.item);
+    } else {
+      alert('user not found: ' + JSON.stringify(data));
     }
 
     let page = localStorage.getItem('redirectPage') ?? '/';
