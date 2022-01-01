@@ -8,8 +8,5 @@
 import Container from '~/components/layout/Container.vue';
 import ToasterItem from './ToasterItem.vue';
 
-import { useStore } from '~/store';
-
-const store = useStore();
-const errors = store.state.errors;
+import { errors } from './state';
 </script>

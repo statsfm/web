@@ -4,7 +4,7 @@
     class="font-bold text-center animate-fade"
     :class="{
       'text-[#fc5353]': error.type == 'error',
-      'text-[wite]': error.type == 'info'
+      'text-wite': error.type == 'success'
     }"
     >{{ error.message }}</Card
   >
@@ -14,10 +14,10 @@
 import { onMounted, ref } from 'vue';
 
 import Card from '~/components/layout/Card.vue';
-import { Error } from '~/types';
+import { ToasterOptions } from '~/types/toaster';
 
 const props = defineProps<{
-  error: Error;
+  error: ToasterOptions;
 }>();
 
 let isActive = ref(true);
