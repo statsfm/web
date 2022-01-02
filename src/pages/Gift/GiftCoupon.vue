@@ -53,9 +53,9 @@ import Modal from '~/components/base/Modals/Modal.vue';
 import Divider from '~/components/base/Divider.vue';
 import Button from '~/components/base/Button.vue';
 
-import { GiftCode } from '~/types';
+import { GetPlusGiftCodeResponse, GiftCode, PutPlusGiftCodeResponse } from '~/types';
 import dayjs from 'dayjs';
-import api from '~/api';
+import BacktrackApi from '~/api';
 import { useToaster, useUser } from '~/hooks';
 import { giftCodes } from './state';
 
@@ -68,7 +68,9 @@ const toaster = useToaster();
 const giftCode: Ref<GiftCode | null> = ref(null);
 
 const getGiftCode = async (code: string): Promise<GiftCode> => {
-  return await api.get(`/plus/giftcodes/${code}`).then((res) => res.data.item);
+  return await BacktrackApi.get<GetPlusGiftCodeResponse>(`/plus/giftcodes/${code}`).then(
+    (res) => res.data.item
+  );
 };
 
 onMounted(async () => {
@@ -88,15 +90,18 @@ const formatCode = (code: string) => {
 
 const onModalHide = async () => {
   if (giftCode.value && giftCode.value.message.length > 0) {
-    const { data, success } = await api.put(`/plus/giftcodes/${giftCode.value?.code}`, {
-      body: JSON.stringify({
-        message: giftCode.value?.message ?? ' ' // TODO: accept empty string
-      })
-    });
+    const { data, success } = await BacktrackApi.put<PutPlusGiftCodeResponse>(
+      `/plus/giftcodes/${giftCode.value?.code}`,
+      {
+        body: JSON.stringify({
+          message: giftCode.value?.message ?? ' ' // TODO: accept empty string
+        })
+      }
+    );
 
     if (!success) {
       toaster.error({
-        message: data.message
+        message: data.message!
       });
 
       return;

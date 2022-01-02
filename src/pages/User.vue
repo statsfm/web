@@ -33,10 +33,17 @@ import { onMounted, Ref, ref } from 'vue';
 import Container from '~/components/layout/Container.vue';
 import HeroProfile from '~/components/base/HeroProfile.vue';
 import AudioFeaturesRadarChart from '~/components/base/AudioFeatures/AudioFeaturesRadarChart.vue';
-import api from '~/api';
+import BacktrackApi from '~/api';
 import { useRoute } from 'vue-router';
 import { useI18n } from 'vue-i18n';
-import { BacktrackFriend, BacktrackRecentlyPlayedTrack, BacktrackTopArtist } from '~/types';
+import {
+  BacktrackFriend,
+  BacktrackRecentlyPlayedTrack,
+  BacktrackTopArtist,
+  GetFriendResponse,
+  GetFriendStatsResponse,
+  GetUserTopArtistsShortTermResponse
+} from '~/types';
 
 const route = useRoute();
 const { t } = useI18n();
@@ -47,15 +54,21 @@ const recentlyPlayed: Ref<BacktrackRecentlyPlayedTrack[] | null> = ref(null);
 const topArtists: Ref<BacktrackTopArtist[] | null> = ref(null);
 
 const getUser = async (id: string): Promise<BacktrackFriend> => {
-  return await api.get(`/friends/get/${id}`).then((res) => res.data.data);
+  return await BacktrackApi.get<GetFriendResponse>(`/friends/get/${id}`).then(
+    (res) => res.data.data
+  );
 };
 
 const getUsersRecentlyPlayed = async (id: string): Promise<BacktrackRecentlyPlayedTrack[]> => {
-  return await api.get(`/friends/stats/${id}`).then((res) => res.data.data.recentlyPlayed);
+  return await BacktrackApi.get<GetFriendStatsResponse>(`/friends/stats/${id}`).then(
+    (res) => res.data.data.recentlyPlayed
+  );
 };
 
 const getShortTermTopArtist = async (id: string): Promise<BacktrackTopArtist[]> => {
-  return await api.get(`/users/${id}/top/artists/short_term`).then((res) => res.data.items);
+  return await BacktrackApi.get<GetUserTopArtistsShortTermResponse>(
+    `/users/${id}/top/artists/short_term`
+  ).then((res) => res.data.items);
 };
 
 onMounted(async () => {

@@ -12,14 +12,16 @@
 
 <script lang="ts" setup>
 import { onMounted, ref, Ref } from 'vue';
-import api from '~/api';
-import { TotalSize } from '~/types/totalStats';
+import BacktrackApi from '~/api';
+import { TotalSize, GetStatsDatabaseSiteResponse } from '~/types';
 import TotalStatsItem from './TotalStatsItem.vue';
 
 const stats: Ref<TotalSize | null> = ref(null);
 
 const getStats = async (): Promise<TotalSize> => {
-  return await api.get('/stats/database/size').then((res) => res.data.items);
+  return await api
+    .get<GetStatsDatabaseSiteResponse>('/stats/database/size')
+    .then((res) => res.data.items);
 };
 
 onMounted(async () => {

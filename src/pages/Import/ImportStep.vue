@@ -36,14 +36,14 @@
 <script lang="ts" setup>
 import { onMounted, Ref, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
-import api from '~/api';
+import BacktrackApi from '~/api';
 
 import Card from '~/components/layout/Card.vue';
 import ImportCard from '~/components/base/ImportCard.vue';
 
 import { code } from './state';
 import NProgress from 'nprogress';
-import { BacktrackUserImport } from '~/types';
+import { BacktrackUserImport, GetImportListResponse, PostImportUploadResponse } from '~/types';
 import { useToaster } from '~/hooks';
 
 const { t } = useI18n();
@@ -56,13 +56,11 @@ const emit = defineEmits(['setDisabledState', 'continue', 'back']);
 const imports: Ref<BacktrackUserImport[]> = ref([]);
 
 const getImports = async (): Promise<BacktrackUserImport[]> => {
-  return await api
-    .get('/import/list', {
-      headers: {
-        Authorization: code.value ?? ''
-      }
-    })
-    .then((res) => res.data.items);
+  return await BacktrackApi.get<GetImportListResponse>('/import/list', {
+    headers: {
+      Authorization: code.value ?? ''
+    }
+  }).then((res) => res.data.items);
 };
 
 onMounted(async () => {
@@ -107,15 +105,14 @@ const onFileSelect = async (e: any) => {
     if (file && file.name.match(/endsong_[0-9]+\.json/i)) {
       formData.append('files', file);
 
-      const res = await fetch(`${api.baseUrl}/import/upload`, {
+      const res = await BacktrackApi.post<PostImportUploadResponse>(`/import/upload`, {
         method: 'POST',
         body: formData
       });
-      const data = await res.json();
 
-      if (!res.ok) {
+      if (!res.success) {
         toaster.error({
-          message: data.message
+          message: res.data.message!
         });
 
         return;

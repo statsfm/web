@@ -73,9 +73,14 @@ import Divider from '~/components/base/Divider.vue';
 import Coupon from '~/components/base/Coupon.vue';
 import PricePlanCard from '~/components/base/PricePlanCard.vue';
 
-import api from '~/api';
+import BacktrackApi from '~/api';
 import { useAuth } from '~/hooks/auth';
-import { GiftCode, Plan } from '~/types';
+import {
+  GetPlusGiftCodeListResponse,
+  GetPlusGiftCodePurcahseResponse,
+  GiftCode,
+  Plan
+} from '~/types';
 import { useI18n } from 'vue-i18n';
 import { giftCodes } from './state';
 import Markdown from '~/components/base/Markdown/Markdown.vue';
@@ -111,11 +116,15 @@ onBeforeMount(async () => {
 });
 
 const getGiftCodes = async (): Promise<GiftCode[]> => {
-  return await api.get('/plus/giftcodes/list').then((res) => res.data.items);
+  return await BacktrackApi.get<GetPlusGiftCodeListResponse>('/plus/giftcodes/list').then(
+    (res) => res.data.items
+  );
 };
 
 const initCheckout = async (quantity: number) => {
-  const { data, status } = await api.get(`/plus/giftcodes/purchase?quantity=${quantity}`);
+  const { data, status } = await BacktrackApi.get<GetPlusGiftCodePurcahseResponse>(
+    `/plus/giftcodes/purchase?quantity=${quantity}`
+  );
 
   if (status == 403) {
     toaster.error({ message: t('errors.not_authenticated') });

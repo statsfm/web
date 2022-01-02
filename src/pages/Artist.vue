@@ -23,7 +23,7 @@
 <script lang="ts" setup>
 import { onMounted, Ref, ref } from 'vue';
 import { useRoute } from 'vue-router';
-import api from '~/api';
+import BacktrackApi from '~/api';
 
 import Container from '~/components/layout/Container.vue';
 import Link from '~/components/base/Link.vue';
@@ -33,6 +33,11 @@ import Chip from '~/components/base/Chip/Chip.vue';
 
 import { useI18n } from 'vue-i18n';
 import { BacktrackArtist } from '~/types/backtrack';
+import {
+  GetArtistResponse,
+  GetStreamArtistCountResponse,
+  GetStreamArtistDurationResponse
+} from '~/types';
 
 const { t } = useI18n();
 const route = useRoute();
@@ -40,17 +45,21 @@ const route = useRoute();
 const artist: Ref<BacktrackArtist | null> = ref(null);
 
 const getArtist = async (id: number): Promise<BacktrackArtist> => {
-  const res = await api.get(`/artists/${id}`);
+  const res = await BacktrackApi.get<GetArtistResponse>(`/artists/${id}`);
   return res.data.item;
 };
 
 const getArtistStreamCount = async (id: number): Promise<number> => {
-  const res = await api.get(`/streams/artist/${route.params.id}/count`);
+  const res = await BacktrackApi.get<GetStreamArtistCountResponse>(
+    `/streams/artist/${route.params.id}/count`
+  );
   return res.data.data;
 };
 
 const getArtistStreamDuration = async (id: number): Promise<number> => {
-  const res = await api.get(`/streams/artist/${id}/duration`);
+  const res = await BacktrackApi.get<GetStreamArtistDurationResponse>(
+    `/streams/artist/${id}/duration`
+  );
   return res.data.data;
 };
 

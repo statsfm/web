@@ -20,8 +20,8 @@ import { onMounted, Ref, ref } from 'vue';
 import Header from '~/components/layout/Header.vue';
 import Container from '~/components/layout/Container.vue';
 import GiftCard from '~/components/base/GiftCard.vue';
-import { GiftCode } from '~/types';
-import api from '~/api';
+import { GetPlusGiftCodeResponse, GiftCode, PostPlusGiftCodeRedeemResponse } from '~/types';
+import BacktrackApi from '~/api';
 import { useRoute, useRouter } from 'vue-router';
 import Button from '~/components/base/Button.vue';
 import { useI18n } from 'vue-i18n';
@@ -38,7 +38,7 @@ const code = ref('');
 const isFlipped = ref(false);
 
 const getGiftCode = async (code: string) => {
-  const res = await api.get(`/plus/giftcodes/${code}`);
+  const res = await BacktrackApi.get<GetPlusGiftCodeResponse>(`/plus/giftcodes/${code}`);
 
   if (res.status == 404) {
     router.push({ name: 'Redeem' });
@@ -49,11 +49,13 @@ const getGiftCode = async (code: string) => {
 };
 
 const redeemGiftCode = async () => {
-  const res = await api.post(`/plus/giftcodes/${code.value}/redeem`);
+  const res = await BacktrackApi.post<PostPlusGiftCodeRedeemResponse>(
+    `/plus/giftcodes/${code.value}/redeem`
+  );
 
   if (!res.success) {
     toaster.error({
-      message: res.data.message
+      message: res.data.message!
     });
 
     return;

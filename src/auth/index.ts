@@ -1,6 +1,7 @@
-import api from '~/api';
+import BacktrackApi from '~/api';
 import router from '~/router';
 import store from '~/store';
+import { GetTokenResponse, GetUsersMeResponse } from '~/types';
 
 export interface Response {
   success: boolean;
@@ -14,7 +15,7 @@ export interface Response {
 export default class auth {
   private readonly clientId: string = '52242e73817e4096ad71500937a1fb58'; //process.env.VUE_APP_SPOTIFY_CLIENT_ID
   private readonly redirectUri: string = `${location.origin}/auth/callback`;
-  private readonly api = api;
+  private readonly api = BacktrackApi;
   private readonly store = store;
 
   constructor() {
@@ -35,7 +36,7 @@ export default class auth {
       return JSON.parse(localStorageItem).settings.accessToken;
     }
 
-    const res = await api.get('/auth/token');
+    const res = await this.api.get<GetTokenResponse>('/auth/token');
 
     if (res.success) {
       return res.data.data.settings.accessToken;
@@ -51,12 +52,12 @@ export default class auth {
       // 'user-modify-playback-state',
       // 'user-read-currently-playing',
       // // Playback
-      // // "streaming",
-      // // "app-remote-control",
+      // 'streaming',
+      // 'app-remote-control',
       // // Users
       // 'user-read-email',
       'user-read-private'
-      // // "user-read-birthdate",
+      // 'user-read-birthdate',
       // // Playlists
       // 'playlist-read-collaborative',
       // 'playlist-modify-public',
@@ -90,7 +91,7 @@ export default class auth {
 
   public setToken = async (token: string) => {
     localStorage.setItem('token', token);
-    const { data } = await this.api.get('/users/me');
+    const { data } = await this.api.get<GetUsersMeResponse>('/users/me');
     if (data.item) {
       // todo ff anders checken
       this.store.commit('setUser', data.item);

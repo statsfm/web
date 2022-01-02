@@ -25,8 +25,8 @@
 <script lang="ts" setup>
 import { onMounted, Ref, ref, watch } from 'vue';
 import { useRoute } from 'vue-router';
-import api from '~/api';
-import { BacktrackGenre } from '~/types';
+import BacktrackApi from '~/api';
+import { BacktrackGenre, GetGenreResponse } from '~/types';
 import Container from '~/components/layout/Container.vue';
 import ChipGroup from '~/components/base/Chip/ChipGroup.vue';
 import Link from '~/components/base/Link.vue';
@@ -37,8 +37,8 @@ const route = useRoute();
 
 const genre: Ref<BacktrackGenre | null> = ref(null);
 
-const getGenre = async (tag: string): Promise<any> => {
-  return await api.get(`/genres/${tag}`).then((res) => res.data.item);
+const getGenre = async (tag: string): Promise<BacktrackGenre> => {
+  return await BacktrackApi.get<GetGenreResponse>(`/genres/${tag}`).then((res) => res.data.item);
 };
 
 watch(

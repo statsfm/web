@@ -39,8 +39,8 @@ import dayjs from 'dayjs';
 import { useI18n } from 'vue-i18n';
 import Button from './Button.vue';
 import { ref } from 'vue';
-import api from '~/api';
-import { BacktrackUserImport } from '~/types';
+import BacktrackApi from '~/api';
+import { BacktrackUserImport, PostImportRemoveResponse } from '~/types';
 import { useToaster } from '~/hooks';
 
 const { t } = useI18n();
@@ -53,7 +53,9 @@ const props = defineProps<{
 const isDeleteModalActive = ref(false);
 
 const deleteImport = async () => {
-  const { data } = await api.post(`/import/remove/${props.import.hash}`);
+  const { data } = await BacktrackApi.post<PostImportRemoveResponse>(
+    `/import/remove/${props.import.hash}`
+  );
 
   if (data[0] !== 200) {
     toaster.error({

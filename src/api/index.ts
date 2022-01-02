@@ -2,16 +2,16 @@ import NProgress from 'nprogress';
 import * as toaster from '../components/base/Toaster/api';
 import i18n from '~/i18n';
 
-export interface Response {
+export interface Response<T = any> {
   success: boolean;
   status: number;
   statusText: string;
   url: string;
   headers: any;
-  data: any;
+  data: T;
 }
 
-export default class api {
+export default class BacktrackApi {
   static baseUrl: string = 'https://local.backtrack.dev/api/v1';
 
   constructor() {}
@@ -21,21 +21,20 @@ export default class api {
    * @param  {RequestInit} init?
    * @returns {Promise<Response>} Returns a promise with the {@link Response response}.
    */
-  static request = async (slug: string, init?: RequestInit): Promise<Response> => {
+  static async request<T>(slug: string, init?: RequestInit): Promise<Response<T>> {
     init = {
       ...init,
       headers: {
+        ...init?.headers,
         Authorization: `${localStorage.getItem('token')}`,
-        'Content-Type': 'application/json',
-        ...init?.headers
+        'Content-Type': 'application/json'
       }
     };
 
     NProgress.start();
 
-    // TODO: use baseUrl
     const res = await fetch(`${this.baseUrl}${slug}`, init);
-    const newRes = {
+    const newRes: Response = {
       success: res.ok,
       status: res.status,
       statusText: res.statusText,
@@ -58,53 +57,53 @@ export default class api {
     }
 
     return newRes;
-  };
+  }
 
   /**
    * @param  {string} slug
    * @param  {RequestInit} options?
    * @returns {Promise<Response>} Returns a promise with the {@link Response response}.
    */
-  static get = async (slug: string, options?: RequestInit): Promise<Response> => {
-    return await api.request(slug, {
-      method: 'GET',
-      ...options
+  static async get<T>(slug: string, options?: RequestInit): Promise<Response<T>> {
+    return await this.request<T>(slug, {
+      ...options,
+      method: 'GET'
     });
-  };
+  }
 
   /**
    * @param  {string} slug
    * @param  {RequestInit} options?
    * @returns {Promise<Response>} Returns a promise with the {@link Response response}.
    */
-  static post = async (slug: string, options?: RequestInit): Promise<Response> => {
-    return await api.request(slug, {
-      method: 'POST',
-      ...options
+  static async post<T>(slug: string, options?: RequestInit): Promise<Response<T>> {
+    return await this.request<T>(slug, {
+      ...options,
+      method: 'POST'
     });
-  };
+  }
 
   /**
    * @param  {string} slug
    * @param  {RequestInit} options?
    * @returns {Promise<Response>} Returns a promise with the {@link Response response}.
    */
-  static put = async (slug: string, options?: RequestInit): Promise<Response> => {
-    return await api.request(slug, {
-      method: 'PUT',
-      ...options
+  static async put<T>(slug: string, options?: RequestInit): Promise<Response<T>> {
+    return await this.request<T>(slug, {
+      ...options,
+      method: 'PUT'
     });
-  };
+  }
 
   /**
    * @param  {string} slug
    * @param  {RequestInit} options?
    * @returns {Promise<Response>} Returns a promise with the {@link Response response}.
    */
-  static remove = async (slug: string, options?: RequestInit): Promise<Response> => {
-    return await api.request(slug, {
-      method: 'DELETE',
-      ...options
+  static async delete<T>(slug: string, options?: RequestInit): Promise<Response<T>> {
+    return await this.request<T>(slug, {
+      ...options,
+      method: 'DELETE'
     });
-  };
+  }
 }
