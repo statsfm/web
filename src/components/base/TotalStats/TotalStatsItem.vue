@@ -31,7 +31,7 @@
 </template>
 
 <script lang="ts" setup>
-import { reactive, ref } from 'vue';
+import { onMounted, onUnmounted, reactive, ref } from 'vue';
 import { TotalSizeItem } from '~/types/totalStats';
 
 import { mdiArrowUpThin, mdiArrowDownThin, mdiArrowRightThin } from '@mdi/js';
@@ -69,11 +69,19 @@ const diffPerUnit = diffBetweenCurrentAndPreviousSnapshot / (timeDiff / timeUnit
 // add the initial epoch offset to the value
 count.value += epochOffset * diffPerUnit;
 
-// every timeunit update the value
-setInterval(() => {
-  count.value += diffPerUnit;
-  indicator.value = count.value - snapshot.previous.count;
-}, timeUnit);
+let interval: NodeJS.Timer;
+onMounted(() => {
+  // every timeunit update the value
+  interval = setInterval(() => {
+    count.value += diffPerUnit;
+    indicator.value = count.value - snapshot.previous.count;
+  }, timeUnit);
+});
+
+onUnmounted(() => {
+  // clear the interval on unmounted lifecycle hook
+  clearInterval(interval);
+});
 
 const formatCount = (count: number): string => {
   return Math.round(count).toLocaleString('en-US');
