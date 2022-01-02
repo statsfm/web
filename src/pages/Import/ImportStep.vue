@@ -107,7 +107,7 @@ const onFileSelect = async (e: any) => {
     if (file && file.name.match(/endsong_[0-9]+\.json/i)) {
       formData.append('files', file);
 
-      const res = await fetch(`${new api().baseUrl}/import/upload`, {
+      const res = await fetch(`${api.baseUrl}/import/upload`, {
         method: 'POST',
         body: formData
       });
