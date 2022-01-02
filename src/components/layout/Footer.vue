@@ -4,7 +4,7 @@
       <div class="grid grid-cols-2 gap-8 xl:col-span-2">
         <div class="md:grid md:grid-cols-2 md:gap-8">
           <div>
-            <h4 class="text-md font-bold text-textGrey tracking-wider">Backtrack</h4>
+            <h4 class="text-neutral-400">Backtrack</h4>
             <ul class="mt-4 space-y-4">
               <li>
                 <Link :to="{ name: 'Home' }">Home</Link>
@@ -18,7 +18,7 @@
             </ul>
           </div>
           <div class="mt-12 md:mt-0">
-            <h4 class="text-md font-bold text-textGrey tracking-wider">Socials</h4>
+            <h4 class="text-neutral-400">Socials</h4>
             <ul class="mt-4 space-y-4">
               <li>
                 <Link to="https://discord.gg/backtrack">Discord</Link>
@@ -33,8 +33,8 @@
           </div>
         </div>
         <div class="md:grid md:grid-cols-2 md:gap-8">
-          <div class="mt-12 md:mt-0">
-            <h4 class="text-md font-bold text-textGrey tracking-wider">Legal</h4>
+          <div>
+            <h4 class="text-neutral-400">Legal</h4>
             <ul class="mt-4 space-y-4">
               <li>
                 <Link :to="{ name: 'Privacy' }">Privacy</Link>
@@ -45,7 +45,7 @@
             </ul>
           </div>
           <div class="mt-10 md:mt-0">
-            <h4 class="text-md font-semibold text-textGrey tracking-wider">Download</h4>
+            <h4 class="text-neutral-400">Download</h4>
             <div class="mt-4"></div>
             <a
               class="h-12"
