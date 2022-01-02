@@ -18,8 +18,8 @@ const auth = useAuth();
 
 onBeforeMount(() => {
   const params = new URLSearchParams(location.search);
-  if (params.has('token')) {
-    const token = params.get('token');
+  if (params.has('code')) {
+    const token = params.get('code');
 
     if (token && token.startsWith('ey')) {
       return auth.setToken(token);
