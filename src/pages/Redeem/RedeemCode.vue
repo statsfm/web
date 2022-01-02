@@ -40,17 +40,8 @@ const isFlipped = ref(false);
 const getGiftCode = async (code: string) => {
   const res = await api.get(`/plus/giftcodes/${code}`);
 
-  if (!res.success) {
-    switch (res.status) {
-      case 403:
-        toaster.error({ message: t('errors.not_authenticated') });
-        break;
-      case 404:
-        router.push({ name: 'Redeem' });
-        toaster.error({ message: res.data.message });
-        break;
-    }
-
+  if (res.status == 404) {
+    router.push({ name: 'Redeem' });
     return;
   }
 

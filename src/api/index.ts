@@ -1,5 +1,6 @@
 import NProgress from 'nprogress';
 import * as toaster from '../components/base/Toaster/api';
+import i18n from '~/i18n';
 
 export interface Response {
   success: boolean;
@@ -45,9 +46,15 @@ export default class api {
 
     NProgress.done();
     if (!newRes.success) {
-      toaster.error({
-        message: newRes.data.message
-      });
+      switch (newRes.status) {
+        case 403:
+          toaster.error({ message: i18n.global.t('errors.not_authenticated') });
+          break;
+        default:
+          toaster.error({
+            message: newRes.data.message
+          });
+      }
     }
 
     return newRes;
