@@ -1,3 +1,4 @@
+import { BacktrackTrack } from './backtrack';
 import {
   BacktrackArtist,
   BacktrackFriend,
@@ -9,7 +10,7 @@ import {
   GiftCode,
   TotalSize,
   User
-} from '.';
+} from './index';
 
 export interface GetUsersMeResponse {
   item: Pick<User, 'id' | 'displayName' | 'image' | 'country' | 'isPlus' | 'shareSettings'>;
@@ -98,4 +99,8 @@ export interface GetPlusGiftCodePurcahseResponse {
     [key: string]: any;
     url: string;
   };
+}
+
+export interface GetTrackResponsive {
+  item: BacktrackTrack;
 }

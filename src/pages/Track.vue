@@ -17,7 +17,7 @@ import auth from '~/auth';
 import HeroWithImageAndInfo from '~/components/base/HeroWithImageAndInfo.vue';
 import AudioAnalysis from '~/components/base/AudioAnalysis/AudioAnalysis.vue';
 
-import { BacktrackAudioAnalysis, BacktrackTrack } from '~/types';
+import { BacktrackAudioAnalysis, BacktrackTrack, GetTrackResponsive } from '~/types';
 
 const route = useRoute();
 
@@ -25,7 +25,7 @@ const track: Ref<BacktrackTrack | null> = ref(null);
 const audioAnalysis: Ref<BacktrackAudioAnalysis | null> = ref(null);
 
 const getTrack = async (id: string): Promise<BacktrackTrack> => {
-  return await api.get(`/tracks/${id}`).then((res) => res.data.item);
+  return await api.get<GetTrackResponsive>(`/tracks/${id}`).then((res) => res.data.item);
 };
 
 const getTrackAudioAnalysis = async (track: BacktrackTrack): Promise<BacktrackAudioAnalysis> => {
