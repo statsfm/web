@@ -1,18 +1,19 @@
 <template>
   <div>
     <span>{{ label }}</span>
-    <h3 class="tracking-tight">
+    <h2 class="tracking-tight">
       {{ formatCount(count) }}
 
-      <span v-if="hasLiveIndicator" class="w-3 aspect-square">
+      <span v-if="hasLiveIndicator" class="w-3 aspect-square relative">
         <span
-          style="margin-left: -2px; margin-top: -2px; animation-duration: 1s"
-          class="animate-ping absolute inline-flex h-4 w-4 rounded-full bg-primary opacity-75"
+          class="absolute animate-ping duration-1000s h-4 aspect-square rounded-full bg-primary/75"
         >
         </span>
-        <span class="absolute rounded-full w-3 aspect-square bg-primary opacity-80"></span>
+        <span
+          class="absolute mt-0.5 ml-0.5 rounded-full w-3 aspect-square bg-primary opacity-80"
+        ></span>
       </span>
-    </h3>
+    </h2>
 
     <p class="inline-flex" v-if="hasIndicator">
       <Icon
