@@ -1,8 +1,8 @@
 <template>
-  <HeroProfile
+  <HeroWithImageAndInfo
     v-if="artist"
     :name="artist.name"
-    :followers="artist.followers"
+    :subtitle="formatFollowers(artist.followers)"
     :image="artist.image"
   />
   <Container>
@@ -27,7 +27,7 @@ import BacktrackApi from '~/api';
 
 import Container from '~/components/layout/Container.vue';
 import Link from '~/components/base/Link.vue';
-import HeroProfile from '~/components/base/HeroProfile.vue';
+import HeroWithImageAndInfo from '~/components/base/HeroWithImageAndInfo.vue';
 import ChipGroup from '~/components/base/Chip/ChipGroup.vue';
 import Chip from '~/components/base/Chip/Chip.vue';
 
@@ -61,6 +61,11 @@ const getArtistStreamDuration = async (id: number): Promise<number> => {
     `/streams/artist/${id}/duration`
   );
   return res.data.data;
+};
+
+// TODO: move this to the helpers folder
+const formatFollowers = (followers: number): string => {
+  return followers.toLocaleString('en-US');
 };
 
 onMounted(async () => {

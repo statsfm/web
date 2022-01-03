@@ -1,5 +1,5 @@
 <template>
-  <HeroProfile v-if="user" :name="user.displayName" :image="user.image" />
+  <HeroWithImageAndInfo v-if="user" :name="user.displayName" :image="user.image" />
   <Container>
     <div class="flex gap-2 overflow-x-auto">
       <router-link
@@ -31,7 +31,7 @@
 import { onMounted, Ref, ref } from 'vue';
 
 import Container from '~/components/layout/Container.vue';
-import HeroProfile from '~/components/base/HeroProfile.vue';
+import HeroWithImageAndInfo from '~/components/base/HeroWithImageAndInfo.vue';
 import AudioFeaturesRadarChart from '~/components/base/AudioFeatures/AudioFeaturesRadarChart.vue';
 import BacktrackApi from '~/api';
 import { useRoute } from 'vue-router';
@@ -48,7 +48,6 @@ import {
 const route = useRoute();
 const { t } = useI18n();
 
-const isLoading = ref(false);
 const user: Ref<BacktrackFriend | null> = ref(null);
 const recentlyPlayed: Ref<BacktrackRecentlyPlayedTrack[] | null> = ref(null);
 const topArtists: Ref<BacktrackTopArtist[] | null> = ref(null);
