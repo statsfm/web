@@ -6,6 +6,10 @@ export interface BacktrackAudioAnalysis extends BacktrackObject {
   sections: BacktrackAudioAnalysisSection[];
   segments: BacktrackAudioAnalysisSegment[];
   tatums: BacktrackAudioAnalysisTatum[];
+  track: BacktrackAudioAnalysisTrack;
+}
+
+interface BacktrackAudioAnalysisTrack {
   num_samples: number;
   duration: number;
   sample_md5: string;
