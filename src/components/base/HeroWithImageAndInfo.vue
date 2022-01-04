@@ -2,8 +2,10 @@
   <Hero>
     <Avatar :src="image" size="48" />
     <div class="flex flex-col justify-end">
-      <span class="text-center md:text-left">{{ subtitle }}</span>
-      <h1>{{ name }}</h1>
+      <span class="text-center md:text-left">
+        {{ subtitle }}
+      </span>
+      <h1 class="text-center md:text-left">{{ name }}</h1>
     </div>
   </Hero>
 </template>
