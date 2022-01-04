@@ -52,5 +52,13 @@
   "coupon.bought_by": "Bought by",
   "coupon.claimed_by": "Claimed by",
   "coupon.claimed_on": "Claimed on",
-  "coupon.redeem_code": "Redeem code"
+  "coupon.redeem_code": "Redeem code",
+  "track.audio_analysis": "Audio analysis",
+  "track.overall_loudness": "Overall loudness",
+  "track.key": "Key",
+  "track.mode": "Mode",
+  "track.time_signature": "Time signature",
+  "track.segment": "Segment",
+  "track.selected_segment": "Selected segment",
+  "track.loudness": "Loudness"
 }
