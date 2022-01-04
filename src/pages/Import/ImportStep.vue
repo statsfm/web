@@ -42,7 +42,6 @@ import Card from '~/components/layout/Card.vue';
 import ImportCard from '~/components/base/ImportCard.vue';
 
 import { code } from './state';
-import NProgress from 'nprogress';
 import { BacktrackUserImport, GetImportListResponse, PostImportUploadResponse } from '~/types';
 import { useToaster } from '~/hooks';
 
@@ -98,46 +97,39 @@ const onFileSelect = async (e: any) => {
     return;
   }
 
-  for (let i = 0; i < files.length; i++) {
-    const file = files.item(i);
+  const file = files.item(0);
 
-    // check if filename is valid
-    if (file && file.name.match(/endsong_[0-9]+\.json/i)) {
-      formData.append('files', file);
+  // check if filename is valid
+  if (file && file.name.match(/endsong_[0-9]+\.json/i)) {
+    formData.append('files', file);
 
-      const res = await BacktrackApi.post<PostImportUploadResponse>(`/import/upload`, {
-        method: 'POST',
-        body: formData
-      });
+    await BacktrackApi.post<PostImportUploadResponse>(`/import/upload`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': null!
+      },
+      body: formData
+    });
 
-      if (!res.success) {
-        toaster.error({
-          message: res.data.message!
-        });
+    // set current step to disabled so you can't go back to the import step
+    emit('setDisabledState', true);
+    // continue to the next step
+    emit('continue');
 
-        return;
-      }
-
-      // set current step to disabled so you can't go back to the import step
-      emit('setDisabledState', true);
-      // continue to the next step
-      emit('continue');
-
-      toaster.success({
-        message: t('import.successfully_uploaded_file', {
-          filename: file.name
-        })
-      });
-    } else if (file?.name.match(/StreamingHistory[0-9][0-9]?.json/g)) {
-      toaster.error({
-        message: t('errors.invalid_filename_streaminghistory'),
-        duration: 8 * 1000 // show the toaster for 8 seconds
-      });
-    } else {
-      toaster.error({
-        message: t('errors.invalid_filename')
-      });
-    }
+    toaster.success({
+      message: t('import.successfully_uploaded_file', {
+        filename: file.name
+      })
+    });
+  } else if (file?.name.match(/StreamingHistory[0-9][0-9]?.json/g)) {
+    toaster.error({
+      message: t('errors.invalid_filename_streaminghistory'),
+      duration: 8 * 1000 // show the toaster for 8 seconds
+    });
+  } else {
+    toaster.error({
+      message: t('errors.invalid_filename')
+    });
   }
 };
 </script>
