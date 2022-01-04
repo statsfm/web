@@ -1,10 +1,11 @@
 <template>
   <Hero>
-    <h1 class="text-4xl font-black text-center md:text-6xl capitalize">
+    <h1 class="font-black text-center capitalize">
       {{ route.params.tag.toString() }}
     </h1>
   </Hero>
   <Container v-if="genre">
+    <h3>Related genres</h3>
     <ChipGroup class="mt-5">
       <Link
         v-for="(genre, index) in genre.related"
@@ -15,9 +16,23 @@
       </Link>
     </ChipGroup>
 
-    <div v-for="(artist, index) in genre.artists" :key="index">
-      <img :src="artist.image" :alt="artist.name" class="rounded-full aspect-square w-20" />
-      <h1>{{ artist.name }}</h1>
+    <h3>Artists</h3>
+    <div class="grid gap-8 grid-cols-2 md:grid-cols-4 xl:grid-cols-5">
+      <div v-for="(artist, index) in genre.artists" :key="index" class="overflow-hidden">
+        <Link :to="{ name: 'Artist', params: { id: artist.id, slug: '' } }">
+          <Avatar size="full" :src="artist.image" />
+          <h4 class="my-2 text-center truncate">{{ artist.name }}</h4>
+          <ChipGroup>
+            <Link
+              v-for="(genre, index) in artist.genres"
+              :key="index"
+              :to="{ name: 'Genre', params: { tag: genre } }"
+            >
+              <Chip>{{ genre }}</Chip>
+            </Link>
+          </ChipGroup>
+        </Link>
+      </div>
     </div>
   </Container>
 </template>
@@ -32,6 +47,7 @@ import ChipGroup from '~/components/base/Chip/ChipGroup.vue';
 import Link from '~/components/base/Link.vue';
 import Chip from '~/components/base/Chip/Chip.vue';
 import Hero from '~/components/base/Hero.vue';
+import Avatar from '~/components/base/Avatar.vue';
 
 const route = useRoute();
 
