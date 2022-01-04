@@ -9,11 +9,11 @@
 
 <script lang="ts" setup>
 interface Props {
-  size: number;
+  size: string;
   src: string;
 }
 
 withDefaults(defineProps<Props>(), {
-  size: 12
+  size: '12'
 });
 </script>
