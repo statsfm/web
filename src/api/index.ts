@@ -25,11 +25,17 @@ export default class BacktrackApi {
     init = {
       ...init,
       headers: {
-        ...init?.headers,
         Authorization: `${localStorage.getItem('token')}`,
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        ...init?.headers
       }
     };
+
+    // @ts-ignore
+    if (init.headers['Content-Type'] == null) {
+      // @ts-ignore
+      delete init.headers['Content-Type'];
+    }
 
     NProgress.start();
 
