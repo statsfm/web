@@ -9,7 +9,7 @@ export interface BacktrackAudioAnalysis extends BacktrackObject {
   track: BacktrackAudioAnalysisTrack;
 }
 
-interface BacktrackAudioAnalysisTrack {
+export interface BacktrackAudioAnalysisTrack {
   num_samples: number;
   duration: number;
   sample_md5: string;
@@ -30,19 +30,19 @@ interface BacktrackAudioAnalysisTrack {
   mode_confidence: number;
 }
 
-interface BacktrackAudioAnalysisBar {
+export interface BacktrackAudioAnalysisBar {
   start: number;
   duration: number;
   confidence: number;
 }
 
-interface BacktrackAudioAnalysisBeat {
+export interface BacktrackAudioAnalysisBeat {
   start: number;
   duration: number;
   confidence: number;
 }
 
-interface BacktrackAudioAnalysisSection {
+export interface BacktrackAudioAnalysisSection {
   start: number;
   duration: number;
   confidence: number;
@@ -57,7 +57,7 @@ interface BacktrackAudioAnalysisSection {
   time_signature_confidence: number;
 }
 
-interface BacktrackAudioAnalysisSegment {
+export interface BacktrackAudioAnalysisSegment {
   start: number;
   duration: number;
   confidence: number;
@@ -69,7 +69,7 @@ interface BacktrackAudioAnalysisSegment {
   timbre: number[];
 }
 
-interface BacktrackAudioAnalysisTatum {
+export interface BacktrackAudioAnalysisTatum {
   start: number;
   duration: number;
   confidence: number;
