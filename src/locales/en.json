@@ -33,6 +33,7 @@
   "gift.take_to_coupons_page": "Take me to the coupons page",
   "gift.no_message": "No message",
   "gift.edit_message": "Edit message",
+  "gift.gifted_by": "Gifted by {name}",
   "artist.followers": "{count} followers",
   "import.successfully_uploaded_file": "Successfully uploaded {filename}",
   "import.import": "Import",

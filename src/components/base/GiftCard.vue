@@ -12,11 +12,17 @@
         v-if="giftCode"
         class="face back p-10 select-none flex flex-col justify-center absolute aspect-[5/3]"
       >
-        <p v-if="giftCode.message" class="text-xl">{{ giftCode.message }}</p>
-        <p v-else class="italic font-normal text-xl">
+        <p v-if="giftCode.message" class="text-xl text-white">{{ giftCode.message }}</p>
+        <p v-else class="italic font-normal text-xl text-white">
           {{ t('gift.no_message') }}
         </p>
-        <span class="font-bold text-textGrey mt-2">{{ giftCode.boughtBy }}</span>
+        <span>
+          <i18n-t keypath="gift.gifted_by">
+            <template v-slot:name>
+              <span class="font-extrabold">{{ giftCode.boughtBy }}</span>
+            </template>
+          </i18n-t>
+        </span>
       </Card>
     </div>
   </div>
