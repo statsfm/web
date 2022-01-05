@@ -56,7 +56,7 @@ const props = defineProps<{
   isFlipped?: boolean;
 }>();
 
-const emit = defineEmits(['click']);
+const emit = defineEmits(['click', 'flipped']);
 
 const flipped = ref(false);
 
@@ -76,5 +76,6 @@ const onGiftCardClick = () => {
   }
 
   flipped.value = !flipped.value;
+  emit('flipped', flipped.value);
 };
 </script>
