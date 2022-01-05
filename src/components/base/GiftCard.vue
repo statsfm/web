@@ -19,7 +19,11 @@
         <span>
           <i18n-t keypath="gift.gifted_by">
             <template v-slot:name>
-              <span class="font-extrabold">{{ giftCode.boughtBy }}</span>
+              <Link
+                :to="{ name: 'User', params: { id: giftCode.boughtBy } }"
+                class="font-extrabold"
+                >{{ giftCode.boughtBy }}</Link
+              >
             </template>
           </i18n-t>
         </span>
@@ -56,6 +60,7 @@ import { GiftCode } from '~/types';
 const { t } = useI18n();
 
 import Card from '../layout/Card.vue';
+import Link from './Link.vue';
 
 const props = defineProps<{
   giftCode: GiftCode | null;
