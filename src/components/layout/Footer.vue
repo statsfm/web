@@ -67,7 +67,7 @@
         </div>
       </div>
     </div>
-    <p class="mt-10 pt-10 text-center md:mt-0 md:order-1">
+    <p class="min-w-full mt-10 pt-10 text-center md:mt-0 md:order-1">
       © 2021 Backtrack / Spotistats. All rights reserved. Made with ❤️ in the Netherlands
     </p>
   </Container>
