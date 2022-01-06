@@ -43,8 +43,9 @@
 import Container from '../layout/Container.vue';
 import Button from '../base/Button.vue';
 import Link from '../base/Link.vue';
+import { RouteLocationRaw } from 'vue-router';
 
-const links = [
+const links: { label: string; links: { label: string; to: string | RouteLocationRaw }[] }[] = [
   {
     label: 'Backtrack',
     links: [
