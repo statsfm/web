@@ -4,7 +4,7 @@
   </div>
 </template>
 
-<style lang="scss" scoped>
+<style scoped>
 .loader {
   height: 100px;
   width: 100px;
