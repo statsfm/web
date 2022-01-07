@@ -1,7 +1,9 @@
 import BacktrackApi from '~/api';
 import router from '~/router';
-import store from '~/store';
+import { useStore } from '~/store';
 import { GetTokenResponse, GetUsersMeResponse } from '~/types';
+
+const store = useStore();
 
 export interface Response {
   success: boolean;
@@ -25,7 +27,7 @@ export default class auth {
   public init = () => {
     if (this.isLoggedIn()) {
       const user = JSON.parse(localStorage.getItem('user') as string);
-      this.store.commit('setUser', user);
+      this.store.setUser(user);
     }
   };
 
@@ -93,8 +95,8 @@ export default class auth {
     localStorage.setItem('token', token);
     const { data } = await this.api.get<GetUsersMeResponse>('/users/me');
     if (data.item) {
-      // todo ff anders checken
-      this.store.commit('setUser', data.item);
+      // TODO: fix types
+      this.store.setUser(data.item as any);
     } else {
       alert('user not found: ' + JSON.stringify(data));
     }

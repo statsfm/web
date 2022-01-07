@@ -1,22 +1,15 @@
-import { createStore, useStore as baseUseStore, Store } from 'vuex';
-import { InjectionKey } from 'vue';
+import { defineStore } from 'pinia';
+import { reactive } from 'vue';
+import { BacktrackUser } from '~/types';
 
-import { State, state } from './state';
-import { getters } from './getters';
-import { mutations } from './mutations';
-import { actions } from './actions';
+export const useStore = defineStore('main', () => {
+  const state = reactive({
+    user: {} as BacktrackUser<true, true>
+  });
 
-export const key: InjectionKey<Store<State>> = Symbol();
+  const setUser = (user: BacktrackUser<true, true>) => {
+    state.user = user;
+  };
 
-const store = createStore({
-  state,
-  getters,
-  mutations,
-  actions
+  return { state, setUser };
 });
-
-export function useStore() {
-  return baseUseStore(key);
-}
-
-export default store;
