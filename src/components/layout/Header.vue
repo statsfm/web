@@ -37,12 +37,10 @@ import Avatar from '../base/Avatar.vue';
 import Button from '../base/Button.vue';
 import Dropdown from '../base/dropdowns/Dropdown.vue';
 import Divider from '../base/Divider.vue';
-import { useAuth } from '~/hooks';
-import { useStore } from '~/store';
+import { useAuth, useUser } from '~/hooks';
 import { useRouter } from 'vue-router';
 
-const store = useStore();
 const router = useRouter();
-const user = store.state.user;
+const user = useUser();
 const auth = useAuth();
 </script>
