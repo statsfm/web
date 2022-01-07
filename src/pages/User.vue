@@ -1,8 +1,13 @@
 <template>
-  <HeroWithImageAndInfo v-if="user" :name="user.displayName" :image="user.image" />
+  <HeroWithImageAndInfo
+    v-if="user"
+    :name="user.displayName"
+    :subtitle="user.country"
+    :image="user.image"
+  />
   <Container>
-    <div class="flex gap-2 overflow-x-auto">
-      <router-link
+    <div class="flex gap-2 overflow-x-auto" v-if="topArtists">
+      <Link
         v-for="(artist, index) in topArtists"
         :key="index"
         :to="{
@@ -17,7 +22,7 @@
           :style="{ backgroundImage: `url(${artist.artist.image})` }"
           class="h-32 aspect-square bg-cover bg-center rounded-2xl"
         ></div
-      ></router-link>
+      ></Link>
     </div>
 
     <AudioFeaturesRadarChart
@@ -33,34 +38,34 @@ import { onMounted, Ref, ref } from 'vue';
 import Container from '~/components/layout/Container.vue';
 import HeroWithImageAndInfo from '~/components/base/HeroWithImageAndInfo.vue';
 import AudioFeaturesRadarChart from '~/components/base/AudioFeatures/AudioFeaturesRadarChart.vue';
+import Link from '~/components/base/Link.vue';
+
 import BacktrackApi from '~/api';
 import { useRoute } from 'vue-router';
 import { useI18n } from 'vue-i18n';
 import {
-  BacktrackFriend,
   BacktrackRecentlyPlayedTrack,
   BacktrackTopArtist,
-  GetFriendResponse,
-  GetFriendStatsResponse,
-  GetUserTopArtistsShortTermResponse
+  GetUserResponse,
+  GetUserRecentlyplayedResponse,
+  GetUserTopArtistsShortTermResponse,
+  BacktrackUser
 } from '~/types';
 
 const route = useRoute();
 const { t } = useI18n();
 
-const user: Ref<BacktrackFriend | null> = ref(null);
+const user: Ref<BacktrackUser | null> = ref(null);
 const recentlyPlayed: Ref<BacktrackRecentlyPlayedTrack[] | null> = ref(null);
 const topArtists: Ref<BacktrackTopArtist[] | null> = ref(null);
 
-const getUser = async (id: string): Promise<BacktrackFriend> => {
-  return await BacktrackApi.get<GetFriendResponse>(`/friends/get/${id}`).then(
-    (res) => res.data.data
-  );
+const getUser = async (id: string): Promise<BacktrackUser> => {
+  return await BacktrackApi.get<GetUserResponse>(`/users/${id}`).then((res) => res.data.item);
 };
 
 const getUsersRecentlyPlayed = async (id: string): Promise<BacktrackRecentlyPlayedTrack[]> => {
-  return await BacktrackApi.get<GetFriendStatsResponse>(`/friends/stats/${id}`).then(
-    (res) => res.data.data.recentlyPlayed
+  return await BacktrackApi.get<GetUserRecentlyplayedResponse>(`/users/${id}/recentlyplayed`).then(
+    (res) => res.data.items
   );
 };
 

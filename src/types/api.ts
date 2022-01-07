@@ -1,4 +1,4 @@
-import { BacktrackTrack } from './backtrack';
+import { BacktrackTopTrack, BacktrackTrack } from './backtrack';
 import {
   BacktrackArtist,
   BacktrackFriend,
@@ -54,6 +54,14 @@ export interface GetFriendStatsResponse {
     artists: BacktrackTopArtist[];
     tracks: BacktrackTopAlbum[];
   };
+}
+
+export interface GetUserResponse {
+  item: BacktrackUser<false, false>;
+}
+
+export interface GetUserRecentlyplayedResponse {
+  items: BacktrackRecentlyPlayedTrack[];
 }
 
 export interface GetUserTopArtistsShortTermResponse {
