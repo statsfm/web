@@ -6,6 +6,7 @@
     :image="user.image"
   />
   <Container>
+    <h1 class="mt-10 mb-2">Top artists</h1>
     <div class="flex gap-2 overflow-x-auto" v-if="topArtists">
       <Link
         v-for="(artist, index) in topArtists"
@@ -25,6 +26,7 @@
       ></Link>
     </div>
 
+    <h1 class="mt-5 mb-2">Genres</h1>
     <AudioFeaturesRadarChart
       v-if="recentlyPlayed"
       :topTracks="recentlyPlayed.map((stream) => stream.track)"
@@ -59,17 +61,17 @@ const user: Ref<BacktrackUser | null> = ref(null);
 const recentlyPlayed: Ref<BacktrackRecentlyPlayedTrack[] | null> = ref(null);
 const topArtists: Ref<BacktrackTopArtist[] | null> = ref(null);
 
-const getUser = async (id: string): Promise<BacktrackUser> => {
+const getUser = async (id: string) => {
   return await BacktrackApi.get<GetUserResponse>(`/users/${id}`).then((res) => res.data.item);
 };
 
-const getUsersRecentlyPlayed = async (id: string): Promise<BacktrackRecentlyPlayedTrack[]> => {
+const getUsersRecentlyPlayed = async (id: string) => {
   return await BacktrackApi.get<GetUserRecentlyplayedResponse>(`/users/${id}/recentlyplayed`).then(
     (res) => res.data.items
   );
 };
 
-const getShortTermTopArtist = async (id: string): Promise<BacktrackTopArtist[]> => {
+const getShortTermTopArtist = async (id: string) => {
   return await BacktrackApi.get<GetUserTopArtistsShortTermResponse>(
     `/users/${id}/top/artists/short_term`
   ).then((res) => res.data.items);
