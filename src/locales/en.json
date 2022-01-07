@@ -23,7 +23,7 @@
   "gift.your_coupons": "Your coupons",
   "gift.unclaimed_coupons": "Unclaimed coupons",
   "gift.claimed_coupons": "Claimed coupons",
-  "gift.coupons_not_found": "No coupon codes found",
+  "gift.coupon_codes_not_found": "No coupon codes found",
   "gift.select_plan_first": "You need to select a plan first",
   "gift.plan": "Plan",
   "gift.price": "Price",
@@ -61,5 +61,6 @@
   "track.time_signature": "Time signature",
   "track.segment": "Segment",
   "track.selected_segment": "Selected segment",
-  "track.loudness": "Loudness"
+  "track.loudness": "Loudness",
+  "gift.save_with_bundle": "Save {percentage}% with this bundle!"
 }

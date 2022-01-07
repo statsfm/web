@@ -7,11 +7,17 @@
 
       <h1>{{ plan.quantity }}x</h1>
       <p>{{ plan.name }}</p>
-      <p class="text-primary my-[-3px] font-bold text-center">{{ plan.save }}</p>
+      <p
+        class="text-primary my-[-3px] font-bold text-center"
+        v-if="calculateSavePercentage(plan, defaultPlan) > 0"
+      >
+        {{ t('gift.save_with_bundle', { percentage: calculateSavePercentage(plan, defaultPlan) }) }}
+      </p>
     </Card>
 
     <Button class="w-full mt-2 text-xl" size="small"
-      >{{ plan.price }}<small class="ml-1">excl vat & fees</small></Button
+      >{{ formatAmount(plan.price.amount) }}{{ plan.price.currency
+      }}<small class="ml-1">excl vat & fees</small></Button
     >
   </div>
 </template>
@@ -22,9 +28,24 @@ import { Plan } from '~/types';
 import Card from '../layout/Card.vue';
 import Button from '../base/Button.vue';
 import MostChosenBadge from './MostChosenBadge.vue';
+import { useI18n } from 'vue-i18n';
 
 defineProps<{
   plan: Plan;
+  defaultPlan: Plan;
   isSelected?: boolean;
 }>();
+
+const { t } = useI18n();
+
+const calculateSavePercentage = (plan: Plan, defaultPlan: Plan): number => {
+  const defaultAmount = defaultPlan.price.amount * plan.quantity;
+  const planAmount = plan.price.amount;
+  return Math.round(Math.abs(((planAmount - defaultAmount) / defaultAmount) * 100) * 10) / 10;
+};
+
+// TODO: fix this code
+const formatAmount = (amount: number): number => {
+  return amount / 100;
+};
 </script>

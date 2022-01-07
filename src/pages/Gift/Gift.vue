@@ -3,11 +3,12 @@
   <Container class="pt-5">
     <section class="flex gap-3 mb-5 flex-col mt-2">
       <div class="w-full flex flex-col justify-between">
-        <div class="flex gap-3 justify-center mb-2">
+        <div class="flex gap-3 justify-center mb-2 flex-col md:flex-row">
           <PricePlanCard
             v-for="(plan, index) in plans"
             :key="index"
             :plan="plan"
+            :defaultPlan="plans[0]"
             @click="initCheckout(plan.quantity)"
           ></PricePlanCard>
         </div>
@@ -47,7 +48,7 @@
             </h4>
 
             <p v-if="giftCodes?.filter((code) => code.claimedBy != undefined)?.length == 0">
-              {{ t('gift.coupons_not_found') }}
+              {{ t('gift.coupon_codes_not_found') }}
             </p>
 
             <div class="flex flex-nowrap gap-3 overflow-x-auto md:flex-wrap">
@@ -94,29 +95,37 @@ const plans: Plan[] = [
   {
     name: '1x lifetime Spotistats Plus',
     quantity: 1,
-    price: '4$',
-    save: '‎',
+    price: {
+      amount: 400,
+      currency: '$'
+    },
     isMostChosen: false
   },
   {
     name: '3x lifetime Spotistats Plus',
     quantity: 3,
-    price: '10$',
-    save: 'Save 17.5% with this bundle!',
+    price: {
+      amount: 1000,
+      currency: '$'
+    },
     isMostChosen: false
   },
   {
     name: '5x lifetime Spotistats Plus',
     quantity: 5,
-    price: '15$',
-    save: 'Save 25% with this bundle!',
+    price: {
+      amount: 1500,
+      currency: '$'
+    },
     isMostChosen: true
   },
   {
     name: '10x lifetime Spotistats Plus',
     quantity: 10,
-    price: '25$',
-    save: 'Save 37.5% with this bundle!',
+    price: {
+      amount: 2500,
+      currency: '$'
+    },
     isMostChosen: false
   }
 ];
