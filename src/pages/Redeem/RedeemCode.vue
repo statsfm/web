@@ -58,21 +58,15 @@ watch(isFlipped, (val) => {
 });
 
 const redeemGiftCode = async () => {
-  const res = await BacktrackApi.post<PostPlusGiftCodeRedeemResponse>(
+  const { success } = await BacktrackApi.post<PostPlusGiftCodeRedeemResponse>(
     `/plus/giftcodes/${code.value}/redeem`
   );
 
-  if (!res.success) {
-    toaster.error({
-      message: res.data.message!
+  if (success) {
+    toaster.success({
+      message: t('errors.successfully_redeemed')
     });
-
-    return;
   }
-
-  toaster.success({
-    message: t('errors.successfully_redeemed')
-  });
 
   isFlipped.value = true;
 };
