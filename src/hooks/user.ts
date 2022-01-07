@@ -1,7 +1,7 @@
 import { useStore } from '~/store';
-import { User } from '~/types';
+import { BacktrackUser } from '~/types';
 
-export function useUser(): User | null {
+export function useUser(): BacktrackUser<true, true> | null {
   const store = useStore();
   return store.state.user;
 }
