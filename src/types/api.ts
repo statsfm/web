@@ -9,15 +9,18 @@ import {
   BacktrackUserImport,
   GiftCode,
   TotalSize,
-  User
+  BacktrackUser
 } from './index';
 
 export interface GetUsersMeResponse {
-  item: Pick<User, 'id' | 'displayName' | 'image' | 'country' | 'isPlus' | 'shareSettings'>;
+  item: Pick<
+    BacktrackUser,
+    'id' | 'displayName' | 'image' | 'country' | 'isPlus' | 'shareSettings'
+  >;
 }
 
 export interface GetTokenResponse {
-  data: Pick<User<true, true>, 'settings' | 'apiClient'>;
+  data: Pick<BacktrackUser<true, true>, 'settings' | 'apiClient'>;
 }
 
 export type PostImportRemoveResponse = [number, number];
@@ -68,7 +71,7 @@ export interface PutPlusGiftCodeResponse {
 
 export interface PostImportCodeResponse {
   message?: string;
-  data: User;
+  data: BacktrackUser;
 }
 
 export interface PostPlusGiftCodeRedeemResponse {
@@ -81,7 +84,7 @@ export interface PostImportUploadResponse {
   data: {
     message: string;
     imports: BacktrackUserImport[];
-    user: User;
+    user: BacktrackUser;
   };
 }
 

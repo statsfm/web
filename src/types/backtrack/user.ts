@@ -1,6 +1,6 @@
-import { BacktrackSharingSettings } from '.';
+import { BacktrackSharingSettings } from '../index';
 
-export interface User<IncludeSettings = false, IncludeApiClient = false> {
+export interface BacktrackUser<IncludeSettings = false, IncludeApiClient = false> {
   id: string;
   displayName: string;
   disabled: boolean;
