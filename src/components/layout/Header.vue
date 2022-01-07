@@ -9,7 +9,7 @@
         <Button v-if="!auth.isLoggedIn()" size="small" @click="auth.login()">Login</Button>
         <Dropdown v-if="auth.isLoggedIn() && user">
           <template v-slot:button>
-            <Avatar :src="user.image" class="cursor-pointer" />
+            <Avatar :src="user.image ?? ''" class="cursor-pointer" />
           </template>
 
           <div

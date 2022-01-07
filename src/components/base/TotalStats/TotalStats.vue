@@ -19,9 +19,9 @@ import TotalStatsItem from './TotalStatsItem.vue';
 const stats: Ref<TotalSize | null> = ref(null);
 
 const getStats = async (): Promise<TotalSize> => {
-  return await api
-    .get<GetStatsDatabaseSiteResponse>('/stats/database/size')
-    .then((res) => res.data.items);
+  return await BacktrackApi.get<GetStatsDatabaseSiteResponse>('/stats/database/size').then(
+    (res) => res.data.items
+  );
 };
 
 onMounted(async () => {
