@@ -18,7 +18,7 @@ import { useI18n } from 'vue-i18n';
 defineProps<{
   name: string;
   subtitle?: string;
-  image: string;
+  image?: string;
 }>();
 
 const { t } = useI18n();
