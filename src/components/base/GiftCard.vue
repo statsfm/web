@@ -32,20 +32,20 @@
   </div>
 </template>
 
-<style lang="scss" scoped>
+<style scoped>
 .perspective {
   perspective: 1000px;
 }
 .flip {
   transform-style: preserve-3d;
+}
 
-  .face {
-    backface-visibility: hidden;
-  }
+.face {
+  backface-visibility: hidden;
+}
 
-  .back {
-    transform: rotateY(180deg);
-  }
+.back {
+  transform: rotateY(180deg);
 }
 
 .flipped {
