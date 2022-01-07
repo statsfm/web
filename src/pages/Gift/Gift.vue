@@ -95,19 +95,29 @@ const plans: Plan[] = [
     name: '1x lifetime Spotistats Plus',
     quantity: 1,
     price: '4$',
+    save: '‎',
     isMostChosen: false
   },
   {
     name: '3x lifetime Spotistats Plus',
     quantity: 3,
     price: '10$',
+    save: 'Save 17.5% with this bundle!',
     isMostChosen: false
   },
   {
     name: '5x lifetime Spotistats Plus',
     quantity: 5,
     price: '15$',
+    save: 'Save 25% with this bundle!',
     isMostChosen: true
+  },
+  {
+    name: '10x lifetime Spotistats Plus',
+    quantity: 10,
+    price: '25$',
+    save: 'Save 37.5% with this bundle!',
+    isMostChosen: false
   }
 ];
 

@@ -7,10 +7,11 @@
 
       <h1>{{ plan.quantity }}x</h1>
       <p>{{ plan.name }}</p>
+      <p class="text-primary my-[-3px] font-bold text-center">{{ plan.save }}</p>
     </Card>
 
-    <Button class="w-full mt-2 text-lg" size="small"
-      >{{ plan.price }} <small>incl vat & fees</small></Button
+    <Button class="w-full mt-2 text-xl" size="small"
+      >{{ plan.price }}<small class="ml-1">excl vat & fees</small></Button
     >
   </div>
 </template>
