@@ -2,7 +2,7 @@
   <HeroWithImageAndInfo
     v-if="artist"
     :name="artist.name"
-    :subtitle="formatFollowers(artist.followers)"
+    :subtitle="`${formatFollowers(artist.followers)} ${t('artist.followers')}`"
     :image="artist.image"
   />
   <Container>
