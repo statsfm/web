@@ -43,65 +43,37 @@ const getAudioFeatures = async (): Promise<AudioFeature[]> => {
     {
       label: 'acousticness',
       icon: mdiGuitarAcoustic,
-      value: 0,
-      range: {
-        min: 0,
-        max: 1
-      }
+      value: 0
     },
     {
       label: 'danceability',
       icon: mdiMusic,
-      value: 0,
-      range: {
-        min: 0,
-        max: 1
-      }
+      value: 0
     },
     {
       label: 'energy',
       icon: mdiLightningBolt,
-      value: 0,
-      range: {
-        min: 0,
-        max: 1
-      }
+      value: 0
     },
     {
       label: 'instrumentalness',
       icon: mdiInstrumentTriangle,
-      value: 0,
-      range: {
-        min: 0,
-        max: 1
-      }
+      value: 0
     },
     {
       label: 'liveness',
       icon: mdiRecord,
-      value: 0,
-      range: {
-        min: 0,
-        max: 1
-      }
+      value: 0
     },
     {
       label: 'speechiness',
       icon: mdiAccountVoice,
-      value: 0,
-      range: {
-        min: 0,
-        max: 1
-      }
+      value: 0
     },
     {
       label: 'valence',
       icon: mdiEmoticonHappy,
-      value: 0,
-      range: {
-        min: 0,
-        max: 1
-      }
+      value: 0
     }
   ];
 
@@ -152,9 +124,9 @@ const drawRadarChart = (features: AudioFeature[]) => {
     const height = ref(canvas.value.height);
 
     const strokeWidth = 2;
-    const maxRadius = Math.min(width.value / 2, height.value / 2);
-    const radius = maxRadius / 3 - strokeWidth;
-    const centrum: Point = { x: width.value / 2, y: height.value / 2 };
+    const maxDiameter = Math.min(width.value / 2, height.value / 2);
+    const radius = maxDiameter / 3 - strokeWidth;
+    const centerPoint: Point = { x: width.value / 2, y: height.value / 2 };
 
     const deltaAngle = (Math.PI * 2) / features.length;
 
@@ -175,28 +147,35 @@ const drawRadarChart = (features: AudioFeature[]) => {
       for (let i = 0; i < features.length; i++) {
         const angle = deltaAngle * i;
         const crosshair: Point = {
-          x: centrum.x + (maxRadius - strokeWidth * 2) * Math.cos(angle),
-          y: centrum.y + (maxRadius - strokeWidth * 2) * Math.sin(angle)
+          x: centerPoint.x + (maxDiameter - strokeWidth * 2) * Math.cos(angle),
+          y: centerPoint.y + (maxDiameter - strokeWidth * 2) * Math.sin(angle)
         };
 
         ctx.beginPath();
-        ctx.moveTo(centrum.x, centrum.y);
+        ctx.moveTo(centerPoint.x, centerPoint.y);
         ctx.lineTo(crosshair.x, crosshair.y);
         ctx.stroke();
         ctx.closePath();
       }
 
+      let maxRadius = -Infinity;
+      let minRadius = Infinity;
+      for (const feature of features) {
+        maxRadius = Math.max(maxRadius, feature.value);
+        minRadius = Math.min(minRadius, feature.value);
+      }
+
       // TODO: move this outside the draw function
-      //  calculate the positions
+      // calculate the positions
       for (let i = 0; i < features.length; i++) {
         const feature = features[i];
-        const ratio = (feature.value - feature.range.min) / (feature.range.max - feature.range.min);
-        const featureRadius = maxRadius * ratio;
+        const ratio = (feature.value - minRadius) / (maxRadius - minRadius);
+        const featureRadius = maxDiameter * ratio;
 
         const angle = deltaAngle * i;
         const pos: Point = {
-          x: centrum.x + featureRadius * Math.cos(angle),
-          y: centrum.y + featureRadius * Math.sin(angle)
+          x: centerPoint.x + featureRadius * Math.cos(angle),
+          y: centerPoint.y + featureRadius * Math.sin(angle)
         };
 
         featuresWithPos.value.push({
