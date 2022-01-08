@@ -2,13 +2,16 @@
   <div
     class="w-full select-none cursor-pointer relative transform transition duration-200 hover:scale-105"
   >
-    <Card class="flex flex-col items-center" :class="{ 'outline outline-primary': isSelected }">
+    <Card
+      class="flex flex-col items-center text-center"
+      :class="{ 'outline outline-primary': isSelected }"
+    >
       <MostChosenBadge v-if="plan.isMostChosen" class="absolute top-0 -translate-y-1/2" />
 
       <h1>{{ plan.quantity }}x</h1>
       <p>{{ plan.name }}</p>
       <p
-        class="text-primary my-[-3px] font-bold text-center"
+        class="text-primary my-[-3px] font-bold"
         v-if="calculateSavePercentage(plan, defaultPlan) > 0"
       >
         {{ t('gift.save_with_bundle', { percentage: calculateSavePercentage(plan, defaultPlan) }) }}
