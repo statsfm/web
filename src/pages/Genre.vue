@@ -5,7 +5,7 @@
     </h1>
   </Hero>
   <Container v-if="genre">
-    <h3>Related genres</h3>
+    <h2 class="mt-10">Related genres</h2>
     <ChipGroup class="mt-5">
       <Link
         v-for="(genre, index) in genre.related"
@@ -16,7 +16,7 @@
       </Link>
     </ChipGroup>
 
-    <h3>Artists</h3>
+    <h2 class="mt-5 mb-2">Artists</h2>
     <div class="grid gap-8 grid-cols-2 md:grid-cols-4 xl:grid-cols-5">
       <div v-for="(artist, index) in genre.artists" :key="index" class="overflow-hidden">
         <Link :to="{ name: 'Artist', params: { id: artist.id, slug: '' } }">
