@@ -20,18 +20,14 @@ const { t } = useI18n();
 const emit = defineEmits(['setDisabledState']);
 
 const onCodeInput = async (value: string) => {
-  const { data, success } = await BacktrackApi.post<PostImportCodeResponse>('/import/code', {
+  const { success } = await BacktrackApi.post<PostImportCodeResponse>('/import/code', {
     body: JSON.stringify({ code: value })
   });
 
-  if (!success) {
-    toaster.error({ message: data.message! });
-    return;
+  if (success) {
+    // TODO: set user with requested data
+    code.value = value;
+    emit('setDisabledState', false);
   }
-
-  // TODO: set user with requested data
-
-  code.value = value;
-  emit('setDisabledState', false);
 };
 </script>

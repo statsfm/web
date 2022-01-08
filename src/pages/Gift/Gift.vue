@@ -141,15 +141,12 @@ const getGiftCodes = async (): Promise<GiftCode[]> => {
 };
 
 const initCheckout = async (quantity: number) => {
-  const { data, status } = await BacktrackApi.get<GetPlusGiftCodePurcahseResponse>(
+  const { data, success } = await BacktrackApi.get<GetPlusGiftCodePurcahseResponse>(
     `/plus/giftcodes/purchase?quantity=${quantity}`
   );
 
-  if (status == 403) {
-    toaster.error({ message: t('errors.not_authenticated') });
-    return;
+  if (success) {
+    location.href = data.item.url;
   }
-
-  location.href = data.item.url;
 };
 </script>
