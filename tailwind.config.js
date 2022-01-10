@@ -9,6 +9,10 @@ module.exports = {
         bodySecundary: '#18181c',
         textGrey: '#727272'
       },
+      fontFamily: {
+        body: 'Open Sans',
+        heading: 'Open Sans'
+      },
       keyframes: {
         fade: {
           from: { opacity: 0 },
