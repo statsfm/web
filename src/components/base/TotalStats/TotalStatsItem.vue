@@ -15,7 +15,7 @@
       </span>
     </h2>
 
-    <p class="inline-flex" v-if="hasIndicator">
+    <p class="inline-flex mt-0 ml-[-5px]" v-if="hasIndicator">
       <Icon
         :path="
           diffBetweenCurrentAndPreviousSnapshot == 0
