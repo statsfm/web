@@ -12,7 +12,7 @@ export interface Response<T = any> {
 }
 
 export default class BacktrackApi {
-  static baseUrl: string = 'https://local.backtrack.dev/api/v1';
+  static baseUrl: string = 'https://staging.backtrack.dev/api/v1';
 
   constructor() {}
 
