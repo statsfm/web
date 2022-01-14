@@ -17,6 +17,7 @@
 
     <p class="inline-flex mt-0 ml-[-5px]" v-if="hasIndicator">
       <Icon
+        class="mt-[-1px] mr-[-1px]"
         :path="
           diffBetweenCurrentAndPreviousSnapshot == 0
             ? mdiArrowRightThin
@@ -26,7 +27,7 @@
         "
       />
       <span class="font-bold mr-1">{{ formatCount(indicator) }}</span>
-      {{ dayjs(snapshot.current.date).from(snapshot.previous.date) }}
+      in the last hour
     </p>
   </div>
 </template>
@@ -37,8 +38,6 @@ import { TotalSizeItem } from '~/types/totalStats';
 
 import { mdiArrowUpThin, mdiArrowDownThin, mdiArrowRightThin } from '@mdi/js';
 import Icon from '../Icon.vue';
-
-import dayjs from '~/dayjs';
 
 const props = defineProps<{
   hasLiveIndicator?: boolean;
@@ -69,13 +68,13 @@ const diffPerUnit = diffBetweenCurrentAndPreviousSnapshot / (timeDiff / timeUnit
 
 // add the initial epoch offset to the value
 count.value += epochOffset * diffPerUnit;
+indicator.value = diffPerUnit * /*24 **/ ((60 * 60 * 1000) / timeUnit);
 
 let interval: NodeJS.Timer;
 onMounted(() => {
   // every timeunit update the value
   interval = setInterval(() => {
     count.value += diffPerUnit;
-    indicator.value = count.value - snapshot.previous.count;
   }, timeUnit);
 });
 
