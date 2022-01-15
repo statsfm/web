@@ -56,6 +56,7 @@
   "coupon.redeem_code": "Redeem code",
   "track.audio_analysis": "Audio analysis",
   "track.overall_loudness": "Overall loudness",
+  "track.average_loudness_in_timeframe": "Average loudness in timeframe",
   "track.key": "Key",
   "track.mode": "Mode",
   "track.time_signature": "Time signature",
