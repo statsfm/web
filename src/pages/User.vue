@@ -35,7 +35,7 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted, Ref, ref } from 'vue';
+import { computed, onMounted, Ref, ref } from 'vue';
 
 import Container from '~/components/layout/Container.vue';
 import HeroWithImageAndInfo from '~/components/base/HeroWithImageAndInfo.vue';
@@ -53,6 +53,7 @@ import {
   GetUserTopArtistsShortTermResponse,
   BacktrackUser
 } from '~/types';
+import { useHead } from '@vueuse/head';
 
 const route = useRoute();
 const { t } = useI18n();
@@ -60,6 +61,23 @@ const { t } = useI18n();
 const user: Ref<BacktrackUser | null> = ref(null);
 const recentlyPlayed: Ref<BacktrackRecentlyPlayedTrack[] | null> = ref(null);
 const topArtists: Ref<BacktrackTopArtist[] | null> = ref(null);
+
+// TODO: remove hardcoded app name
+const computedTitle = computed(() => `${user.value?.displayName ?? 'Backtrack'} | Backtrack`);
+
+useHead({
+  title: computedTitle.value,
+  meta: [
+    {
+      name: 'og:title',
+      content: computedTitle.value
+    },
+    {
+      name: 'og:image',
+      content: computed(() => user.value?.image)
+    }
+  ]
+});
 
 const getUser = async (id: string) => {
   return await BacktrackApi.get<GetUserResponse>(`/users/${id}`).then((res) => res.data.item);
