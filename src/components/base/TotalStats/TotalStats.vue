@@ -1,12 +1,12 @@
 <template>
   <div class="grid grid-cols-2 gap-x-4 gap-y-6" v-if="stats">
     <TotalStatsItem label="Users" :snapshot="stats.users" hasIndicator />
-    <TotalStatsItem label="Plus users" :snapshot="stats.plusUsers" />
-    <TotalStatsItem label="Streams" :snapshot="stats.streams" hasLiveIndicator />
+    <TotalStatsItem label="Plus users" :snapshot="stats.plusUsers" hasIndicator />
+    <TotalStatsItem label="Streams" :snapshot="stats.streams" hasLiveIndicator hasIndicator />
 
-    <TotalStatsItem label="Tracks" :snapshot="stats.tracks" />
-    <TotalStatsItem label="Artists" :snapshot="stats.artists" />
-    <TotalStatsItem label="Albums" :snapshot="stats.albums" />
+    <TotalStatsItem label="Tracks" :snapshot="stats.tracks" hasIndicator />
+    <TotalStatsItem label="Artists" :snapshot="stats.artists" hasIndicator />
+    <TotalStatsItem label="Albums" :snapshot="stats.albums" hasIndicator />
   </div>
 </template>
 

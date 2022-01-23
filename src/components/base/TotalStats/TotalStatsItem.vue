@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="-mb-5">
     <span>{{ label }}</span>
     <h2 class="tracking-tight">
       {{ formatCount(count) }}
@@ -14,10 +14,12 @@
         ></span>
       </span>
     </h2>
-
-    <p class="inline-flex mt-0 ml-[-5px]" v-if="hasIndicator">
+    <!-- <p class="inline-flex text-sm mt-0 ml-[-5px]" v-if="hasIndicator">
       <Icon
-        class="mt-[-1px] mr-[-1px]"
+        class="mt-[-1px] mr-[4px] scale-90 h-[1.3rem] w-[1rem]" -->
+    <p class="inline-flex scale-90 mt-0 ml-[-12px] text-neutral-500" v-if="hasIndicator">
+      <Icon
+        class="mr-[-1px] ml-[-2x] mt-[-1px]"
         :path="
           diffBetweenCurrentAndPreviousSnapshot == 0
             ? mdiArrowRightThin
@@ -26,7 +28,7 @@
             : mdiArrowDownThin
         "
       />
-      <span class="font-bold mr-1">{{ formatCount(indicator) }}</span>
+      <span class="font-bold mr-1 text-inherit">{{ formatCount(indicator) }}</span>
       in the last hour
     </p>
   </div>
