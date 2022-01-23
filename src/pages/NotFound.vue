@@ -19,6 +19,7 @@ import Header from '~/components/layout/Header.vue';
 import Button from '~/components/base/Button.vue';
 import { useRouter } from 'vue-router';
 import { BacktrackArtist } from '~/types/backtrack';
+import { Point } from '~/types';
 
 const router = useRouter();
 
@@ -26,11 +27,6 @@ const content: Ref<HTMLDivElement | undefined> = ref();
 const canvas: Ref<HTMLCanvasElement | undefined> = ref();
 const artistBubbles: Ref<Circle[]> = ref([]);
 const artists: Ref<BacktrackArtist[]> = ref([]);
-
-type Point = {
-  x: number;
-  y: number;
-};
 
 type Circle = {
   point: Point;

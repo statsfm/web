@@ -46,7 +46,7 @@
               {{ dayjs.duration(segment.next.start, 'seconds').format('mm:ss') }}</span
             >
 
-            <StatsCard class="mt-2" :label="t('track.loudness')">
+            <StatsCard class="mt-2" :label="t('track.average_loudness_in_timeframe')">
               {{
                 Math.round(((segment.current.loudness_max + segment.next.loudness_max) / 2) * 10) /
                 10
