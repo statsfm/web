@@ -80,5 +80,13 @@
     "segment": "Segment",
     "selected_segment": "Selected segment",
     "loudness": "Loudness"
+  },
+  "total_stats": {
+    "users": "Users",
+    "plus_users": "Plus users",
+    "streams": "Streams",
+    "tracks": "Tracks",
+    "artists": "Artists",
+    "albums": "Albums"
   }
 }
