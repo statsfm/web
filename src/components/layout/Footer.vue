@@ -34,7 +34,7 @@
       </div>
     </div>
     <p class="min-w-full mt-10 pt-10 text-center md:mt-0 md:order-1">
-      © 2021 Backtrack / Spotistats. All rights reserved. Made with ❤️ in the Netherlands
+      © 2022 Stats.fm / Spotistats for Spotify. All rights reserved. Made with ❤️ in the Netherlands
     </p>
   </Container>
 </template>
@@ -47,7 +47,7 @@ import { LocationAsRelativeRaw } from 'vue-router';
 
 const links: { label: string; links: { label: string; to: string | LocationAsRelativeRaw }[] }[] = [
   {
-    label: 'Backtrack',
+    label: 'Stats.fm',
     links: [
       {
         label: 'Home',

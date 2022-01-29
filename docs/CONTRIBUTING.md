@@ -1,8 +1,8 @@
-# Backtrack
+# Stats.fm
 
 ## Style guide
 
-This Backtrack repository follows the the [Airbnb JavaScript Style Guide](https://github.com/airbnb/javascript).
+This Stats.fm web repository follows the the [Airbnb JavaScript Style Guide](https://github.com/airbnb/javascript).
 We expect all of our developers to strictly follow these style guides.
 Before you either push a commit or create a Pull Request, please check if there are no linter errors present. We recommend using Visual Studio Code with the recommended plugins installed for automatic linting.
 
@@ -38,7 +38,7 @@ Example:
 ## Installation
 
 1. Install [Yarn](https://classic.yarnpkg.com/lang/en/docs/install) and the recommend extensions
-2. Clone this repository to your local drive by running `git clone git@github.com:backtrackapp/web-frontend.git core` in the directory you wish to clone Backtrack in.
+2. Clone this repository to your local drive by running `git clone git@github.com:statsfm/web-frontend.git core` in the directory you wish to clone Stats.fm web in.
 3. Run `yarn install` to install all dependencies.
 4. Run `yarn build` to build for production.
 5. Finally, run `yarn dev`. This will spin up a dev server.

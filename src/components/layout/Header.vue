@@ -3,7 +3,7 @@
     <Container class="flex justify-between items-center py-3">
       <router-link to="/" class="flex gap-3">
         <Logo class="w-[1.7rem] h-[1.7rem]" />
-        <h1 class="text-2xl font-bold hidden md:block">Backtrack.fm</h1>
+        <h1 class="text-2xl font-bold hidden md:block">Stats.fm</h1>
       </router-link>
       <div class="flex items-center gap-5">
         <Button v-if="!auth.isLoggedIn()" size="small" @click="auth.login()">Login</Button>
