@@ -18,6 +18,11 @@ const routes: RouteRecordRaw[] = [
     component: () => import('../pages/Privacy.vue')
   },
   {
+    path: '/beta',
+    name: 'Beta',
+    component: () => import('../pages/Beta.vue')
+  },
+  {
     path: '/auth:route(.*)',
     name: 'AuthCallback',
     component: () => import('../pages/Auth/AuthCallback.vue')
