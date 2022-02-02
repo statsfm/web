@@ -15,34 +15,39 @@
   h4,
   h5,
   h6 {
-    @apply font-heading;
+    @apply font-heading text-white;
   }
 
   h1 {
-    @apply text-white text-3xl font-bold md:text-5xl;
+    @apply text-3xl font-bold md:text-4xl;
   }
 
   h2 {
-    @apply text-white text-2xl font-bold md:text-4xl;
+    @apply text-2xl font-bold md:text-3xl;
   }
 
   h3 {
-    @apply text-white text-xl font-bold md:text-3xl;
+    @apply text-xl font-bold md:text-2xl;
   }
 
   h4 {
-    @apply text-white text-lg font-bold;
+    @apply text-lg font-bold;
   }
 
   body {
-    @apply text-white text-sm md:text-base;
+    @apply text-sm md:text-base;
+  }
+
+  p,
+  span {
+    @apply text-neutral-400 font-medium;
   }
 
   p {
-    @apply text-neutral-400 font-medium max-w-prose my-2;
+    @apply max-w-prose my-2;
   }
 
-  span {
-    @apply text-neutral-400 font-medium;
+  svg {
+    @apply text-white;
   }
 }
