@@ -116,14 +116,20 @@ export default class auth {
     return user != null && user != undefined;
   };
 
-  public hasValidToken = () => {
+  public hasValidToken = (maxAge?: number) => {
     const token = localStorage.getItem('token');
-    if (token?.startsWith('ey')) {
-      const expiry = JSON.parse(atob(token.split('.')[1])).exp; // falsely marked as deprecated -> https://github.com/microsoft/TypeScript/issues/45566
+    let valid = false;
 
-      return Math.floor(new Date().getTime() / 1000) <= expiry;
+    if (token?.startsWith('ey')) {
+      const { exp, iat } = JSON.parse(atob(token.split('.')[1])); // falsely marked as deprecated -> https://github.com/microsoft/TypeScript/issues/45566
+
+      valid = Math.floor(new Date().getTime() / 1000) <= exp;
+
+      if (valid && maxAge && maxAge > 0) {
+        valid = Date.now() / 1000 - iat < 60;
+      }
     }
 
-    return false;
+    return valid;
   };
 }
