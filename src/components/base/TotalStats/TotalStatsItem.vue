@@ -72,12 +72,57 @@ const diffPerUnit = diffBetweenCurrentAndPreviousSnapshot / (timeDiff / timeUnit
 count.value += epochOffset * diffPerUnit;
 indicator.value = diffPerUnit * /*24 **/ ((60 * 60 * 1000) / timeUnit);
 
+// How long you want the animation to take, in ms
+const animationDuration = 3000;
+// Calculate how long each ‘frame’ should last if we want to update the animation 60 times per second
+const frameDuration = 1000 / 60;
+// Use that to calculate how many frames we need to complete the animation
+const totalFrames = Math.round(animationDuration / frameDuration);
+// An ease-out function that slows the count as it progresses
+const easeOutQuad = (x: number) => (x === 1 ? 1 : 1 - Math.pow(2, -20 * x));
+//  (x < 0.95 ? x : x * (2 - x));
+// Math.sqrt(1 - Math.pow(x - 1, 2));
+// (x: number) => x * (2 - x);
+// (x === 0 ? 0 : Math.pow(2, 10 * x - 10));
+
+// The animation function, which takes an Element
+const animateCountUp = () => {
+  let frame = 0;
+  const countTo = count.value + epochOffset * diffPerUnit;
+  console.log(props.label, countTo);
+  // Start the animation running 60 times per second
+  const counter = setInterval(() => {
+    frame++;
+    // Calculate our progress as a value between 0 and 1
+    // Pass that value to our easing function to get our
+    // progress on a curve
+    const progress = easeOutQuad(frame / totalFrames);
+    // Use the progress value to calculate the current count
+    const currentCount = Math.round(countTo * progress);
+
+    // If the current count has changed, update the element
+    if (count.value != countTo) {
+      count.value = currentCount;
+    }
+
+    // If we’ve reached our last frame, stop the animation
+    if (frame === totalFrames) {
+      clearInterval(counter);
+      startCounting();
+    }
+  }, frameDuration);
+};
+
 let interval: NodeJS.Timer;
-onMounted(() => {
+const startCounting = () => {
   // every timeunit update the value
   interval = setInterval(() => {
     count.value += diffPerUnit;
   }, timeUnit);
+};
+
+onMounted(() => {
+  animateCountUp();
 });
 
 onUnmounted(() => {
