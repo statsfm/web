@@ -88,5 +88,17 @@
     "tracks": "Tracks",
     "artists": "Artists",
     "albums": "Albums"
+  },
+  "user": {
+    "streams": "Streams",
+    "time_streamed": "Time streamed",
+    "top_tracks": "Top tracks",
+    "top_artists": "Top artists",
+    "top_albums": "Top Albums"
+  },
+  "range": {
+    "weeks": "4 weeks",
+    "months": "6 months",
+    "lifetime": "lifetime"
   }
 }
