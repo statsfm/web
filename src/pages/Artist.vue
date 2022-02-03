@@ -47,74 +47,69 @@
 
       <div class="my-10"></div>
 
-      <h1 class="text-3xl">Your streams featuring {{ artist.name }}</h1>
-      <div class="mt-4 flow-root">
-        <ul role="list" class="-mb-8">
-          <router-link
-            :to="{ path: `/track/${stream.trackId}` }"
-            v-for="(stream, index) in streams"
-            :key="index"
-            class="group"
+      <h1 class="text-3xl mb-3">Your streams featuring {{ artist.name }}</h1>
+
+      <ul class="w-full">
+        <li
+          v-for="(streams, key) in pairs"
+          class="relative mb-4 w-full"
+          :class="{ 'flex items-center': streams.length == 1 }"
+        >
+          <div
+            class="bg-bodySecundary rounded-full aspect-square min-w-[4rem] w-16 grid place-items-center"
           >
-            <div class="relative pb-8">
-              <!-- v-if="streams && index !== streams.length - 1" -->
-              <span
-                v-if="
-                  streams &&
-                  index !== streams.length - 1 &&
-                  index != 0 &&
-                  new Date(streams[index + 1]?.endTime)?.getDay() ==
-                    new Date(stream.endTime).getDay()
-                "
-                class="absolute top-[2rem] left-[2rem] -ml-px h-full w-0.5 bg-neutral-600"
-                aria-hidden="true"
-              />
-              <div class="relative flex space-x-3">
-                <div class="relative h-[4rem] w-[4rem]">
-                  <div class="pt-2 h-[4rem] w-[4rem] bg-bodySecundary rounded-full text-center">
-                    <div
-                      class="absolute h-[4rem] w-[4rem] bg-bodyPrimary opacity-0 group-hover:opacity-10 z-20"
-                    ></div>
-                    <div class="z-10">
-                      <span class="text-neutral-400 text-sm font-medium block"
-                        >{{ dayjs(stream.endTime).format('MMM') }}
-                      </span>
-                      <span class="text-primary relative mt-[-.2rem] text-2xl font-bold block">{{
-                        dayjs(stream.endTime).format('D')
-                      }}</span>
-                    </div>
-                  </div>
-                </div>
-                <div
-                  class="min-w-0 flex-1 pt-1.5 flex justify-between space-x-4 group-hover:opacity-90"
-                >
-                  <div class="flex h-full flex-col">
-                    <router-link
-                      :to="{ path: `/track/${stream.trackId}` }"
-                      class="text-xl font-bold text-white mt-auto"
-                      >{{ stream.trackName }}</router-link
-                    >
-                    <span class="text-lg font-normal text-neutral-400 -mt-1 mb-auto"
-                      >Streamed for
-                      {{
-                        dayjs
-                          .duration({ milliseconds: stream.playedMs })
-                          .add({ milliseconds: 0 }) // zonder dit werkt t niet lol
-                          .format('mm:ss')
-                      }}</span
-                    >
-                  </div>
-                  <div
-                    class="text-right text-sm whitespace-nowrap font-medium text-neutral-400 flex h-full flex-col"
-                  >
-                    <time class="my-auto">{{ dayjs(stream.endTime).fromNow() }}</time>
-                  </div>
-                </div>
-              </div>
+            <div class="flex flex-col items-center">
+              <span class="text-neutral-400 text-sm font-medium block"
+                >{{ dayjs(key).format('MMM') }}
+              </span>
+              <span class="text-primary relative -mt-1 text-2xl font-bold block">{{
+                dayjs(key).format('D')
+              }}</span>
             </div>
-          </router-link>
-        </ul>
-      </div>
+          </div>
+
+          <span
+            v-if="streams.length > 1"
+            class="absolute top-0 left-8 h-full -z-10 w-0.5 bg-neutral-600"
+            aria-hidden="true"
+          />
+
+          <ul
+            class="max-w-full"
+            :class="{
+              'ml-16 flex flex-col justify-between gap-4': streams.length > 1,
+              'w-full': streams.length == 1
+            }"
+            role="list"
+          >
+            <li v-for="stream in streams" class="ml-2">
+              <RouterLink
+                :to="{ name: 'Track', params: { id: stream.trackId } }"
+                class="flex justify-between"
+              >
+                <div class="flex flex-col">
+                  <h4>{{ stream.trackName }}</h4>
+
+                  <span
+                    >Streamed for
+                    {{
+                      dayjs
+                        .duration({ milliseconds: stream.playedMs })
+                        .add({ milliseconds: 0 }) // zonder dit werkt t niet lol
+                        .format('mm:ss')
+                    }}</span
+                  >
+                </div>
+
+                <time
+                  class="my-auto text-right text-sm whitespace-nowrap font-medium text-neutral-400"
+                  >{{ dayjs(stream.endTime).fromNow() }}</time
+                >
+              </RouterLink>
+            </li>
+          </ul>
+        </li>
+      </ul>
     </div>
   </Container>
 </template>
@@ -123,7 +118,7 @@
 import dayjs from '~/dayjs';
 import { onMounted, Ref, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { useRoute } from 'vue-router';
+import { useRoute, RouterLink } from 'vue-router';
 import Chip from '~/components/base/Chip/Chip.vue';
 import ChipGroup from '~/components/base/Chip/ChipGroup.vue';
 import HeroWithImageAndInfo from '~/components/base/HeroWithImageAndInfo.vue';
@@ -145,11 +140,25 @@ const formatFollowers = (followers: number): string => {
   return followers.toLocaleString('en-US');
 };
 
+const pairs: Ref<Record<string, BacktrackStream[]>> = ref({});
+
 onMounted(async () => {
   const id = parseInt(route.params.id.toString());
 
   artist.value = await api.artists.get(id);
   tracks.value = await api.artists.tracks(id);
   streams.value = await api.users.getArtistStreams('me', id, { query: { limit: 100 } });
+
+  streams.value?.forEach((stream) => {
+    const dm = dayjs(stream.endTime).format('LL');
+
+    // TODO: lelijk, ff goed doen
+    if (pairs.value[dm]) {
+      pairs.value[dm].push(stream);
+    } else {
+      pairs.value[dm] = [];
+      pairs.value[dm].push(stream);
+    }
+  });
 });
 </script>
