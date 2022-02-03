@@ -240,13 +240,13 @@ const topTracks: Ref<BacktrackTopTrack[] | null> = ref(null);
 const topArtists: Ref<BacktrackTopArtist[] | null> = ref(null);
 const topAlbums: Ref<BacktrackTopAlbum[] | null> = ref(null);
 
-// TODO: remove hardcoded app name
-const computedTitle = computed(() => `${user.value?.displayName ?? 'Backtrack'} | Backtrack`);
-
 const stats: Ref<any[]> = ref([]);
 
+// TODO: remove hardcoded app name
+const computedTitle = computed(() => `${user.value?.displayName} | Stats.fm`);
+
 useHead({
-  title: computedTitle.value,
+  title: computedTitle,
   meta: [
     {
       name: 'og:title',
