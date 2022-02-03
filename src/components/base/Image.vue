@@ -36,7 +36,7 @@ const attrs = useAttrs();
       :key="src"
       :alt="alt"
       v-bind="attrs"
-      class="object-cover object-center"
+      class="object-cover object-center bg-bodySecundary text-neutral-400 grid place-items-center"
       :class="variantMap[variant]"
     />
   </Transition>
