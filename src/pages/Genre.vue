@@ -8,11 +8,11 @@
     <h2 class="mt-10">Related genres</h2>
     <ChipGroup class="mt-5">
       <Link
-        v-for="(genre, index) in genre.related"
+        v-for="(related, index) in genre.related"
         :key="index"
-        :to="{ name: 'Genre', params: { tag: genre } }"
+        :to="{ name: 'Genre', params: { tag: related } }"
       >
-        <Chip>{{ genre }}</Chip>
+        <Chip>{{ related }}</Chip>
       </Link>
     </ChipGroup>
 
