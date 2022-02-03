@@ -1,4 +1,5 @@
-import BacktrackApi from '~/api';
+import { ApiManager } from '~/api';
+import { useApi } from '~/hooks';
 import router from '~/router';
 import { useStore } from '~/store';
 import { GetTokenResponse, GetUsersMeResponse } from '~/types';
@@ -16,7 +17,7 @@ export interface Response {
 
 export default class auth {
   private readonly redirectUri: string = `${location.origin}/auth/callback`;
-  private readonly api = BacktrackApi;
+  private readonly api = useApi();
   private readonly store = store;
 
   constructor() {
@@ -37,7 +38,7 @@ export default class auth {
       return JSON.parse(localStorageItem).settings.accessToken;
     }
 
-    const res = await this.api.get<GetTokenResponse>('/auth/token');
+    const res = await this.api.http.httpGet<GetTokenResponse>('/auth/token');
 
     if (res.success) {
       return res.data.data.settings.accessToken;
@@ -75,7 +76,7 @@ export default class auth {
       // 'user-follow-read',
       // 'user-follow-modify'
     ].join('%20');
-    const loginUrl = `${this.api.baseUrl}/auth/redirect/spotify?scope=${scope}&redirect_uri=${this.redirectUri}`;
+    const loginUrl = `${ApiManager.baseUrl}/auth/redirect/spotify?scope=${scope}&redirect_uri=${this.redirectUri}`;
 
     localStorage.setItem(
       'redirectPage',
@@ -92,7 +93,7 @@ export default class auth {
 
   public setToken = async (token: string) => {
     localStorage.setItem('token', token);
-    const { data } = await this.api.get<GetUsersMeResponse>('/users/me');
+    const { data } = await this.api.http.httpGet<GetUsersMeResponse>('/users/me');
     if (data.item) {
       // TODO: fix types
       this.store.setUser(data.item as any);

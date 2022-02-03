@@ -65,26 +65,20 @@
 
 <script lang="ts" setup>
 import { onMounted, Ref, ref } from 'vue';
-import { useRoute } from 'vue-router';
-import api from '~/api';
-import auth from '~/auth';
-import HeroWithImageAndInfo from '~/components/base/HeroWithImageAndInfo.vue';
-import AudioAnalysis from '~/components/base/AudioAnalysis/AudioAnalysis.vue';
-
-import {
-  BacktrackAudioAnalysis,
-  BacktrackAudioAnalysisSegment,
-  BacktrackTrack,
-  GetTrackResponsive
-} from '~/types';
-import Container from '~/components/layout/Container.vue';
-import StatsCard from '~/components/base/StatsCard.vue';
-
-import dayjs from '~/dayjs';
 import { useI18n } from 'vue-i18n';
+import { useRoute } from 'vue-router';
+import auth from '~/auth';
+import AudioAnalysis from '~/components/base/AudioAnalysis/AudioAnalysis.vue';
+import HeroWithImageAndInfo from '~/components/base/HeroWithImageAndInfo.vue';
+import StatsCard from '~/components/base/StatsCard.vue';
+import Container from '~/components/layout/Container.vue';
+import dayjs from '~/dayjs';
+import { useApi } from '~/hooks';
+import { BacktrackAudioAnalysis, BacktrackAudioAnalysisSegment, BacktrackTrack } from '~/types';
 
 const route = useRoute();
 const { t } = useI18n();
+const api = useApi();
 
 const track: Ref<BacktrackTrack | null> = ref(null);
 const audioAnalysis: Ref<BacktrackAudioAnalysis | null> = ref(null);
@@ -93,10 +87,6 @@ const segment: Ref<{
   current: BacktrackAudioAnalysisSegment;
   next: BacktrackAudioAnalysisSegment;
 } | null> = ref(null);
-
-const getTrack = async (id: string): Promise<BacktrackTrack> => {
-  return await api.get<GetTrackResponsive>(`/tracks/${id}`).then((res) => res.data.item);
-};
 
 const getTrackAudioAnalysis = async (track: BacktrackTrack): Promise<BacktrackAudioAnalysis> => {
   const id = (track.externalIds.spotify as string[])[0];
@@ -119,9 +109,9 @@ const onSegmentHover = (e: any) => {
 };
 
 onMounted(async () => {
-  const id = route.params.id.toString();
+  const id = parseInt(route.params.id.toString());
 
-  track.value = await getTrack(id);
+  track.value = await api.tracks.get(id);
   audioAnalysis.value = await getTrackAudioAnalysis(track.value);
 });
 </script>
