@@ -36,35 +36,30 @@
     <div class="my-8"></div>
 
     <h1 class="text-3xl">{{ t('user.top_tracks') }}</h1>
-    <div class="mt-3 grid grid-cols-4 gap-y-3 gap-x-4 md:grid-cols-4 md:gap-x-6 lg:grid-cols-6">
-      <router-link
-        :to="{ path: `/track/${track.track.id}` }"
-        class="group relative"
-        v-for="(track, index) in topTracks?.slice(0, 6)"
-        :key="index"
-      >
-        <div
-          class="w-full min-h-80 bg-gray-200 aspect-w-1 aspect-h-1 rounded-lg overflow-hidden group-hover:opacity-90"
-        >
-          <img
-            :src="track.track.albums[0].image"
-            :alt="track.track.name"
-            class="w-full h-full object-center object-cover lg:w-full lg:h-full"
-          />
-        </div>
-        <div class="mt-3 flex justify-between">
-          <div>
-            <h3 class="text-lg text-white line-clamp-2">
-              <span class="text-neutral-400 font-normal">{{ track.position }}.</span>
-              {{ track.track.name }}
-            </h3>
-            <p class="mt-0 text-sm text-neutral-400 line-clamp-1">
-              {{ track.track.artists.map((a) => a.name).join(', ') }}
-            </p>
+    <ul class="mt-3 grid grid-cols-4 gap-y-3 gap-x-4 md:grid-cols-4 md:gap-x-6 lg:grid-cols-6">
+      <li v-for="(track, index) in topTracks?.slice(0, 6)" :key="index">
+        <router-link :to="{ name: 'Track', params: { id: track.track.id } }" class="group relative">
+          <div class="w-full min-h-80 aspect-square group-hover:opacity-90">
+            <Image
+              :src="track.track.albums[0].image"
+              :alt="track.track.albums[0].name"
+              class="h-full w-full"
+            />
           </div>
-        </div>
-      </router-link>
-    </div>
+          <div class="mt-3 flex justify-between">
+            <div>
+              <h3 class="text-lg text-white line-clamp-2">
+                <span class="text-neutral-400 font-normal">{{ track.position }}.</span>
+                {{ track.track.name }}
+              </h3>
+              <p class="mt-0 text-sm text-neutral-400 line-clamp-1">
+                {{ track.track.artists.map((a) => a.name).join(', ') }}
+              </p>
+            </div>
+          </div>
+        </router-link>
+      </li>
+    </ul>
 
     <div class="my-8"></div>
 
@@ -75,11 +70,12 @@
           :to="{ name: 'Artist', params: { id: artist.artist.id } }"
           class="group relative"
         >
-          <div class="aspect-square rounded-full overflow-hidden group-hover:opacity-90">
-            <img
+          <div class="aspect-square group-hover:opacity-90">
+            <Image
               :src="artist.artist.image"
+              variant="round"
               :alt="artist.artist.name"
-              class="object-cover object-center"
+              class="h-full w-full"
             />
           </div>
           <div class="mt-2 text-center">
@@ -104,11 +100,7 @@
         <div
           class="w-full min-h-80 bg-gray-200 aspect-w-1 aspect-h-1 rounded-lg overflow-hidden group-hover:opacity-90"
         >
-          <img
-            :src="album.album.image"
-            :alt="album.album.name"
-            class="w-full h-full object-center object-cover lg:w-full lg:h-full"
-          />
+          <Image :src="album.album.image" :alt="album.album.name" class="h-full w-full" />
         </div>
         <div class="mt-3 flex justify-between">
           <div>
@@ -124,6 +116,37 @@
         <!-- </router-link> -->
       </li>
     </ul>
+
+    <div class="my-8"></div>
+
+    <section>
+      <h1 class="text-3xl">{{ t('user.audio_analysis') }}</h1>
+      <div class="flex justify-between">
+        <div class="w-full md:w-1/2 flex flex-col justify-between">
+          <div v-for="genre in genres">
+            <label :aria-label="genre.label" for="progress" class="text-white capitalize">{{
+              genre.label
+            }}</label>
+            <div
+              name="progress"
+              class="bg-bodySecundary h-3 w-full overflow-hidden rounded-full mt-1"
+            >
+              <div
+                :style="{ width: `${genre.value * 100}%` }"
+                class="h-full bg-primary rounded-full"
+              ></div>
+            </div>
+          </div>
+        </div>
+        <div class="w-1/2 justify-end hidden md:flex">
+          <AudioFeaturesRadarChart
+            v-if="recentStreams"
+            @features="(e) => (genres = e)"
+            :topTracks="recentStreams.map((stream) => stream.track)"
+          />
+        </div>
+      </div>
+    </section>
 
     <div class="my-8"></div>
 
@@ -177,33 +200,6 @@
       </ul>
     </div>
   </Container>
-  <!-- <Container>
-    <h1 class="mt-10 mb-2">Top artists</h1>
-    <div class="flex gap-2 overflow-x-auto" v-if="topArtists">
-      <Link
-        v-for="(artist, index) in topArtists"
-        :key="index"
-        :to="{
-          name: 'Artist',
-          params: {
-            id: artist.artist.id,
-            slug: artist.artist.name.toLowerCase().split(' ').join('-')
-          }
-        }"
-      >
-        <div
-          :style="{ backgroundImage: `url(${artist.artist.image})` }"
-          class="h-32 aspect-square bg-cover bg-center rounded-2xl"
-        ></div
-      ></Link>
-    </div>
-
-    <h1 class="mt-5 mb-2">Genres</h1>
-    <AudioFeaturesRadarChart
-      v-if="recentlyPlayed"
-      :topTracks="recentlyPlayed.map((stream) => stream.track)"
-    />
-  </Container> -->
 </template>
 
 <script lang="ts" setup>
@@ -215,6 +211,8 @@ import Button from '~/components/base/Button.vue';
 import Dropdown from '~/components/base/dropdowns/Dropdown.vue';
 import HeroWithImageAndInfo from '~/components/base/HeroWithImageAndInfo.vue';
 import Container from '~/components/layout/Container.vue';
+import AudioFeaturesRadarChart from '~/components/base/AudioFeatures/AudioFeaturesRadarChart.vue';
+import Image from '~/components/base/Image.vue';
 import dayjs from '~/dayjs';
 import { useApi } from '~/hooks';
 import {
@@ -225,6 +223,7 @@ import {
   BacktrackTopTrack,
   BacktrackUser
 } from '~/types';
+import { AudioFeature } from '~/components/base/AudioFeatures/feature';
 
 const route = useRoute();
 const router = useRouter();
@@ -234,6 +233,7 @@ const api = useApi();
 const id = route.params.id.toString();
 
 const range: Ref<BacktrackRange> = ref('lifetime');
+const genres: Ref<AudioFeature[] | null> = ref(null);
 const user: Ref<BacktrackUser | null> = ref(null);
 const recentStreams: Ref<BacktrackRecentlyPlayedTrack[] | null> = ref(null);
 const topTracks: Ref<BacktrackTopTrack[] | null> = ref(null);
