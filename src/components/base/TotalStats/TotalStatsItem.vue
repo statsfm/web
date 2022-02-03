@@ -79,7 +79,8 @@ const frameDuration = 1000 / 60;
 // Use that to calculate how many frames we need to complete the animation
 const totalFrames = Math.round(animationDuration / frameDuration);
 // An ease-out function that slows the count as it progresses
-const easeOutQuad = (x: number) => (x === 1 ? 1 : 1 - Math.pow(2, -20 * x));
+const easeOutQuad = (x: number) => (x === 1 ? 1 : 1 - Math.pow(10, -10 * x));
+//  (x: number) => (x === 1 ? 1 : 1 - Math.pow(2, -20 * x));
 //  (x < 0.95 ? x : x * (2 - x));
 // Math.sqrt(1 - Math.pow(x - 1, 2));
 // (x: number) => x * (2 - x);
