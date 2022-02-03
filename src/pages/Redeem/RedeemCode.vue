@@ -16,31 +16,30 @@
 </template>
 
 <script lang="ts" setup>
+import JSConfetti from 'js-confetti';
 import { onMounted, Ref, ref, watch } from 'vue';
-
-import Header from '~/components/layout/Header.vue';
-import Container from '~/components/layout/Container.vue';
-import GiftCard from '~/components/base/GiftCard.vue';
-import { GetPlusGiftCodeResponse, GiftCode, PostPlusGiftCodeRedeemResponse } from '~/types';
-import BacktrackApi from '~/api';
+import { useI18n } from 'vue-i18n';
 import { useRoute, useRouter } from 'vue-router';
 import Button from '~/components/base/Button.vue';
-import { useI18n } from 'vue-i18n';
-import { useAuth, useToaster } from '~/hooks';
-import JSConfetti from 'js-confetti';
+import GiftCard from '~/components/base/GiftCard.vue';
+import Container from '~/components/layout/Container.vue';
+import Header from '~/components/layout/Header.vue';
+import { useApi, useAuth, useToaster } from '~/hooks';
+import { GetPlusGiftCodeResponse, GiftCode, PostPlusGiftCodeRedeemResponse } from '~/types';
 
 const { t } = useI18n();
 const toaster = useToaster();
 const router = useRouter();
 const route = useRoute();
 const auth = useAuth();
+const api = useApi();
 
 const giftCode: Ref<GiftCode | null> = ref(null);
 const code = ref('');
 const isFlipped = ref(false);
 
 const getGiftCode = async (code: string) => {
-  const res = await BacktrackApi.get<GetPlusGiftCodeResponse>(`/plus/giftcodes/${code}`);
+  const res = await api.http.httpGet<GetPlusGiftCodeResponse>(`/plus/giftcodes/${code}`);
 
   if (res.status == 404) {
     router.push({ name: 'Redeem' });
@@ -58,7 +57,7 @@ watch(isFlipped, (val) => {
 });
 
 const redeemGiftCode = async () => {
-  const { success } = await BacktrackApi.post<PostPlusGiftCodeRedeemResponse>(
+  const { success } = await api.http.httpPost<PostPlusGiftCodeRedeemResponse>(
     `/plus/giftcodes/${code.value}/redeem`
   );
 

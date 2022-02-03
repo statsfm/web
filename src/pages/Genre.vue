@@ -40,21 +40,22 @@
 <script lang="ts" setup>
 import { onMounted, Ref, ref, watch } from 'vue';
 import { useRoute } from 'vue-router';
-import BacktrackApi from '~/api';
-import { BacktrackGenre, GetGenreResponse } from '~/types';
-import Container from '~/components/layout/Container.vue';
-import ChipGroup from '~/components/base/Chip/ChipGroup.vue';
-import Link from '~/components/base/Link.vue';
-import Chip from '~/components/base/Chip/Chip.vue';
-import Hero from '~/components/base/Hero.vue';
 import Avatar from '~/components/base/Avatar.vue';
+import Chip from '~/components/base/Chip/Chip.vue';
+import ChipGroup from '~/components/base/Chip/ChipGroup.vue';
+import Hero from '~/components/base/Hero.vue';
+import Link from '~/components/base/Link.vue';
+import Container from '~/components/layout/Container.vue';
+import { useApi } from '~/hooks';
+import { BacktrackGenre, GetGenreResponse } from '~/types';
 
 const route = useRoute();
+const api = useApi();
 
 const genre: Ref<BacktrackGenre | null> = ref(null);
 
 const getGenre = async (tag: string): Promise<BacktrackGenre> => {
-  return await BacktrackApi.get<GetGenreResponse>(`/genres/${tag}`).then((res) => res.data.item);
+  return await api.http.httpGet<GetGenreResponse>(`/genres/${tag}`).then((res) => res.data.item);
 };
 
 watch(

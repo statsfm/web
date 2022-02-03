@@ -13,11 +13,12 @@
 <script lang="ts" setup>
 import { onMounted, ref, Ref } from 'vue';
 import { useI18n } from 'vue-i18n';
-import BacktrackApi from '~/api';
-import { TotalSize, GetStatsDatabaseSiteResponse } from '~/types';
+import { useApi } from '~/hooks';
+import { GetStatsDatabaseSiteResponse, TotalSize } from '~/types';
 import TotalStatsItem from './TotalStatsItem.vue';
 
 const { t } = useI18n();
+const api = useApi();
 
 const labelMap: Record<string, string> = {
   users: t('total_stats.users'),
@@ -31,9 +32,9 @@ const labelMap: Record<string, string> = {
 const stats: Ref<TotalSize | null> = ref(null);
 
 const getStats = async (): Promise<TotalSize> => {
-  return await BacktrackApi.get<GetStatsDatabaseSiteResponse>('/stats/database/size').then(
-    (res) => res.data.items
-  );
+  return await api.http
+    .httpGet<GetStatsDatabaseSiteResponse>('/stats/database/size')
+    .then((res) => res.data.items);
 };
 
 onMounted(async () => {

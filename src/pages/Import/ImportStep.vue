@@ -36,17 +36,15 @@
 <script lang="ts" setup>
 import { onMounted, Ref, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
-import BacktrackApi from '~/api';
-
-import Card from '~/components/layout/Card.vue';
 import ImportCard from '~/components/base/ImportCard.vue';
-
-import { code } from './state';
+import Card from '~/components/layout/Card.vue';
+import { useApi, useToaster } from '~/hooks';
 import { BacktrackUserImport, GetImportListResponse, PostImportUploadResponse } from '~/types';
-import { useToaster } from '~/hooks';
+import { code } from './state';
 
 const { t } = useI18n();
 const toaster = useToaster();
+const api = useApi();
 
 const formData = new FormData();
 
@@ -55,11 +53,13 @@ const emit = defineEmits(['setDisabledState', 'continue', 'back']);
 const imports: Ref<BacktrackUserImport[]> = ref([]);
 
 const getImports = async (): Promise<BacktrackUserImport[]> => {
-  return await BacktrackApi.get<GetImportListResponse>('/import/list', {
-    headers: {
-      Authorization: code.value ?? ''
-    }
-  }).then((res) => res.data.items);
+  return await api.http
+    .httpGet<GetImportListResponse>('/import/list', {
+      headers: {
+        Authorization: code.value ?? ''
+      }
+    })
+    .then((res) => res.data.items);
 };
 
 onMounted(async () => {
@@ -103,7 +103,7 @@ const onFileSelect = async (e: any) => {
   if (file && file.name.match(/endsong_[0-9]+\.json/i)) {
     formData.append('files', file);
 
-    await BacktrackApi.post<PostImportUploadResponse>(`/import/upload`, {
+    await api.http.httpPost<PostImportUploadResponse>(`/import/upload`, {
       method: 'POST',
       headers: {
         'Content-Type': null!

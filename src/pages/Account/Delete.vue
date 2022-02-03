@@ -35,21 +35,19 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted, Ref, ref } from 'vue';
-
-import Header from '~/components/layout/Header.vue';
-import Button from '~/components/base/Button.vue';
-import Loading from '~/components/base/Loading.vue';
+import { onMounted, ref } from 'vue';
 import { useRouter } from 'vue-router';
+import Button from '~/components/base/Button.vue';
 import Container from '~/components/layout/Container.vue';
-import { useAuth } from '~/hooks';
-import BacktrackApi from '~/api';
+import Header from '~/components/layout/Header.vue';
+import { useApi, useAuth } from '~/hooks';
 
 const router = useRouter();
 const agreed = ref(false);
 const auth = useAuth();
 const validLogin = auth.hasValidToken(60);
 const loading = ref(false);
+const api = useApi();
 
 const deleteAccount = async () => {
   loading.value = true;

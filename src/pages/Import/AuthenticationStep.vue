@@ -7,20 +7,19 @@
 </template>
 
 <script lang="ts" setup>
-import BacktrackApi from '~/api';
-import { code } from './state';
-
-import CodeInput from '~/components/base/CodeInput.vue';
 import { useI18n } from 'vue-i18n';
-import { useToaster } from '~/hooks';
+import CodeInput from '~/components/base/CodeInput.vue';
+import { useApi, useToaster } from '~/hooks';
 import { PostImportCodeResponse } from '~/types';
+import { code } from './state';
 
 const toaster = useToaster();
 const { t } = useI18n();
+const api = useApi();
 const emit = defineEmits(['setDisabledState']);
 
 const onCodeInput = async (value: string) => {
-  const { success } = await BacktrackApi.post<PostImportCodeResponse>('/import/code', {
+  const { success } = await api.http.httpPost<PostImportCodeResponse>('/import/code', {
     body: JSON.stringify({ code: value })
   });
 
