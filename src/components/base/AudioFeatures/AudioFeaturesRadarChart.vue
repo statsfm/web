@@ -1,5 +1,5 @@
 <template>
-  <div class="relative w-[600px] h-[600px]">
+  <div class="relative w-[400px] h-[400px]">
     <canvas ref="canvas" class="absolute"></canvas>
     <AudioFeatureBubble
       v-for="(feature, index) in featuresWithPos"
@@ -29,6 +29,10 @@ import { Point } from '~/types/point';
 
 const props = defineProps<{
   topTracks: BacktrackTrack[];
+}>();
+
+const emit = defineEmits<{
+  (event: 'features', payload: AudioFeature[]): void;
 }>();
 
 const auth = useAuth();
@@ -113,13 +117,15 @@ const featuresWithPos: Ref<{ point: Point; feature: AudioFeature }[]> = ref([]);
 
 onMounted(async () => {
   const features = await getAudioFeatures();
+  emit('features', features);
   drawRadarChart(features);
 });
 
 const drawRadarChart = (features: AudioFeature[]) => {
   if (canvas.value) {
-    canvas.value.width = 600;
-    canvas.value.height = 600;
+    // TODO: resposiveness
+    canvas.value.width = 400;
+    canvas.value.height = 400;
     const width = ref(canvas.value.width);
     const height = ref(canvas.value.height);
 
