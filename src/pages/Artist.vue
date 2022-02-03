@@ -7,7 +7,7 @@
   />
   <Container>
     <div v-if="artist" class="mt-5">
-      <h1 class="text-3xl">Genres</h1>
+      <h1 class="text-3xl mb-3">Genres</h1>
       <ChipGroup>
         <Link
           v-for="(genre, index) in artist.genres"
@@ -23,19 +23,13 @@
       <h1 class="text-3xl">Tracks by {{ artist.name }}</h1>
       <div class="mt-3 grid grid-cols-4 gap-y-3 gap-x-4 md:grid-cols-4 md:gap-x-6 lg:grid-cols-6">
         <router-link
-          :to="{ path: `/track/${track.id}` }"
+          :to="{ name: 'Track', params: { id: track.id } }"
           class="group relative"
           v-for="(track, index) in tracks?.slice(0, 6)"
           :key="index"
         >
-          <div
-            class="w-full min-h-80 bg-gray-200 aspect-w-1 aspect-h-1 rounded-lg overflow-hidden group-hover:opacity-90"
-          >
-            <img
-              :src="track.albums[0].image"
-              :alt="track.name"
-              class="w-full h-full object-center object-cover lg:w-full lg:h-full"
-            />
+          <div class="w-full min-h-80group-hover:opacity-90">
+            <Image :src="track.albums[0].image" :alt="track.name" />
           </div>
           <div class="mt-3 flex justify-between">
             <div>
@@ -43,6 +37,7 @@
                 {{ track.name }}
               </h3>
               <p class="mt-0 text-sm text-neutral-400">
+                <!-- TODO: move to a helper function -->
                 {{ track.artists.map((a) => a.name).join(', ') }}
               </p>
             </div>
@@ -134,6 +129,7 @@ import ChipGroup from '~/components/base/Chip/ChipGroup.vue';
 import HeroWithImageAndInfo from '~/components/base/HeroWithImageAndInfo.vue';
 import Link from '~/components/base/Link.vue';
 import Container from '~/components/layout/Container.vue';
+import Image from '~/components/base/Image.vue';
 import { useApi } from '~/hooks';
 import { BacktrackArtist, BacktrackStream, BacktrackTrack } from '~/types/backtrack';
 const { t } = useI18n();
