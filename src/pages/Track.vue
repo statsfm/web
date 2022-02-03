@@ -4,6 +4,7 @@
       :name="track.name"
       :image="track.albums[0].image"
       :subtitle="track.artists.map((artist) => artist.name).join(', ')"
+      :subtitle-to="{ path: `/artist/${track.artists[0].id}` }"
     />
   </div>
   <Container>

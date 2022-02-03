@@ -2,8 +2,11 @@
   <Hero>
     <Avatar :src="image" size="48" />
     <div class="flex flex-col justify-end">
-      <span class="text-center md:text-left">
-        {{ subtitle }}
+      <span class="text-center font-medium md:text-left text-xl">
+        <router-link v-if="subtitleTo" :to="subtitleTo">
+          {{ subtitle }}
+        </router-link>
+        <span v-else>{{ subtitle }}</span>
       </span>
       <h1 class="text-center md:text-left">{{ name }}</h1>
     </div>
@@ -19,6 +22,7 @@ defineProps<{
   name: string;
   subtitle?: string;
   image?: string;
+  subtitleTo?: any;
 }>();
 
 const { t } = useI18n();
