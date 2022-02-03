@@ -12,6 +12,19 @@ export interface Response<T = any> {
   data: any;
 }
 
+export interface QueryParams {
+  range?: 'weeks' | 'months' | 'lifetime' | string;
+  before?: number;
+  after?: number;
+  limit?: number;
+  offset?: number;
+  ids?: string;
+}
+
+export interface RequestInitWithQuery extends RequestInit {
+  query?: QueryParams;
+}
+
 export default class Api {
   http: ApiManager;
 
@@ -42,7 +55,12 @@ export class ApiManager {
    * @param  {RequestInit} init?
    * @returns {Promise<Response>} Returns a promise with the {@link Response response}.
    */
-  async request<T>(slug: string, init?: RequestInit): Promise<Response<T>> {
+  async request<T>(slug: string, init?: RequestInitWithQuery): Promise<Response<T>> {
+    const query = new URLSearchParams();
+    for (let key in init?.query) {
+      query.append(key, Object.assign(init!.query)[key]);
+    }
+
     init = {
       ...init,
       headers: {
@@ -60,7 +78,7 @@ export class ApiManager {
 
     NProgress.start();
 
-    const res = await fetch(`${ApiManager.baseUrl}${slug}`, init);
+    const res = await fetch(`${ApiManager.baseUrl}${slug}?${query}`, init);
     const newRes: Response = {
       success: res.ok,
       status: res.status,
@@ -91,7 +109,7 @@ export class ApiManager {
    * @param  {RequestInit} options?
    * @returns {Promise<Response>} Returns a promise with the {@link Response response}.
    */
-  async httpGet<T>(slug: string, options?: RequestInit): Promise<Response<T>> {
+  async httpGet<T>(slug: string, options?: RequestInitWithQuery): Promise<Response<T>> {
     return await this.request<T>(slug, {
       ...options,
       method: 'GET'
@@ -103,7 +121,7 @@ export class ApiManager {
    * @param  {RequestInit} options?
    * @returns {Promise<Response>} Returns a promise with the {@link Response response}.
    */
-  async httpPost<T>(slug: string, options?: RequestInit): Promise<Response<T>> {
+  async httpPost<T>(slug: string, options?: RequestInitWithQuery): Promise<Response<T>> {
     return await this.request<T>(slug, {
       ...options,
       method: 'POST'
@@ -115,7 +133,7 @@ export class ApiManager {
    * @param  {RequestInit} options?
    * @returns {Promise<Response>} Returns a promise with the {@link Response response}.
    */
-  async httpPut<T>(slug: string, options?: RequestInit): Promise<Response<T>> {
+  async httpPut<T>(slug: string, options?: RequestInitWithQuery): Promise<Response<T>> {
     return await this.request<T>(slug, {
       ...options,
       method: 'PUT'
@@ -127,7 +145,7 @@ export class ApiManager {
    * @param  {RequestInit} options?
    * @returns {Promise<Response>} Returns a promise with the {@link Response response}.
    */
-  async httpDelete<T>(slug: string, options?: RequestInit): Promise<Response<T>> {
+  async httpDelete<T>(slug: string, options?: RequestInitWithQuery): Promise<Response<T>> {
     return await this.request<T>(slug, {
       ...options,
       method: 'DELETE'
@@ -228,122 +246,122 @@ export class AlbumManager extends ApiManager {
   }
 }
 export class UserManager extends ApiManager {
-  async get(id: string) {
-    const res = await this.httpGet(`/users/${id}`);
+  async get(id: string, options?: RequestInitWithQuery) {
+    const res = await this.httpGet(`/users/${id}`, options);
 
     return res.data.item;
   }
 
-  async getStreams(id: string) {
-    const res = await this.httpGet(`/users/${id}/streams`);
+  async getStreams(id: string, options?: RequestInitWithQuery) {
+    const res = await this.httpGet(`/users/${id}/streams`, options);
 
     return res.data.items;
   }
 
-  async getRecentStreams(id: string) {
-    const res = await this.httpGet(`/users/${id}/streams/recent`);
+  async getRecentStreams(id: string, options?: RequestInitWithQuery) {
+    const res = await this.httpGet(`/users/${id}/streams/recent`, options);
 
     return res.data.items;
   }
 
-  async getCount(id: string) {
-    const res = await this.httpGet(`/users/${id}/streams/count`);
+  async getCount(id: string, options?: RequestInitWithQuery) {
+    const res = await this.httpGet(`/users/${id}/streams/count`, options);
 
     return res.data.item;
   }
 
-  async getDuration(id: string) {
-    const res = await this.httpGet(`/users/${id}/streams/duration`);
+  async getDuration(id: string, options?: RequestInitWithQuery) {
+    const res = await this.httpGet(`/users/${id}/streams/duration`, options);
 
     return res.data.item;
   }
 
-  async getTrackStreams(id: string, trackId: number) {
-    const res = await this.httpGet(`/users/${id}/streams/tracks/${trackId}`);
+  async getTrackStreams(id: string, trackId: number, options?: RequestInitWithQuery) {
+    const res = await this.httpGet(`/users/${id}/streams/tracks/${trackId}`, options);
 
     return res.data.items;
   }
 
-  async getTrackCount(id: string, trackId: number) {
-    const res = await this.httpGet(`/users/${id}/streams/tracks/${trackId}/count`);
+  async getTrackCount(id: string, trackId: number, options?: RequestInitWithQuery) {
+    const res = await this.httpGet(`/users/${id}/streams/tracks/${trackId}/count`, options);
 
     return res.data.item;
   }
 
-  async getTrackDuration(id: string, trackId: number) {
-    const res = await this.httpGet(`/users/${id}/streams/tracks/${trackId}/duration`);
+  async getTrackDuration(id: string, trackId: number, options?: RequestInitWithQuery) {
+    const res = await this.httpGet(`/users/${id}/streams/tracks/${trackId}/duration`, options);
 
     return res.data.item;
   }
 
-  async getArtistStreams(id: string, artistId: number) {
-    const res = await this.httpGet(`/users/${id}/streams/artists/${artistId}`);
+  async getArtistStreams(id: string, artistId: number, options?: RequestInitWithQuery) {
+    const res = await this.httpGet(`/users/${id}/streams/artists/${artistId}`, options);
 
     return res.data.items;
   }
 
-  async getArtistCount(id: string, artistId: number) {
-    const res = await this.httpGet(`/users/${id}/streams/artists/${artistId}/count`);
+  async getArtistCount(id: string, artistId: number, options?: RequestInitWithQuery) {
+    const res = await this.httpGet(`/users/${id}/streams/artists/${artistId}/count`, options);
 
     return res.data.item;
   }
 
-  async getArtistDuration(id: string, artistId: number) {
-    const res = await this.httpGet(`/users/${id}/streams/artists/${artistId}/duration`);
+  async getArtistDuration(id: string, artistId: number, options?: RequestInitWithQuery) {
+    const res = await this.httpGet(`/users/${id}/streams/artists/${artistId}/duration`, options);
 
     return res.data.item;
   }
 
-  async getAlbumStreams(id: string, albumId: number) {
-    const res = await this.httpGet(`/users/${id}/streams/albums/${albumId}`);
+  async getAlbumStreams(id: string, albumId: number, options?: RequestInitWithQuery) {
+    const res = await this.httpGet(`/users/${id}/streams/albums/${albumId}`, options);
 
     return res.data.items;
   }
 
-  async getAlbumCount(id: string, albumId: number) {
-    const res = await this.httpGet(`/users/${id}/streams/albums/${albumId}/count`);
+  async getAlbumCount(id: string, albumId: number, options?: RequestInitWithQuery) {
+    const res = await this.httpGet(`/users/${id}/streams/albums/${albumId}/count`, options);
 
     return res.data.item;
   }
 
-  async getAlbumDuration(id: string, albumId: number) {
-    const res = await this.httpGet(`/users/${id}/streams/albums/${albumId}/duration`);
+  async getAlbumDuration(id: string, albumId: number, options?: RequestInitWithQuery) {
+    const res = await this.httpGet(`/users/${id}/streams/albums/${albumId}/duration`, options);
 
     return res.data.item;
   }
 
-  async getTopTracks(id: string) {
-    const res = await this.httpGet(`/users/${id}/top/tracks`);
+  async getTopTracks(id: string, options?: RequestInitWithQuery) {
+    const res = await this.httpGet(`/users/${id}/top/tracks`, options);
 
     return res.data.items;
   }
 
-  async getTopArtists(id: string) {
-    const res = await this.httpGet(`/users/${id}/top/artists`);
+  async getTopArtists(id: string, options?: RequestInitWithQuery) {
+    const res = await this.httpGet(`/users/${id}/top/artists`, options);
 
     return res.data.items;
   }
 
-  async getTopTracksFromArtist(id: string, artistId: number) {
-    const res = await this.httpGet(`/users/${id}/top/artists/${artistId}/tracks`);
+  async getTopTracksFromArtist(id: string, artistId: number, options?: RequestInitWithQuery) {
+    const res = await this.httpGet(`/users/${id}/top/artists/${artistId}/tracks`, options);
 
     return res.data.items;
   }
 
-  async getTopAlbumsFromArtist(id: string, artistId: number) {
-    const res = await this.httpGet(`/users/${id}/top/artists/${artistId}/albums`);
+  async getTopAlbumsFromArtist(id: string, artistId: number, options?: RequestInitWithQuery) {
+    const res = await this.httpGet(`/users/${id}/top/artists/${artistId}/albums`, options);
 
     return res.data.items;
   }
 
-  async getTopAlbums(id: string) {
-    const res = await this.httpGet(`/users/${id}/top/albums`);
+  async getTopAlbums(id: string, options?: RequestInitWithQuery) {
+    const res = await this.httpGet(`/users/${id}/top/albums`, options);
 
     return res.data.items;
   }
 
-  async getTopTracksFromAlbums(id: string, albumId: number) {
-    const res = await this.httpGet(`/users/${id}/top/albums/${albumId}/tracks`);
+  async getTopTracksFromAlbums(id: string, albumId: number, options?: RequestInitWithQuery) {
+    const res = await this.httpGet(`/users/${id}/top/albums/${albumId}/tracks`, options);
 
     return res.data.items;
   }
