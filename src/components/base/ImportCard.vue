@@ -30,21 +30,19 @@
 
 <script lang="ts" setup>
 import { mdiDelete } from '@mdi/js';
-
+import dayjs from 'dayjs';
+import { ref } from 'vue';
+import { useI18n } from 'vue-i18n';
+import { useApi, useToaster } from '~/hooks';
+import { BacktrackUserImport, PostImportRemoveResponse } from '~/types';
 import Card from '../layout/Card.vue';
+import Button from './Button.vue';
 import Icon from './Icon.vue';
 import Modal from './Modals/Modal.vue';
 
-import dayjs from 'dayjs';
-import { useI18n } from 'vue-i18n';
-import Button from './Button.vue';
-import { ref } from 'vue';
-import BacktrackApi from '~/api';
-import { BacktrackUserImport, PostImportRemoveResponse } from '~/types';
-import { useToaster } from '~/hooks';
-
 const { t } = useI18n();
 const toaster = useToaster();
+const api = useApi();
 
 const props = defineProps<{
   import: BacktrackUserImport;
@@ -53,7 +51,7 @@ const props = defineProps<{
 const isDeleteModalActive = ref(false);
 
 const deleteImport = async () => {
-  const { data } = await BacktrackApi.post<PostImportRemoveResponse>(
+  const { data } = await api.http.httpPost<PostImportRemoveResponse>(
     `/import/remove/${props.import.hash}`
   );
 

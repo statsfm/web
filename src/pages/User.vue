@@ -6,6 +6,183 @@
     :image="user.image"
   />
   <Container>
+    <div class="my-8"></div>
+    <div class="absolute right-0 flex items-center gap-5">
+      <Dropdown>
+        <template v-slot:button>
+          <Button size="small" class="capitalize" @click="">{{ range }}</Button>
+        </template>
+
+        <div
+          class="flex items-center gap-5 cursor-pointer"
+          @click="router.push({ name: 'User', params: { id: user?.id } })"
+        >
+          <Button size="small" @click="range = 'weeks'">4 weeks</Button>
+          <Button size="small" @click="range = 'months'">6 months</Button>
+          <Button size="small" @click="range = 'lifetime'">Lifetime</Button>
+        </div>
+      </Dropdown>
+    </div>
+
+    <div class="my-10"></div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2">
+      <div v-for="item in stats" :key="item.name">
+        <h3>{{ item.name }}</h3>
+        <span class="text-xl">{{ item.stat }}</span>
+      </div>
+    </div>
+
+    <div class="my-8"></div>
+
+    <h1 class="text-3xl">Top tracks</h1>
+    <div class="mt-3 grid grid-cols-4 gap-y-3 gap-x-4 md:grid-cols-4 md:gap-x-6 lg:grid-cols-6">
+      <router-link
+        :to="{ path: `/track/${track.track.id}` }"
+        class="group relative"
+        v-for="(track, index) in topTracks?.slice(0, 6)"
+        :key="index"
+      >
+        <div
+          class="w-full min-h-80 bg-gray-200 aspect-w-1 aspect-h-1 rounded-lg overflow-hidden group-hover:opacity-90"
+        >
+          <img
+            :src="track.track.albums[0].image"
+            :alt="track.track.name"
+            class="w-full h-full object-center object-cover lg:w-full lg:h-full"
+          />
+        </div>
+        <div class="mt-3 flex justify-between">
+          <div>
+            <h3 class="text-lg text-white line-clamp-2">
+              <span class="text-neutral-400 font-normal">{{ track.position }}.</span>
+              {{ track.track.name }}
+            </h3>
+            <p class="mt-0 text-sm text-neutral-400 line-clamp-1">
+              {{ track.track.artists.map((a) => a.name).join(', ') }}
+            </p>
+          </div>
+        </div>
+      </router-link>
+    </div>
+
+    <div class="my-8"></div>
+
+    <h1 class="text-3xl">Top artists</h1>
+    <div class="mt-3 grid grid-cols-4 gap-y-4 gap-x-4 md:grid-cols-4 md:gap-x-6 lg:grid-cols-6">
+      <router-link
+        :to="{ path: `/artist/${artist.artist.id}` }"
+        class="group relative"
+        v-for="(artist, index) in topArtists?.slice(0, 6)"
+        :key="index"
+      >
+        <div class="aspect-w-1 aspect-h-1 rounded-full overflow-hidden group-hover:opacity-90">
+          <img
+            :src="artist.artist.image"
+            :alt="artist.artist.name"
+            class="object-cover object-center"
+          />
+        </div>
+        <div class="mt-2 text-center">
+          <div>
+            <h3 class="text-lg text-white line-clamp-2">
+              <span class="text-neutral-400 font-normal">{{ artist.position }}.</span>
+              {{ artist.artist.name }}
+            </h3>
+          </div>
+        </div>
+      </router-link>
+    </div>
+
+    <div class="my-8"></div>
+
+    <h1 class="text-3xl">Top albums</h1>
+    <div class="mt-3 grid grid-cols-4 gap-y-3 gap-x-4 md:grid-cols-4 md:gap-x-6 lg:grid-cols-6">
+      <router-link
+        :to="{ path: `/album/${album.album.id}` }"
+        class="group relative"
+        v-for="(album, index) in topAlbums?.slice(0, 6)"
+        :key="index"
+      >
+        <div
+          class="w-full min-h-80 bg-gray-200 aspect-w-1 aspect-h-1 rounded-lg overflow-hidden group-hover:opacity-90"
+        >
+          <img
+            :src="album.album.image"
+            :alt="album.album.name"
+            class="w-full h-full object-center object-cover lg:w-full lg:h-full"
+          />
+        </div>
+        <div class="mt-3 flex justify-between">
+          <div>
+            <h3 class="text-lg text-white line-clamp-2">
+              <span class="text-neutral-400 font-normal">{{ album.position }}.</span>
+              {{ album.album.name }}
+            </h3>
+            <p class="mt-0 text-sm text-neutral-400 line-clamp-1">
+              {{ album.album.artists.map((a) => a.name).join(', ') }}
+            </p>
+          </div>
+        </div>
+      </router-link>
+    </div>
+
+    <div class="my-8"></div>
+
+    <h1 class="text-3xl">Recent streams</h1>
+    <div class="mt-4 flow-root">
+      <ul role="list" class="-mb-8">
+        <router-link
+          :to="{ path: `/track/${stream.track.id}` }"
+          v-for="(stream, index) in recentStreams"
+          :key="index"
+          class="group"
+        >
+          <div class="relative pb-8">
+            <span
+              v-if="recentStreams && index !== recentStreams.length - 1"
+              class="absolute top-10 left-10 -ml-px h-full w-0.5 bg-neutral-600"
+              aria-hidden="true"
+            />
+            <div class="relative flex space-x-3">
+              <div class="relative">
+                <div
+                  class="absolute w-20 h-20 bg-bodyPrimary opacity-0 group-hover:opacity-10"
+                ></div>
+                <img
+                  class="h-20 w-20 rounded-lg flex items-center justify-center"
+                  :src="stream.track.albums[0].image"
+                  alt=""
+                />
+              </div>
+              <div
+                class="min-w-0 flex-1 pt-1.5 flex justify-between space-x-4 group-hover:opacity-90"
+              >
+                <div class="flex h-full flex-col">
+                  <router-link
+                    :to="{ path: `/track/${stream.track.id}` }"
+                    class="text-xl font-bold text-white mt-auto line-clamp-2"
+                    >{{ stream.track.name }}</router-link
+                  >
+                  <router-link
+                    :to="{ path: `/artist/${stream.track.artists[0].id}` }"
+                    class="text-lg text-neutral-400 -mt-1 mb-auto line-clamp-1"
+                    >{{ stream.track.artists.map((a) => a.name).join(', ') }}</router-link
+                  >
+                </div>
+                <div
+                  class="text-right text-sm whitespace-nowrap font-medium text-neutral-400 flex h-full flex-col"
+                >
+                  <time class="my-auto">{{ dayjs(stream.endTime).fromNow() }}</time>
+                </div>
+              </div>
+            </div>
+          </div>
+        </router-link>
+      </ul>
+    </div>
+  </Container>
+  <!-- <Container>
     <h1 class="mt-10 mb-2">Top artists</h1>
     <div class="flex gap-2 overflow-x-auto" v-if="topArtists">
       <Link
@@ -31,39 +208,47 @@
       v-if="recentlyPlayed"
       :topTracks="recentlyPlayed.map((stream) => stream.track)"
     />
-  </Container>
+  </Container> -->
 </template>
 
 <script lang="ts" setup>
-import { computed, onMounted, Ref, ref } from 'vue';
-
-import Container from '~/components/layout/Container.vue';
-import HeroWithImageAndInfo from '~/components/base/HeroWithImageAndInfo.vue';
-import AudioFeaturesRadarChart from '~/components/base/AudioFeatures/AudioFeaturesRadarChart.vue';
-import Link from '~/components/base/Link.vue';
-
-import BacktrackApi from '~/api';
-import { useRoute } from 'vue-router';
+import { useHead } from '@vueuse/head';
+import { computed, onMounted, Ref, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { useRoute, useRouter } from 'vue-router';
+import Button from '~/components/base/Button.vue';
+import Dropdown from '~/components/base/dropdowns/Dropdown.vue';
+import HeroWithImageAndInfo from '~/components/base/HeroWithImageAndInfo.vue';
+import StatsCard from '~/components/base/StatsCard.vue';
+import Container from '~/components/layout/Container.vue';
+import dayjs from '~/dayjs';
+import { useApi } from '~/hooks';
 import {
   BacktrackRecentlyPlayedTrack,
+  BacktrackTopAlbum,
   BacktrackTopArtist,
-  GetUserResponse,
-  GetUserRecentlyplayedResponse,
-  GetUserTopArtistsShortTermResponse,
+  BacktrackTopTrack,
   BacktrackUser
 } from '~/types';
-import { useHead } from '@vueuse/head';
 
 const route = useRoute();
+const router = useRouter();
 const { t } = useI18n();
+const api = useApi();
 
+const id = route.params.id.toString();
+
+const range = ref('lifetime');
 const user: Ref<BacktrackUser | null> = ref(null);
-const recentlyPlayed: Ref<BacktrackRecentlyPlayedTrack[] | null> = ref(null);
+const recentStreams: Ref<BacktrackRecentlyPlayedTrack[] | null> = ref(null);
+const topTracks: Ref<BacktrackTopTrack[] | null> = ref(null);
 const topArtists: Ref<BacktrackTopArtist[] | null> = ref(null);
+const topAlbums: Ref<BacktrackTopAlbum[] | null> = ref(null);
 
 // TODO: remove hardcoded app name
 const computedTitle = computed(() => `${user.value?.displayName ?? 'Backtrack'} | Backtrack`);
+
+const stats: Ref<any[]> = ref([]);
 
 useHead({
   title: computedTitle.value,
@@ -79,26 +264,52 @@ useHead({
   ]
 });
 
-const getUser = async (id: string) => {
-  return await BacktrackApi.get<GetUserResponse>(`/users/${id}`).then((res) => res.data.item);
+watch(range, (val) => {
+  load();
+});
+
+const load = async () => {
+  stats.value = [];
+  user.value = await api.users.get(id);
+  api.users
+    .getTopTracks(id, {
+      query: { range: range.value.toLowerCase() }
+    })
+    .then((data) => (topTracks.value = data));
+  api.users
+    .getTopArtists(id, {
+      query: { range: range.value.toLowerCase() }
+    })
+    .then((data) => (topArtists.value = data));
+  api.users
+    .getTopAlbums(id, {
+      query: { range: range.value.toLowerCase() }
+    })
+    .then((data) => (topAlbums.value = data));
+  api.users
+    .getRecentStreams(id, {
+      query: { range: range.value.toLowerCase() }
+    })
+    .then((data) => (recentStreams.value = data));
+
+  api.users.getCount(id, { query: { range: range.value.toLowerCase() } }).then((count) => {
+    stats.value.push({
+      name: 'Streams',
+      stat: count
+    });
+  });
+  api.users.getDuration(id, { query: { range: range.value.toLowerCase() } }).then((ms) => {
+    stats.value.push({
+      name: 'Time streamed',
+      stat: dayjs
+        .duration({ milliseconds: ms })
+        .add({ milliseconds: 0 })
+        .format('HH [hours] mm [minutes] ss [seconds]')
+    });
+  });
 };
 
-const getUsersRecentlyPlayed = async (id: string) => {
-  return await BacktrackApi.get<GetUserRecentlyplayedResponse>(`/users/${id}/recentlyplayed`).then(
-    (res) => res.data.items
-  );
-};
-
-const getShortTermTopArtist = async (id: string) => {
-  return await BacktrackApi.get<GetUserTopArtistsShortTermResponse>(
-    `/users/${id}/top/artists/short_term`
-  ).then((res) => res.data.items);
-};
-
-onMounted(async () => {
-  const id = route.params.id.toString();
-  user.value = await getUser(id);
-  recentlyPlayed.value = await getUsersRecentlyPlayed(id);
-  topArtists.value = await getShortTermTopArtist(id);
+onMounted(() => {
+  load();
 });
 </script>

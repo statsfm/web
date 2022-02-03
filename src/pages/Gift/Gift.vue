@@ -66,15 +66,15 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, Ref, onBeforeMount } from 'vue';
-
-import Header from '~/components/layout/Header.vue';
-import Container from '~/components/layout/Container.vue';
-import Divider from '~/components/base/Divider.vue';
+import { onBeforeMount } from 'vue';
+import { useI18n } from 'vue-i18n';
 import Coupon from '~/components/base/Coupon.vue';
+import Divider from '~/components/base/Divider.vue';
+import Markdown from '~/components/base/Markdown/Markdown.vue';
 import PricePlanCard from '~/components/base/PricePlanCard.vue';
-
-import BacktrackApi from '~/api';
+import Container from '~/components/layout/Container.vue';
+import Header from '~/components/layout/Header.vue';
+import { useApi, useToaster } from '~/hooks';
 import { useAuth } from '~/hooks/auth';
 import {
   GetPlusGiftCodeListResponse,
@@ -82,14 +82,12 @@ import {
   GiftCode,
   Plan
 } from '~/types';
-import { useI18n } from 'vue-i18n';
 import { giftCodes } from './state';
-import Markdown from '~/components/base/Markdown/Markdown.vue';
-import { useToaster } from '~/hooks';
 
 const { t } = useI18n();
 const auth = useAuth();
 const toaster = useToaster();
+const api = useApi();
 
 const plans: Plan[] = [
   {
@@ -135,13 +133,13 @@ onBeforeMount(async () => {
 });
 
 const getGiftCodes = async (): Promise<GiftCode[]> => {
-  return await BacktrackApi.get<GetPlusGiftCodeListResponse>('/plus/giftcodes/list').then(
-    (res) => res.data.items
-  );
+  return await api.http
+    .httpGet<GetPlusGiftCodeListResponse>('/plus/giftcodes/list')
+    .then((res) => res.data.items);
 };
 
 const initCheckout = async (quantity: number) => {
-  const { data, success } = await BacktrackApi.get<GetPlusGiftCodePurcahseResponse>(
+  const { data, success } = await api.http.httpGet<GetPlusGiftCodePurcahseResponse>(
     `/plus/giftcodes/purchase?quantity=${quantity}`
   );
 

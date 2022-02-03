@@ -3,9 +3,11 @@
     <Container class="flex justify-between items-center py-3">
       <router-link to="/" class="flex gap-3">
         <Logo class="w-[1.7rem] h-[1.7rem]" />
-        <h1 class="text-2xl font-bold hidden md:block">Stats.fm</h1>
+        <h1 class="text-2xl font-bold hidden md:block">
+          {{ isSpotistats ? 'Spotistats' : 'Stats.fm' }}
+        </h1>
       </router-link>
-      <div class="flex items-center gap-5">
+      <div v-if="!isSpotistats" class="flex items-center gap-5">
         <Button v-if="!auth.isLoggedIn()" size="small" @click="auth.login()">Login</Button>
         <Dropdown v-if="auth.isLoggedIn() && user">
           <template v-slot:button>
@@ -43,4 +45,5 @@ import { useRouter } from 'vue-router';
 const router = useRouter();
 const user = useUser();
 const auth = useAuth();
+const isSpotistats = window.location.host == 'spotistats.app';
 </script>

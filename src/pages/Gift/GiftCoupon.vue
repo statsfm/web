@@ -45,18 +45,15 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted, Ref, ref, watch } from 'vue';
+import dayjs from 'dayjs';
+import { onMounted, Ref, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRoute, useRouter } from 'vue-router';
-
-import Modal from '~/components/base/Modals/Modal.vue';
-import Divider from '~/components/base/Divider.vue';
 import Button from '~/components/base/Button.vue';
-
+import Divider from '~/components/base/Divider.vue';
+import Modal from '~/components/base/Modals/Modal.vue';
+import { useApi, useToaster, useUser } from '~/hooks';
 import { GetPlusGiftCodeResponse, GiftCode, PutPlusGiftCodeResponse } from '~/types';
-import dayjs from 'dayjs';
-import BacktrackApi from '~/api';
-import { useToaster, useUser } from '~/hooks';
 import { giftCodes } from './state';
 
 const { t } = useI18n();
@@ -64,13 +61,14 @@ const router = useRouter();
 const route = useRoute();
 const user = useUser();
 const toaster = useToaster();
+const api = useApi();
 
 const giftCode: Ref<GiftCode | null> = ref(null);
 
 const getGiftCode = async (code: string): Promise<GiftCode> => {
-  return await BacktrackApi.get<GetPlusGiftCodeResponse>(`/plus/giftcodes/${code}`).then(
-    (res) => res.data.item
-  );
+  return await api.http
+    .httpGet<GetPlusGiftCodeResponse>(`/plus/giftcodes/${code}`)
+    .then((res) => res.data.item);
 };
 
 onMounted(async () => {
@@ -90,7 +88,7 @@ const formatCode = (code: string) => {
 
 const onModalHide = async () => {
   if (giftCode.value && giftCode.value.message.length > 0) {
-    const { data, success } = await BacktrackApi.put<PutPlusGiftCodeResponse>(
+    const { data, success } = await api.http.httpPut<PutPlusGiftCodeResponse>(
       `/plus/giftcodes/${giftCode.value?.code}`,
       {
         body: JSON.stringify({

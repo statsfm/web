@@ -56,6 +56,10 @@ const links: { label: string; links: { label: string; to: string | LocationAsRel
       {
         label: 'Support',
         to: 'https://support.spotistats.app/'
+      },
+      {
+        label: 'Beta program',
+        to: { name: 'Beta' }
       }
     ]
   },
