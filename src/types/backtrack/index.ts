@@ -14,3 +14,4 @@ export interface BacktrackObject {
   id: number;
   updatedAt?: Date;
 }
+export type BacktrackRange = 'weeks' | 'months' | 'lifetime';
