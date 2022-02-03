@@ -97,9 +97,7 @@
       <li v-for="(album, index) in topAlbums?.slice(0, 6)" :key="index" class="group relative">
         <!-- TODO: add router link if we have the album page -->
         <!-- <router-link :to="{ name: 'Album', params: { id: album.album.id } }"> -->
-        <div
-          class="w-full min-h-80 bg-gray-200 aspect-w-1 aspect-h-1 rounded-lg overflow-hidden group-hover:opacity-90"
-        >
+        <div class="w-full min-h-80 aspect-square group-hover:opacity-90">
           <Image :src="album.album.image" :alt="album.album.name" class="h-full w-full" />
         </div>
         <div class="mt-3 flex justify-between">
