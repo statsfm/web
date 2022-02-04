@@ -152,13 +152,7 @@ onMounted(async () => {
   streams.value?.forEach((stream) => {
     const dm = dayjs(stream.endTime).format('LL');
 
-    // TODO: lelijk, ff goed doen
-    if (pairs.value[dm]) {
-      pairs.value[dm].push(stream);
-    } else {
-      pairs.value[dm] = [];
-      pairs.value[dm].push(stream);
-    }
+    pairs.value[dm] = [...(pairs.value[dm] ?? []), stream];
   });
 });
 </script>
