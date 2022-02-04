@@ -237,9 +237,12 @@
       <div class="flex justify-between pb-4">
         <div class="w-full md:w-1/2 flex flex-col justify-between">
           <div v-for="genre in genres?.sort((g1, g2) => g2.value - g1.value)">
-            <label :aria-label="genre.label" for="progress" class="text-white capitalize">{{
-              genre.label
-            }}</label>
+            <label
+              :aria-label="genre.label"
+              for="progress"
+              class="text-white text-xl font-medium capitalize"
+              >{{ genre.label }}</label
+            >
             <div name="progress" class="bg-bodySecundary h-3 w-full overflow-hidden rounded mt-1">
               <div
                 :style="{ width: `${genre.value * 100}%` }"
