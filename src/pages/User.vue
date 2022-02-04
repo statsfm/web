@@ -138,7 +138,7 @@
       </div>
 
       <ul class="grid grid-cols-4 gap-y-4 gap-x-4 md:grid-cols-4 md:gap-x-6 lg:grid-cols-6">
-        <li v-for="(artist, index) in topArtists?.slice(0, topTracksCount)" :key="index">
+        <li v-for="(artist, index) in topArtists?.slice(0, artistCount)" :key="index">
           <RouterLink
             :to="{ name: 'Artist', params: { id: artist.artist.id } }"
             class="group relative"
