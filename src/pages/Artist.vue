@@ -64,11 +64,20 @@
             </div>
           </div>
 
-          <span
-            v-if="streams.length > 1"
-            class="absolute top-0 left-8 h-full -z-10 w-[3px] rounded bg-neutral-700"
-            aria-hidden="true"
-          />
+          <div v-if="streams.length > 1">
+            <span
+              class="absolute top-0 left-8 h-full -z-10 w-[3px] rounded bg-neutral-700"
+              aria-hidden="true"
+            />
+            <span
+              class="absolute bottom-0 left-7 w-3 -z-10 h-6 bg-bodyPrimary"
+              aria-hidden="true"
+            />
+            <span
+              class="absolute bottom-6 left-8 w-5 -z-10 h-[3px] rounded bg-neutral-700"
+              aria-hidden="true"
+            />
+          </div>
 
           <ul class="max-w-full ml-2 mt-2 flex flex-col justify-between gap-4 w-full" role="list">
             <li v-for="stream in streams">
