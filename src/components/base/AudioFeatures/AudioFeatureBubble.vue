@@ -6,7 +6,7 @@
       left: `${feature.point.x}px`
     }"
   >
-    <Icon :path="feature.feature.icon" />
+    <Icon class="text-bodyPrimary" :path="feature.feature.icon" />
   </div>
 </template>
 
