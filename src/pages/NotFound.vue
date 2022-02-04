@@ -42,6 +42,20 @@ const margin = minRadius + strokeWidth + 5;
 let continueCount = 0;
 
 onMounted(async () => {
+  draw();
+  window.addEventListener('resize', debounce(draw, 150));
+});
+
+const debounce = (cb: Function, time = 100) => {
+  let timer: number;
+
+  return function (e: any) {
+    if (timer) clearTimeout(timer);
+    timer = setTimeout(cb, time, e);
+  };
+};
+
+const draw = async () => {
   artists.value = (await getTopArtists()).sort((a, b) =>
     a.spotifyPopularity < b.spotifyPopularity ? -1 : 0
   );
@@ -101,7 +115,7 @@ onMounted(async () => {
       });
     }
   }
-});
+};
 
 const getTopArtists = async (): Promise<BacktrackArtist[]> => {
   return await fetch('/global_top_artists.json').then((res) => res.json());
@@ -186,21 +200,21 @@ const getMousePosInElement = (el: HTMLCanvasElement, e: MouseEvent): Point => {
 
 const onCanvasClick = (e: MouseEvent) => {
   return; // disable this
-  if (canvas.value) {
-    const mousePos = getMousePosInElement(canvas.value, e);
+  // if (canvas.value) {
+  //   const mousePos = getMousePosInElement(canvas.value, e);
 
-    for (let i = 0; i < artistBubbles.value.length; i++) {
-      const bubble = artistBubbles.value[i];
-      const artist = artists.value[i];
-      const distance = getDistance(mousePos, bubble);
+  //   for (let i = 0; i < artistBubbles.value.length; i++) {
+  //     const bubble = artistBubbles.value[i];
+  //     const artist = artists.value[i];
+  //     const distance = getDistance(mousePos, bubble);
 
-      if (distance <= bubble.radius) {
-        router.push({
-          name: 'Artist',
-          params: { id: artist.id, slug: '' } // TODO: generate slug or get it by the api
-        });
-      }
-    }
-  }
+  //     if (distance <= bubble.radius) {
+  //       router.push({
+  //         name: 'Artist',
+  //         params: { id: artist.id, slug: '' } // TODO: generate slug or get it by the api
+  //       });
+  //     }
+  //   }
+  // }
 };
 </script>
