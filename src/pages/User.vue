@@ -5,7 +5,7 @@
     :subtitle="user.country"
     :image="user.image"
   />
-  <Container>
+  <Container class="relative">
     <div class="my-8"></div>
     <div class="absolute right-0 flex items-center gap-5">
       <Dropdown>
@@ -33,105 +33,272 @@
       </div>
     </div>
 
-    <div class="my-8"></div>
+    <section>
+      <div
+        class="grid row grid-flow-col sticky top-0 z-10 pt-10 pb-3 bg-bodyPrimary content-center flow-root"
+      >
+        <div class="row-span-1 text-left">
+          <h1 class="text-3xl">{{ t('user.top_tracks') }}</h1>
+        </div>
+        <div class="absolute right-0 h-full flex pb-3 items-end">
+          <RealDropdown>
+            <template v-slot:button>
+              <button
+                id="dropdownButton"
+                data-dropdown-toggle="dropdown"
+                class="text-white hover:bg-bodySecundary/20 focus:ring-4 focus:ring-bodySecundary hover:text-white/90 font-bold rounded-lg px-3 py-1 text-center inline-flex items-center"
+                type="button"
+              >
+                {{ topTracksCount }}
+                tracks
+                <svg
+                  class="ml-2 w-4 h-4"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="4"
+                    d="M19 9l-7 7-7-7"
+                  ></path>
+                </svg>
+              </button>
+            </template>
 
-    <h1 class="text-3xl">{{ t('user.top_tracks') }}</h1>
-    <ul class="mt-3 grid grid-cols-4 gap-y-3 gap-x-4 md:grid-cols-4 md:gap-x-6 lg:grid-cols-6">
-      <li v-for="(track, index) in topTracks?.slice(0, 6)" :key="index">
-        <router-link :to="{ name: 'Track', params: { id: track.track.id } }" class="group relative">
+            <div
+              id="dropdown"
+              class="z-[100] w-44 text-base list-none bg-bodySecundary rounded divide-y divide-neutral-100 shadow"
+            >
+              <ul class="py-1" aria-labelledby="dropdownButton">
+                <li v-for="count in topTracksCounts" :key="count">
+                  <button
+                    @click="topTracksCount = count"
+                    :class="[
+                      'block py-2 px-4 text-sm hover:bg-bodyPrimary/80 hover:opacity-90 w-full text-left font-bold',
+                      topTracksCount == count ? 'text-primary' : 'text-white'
+                    ]"
+                  >
+                    {{ count }} tracks
+                  </button>
+                </li>
+              </ul>
+            </div>
+          </RealDropdown>
+        </div>
+      </div>
+      <ul class="grid grid-cols-4 gap-y-3 gap-x-4 md:grid-cols-4 md:gap-x-6 lg:grid-cols-6">
+        <li v-for="(track, index) in topTracks?.slice(0, topTracksCount)" :key="index">
+          <router-link
+            :to="{ name: 'Track', params: { id: track.track.id } }"
+            class="group relative"
+          >
+            <div class="w-full min-h-80 aspect-square group-hover:opacity-90">
+              <Image
+                :src="track.track.albums[0].image"
+                :alt="track.track.albums[0].name"
+                class="h-full w-full"
+              />
+            </div>
+            <div class="mt-3 flex justify-between">
+              <div>
+                <h3 class="text-lg text-white line-clamp-2">
+                  <span class="text-neutral-400 font-normal">{{ track.position }}.</span>
+                  {{ track.track.name }}
+                </h3>
+                <p class="mt-0 text-sm text-neutral-400 line-clamp-1">
+                  {{ track.track.artists.map((a) => a.name).join(', ') }}
+                </p>
+              </div>
+            </div>
+          </router-link>
+        </li>
+      </ul>
+    </section>
+    <sectio>
+      <div
+        class="grid row grid-flow-col sticky top-0 z-20 pt-10 pb-3 bg-bodyPrimary content-center flow-root"
+      >
+        <div class="row-span-1 text-left">
+          <h1 class="text-3xl">{{ t('user.top_artists') }}</h1>
+        </div>
+        <div class="absolute right-0 h-full flex pb-3 items-end">
+          <RealDropdown>
+            <template v-slot:button>
+              <button
+                id="dropdownButton"
+                data-dropdown-toggle="dropdown"
+                class="text-white hover:bg-bodySecundary/20 focus:ring-4 focus:ring-bodySecundary hover:text-white/90 font-bold rounded-lg px-3 py-1 text-center inline-flex items-center"
+                type="button"
+              >
+                {{ artistCount }}
+                tracks
+                <svg
+                  class="ml-2 w-4 h-4"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="4"
+                    d="M19 9l-7 7-7-7"
+                  ></path>
+                </svg>
+              </button>
+            </template>
+
+            <div
+              id="dropdown"
+              class="z-[100] w-44 text-base list-none bg-bodySecundary rounded divide-y divide-neutral-100 shadow"
+            >
+              <ul class="py-1 z-[100" aria-labelledby="dropdownButton">
+                <li v-for="count in artistCounts" :key="count">
+                  <button
+                    @click="artistCount = count"
+                    :class="[
+                      'block py-2 px-4 text-sm hover:bg-bodyPrimary/80 hover:opacity-90 w-full text-left font-bold z-[100',
+                      artistCount == count ? 'text-primary' : 'text-white'
+                    ]"
+                  >
+                    {{ count }} tracks
+                  </button>
+                </li>
+              </ul>
+            </div>
+          </RealDropdown>
+        </div>
+      </div>
+      <ul class="grid grid-cols-4 gap-y-4 gap-x-4 md:grid-cols-4 md:gap-x-6 lg:grid-cols-6">
+        <li v-for="(artist, index) in topArtists?.slice(0, topTracksCount)" :key="index">
+          <router-link
+            :to="{ name: 'Artist', params: { id: artist.artist.id } }"
+            class="group relative"
+          >
+            <div class="aspect-square group-hover:opacity-90">
+              <Image
+                :src="artist.artist.image"
+                variant="round"
+                :alt="artist.artist.name"
+                class="h-full w-full"
+              />
+            </div>
+            <div class="mt-2 text-center">
+              <div>
+                <h3 class="text-lg text-white line-clamp-2">
+                  <span class="text-neutral-400 font-normal">{{ artist.position }}.</span>
+                  {{ artist.artist.name }}
+                </h3>
+              </div>
+            </div>
+          </router-link>
+        </li>
+      </ul>
+    </sectio>
+
+    <section>
+      <div
+        class="grid row grid-flow-col sticky top-0 z-30 pt-10 pb-3 bg-bodyPrimary content-center flow-root"
+      >
+        <div class="row-span-1 text-left">
+          <h1 class="text-3xl">{{ t('user.top_albums') }}</h1>
+        </div>
+        <div class="absolute right-0 h-full flex pb-3 items-end">
+          <RealDropdown>
+            <template v-slot:button>
+              <button
+                id="dropdownButton"
+                data-dropdown-toggle="dropdown"
+                class="text-white hover:bg-bodySecundary/20 focus:ring-4 focus:ring-bodySecundary hover:text-white/90 font-bold rounded-lg px-3 py-1 text-center inline-flex items-center"
+                type="button"
+              >
+                {{ albumCount }}
+                tracks
+                <svg
+                  class="ml-2 w-4 h-4"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="4"
+                    d="M19 9l-7 7-7-7"
+                  ></path>
+                </svg>
+              </button>
+            </template>
+
+            <div
+              id="dropdown"
+              class="z-[100] w-44 text-base list-none bg-bodySecundary rounded divide-y divide-neutral-100 shadow"
+            >
+              <ul class="py-1" aria-labelledby="dropdownButton">
+                <li v-for="count in albumCounts" :key="count">
+                  <button
+                    @click="albumCount = count"
+                    :class="[
+                      'block py-2 px-4 text-sm hover:bg-bodyPrimary/80 hover:opacity-90 w-full text-left font-bold',
+                      albumCount == count ? 'text-primary' : 'text-white'
+                    ]"
+                  >
+                    {{ count }} tracks
+                  </button>
+                </li>
+              </ul>
+            </div>
+          </RealDropdown>
+        </div>
+      </div>
+      <ul class="grid grid-cols-4 gap-y-4 gap-x-4 md:grid-cols-4 md:gap-x-6 lg:grid-cols-6">
+        <li
+          v-for="(album, index) in topAlbums?.slice(0, albumCount)"
+          :key="index"
+          class="group relative"
+        >
+          <!-- TODO: add router link if we have the album page -->
+          <!-- <router-link :to="{ name: 'Album', params: { id: album.album.id } }"> -->
           <div class="w-full min-h-80 aspect-square group-hover:opacity-90">
-            <Image
-              :src="track.track.albums[0].image"
-              :alt="track.track.albums[0].name"
-              class="h-full w-full"
-            />
+            <Image :src="album.album.image" :alt="album.album.name" class="h-full w-full" />
           </div>
           <div class="mt-3 flex justify-between">
             <div>
               <h3 class="text-lg text-white line-clamp-2">
-                <span class="text-neutral-400 font-normal">{{ track.position }}.</span>
-                {{ track.track.name }}
+                <span class="text-neutral-400 font-normal">{{ album.position }}.</span>
+                {{ album.album.name }}
               </h3>
               <p class="mt-0 text-sm text-neutral-400 line-clamp-1">
-                {{ track.track.artists.map((a) => a.name).join(', ') }}
+                {{ album.album.artists.map((a) => a.name).join(', ') }}
               </p>
             </div>
           </div>
-        </router-link>
-      </li>
-    </ul>
-
-    <div class="my-8"></div>
-
-    <h1 class="text-3xl">{{ t('user.top_artists') }}</h1>
-    <ul class="mt-3 grid grid-cols-4 gap-y-4 gap-x-4 md:grid-cols-4 md:gap-x-6 lg:grid-cols-6">
-      <li v-for="(artist, index) in topArtists?.slice(0, 6)" :key="index">
-        <router-link
-          :to="{ name: 'Artist', params: { id: artist.artist.id } }"
-          class="group relative"
-        >
-          <div class="aspect-square group-hover:opacity-90">
-            <Image
-              :src="artist.artist.image"
-              variant="round"
-              :alt="artist.artist.name"
-              class="h-full w-full"
-            />
-          </div>
-          <div class="mt-2 text-center">
-            <div>
-              <h3 class="text-lg text-white line-clamp-2">
-                <span class="text-neutral-400 font-normal">{{ artist.position }}.</span>
-                {{ artist.artist.name }}
-              </h3>
-            </div>
-          </div>
-        </router-link>
-      </li>
-    </ul>
-
-    <div class="my-8"></div>
-
-    <h1 class="text-3xl">{{ t('user.top_albums') }}</h1>
-    <ul class="mt-3 grid grid-cols-4 gap-y-3 gap-x-4 md:grid-cols-4 md:gap-x-6 lg:grid-cols-6">
-      <li v-for="(album, index) in topAlbums?.slice(0, 6)" :key="index" class="group relative">
-        <!-- TODO: add router link if we have the album page -->
-        <!-- <router-link :to="{ name: 'Album', params: { id: album.album.id } }"> -->
-        <div class="w-full min-h-80 aspect-square group-hover:opacity-90">
-          <Image :src="album.album.image" :alt="album.album.name" class="h-full w-full" />
-        </div>
-        <div class="mt-3 flex justify-between">
-          <div>
-            <h3 class="text-lg text-white line-clamp-2">
-              <span class="text-neutral-400 font-normal">{{ album.position }}.</span>
-              {{ album.album.name }}
-            </h3>
-            <p class="mt-0 text-sm text-neutral-400 line-clamp-1">
-              {{ album.album.artists.map((a) => a.name).join(', ') }}
-            </p>
-          </div>
-        </div>
-        <!-- </router-link> -->
-      </li>
-    </ul>
-
-    <div class="my-8"></div>
+          <!-- </router-link> -->
+        </li>
+      </ul>
+    </section>
 
     <section>
-      <h1 class="text-3xl">{{ t('user.audio_analysis') }}</h1>
-      <div class="flex justify-between">
+      <div class="sticky top-0 z-40 pt-10 pb-3 bg-bodyPrimary flow-root">
+        <div class="row-span-1 text-left">
+          <h1 class="text-3xl">{{ t('user.audio_analysis') }}</h1>
+        </div>
+      </div>
+      <div class="flex justify-between pb-4">
         <div class="w-full md:w-1/2 flex flex-col justify-between">
-          <div v-for="genre in genres">
+          <div v-for="genre in genres?.sort((g1, g2) => g2.value - g1.value)">
             <label :aria-label="genre.label" for="progress" class="text-white capitalize">{{
               genre.label
             }}</label>
-            <div
-              name="progress"
-              class="bg-bodySecundary h-3 w-full overflow-hidden rounded-full mt-1"
-            >
+            <div name="progress" class="bg-bodySecundary h-3 w-full overflow-hidden rounded mt-1">
               <div
                 :style="{ width: `${genre.value * 100}%` }"
-                class="h-full bg-primary rounded-full"
+                class="h-full bg-primary rounded"
               ></div>
             </div>
           </div>
@@ -146,10 +313,12 @@
       </div>
     </section>
 
-    <div class="my-8"></div>
-
-    <h1 class="text-3xl">Recent streams</h1>
-    <div class="mt-4 flow-root">
+    <div class="sticky top-0 z-50 pt-10 pb-3 bg-bodyPrimary flow-root">
+      <div class="row-span-1 text-left">
+        <h1 class="text-3xl">{{ t('user.recent_streams') }}</h1>
+      </div>
+    </div>
+    <div class="mt-4">
       <ul role="list" class="-mb-8">
         <li v-for="(stream, index) in recentStreams" :key="index">
           <router-link :to="{ name: 'Track', params: { id: stream.track.id } }" class="group">
@@ -206,7 +375,7 @@ import { computed, onMounted, Ref, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRoute, useRouter } from 'vue-router';
 import Button from '~/components/base/Button.vue';
-import Dropdown from '~/components/base/dropdowns/Dropdown.vue';
+import RealDropdown from '~/components/base/dropdowns/RealDropdown.vue';
 import HeroWithImageAndInfo from '~/components/base/HeroWithImageAndInfo.vue';
 import Container from '~/components/layout/Container.vue';
 import AudioFeaturesRadarChart from '~/components/base/AudioFeatures/AudioFeaturesRadarChart.vue';
@@ -237,6 +406,15 @@ const recentStreams: Ref<BacktrackRecentlyPlayedTrack[] | null> = ref(null);
 const topTracks: Ref<BacktrackTopTrack[] | null> = ref(null);
 const topArtists: Ref<BacktrackTopArtist[] | null> = ref(null);
 const topAlbums: Ref<BacktrackTopAlbum[] | null> = ref(null);
+
+const topTracksCount = ref(6);
+const topTracksCounts = [6, 10, 25, 50, 100, 150, 200, 250, 300];
+
+const artistCount = ref(6);
+const artistCounts = [6, 10, 25, 50, 100, 150, 200, 250, 300];
+
+const albumCount = ref(6);
+const albumCounts = [6, 10, 25, 50, 100, 150, 200, 250, 300];
 
 const stats: Ref<any[]> = ref([]);
 
