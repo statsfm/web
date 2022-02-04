@@ -4,10 +4,11 @@
   <div class="grid place-items-center h-screen" @click="onCanvasClick">
     <div class="-mt-64 text-center" ref="content">
       <h1 class="text-7xl font-bold mb-2">Whoops...</h1>
-      <p class="font-bold text-textGrey mb-5">this page is not available</p>
-      <router-link :to="{ name: 'Home' }">
-        <Button>Back to homepage</Button>
-      </router-link>
+      <p class="font-bold text-textGrey text-2xl mb-5">That page doesn't exist</p>
+      <!-- <router-link :to="{ name: 'Home' }"> -->
+      <!-- <Button>Back to homepage</Button> -->
+      <Link :to="{ name: 'Home' }" class="flex items-center font-bold text-primary"></Link>
+      <!-- </router-link> -->
     </div>
   </div>
 </template>
@@ -19,6 +20,7 @@ import Header from '~/components/layout/Header.vue';
 import Button from '~/components/base/Button.vue';
 import { useRouter } from 'vue-router';
 import { BacktrackArtist } from '~/types/backtrack';
+import Link from '~/components/base/Link.vue';
 import { Point } from '~/types';
 
 const router = useRouter();
@@ -183,6 +185,7 @@ const getMousePosInElement = (el: HTMLCanvasElement, e: MouseEvent): Point => {
 };
 
 const onCanvasClick = (e: MouseEvent) => {
+  return; // disable this
   if (canvas.value) {
     const mousePos = getMousePosInElement(canvas.value, e);
 
