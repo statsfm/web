@@ -20,7 +20,7 @@
           <Button size="small" class="capitalize" @click="">{{ range }}</Button>
         </template>
 
-        <List class="w-44">
+        <List class="w-44 rounded-xl">
           <!-- TODO: fix with i18n and range -->
           <ListItemGroup :items="['weeks', 'months', 'lifetime']">
             <template v-slot="{ item }">
@@ -59,7 +59,7 @@
             id="dropdown"
             class="w-44 text-base list-none rounded divide-y divide-neutral-100 shadow"
           >
-            <List>
+            <List class="rounded-xl">
               <ListItemGroup :items="topTracksCounts">
                 <template v-slot="{ item }">
                   <ListItem
@@ -124,7 +124,7 @@
             id="dropdown"
             class="w-44 text-base list-none rounded divide-y divide-neutral-100 shadow"
           >
-            <List>
+            <List class="rounded-xl">
               <ListItemGroup :items="artistCounts">
                 <template v-slot="{ item }">
                   <ListItem
@@ -191,7 +191,7 @@
             id="dropdown"
             class="w-44 text-base list-none rounded divide-y divide-neutral-100 shadow"
           >
-            <List>
+            <List class="rounded-xl">
               <ListItemGroup :items="albumCounts">
                 <template v-slot="{ item }">
                   <ListItem

@@ -50,11 +50,7 @@
       <h1 class="text-3xl mb-3">Your streams featuring {{ artist.name }}</h1>
 
       <ul class="w-full">
-        <li
-          v-for="(streams, key) in pairs"
-          class="relative mb-4 w-full"
-          :class="{ 'flex items-center': streams.length == 1 }"
-        >
+        <li v-for="(streams, key) in pairs" class="relative mb-6 w-full flex items-start">
           <div
             class="bg-bodySecundary rounded-full aspect-square min-w-[4rem] w-16 grid place-items-center"
           >
@@ -74,15 +70,8 @@
             aria-hidden="true"
           />
 
-          <ul
-            class="max-w-full"
-            :class="{
-              'ml-16 flex flex-col justify-between gap-4': streams.length > 1,
-              'w-full': streams.length == 1
-            }"
-            role="list"
-          >
-            <li v-for="stream in streams" class="ml-2">
+          <ul class="max-w-full ml-2 mt-2 flex flex-col justify-between gap-4 w-full" role="list">
+            <li v-for="stream in streams">
               <RouterLink
                 :to="{ name: 'Track', params: { id: stream.trackId } }"
                 class="flex justify-between"
