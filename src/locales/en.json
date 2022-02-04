@@ -94,7 +94,9 @@
     "time_streamed": "Time streamed",
     "top_tracks": "Top tracks",
     "top_artists": "Top artists",
-    "top_albums": "Top Albums"
+    "top_albums": "Top albums",
+    "audio_analysis": "Audio analysis",
+    "recent_streams": "Recent streams"
   },
   "range": {
     "weeks": "4 weeks",
