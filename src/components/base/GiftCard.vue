@@ -5,7 +5,7 @@
   >
     <div class="flip relative transition-transform duration-1000" :class="{ flipped }">
       <Card
-        class="face flex justify-center items-center absolute aspect-[5/3] bg-[url('/giftcard_pattern.svg')] bg-contain"
+        class="face flex justify-center items-center absolute aspect-[5/3] bg-[url('/images/giftcard_pattern.svg')] bg-contain"
       >
       </Card>
       <Card

@@ -14,7 +14,7 @@
         </div>
       </div>
       <h2>How does it work?</h2>
-      <Markdown src="/gift_guide.md" />
+      <Markdown src="/content/gift_guide.md" />
     </section>
     <Divider />
     <div>

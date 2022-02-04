@@ -1,7 +1,7 @@
 <template>
   <Header />
   <Container>
-    <Markdown src="/privacy.md" class="mt-5" />
+    <Markdown src="/content/privacy.md" class="mt-5" />
   </Container>
 </template>
 

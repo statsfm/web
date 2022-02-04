@@ -1,7 +1,7 @@
 <template>
   <Header />
   <Container>
-    <Markdown src="/terms.md" class="mt-5" />
+    <Markdown src="/content/terms.md" class="mt-5" />
   </Container>
 </template>
 

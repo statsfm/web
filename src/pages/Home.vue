@@ -29,11 +29,7 @@
         </div>
       </div>
       <div class="w-full lg:w-7/12 flex items-end mb-10">
-        <img
-          class="object-contain"
-          src="https://cdn.discordapp.com/attachments/756495774975655987/925148729781153872/Frame_8.png"
-          alt="Desktop Mobile"
-        />
+        <img class="object-contain" src="../assets/images/app_3.webp" alt="Desktop Mobile" />
       </div>
     </Container>
   </section>
@@ -41,7 +37,7 @@
     <Container class="flex justify-between flex-col lg:flex-row gap-10">
       <div class="w-full hidden justify-center mb-5 lg:w-6/12 lg:flex">
         <img
-          src="https://cdn.discordapp.com/attachments/756495774975655987/926242429022113802/Group_21.png"
+          src="../assets/images/app_2.webp"
           alt="app"
           class="w-60 lg:w-auto object-contain transition-transform duration-200 hover:scale-[1.02]"
         />
@@ -106,16 +102,16 @@
           class="hidden md:flex w-[500px] gap-3 overflow-hidden translate-x-[75px] min-w-[350px]"
         >
           <div class="w-6/12 flex flex-col gap-5 translate-y-[-300px]">
-            <img src="../assets/mobile_full.png" class="w-full" />
-            <img src="../assets/mobile_full.png" class="w-full" />
+            <img src="../assets/images/app_1.webp" class="w-full" />
+            <img src="../assets/images/app_1.webp" class="w-full" />
           </div>
           <div class="w-6/12 flex flex-col gap-5 translate-y-[-150px]">
-            <img src="../assets/mobile_full.png" class="w-full" />
-            <img src="../assets/mobile_full.png" class="w-full" />
+            <img src="../assets/images/app_1.webp" class="w-full" />
+            <img src="../assets/images/app_1.webp" class="w-full" />
           </div>
         </div>
-        <div class="flex justify-center pl-5 pr-5 md:hidden">
-          <img src="../assets/mobile_half.png" />
+        <div class="flex justify-center pl-5 pr-5 md:hidden max-h-96 overflow-hidden">
+          <img src="../assets/images/app_1.webp" class="h-full" />
         </div>
       </Card>
 
@@ -124,16 +120,16 @@
         <Card class="rounded-[2.5rem] p-0 overflow-hidden hidden md:block">
           <div class="md:flex w-[500px] translate-x-[35px] gap-3 min-w-[350px]">
             <div class="w-6/12 flex flex-col gap-5 translate-y-[-300px]">
-              <img src="../assets/mobile_full.png" class="w-full" />
-              <img src="../assets/mobile_full.png" class="w-full" />
+              <img src="../assets/images/app_1.webp" class="w-full" />
+              <img src="../assets/images/app_1.webp" class="w-full" />
             </div>
             <div class="w-6/12 flex flex-col gap-5 translate-y-[-190px]">
-              <img src="../assets/mobile_full.png" class="w-full" />
-              <img src="../assets/mobile_full.png" class="w-full" />
+              <img src="../assets/images/app_1.webp" class="w-full" />
+              <img src="../assets/images/app_1.webp" class="w-full" />
             </div>
           </div>
           <div class="flex justify-center pl-5 pr-5 md:hidden">
-            <img src="../assets/mobile_full.png" />
+            <img src="../assets/images/app_1.webp" />
           </div>
         </Card>
 
