@@ -15,20 +15,22 @@
         </div>
       </div>
 
-      <Dropdown>
+      <RealDropdown>
         <template v-slot:button>
           <Button size="small" class="capitalize" @click="">{{ range }}</Button>
         </template>
 
-        <div
-          class="flex items-center gap-5 cursor-pointer"
-          @click="router.push({ name: 'User', params: { id: user?.id } })"
-        >
-          <Button size="small" @click="range = 'weeks'">{{ t('range.weeks') }}</Button>
-          <Button size="small" @click="range = 'months'">{{ t('range.months') }}</Button>
-          <Button size="small" @click="range = 'lifetime'">{{ t('range.lifetime') }}</Button>
-        </div>
-      </Dropdown>
+        <List class="w-44">
+          <!-- TODO: fix with i18n and range -->
+          <ListItemGroup :items="['weeks', 'months', 'lifetime']">
+            <template v-slot="{ item }">
+              <ListItem :class="{ 'text-primary': item == range }" @click="setRange(item)">{{
+                item
+              }}</ListItem>
+            </template>
+          </ListItemGroup>
+        </List>
+      </RealDropdown>
     </div>
 
     <div class="my-10"></div>
@@ -263,7 +265,7 @@
     <div class="mt-4">
       <ul role="list" class="-mb-8">
         <li v-for="(stream, index) in recentStreams" :key="index">
-          <router-link :to="{ name: 'Track', params: { id: stream.track.id } }" class="group">
+          <RouterLink :to="{ name: 'Track', params: { id: stream.track.id } }" class="group">
             <div class="relative pb-8">
               <span
                 v-if="recentStreams && index !== recentStreams.length - 1"
@@ -285,15 +287,15 @@
                   class="min-w-0 flex-1 pt-1.5 flex justify-between space-x-4 group-hover:opacity-90"
                 >
                   <div class="flex h-full flex-col">
-                    <router-link
+                    <RouterLink
                       :to="{ name: 'Track', params: { id: stream.track.id } }"
                       class="text-xl font-bold text-white mt-auto line-clamp-2"
-                      >{{ stream.track.name }}</router-link
+                      >{{ stream.track.name }}</RouterLink
                     >
-                    <router-link
+                    <RouterLink
                       :to="{ name: 'Artist', params: { id: stream.track.artists[0].id } }"
                       class="text-lg text-neutral-400 -mt-1 mb-auto line-clamp-1"
-                      >{{ stream.track.artists.map((a) => a.name).join(', ') }}</router-link
+                      >{{ stream.track.artists.map((a) => a.name).join(', ') }}</RouterLink
                     >
                   </div>
                   <div
@@ -304,7 +306,7 @@
                 </div>
               </div>
             </div>
-          </router-link>
+          </RouterLink>
         </li>
       </ul>
     </div>
@@ -313,9 +315,9 @@
 
 <script lang="ts" setup>
 import { useHead } from '@vueuse/head';
-import { computed, onMounted, Ref, ref, watch } from 'vue';
+import { computed, onMounted, Ref, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { useRoute, useRouter, RouterLink } from 'vue-router';
+import { useRoute, RouterLink } from 'vue-router';
 import Button from '~/components/base/Button.vue';
 import RealDropdown from '~/components/base/dropdowns/RealDropdown.vue';
 import HeroWithImageAndInfo from '~/components/base/HeroWithImageAndInfo.vue';
@@ -341,7 +343,6 @@ import { AudioFeature } from '~/components/base/AudioFeatures/feature';
 import { mdiChevronDown, mdiChevronUp } from '@mdi/js';
 
 const route = useRoute();
-const router = useRouter();
 const { t } = useI18n();
 const api = useApi();
 
@@ -383,10 +384,6 @@ useHead({
   ]
 });
 
-watch(range, (val) => {
-  load();
-});
-
 const load = async () => {
   stats.value = [];
   user.value = await api.users.get(id);
@@ -426,6 +423,14 @@ const load = async () => {
         .format('HH [hours] mm [minutes] ss [seconds]')
     });
   });
+};
+
+const setRange = (value: BacktrackRange) => {
+  // only fetch the range if the range has changed
+  if (range.value !== value) {
+    range.value = value;
+    load();
+  }
 };
 
 onMounted(() => {
