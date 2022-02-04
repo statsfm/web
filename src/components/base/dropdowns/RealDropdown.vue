@@ -1,7 +1,7 @@
 <template>
   <div class="relative" v-click-away="hide">
     <div @click="toggle">
-      <slot name="button" />
+      <slot name="button" :active="isActive" />
     </div>
 
     <!-- TODO: add fade out animtion -->
