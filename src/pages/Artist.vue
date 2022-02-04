@@ -33,10 +33,10 @@
           </div>
           <div class="mt-3 flex justify-between">
             <div>
-              <h3 class="text-lg text-white">
+              <h3 class="text-lg text-white line-clamp-2">
                 {{ track.name }}
               </h3>
-              <p class="mt-0 text-sm text-neutral-400">
+              <p class="mt-0 text-sm text-neutral-400 line-clamp-1">
                 <!-- TODO: move to a helper function -->
                 {{ track.artists.map((a) => a.name).join(', ') }}
               </p>
