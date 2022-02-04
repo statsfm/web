@@ -9,6 +9,7 @@ export const useStore = defineStore('main', () => {
 
   const setUser = (user: BacktrackUser<true, true>) => {
     state.user = user;
+    localStorage.setItem('user', JSON.stringify(user));
   };
 
   return { state, setUser };
