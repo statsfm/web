@@ -4,16 +4,13 @@
     :name="album.name"
     :image="album.image"
     :subtitle="album.artists.map((artist) => artist.name).join(', ')"
-    :subtitle-to="{ path: `/artist/${album.artists[0].id}` }"
+    :subtitle-to="{ name: 'Artist', params: { id: album.artists[0].id } }"
   />
   <Container>
     <div v-if="album" class="mt-5">
-      <h1 class="text-3xl">{{ album.artists.length > 1 ? 'Artists' : 'Artist' }}</h1>
-      <Image :src="album.image" />
-
       <h1 class="text-3xl">Album content</h1>
       <div class="mt-3 grid grid-cols-1 md:grid-cols-2">
-        <router-link
+        <RouterLink
           :to="{ name: 'Track', params: { id: track.id } }"
           class="group relative"
           v-for="(track, index) in tracks"
@@ -35,7 +32,7 @@
               </div>
             </div>
           </div>
-        </router-link>
+        </RouterLink>
       </div>
 
       <div class="my-10"></div>
@@ -108,8 +105,6 @@
           @click="loadStreams"
         >
           Load more streams
-
-          <Icon :path="mdiChevronDown" />
         </Button>
       </ul>
     </div>
@@ -117,13 +112,11 @@
 </template>
 
 <script lang="ts" setup>
-import { mdiChevronDown } from '@mdi/js';
 import { onMounted, Ref, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { RouterLink, useRoute } from 'vue-router';
 import Button from '~/components/base/Button.vue';
 import HeroWithImageAndInfo from '~/components/base/HeroWithImageAndInfo.vue';
-import Image from '~/components/base/Image.vue';
 import Container from '~/components/layout/Container.vue';
 import dayjs from '~/dayjs';
 import { useApi } from '~/hooks';
@@ -139,15 +132,9 @@ const album: Ref<BacktrackAlbum | null> = ref(null);
 const tracks: Ref<BacktrackTrack[] | null> = ref(null);
 const streams: Ref<BacktrackStream[] | null> = ref(null);
 
-// TODO: move this to the helpers folder
-const formatFollowers = (followers: number): string => {
-  return followers.toLocaleString('en-US');
-};
-
 const pairs: Ref<Record<string, BacktrackStream[]>> = ref({});
 
 const loadStreams = async () => {
-  console.log({ limit: 100, offset: streams.value?.length ?? 0 });
   const newStreams = await api.users.getAlbumStreams('me', id, {
     query: { limit: 100, offset: streams.value?.length ?? 0 }
   });
