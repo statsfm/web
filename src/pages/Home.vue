@@ -90,13 +90,17 @@
       <Card
         class="rounded-[2.5rem] overflow-hidden flex flex-col justify-between max-h-[575px] px-0 py-0 md:flex-row md:gap-5 md:max-h-[365px]"
       >
-        <div class="flex flex-col justify-between w-full p-5 md:w-8/12 md:p-10 mb-10">
-          <h1>Lorem ipsum, <br />dolor samet</h1>
-          <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Laborum hic quo totam quae
-            ducimus quos odio consequuntur dolores earum perferendis.
+        <div class="flex flex-col justify-start w-full p-5 md:w-8/12 md:p-10">
+          <h1>Connect with your friends</h1>
+          <p class="text-xl font-normal">
+            It's as easy as sharing a link to your profile to share your stats with friends.
+            <br /><br />Send friend requests to your friends and if your friends' privacy settings
+            allow it you'll be able to check their stats anytime.
           </p>
-          <ChevronLink to="/">Watch the video</ChevronLink>
+          <div class="h-full"></div>
+          <ChevronLink :to="{ name: 'User', params: { id: 'sjoerdgaatwakawaka' } }"
+            >Check out my page</ChevronLink
+          >
         </div>
         <div
           class="hidden md:flex w-[500px] gap-3 overflow-hidden translate-x-[75px] min-w-[350px]"
@@ -133,15 +137,21 @@
           </div>
         </Card>
 
-        <Card
-          class="rounded-[2.5rem] flex flex-col justify-between max-h-[575px] p-5 md:p-10 md:max-h-[365px]"
-        >
-          <h1>Lorem ipsum, <br />dolor samet</h1>
-          <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Laborum hic quo totam quae
-            ducimus quos odio consequuntur dolores earum perferendis.
-          </p>
-          <ChevronLink to="/">Watch the video</ChevronLink>
+        <Card class="rounded-[2.5rem] max-h-[575px] p-5 md:p-10 md:max-h-[365px]">
+          <div class="flex flex-col justify-start w-full">
+            <h1>Full control over your data</h1>
+            <p class="text-xl font-normal">
+              Don't want to share part of your stats/profile? Use the privacy settings to select
+              which parts of your profile you want to share with others.
+              <br /><br />Want me to delete all your data? No problem, you can do that anytime in
+              your privacy settings.
+            </p>
+          </div>
+          <!-- <div>
+            <h1 class="text-primary lg:text-7xl text-6xl">#1</h1>
+            <h1 class="lg:text-6xl text-5xl">Spotify stats app 2021</h1>
+          </div>
+          <h1 class="text-neutral-400 text-right lg:text-5xl text-4xl">in 2021</h1> -->
         </Card>
       </div>
     </Container>
