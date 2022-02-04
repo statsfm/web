@@ -39,74 +39,7 @@
 
       <h1 class="text-3xl mb-3">Your {{ album?.name }} streams</h1>
 
-      <ul class="w-full">
-        <li v-for="(streams, key) in pairs" class="relative mb-6 w-full flex items-start">
-          <div
-            class="bg-bodySecundary rounded-full aspect-square min-w-[4rem] w-16 grid place-items-center"
-          >
-            <div class="flex flex-col items-center">
-              <span class="text-neutral-400 text-sm font-medium block"
-                >{{ dayjs(key).format('MMM') }}
-              </span>
-              <span class="text-primary relative -mt-1 text-2xl font-bold block">{{
-                dayjs(key).format('D')
-              }}</span>
-            </div>
-          </div>
-
-          <div v-if="streams.length > 1">
-            <span
-              class="absolute top-0 left-8 h-full -z-10 w-[3px] rounded bg-neutral-700"
-              aria-hidden="true"
-            />
-            <span
-              class="absolute bottom-0 left-7 w-3 -z-10 h-6 bg-bodyPrimary"
-              aria-hidden="true"
-            />
-            <span
-              class="absolute bottom-6 left-8 w-5 -z-10 h-[3px] rounded bg-neutral-700"
-              aria-hidden="true"
-            />
-          </div>
-
-          <ul class="max-w-full ml-2 mt-2 flex flex-col justify-between gap-4 w-full" role="list">
-            <li v-for="stream in streams">
-              <RouterLink
-                :to="{ name: 'Track', params: { id: stream.trackId } }"
-                class="flex justify-between"
-              >
-                <div class="flex flex-col">
-                  <h4>{{ stream.trackName }}</h4>
-
-                  <span
-                    >Streamed for
-                    {{
-                      dayjs
-                        .duration({ milliseconds: stream.playedMs })
-                        .add({ milliseconds: 0 }) // zonder dit werkt t niet lol
-                        .format('mm:ss')
-                    }}</span
-                  >
-                </div>
-
-                <time
-                  class="my-auto text-right text-sm whitespace-nowrap font-medium text-neutral-400"
-                  >{{ dayjs(stream.endTime).fromNow() }}</time
-                >
-              </RouterLink>
-            </li>
-          </ul>
-        </li>
-        <Button
-          size="small"
-          id="dropdownButton"
-          data-dropdown-toggle="dropdown"
-          type="button"
-          @click="loadStreams"
-        >
-          Load more streams
-        </Button>
-      </ul>
+      <RecentStreams v-if="streams" :streams="streams" />
     </div>
   </Container>
 </template>
@@ -115,12 +48,11 @@
 import { onMounted, Ref, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { RouterLink, useRoute } from 'vue-router';
-import Button from '~/components/base/Button.vue';
 import HeroWithImageAndInfo from '~/components/base/HeroWithImageAndInfo.vue';
 import Container from '~/components/layout/Container.vue';
-import dayjs from '~/dayjs';
 import { useApi } from '~/hooks';
 import { BacktrackAlbum, BacktrackStream, BacktrackTrack } from '~/types/backtrack';
+import RecentStreams from '~/components/base/RecentStreams/RecentStreams.vue';
 
 const { t } = useI18n();
 const route = useRoute();
@@ -132,25 +64,9 @@ const album: Ref<BacktrackAlbum | null> = ref(null);
 const tracks: Ref<BacktrackTrack[] | null> = ref(null);
 const streams: Ref<BacktrackStream[] | null> = ref(null);
 
-const pairs: Ref<Record<string, BacktrackStream[]>> = ref({});
-
-const loadStreams = async () => {
-  const newStreams = await api.users.getAlbumStreams('me', id, {
-    query: { limit: 100, offset: streams.value?.length ?? 0 }
-  });
-  streams.value = [...(streams.value ?? []), ...newStreams];
-
-  pairs.value = {};
-  streams.value?.forEach((stream) => {
-    const dm = dayjs(stream.endTime).format('LL');
-
-    pairs.value[dm] = [...(pairs.value[dm] ?? []), stream];
-  });
-};
-
 onMounted(async () => {
   album.value = await api.albums.get(id);
   tracks.value = await api.albums.tracks(id);
-  loadStreams();
+  streams.value = await api.users.getAlbumStreams('me', id);
 });
 </script>
