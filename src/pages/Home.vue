@@ -99,7 +99,7 @@
           </p>
           <div class="h-full"></div>
           <ChevronLink :to="{ name: 'User', params: { id: 'sjoerdgaatwakawaka' } }"
-            >Check out my page</ChevronLink
+            >Check out an example page</ChevronLink
           >
         </div>
         <div
