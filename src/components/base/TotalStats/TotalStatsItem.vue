@@ -19,7 +19,7 @@
         class="mt-[-1px] mr-[4px] scale-90 h-[1.3rem] w-[1rem]" -->
     <p class="inline-flex scale-90 mt-0 ml-[-12px] text-neutral-500" v-if="hasIndicator">
       <Icon
-        class="mr-[-1px] ml-[-2x] mt-[-1px]"
+        class="mr-[-1px] ml-[-2x] mt-[-1px] text-inherit"
         :path="
           diffBetweenCurrentAndPreviousSnapshot == 0
             ? mdiArrowRightThin

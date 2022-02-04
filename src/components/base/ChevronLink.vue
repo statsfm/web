@@ -1,6 +1,6 @@
 <template>
-  <Link :to="to" class="flex items-center text-primary hover:text-primary/80"
-    ><slot /><Icon :path="mdiChevronRight"
+  <Link :to="to" class="flex items-center font-bold text-primary"
+    ><slot /><Icon :path="mdiChevronRight" class="text-primary -ml-.5 hover:opacity-90"
   /></Link>
 </template>
 

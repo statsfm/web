@@ -1,9 +1,9 @@
 <template>
   <Header />
   <section>
-    <Container class="flex justify-between flex-col gap-5 md:flex-row">
-      <div class="w-full md:w-6/12 my-12 md:my-28">
-        <h1>
+    <Container class="flex justify-between flex-col gap-5 lg:flex-row relative">
+      <div class="w-full lg:w-5/12 my-12 lg:my-28 pt-10">
+        <h1 class="text-5xl">
           Your music,<br />
           <span class="opacity-30 font-extrabold">your</span> stats,<br />
           <span class="opacity-30 font-extrabold">your</span> story.
@@ -11,7 +11,8 @@
         <p class="mb-5">
           Enter a new dimension of music by getting unique insights into your music taste.
         </p>
-        <ChevronLink :to="{ name: 'Gift' }">Watch the video</ChevronLink>
+        <!-- <ChevronLink :to="{ name: 'Gift' }">Watch the video</ChevronLink> -->
+        <ChevronLink to="https://youtu.be/_4EFJJOXh_0">Watch the video</ChevronLink>
         <div class="flex gap-2 mt-8 flex-col md:flex-row items-center">
           <a
             class="duration-100"
@@ -27,7 +28,7 @@
           </a>
         </div>
       </div>
-      <div class="w-full md:w-6/12 flex items-end">
+      <div class="w-full lg:w-7/12 flex items-end mb-10">
         <img
           class="object-contain"
           src="https://cdn.discordapp.com/attachments/756495774975655987/925148729781153872/Frame_8.png"
@@ -36,16 +37,16 @@
       </div>
     </Container>
   </section>
-  <section class="bg-bodySecundary pt-28 pb-28">
-    <Container class="flex justify-between flex-col md:flex-row gap-10">
-      <div class="w-full hidden justify-center mb-5 md:w-6/12 md:flex">
+  <section class="bg-bodySecundary pt-28 pb-28 -mt-10">
+    <Container class="flex justify-between flex-col lg:flex-row gap-10">
+      <div class="w-full hidden justify-center mb-5 lg:w-6/12 lg:flex">
         <img
           src="https://cdn.discordapp.com/attachments/756495774975655987/926242429022113802/Group_21.png"
           alt="app"
-          class="w-60 md:w-auto object-contain transition-transform duration-200 hover:scale-[1.02]"
+          class="w-60 lg:w-auto object-contain transition-transform duration-200 hover:scale-[1.02]"
         />
       </div>
-      <div class="w-full md:w-6/12">
+      <div class="w-full lg:w-6/12">
         <h1>Easy, extensive and secure</h1>
         <p>
           With the click of a button you'll be logged with your Spotify account and you'll instantly
@@ -180,6 +181,10 @@ import FeatureItem from '~/components/base/FeatureItem.vue';
 import TotalStats from '~/components/base/TotalStats/TotalStats.vue';
 import ChevronLink from '~/components/base/ChevronLink.vue';
 import Link from '~/components/base/Link.vue';
+import { useApi, useAuth } from '~/hooks';
+
+useApi();
+useAuth();
 
 import {
   mdiLock,

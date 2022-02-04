@@ -28,13 +28,16 @@
             ><img src="../../assets/google_play_badge.png" alt="Google Play" class="h-12" />
           </a>
           <div class="mt-2">
-            <Button class="hidden md:block">Open webapp</Button>
+            <Button @click="router.push({ path: '/user/me' })" size="small" class="hidden md:block"
+              >Open webapp</Button
+            >
           </div>
         </div>
       </div>
     </div>
     <p class="min-w-full mt-10 pt-10 text-center md:mt-0 md:order-1">
-      © 2022 Stats.fm / Spotistats for Spotify. All rights reserved. Made with ❤️ in the Netherlands
+      © 2022 Stats.fm / Spotistats for Spotify. All rights reserved. Made with ❤️ in the
+      Netherlands.
     </p>
   </Container>
 </template>
@@ -43,7 +46,10 @@
 import Container from '../layout/Container.vue';
 import Button from '../base/Button.vue';
 import Link from '../base/Link.vue';
-import { LocationAsRelativeRaw } from 'vue-router';
+import { LocationAsRelativeRaw, useRouter } from 'vue-router';
+import { onBeforeMount } from 'vue';
+
+const router = useRouter();
 
 const links: { label: string; links: { label: string; to: string | LocationAsRelativeRaw }[] }[] = [
   {
