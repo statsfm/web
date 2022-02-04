@@ -7,7 +7,7 @@
 </template>
 
 <style scoped>
-svg rect {
+svg path {
   @apply fill-primary;
 }
 </style>
