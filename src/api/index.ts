@@ -36,12 +36,15 @@ export default class Api {
 
   users: UserManager;
 
+  me: MeManager;
+
   constructor() {
     this.http = new ApiManager();
     this.tracks = new TrackManager();
     this.albums = new AlbumManager();
     this.artists = new ArtistManager();
     this.users = new UserManager();
+    this.me = new MeManager();
   }
 }
 
@@ -243,6 +246,13 @@ export class AlbumManager extends ApiManager {
     const res = await this.httpGet(`/albums/${id}/tracks`);
 
     return res.data.items as BacktrackTrack[];
+  }
+}
+export class MeManager extends ApiManager {
+  async get(options?: RequestInitWithQuery) {
+    const res = await this.httpGet(`/me`, options);
+
+    return res.data.item;
   }
 }
 export class UserManager extends ApiManager {
