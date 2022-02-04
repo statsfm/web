@@ -66,7 +66,7 @@
 
           <span
             v-if="streams.length > 1"
-            class="absolute top-0 left-8 h-full -z-10 w-0.5 bg-neutral-600"
+            class="absolute top-0 left-8 h-full -z-10 w-[3px] rounded bg-neutral-700"
             aria-hidden="true"
           />
 
