@@ -76,7 +76,8 @@ export default class auth {
       // 'user-follow-read',
       // 'user-follow-modify'
     ].join('%20');
-    const loginUrl = `${ApiManager.baseUrl}/auth/redirect/spotify?scope=${scope}&redirect_uri=${this.redirectUri}`;
+    // const loginUrl = `${ApiManager.baseUrl}/auth/redirect/spotify?scope=${scope}&redirect_uri=${this.redirectUri}`;
+    const loginUrl = `https://staging.backtrack.dev/api/v1/auth/redirect/spotify?scope=${scope}&redirect_uri=${this.redirectUri}`;
 
     localStorage.setItem(
       'redirectPage',
