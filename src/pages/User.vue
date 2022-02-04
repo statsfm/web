@@ -208,23 +208,22 @@
 
       <ul class="grid grid-cols-4 gap-y-4 gap-x-4 md:grid-cols-4 md:gap-x-6 lg:grid-cols-6">
         <li v-for="(album, index) in topAlbums?.slice(0, albumCount)" :key="index" class="group">
-          <!-- TODO: add router link if we have the album page -->
-          <!-- <router-link :to="{ name: 'Album', params: { id: album.album.id } }"> -->
-          <div class="w-full min-h-80 aspect-square group-hover:opacity-90">
-            <Image :src="album.album.image" :alt="album.album.name" class="h-full w-full" />
-          </div>
-          <div class="mt-3 flex justify-between">
-            <div>
-              <h3 class="text-lg text-white line-clamp-2">
-                <span class="text-neutral-400 font-normal">{{ album.position }}.</span>
-                {{ album.album.name }}
-              </h3>
-              <p class="mt-0 text-sm text-neutral-400 line-clamp-1">
-                {{ album.album.artists.map((a) => a.name).join(', ') }}
-              </p>
+          <router-link :to="{ name: 'Album', params: { id: album.album.id } }">
+            <div class="w-full min-h-80 aspect-square group-hover:opacity-90">
+              <Image :src="album.album.image" :alt="album.album.name" class="h-full w-full" />
             </div>
-          </div>
-          <!-- </router-link> -->
+            <div class="mt-3 flex justify-between">
+              <div>
+                <h3 class="text-lg text-white line-clamp-2">
+                  <span class="text-neutral-400 font-normal">{{ album.position }}.</span>
+                  {{ album.album.name }}
+                </h3>
+                <p class="mt-0 text-sm text-neutral-400 line-clamp-1">
+                  {{ album.album.artists.map((a) => a.name).join(', ') }}
+                </p>
+              </div>
+            </div>
+          </router-link>
         </li>
       </ul>
     </section>
