@@ -1,30 +1,55 @@
+<script lang="ts" setup>
+import { useAttrs } from 'vue';
+import { LocationAsRelativeRaw } from 'vue-router';
+
+type Variant = 'primary' | 'secundary';
+type Size = 'small' | 'medium';
+
+interface Props {
+  variant: Variant;
+  size: Size;
+  to?: string | LocationAsRelativeRaw;
+  full?: boolean;
+}
+
+withDefaults(defineProps<Props>(), {
+  variant: 'primary',
+  size: 'medium',
+  full: false
+});
+
+const emit = defineEmits<{
+  (event: 'click', e: MouseEvent): void;
+}>();
+
+const attrs = useAttrs();
+</script>
+
 <template>
-  <!-- old classes: class="w-full border-0 cursor-pointer transition-colors duration-300 font-bold bg-primary/10 hover:bg-primary/20 active:bg-primary/5 text-primary" -->
   <button
-    class="whitespace-nowrap inline-flex items-center justify-center px-5 py-2 border border-transparent rounded-lg shadow-sm text-base font-bold text-primary bg-primary/10 hover:bg-primary/20 active:bg-primary/5"
-    :class="{
-      'py-2 px-5 rounded-xl': size === 'small',
-      'py-3 px-5 rounded-2xl': size === 'medium',
-      'cursor-not-allowed bg-[#727272]/25 text-[#727272] hover:bg-[#727272]/25 active:bg-[#727272]/25':
-        disabled
-    }"
-    :disabled="disabled"
-    @click="(e) => $emit('click', e)"
+    v-bind="attrs"
+    class="whitespace-nowrap inline-flex items-center justify-center rounded-lg shadow-sm text-base font-bold"
+    :class="[variant, size, { 'w-full': full, 'w-max': !full }]"
+    @click="(e: MouseEvent) => emit('click', e)"
   >
     <slot />
   </button>
 </template>
 
-<script lang="ts" setup>
-interface Props {
-  type?: string;
-  size?: string;
-  disabled?: boolean;
+<style scoped>
+/* variant */
+.primary {
+  @apply text-primary bg-primary/10 hover:bg-primary/20 active:bg-primary/5;
+}
+.secundary {
+  @apply text-white hover:bg-bodySecundary/20 focus:ring-4 focus:ring-bodySecundary hover:text-white/90;
 }
 
-withDefaults(defineProps<Props>(), {
-  size: 'medium'
-});
-
-defineEmits(['click']);
-</script>
+/* size */
+.small {
+  @apply py-2 px-5 rounded-xl;
+}
+.medium {
+  @apply py-3 px-5 rounded-2xl;
+}
+</style>
