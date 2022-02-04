@@ -36,7 +36,7 @@
     <div class="my-10"></div>
 
     <section>
-      <div class="sticky top-0 z-20 pt-10 pb-3 bg-bodyPrimary flex justify-between">
+      <StickyHeader>
         <h2>{{ t('user.top_tracks') }}</h2>
 
         <RealDropdown>
@@ -72,7 +72,7 @@
             </List>
           </div>
         </RealDropdown>
-      </div>
+      </StickyHeader>
 
       <ul class="mt-3 grid grid-cols-4 gap-y-3 gap-x-4 md:grid-cols-4 md:gap-x-6 lg:grid-cols-6">
         <li v-for="(track, index) in topTracks?.slice(0, topTracksCount)" :key="index">
@@ -101,7 +101,7 @@
     </section>
 
     <section>
-      <div class="sticky top-0 z-20 pt-10 pb-3 bg-bodyPrimary flex justify-between">
+      <StickyHeader>
         <h2>{{ t('user.top_artists') }}</h2>
 
         <RealDropdown>
@@ -137,7 +137,7 @@
             </List>
           </div>
         </RealDropdown>
-      </div>
+      </StickyHeader>
 
       <ul class="grid grid-cols-4 gap-y-4 gap-x-4 md:grid-cols-4 md:gap-x-6 lg:grid-cols-6">
         <li v-for="(artist, index) in topArtists?.slice(0, artistCount)" :key="index">
@@ -168,7 +168,7 @@
     </section>
 
     <section>
-      <div class="sticky top-0 z-20 pt-10 pb-3 bg-bodyPrimary flex justify-between">
+      <StickyHeader>
         <h2>{{ t('user.top_albums') }}</h2>
 
         <RealDropdown>
@@ -204,7 +204,7 @@
             </List>
           </div>
         </RealDropdown>
-      </div>
+      </StickyHeader>
 
       <ul class="grid grid-cols-4 gap-y-4 gap-x-4 md:grid-cols-4 md:gap-x-6 lg:grid-cols-6">
         <li v-for="(album, index) in topAlbums?.slice(0, albumCount)" :key="index" class="group">
@@ -229,9 +229,9 @@
     </section>
 
     <section>
-      <div class="sticky top-0 z-20 pt-10 pb-3 bg-bodyPrimary flex justify-between">
+      <StickyHeader>
         <h2>{{ t('user.audio_analysis') }}</h2>
-      </div>
+      </StickyHeader>
 
       <div class="flex justify-between pb-4">
         <div class="w-full md:w-1/2 flex flex-col justify-between">
@@ -260,9 +260,9 @@
       </div>
     </section>
 
-    <div class="sticky top-0 z-20 pt-10 pb-3 bg-bodyPrimary flex justify-between">
+    <StickyHeader>
       <h2>{{ t('user.recent_streams') }}</h2>
-    </div>
+    </StickyHeader>
 
     <div class="mt-4">
       <ul role="list" class="-mb-8">
@@ -343,6 +343,8 @@ import {
 } from '~/types';
 import { AudioFeature } from '~/components/base/AudioFeatures/feature';
 import { mdiChevronDown, mdiChevronUp } from '@mdi/js';
+import Avatar from '~/components/base/Avatar.vue';
+import StickyHeader from '~/components/base/StickyHeader.vue';
 
 const route = useRoute();
 const { t } = useI18n();

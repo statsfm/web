@@ -7,49 +7,59 @@
   />
   <Container>
     <div v-if="artist" class="mt-5">
-      <h1 class="text-3xl mb-3">Genres</h1>
-      <ChipGroup>
-        <Link
-          v-for="(genre, index) in artist.genres"
-          :key="index"
-          :to="{ name: 'Genre', params: { tag: genre } }"
-        >
-          <Chip>{{ genre }}</Chip>
-        </Link>
-      </ChipGroup>
+      <section>
+        <StickyHeader>
+          <h2>Genres</h2>
+        </StickyHeader>
 
-      <div class="my-10"></div>
+        <ChipGroup>
+          <Link
+            v-for="(genre, index) in artist.genres"
+            :key="index"
+            :to="{ name: 'Genre', params: { tag: genre } }"
+          >
+            <Chip>{{ genre }}</Chip>
+          </Link>
+        </ChipGroup>
+      </section>
 
-      <h1 class="text-3xl">Tracks by {{ artist.name }}</h1>
-      <div class="mt-3 grid grid-cols-4 gap-y-3 gap-x-4 md:grid-cols-4 md:gap-x-6 lg:grid-cols-6">
-        <router-link
-          :to="{ name: 'Track', params: { id: track.id } }"
-          class="group relative"
-          v-for="(track, index) in tracks?.slice(0, 6)"
-          :key="index"
-        >
-          <div class="w-full min-h-80 group-hover:opacity-90">
-            <Image :src="track.albums[0].image" :alt="track.name" />
-          </div>
-          <div class="mt-3 flex justify-between">
-            <div>
-              <h3 class="text-lg text-white line-clamp-2">
-                {{ track.name }}
-              </h3>
-              <p class="mt-0 text-sm text-neutral-400 line-clamp-1">
-                <!-- TODO: move to a helper function -->
-                {{ track.artists.map((a) => a.name).join(', ') }}
-              </p>
+      <section>
+        <StickyHeader>
+          <h2>Tracks by {{ artist.name }}</h2>
+        </StickyHeader>
+
+        <div class="mt-3 grid grid-cols-4 gap-y-3 gap-x-4 md:grid-cols-4 md:gap-x-6 lg:grid-cols-6">
+          <RouterLink
+            :to="{ name: 'Track', params: { id: track.id } }"
+            class="group relative"
+            v-for="(track, index) in tracks?.slice(0, 6)"
+            :key="index"
+          >
+            <div class="w-full min-h-80 group-hover:opacity-90">
+              <Image :src="track.albums[0].image" :alt="track.name" />
             </div>
-          </div>
-        </router-link>
-      </div>
+            <div class="mt-3 flex justify-between">
+              <div>
+                <h3 class="text-lg text-white line-clamp-2">
+                  {{ track.name }}
+                </h3>
+                <p class="mt-0 text-sm text-neutral-400 line-clamp-1">
+                  <!-- TODO: move to a helper function -->
+                  {{ track.artists.map((a) => a.name).join(', ') }}
+                </p>
+              </div>
+            </div>
+          </RouterLink>
+        </div>
+      </section>
 
-      <div class="my-10"></div>
+      <section>
+        <StickyHeader>
+          <h2>Your streams featuring {{ artist.name }}</h2>
+        </StickyHeader>
 
-      <h1 class="text-3xl mb-3">Your streams featuring {{ artist.name }}</h1>
-
-      <RecentStreams v-if="streams" :streams="streams" />
+        <RecentStreams v-if="streams" :streams="streams" />
+      </section>
     </div>
   </Container>
 </template>
@@ -67,6 +77,7 @@ import Image from '~/components/base/Image.vue';
 import { useApi } from '~/hooks';
 import { BacktrackArtist, BacktrackStream, BacktrackTrack } from '~/types/backtrack';
 import RecentStreams from '~/components/base/RecentStreams/RecentStreams.vue';
+import StickyHeader from '~/components/base/StickyHeader.vue';
 
 const { t } = useI18n();
 const route = useRoute();
