@@ -1,19 +1,32 @@
+<script lang="ts" setup>
+type Size = 'small' | 'medium' | 'large';
+
+interface Props {
+  size?: Size;
+  src: string;
+}
+
+withDefaults(defineProps<Props>(), {
+  size: 'medium'
+});
+</script>
+
 <template>
   <div
     class="bg-bodySecundary rounded-full bg-cover bg-center aspect-square"
-    :class="`w-${size}`"
+    :class="size"
     :style="{ backgroundImage: `url(${src})` }"
   ></div>
 </template>
 
-<script lang="ts" setup>
-interface Props {
-  size: string;
-  src?: string;
+<style scoped>
+.small {
+  @apply w-10;
 }
-
-withDefaults(defineProps<Props>(), {
-  size: '12',
-  src: '' // TODO: add a placeholder image
-});
-</script>
+.medium {
+  @apply w-12;
+}
+.large {
+  @apply w-48;
+}
+</style>

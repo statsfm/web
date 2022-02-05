@@ -5,7 +5,7 @@ const attrs = useAttrs();
 </script>
 
 <template>
-  <div class="flex flex-col py-2 bg-bodySecundary" v-bind="attrs">
+  <ul class="flex flex-col gap-2 py-2 bg-bodySecundary" v-bind="attrs">
     <slot />
-  </div>
+  </ul>
 </template>
