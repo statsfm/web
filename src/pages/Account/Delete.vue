@@ -51,7 +51,14 @@ const api = useApi();
 
 const deleteAccount = async () => {
   loading.value = true;
-  // await BacktrackApi.post('/auth/delete-account');
+  const confirmed = confirm(
+    'Are you sure you want to delete your account? This action is irreversible!'
+  );
+  if (!confirmed) return;
+
+  await api.me.deleteAccount();
+
+  router.push({ name: 'Home' });
 };
 const login = () => {
   auth.login();

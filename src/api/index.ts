@@ -254,6 +254,12 @@ export class MeManager extends ApiManager {
 
     return res.data.item;
   }
+
+  async deleteAccount(options?: RequestInitWithQuery) {
+    const res = await this.httpPost('/auth/delete-account', options);
+
+    return res;
+  }
 }
 export class UserManager extends ApiManager {
   async get(id: string, options?: RequestInitWithQuery) {
