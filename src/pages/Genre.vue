@@ -5,35 +5,45 @@
     </h1>
   </Hero>
   <Container v-if="genre">
-    <h2 class="mt-10">Related genres</h2>
-    <ChipGroup class="mt-5">
-      <Link
-        v-for="(related, index) in genre.related"
-        :key="index"
-        :to="{ name: 'Genre', params: { tag: related } }"
-      >
-        <Chip>{{ related }}</Chip>
-      </Link>
-    </ChipGroup>
+    <section>
+      <StickyHeader>
+        <h2>Related genres</h2>
+      </StickyHeader>
 
-    <h2 class="mt-5 mb-2">Artists</h2>
-    <div class="grid gap-8 grid-cols-2 md:grid-cols-4 xl:grid-cols-5">
-      <div v-for="(artist, index) in genre.artists" :key="index" class="overflow-hidden">
-        <Link :to="{ name: 'Artist', params: { id: artist.id, slug: '' } }">
-          <Avatar size="large" :src="artist.image" />
-          <h4 class="my-2 text-center truncate">{{ artist.name }}</h4>
-          <ChipGroup>
-            <Link
-              v-for="(genre, index) in artist.genres"
-              :key="index"
-              :to="{ name: 'Genre', params: { tag: genre } }"
-            >
-              <Chip>{{ genre }}</Chip>
-            </Link>
-          </ChipGroup>
+      <ChipGroup class="mt-5">
+        <Link
+          v-for="(related, index) in genre.related"
+          :key="index"
+          :to="{ name: 'Genre', params: { tag: related } }"
+        >
+          <Chip>{{ related }}</Chip>
         </Link>
+      </ChipGroup>
+    </section>
+
+    <section>
+      <StickyHeader>
+        <h2>Artists</h2>
+      </StickyHeader>
+
+      <div class="grid gap-8 grid-cols-2 md:grid-cols-4 xl:grid-cols-5">
+        <div v-for="(artist, index) in genre.artists" :key="index" class="overflow-hidden">
+          <Link :to="{ name: 'Artist', params: { id: artist.id, slug: '' } }">
+            <Avatar size="large" :src="artist.image" />
+            <h4 class="my-2 text-center truncate">{{ artist.name }}</h4>
+            <ChipGroup>
+              <Link
+                v-for="(genre, index) in artist.genres"
+                :key="index"
+                :to="{ name: 'Genre', params: { tag: genre } }"
+              >
+                <Chip>{{ genre }}</Chip>
+              </Link>
+            </ChipGroup>
+          </Link>
+        </div>
       </div>
-    </div>
+    </section>
   </Container>
 </template>
 
@@ -46,6 +56,8 @@ import ChipGroup from '~/components/base/Chip/ChipGroup.vue';
 import Hero from '~/components/base/Hero.vue';
 import Link from '~/components/base/Link.vue';
 import Container from '~/components/layout/Container.vue';
+import StickyHeader from '~/components/base/StickyHeader.vue';
+
 import { useApi } from '~/hooks';
 import { BacktrackGenre, GetGenreResponse } from '~/types';
 
