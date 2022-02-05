@@ -278,11 +278,7 @@
                       class="text-xl font-bold text-white mt-auto line-clamp-2"
                       >{{ stream.track.name }}</RouterLink
                     >
-                    <RouterLink
-                      :to="{ name: 'Artist', params: { id: stream.track.artists[0].id } }"
-                      class="text-lg text-neutral-400 -mt-1 mb-auto line-clamp-1"
-                      >{{ stream.track.artists.map((a) => a.name).join(', ') }}</RouterLink
-                    >
+                    <ArtistNameListRender :artists="stream.track.artists" />
                   </div>
                   <div
                     class="text-right text-sm whitespace-nowrap font-medium text-neutral-400 flex h-full flex-col"
