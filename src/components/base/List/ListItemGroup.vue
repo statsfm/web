@@ -3,6 +3,7 @@ import { onMounted, Ref, ref } from 'vue';
 import { Keys } from '~/types';
 
 interface Props {
+  subtitle: string;
   items: any[];
 }
 
@@ -57,7 +58,10 @@ const focus = (index: number) => {
 </script>
 
 <template>
-  <ul class="flex flex-col bg-bodySecundary" ref="list" @keydown.prevent="onKeyDown">
-    <slot v-for="(item, index) in items" :item="item" :index="index" />
-  </ul>
+  <div class="mt-4">
+    <span class="uppercase px-4 text-xs">{{ subtitle }}</span>
+    <ul class="flex flex-col bg-bodySecundary" ref="list" @keydown.prevent="onKeyDown">
+      <slot v-for="(item, index) in items" :item="item" :index="index" />
+    </ul>
+  </div>
 </template>
