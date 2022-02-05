@@ -33,6 +33,7 @@ const hide = () => {
 
 const onKeyDown = (e: KeyboardEvent) => {
   switch (e.key) {
+    case Keys.Enter:
     case Keys.Escape:
       hide();
   }
