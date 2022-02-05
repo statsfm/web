@@ -3,7 +3,7 @@ type Size = 'small' | 'medium' | 'large';
 
 interface Props {
   size?: Size;
-  src: string;
+  src?: string;
 }
 
 withDefaults(defineProps<Props>(), {
@@ -15,7 +15,7 @@ withDefaults(defineProps<Props>(), {
   <div
     class="bg-bodySecundary rounded-full bg-cover bg-center aspect-square"
     :class="size"
-    :style="{ backgroundImage: `url(${src})` }"
+    :style="src ? { backgroundImage: `url(${src})` } : {}"
   ></div>
 </template>
 

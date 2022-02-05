@@ -1,6 +1,6 @@
 <template>
   <Hero>
-    <Avatar :src="image" size="48" />
+    <Avatar :src="image" size="large" />
     <div class="flex flex-col justify-end">
       <span class="text-center font-medium md:text-left text-xl">
         <router-link v-if="subtitleTo" :to="subtitleTo">
