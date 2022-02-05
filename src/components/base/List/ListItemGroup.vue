@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { Ref, ref } from 'vue';
+import { onMounted, Ref, ref } from 'vue';
 import { Keys } from '~/types';
 
 interface Props {
@@ -36,6 +36,11 @@ const focusNext = () => {
     focus(focusedIndex.value);
   }
 };
+
+onMounted(() => {
+  // focus the first element on mounted
+  focus(0);
+});
 
 const focus = (index: number) => {
   (list.value?.children[index] as HTMLElement).focus();
