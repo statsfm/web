@@ -90,7 +90,7 @@ const easeOutQuad = (x: number) => (x === 1 ? 1 : 1 - Math.pow(10, -10 * x));
 const animateCountUp = () => {
   let frame = 0;
   const countTo = count.value + epochOffset * diffPerUnit;
-  console.log(props.label, countTo);
+
   // Start the animation running 60 times per second
   const counter = setInterval(() => {
     frame++;
