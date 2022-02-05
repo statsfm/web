@@ -20,7 +20,7 @@
     <div class="grid gap-8 grid-cols-2 md:grid-cols-4 xl:grid-cols-5">
       <div v-for="(artist, index) in genre.artists" :key="index" class="overflow-hidden">
         <Link :to="{ name: 'Artist', params: { id: artist.id, slug: '' } }">
-          <Avatar size="full" :src="artist.image" />
+          <Avatar size="large" :src="artist.image" />
           <h4 class="my-2 text-center truncate">{{ artist.name }}</h4>
           <ChipGroup>
             <Link
