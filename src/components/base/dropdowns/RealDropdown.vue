@@ -10,6 +10,7 @@
       class="mt-2 absolute w-max h-max right-0 shadow-xl z-50 animate-fadeIn"
       v-if="isActive"
       @click="hide"
+      @keydown="onKeyDown"
     >
       <slot />
     </div>
@@ -18,8 +19,7 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue';
-
-import Card from '~/components/layout/Card.vue';
+import { Keys } from '~/types';
 
 const isActive = ref(false);
 
@@ -29,5 +29,12 @@ const toggle = () => {
 
 const hide = () => {
   isActive.value = false;
+};
+
+const onKeyDown = (e: KeyboardEvent) => {
+  switch (e.key) {
+    case Keys.Escape:
+      hide();
+  }
 };
 </script>
