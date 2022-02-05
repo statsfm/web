@@ -86,13 +86,11 @@
             </div>
             <div class="mt-3 flex justify-between">
               <div>
-                <h3 class="text-lg text-white line-clamp-2">
-                  <span class="text-neutral-400 font-normal">{{ track.position }}.</span>
+                <h4 class="line-clamp-2">
+                  <span>{{ track.position }}.</span>
                   {{ track.track.name }}
-                </h3>
-                <p class="mt-0 text-sm text-neutral-400 line-clamp-1">
-                  {{ track.track.artists.map((a) => a.name).join(', ') }}
-                </p>
+                </h4>
+                <ArtistNameListRender :artists="track.track.artists" />
               </div>
             </div>
           </RouterLink>
@@ -120,11 +118,7 @@
             </Button>
           </template>
 
-          <div
-            id="dropdown"
-            class="w-44 text-base list-none rounded divide-y divide-neutral-100 shadow"
-          >
-            <List class="rounded-xl">
+          <List class="w-44 rounded-xl">
               <ListItemGroup :items="artistCounts" @click="(e) => (artistCount = e)">
                 <template v-slot="{ item }">
                   <ListItem
@@ -135,7 +129,6 @@
                 </template>
               </ListItemGroup>
             </List>
-          </div>
         </RealDropdown>
       </StickyHeader>
 
@@ -156,10 +149,10 @@
 
             <div class="mt-2 text-center">
               <div>
-                <h3 class="text-lg text-white line-clamp-2">
-                  <span class="text-neutral-400 font-normal">{{ artist.position }}.</span>
+                <h4 class="line-clamp-2">
+                  <span>{{ artist.position }}.</span>
                   {{ artist.artist.name }}
-                </h3>
+                </h4>
               </div>
             </div>
           </RouterLink>
@@ -187,22 +180,15 @@
             </Button>
           </template>
 
-          <div
-            id="dropdown"
-            class="w-44 text-base list-none rounded divide-y divide-neutral-100 shadow"
-          >
-            <List class="rounded-xl">
+          <List class="w-44 rounded-xl">
               <ListItemGroup :items="albumCounts" @click="(e) => (albumCount = e)">
                 <template v-slot="{ item }">
-                  <ListItem
-                    :class="{ 'text-primary': albumCount == item }"
-                    @click="albumCount = item"
+                <ListItem :class="{ 'text-primary': albumCount == item }" @click="albumCount = item"
                     >{{ item }} albums</ListItem
                   >
                 </template>
               </ListItemGroup>
             </List>
-          </div>
         </RealDropdown>
       </StickyHeader>
 
@@ -214,13 +200,11 @@
             </div>
             <div class="mt-3 flex justify-between">
               <div>
-                <h3 class="text-lg text-white line-clamp-2">
-                  <span class="text-neutral-400 font-normal">{{ album.position }}.</span>
+                <h4 class="line-clamp-2">
+                  <span>{{ album.position }}.</span>
                   {{ album.album.name }}
-                </h3>
-                <p class="mt-0 text-sm text-neutral-400 line-clamp-1">
-                  {{ album.album.artists.map((a) => a.name).join(', ') }}
-                </p>
+                </h4>
+                <ArtistNameListRender :artists="album.album.artists" />
               </div>
             </div>
           </router-link>
@@ -345,6 +329,7 @@ import { AudioFeature } from '~/components/base/AudioFeatures/feature';
 import { mdiChevronDown, mdiChevronUp } from '@mdi/js';
 import Avatar from '~/components/base/Avatar.vue';
 import StickyHeader from '~/components/base/StickyHeader.vue';
+import ArtistNameListRender from '~/components/base/ArtistNameListRender.vue';
 
 const route = useRoute();
 const { t } = useI18n();

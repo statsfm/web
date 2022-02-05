@@ -74,13 +74,10 @@
             </div>
             <div class="mt-3 flex justify-between">
               <div>
-                <h3 class="text-lg text-white line-clamp-2">
+                <h4 class="line-clamp-2">
                   {{ track.name }}
-                </h3>
-                <p class="mt-0 text-sm text-neutral-400 line-clamp-1">
-                  <!-- TODO: move to a helper function -->
-                  {{ track.artists.map((a) => a.name).join(', ') }}
-                </p>
+                </h4>
+                <ArtistNameListRender :artists="track.artists" />
               </div>
             </div>
           </RouterLink>
@@ -116,6 +113,7 @@ import RealDropdown from '~/components/base/dropdowns/RealDropdown.vue';
 import List from '~/components/base/List/List.vue';
 import ListItem from '~/components/base/List/ListItem.vue';
 import ListItemGroup from '~/components/base/List/ListItemGroup.vue';
+import ArtistNameListRender from '~/components/base/ArtistNameListRender.vue';
 
 import { mdiChevronUp, mdiChevronDown } from '@mdi/js';
 
