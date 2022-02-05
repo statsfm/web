@@ -43,22 +43,36 @@
               </Button>
             </template>
 
-            <div
-              id="dropdown"
-              class="w-44 text-base list-none rounded divide-y divide-neutral-100 shadow"
-            >
-              <List class="rounded-xl">
-                <ListItemGroup :items="trackCounts" @click="(e) => (trackCount = e)">
-                  <template v-slot="{ item }">
-                    <ListItem
-                      :class="{ 'text-primary': trackCount == item }"
-                      @click="trackCount = item"
-                      >{{ item }} tracks</ListItem
-                    >
-                  </template>
-                </ListItemGroup>
-              </List>
-            </div>
+            <List class="rounded-xl" id="dropdown">
+              <ListItemGroup
+                subtitle="Sorteren"
+                :items="[
+                  { label: 'Popularity (most populair)', type: 'popularity', order: 'descending' },
+                  { label: 'Popularity (least populair)', type: 'popularity', order: 'ascending' },
+                  { label: 'Duration (longest)', type: 'duration', order: 'descending' },
+                  { label: 'Duration (shortest)', type: 'duration', order: 'ascending' }
+                ]"
+              >
+                <template v-slot="{ item }">
+                  <ListItem @click="sort = item">
+                    {{ item.label }}
+                  </ListItem>
+                </template>
+              </ListItemGroup>
+              <ListItemGroup
+                subtitle="Aantal"
+                :items="trackCounts"
+                @click="(e) => (trackCount = e)"
+              >
+                <template v-slot="{ item }">
+                  <ListItem
+                    :class="{ 'text-primary': trackCount == item }"
+                    @click="trackCount = item"
+                    >{{ item }} tracks</ListItem
+                  >
+                </template>
+              </ListItemGroup>
+            </List>
           </RealDropdown>
         </StickyHeader>
 
@@ -96,7 +110,7 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted, Ref, ref } from 'vue';
+import { onMounted, Ref, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRoute, RouterLink } from 'vue-router';
 import Chip from '~/components/base/Chip/Chip.vue';
@@ -131,6 +145,16 @@ const streams: Ref<BacktrackStream[] | null> = ref(null);
 const trackCounts = [6, 10, 25, 50, 100, 150, 200, 250, 300];
 const trackCount = ref(trackCounts[0]);
 
+type SortType = 'date' | 'popularity' | 'duration';
+type SortOrder = 'ascending' | 'descending';
+
+interface Sort {
+  type: SortType;
+  order: SortOrder;
+}
+
+const sort: Ref<Sort | null> = ref(null);
+
 // TODO: move this to the helpers folder
 const formatFollowers = (followers: number): string => {
   return followers.toLocaleString('en-US');
@@ -143,4 +167,25 @@ onMounted(async () => {
   tracks.value = await api.artists.tracks(id);
   streams.value = await api.users.getArtistStreams('me', id, { query: { limit: 100 } });
 });
+
+watch(sort, (val) => {
+  tracks.value = sortTracks(tracks.value ?? [], val!);
+});
+
+const sortTracks = (array: BacktrackTrack[], sort: Sort) => {
+  let sorted = array;
+  const asc = sort.order === 'ascending' ? true : false;
+
+  // geen idee wat er fout gaat maar moet jij ff doen ofzo :)
+  switch (sort.type) {
+    case 'popularity':
+      sorted = array.sort((a, b) => a.spotifyPopularity - b.spotifyPopularity);
+      break;
+    case 'duration':
+      sorted = array.sort((a, b) => a.durationMs - b.durationMs);
+      break;
+  }
+
+  return asc ? sorted : sorted.reverse();
+};
 </script>
