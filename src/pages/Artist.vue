@@ -62,7 +62,7 @@
           </RealDropdown>
         </StickyHeader>
 
-        <div class="mt-3 grid grid-cols-4 gap-y-3 gap-x-4 md:grid-cols-4 md:gap-x-6 lg:grid-cols-6">
+        <div class="mt-3 grid grid-cols-3 gap-y-3 gap-x-4 md:grid-cols-4 md:gap-x-6 lg:grid-cols-6">
           <RouterLink
             :to="{ name: 'Track', params: { id: track.id } }"
             class="group relative"

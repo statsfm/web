@@ -74,7 +74,7 @@
         </RealDropdown>
       </StickyHeader>
 
-      <ul class="mt-3 grid grid-cols-4 gap-y-3 gap-x-4 md:grid-cols-4 md:gap-x-6 lg:grid-cols-6">
+      <ul class="mt-3 grid grid-cols-3 gap-y-3 gap-x-4 md:grid-cols-4 md:gap-x-6 lg:grid-cols-6">
         <li v-for="(track, index) in topTracks?.slice(0, topTracksCount)" :key="index">
           <RouterLink :to="{ name: 'Track', params: { id: track.track.id } }" class="group">
             <div class="w-full min-h-80 aspect-square group-hover:opacity-90">
@@ -139,7 +139,7 @@
         </RealDropdown>
       </StickyHeader>
 
-      <ul class="grid grid-cols-4 gap-y-4 gap-x-4 md:grid-cols-4 md:gap-x-6 lg:grid-cols-6">
+      <ul class="grid grid-cols-3 gap-y-4 gap-x-4 md:grid-cols-4 md:gap-x-6 lg:grid-cols-6">
         <li v-for="(artist, index) in topArtists?.slice(0, artistCount)" :key="index">
           <RouterLink
             :to="{ name: 'Artist', params: { id: artist.artist.id } }"
@@ -206,7 +206,7 @@
         </RealDropdown>
       </StickyHeader>
 
-      <ul class="grid grid-cols-4 gap-y-4 gap-x-4 md:grid-cols-4 md:gap-x-6 lg:grid-cols-6">
+      <ul class="grid grid-cols-3 gap-y-4 gap-x-4 md:grid-cols-4 md:gap-x-6 lg:grid-cols-6">
         <li v-for="(album, index) in topAlbums?.slice(0, albumCount)" :key="index" class="group">
           <router-link :to="{ name: 'Album', params: { id: album.album.id } }">
             <div class="w-full min-h-80 aspect-square group-hover:opacity-90">
