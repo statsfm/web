@@ -94,12 +94,12 @@ export default class auth {
 
   public setToken = async (token: string) => {
     localStorage.setItem('token', token);
-    const { data } = await this.api.me.get();
-    if (data.item) {
+    const user = await this.api.me.get();
+    if (user) {
       // TODO: fix types
-      this.store.setUser(data.item as any);
+      this.store.setUser(user as any);
     } else {
-      alert('user not found: ' + JSON.stringify(data));
+      alert('user not found: ' + JSON.stringify(user));
     }
 
     let page = localStorage.getItem('redirectPage') ?? '/';
