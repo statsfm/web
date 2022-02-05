@@ -48,7 +48,7 @@
               class="w-44 text-base list-none rounded divide-y divide-neutral-100 shadow"
             >
               <List class="rounded-xl">
-                <ListItemGroup :items="trackCounts">
+                <ListItemGroup :items="trackCounts" @click="(e) => (trackCount = e)">
                   <template v-slot="{ item }">
                     <ListItem
                       :class="{ 'text-primary': trackCount == item }"

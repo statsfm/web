@@ -22,7 +22,7 @@
 
         <List class="w-44 rounded-xl">
           <!-- TODO: fix with i18n and range -->
-          <ListItemGroup :items="['weeks', 'months', 'lifetime']">
+          <ListItemGroup :items="['weeks', 'months', 'lifetime']" @click="(e) => setRange(e)">
             <template v-slot="{ item }">
               <ListItem :class="{ 'text-primary': item == range }" @click="setRange(item)">{{
                 item
@@ -125,7 +125,7 @@
             class="w-44 text-base list-none rounded divide-y divide-neutral-100 shadow"
           >
             <List class="rounded-xl">
-              <ListItemGroup :items="artistCounts">
+              <ListItemGroup :items="artistCounts" @click="(e) => (artistCount = e)">
                 <template v-slot="{ item }">
                   <ListItem
                     :class="{ 'text-primary': artistCount == item }"
@@ -192,7 +192,7 @@
             class="w-44 text-base list-none rounded divide-y divide-neutral-100 shadow"
           >
             <List class="rounded-xl">
-              <ListItemGroup :items="albumCounts">
+              <ListItemGroup :items="albumCounts" @click="(e) => (albumCount = e)">
                 <template v-slot="{ item }">
                   <ListItem
                     :class="{ 'text-primary': albumCount == item }"
