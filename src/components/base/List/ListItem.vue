@@ -14,7 +14,7 @@ const attrs = useAttrs();
 <template>
   <li
     v-bind="attrs"
-    class="w-full flex px-4 py-2 cursor-pointer select-none hover:bg-bodyPrimary/80 text-white font-bold focus:bg-hover focus:outline-none"
+    class="w-full flex px-4 py-2 cursor-pointer select-none hover:bg-bodyPrimary/80 focus:bg-bodyPrimary/80 text-white font-bold focus:outline-none"
     tabindex="0"
   >
     <RouterLink v-if="to" :to="to">
