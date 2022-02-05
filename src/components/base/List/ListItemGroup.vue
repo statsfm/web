@@ -3,7 +3,7 @@ import { onMounted, Ref, ref } from 'vue';
 import { Keys } from '~/types';
 
 interface Props {
-  subtitle: string;
+  subtitle?: string;
   items: any[];
 }
 
