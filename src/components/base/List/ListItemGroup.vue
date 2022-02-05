@@ -7,6 +7,10 @@ interface Props {
 }
 
 const props = defineProps<Props>();
+const emit = defineEmits<{
+  (event: 'close'): void;
+  (event: 'click', payload: any): void;
+}>();
 
 const list: Ref<HTMLDivElement | undefined> = ref();
 const focusedIndex = ref(0);
@@ -20,6 +24,9 @@ const onKeyDown = (e: KeyboardEvent) => {
     case Keys.ArrowDown:
       focusNext();
       break;
+    case Keys.Enter:
+      // TODO: improve the way of doing this
+      emit('click', props.items[focusedIndex.value]);
   }
 };
 
@@ -34,6 +41,8 @@ const focusNext = () => {
   if (focusedIndex.value < props.items.length - 1) {
     focusedIndex.value++;
     focus(focusedIndex.value);
+  } else {
+    // TODO: close the dropdown
   }
 };
 
