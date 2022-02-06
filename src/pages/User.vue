@@ -5,7 +5,7 @@
     :subtitle="user.country"
     :image="user.image"
   />
-  <Container class="relative">
+  <Container>
     <div class="my-8"></div>
     <div class="flex items-center justify-between gap-5">
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -17,7 +17,7 @@
 
       <RealDropdown>
         <template v-slot:button>
-          <Button size="small" class="capitalize" @click="">{{ range }}</Button>
+          <Button size="small" class="capitalize">{{ range }}</Button>
         </template>
 
         <List class="w-44 rounded-xl">
@@ -55,22 +55,17 @@
             </Button>
           </template>
 
-          <div
-            id="dropdown"
-            class="w-44 text-base list-none rounded divide-y divide-neutral-100 shadow"
-          >
-            <List class="rounded-xl">
-              <ListItemGroup :items="topTracksCounts" @click="(e) => (topTracksCount = e)">
-                <template v-slot="{ item }">
-                  <ListItem
-                    :class="{ 'text-primary': topTracksCount == item }"
-                    @click="topTracksCount = item"
-                    >{{ item }} tracks</ListItem
-                  >
-                </template>
-              </ListItemGroup>
-            </List>
-          </div>
+          <List class="w-44 rounded-xl">
+            <ListItemGroup :items="topTracksCounts" @click="(e) => (topTracksCount = e)">
+              <template v-slot="{ item }">
+                <ListItem
+                  :class="{ 'text-primary': topTracksCount == item }"
+                  @click="topTracksCount = item"
+                  >{{ item }} tracks</ListItem
+                >
+              </template>
+            </ListItemGroup>
+          </List>
         </RealDropdown>
       </StickyHeader>
 
