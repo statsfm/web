@@ -256,7 +256,7 @@ export class MeManager extends ApiManager {
   }
 
   async deleteAccount(options?: RequestInitWithQuery) {
-    const res = await this.httpPost('/auth/delete-account', options);
+    const res = await this.httpDelete('/me', options);
 
     return res;
   }
