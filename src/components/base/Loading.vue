@@ -13,7 +13,7 @@
 }
 
 .loading {
-  color: var(--color-primary);
+  @apply text-primary;
   position: relative;
   font-size: 11px;
 }
@@ -21,7 +21,7 @@
 .loading,
 .loading::before,
 .loading::after {
-  background: var(--color-primary);
+  @apply bg-primary;
   animation: load 1.05s infinite ease-in-out;
   border-radius: 10px;
   width: 1em;
