@@ -8,7 +8,7 @@
   <Container class="relative">
     <div class="my-8"></div>
     <div class="flex items-center justify-between gap-5">
-      <div class="grid grid-cols-1 md:grid-cols-2">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div v-for="item in stats" :key="item.name">
           <h3>{{ item.name }}</h3>
           <span class="text-xl">{{ item.stat }}</span>
@@ -119,16 +119,16 @@
           </template>
 
           <List class="w-44 rounded-xl">
-              <ListItemGroup :items="artistCounts" @click="(e) => (artistCount = e)">
-                <template v-slot="{ item }">
-                  <ListItem
-                    :class="{ 'text-primary': artistCount == item }"
-                    @click="artistCount = item"
-                    >{{ item }} artists</ListItem
-                  >
-                </template>
-              </ListItemGroup>
-            </List>
+            <ListItemGroup :items="artistCounts" @click="(e) => (artistCount = e)">
+              <template v-slot="{ item }">
+                <ListItem
+                  :class="{ 'text-primary': artistCount == item }"
+                  @click="artistCount = item"
+                  >{{ item }} artists</ListItem
+                >
+              </template>
+            </ListItemGroup>
+          </List>
         </RealDropdown>
       </StickyHeader>
 
@@ -181,14 +181,14 @@
           </template>
 
           <List class="w-44 rounded-xl">
-              <ListItemGroup :items="albumCounts" @click="(e) => (albumCount = e)">
-                <template v-slot="{ item }">
+            <ListItemGroup :items="albumCounts" @click="(e) => (albumCount = e)">
+              <template v-slot="{ item }">
                 <ListItem :class="{ 'text-primary': albumCount == item }" @click="albumCount = item"
-                    >{{ item }} albums</ListItem
-                  >
-                </template>
-              </ListItemGroup>
-            </List>
+                  >{{ item }} albums</ListItem
+                >
+              </template>
+            </ListItemGroup>
+          </List>
         </RealDropdown>
       </StickyHeader>
 
