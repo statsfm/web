@@ -67,7 +67,7 @@ const api = useApi();
 const genre: Ref<BacktrackGenre | null> = ref(null);
 
 const getGenre = async (tag: string): Promise<BacktrackGenre> => {
-  return await api.http.httpGet<GetGenreResponse>(`/genres/${tag}`).then((res) => res.data.item);
+  return await api.genres.get(tag);
 };
 
 watch(

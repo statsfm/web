@@ -83,31 +83,33 @@ const getAudioFeatures = async (): Promise<AudioFeature[]> => {
 
   if (tracks && tracks.length > 0) {
     const spotifyIds = tracks.map((track) => (track.externalIds.spotify as string[])[0]);
-    const token = await auth.getSpotifyToken();
+    // todo: add this endpoint to api
 
-    const res = await fetch(
-      `https://api.spotify.com/v1/audio-features?ids=${spotifyIds.slice(0, 10).join(',')}`,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
-      }
-    );
+    // const token = await auth.getSpotifyToken();
 
-    if (res.ok) {
-      const json = await res.json();
-      const data: Record<string, number>[] = json.audio_features;
+    // const res = await fetch(
+    //   `https://api.spotify.com/v1/audio-features?ids=${spotifyIds.slice(0, 10).join(',')}`,
+    //   {
+    //     headers: {
+    //       Authorization: `Bearer ${token}`
+    //     }
+    //   }
+    // );
 
-      for (const audioFeature of data) {
-        for (let i = 0; i < features.length; i++) {
-          features[i].value += audioFeature[features[i].label];
-        }
-      }
+    // if (res.ok) {
+    //   const json = await res.json();
+    //   const data: Record<string, number>[] = json.audio_features;
 
-      for (let i = 0; i < features.length; i++) {
-        features[i].value = features[i].value / features.length;
-      }
-    }
+    //   for (const audioFeature of data) {
+    //     for (let i = 0; i < features.length; i++) {
+    //       features[i].value += audioFeature[features[i].label];
+    //     }
+    //   }
+
+    //   for (let i = 0; i < features.length; i++) {
+    //     features[i].value = features[i].value / features.length;
+    //   }
+    // }
   }
 
   return features;

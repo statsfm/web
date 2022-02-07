@@ -1,4 +1,3 @@
-import { ApiManager } from '~/api';
 import { useApi } from '~/hooks';
 import router from '~/router';
 import { useStore } from '~/store';
@@ -32,18 +31,18 @@ export default class auth {
   };
 
   // TODO: rewrite this function
-  public getSpotifyToken = async (): Promise<string | undefined> => {
-    const localStorageItem = localStorage.getItem('user');
-    if (localStorageItem && !this.hasValidToken()) {
-      return JSON.parse(localStorageItem).settings.accessToken;
-    }
+  // public getSpotifyToken = async (): Promise<string | undefined> => {
+  //   const localStorageItem = localStorage.getItem('user');
+  //   if (localStorageItem && !this.hasValidToken()) {
+  //     return JSON.parse(localStorageItem).settings.accessToken;
+  //   }
 
-    const res = await this.api.http.httpGet<GetTokenResponse>('/auth/token');
+  //   const res = await this.api.http.httpGet<GetTokenResponse>('/auth/token');
 
-    if (res.success) {
-      return res.data.data.settings.accessToken;
-    }
-  };
+  //   if (res.success) {
+  //     return res.data.data.settings.accessToken;
+  //   }
+  // };
 
   public login = (redirectPage?: string) => {
     const scope = [
