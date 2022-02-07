@@ -8,25 +8,32 @@
         </h1>
       </router-link>
       <div v-if="!isSpotistats" class="flex items-center gap-5">
-        <Button v-if="!auth.isLoggedIn()" size="small" @click="auth.login()">Login</Button>
-        <Dropdown v-if="auth.isLoggedIn() && user">
+        <RealDropdown v-if="auth.isLoggedIn() && user">
           <template v-slot:button>
-            <Avatar :src="user.image ?? ''" class="cursor-pointer" />
+            <Avatar :src="user.image" class="cursor-pointer" />
           </template>
 
-          <div
-            class="flex items-center gap-5 cursor-pointer"
-            @click="router.push({ name: 'User', params: { id: user?.id } })"
-          >
-            <div class="flex content-start justify-center flex-col">
-              <h1 class="font-bold text-2xl truncate">{{ user.displayName }}</h1>
-              <p class="font-medium text-textGrey">{{ user.email }}</p>
-            </div>
-          </div>
+          <List class="rounded-xl">
+            <ListItem
+              class="flex gap-2"
+              @click="router.push({ name: 'User', params: { id: 'me' } })"
+            >
+              <div class="flex items-center">
+                <Avatar :src="user.image" />
+              </div>
+              <div>
+                <h5>{{ user.displayName }}</h5>
+                <p class="m-0">{{ user.email }}</p>
+              </div>
+            </ListItem>
 
-          <Divider />
-          <Button size="small" @click="auth.logout" class="w-full">Logout</Button>
-        </Dropdown>
+            <!-- TODO: improvements -->
+            <ListItemGroup :items="[1]">
+              <ListItem @click="auth.logout">Log out</ListItem>
+            </ListItemGroup>
+          </List>
+        </RealDropdown>
+        <Button v-else size="small" @click="auth.login()">Login</Button>
       </div>
     </Container>
   </header>
@@ -37,10 +44,13 @@ import Container from './Container.vue';
 import Logo from '../base/Logo.vue';
 import Avatar from '../base/Avatar.vue';
 import Button from '../base/Button.vue';
-import Dropdown from '../base/dropdowns/Dropdown.vue';
+import RealDropdown from '../base/dropdowns/RealDropdown.vue';
 import Divider from '../base/Divider.vue';
 import { useAuth, useUser } from '~/hooks';
 import { useRouter } from 'vue-router';
+import List from '../base/List/List.vue';
+import ListItem from '../base/List/ListItem.vue';
+import ListItemGroup from '../base/List/ListItemGroup.vue';
 
 const router = useRouter();
 const user = useUser();

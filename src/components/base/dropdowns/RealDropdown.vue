@@ -1,27 +1,47 @@
 <template>
-  <div class="relative" v-click-away="hide">
-    <div @click="toggle">
+  <div v-click-away="hide">
+    <div @click="toggle" ref="handler">
       <slot name="button" :active="isActive" />
     </div>
 
     <!-- TODO: add fade out animtion -->
-    <div
-      :aria-hidden="isActive"
-      class="mt-2 absolute w-max h-max right-0 shadow-xl z-50 animate-fadeIn"
-      v-if="isActive"
-      @click="hide"
-      @keydown="onKeyDown"
-    >
-      <slot />
-    </div>
+    <Teleport to="body">
+      <div
+        ref="dropdown"
+        :aria-hidden="isActive"
+        class="z-20 absolute right-0 w-max max-h-96 overflow-y-auto shadow-xl animate-fadeIn"
+        v-show="isActive"
+        @click="hide"
+        @keydown="onKeyDown"
+      >
+        <slot />
+      </div>
+    </Teleport>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue';
+import { onMounted, Ref, ref } from 'vue';
+import { createPopper } from '@popperjs/core';
 import { Keys } from '~/types';
 
+type Alignment = 'start' | 'end';
+type BasePlacement = 'top' | 'right' | 'bottom' | 'left';
+type AlignedPlacement = `${BasePlacement}-${Alignment}`;
+type Placement = BasePlacement | AlignedPlacement;
+
+interface Props {
+  placement?: Placement;
+}
+
+const props = withDefaults(defineProps<Props>(), {
+  placement: 'bottom-end'
+});
+
 const isActive = ref(false);
+
+const handler: Ref<HTMLDivElement | undefined> = ref();
+const dropdown: Ref<HTMLDivElement | undefined> = ref();
 
 const toggle = () => {
   isActive.value = !isActive.value;
@@ -38,4 +58,20 @@ const onKeyDown = (e: KeyboardEvent) => {
       hide();
   }
 };
+
+onMounted(() => {
+  if (dropdown.value && handler.value) {
+    createPopper(handler.value, dropdown.value, {
+      placement: props.placement,
+      modifiers: [
+        {
+          name: 'offset',
+          options: {
+            offset: [0, 8]
+          }
+        }
+      ]
+    });
+  }
+});
 </script>
