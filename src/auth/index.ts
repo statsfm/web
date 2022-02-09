@@ -91,7 +91,10 @@ export default class auth {
   };
 
   public setToken = async (token: string) => {
+    this.api.http.config.acccessToken = token;
+
     localStorage.setItem('token', token);
+
     const user = await this.api.me.get();
     if (user) {
       // TODO: fix types

@@ -153,10 +153,10 @@
   resolved "https://registry.yarnpkg.com/@popperjs/core/-/core-2.11.2.tgz#830beaec4b4091a9e9398ac50f865ddea52186b9"
   integrity sha512-92FRmppjjqz29VMJ2dn+xdyXZBrMlE42AV6Kq6BwjWV7CNUW1hs2FtxSNLQE+gJhaZ6AAmYuO9y8dshhcBl7vA==
 
-"@statsfm/statsfm.js@^1.7.0":
-  version "1.7.0"
-  resolved "https://registry.yarnpkg.com/@statsfm/statsfm.js/-/statsfm.js-1.7.0.tgz#1bd17a7039bed93bd6077b088f395c3ab584d730"
-  integrity sha512-6imHCysTpOtimi+47TfRcVv93F6b2+Uk83twBsmEC8F3poagmW8JQHld07QJgYCZ9EdRp8j5K6vbhRNEY4F9LA==
+"@statsfm/statsfm.js@^1.10.1":
+  version "1.10.1"
+  resolved "https://registry.yarnpkg.com/@statsfm/statsfm.js/-/statsfm.js-1.10.1.tgz#016dff851398a6a867dba37bf5442fd679e84b76"
+  integrity sha512-XgnBHOImOgKPsWBBt8Oi+/L/HcgRvXcMOAPDQJjfHfWpDh4t/KxmrkDdM76AoS3I3Jk4xphWRqksObYCGOoMHg==
   dependencies:
     isomorphic-unfetch "^3.1.0"
 
