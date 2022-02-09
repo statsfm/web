@@ -36,7 +36,6 @@
 
 <script lang="ts" setup>
 import { onMounted, onUnmounted, reactive, ref } from 'vue';
-import { TotalSizeItem } from '~/types/totalStats';
 
 import { mdiArrowUpThin, mdiArrowDownThin, mdiArrowRightThin } from '@mdi/js';
 import Icon from '../Icon.vue';
@@ -44,7 +43,7 @@ import Icon from '../Icon.vue';
 const props = defineProps<{
   hasLiveIndicator?: boolean;
   label: string;
-  snapshot: TotalSizeItem;
+  snapshot: any;
   hasIndicator?: boolean;
 }>();
 

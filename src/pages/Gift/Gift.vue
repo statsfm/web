@@ -4,13 +4,13 @@
     <section class="flex gap-3 mb-5 flex-col mt-2">
       <div class="w-full flex flex-col justify-between">
         <div class="flex gap-3 justify-center mb-2 flex-col md:flex-row">
-          <PricePlanCard
+          <!-- <PricePlanCard
             v-for="(plan, index) in plans"
             :key="index"
             :plan="plan"
             :defaultPlan="plans[0]"
             @click="initCheckout(plan.quantity)"
-          ></PricePlanCard>
+          ></PricePlanCard> -->
         </div>
       </div>
       <h2>How does it work?</h2>
@@ -76,12 +76,7 @@ import Container from '~/components/layout/Container.vue';
 import Header from '~/components/layout/Header.vue';
 import { useApi, useToaster } from '~/hooks';
 import { useAuth } from '~/hooks/auth';
-import {
-  GetPlusGiftCodeListResponse,
-  GetPlusGiftCodePurcahseResponse,
-  GiftCode,
-  Plan
-} from '~/types';
+import { GiftCode, Plan } from '~/types';
 import { giftCodes } from './state';
 
 const { t } = useI18n();
@@ -129,22 +124,21 @@ const plans: Plan[] = [
 ];
 
 onBeforeMount(async () => {
-  giftCodes.value = await getGiftCodes();
+  // giftCodes.value = await getGiftCodes();
 });
 
-const getGiftCodes = async (): Promise<GiftCode[]> => {
-  return await api.http
-    .httpGet<GetPlusGiftCodeListResponse>('/plus/giftcodes/list')
-    .then((res) => res.data.items);
-};
+// const getGiftCodes = async (): Promise<GiftCode[]> => {
+// return await api.http
+//   .httpGet<GetPlusGiftCodeListResponse>('/plus/giftcodes/list')
+//   .then((res) => res.data.items);
+// };
 
-const initCheckout = async (quantity: number) => {
-  const { data, success } = await api.http.httpGet<GetPlusGiftCodePurcahseResponse>(
-    `/plus/giftcodes/purchase?quantity=${quantity}`
-  );
-
-  if (success) {
-    location.href = data.item.url;
-  }
-};
+// const initCheckout = async (quantity: number) => {
+// const { data, success } = await api.http.httpGet<GetPlusGiftCodePurcahseResponse>(
+//   `/plus/giftcodes/purchase?quantity=${quantity}`
+// );
+// if (success) {
+//   location.href = data.item.url;
+// }
+// };
 </script>

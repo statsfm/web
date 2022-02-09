@@ -11,7 +11,7 @@
     <Button class="max-w-xl" v-if="!auth.isLoggedIn()" @click="auth.login()">{{
       t('buttons.login')
     }}</Button>
-    <Button class="max-w-xl" v-else @click="redeemGiftCode">{{ t('buttons.redeem') }}</Button>
+    <!-- <Button class="max-w-xl" v-else @click="redeemGiftCode">{{ t('buttons.redeem') }}</Button> -->
   </Container>
 </template>
 
@@ -25,7 +25,7 @@ import GiftCard from '~/components/base/GiftCard.vue';
 import Container from '~/components/layout/Container.vue';
 import Header from '~/components/layout/Header.vue';
 import { useApi, useAuth, useToaster } from '~/hooks';
-import { GetPlusGiftCodeResponse, GiftCode, PostPlusGiftCodeRedeemResponse } from '~/types';
+import { GiftCode } from '~/types';
 
 const { t } = useI18n();
 const toaster = useToaster();
@@ -38,16 +38,16 @@ const giftCode: Ref<GiftCode | null> = ref(null);
 const code = ref('');
 const isFlipped = ref(false);
 
-const getGiftCode = async (code: string) => {
-  const res = await api.http.httpGet<GetPlusGiftCodeResponse>(`/plus/giftcodes/${code}`);
+// const getGiftCode = async (code: string) => {
+//   const res = await api.http.httpGet<GetPlusGiftCodeResponse>(`/plus/giftcodes/${code}`);
 
-  if (res.status == 404) {
-    router.push({ name: 'Redeem' });
-    return;
-  }
+//   if (res.status == 404) {
+//     router.push({ name: 'Redeem' });
+//     return;
+//   }
 
-  giftCode.value = res.data.item;
-};
+//   giftCode.value = res.data.item;
+// };
 
 watch(isFlipped, (val) => {
   if (val) {
@@ -56,19 +56,19 @@ watch(isFlipped, (val) => {
   }
 });
 
-const redeemGiftCode = async () => {
-  const { success } = await api.http.httpPost<PostPlusGiftCodeRedeemResponse>(
-    `/plus/giftcodes/${code.value}/redeem`
-  );
+// const redeemGiftCode = async () => {
+//   const { success } = await api.http.httpPost<PostPlusGiftCodeRedeemResponse>(
+//     `/plus/giftcodes/${code.value}/redeem`
+//   );
 
-  if (success) {
-    toaster.success({
-      message: t('errors.successfully_redeemed')
-    });
-  }
+//   if (success) {
+//     toaster.success({
+//       message: t('errors.successfully_redeemed')
+//     });
+//   }
 
-  isFlipped.value = true;
-};
+//   isFlipped.value = true;
+// };
 
 const onGiftCardNotAuthenticatedClick = () => {
   toaster.error({
@@ -78,6 +78,6 @@ const onGiftCardNotAuthenticatedClick = () => {
 
 onMounted(() => {
   code.value = route.params.code.toString();
-  getGiftCode(code.value);
+  // getGiftCode(code.value);
 });
 </script>

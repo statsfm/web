@@ -1,9 +1,9 @@
 <script lang="ts" setup>
 import { RouterLink } from 'vue-router';
-import { BacktrackArtistSimple } from '~/types';
+import * as statsfm from '@statsfm/statsfm.js';
 
 interface Props {
-  artists: BacktrackArtistSimple[];
+  artists: statsfm.ArtistSimple[];
 }
 
 defineProps<Props>();

@@ -19,16 +19,16 @@ import { onMounted, Ref, ref } from 'vue';
 import Header from '~/components/layout/Header.vue';
 import Button from '~/components/base/Button.vue';
 import { useRouter } from 'vue-router';
-import { BacktrackArtist } from '~/types/backtrack';
 import Link from '~/components/base/Link.vue';
 import { Point } from '~/types';
+import * as statsfm from '@statsfm/statsfm.js';
 
 const router = useRouter();
 
 const content: Ref<HTMLDivElement | undefined> = ref();
 const canvas: Ref<HTMLCanvasElement | undefined> = ref();
 const artistBubbles: Ref<Circle[]> = ref([]);
-const artists: Ref<BacktrackArtist[]> = ref([]);
+const artists: Ref<statsfm.Artist[]> = ref([]);
 
 type Circle = {
   point: Point;
@@ -117,11 +117,11 @@ const draw = async () => {
   }
 };
 
-const getTopArtists = async (): Promise<BacktrackArtist[]> => {
+const getTopArtists = async (): Promise<statsfm.Artist[]> => {
   return await fetch('/global_top_artists.json').then((res) => res.json());
 };
 
-const drawArtistBubble = (point: Point, radius: number, artist: BacktrackArtist) => {
+const drawArtistBubble = (point: Point, radius: number, artist: statsfm.Artist) => {
   const ctx = canvas.value?.getContext('2d');
 
   if (canvas && ctx) {

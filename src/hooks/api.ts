@@ -1,6 +1,9 @@
-import Api from '/Users/sjoerdbolten/Documents/Projects/statsfm.js/src/lib/StatsfmAPI';
+import Api from '@statsfm/statsfm.js';
 
 export function useApi(): Api {
-  const ref = new Api({ acccessToken: localStorage.getItem('token') ?? undefined });
+  const ref = new Api({
+    baseUrl: 'https://beta.stats.fm/api/v1',
+    acccessToken: localStorage.getItem('token') ?? undefined
+  });
   return ref;
 }

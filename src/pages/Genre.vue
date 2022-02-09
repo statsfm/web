@@ -59,14 +59,14 @@ import Container from '~/components/layout/Container.vue';
 import StickyHeader from '~/components/base/StickyHeader.vue';
 
 import { useApi } from '~/hooks';
-import { BacktrackGenre, GetGenreResponse } from '~/types';
+import * as statsfm from '@statsfm/statsfm.js';
 
 const route = useRoute();
 const api = useApi();
 
-const genre: Ref<BacktrackGenre | null> = ref(null);
+const genre: Ref<any | null> = ref(null);
 
-const getGenre = async (tag: string): Promise<BacktrackGenre> => {
+const getGenre = async (tag: string): Promise<any> => {
   return await api.genres.get(tag);
 };
 

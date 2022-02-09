@@ -1,13 +1,12 @@
 import { defineStore } from 'pinia';
 import { reactive } from 'vue';
-import { BacktrackUser } from '~/types';
 
 export const useStore = defineStore('main', () => {
   const state = reactive({
-    user: {} as BacktrackUser<true, true>
+    user: {}
   });
 
-  const setUser = (user: BacktrackUser<true, true>) => {
+  const setUser = (user: any) => {
     state.user = user;
     localStorage.setItem('user', JSON.stringify(user));
   };

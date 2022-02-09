@@ -1,17 +1,17 @@
 <script lang="ts" setup>
+import * as statsfm from '@statsfm/statsfm.js';
 import { onMounted, ref, Ref, toRefs } from 'vue';
-import { BacktrackStream } from '~/types';
-import dayjs from '~/dayjs';
 import { RouterLink } from 'vue-router';
+import dayjs from '~/dayjs';
 
 interface Props {
-  streams: BacktrackStream[];
+  streams: statsfm.Stream[];
 }
 
 const props = defineProps<Props>();
 const { streams } = toRefs(props);
 
-const pairs: Ref<Record<string, BacktrackStream[]>> = ref({});
+const pairs: Ref<Record<string, statsfm.Stream[]>> = ref({});
 
 // TODO: implement pagination
 onMounted(() => {

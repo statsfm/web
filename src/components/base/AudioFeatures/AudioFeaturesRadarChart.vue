@@ -12,7 +12,7 @@
 <script lang="ts" setup>
 import { onMounted, Ref, ref } from 'vue';
 import { useAuth } from '~/hooks';
-import { BacktrackTrack } from '~/types';
+import * as statsfm from '@statsfm/statsfm.js';
 
 import {
   mdiMusic,
@@ -28,7 +28,7 @@ import AudioFeatureBubble from './AudioFeatureBubble.vue';
 import { Point } from '~/types/point';
 
 const props = defineProps<{
-  topTracks: BacktrackTrack[];
+  topTracks: statsfm.Track[];
 }>();
 
 const emit = defineEmits<{

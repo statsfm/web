@@ -132,15 +132,15 @@ import ArtistNameListRender from '~/components/base/ArtistNameListRender.vue';
 import { mdiChevronUp, mdiChevronDown } from '@mdi/js';
 
 import { useApi } from '~/hooks';
-import { BacktrackArtist, BacktrackStream, BacktrackTrack } from '~/types/backtrack';
+import * as statsfm from '@statsfm/statsfm.js';
 
 const { t } = useI18n();
 const route = useRoute();
 const api = useApi();
 
-const artist: Ref<BacktrackArtist | null> = ref(null);
-const tracks: Ref<BacktrackTrack[] | null> = ref(null);
-const streams: Ref<BacktrackStream[] | null> = ref(null);
+const artist: Ref<statsfm.Artist | null> = ref(null);
+const tracks: Ref<statsfm.Track[] | null> = ref(null);
+const streams: Ref<statsfm.Stream[] | null> = ref(null);
 
 const trackCounts = [6, 10, 25, 50, 100, 150, 200, 250, 300];
 const trackCount = ref(trackCounts[0]);
@@ -172,7 +172,7 @@ watch(sort, (val) => {
   tracks.value = sortTracks(tracks.value ?? [], val!);
 });
 
-const sortTracks = (array: BacktrackTrack[], sort: Sort) => {
+const sortTracks = (array: statsfm.Track[], sort: Sort) => {
   let sorted = array;
   const asc = sort.order === 'ascending' ? true : false;
 

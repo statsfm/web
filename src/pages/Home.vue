@@ -102,12 +102,24 @@
           class="hidden md:flex w-[500px] gap-3 overflow-hidden translate-x-[75px] min-w-[350px]"
         >
           <div class="w-6/12 flex flex-col gap-5 translate-y-[-300px]">
-            <img src="../assets/images/app_1.webp" class="w-full" />
-            <img src="../assets/images/app_1.webp" class="w-full" />
+            <img
+              src="../assets/images/app_1.webp"
+              class="w-full hover:scale-[1.02] transition-transform duration-200"
+            />
+            <img
+              src="../assets/images/app_1.webp"
+              class="w-full hover:scale-[1.02] transition-transform duration-200"
+            />
           </div>
           <div class="w-6/12 flex flex-col gap-5 translate-y-[-150px]">
-            <img src="../assets/images/app_1.webp" class="w-full" />
-            <img src="../assets/images/app_1.webp" class="w-full" />
+            <img
+              src="../assets/images/app_1.webp"
+              class="w-full hover:scale-[1.02] transition-transform duration-200"
+            />
+            <img
+              src="../assets/images/app_1.webp"
+              class="w-full hover:scale-[1.02] transition-transform duration-200"
+            />
           </div>
         </div>
         <div class="flex justify-center pl-5 pr-5 md:hidden max-h-96 overflow-hidden">
@@ -120,12 +132,24 @@
         <Card class="rounded-[2.5rem] p-0 overflow-hidden hidden md:block">
           <div class="md:flex w-[500px] translate-x-[35px] gap-3 min-w-[350px]">
             <div class="w-6/12 flex flex-col gap-5 translate-y-[-300px]">
-              <img src="../assets/images/app_1.webp" class="w-full" />
-              <img src="../assets/images/app_1.webp" class="w-full" />
+              <img
+                src="../assets/images/app_1.webp"
+                class="w-full hover:scale-[1.02] transition-transform duration-200"
+              />
+              <img
+                src="../assets/images/app_1.webp"
+                class="w-full hover:scale-[1.02] transition-transform duration-200"
+              />
             </div>
             <div class="w-6/12 flex flex-col gap-5 translate-y-[-190px]">
-              <img src="../assets/images/app_1.webp" class="w-full" />
-              <img src="../assets/images/app_1.webp" class="w-full" />
+              <img
+                src="../assets/images/app_1.webp"
+                class="w-full hover:scale-[1.02] transition-transform duration-200"
+              />
+              <img
+                src="../assets/images/app_1.webp"
+                class="w-full hover:scale-[1.02] transition-transform duration-200"
+              />
             </div>
           </div>
           <div class="flex justify-center pl-5 pr-5 md:hidden">
@@ -189,13 +213,13 @@ import ChevronLink from '~/components/base/ChevronLink.vue';
 import Link from '~/components/base/Link.vue';
 import { useApi, useAuth } from '~/hooks';
 
-useApi();
-useAuth();
-
 import {
   mdiLock,
   mdiHistory,
   mdiFormatListBulletedTriangle,
   mdiChartTimelineVariantShimmer
 } from '@mdi/js';
+
+useApi();
+useAuth();
 </script>

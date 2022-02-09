@@ -14,7 +14,6 @@
 import { onMounted, ref, Ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useApi } from '~/hooks';
-import { GetStatsDatabaseSiteResponse, TotalSize } from '~/types';
 import TotalStatsItem from './TotalStatsItem.vue';
 
 const { t } = useI18n();
@@ -29,9 +28,9 @@ const labelMap: Record<string, string> = {
   albums: t('total_stats.albums')
 };
 
-const stats: Ref<TotalSize | null> = ref(null);
+const stats: Ref<any | null> = ref(null);
 
-const getStats = async (): Promise<TotalSize> => {
+const getStats = async (): Promise<any> => {
   return await api.stats.getDatabaseSize();
 };
 

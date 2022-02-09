@@ -5,10 +5,11 @@
 <script lang="ts" setup>
 import dayjs from '~/dayjs';
 import { onMounted, Ref, ref } from 'vue';
-import { BacktrackAudioAnalysis, BacktrackAudioAnalysisSegment, Point } from '~/types';
+import * as statsfm from '@statsfm/statsfm.js';
+import { Point } from '~/types';
 
 const props = defineProps<{
-  analysis: BacktrackAudioAnalysis;
+  analysis: statsfm.AudioAnalysis;
 }>();
 
 const emit = defineEmits(['segment']);
@@ -75,7 +76,7 @@ onMounted(() => {
 const timestamps: Ref<
   { point: Point; duration: number; formattedDuration: string; index: number }[]
 > = ref([]);
-const blockSegments: BacktrackAudioAnalysisSegment[] = [];
+const blockSegments: statsfm.AudioAnalysisSegment[] = [];
 
 const drawTimeStamps = (ctx: CanvasRenderingContext2D, totalDuration: number) => {
   if (canvas.value) {

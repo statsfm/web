@@ -3,7 +3,7 @@
     v-if="album"
     :name="album.name"
     :image="album.image"
-    :subtitle="album.artists.map((artist) => artist.name).join(', ')"
+    :subtitle="album.artists.map((artist: statsfm.ArtistSimple) => artist.name).join(', ')"
     :subtitle-to="{ name: 'Artist', params: { id: album.artists[0].id } }"
   />
   <Container>
@@ -31,7 +31,7 @@
                   </h3>
                   <p class="mt-0 text-lg text-neutral-400 line-clamp-1">
                     <!-- TODO: move to a helper function -->
-                    {{ track.artists.map((a) => a.name).join(', ') }}
+                    {{ track.artists.map((a: statsfm.ArtistSimple) => a.name).join(', ') }}
                   </p>
                 </div>
               </div>
@@ -58,9 +58,9 @@ import { RouterLink, useRoute } from 'vue-router';
 import HeroWithImageAndInfo from '~/components/base/HeroWithImageAndInfo.vue';
 import Container from '~/components/layout/Container.vue';
 import { useApi } from '~/hooks';
-import { BacktrackAlbum, BacktrackStream, BacktrackTrack } from '~/types/backtrack';
 import RecentStreams from '~/components/base/RecentStreams/RecentStreams.vue';
 import StickyHeader from '~/components/base/StickyHeader.vue';
+import * as statsfm from '@statsfm/statsfm.js';
 
 const { t } = useI18n();
 const route = useRoute();
@@ -68,9 +68,9 @@ const api = useApi();
 
 const id = parseInt(route.params.id.toString());
 
-const album: Ref<BacktrackAlbum | null> = ref(null);
-const tracks: Ref<BacktrackTrack[] | null> = ref(null);
-const streams: Ref<BacktrackStream[] | null> = ref(null);
+const album: Ref<statsfm.Album | null> = ref(null);
+const tracks: Ref<statsfm.Track[] | null> = ref(null);
+const streams: Ref<statsfm.Stream[] | null> = ref(null);
 
 onMounted(async () => {
   album.value = await api.albums.get(id);

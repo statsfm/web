@@ -214,7 +214,7 @@
 
       <div class="flex justify-between pb-4">
         <div class="w-full md:w-1/2 flex flex-col justify-between">
-          <div v-for="genre in genres?.sort((g1, g2) => g2.value - g1.value)">
+          <div v-for="genre in genres?.sort((g1: any, g2: any) => g2.value - g1.value)">
             <label
               :aria-label="genre.label"
               for="progress"
@@ -308,14 +308,7 @@ import ListItem from '~/components/base/List/ListItem.vue';
 
 import dayjs from '~/dayjs';
 import { useApi } from '~/hooks';
-import {
-  BacktrackRange,
-  BacktrackRecentlyPlayedTrack,
-  BacktrackTopAlbum,
-  BacktrackTopArtist,
-  BacktrackTopTrack,
-  BacktrackUser
-} from '~/types';
+import * as statsfm from '@statsfm/statsfm.js';
 import { AudioFeature } from '~/components/base/AudioFeatures/feature';
 import { mdiChevronDown, mdiChevronUp } from '@mdi/js';
 import Avatar from '~/components/base/Avatar.vue';
@@ -328,13 +321,13 @@ const api = useApi();
 
 const id = route.params.id.toString();
 
-const range: Ref<BacktrackRange> = ref('lifetime');
-const genres: Ref<AudioFeature[] | null> = ref(null);
-const user: Ref<BacktrackUser | null> = ref(null);
-const recentStreams: Ref<BacktrackRecentlyPlayedTrack[] | null> = ref(null);
-const topTracks: Ref<BacktrackTopTrack[] | null> = ref(null);
-const topArtists: Ref<BacktrackTopArtist[] | null> = ref(null);
-const topAlbums: Ref<BacktrackTopAlbum[] | null> = ref(null);
+const range: Ref<any> = ref('lifetime');
+const genres: Ref<any | null> = ref(null);
+const user: Ref<any | null> = ref(null);
+const recentStreams: Ref<statsfm.RecentlyPlayedTrack[] | null> = ref(null);
+const topTracks: Ref<statsfm.TopTrack[] | null> = ref(null);
+const topArtists: Ref<statsfm.TopArtist[] | null> = ref(null);
+const topAlbums: Ref<statsfm.TopAlbum[] | null> = ref(null);
 
 const topTracksCounts = [6, 10, 25, 50, 100, 150, 200, 250, 300];
 const topTracksCount = ref(topTracksCounts[0]);
@@ -371,22 +364,22 @@ const load = async () => {
     .getTopTracks(id, {
       query: { range: range.value.toLowerCase() }
     })
-    .then((data) => (topTracks.value = data));
+    .then((data: any) => (topTracks.value = data));
   api.users
     .getTopArtists(id, {
       query: { range: range.value.toLowerCase() }
     })
-    .then((data) => (topArtists.value = data));
+    .then((data: any) => (topArtists.value = data));
   api.users
     .getTopAlbums(id, {
       query: { range: range.value.toLowerCase() }
     })
-    .then((data) => (topAlbums.value = data));
+    .then((data: any) => (topAlbums.value = data));
   api.users
     .getRecentStreams(id, {
       query: { range: range.value.toLowerCase() }
     })
-    .then((data) => (recentStreams.value = data));
+    .then((data: any) => (recentStreams.value = data));
 
   api.users.getCount(id, { query: { range: range.value.toLowerCase() } }).then((count) => {
     stats.value.push({
@@ -405,7 +398,7 @@ const load = async () => {
   });
 };
 
-const setRange = (value: BacktrackRange) => {
+const setRange = (value: any) => {
   // only fetch the range if the range has changed
   if (range.value !== value) {
     range.value = value;

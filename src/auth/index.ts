@@ -1,7 +1,6 @@
 import { useApi } from '~/hooks';
 import router from '~/router';
 import { useStore } from '~/store';
-import { GetTokenResponse, GetUsersMeResponse } from '~/types';
 
 const store = useStore();
 
