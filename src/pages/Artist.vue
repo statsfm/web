@@ -165,7 +165,7 @@ onMounted(async () => {
 
   artist.value = await api.artists.get(id);
   tracks.value = await api.artists.tracks(id);
-  streams.value = await api.users.getArtistStreams('me', id, { query: { limit: 100 } });
+  streams.value = await api.users.artistStreams('me', id, { query: { limit: 100 } });
 });
 
 watch(sort, (val) => {

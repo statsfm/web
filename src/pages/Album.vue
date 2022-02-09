@@ -75,6 +75,6 @@ const streams: Ref<statsfm.Stream[] | null> = ref(null);
 onMounted(async () => {
   album.value = await api.albums.get(id);
   tracks.value = await api.albums.tracks(id);
-  streams.value = await api.users.getAlbumStreams('me', id);
+  streams.value = await api.users.albumStreams('me', id);
 });
 </script>

@@ -31,7 +31,7 @@ const labelMap: Record<string, string> = {
 const stats: Ref<any | null> = ref(null);
 
 const getStats = async (): Promise<any> => {
-  return await api.stats.getDatabaseSize();
+  return await api.stats.databaseSize();
 };
 
 onMounted(async () => {

@@ -361,41 +361,43 @@ const load = async () => {
   stats.value = [];
   user.value = await api.users.get(id);
   api.users
-    .getTopTracks(id, {
+    .topTracks(id, {
       query: { range: range.value.toLowerCase() }
     })
     .then((data: any) => (topTracks.value = data));
   api.users
-    .getTopArtists(id, {
+    .topArtists(id, {
       query: { range: range.value.toLowerCase() }
     })
     .then((data: any) => (topArtists.value = data));
   api.users
-    .getTopAlbums(id, {
+    .topAlbums(id, {
       query: { range: range.value.toLowerCase() }
     })
     .then((data: any) => (topAlbums.value = data));
   api.users
-    .getRecentStreams(id, {
+    .recentStreams(id, {
       query: { range: range.value.toLowerCase() }
     })
     .then((data: any) => (recentStreams.value = data));
 
-  api.users.getCount(id, { query: { range: range.value.toLowerCase() } }).then((count) => {
-    stats.value.push({
-      name: t('user.streams'),
-      stat: count
+  api.users
+    .stats(id, { query: { range: range.value.toLowerCase() } })
+    .then(({ durationMs, count }) => {
+      stats.value.push(
+        {
+          name: t('user.streams'),
+          stat: count
+        },
+        {
+          name: t('user.time_streamed'),
+          stat: dayjs
+            .duration({ milliseconds: durationMs })
+            .add({ milliseconds: 0 })
+            .format('HH [hours] mm [minutes] ss [seconds]')
+        }
+      );
     });
-  });
-  api.users.getDuration(id, { query: { range: range.value.toLowerCase() } }).then((ms) => {
-    stats.value.push({
-      name: t('user.time_streamed'),
-      stat: dayjs
-        .duration({ milliseconds: ms })
-        .add({ milliseconds: 0 })
-        .format('HH [hours] mm [minutes] ss [seconds]')
-    });
-  });
 };
 
 const setRange = (value: any) => {
