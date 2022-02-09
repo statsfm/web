@@ -52,7 +52,7 @@
           <FeatureItem :icon="mdiLock" title="Safe & secure"
             >Privacy is key, and I've build the platform keeping security and privacy at the highest
             priority. As far as possible, all data is saved anonymously, and is stored and
-            transferred fully encrypted. Unless you import your streaminghistory no data is saved on
+            transferred fully encrypted. Unless you import your streaming history no data is saved on
             the servers.</FeatureItem
           >
           <FeatureItem :icon="mdiChartTimelineVariantShimmer" title="Enhanced personalized stats">
@@ -72,7 +72,7 @@
             really cool, I promise : )</FeatureItem
           >
           <p>
-            * <Link :to="{ name: 'Import' }">import of streaminghistory</Link> may be required to
+            * <Link :to="{ name: 'Import' }">import of streaming history</Link> may be required to
             unlock (part of) this feature
           </p>
         </div>
