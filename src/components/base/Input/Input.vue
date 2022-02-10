@@ -4,6 +4,7 @@ import { computed, ref, useAttrs, watch } from 'vue';
 interface Props {
   name?: string;
   description?: string;
+  validation?: string | null;
   label?: string;
   prefix?: string;
 }
@@ -42,7 +43,10 @@ const ariaValue = computed(() => `${props.prefix}${value.value}`);
       class="w-full bg-transparent focus:outline-none"
     />
   </div>
-  <p v-if="description" class="mt-2 text-sm font-bold text-neutral-400">
+  <p v-if="validation" class="mt-2 text-sm font-bold text-red-500">
+    {{ validation }}
+  </p>
+  <p v-else class="mt-2 text-sm font-bold text-neutral-400">
     {{ description }}
   </p>
 </template>
