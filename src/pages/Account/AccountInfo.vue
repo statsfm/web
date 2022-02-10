@@ -2,7 +2,14 @@
   <div>
     <h1 class="mb-4">Account info</h1>
 
-    <Input name="customUrl" label="Custom url" :value="user.id" prefix="https://stats.fm/" />
+    <Input
+      name="customUrl"
+      label="Custom url"
+      :value="user.id"
+      prefix="https://stats.fm/"
+      :validation="!isCustomUrlAvailable ? 'Custom url not available' : null"
+      @input="checkCustomUrlAvailability"
+    />
 
     <br />
 
@@ -22,7 +29,7 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted } from 'vue';
+import { onMounted, ref } from 'vue';
 import Button from '~/components/base/Button.vue';
 import { useApi, useUser } from '~/hooks';
 import { useStore } from '~/store';
@@ -32,9 +39,21 @@ import Textarea from '~/components/base/Textarea/Textarea.vue';
 const api = useApi();
 const store = useStore();
 const user = useUser();
+const isCustomUrlAvailable = ref(true);
 
 onMounted(async () => {
   const _user = await api.me.get();
   store.setUser(_user);
 });
+
+// TODO: netter ofzo
+const checkCustomUrlAvailability = (e: string) => {
+  // mock custom url validation
+  if (e === 'sjoerdgaatwakawaka') {
+    isCustomUrlAvailable.value = false;
+    return;
+  }
+
+  isCustomUrlAvailable.value = true;
+};
 </script>
