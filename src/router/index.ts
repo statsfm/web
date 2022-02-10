@@ -28,9 +28,26 @@ const routes: RouteRecordRaw[] = [
     component: () => import('../pages/Auth/AuthCallback.vue')
   },
   {
-    path: '/account/delete',
-    name: 'AccountDelete',
-    component: () => import('../pages/Account/Delete.vue')
+    path: '/account',
+    name: 'Account',
+    component: () => import('../pages/Account/Account.vue'),
+    children: [
+      {
+        path: '',
+        name: 'AccountInfo',
+        component: () => import('../pages/Account/AccountInfo.vue')
+      },
+      {
+        path: '/account/connections',
+        name: 'AccountConnections',
+        component: () => import('../pages/Account/AccountConnections.vue')
+      },
+      {
+        path: '/account/privacy',
+        name: 'AccountPrivacy',
+        component: () => import('../pages/Account/AccountPrivacy.vue')
+      }
+    ]
   },
   {
     path: '/gift',

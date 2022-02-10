@@ -1,13 +1,11 @@
 <template>
-  <Header />
-  <Container class="pt-5">
+  <div>
     <h3>Delete your account and all associated data</h3>
     <p>
       Before you can delete your data you must login with your Spotify account to confirm it's you.
       After logging in you have 60 seconds to delete your account; after that you have to login
       again to proceed.
     </p>
-    <br />
     <div v-if="validLogin">
       <div class="form-check">
         <input
@@ -25,13 +23,12 @@
           - Any friend (requests)
         </label>
       </div>
-      <br />
-      <Button @click="deleteAccount" :disabled="!agreed || loading">{{
+      <Button class="mt-2" @click="deleteAccount" size="small" :disabled="!agreed || loading">{{
         loading ? 'Deleting your data...' : 'Delete my account and all my data'
       }}</Button>
     </div>
-    <Button @click="login" v-else>Login to continue</Button>
-  </Container>
+    <Button v-else @click="login" size="small">Login to continue</Button>
+  </div>
 </template>
 
 <script lang="ts" setup>
