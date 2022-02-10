@@ -1,1 +1,2 @@
-/status https://status.spotistats.app 301
+/status* https://status.spotistats.app
+/account/delete* /account/privacy
