@@ -29,7 +29,7 @@ const ariaValue = computed(() => `${props.prefix}${value.value}`);
 </script>
 
 <template>
-  <label v-if="label" :for="name" class="text-lg font-bold text-neutral-400">{{ label }}</label>
+  <label v-if="label" :for="name" class="text-lg font-bold text-white">{{ label }}</label>
   <div
     class="block w-full px-3 py-1 rounded-lg bg-bodySecundary text-white text-lg font-medium placeholder:text-neutral-600"
     :class="{ 'mt-1': label }"
