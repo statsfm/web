@@ -11,7 +11,7 @@
 
 <script lang="ts" setup>
 import { onMounted, Ref, ref } from 'vue';
-import { useAuth } from '~/hooks';
+import { useApi, useAuth } from '~/hooks';
 import * as statsfm from '@statsfm/statsfm.js';
 
 import {
@@ -36,6 +36,7 @@ const emit = defineEmits<{
 }>();
 
 const auth = useAuth();
+const api = useApi();
 
 const canvas: Ref<HTMLCanvasElement | undefined> = ref();
 
@@ -95,20 +96,25 @@ const getAudioFeatures = async (): Promise<AudioFeature[]> => {
     //     }
     //   }
     // );
+    const data = await (
+      await api.http.get('/spotify/audio-features', {
+        query: { ids: spotifyIds.slice(0, 10).join(',') }
+      })
+    ).data.items;
 
     // if (res.ok) {
     //   const json = await res.json();
     //   const data: Record<string, number>[] = json.audio_features;
 
-    //   for (const audioFeature of data) {
-    //     for (let i = 0; i < features.length; i++) {
-    //       features[i].value += audioFeature[features[i].label];
-    //     }
-    //   }
+    for (const audioFeature of data) {
+      for (let i = 0; i < features.length; i++) {
+        features[i].value += audioFeature[features[i].label];
+      }
+    }
 
-    //   for (let i = 0; i < features.length; i++) {
-    //     features[i].value = features[i].value / features.length;
-    //   }
+    for (let i = 0; i < features.length; i++) {
+      features[i].value = features[i].value / features.length;
+    }
     // }
   }
 

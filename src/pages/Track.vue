@@ -88,17 +88,18 @@ const segment: Ref<{
   next: statsfm.AudioAnalysisSegment;
 } | null> = ref(null);
 
-const getTrackAudioAnalysis = async (
-  track: statsfm.Track
-): Promise<statsfm.AudioAnalysis | void> => {
+const getTrackAudioAnalysis = async (track: statsfm.Track): Promise<statsfm.AudioAnalysis> => {
   // todo: add this endpoint to api
-  // const id = (track.externalIds.spotify as string[])[0];
+  const id = (track.externalIds.spotify as string[])[0];
   // const token = await new auth().getSpotifyToken();
   // return await fetch(`https://api.spotify.com/v1/audio-analysis/${id}`, {
   //   headers: {
   //     Authorization: `Bearer ${token}`
   //   }
   // }).then((res) => res.json());
+  return await (
+    await api.http.get(`/spotify/audio-analysis/${id}`)
+  ).data.item;
 };
 
 const keyToNote = (key: number): string => {
@@ -114,6 +115,6 @@ onMounted(async () => {
   const id = parseInt(route.params.id.toString());
 
   track.value = await api.tracks.get(id);
-  // audioAnalysis.value = await getTrackAudioAnalysis(track.value);
+  audioAnalysis.value = await getTrackAudioAnalysis(track.value);
 });
 </script>
