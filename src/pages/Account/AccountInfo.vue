@@ -2,16 +2,39 @@
   <div>
     <h1 class="mb-4">Account info</h1>
 
-    <Input
-      name="customUrl"
-      label="Custom url"
-      :value="user.id"
-      prefix="https://stats.fm/"
-      :validation="!isCustomUrlAvailable ? 'Custom url not available' : null"
-      @input="checkCustomUrlAvailability"
-    />
+    <div v-if="customId != undefined" class="flex flex-col md:items-between md:gap-5 md:flex-row">
+      <div class="flex flex-col w-full md:w-6/12">
+        <Input
+          name="customUrl"
+          label="Custom url"
+          :value="customId"
+          prefix="https://stats.fm/"
+          :validation="customIdAvailable ? null : 'Custom url not available'"
+          maxlength="32"
+          @input="checkAvailability"
+        />
+      </div>
+      <div
+        class="flex items-center gap-1 md:pt-4"
+        :class="customIdAvailable ? 'md:pb-0' : 'md:pb-4'"
+      >
+        <Icon
+          :path="customIdAvailable ? mdiCheckCircleOutline : mdiCloseCircleOutline"
+          :color="customIdAvailable ? '#22c55e' : '#ff005c'"
+        />
+        <span
+          class="font-bold text-lg"
+          :style="`color: ${customIdAvailable ? '#22c55e' : '#ff005c'}`"
+          >{{ customIdAvailable ? 'Available' : 'Not Available' }}</span
+        >
+      </div>
+    </div>
 
-    <br />
+    <div v-if="profile && pronouns" class="flex flex-col md:items-between md:gap-5 md:flex-row">
+      <select name="pronouns" id="pronouns" v-model="profile.pronouns">
+        <option v-for="pronoun in pronouns" :key="pronoun" :value="pronoun">{{ pronoun }}</option>
+      </select>
+    </div>
 
     <Textarea
       name="about"
@@ -24,36 +47,50 @@
 
     <br />
 
-    <Button size="small" class="" @click="alert('not implemented yet')">Save</Button>
+    <Button size="small" class="" @click="save">Save</Button>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { onMounted, ref } from 'vue';
+import { mdiCheckCircleOutline, mdiCloseCircleOutline } from '@mdi/js';
+import { UserProfile } from '@statsfm/statsfm.js';
+import { onBeforeMount, Ref, ref } from 'vue';
 import Button from '~/components/base/Button.vue';
-import { useApi, useUser } from '~/hooks';
-import { useStore } from '~/store';
+import Icon from '~/components/base/Icon.vue';
 import Input from '~/components/base/Input/Input.vue';
 import Textarea from '~/components/base/Textarea/Textarea.vue';
+import { useApi } from '~/hooks';
+import { useStore } from '~/store';
 
 const api = useApi();
 const store = useStore();
-const user = useUser();
-const isCustomUrlAvailable = ref(true);
+const profile: Ref<UserProfile | undefined> = ref();
+const customIdAvailable: Ref<boolean> = ref(true);
+const pronounAvailable: Ref<boolean> = ref(true);
+const customId: Ref<string | undefined> = ref();
+const pronouns: Ref<string[] | undefined> = ref();
 
-onMounted(async () => {
-  const _user = await api.me.get();
-  store.setUser(_user);
-});
-
-// TODO: netter ofzo
-const checkCustomUrlAvailability = (e: string) => {
-  // mock custom url validation
-  if (e === 'sjoerdgaatwakawaka') {
-    isCustomUrlAvailable.value = false;
-    return;
-  }
-
-  isCustomUrlAvailable.value = true;
+const save = async () => {
+  if (!profile.value) return;
+  await api.me.updateProfile({
+    customId: customId.value,
+    ...profile.value
+  });
 };
+
+const checkAvailability = async (customId: string) => {
+  if (!customId) return;
+  customIdAvailable.value = await api.me.customIdAvailable(customId);
+};
+
+onBeforeMount(async () => {
+  const user = await api.me.get();
+  profile.value = user.profile;
+  customId.value = user.customId ?? user.id;
+
+  const res = await fetch('https://en.pronouns.page/api/pronouns').then((res) => res.json());
+  pronouns.value = Object.values(res)
+    .map((pronoun: any) => pronoun.aliases)
+    .flat();
+});
 </script>

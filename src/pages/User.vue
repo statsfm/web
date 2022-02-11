@@ -294,7 +294,7 @@
 import { useHead } from '@vueuse/head';
 import { computed, onMounted, Ref, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { useRoute, RouterLink } from 'vue-router';
+import { useRoute, RouterLink, useRouter } from 'vue-router';
 import Button from '~/components/base/Button.vue';
 import RealDropdown from '~/components/base/dropdowns/RealDropdown.vue';
 import HeroWithImageAndInfo from '~/components/base/HeroWithImageAndInfo.vue';
@@ -316,10 +316,11 @@ import StickyHeader from '~/components/base/StickyHeader.vue';
 import ArtistNameListRender from '~/components/base/ArtistNameListRender.vue';
 
 const route = useRoute();
+const router = useRouter();
 const { t } = useI18n();
 const api = useApi();
 
-const id = route.params.id.toString();
+const id = route.params.userId.toString();
 
 const range: Ref<any> = ref('lifetime');
 const genres: Ref<any | null> = ref(null);
@@ -359,7 +360,10 @@ useHead({
 
 const load = async () => {
   stats.value = [];
-  user.value = await api.users.get(id);
+  user.value = await api.users.get(id).catch(() => {});
+  if (!user.value) {
+    return router.replace({ name: 'NotFound' });
+  }
   api.users
     .topTracks(id, {
       query: { range: range.value.toLowerCase() }

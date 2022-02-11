@@ -83,11 +83,6 @@ const routes: RouteRecordRaw[] = [
     component: () => import('../pages/Import/Import.vue')
   },
   {
-    path: '/user/:id',
-    name: 'User',
-    component: () => import('../pages/User.vue')
-  },
-  {
     path: '/artist/:id/:slug?',
     name: 'Artist',
     component: () => import('../pages/Artist.vue')
@@ -108,9 +103,14 @@ const routes: RouteRecordRaw[] = [
     component: () => import('../pages/Genre.vue')
   },
   {
-    path: '/:route(.*)',
+    path: '/404',
     name: 'NotFound',
     component: () => import('../pages/NotFound.vue')
+  },
+  {
+    path: '/:userId',
+    name: 'User',
+    component: () => import('../pages/User.vue')
   }
 ];
 

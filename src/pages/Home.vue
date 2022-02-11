@@ -52,8 +52,8 @@
           <FeatureItem :icon="mdiLock" title="Safe & secure"
             >Privacy is key, and I've build the platform keeping security and privacy at the highest
             priority. As far as possible, all data is saved anonymously, and is stored and
-            transferred fully encrypted. Unless you import your streaming history no data is saved on
-            the servers.</FeatureItem
+            transferred fully encrypted. Unless you import your streaming history no data is saved
+            on the servers.</FeatureItem
           >
           <FeatureItem :icon="mdiChartTimelineVariantShimmer" title="Enhanced personalized stats">
             Thanks to state of the art algorithms you'll always be welcomed with relevant, advanced
@@ -94,7 +94,7 @@
             allow it you'll be able to check their stats anytime.
           </p>
           <div class="h-full"></div>
-          <ChevronLink :to="{ name: 'User', params: { id: 'sjoerdgaatwakawaka' } }"
+          <ChevronLink :to="{ name: 'User', params: { userId: 'sjoerdgaatwakawaka' } }"
             >Check out an example page</ChevronLink
           >
         </div>
