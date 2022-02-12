@@ -16,7 +16,7 @@
           <List class="rounded-xl">
             <ListItem
               class="flex gap-2"
-              @click="router.push({ name: 'User', params: { userId: 'me' } })"
+              @click="router.push({ name: 'User', params: { userId: user.customId ?? user.id } })"
             >
               <div class="flex items-center">
                 <Avatar :src="user.image" />
