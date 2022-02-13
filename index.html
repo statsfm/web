@@ -12,13 +12,18 @@
     <meta name="apple-mobile-web-app-title" content="Stats.fm (formerly Spotistats for Spotify)" />
     <meta name="application-name" content="Stats.fm" />
     <meta name="theme-color" content="#1ED761" />
+    <script defer>
+      const head = document.getElementsByTagName('head')[0];
+      const link = document.createElement('link');
+      link.type = 'application/json+oembed';
+      link.rel = 'alternate';
+      link.href = `https://beta.stats.fm/api/v1/oembed?url=https%3A%2F%2Fstats.fm${encodeURIComponent(
+        location.pathname
+      )}&format=json`;
+      link.title = 'Embed title';
 
-    <link
-      rel="alternate"
-      type="application/json+oembed"
-      href="https://beta.stats.fm/api/v1/oembed?url=https%3A%2F%2Fstats.fm%2Fuser%2Fsjoerd%2F&format=json"
-      title="Bacon Lollys oEmbed Profile"
-    />
+      head.appendChild(link);
+    </script>
 
     <title>Stats.fm (formerly Spotistats for Spotify)</title>
   </head>
