@@ -1,24 +1,14 @@
-<template>
-  <Card
-    v-if="isActive"
-    class="font-bold text-center animate-fade"
-    :class="{
-      'text-[#fc5353]': error.type == 'error',
-      'text-wite': error.type == 'success'
-    }"
-    >{{ error.message }}</Card
-  >
-</template>
-
 <script lang="ts" setup>
 import { onMounted, ref } from 'vue';
 
 import Card from '~/components/layout/Card.vue';
 import { ToasterOptions } from '~/types/toaster';
 
-const props = defineProps<{
+interface Props {
   error: ToasterOptions;
-}>();
+}
+
+const props = defineProps<Props>();
 
 let isActive = ref(true);
 
@@ -28,3 +18,19 @@ onMounted(() => {
   }, props.error.duration ?? 5 * 1000);
 });
 </script>
+
+<template>
+  <Card v-if="isActive" class="font-bold text-center animate-fade" :class="error.type">{{
+    error.message
+  }}</Card>
+</template>
+
+<style>
+.error {
+  @apply text-[#fc5353];
+}
+
+.success {
+  @apply text-white;
+}
+</style>

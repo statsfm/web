@@ -27,9 +27,30 @@
               </div>
             </ListItem>
 
-            <!-- TODO: improvements -->
-            <ListItemGroup :items="[1]">
-              <ListItem @click="auth.logout">Log out</ListItem>
+            <!-- TODO: improvements and use i18n strings instead -->
+            <ListItemGroup
+              :items="[
+                {
+                  label: 'My page',
+                  handler: () =>
+                    router.push({
+                      name: 'User',
+                      params: { userId: user.customId ?? user.id }
+                    })
+                },
+                {
+                  label: 'My account',
+                  handler: () => router.push({ name: 'Account' })
+                },
+                {
+                  label: 'Log out',
+                  handler: auth.logout
+                }
+              ]"
+            >
+              <template v-slot="{ item }">
+                <ListItem @click="item.handler">{{ item.label }}</ListItem>
+              </template>
             </ListItemGroup>
           </List>
         </RealDropdown>
@@ -45,7 +66,6 @@ import Logo from '../base/Logo.vue';
 import Avatar from '../base/Avatar.vue';
 import Button from '../base/Button.vue';
 import RealDropdown from '../base/dropdowns/RealDropdown.vue';
-import Divider from '../base/Divider.vue';
 import { useAuth, useUser } from '~/hooks';
 import { useRouter } from 'vue-router';
 import List from '../base/List/List.vue';

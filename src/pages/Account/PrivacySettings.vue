@@ -43,9 +43,11 @@
 <script lang="ts" setup>
 import * as statsfm from '@statsfm/statsfm.js';
 import { onBeforeMount, Ref, ref, watch } from 'vue';
-import { useApi } from '~/hooks';
+import { useApi, useToaster } from '~/hooks';
 
 const api = useApi();
+const toaster = useToaster();
+
 const privacySettings: Ref<statsfm.UserPrivacySettings | undefined> = ref();
 
 onBeforeMount(async () => {
@@ -53,7 +55,11 @@ onBeforeMount(async () => {
 
   watch(privacySettings.value, async () => {
     await api.me.updatePrivacySettings(privacySettings.value!);
-    alert('Updated! It may take a few minutes before your changes take full effect');
+
+    // TODO: replace with i18n string
+    toaster.success({
+      message: 'Updated! It may take a few minutes before your changes take full effect'
+    });
   });
 });
 </script>
