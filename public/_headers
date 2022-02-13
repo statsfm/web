@@ -1,2 +1,14 @@
 /images/*
   Cache-Control: public, max-age=604800;
+
+/user/:userId
+  Link: <https://beta.stats.fm.com/services/oembed?url=https%3A%2F%2Fstats.fm%2Fuser%2F":userId"%2F&format=json>; rel="alternate"; type="application/json+oembed"; title="Embed"
+
+/track/:trackId
+  Link: <https://beta.stats.fm.com/services/oembed?url=https%3A%2F%2Fstats.fm%2Ftrack%2F":trackId"%2F&format=json>; rel="alternate"; type="application/json+oembed"; title="Embed"
+
+/artist/:artistId
+  Link: <https://beta.stats.fm.com/services/oembed?url=https%3A%2F%2Fstats.fm%artist%2F":artistId"%2F&format=json>; rel="alternate"; type="application/json+oembed"; title="Embed"
+
+/album/:albumId
+  Link: <https://beta.stats.fm.com/services/oembed?url=https%3A%2F%2Fstats.fm%2Falbum%2F":albumId"%2F&format=json>; rel="alternate"; type="application/json+oembed"; title="Embed"
