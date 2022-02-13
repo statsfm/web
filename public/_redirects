@@ -1,3 +1,4 @@
 /status* https://status.spotistats.app 301
 /support* https://support.stats.fm 301
 /account/delete* /account/privacy 301
+/user/:userId /:userId 301
