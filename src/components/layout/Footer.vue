@@ -74,7 +74,7 @@ const links: { label: string; links: { label: string; to: string | LocationAsRel
     links: [
       {
         label: 'Discord',
-        to: 'https://discord.gg/backtrack'
+        to: 'https://discord.gg/spotistats'
       },
       {
         label: 'Twitter',
