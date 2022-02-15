@@ -4,7 +4,11 @@
     <br />
     <PrivacySettings />
     <br />
-    <DeleteData />
+    <h1>Danger zone</h1>
+    <br />
+    <div class="border border-red-500 rounded-xl p-5">
+      <DeleteData />
+    </div>
   </div>
 </template>
 
