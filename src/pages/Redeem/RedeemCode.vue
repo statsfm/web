@@ -1,6 +1,6 @@
 <template>
   <Header />
-  <Container class="h-screen flex flex-col items-center">
+  <Container class="flex h-screen flex-col items-center">
     <GiftCard
       :giftCode="giftCode"
       :isFlipped="isFlipped"

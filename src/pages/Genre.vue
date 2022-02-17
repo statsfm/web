@@ -1,6 +1,6 @@
 <template>
   <Hero>
-    <h1 class="font-black text-center capitalize">
+    <h1 class="text-center font-black capitalize">
       {{ route.params.tag.toString() }}
     </h1>
   </Hero>
@@ -26,11 +26,11 @@
         <h2>Artists</h2>
       </StickyHeader>
 
-      <div class="grid gap-8 grid-cols-2 md:grid-cols-4 xl:grid-cols-5">
+      <div class="grid grid-cols-2 gap-8 md:grid-cols-4 xl:grid-cols-5">
         <div v-for="(artist, index) in genre.artists" :key="index" class="overflow-hidden">
           <Link :to="{ name: 'Artist', params: { id: artist.id, slug: '' } }">
             <Avatar size="large" :src="artist.image" />
-            <h4 class="my-2 text-center truncate">{{ artist.name }}</h4>
+            <h4 class="my-2 truncate text-center">{{ artist.name }}</h4>
             <ChipGroup>
               <Link
                 v-for="(genre, index) in artist.genres"

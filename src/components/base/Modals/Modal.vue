@@ -1,11 +1,11 @@
 <template>
   <Teleport to="body">
     <div
-      class="fixed top-0 left-0 h-screen w-screen bg-black/40 grid place-items-center cursor-pointer animation-fade z-40"
+      class="animation-fade fixed top-0 left-0 z-40 grid h-screen w-screen cursor-pointer place-items-center bg-black/40"
     >
       <!-- TODO: add fade out animation -->
       <div
-        class="bg-bodySecundary rounded-2xl max-h-max p-5 shadow-xl z-50 cursor-default animate-fadeIn"
+        class="z-50 max-h-max animate-fadeIn cursor-default rounded-2xl bg-bodySecundary p-5 shadow-xl"
         v-click-away="onClickAway"
       >
         <slot />

@@ -26,15 +26,15 @@ onMounted(() => {
 
 <template>
   <ul class="w-full">
-    <li v-for="(streams, key) in pairs" class="relative mb-6 w-full flex items-start">
+    <li v-for="(streams, key) in pairs" class="relative mb-6 flex w-full items-start">
       <div
-        class="bg-bodySecundary rounded-full aspect-square min-w-[4rem] w-16 grid place-items-center"
+        class="grid aspect-square w-16 min-w-[4rem] place-items-center rounded-full bg-bodySecundary"
       >
         <div class="flex flex-col items-center">
-          <span class="text-neutral-400 text-sm font-medium block"
+          <span class="block text-sm font-medium text-neutral-400"
             >{{ dayjs(key).format('MMM') }}
           </span>
-          <span class="text-primary relative -mt-1 text-2xl font-bold block">{{
+          <span class="relative -mt-1 block text-2xl font-bold text-primary">{{
             dayjs(key).format('D')
           }}</span>
         </div>
@@ -42,17 +42,17 @@ onMounted(() => {
 
       <div v-if="streams.length > 1">
         <span
-          class="absolute top-0 left-8 h-full -z-10 w-[3px] rounded bg-neutral-700"
+          class="absolute top-0 left-8 -z-10 h-full w-[3px] rounded bg-neutral-700"
           aria-hidden="true"
         />
-        <span class="absolute bottom-0 left-7 w-3 -z-10 h-6 bg-bodyPrimary" aria-hidden="true" />
+        <span class="absolute bottom-0 left-7 -z-10 h-6 w-3 bg-bodyPrimary" aria-hidden="true" />
         <span
-          class="absolute bottom-6 left-8 w-5 -z-10 h-[3px] rounded bg-neutral-700"
+          class="absolute bottom-6 left-8 -z-10 h-[3px] w-5 rounded bg-neutral-700"
           aria-hidden="true"
         />
       </div>
 
-      <ul class="max-w-full ml-2 mt-2 flex flex-col justify-between gap-4 w-full" role="list">
+      <ul class="ml-2 mt-2 flex w-full max-w-full flex-col justify-between gap-4" role="list">
         <li v-for="stream in streams">
           <RouterLink
             :to="{ name: 'Track', params: { id: stream.trackId } }"
@@ -73,7 +73,7 @@ onMounted(() => {
             </div>
 
             <time
-              class="my-auto text-right text-sm whitespace-nowrap font-medium text-neutral-400"
+              class="my-auto whitespace-nowrap text-right text-sm font-medium text-neutral-400"
               >{{ dayjs(stream.endTime).fromNow() }}</time
             >
           </RouterLink>

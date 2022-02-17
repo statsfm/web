@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-primary rounded-lg select-none px-3">
-    <span class="text-bodyPrimary font-medium">Most chosen</span>
+  <div class="select-none rounded-lg bg-primary px-3">
+    <span class="font-medium text-bodyPrimary">Most chosen</span>
   </div>
 </template>

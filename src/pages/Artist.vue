@@ -83,7 +83,7 @@
             v-for="(track, index) in tracks?.slice(0, trackCount)"
             :key="index"
           >
-            <div class="w-full min-h-80 group-hover:opacity-90">
+            <div class="min-h-80 w-full group-hover:opacity-90">
               <Image :src="track.albums[0].image" :alt="track.name" />
             </div>
             <div class="mt-3 flex justify-between">

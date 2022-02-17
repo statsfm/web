@@ -1,5 +1,5 @@
 <template>
-  <div class="w-full max-h-max bg-bodySecundary p-5 rounded-2xl">
+  <div class="max-h-max w-full rounded-2xl bg-bodySecundary p-5">
     <slot />
   </div>
 </template>

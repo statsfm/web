@@ -1,5 +1,5 @@
 <template>
-  <li class="bg-bodySecundary rounded-full h-max min-w-max px-4 py-2 font-medium">
+  <li class="h-max min-w-max rounded-full bg-bodySecundary px-4 py-2 font-medium">
     <slot />
   </li>
 </template>

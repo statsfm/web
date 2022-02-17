@@ -6,9 +6,9 @@
       :style="{ resize: isResizeable ? 'vertical' : 'none' }"
       :placeholder="placeholder"
       :maxlength="maxLength"
-      class="bg-bodySecundary rounded-2xl p-5 w-full focus:outline-none"
+      class="w-full rounded-2xl bg-bodySecundary p-5 focus:outline-none"
     ></textarea>
-    <span v-if="maxLength" class="text-xs text-textGrey font-bold"
+    <span v-if="maxLength" class="text-xs font-bold text-textGrey"
       >{{ charCount }}/{{ maxLength }}</span
     >
   </div>

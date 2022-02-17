@@ -1,5 +1,5 @@
 <template>
-  <div class="flex justify-between mb-8">
+  <div class="mb-8 flex justify-between">
     <div v-for="(step, index) in steps" :key="index" class="flex items-center">
       <StepperStep
         :index="index + 1"

@@ -59,7 +59,7 @@ const focus = (index: number) => {
 
 <template>
   <li>
-    <span class="uppercase px-4 text-xs" v-if="subtitle">{{ subtitle }}</span>
+    <span class="px-4 text-xs uppercase" v-if="subtitle">{{ subtitle }}</span>
     <ul class="flex flex-col bg-bodySecundary" ref="list" @keydown.prevent="onKeyDown" role="list">
       <slot v-for="(item, index) in items" :item="item" :index="index" />
     </ul>

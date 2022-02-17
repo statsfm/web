@@ -9,7 +9,7 @@
       <div
         ref="dropdown"
         :aria-hidden="isActive"
-        class="z-20 absolute right-0 w-max max-h-96 overflow-y-auto shadow-xl animate-fadeIn"
+        class="absolute right-0 z-20 max-h-96 w-max animate-fadeIn overflow-y-auto shadow-xl"
         v-show="isActive"
         @click="hide"
         @keydown="onKeyDown"

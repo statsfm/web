@@ -1,21 +1,21 @@
 <template>
   <Header />
   <Container class="pt-5">
-    <div class="flex flex-col gap-10 lg:flex-row justify-between relative">
-      <div class="md:flex flex-col md:flex-row">
+    <div class="relative flex flex-col justify-between gap-10 lg:flex-row">
+      <div class="flex-col md:flex md:flex-row">
         <!-- TODO: responsiveness for this menu -->
         <!-- TODO: make a component for this menu -->
-        <div class="flex flex-col md:w-48 text-gray-700 flex-shrink-0 -ml-4">
+        <div class="-ml-4 flex flex-shrink-0 flex-col text-gray-700 md:w-48">
           <h3 class="block px-4 font-bold text-white">Account</h3>
-          <nav class="flex-grow md:block pb-4 md:pb-0 md:overflow-y-auto">
+          <nav class="flex-grow pb-4 md:block md:overflow-y-auto md:pb-0">
             <router-link
               v-for="item in items"
               :key="item.label"
               :class="[
-                'block px-4 py-2 mt-2 font-bold rounded-lg hover:opacity-90 hover:bg-bodySecundary  focus:bg-bodySecundary',
+                'mt-2 block rounded-lg px-4 py-2 font-bold hover:bg-bodySecundary hover:opacity-90  focus:bg-bodySecundary',
                 route.name == item.to.name
-                  ? 'text-primary bg-bodySecundary'
-                  : 'text-white bg-transparent'
+                  ? 'bg-bodySecundary text-primary'
+                  : 'bg-transparent text-white'
               ]"
               :to="item.to"
               >{{ item.label }}</router-link

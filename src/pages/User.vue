@@ -8,7 +8,7 @@
   <Container>
     <div class="my-8"></div>
     <div class="flex items-center justify-between gap-5">
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
         <div v-for="item in stats" :key="item.name">
           <h3>{{ item.name }}</h3>
           <span class="text-xl">{{ item.stat }}</span>
@@ -72,7 +72,7 @@
       <ul class="mt-3 grid grid-cols-3 gap-y-3 gap-x-4 md:grid-cols-4 md:gap-x-6 lg:grid-cols-6">
         <li v-for="(track, index) in topTracks?.slice(0, topTracksCount)" :key="index">
           <RouterLink :to="{ name: 'Track', params: { id: track.track.id } }" class="group">
-            <div class="w-full min-h-80 aspect-square group-hover:opacity-90">
+            <div class="min-h-80 aspect-square w-full group-hover:opacity-90">
               <Image
                 :src="track.track.albums[0].image"
                 :alt="track.track.albums[0].name"
@@ -190,7 +190,7 @@
       <ul class="grid grid-cols-3 gap-y-4 gap-x-4 md:grid-cols-4 md:gap-x-6 lg:grid-cols-6">
         <li v-for="(album, index) in topAlbums?.slice(0, albumCount)" :key="index" class="group">
           <router-link :to="{ name: 'Album', params: { id: album.album.id } }">
-            <div class="w-full min-h-80 aspect-square group-hover:opacity-90">
+            <div class="min-h-80 aspect-square w-full group-hover:opacity-90">
               <Image :src="album.album.image" :alt="album.album.name" class="h-full w-full" />
             </div>
             <div class="mt-3 flex justify-between">
@@ -213,23 +213,23 @@
       </StickyHeader>
 
       <div class="flex justify-between pb-4">
-        <div class="w-full md:w-1/2 flex flex-col justify-between">
+        <div class="flex w-full flex-col justify-between md:w-1/2">
           <div v-for="genre in genres?.sort((g1: any, g2: any) => g2.value - g1.value)">
             <label
               :aria-label="genre.label"
               for="progress"
-              class="text-white text-xl font-medium capitalize"
+              class="text-xl font-medium capitalize text-white"
               >{{ genre.label }}</label
             >
-            <div name="progress" class="bg-bodySecundary h-3 w-full overflow-hidden rounded mt-1">
+            <div name="progress" class="mt-1 h-3 w-full overflow-hidden rounded bg-bodySecundary">
               <div
                 :style="{ width: `${genre.value * 100}%` }"
-                class="h-full bg-primary rounded"
+                class="h-full rounded bg-primary"
               ></div>
             </div>
           </div>
         </div>
-        <div class="w-1/2 justify-end hidden md:flex">
+        <div class="hidden w-1/2 justify-end md:flex">
           <AudioFeaturesRadarChart
             v-if="recentStreams"
             @features="(e) => (genres = e)"
@@ -256,27 +256,27 @@
               <div class="relative flex space-x-3">
                 <div class="relative">
                   <div
-                    class="absolute w-20 h-20 bg-bodyPrimary opacity-0 group-hover:opacity-10"
+                    class="absolute h-20 w-20 bg-bodyPrimary opacity-0 group-hover:opacity-10"
                   ></div>
                   <img
-                    class="h-20 w-20 rounded-lg flex items-center justify-center"
+                    class="flex h-20 w-20 items-center justify-center rounded-lg"
                     :src="stream.track.albums[0].image"
                     :alt="stream.track.albums[0].name"
                   />
                 </div>
                 <div
-                  class="min-w-0 flex-1 pt-1.5 flex justify-between space-x-4 group-hover:opacity-90"
+                  class="flex min-w-0 flex-1 justify-between space-x-4 pt-1.5 group-hover:opacity-90"
                 >
                   <div class="flex h-full flex-col">
                     <RouterLink
                       :to="{ name: 'Track', params: { id: stream.track.id } }"
-                      class="text-xl font-bold text-white mt-auto line-clamp-2"
+                      class="mt-auto text-xl font-bold text-white line-clamp-2"
                       >{{ stream.track.name }}</RouterLink
                     >
                     <ArtistNameListRender :artists="stream.track.artists" />
                   </div>
                   <div
-                    class="text-right text-sm whitespace-nowrap font-medium text-neutral-400 flex h-full flex-col"
+                    class="flex h-full flex-col whitespace-nowrap text-right text-sm font-medium text-neutral-400"
                   >
                     <time class="my-auto">{{ dayjs(stream.endTime).fromNow() }}</time>
                   </div>

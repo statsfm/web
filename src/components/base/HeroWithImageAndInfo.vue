@@ -2,7 +2,7 @@
   <Hero>
     <Avatar :src="image" size="large" />
     <div class="flex flex-col justify-end">
-      <span class="text-center font-medium md:text-left text-xl">
+      <span class="text-center text-xl font-medium md:text-left">
         <router-link v-if="subtitleTo" :to="subtitleTo">
           {{ subtitle }}
         </router-link>

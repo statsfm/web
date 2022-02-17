@@ -1,19 +1,19 @@
 <template>
   <div
-    class="w-full max-w-xl perspective cursor-pointer flex flex-col aspect-[5/3] mb-5"
+    class="perspective mb-5 flex aspect-[5/3] w-full max-w-xl cursor-pointer flex-col"
     @click="onGiftCardClick"
   >
     <div class="flip relative transition-transform duration-1000" :class="{ flipped }">
       <Card
-        class="face flex justify-center items-center absolute aspect-[5/3] bg-[url('/images/giftcard_pattern.svg')] bg-contain"
+        class="face absolute flex aspect-[5/3] items-center justify-center bg-[url('/images/giftcard_pattern.svg')] bg-contain"
       >
       </Card>
       <Card
         v-if="giftCode"
-        class="face back p-10 select-none flex flex-col justify-center absolute aspect-[5/3]"
+        class="face back absolute flex aspect-[5/3] select-none flex-col justify-center p-10"
       >
         <p v-if="giftCode.message" class="text-xl text-white">{{ giftCode.message }}</p>
-        <p v-else class="italic font-normal text-xl text-white">
+        <p v-else class="text-xl font-normal italic text-white">
           {{ t('gift.no_message') }}
         </p>
         <span>

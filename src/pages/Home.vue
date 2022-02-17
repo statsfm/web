@@ -1,19 +1,19 @@
 <template>
   <Header />
   <section>
-    <Container class="flex justify-between flex-col gap-5 lg:flex-row relative">
-      <div class="w-full lg:w-5/12 my-12 lg:my-28 pt-10">
+    <Container class="relative flex flex-col justify-between gap-5 lg:flex-row">
+      <div class="my-12 w-full pt-10 lg:my-28 lg:w-5/12">
         <h1 class="text-5xl">
           Your music,<br />
-          <span class="opacity-30 font-extrabold">your</span> stats,<br />
-          <span class="opacity-30 font-extrabold">your</span> story.
+          <span class="font-extrabold opacity-30">your</span> stats,<br />
+          <span class="font-extrabold opacity-30">your</span> story.
         </h1>
         <p class="mb-5">
           Enter a new dimension of music by getting unique insights into your music taste.
         </p>
         <!-- <ChevronLink :to="{ name: 'Gift' }">Watch the video</ChevronLink> -->
         <ChevronLink to="https://youtu.be/_4EFJJOXh_0">Watch the video</ChevronLink>
-        <div class="flex gap-2 mt-8 flex-col md:flex-row items-center">
+        <div class="mt-8 flex flex-col items-center gap-2 md:flex-row">
           <a
             class="duration-100"
             href="https://apps.apple.com/app/spotistats-for-spotify/id1526912392"
@@ -28,18 +28,18 @@
           </a>
         </div>
       </div>
-      <div class="w-full lg:w-7/12 flex items-end mb-10">
+      <div class="mb-10 flex w-full items-end lg:w-7/12">
         <img class="object-contain" src="../assets/images/app_3.webp" alt="Desktop Mobile" />
       </div>
     </Container>
   </section>
-  <section class="bg-bodySecundary pt-28 pb-28 -mt-10">
-    <Container class="flex justify-between flex-col lg:flex-row gap-10">
-      <div class="w-full hidden justify-center mb-5 lg:w-6/12 lg:flex">
+  <section class="-mt-10 bg-bodySecundary pt-28 pb-28">
+    <Container class="flex flex-col justify-between gap-10 lg:flex-row">
+      <div class="mb-5 hidden w-full justify-center lg:flex lg:w-6/12">
         <img
           src="../assets/images/app_2.webp"
           alt="app"
-          class="w-60 lg:w-auto object-contain transition-transform duration-200 hover:scale-[1.02]"
+          class="w-60 object-contain transition-transform duration-200 hover:scale-[1.02] lg:w-auto"
         />
       </div>
       <div class="w-full lg:w-6/12">
@@ -48,7 +48,7 @@
           With the click of a button you'll be logged with your Spotify account and you'll instantly
           gain access to a valhalla of cool stats and insights
         </p>
-        <div class="flex flex-col gap-3 mt-5 mb-8">
+        <div class="mt-5 mb-8 flex flex-col gap-3">
           <FeatureItem :icon="mdiLock" title="Safe & secure"
             >Privacy is key, and I've build the platform keeping security and privacy at the highest
             priority. As far as possible, all data is saved anonymously, and is stored and
@@ -84,9 +84,9 @@
   <section>
     <Container class="pt-14 pb-14">
       <Card
-        class="rounded-[2.5rem] overflow-hidden flex flex-col justify-between max-h-[575px] px-0 py-0 md:flex-row md:gap-5 md:max-h-[365px]"
+        class="flex max-h-[575px] flex-col justify-between overflow-hidden rounded-[2.5rem] px-0 py-0 md:max-h-[365px] md:flex-row md:gap-5"
       >
-        <div class="flex flex-col justify-start w-full p-5 md:w-8/12 md:p-10">
+        <div class="flex w-full flex-col justify-start p-5 md:w-8/12 md:p-10">
           <h1>Connect with your friends</h1>
           <p class="text-xl font-normal">
             It's as easy as sharing a link to your profile to share your stats with friends.
@@ -99,56 +99,56 @@
           >
         </div>
         <div
-          class="hidden md:flex w-[500px] gap-3 overflow-hidden translate-x-[75px] min-w-[350px]"
+          class="hidden w-[500px] min-w-[350px] translate-x-[75px] gap-3 overflow-hidden md:flex"
         >
-          <div class="w-6/12 flex flex-col gap-5 translate-y-[-300px]">
+          <div class="flex w-6/12 translate-y-[-300px] flex-col gap-5">
             <img
               src="../assets/images/app_1.webp"
-              class="w-full hover:scale-[1.02] transition-transform duration-200"
+              class="w-full transition-transform duration-200 hover:scale-[1.02]"
             />
             <img
               src="../assets/images/app_1.webp"
-              class="w-full hover:scale-[1.02] transition-transform duration-200"
+              class="w-full transition-transform duration-200 hover:scale-[1.02]"
             />
           </div>
-          <div class="w-6/12 flex flex-col gap-5 translate-y-[-150px]">
+          <div class="flex w-6/12 translate-y-[-150px] flex-col gap-5">
             <img
               src="../assets/images/app_1.webp"
-              class="w-full hover:scale-[1.02] transition-transform duration-200"
+              class="w-full transition-transform duration-200 hover:scale-[1.02]"
             />
             <img
               src="../assets/images/app_1.webp"
-              class="w-full hover:scale-[1.02] transition-transform duration-200"
+              class="w-full transition-transform duration-200 hover:scale-[1.02]"
             />
           </div>
         </div>
-        <div class="flex justify-center pl-5 pr-5 md:hidden max-h-96 overflow-hidden">
+        <div class="flex max-h-96 justify-center overflow-hidden pl-5 pr-5 md:hidden">
           <img src="../assets/images/app_1.webp" class="h-full" />
         </div>
       </Card>
 
       <!-- TODO: responiveness -->
-      <div class="mt-10 flex gap-10 max-h-[575px] md:max-h-[365px]">
-        <Card class="rounded-[2.5rem] p-0 overflow-hidden hidden md:block">
-          <div class="md:flex w-[500px] translate-x-[35px] gap-3 min-w-[350px]">
-            <div class="w-6/12 flex flex-col gap-5 translate-y-[-300px]">
+      <div class="mt-10 flex max-h-[575px] gap-10 md:max-h-[365px]">
+        <Card class="hidden overflow-hidden rounded-[2.5rem] p-0 md:block">
+          <div class="w-[500px] min-w-[350px] translate-x-[35px] gap-3 md:flex">
+            <div class="flex w-6/12 translate-y-[-300px] flex-col gap-5">
               <img
                 src="../assets/images/app_1.webp"
-                class="w-full hover:scale-[1.02] transition-transform duration-200"
+                class="w-full transition-transform duration-200 hover:scale-[1.02]"
               />
               <img
                 src="../assets/images/app_1.webp"
-                class="w-full hover:scale-[1.02] transition-transform duration-200"
+                class="w-full transition-transform duration-200 hover:scale-[1.02]"
               />
             </div>
-            <div class="w-6/12 flex flex-col gap-5 translate-y-[-190px]">
+            <div class="flex w-6/12 translate-y-[-190px] flex-col gap-5">
               <img
                 src="../assets/images/app_1.webp"
-                class="w-full hover:scale-[1.02] transition-transform duration-200"
+                class="w-full transition-transform duration-200 hover:scale-[1.02]"
               />
               <img
                 src="../assets/images/app_1.webp"
-                class="w-full hover:scale-[1.02] transition-transform duration-200"
+                class="w-full transition-transform duration-200 hover:scale-[1.02]"
               />
             </div>
           </div>
@@ -157,8 +157,8 @@
           </div>
         </Card>
 
-        <Card class="rounded-[2.5rem] max-h-[575px] p-5 md:p-10 md:max-h-[365px]">
-          <div class="flex flex-col justify-start w-full">
+        <Card class="max-h-[575px] rounded-[2.5rem] p-5 md:max-h-[365px] md:p-10">
+          <div class="flex w-full flex-col justify-start">
             <h1>Full control over your data</h1>
             <p class="text-xl font-normal">
               Don't want to share part of your stats/profile? Use the privacy settings to select
@@ -179,11 +179,11 @@
   <section class="bg-bodySecundary pt-14 pb-14 text-[black]">
     <Container>
       <Card
-        class="bg-primary text-center px-6 py-10 flex items-center flex-col transition-transform duration-200 hover:scale-[1.02] sm:px-12 sm:py-20"
+        class="flex flex-col items-center bg-primary px-6 py-10 text-center transition-transform duration-200 hover:scale-[1.02] sm:px-12 sm:py-20"
       >
         <h1 class="text-bodySecundary">Download today and start your journey</h1>
-        <h4 class="text-bodySecundary py-2">Available on Android & iOS</h4>
-        <div class="flex gap-2 flex-col justify-center md:flex-row items-center mt-8">
+        <h4 class="py-2 text-bodySecundary">Available on Android & iOS</h4>
+        <div class="mt-8 flex flex-col items-center justify-center gap-2 md:flex-row">
           <a
             class="duration-100"
             href="https://play.google.com/store/apps/details?id=dev.netlob.spotistats"

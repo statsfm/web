@@ -2,11 +2,11 @@
   <div>
     <h3>Visibility settings</h3>
     <p>Choose what data you want to share</p>
-    <div class="text-white w-full" v-if="privacySettings">
+    <div class="w-full text-white" v-if="privacySettings">
       <div
         v-for="[setting, value] in Object.entries(privacySettings)"
         :key="setting"
-        class="flex flex-row justify-between items-center w-full mb-5"
+        class="mb-5 flex w-full flex-row items-center justify-between"
       >
         <div class="whitespace-nowrap">
           <h4>{{ setting }}</h4>

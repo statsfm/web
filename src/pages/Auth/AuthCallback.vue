@@ -1,6 +1,6 @@
 <template>
   <Header />
-  <Container class="grid place-items-center h-[70vh]">
+  <Container class="grid h-[70vh] place-items-center">
     <Loading />
   </Container>
 </template>

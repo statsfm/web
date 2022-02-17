@@ -1,8 +1,8 @@
 <template>
-  <Card class="text-[white] min-w-[400px] max-h-[200px]">
+  <Card class="max-h-[200px] min-w-[400px] text-[white]">
     <h2 class="text-2xl font-bold">{{ title }}</h2>
-    <p class="line-clamp-3 mt-2">{{ description }}</p>
-    <div class="mt-3 text-textGrey font-bold flex justify-between">
+    <p class="mt-2 line-clamp-3">{{ description }}</p>
+    <div class="mt-3 flex justify-between font-bold text-textGrey">
       <span>{{ author }}</span>
       <span>{{ dayjs(date).fromNow() }}</span>
     </div>

@@ -7,7 +7,7 @@
     <!-- TODO: add fade out animtion -->
     <Card
       :aria-hidden="isActive"
-      class="mt-2 absolute w-max h-max right-0 shadow-xl z-50 animate-fadeIn"
+      class="absolute right-0 z-50 mt-2 h-max w-max animate-fadeIn shadow-xl"
       v-if="isActive"
       @click="hide"
     >

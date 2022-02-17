@@ -1,5 +1,5 @@
 <template>
-  <ul class="flex gap-2 flex-nowrap overflow-x-auto" @wheel.prevent="onWheelScroll" ref="chipgroup">
+  <ul class="flex flex-nowrap gap-2 overflow-x-auto" @wheel.prevent="onWheelScroll" ref="chipgroup">
     <slot />
   </ul>
 </template>

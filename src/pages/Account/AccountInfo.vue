@@ -2,8 +2,8 @@
   <div>
     <h1 class="mb-4">Account info</h1>
 
-    <div v-if="customId != undefined" class="flex flex-col md:items-between md:gap-5 md:flex-row">
-      <div class="flex flex-col w-full md:w-6/12">
+    <div v-if="customId != undefined" class="md:items-between flex flex-col md:flex-row md:gap-5">
+      <div class="flex w-full flex-col md:w-6/12">
         <Input
           name="customUrl"
           label="Custom url"
@@ -23,14 +23,14 @@
           :color="customIdAvailable ? '#22c55e' : '#ff005c'"
         />
         <span
-          class="font-bold text-lg"
+          class="text-lg font-bold"
           :style="`color: ${customIdAvailable ? '#22c55e' : '#ff005c'}`"
           >{{ customIdAvailable ? 'Available' : 'Not Available' }}</span
         >
       </div>
     </div>
 
-    <div v-if="profile && pronouns" class="flex flex-col md:items-between md:gap-5 md:flex-row">
+    <div v-if="profile && pronouns" class="md:items-between flex flex-col md:flex-row md:gap-5">
       <select name="pronouns" id="pronouns" v-model="profile.pronouns">
         <option v-for="pronoun in pronouns" :key="pronoun" :value="pronoun">{{ pronoun }}</option>
       </select>

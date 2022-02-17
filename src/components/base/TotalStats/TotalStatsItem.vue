@@ -4,20 +4,20 @@
     <h2 class="tracking-tight">
       {{ formatCount(count) }}
 
-      <span v-if="hasLiveIndicator" class="w-3 aspect-square relative">
+      <span v-if="hasLiveIndicator" class="relative aspect-square w-3">
         <span
-          class="absolute animate-ping duration-1000s h-4 aspect-square rounded-full bg-primary/75"
+          class="duration-1000s absolute aspect-square h-4 animate-ping rounded-full bg-primary/75"
         >
         </span>
         <span
-          class="absolute mt-0.5 ml-0.5 rounded-full w-3 aspect-square bg-primary opacity-80"
+          class="absolute mt-0.5 ml-0.5 aspect-square w-3 rounded-full bg-primary opacity-80"
         ></span>
       </span>
     </h2>
     <!-- <p class="inline-flex text-sm mt-0 ml-[-5px]" v-if="hasIndicator">
       <Icon
         class="mt-[-1px] mr-[4px] scale-90 h-[1.3rem] w-[1rem]" -->
-    <p class="inline-flex scale-90 mt-0 ml-[-12px] text-neutral-500" v-if="hasIndicator">
+    <p class="mt-0 ml-[-12px] inline-flex scale-90 text-neutral-500" v-if="hasIndicator">
       <Icon
         class="mr-[-1px] ml-[-2x] mt-[-1px] text-inherit"
         :path="
@@ -28,7 +28,7 @@
             : mdiArrowDownThin
         "
       />
-      <span class="font-bold mr-1 text-inherit">{{ formatCount(indicator) }}</span>
+      <span class="mr-1 font-bold text-inherit">{{ formatCount(indicator) }}</span>
       in the last hour
     </p>
   </div>

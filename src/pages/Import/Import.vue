@@ -15,25 +15,25 @@
 
     <div class="flex flex-col gap-2" v-if="imports.length > 0">
       <div v-for="(importFile, index) in imports" :key="index">
-        <div class="flex justify-between items-center py-2 relative overflow-hidden">
+        <div class="relative flex items-center justify-between overflow-hidden py-2">
           <div class="w-full">
             <h4>{{ importFile.name }}</h4>
-            <span class="text-neutral-400 text-2sm"
+            <span class="text-2sm text-neutral-400"
               >Imported on {{ dayjs(importFile.createdAt).format('DD/M/YYYY hh:mm') }}</span
             >
             <br />
-            <span class="text-neutral-400 text-2sm">{{ importFile.count }} streams</span>
+            <span class="text-2sm text-neutral-400">{{ importFile.count }} streams</span>
             <br />
-            <span class="text-neutral-400 text-2sm">{{ getStatus(importFile.status) }}</span>
+            <span class="text-2sm text-neutral-400">{{ getStatus(importFile.status) }}</span>
           </div>
-          <Button size="small" @click="deleteImport(importFile.id)">Delete</Button>
+          <Button size="small" @click="showDeleteModal">Delete</Button>
         </div>
 
         <Modal v-if="isDeleteModalActive" @hide="hideDeleteModal">
           <p class="max-w-prose">
             {{ t('import.delete_notice', { count: importFile.count }) }}
           </p>
-          <div class="flex gap-2 mt-5">
+          <div class="mt-5 flex gap-2">
             <Button @click="hideDeleteModal">{{ t('buttons.cancel') }}</Button>
             <Button @click="deleteImport(importFile.id)">{{ t('buttons.continue') }}</Button>
           </div>
@@ -45,7 +45,7 @@
     </div>
     <Divider class="my-5" />
     <label
-      class="mt-2 block w-full border-0 cursor-pointer transition-colors duration-300 font-bold bg-primary/10 hover:bg-primary/20 active:bg-primary/5 text-primary py-3 px-5 rounded-2xl text-center"
+      class="mt-2 block w-full cursor-pointer rounded-2xl border-0 bg-primary/10 py-3 px-5 text-center font-bold text-primary transition-colors duration-300 hover:bg-primary/20 active:bg-primary/5"
     >
       <input type="file" accept="application/json" class="hidden" @change="onFileSelect" />
 

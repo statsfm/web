@@ -10,9 +10,9 @@
   <Container>
     <section class="mt-5" v-if="audioAnalysis">
       <h2>{{ t('track.audio_analysis') }}</h2>
-      <div class="mt-2 flex justify-between flex-col md:flex-row">
+      <div class="mt-2 flex flex-col justify-between md:flex-row">
         <div>
-          <div class="basis-1/2 grid gap-2 grid-cols-2 md:grid-cols-3">
+          <div class="grid basis-1/2 grid-cols-2 gap-2 md:grid-cols-3">
             <!-- The overall loudness of a track in decibels (dB). Loudness values are averaged across the entire track and are useful for comparing relative loudness of tracks. Loudness is the quality of a sound that is the primary psychological correlate of physical strength (amplitude). Values typically range between -60 and 0 db. -->
             <StatsCard :label="t('track.overall_loudness')">
               {{ audioAnalysis.loudness }}

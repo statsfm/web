@@ -4,7 +4,7 @@
     @click="router.push({ name: 'GiftCoupon', params: { code: giftcode.code } })"
   >
     <p class="mb-3">{{ t('coupon.purchased') }} {{ dayjs(giftcode.purchaseDate).fromNow() }}</p>
-    <Badge @click="copyRedeemCode" class="cursor-copy w-full">{{
+    <Badge @click="copyRedeemCode" class="w-full cursor-copy">{{
       formatCode(giftcode.code)
     }}</Badge>
   </Card>

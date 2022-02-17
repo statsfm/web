@@ -20,7 +20,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <Card v-if="isActive" class="font-bold text-center animate-fade" :class="error.type">{{
+  <Card v-if="isActive" class="animate-fade text-center font-bold" :class="error.type">{{
     error.message
   }}</Card>
 </template>

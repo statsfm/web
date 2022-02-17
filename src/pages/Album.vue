@@ -21,7 +21,7 @@
             :key="index"
           >
             <div class="flex items-start">
-              <span class="text-xl text-neutral-500 align-middle mt-3 w-8 pr-2 text-right"
+              <span class="mt-3 w-8 pr-2 text-right align-middle text-xl text-neutral-500"
                 >{{ index + 1 }}.
               </span>
               <div class="mt-3 ml-2 flex justify-between">

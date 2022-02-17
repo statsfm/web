@@ -2,14 +2,14 @@
   <Header />
   <Container class="h-screen">
     <div class="mt-20 grid place-items-center text-center">
-      <img :src="gif" class="rounded-full w-48 aspect-square mb-5 bg-center bg-contain" />
+      <img :src="gif" class="mb-5 aspect-square w-48 rounded-full bg-contain bg-center" />
       <h1 class="text-3xl font-bold md:text-4xl">
         {{ t('gift.thanks_plus') }}
       </h1>
-      <p class="text-textGrey font-bold mt-2 max-w-prose">
+      <p class="mt-2 max-w-prose font-bold text-textGrey">
         {{ t('gift.order_info') }}
       </p>
-      <Button class="max-w-fit mt-5" @click="$router.push({ name: 'Gift' })">{{
+      <Button class="mt-5 max-w-fit" @click="$router.push({ name: 'Gift' })">{{
         t('gift.take_to_coupons_page')
       }}</Button>
     </div>

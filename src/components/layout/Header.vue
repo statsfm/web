@@ -1,9 +1,9 @@
 <template>
   <header>
-    <Container class="flex justify-between items-center py-3">
+    <Container class="flex items-center justify-between py-3">
       <router-link to="/" class="flex gap-3">
-        <Logo class="w-[1.7rem] h-[1.7rem]" />
-        <h1 class="text-2xl font-bold hidden md:block">
+        <Logo class="h-[1.7rem] w-[1.7rem]" />
+        <h1 class="hidden text-2xl font-bold md:block">
           {{ isSpotistats ? 'Spotistats' : 'Stats.fm' }}
         </h1>
       </router-link>

@@ -28,7 +28,7 @@ const attrs = useAttrs();
 <template>
   <button
     v-bind="attrs"
-    class="whitespace-nowrap inline-flex items-center justify-center rounded-lg shadow-sm text-base font-bold"
+    class="inline-flex items-center justify-center whitespace-nowrap rounded-lg text-base font-bold shadow-sm"
     :class="[variant, size, { 'w-full': full, 'w-max': !full }]"
     @click="(e: MouseEvent) => emit('click', e)"
   >
@@ -39,17 +39,17 @@ const attrs = useAttrs();
 <style scoped>
 /* variant */
 .primary {
-  @apply text-primary bg-primary/10 hover:bg-primary/20 active:bg-primary/5;
+  @apply bg-primary/10 text-primary hover:bg-primary/20 active:bg-primary/5;
 }
 .secundary {
-  @apply text-white hover:bg-bodySecundary/20 focus:ring-4 focus:ring-bodySecundary hover:text-white/90;
+  @apply text-white hover:bg-bodySecundary/20 hover:text-white/90 focus:ring-4 focus:ring-bodySecundary;
 }
 
 /* size */
 .small {
-  @apply py-2 px-5 rounded-xl;
+  @apply rounded-xl py-2 px-5;
 }
 .medium {
-  @apply py-3 px-5 rounded-2xl;
+  @apply rounded-2xl py-3 px-5;
 }
 </style>

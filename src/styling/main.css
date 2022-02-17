@@ -40,11 +40,11 @@
 
   p,
   span {
-    @apply text-neutral-400 font-medium;
+    @apply font-medium text-neutral-400;
   }
 
   p {
-    @apply max-w-prose my-2;
+    @apply my-2 max-w-prose;
   }
 
   svg {

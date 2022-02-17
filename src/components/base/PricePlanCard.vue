@@ -1,6 +1,6 @@
 <template>
   <div
-    class="w-full select-none cursor-pointer relative transform transition duration-200 hover:scale-105"
+    class="relative w-full transform cursor-pointer select-none transition duration-200 hover:scale-105"
   >
     <Card
       class="flex flex-col items-center text-center"
@@ -11,14 +11,14 @@
       <h1>{{ plan.quantity }}x</h1>
       <p>{{ plan.name }}</p>
       <p
-        class="text-primary my-[-3px] font-bold"
+        class="my-[-3px] font-bold text-primary"
         v-if="calculateSavePercentage(plan, defaultPlan) > 0"
       >
         {{ t('gift.save_with_bundle', { percentage: calculateSavePercentage(plan, defaultPlan) }) }}
       </p>
     </Card>
 
-    <Button class="w-full mt-2 text-xl" size="small"
+    <Button class="mt-2 w-full text-xl" size="small"
       >{{ formatAmount(plan.price.amount) }}{{ plan.price.currency
       }}<small class="ml-1">excl vat & fees</small></Button
     >

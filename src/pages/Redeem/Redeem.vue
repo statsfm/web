@@ -7,7 +7,7 @@
       placeholder="XXXX-XXXX-XXXX"
       @input="code = ($event.target as any)?.value"
       :value="code"
-      class="bg-bodySecundary font-bold rounded-2xl text-3xl p-4 uppercase tracking-[0.15em] w-full"
+      class="w-full rounded-2xl bg-bodySecundary p-4 text-3xl font-bold uppercase tracking-[0.15em]"
     />
 
     <Button @click="routeToCode" :disabled="isContinueButtonDisabled" class="mt-5">{{

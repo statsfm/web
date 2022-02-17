@@ -1,10 +1,10 @@
 <template>
   <Header />
   <canvas ref="canvas" class="absolute top-0 -z-50" />
-  <div class="grid place-items-center h-screen" @click="onCanvasClick">
+  <div class="grid h-screen place-items-center" @click="onCanvasClick">
     <div class="-mt-64 text-center" ref="content">
-      <h1 class="text-7xl font-bold mb-2">Whoops...</h1>
-      <p class="font-bold text-textGrey text-2xl mb-5">That page doesn't exist</p>
+      <h1 class="mb-2 text-7xl font-bold">Whoops...</h1>
+      <p class="mb-5 text-2xl font-bold text-textGrey">That page doesn't exist</p>
       <!-- <router-link :to="{ name: 'Home' }"> -->
       <!-- <Button>Back to homepage</Button> -->
       <Link :to="{ name: 'Home' }" class="flex items-center font-bold text-primary"></Link>

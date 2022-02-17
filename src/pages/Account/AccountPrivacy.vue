@@ -6,7 +6,7 @@
     <br />
     <h1>Danger zone</h1>
     <br />
-    <div class="border border-red-500 rounded-xl p-5">
+    <div class="rounded-xl border border-red-500 p-5">
       <DeleteData />
     </div>
   </div>

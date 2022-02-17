@@ -1,3 +1,3 @@
 <template>
-  <div class="my-2 w-full h-[1px] bg-neutral-600" />
+  <div class="my-2 h-[1px] w-full bg-neutral-600" />
 </template>

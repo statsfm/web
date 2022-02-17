@@ -14,7 +14,7 @@ const attrs = useAttrs();
 <template>
   <li
     v-bind="attrs"
-    class="w-full flex px-4 py-2 cursor-pointer select-none hover:bg-bodyPrimary/80 focus:bg-bodyPrimary/80 text-white font-bold focus:outline-none"
+    class="flex w-full cursor-pointer select-none px-4 py-2 font-bold text-white hover:bg-bodyPrimary/80 focus:bg-bodyPrimary/80 focus:outline-none"
     tabindex="0"
     role="option"
   >

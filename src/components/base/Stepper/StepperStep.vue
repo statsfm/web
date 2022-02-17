@@ -1,11 +1,11 @@
 <template>
   {{ isDisabled }}
   <div
-    class="flex flex-1 flex-col items-center gap-2 cursor-pointer"
+    class="flex flex-1 cursor-pointer flex-col items-center gap-2"
     @click="!isDisabled ? $emit('click') : ''"
   >
     <div
-      class="select-none cursor-pointer w-12 aspect-square rounded-full text-xl grid place-items-center transition-colors duration-200"
+      class="grid aspect-square w-12 cursor-pointer select-none place-items-center rounded-full text-xl transition-colors duration-200"
       :class="{
         'bg-primaryLighter font-bold': isCurrent,
         'hover:bg-primary/20 active:bg-primary/5': !isDisabled
@@ -15,7 +15,7 @@
       <!-- TODO: use primary color -->
       <Icon v-else :path="mdiCheck" color="rgb(30 215 96)"></Icon>
     </div>
-    <span class="text-white truncate">
+    <span class="truncate text-white">
       <slot />
     </span>
   </div>

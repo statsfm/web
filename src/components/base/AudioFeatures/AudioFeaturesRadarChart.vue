@@ -1,5 +1,5 @@
 <template>
-  <div class="relative w-[400px] h-[400px]">
+  <div class="relative h-[400px] w-[400px]">
     <canvas ref="canvas" class="absolute"></canvas>
     <AudioFeatureBubble
       v-for="(feature, index) in featuresWithPos"

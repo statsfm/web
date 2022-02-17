@@ -13,7 +13,7 @@ withDefaults(defineProps<Props>(), {
 
 <template>
   <div
-    class="bg-bodySecundary rounded-full bg-cover bg-center aspect-square"
+    class="aspect-square rounded-full bg-bodySecundary bg-cover bg-center"
     :class="size"
     :style="src ? { backgroundImage: `url(${src})` } : {}"
   ></div>

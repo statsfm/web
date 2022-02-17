@@ -1,7 +1,7 @@
 <template>
   <Container class="pt-14 pb-14">
-    <div class="xl:grid xl:gap-8 font-bold">
-      <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+    <div class="font-bold xl:grid xl:gap-8">
+      <div class="grid grid-cols-2 gap-8 md:grid-cols-4">
         <div v-for="(link, index) in links" :key="index">
           <h4 class="text-neutral-400">{{ link.label }}</h4>
           <ul class="mt-4 space-y-4">
@@ -35,7 +35,7 @@
         </div>
       </div>
     </div>
-    <p class="min-w-full mt-10 pt-10 text-center md:mt-0 md:order-1">
+    <p class="mt-10 min-w-full pt-10 text-center md:order-1 md:mt-0">
       © 2022 Stats.fm / Spotistats for Spotify. All rights reserved. Made with ❤️ in the
       Netherlands.
     </p>

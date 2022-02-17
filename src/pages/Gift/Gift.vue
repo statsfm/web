@@ -1,9 +1,9 @@
 <template>
   <Header />
   <Container class="pt-5">
-    <section class="flex gap-3 mb-5 flex-col mt-2">
-      <div class="w-full flex flex-col justify-between">
-        <div class="flex gap-3 justify-center mb-2 flex-col md:flex-row">
+    <section class="mb-5 mt-2 flex flex-col gap-3">
+      <div class="flex w-full flex-col justify-between">
+        <div class="mb-2 flex flex-col justify-center gap-3 md:flex-row">
           <!-- <PricePlanCard
             v-for="(plan, index) in plans"
             :key="index"
@@ -33,7 +33,7 @@
               {{ t('gift.coupon_codes_not_found') }}
             </p>
 
-            <div class="flex flex-nowrap overflow-x-auto gap-3 md:flex-wrap">
+            <div class="flex flex-nowrap gap-3 overflow-x-auto md:flex-wrap">
               <Coupon
                 v-for="(code, index) in giftCodes?.filter((code) => code.claimedBy == undefined)"
                 :key="index"

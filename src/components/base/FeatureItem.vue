@@ -1,7 +1,7 @@
 <template>
   <div class="flex items-start gap-3">
     <div
-      class="text-primary bg-primaryLighter min-w-[3rem] aspect-square rounded-full font-bold text-xl grid place-items-center"
+      class="grid aspect-square min-w-[3rem] place-items-center rounded-full bg-primaryLighter text-xl font-bold text-primary"
     >
       <Icon :path="icon" color="#1ed760" />
     </div>
