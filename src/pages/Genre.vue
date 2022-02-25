@@ -14,9 +14,9 @@
         <Link
           v-for="(related, index) in genre.related"
           :key="index"
-          :to="{ name: 'Genre', params: { tag: related } }"
+          :to="{ name: 'Genre', params: { tag: related.tag } }"
         >
-          <Chip>{{ related }}</Chip>
+          <Chip>{{ related.tag }}</Chip>
         </Link>
       </ChipGroup>
     </section>
