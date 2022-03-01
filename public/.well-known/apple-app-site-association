@@ -1,0 +1,17 @@
+{
+  "applinks": {
+    "apps": [],
+    "details": [
+      {
+        "appID": "FCB4S3W235.dev.netlob.spotistats",
+        "paths": [
+          "/user/*",
+          "/track/*",
+          "/artist/*",
+          "/album/*",
+          "/playlist/*"
+        ]
+      }
+    ]
+  }
+}

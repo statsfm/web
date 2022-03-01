@@ -1,0 +1,12 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "dev.spotistats.spotistats",
+      "sha256_cert_fingerprints": [
+        "C9:2C:8F:27:A3:D4:19:DB:B2:36:F6:39:76:82:96:BB:8E:12:25:44:EC:EE:85:DB:C4:51:2A:5B:1E:EA:F3:5A"
+      ]
+    }
+  }
+]
