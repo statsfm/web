@@ -44,7 +44,7 @@
   }
 
   p {
-    @apply my-2 max-w-prose;
+    @apply my-2;
   }
 
   svg {
