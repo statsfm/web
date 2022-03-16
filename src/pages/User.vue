@@ -1,12 +1,20 @@
 <template>
-  <HeroWithImageAndInfo
-    v-if="user"
-    :name="user.displayName"
-    :subtitle="user.country"
-    :image="user.image"
-  />
+  <HeroWithImageAndInfo v-if="user" :name="user.displayName" :image="user.image" />
   <Container>
     <div class="my-8"></div>
+    <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
+      <div>
+        <h3>Bio</h3>
+        <span class="text-xl">{{ user?.profile?.bio }}</span>
+      </div>
+      <div v-if="user?.profile?.pronouns">
+        <h3>Pronouns</h3>
+        <span class="text-xl">{{ user.profile.pronouns }}</span>
+      </div>
+    </div>
+
+    <div class="my-8"></div>
+
     <div class="flex items-center justify-between gap-5">
       <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
         <div v-for="item in stats" :key="item.name">
