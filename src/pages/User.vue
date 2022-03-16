@@ -398,7 +398,7 @@ const load = async () => {
           stat: dayjs
             .duration({ milliseconds: durationMs })
             .add({ milliseconds: 0 })
-            .format('HH [hours] mm [minutes] ss [seconds]')
+            .format('DD [days] HH [hours] mm [minutes] ss [seconds]')
         }
       );
     });
