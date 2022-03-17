@@ -7,7 +7,8 @@
     :subtitle-to="{ name: 'Artist', params: { id: album.artists[0].id } }"
   />
   <Container>
-    <div v-if="album" class="mt-5">
+    <ComingSoon />
+    <div v-if="album && false" class="mt-5">
       <section>
         <StickyHeader>
           <h2>Album content</h2>
@@ -60,6 +61,7 @@ import Container from '~/components/layout/Container.vue';
 import { useApi } from '~/hooks';
 import RecentStreams from '~/components/base/RecentStreams/RecentStreams.vue';
 import StickyHeader from '~/components/base/StickyHeader.vue';
+import ComingSoon from '~/components/base/ComingSoon.vue';
 import * as statsfm from '@statsfm/statsfm.js';
 
 const { t } = useI18n();

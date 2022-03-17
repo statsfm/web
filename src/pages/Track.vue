@@ -8,7 +8,8 @@
     />
   </div>
   <Container>
-    <section class="mt-5" v-if="audioAnalysis">
+    <ComingSoon />
+    <section class="mt-5" v-if="audioAnalysis && false">
       <h2>{{ t('track.audio_analysis') }}</h2>
       <div class="mt-2 flex flex-col justify-between md:flex-row">
         <div>
@@ -73,6 +74,7 @@ import AudioAnalysis from '~/components/base/AudioAnalysis/AudioAnalysis.vue';
 import HeroWithImageAndInfo from '~/components/base/HeroWithImageAndInfo.vue';
 import StatsCard from '~/components/base/StatsCard.vue';
 import Container from '~/components/layout/Container.vue';
+import ComingSoon from '~/components/base/ComingSoon.vue';
 import dayjs from '~/dayjs';
 import { useApi } from '~/hooks';
 
@@ -115,6 +117,6 @@ onMounted(async () => {
   const id = parseInt(route.params.id.toString());
 
   track.value = await api.tracks.get(id);
-  audioAnalysis.value = await getTrackAudioAnalysis(track.value);
+  // audioAnalysis.value = await getTrackAudioAnalysis(track.value);
 });
 </script>

@@ -4,7 +4,8 @@
       {{ route.params.tag.toString() }}
     </h1>
   </Hero>
-  <Container v-if="genre">
+  <Container><ComingSoon /></Container>
+  <Container v-if="genre && false">
     <section>
       <StickyHeader>
         <h2>Related genres</h2>
@@ -55,6 +56,7 @@ import Chip from '~/components/base/Chip/Chip.vue';
 import ChipGroup from '~/components/base/Chip/ChipGroup.vue';
 import Hero from '~/components/base/Hero.vue';
 import Link from '~/components/base/Link.vue';
+import ComingSoon from '~/components/base/ComingSoon.vue';
 import Container from '~/components/layout/Container.vue';
 import StickyHeader from '~/components/base/StickyHeader.vue';
 

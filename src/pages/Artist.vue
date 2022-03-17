@@ -6,7 +6,8 @@
     :image="artist.image"
   />
   <Container>
-    <div v-if="artist" class="mt-5">
+    <ComingSoon />
+    <div v-if="artist && false" class="mt-5">
       <section>
         <StickyHeader>
           <h2>Genres</h2>
@@ -125,6 +126,7 @@ import Button from '~/components/base/Button.vue';
 import Icon from '~/components/base/Icon.vue';
 import RealDropdown from '~/components/base/dropdowns/RealDropdown.vue';
 import List from '~/components/base/List/List.vue';
+import ComingSoon from '~/components/base/ComingSoon.vue';
 import ListItem from '~/components/base/List/ListItem.vue';
 import ListItemGroup from '~/components/base/List/ListItemGroup.vue';
 import ArtistNameListRender from '~/components/base/ArtistNameListRender.vue';
@@ -164,8 +166,8 @@ onMounted(async () => {
   const id = parseInt(route.params.id.toString());
 
   artist.value = await api.artists.get(id);
-  tracks.value = await api.artists.tracks(id);
-  streams.value = await api.users.artistStreams('me', id, { query: { limit: 100 } });
+  // tracks.value = await api.artists.tracks(id);
+  // streams.value = await api.users.artistStreams('me', id, { query: { limit: 100 } });
 });
 
 watch(sort, (val) => {
