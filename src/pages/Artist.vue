@@ -7,7 +7,7 @@
   />
   <Container>
     <ComingSoon />
-    <div v-if="artist && false" class="mt-5">
+    <!-- <div v-if="artist" class="mt-5">
       <section>
         <StickyHeader>
           <h2>Genres</h2>
@@ -106,7 +106,7 @@
 
         <RecentStreams v-if="streams" :streams="streams" />
       </section>
-    </div>
+    </div> -->
   </Container>
 </template>
 

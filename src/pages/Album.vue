@@ -8,7 +8,7 @@
   />
   <Container>
     <ComingSoon />
-    <div v-if="album && false" class="mt-5">
+    <!-- <div v-if="album && false" class="mt-5">
       <section>
         <StickyHeader>
           <h2>Album content</h2>
@@ -31,7 +31,7 @@
                     {{ track.name }}
                   </h3>
                   <p class="mt-0 text-lg text-neutral-400 line-clamp-1">
-                    <!-- TODO: move to a helper function -->
+                    TODO: move to a helper function
                     {{ track.artists.map((a: statsfm.ArtistSimple) => a.name).join(', ') }}
                   </p>
                 </div>
@@ -48,7 +48,7 @@
 
         <RecentStreams v-if="streams" :streams="streams" />
       </section>
-    </div>
+    </div> -->
   </Container>
 </template>
 

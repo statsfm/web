@@ -5,7 +5,7 @@
     </h1>
   </Hero>
   <Container><ComingSoon /></Container>
-  <Container v-if="genre && false">
+  <!-- <Container v-if="genre">
     <section>
       <StickyHeader>
         <h2>Related genres</h2>
@@ -45,7 +45,7 @@
         </div>
       </div>
     </section>
-  </Container>
+  </Container> -->
 </template>
 
 <script lang="ts" setup>
