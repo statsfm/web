@@ -5,12 +5,13 @@
       We're working as hard as we can on these pages and hope to release them soon : )
       <br />
       Meanwhile, you can
-      <Link
+      <a
         class="text-lg text-primary font-bold"
-        :to="`spotistats://stats.fm${$route.path}?utm_source=https://stats.fm&utm_medium=share_link_click`"
+        :href="`spotistats://stats.fm${$route.path}?utm_source=https://stats.fm&utm_medium=share_link_click`"
+        target="_blank"
       >
         check out this page in the app
-      </Link>
+      </a>
     </h4>
   </div>
 </template>
