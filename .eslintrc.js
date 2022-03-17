@@ -6,6 +6,7 @@ module.exports = {
   },
   root: true,
   env: {
+    browser: true,
     node: true
   },
   ignorePatterns: ['.eslintrc.js'],
