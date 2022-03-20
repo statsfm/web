@@ -4,9 +4,9 @@
       <div class="grid grid-cols-2 gap-8 md:grid-cols-4">
         <div v-for="(link, index) in links" :key="index">
           <h4 class="text-neutral-400">{{ link.label }}</h4>
-          <ul class="mt-4 space-y-4">
+          <ul class="mt-2 space-y-2">
             <li v-for="(link, index) in link.links" :key="index">
-              <Link :to="link.to">{{ link.label }}</Link>
+              <Link :to="link.to" class="text-[1rem]">{{ link.label }}</Link>
             </li>
           </ul>
         </div>
@@ -15,27 +15,28 @@
           <h4 class="text-neutral-400">Download</h4>
           <div class="mt-4"></div>
           <a
-            class="h-12"
+            class="h-9"
             href="https://apps.apple.com/app/spotistats-for-spotify/id1526912392"
             target="blank"
-            ><img src="../../assets/apple_appstore_badge.png" alt="Apple Appstore" class="h-12" />
+            ><img src="../../assets/apple_appstore_badge.png" alt="Apple Appstore" class="h-9" />
           </a>
           <div class="mt-2"></div>
           <a
-            class="h-12"
+            class="h-9"
             href="https://play.google.com/store/apps/details?id=dev.netlob.spotistats"
             target="blank"
-            ><img src="../../assets/google_play_badge.png" alt="Google Play" class="h-12" />
+            ><img src="../../assets/google_play_badge.png" alt="Google Play" class="h-9" />
           </a>
-          <div class="mt-2">
-            <Button @click="router.push({ path: '/user/me' })" size="small" class="hidden md:block"
-              >Open webapp</Button
-            >
-          </div>
         </div>
       </div>
     </div>
-    <p class="mt-10 min-w-full pt-10 text-center md:order-1 md:mt-0">
+    <p class="mt-10 min-w-full pt-10 text-center text-neutral-500 md:order-1 md:mt-0">
+      All copyrighted content (i.e. album artwork) on Stats.fm are owned by their respective owners.
+      Data is provided by Spotify. Spotify is a trademark of Spotify AB. Stats.fm is in no way
+      affiliated with Spotify. Spotify is a trademark of Spotify AB. This website is not affiliated
+      with Spotify.
+    </p>
+    <p class="mt-10 min-w-full pt-5 text-center md:order-1 md:mt-0">
       © 2022 Stats.fm / Spotistats for Spotify. All rights reserved. Made with ❤️ in the
       Netherlands.
     </p>
@@ -61,7 +62,7 @@ const links: { label: string; links: { label: string; to: string | LocationAsRel
       },
       {
         label: 'Support',
-        to: 'https://support.spotistats.app/'
+        to: 'https://support.stats.fm/'
       },
       {
         label: 'Beta program',
