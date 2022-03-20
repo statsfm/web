@@ -26,7 +26,7 @@
             <br />
             <span class="text-2sm text-neutral-400">{{ getStatus(importFile.status) }}</span>
           </div>
-          <Button size="small" @click="showDeleteModal">Delete</Button>
+          <!-- <Button size="small" @click="showDeleteModal">Delete</Button> -->
         </div>
 
         <Modal v-if="isDeleteModalActive" @hide="hideDeleteModal">
@@ -134,7 +134,7 @@ const onFileSelect = async (e: any) => {
     formData.append('files', file);
 
     const oldUrl = api.http.config.baseUrl;
-    api.http.config.baseUrl = 'https://laa-laa.spotistats.app/api/v1';
+    api.http.config.baseUrl = 'https://import.stats.fm/api/v1';
     await api.me.import({
       headers: {
         'Content-Type': null!
