@@ -91,7 +91,7 @@ export default class auth {
   };
 
   public setToken = async (token: string) => {
-    this.api.http.config.acccessToken = token;
+    this.api.http.config.accessToken = token;
 
     localStorage.setItem('token', token);
 

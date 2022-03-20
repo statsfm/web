@@ -72,10 +72,7 @@ const pronouns: Ref<string[] | undefined> = ref();
 
 const save = async () => {
   if (!profile.value) return;
-  await api.me.updateProfile({
-    customId: customId.value,
-    ...profile.value
-  });
+  await api.me.updateProfile(profile.value);
 };
 
 const checkAvailability = async (customId: string) => {

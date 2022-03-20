@@ -30,7 +30,10 @@
 
         <List class="w-44 rounded-xl">
           <!-- TODO: fix with i18n and range -->
-          <ListItemGroup :items="['weeks', 'months', 'lifetime']" @click="(e) => setRange(e)">
+          <ListItemGroup
+            :items="[statsfm.Range.WEEKS, statsfm.Range.MONTHS, statsfm.Range.LIFETIME]"
+            @click="(e) => setRange(e)"
+          >
             <template v-slot="{ item }">
               <ListItem :class="{ 'text-primary': item == range }" @click="setRange(item)">{{
                 item
@@ -330,7 +333,7 @@ const api = useApi();
 
 const id = route.params.userId.toString();
 
-const range: Ref<any> = ref('lifetime');
+const range: Ref<statsfm.Range> = ref(statsfm.Range.LIFETIME);
 const genres: Ref<any | null> = ref(null);
 const user: Ref<any | null> = ref(null);
 const recentStreams: Ref<statsfm.RecentlyPlayedTrack[] | null> = ref(null);
@@ -374,42 +377,36 @@ const load = async () => {
   }
   api.users
     .topTracks(id, {
-      query: { range: range.value.toLowerCase() }
+      range: range.value
     })
     .then((data: any) => (topTracks.value = data));
   api.users
     .topArtists(id, {
-      query: { range: range.value.toLowerCase() }
+      range: range.value
     })
     .then((data: any) => (topArtists.value = data));
   api.users
     .topAlbums(id, {
-      query: { range: range.value.toLowerCase() }
+      range: range.value
     })
     .then((data: any) => (topAlbums.value = data));
-  api.users
-    .recentStreams(id, {
-      query: { range: range.value.toLowerCase() }
-    })
-    .then((data: any) => (recentStreams.value = data));
+  api.users.recentlyStreamed(id).then((data: any) => (recentStreams.value = data));
 
-  api.users
-    .stats(id, { query: { range: range.value.toLowerCase() } })
-    .then(({ durationMs, count }) => {
-      stats.value.push(
-        {
-          name: t('user.streams'),
-          stat: count
-        },
-        {
-          name: t('user.time_streamed'),
-          stat: dayjs
-            .duration({ milliseconds: durationMs })
-            .add({ milliseconds: 0 })
-            .format('DD [days] HH [hours] mm [minutes] ss [seconds]')
-        }
-      );
-    });
+  api.users.stats(id, { range: range.value }).then(({ durationMs, count }) => {
+    stats.value.push(
+      {
+        name: t('user.streams'),
+        stat: count
+      },
+      {
+        name: t('user.time_streamed'),
+        stat: dayjs
+          .duration({ milliseconds: durationMs })
+          .add({ milliseconds: 0 })
+          .format('DD [days] HH [hours] mm [minutes] ss [seconds]')
+      }
+    );
+  });
 };
 
 const setRange = (value: any) => {
