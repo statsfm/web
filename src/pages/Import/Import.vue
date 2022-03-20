@@ -133,12 +133,15 @@ const onFileSelect = async (e: any) => {
   if (file && file.name.match(/endsong(?:_[0-9]+)?\.json/i)) {
     formData.append('files', file);
 
+    const oldUrl = api.http.config.baseUrl;
+    api.http.config.baseUrl = 'https://laa-laa.spotistats.app/api/v1';
     await api.me.import({
       headers: {
         'Content-Type': null!
       },
       body: formData
     });
+    api.http.config.baseUrl = oldUrl;
 
     await loadImports();
 
