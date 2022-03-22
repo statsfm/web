@@ -400,10 +400,7 @@ const load = async () => {
       },
       {
         name: t('user.time_streamed'),
-        stat: dayjs
-          .duration({ milliseconds: durationMs })
-          .add({ milliseconds: 0 })
-          .format('DD [days] HH [hours] mm [minutes] ss [seconds]')
+        stat: Math.round(durationMs / 1000 / 60 / 60) + ' hours'
       }
     );
   });
