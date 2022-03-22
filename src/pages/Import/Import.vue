@@ -1,5 +1,12 @@
 <template>
   <Header />
+  <div
+    class="py-50 fixed top-0 left-0 flex h-screen w-screen items-center justify-center bg-black bg-opacity-70"
+    style="z-index: 10000"
+    v-if="loading"
+  >
+    <Loading class="m-auto" />
+  </div>
   <Container>
     <h2>Imports</h2>
     <p>
@@ -41,7 +48,7 @@
       </div>
     </div>
     <div v-else>
-      <Card>{{ t('import.no_imports_yet') }}</Card>
+      <h4 class="my-5 text-neutral-400">{{ t('import.no_imports_yet') }}</h4>
     </div>
     <Divider class="my-5" />
     <label
@@ -63,6 +70,7 @@ import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
 import Button from '~/components/base/Button.vue';
 import Divider from '~/components/base/Divider.vue';
+import Loading from '~/components/base/Loading.vue';
 import Modal from '~/components/base/Modals/Modal.vue';
 import Card from '~/components/layout/Card.vue';
 import Container from '~/components/layout/Container.vue';
@@ -76,6 +84,7 @@ const auth = useAuth();
 const router = useRouter();
 
 const imports: Ref<statsfm.UserImport[]> = ref([]);
+const loading = ref(false);
 
 const loadImports = async () => {
   imports.value = await api.me.imports();
@@ -133,15 +142,25 @@ const onFileSelect = async (e: any) => {
   if (file && file.name.match(/endsong(?:_[0-9]+)?\.json/i)) {
     formData.append('files', file);
 
+    loading.value = true;
     const oldUrl = api.http.config.baseUrl;
-    api.http.config.baseUrl = 'https://import.stats.fm/api/v1';
-    await api.me.import({
-      headers: {
-        'Content-Type': null!
-      },
-      body: formData
-    });
+    try {
+      api.http.config.baseUrl = 'https://import.stats.fm/api/v1';
+      await api.me.import({
+        headers: {
+          'Content-Type': null!
+        },
+        body: formData
+      });
+    } catch (e) {
+      toaster.error({
+        // @ts-ignore
+        message: e.toString(),
+        duration: 8 * 1000 // show the toaster for 8 seconds
+      });
+    }
     api.http.config.baseUrl = oldUrl;
+    loading.value = false;
 
     await loadImports();
 
