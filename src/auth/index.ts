@@ -71,8 +71,8 @@ export default class auth {
       'user-read-playback-position',
       'user-read-recently-played',
       // Follow
-      'user-follow-read',
-      'user-follow-modify'
+      'user-follow-read'
+      // 'user-follow-modify'
     ].join('%20');
     // const loginUrl = `${ApiManager.baseUrl}/auth/redirect/spotify?scope=${scope}&redirect_uri=${this.redirectUri}`;
     const loginUrl = `https://api.stats.fm/api/v1/auth/redirect/spotify?scope=${scope}&redirect_uri=${this.redirectUri}`;
