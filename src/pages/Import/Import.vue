@@ -168,7 +168,7 @@ const onFileSelect = async (e: any) => {
     api.http.config.baseUrl = oldUrl;
     loading.value = false;
 
-    await loadImports();
+    window.location.reload();
   } else if (file?.name.match(/StreamingHistory[0-9][0-9]?.json/g)) {
     toaster.error({
       message: t('errors.invalid_filename_streaminghistory'),
