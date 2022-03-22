@@ -46,32 +46,32 @@ export default class auth {
   public login = (redirectPage?: string) => {
     const scope = [
       // Images
-      'ugc-image-upload',
+      // 'ugc-image-upload',
       // Spotify Connect
-      'user-read-playback-state',
-      'user-modify-playback-state',
-      'user-read-currently-playing',
+      // 'user-read-playback-state',
+      // 'user-modify-playback-state',
+      // 'user-read-currently-playing',
       // Playback
       // "streaming",
       // "app-remote-control",
       // Users
-      'user-read-email',
-      'user-read-private',
+      // 'user-read-email',
+      'user-read-private'
       // "user-read-birthdate",
       // Playlists
-      'playlist-read-collaborative',
-      'playlist-modify-public',
-      'playlist-read-private',
-      'playlist-modify-private',
+      // 'playlist-read-collaborative',
+      // 'playlist-modify-public',
+      // 'playlist-read-private',
+      // 'playlist-modify-private',
       // Library
-      'user-library-modify',
-      'user-library-read',
+      // 'user-library-modify',
+      // 'user-library-read',
       // Listening History
-      'user-top-read',
-      'user-read-playback-position',
-      'user-read-recently-played',
+      // 'user-top-read',
+      // 'user-read-playback-position',
+      // 'user-read-recently-played',
       // Follow
-      'user-follow-read'
+      // 'user-follow-read'
       // 'user-follow-modify'
     ].join('%20');
     // const loginUrl = `${ApiManager.baseUrl}/auth/redirect/spotify?scope=${scope}&redirect_uri=${this.redirectUri}`;
