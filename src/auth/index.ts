@@ -125,16 +125,16 @@ export default class auth {
 
     if (token?.startsWith('ey')) {
       return true;
-      const { exp, iat } = JSON.parse(Buffer.from(token!.split('.')[1], 'base64').toString()); // falsely marked as deprecated -> https://github.com/microsoft/TypeScript/issues/45566
-      if (exp == undefined || exp == null) {
-        valid = true;
-      } else {
-        valid = Math.floor(new Date().getTime() / 1000) <= exp;
+      // const { exp, iat } = JSON.parse(Buffer.from(token!.split('.')[1], 'base64').toString()); // falsely marked as deprecated -> https://github.com/microsoft/TypeScript/issues/45566
+      // if (exp == undefined || exp == null) {
+      //   valid = true;
+      // } else {
+      //   valid = Math.floor(new Date().getTime() / 1000) <= exp;
 
-        if (valid && maxAge && maxAge > 0) {
-          valid = Date.now() / 1000 - iat < 60;
-        }
-      }
+      //   if (valid && maxAge && maxAge > 0) {
+      //     valid = Date.now() / 1000 - iat < 60;
+      //   }
+      // }
     }
 
     return valid;
