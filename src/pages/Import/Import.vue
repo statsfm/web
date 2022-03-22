@@ -56,7 +56,7 @@
     >
       <input type="file" accept="application/json" class="hidden" @change="onFileSelect" />
 
-      Import a new file
+      Import a new file (only the endsong.json files)
     </label>
     <br />
   </Container>
