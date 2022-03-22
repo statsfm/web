@@ -124,7 +124,8 @@ export default class auth {
     let valid = false;
 
     if (token?.startsWith('ey')) {
-      const { exp, iat } = JSON.parse(atob(token.split('.')[1])); // falsely marked as deprecated -> https://github.com/microsoft/TypeScript/issues/45566
+      return true;
+      const { exp, iat } = JSON.parse(Buffer.from(token.split('.')[1], 'base64').toString()); // falsely marked as deprecated -> https://github.com/microsoft/TypeScript/issues/45566
       if (exp == undefined || exp == null) {
         valid = true;
       } else {
