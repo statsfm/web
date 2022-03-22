@@ -140,7 +140,46 @@ const onFileSelect = async (e: any) => {
 
   // check if filename is valid
   if (file && file.name.match(/endsong(?:_[0-9]+)?\.json/i)) {
-    formData.append('files', file);
+    let streams = JSON.parse(await file.text());
+    const validStreams = streams
+      .map((e: any) => {
+        return {
+          ts: e?.ts ?? undefined,
+          ms: e?.ms_played ?? undefined,
+          tn: e?.master_metadata_track_name ?? undefined,
+          ti: e?.spotify_track_uri?.split(':')[2] ?? undefined
+        };
+      })
+      .filter(
+        (x: any) => x.ts != undefined && x.ms != undefined && x.tn != undefined && x.ti != undefined
+      );
+    streams = null;
+
+    const a = JSON.stringify(validStreams);
+    // let b = 0,
+    //   i,
+    //   c;
+    // if (a.length === 0) return b;
+    // for (i = 0; i < a.length; i++) {
+    //   c = a.charCodeAt(i);
+    //   b = (b << 5) - b + c;
+    //   b |= 0;
+    // }
+    // const f = (e: any) => e.split('').map((d: any) => d.charCodeAt(0));
+    // const encrypted = a
+    //   .split('')
+    //   .map(f)
+    //   .map((e) => f(String(b)).reduce((d: any, e: any) => d ^ e, e))
+    //   .map((n) => ('0' + Number(n).toString(16)).substr(-2))
+    //   .join('');
+    // const blob = new Blob([encrypted], { type: 'text/plain' });
+    // const newFile = new File([blob], file.name);
+    // formData.append('files', newFile);
+    // formData.append('sig', String(b));
+
+    const blob = new Blob([a], { type: 'application/json' });
+    const newFile = new File([blob], file.name);
+    formData.append('files', newFile);
 
     loading.value = true;
     const oldUrl = api.http.config.baseUrl;
