@@ -57,7 +57,7 @@ export default class auth {
       // Users
       'user-read-email',
       'user-read-private',
-      'user-read-birthdate',
+      // 'user-read-birthdate',
       // Playlists
       'playlist-read-collaborative',
       'playlist-modify-public',
