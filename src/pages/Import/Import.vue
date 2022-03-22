@@ -152,10 +152,16 @@ const onFileSelect = async (e: any) => {
         },
         body: formData
       });
+
+      toaster.success({
+        message: t('import.successfully_uploaded_file', {
+          filename: file.name
+        })
+      });
     } catch (e) {
       toaster.error({
         // @ts-ignore
-        message: e.toString(),
+        message: JSON.stringify(e).toString(),
         duration: 8 * 1000 // show the toaster for 8 seconds
       });
     }
@@ -163,12 +169,6 @@ const onFileSelect = async (e: any) => {
     loading.value = false;
 
     await loadImports();
-
-    toaster.success({
-      message: t('import.successfully_uploaded_file', {
-        filename: file.name
-      })
-    });
   } else if (file?.name.match(/StreamingHistory[0-9][0-9]?.json/g)) {
     toaster.error({
       message: t('errors.invalid_filename_streaminghistory'),
