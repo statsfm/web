@@ -20,44 +20,50 @@
       >. Scroll down to import a new file.
     </p>
 
-    <div class="flex flex-col gap-2" v-if="imports.length > 0">
-      <div v-for="(importFile, index) in imports" :key="index">
-        <div class="relative flex items-center justify-between overflow-hidden py-2">
-          <div class="w-full">
-            <h4>{{ importFile.name }}</h4>
-            <span class="text-2sm text-neutral-400"
-              >Imported on {{ dayjs(importFile.createdAt).format('DD/M/YYYY hh:mm') }}</span
-            >
-            <br />
-            <span class="text-2sm text-neutral-400">{{ importFile.count }} streams</span>
-            <br />
-            <span class="text-2sm text-neutral-400">{{ getStatus(importFile.status) }}</span>
-          </div>
-          <!-- <Button size="small" @click="showDeleteModal">Delete</Button> -->
-        </div>
-
-        <Modal v-if="isDeleteModalActive" @hide="hideDeleteModal">
-          <p class="max-w-prose">
-            {{ t('import.delete_notice', { count: importFile.count }) }}
-          </p>
-          <div class="mt-5 flex gap-2">
-            <Button @click="hideDeleteModal">{{ t('buttons.cancel') }}</Button>
-            <Button @click="deleteImport(importFile.id)">{{ t('buttons.continue') }}</Button>
-          </div>
-        </Modal>
-      </div>
-    </div>
+    <h4 v-if="user?.isPlus == false" class="my-10 text-white">
+      It looks like you don't have Spotistats Plus. In order to import you need Spotistats Plus to
+      cover all the extra server costs (from storing all the streams etc)
+    </h4>
     <div v-else>
-      <h4 class="my-5 text-neutral-400">{{ t('import.no_imports_yet') }}</h4>
-    </div>
-    <Divider class="my-5" />
-    <label
-      class="mt-2 block w-full cursor-pointer rounded-2xl border-0 bg-primary/10 py-3 px-5 text-center font-bold text-primary transition-colors duration-300 hover:bg-primary/20 active:bg-primary/5"
-    >
-      <input type="file" accept="application/json" class="hidden" @change="onFileSelect" />
+      <div class="flex flex-col gap-2" v-if="imports.length > 0">
+        <div v-for="(importFile, index) in imports" :key="index">
+          <div class="relative flex items-center justify-between overflow-hidden py-2">
+            <div class="w-full">
+              <h4>{{ importFile.name }}</h4>
+              <span class="text-2sm text-neutral-400"
+                >Imported on {{ dayjs(importFile.createdAt).format('DD/M/YYYY hh:mm') }}</span
+              >
+              <br />
+              <span class="text-2sm text-neutral-400">{{ importFile.count }} streams</span>
+              <br />
+              <span class="text-2sm text-neutral-400">{{ getStatus(importFile.status) }}</span>
+            </div>
+            <!-- <Button size="small" @click="showDeleteModal">Delete</Button> -->
+          </div>
 
-      Import a new file (only the endsong.json files)
-    </label>
+          <Modal v-if="isDeleteModalActive" @hide="hideDeleteModal">
+            <p class="max-w-prose">
+              {{ t('import.delete_notice', { count: importFile.count }) }}
+            </p>
+            <div class="mt-5 flex gap-2">
+              <Button @click="hideDeleteModal">{{ t('buttons.cancel') }}</Button>
+              <Button @click="deleteImport(importFile.id)">{{ t('buttons.continue') }}</Button>
+            </div>
+          </Modal>
+        </div>
+      </div>
+      <div v-else>
+        <h4 class="my-5 text-neutral-400">{{ t('import.no_imports_yet') }}</h4>
+      </div>
+      <Divider class="my-5" />
+      <label
+        class="mt-2 block w-full cursor-pointer rounded-2xl border-0 bg-primary/10 py-3 px-5 text-center font-bold text-primary transition-colors duration-300 hover:bg-primary/20 active:bg-primary/5"
+      >
+        <input type="file" accept="application/json" class="hidden" @change="onFileSelect" />
+
+        Import a new file (only the endsong.json files)
+      </label>
+    </div>
     <br />
   </Container>
 </template>
@@ -75,13 +81,14 @@ import Modal from '~/components/base/Modals/Modal.vue';
 import Card from '~/components/layout/Card.vue';
 import Container from '~/components/layout/Container.vue';
 import Header from '~/components/layout/Header.vue';
-import { useApi, useAuth, useToaster } from '~/hooks';
+import { useApi, useAuth, useToaster, useUser } from '~/hooks';
 
 const { t } = useI18n();
 const toaster = useToaster();
 const api = useApi();
 const auth = useAuth();
 const router = useRouter();
+const user = useUser();
 
 const imports: Ref<statsfm.UserImport[]> = ref([]);
 const loading = ref(false);
