@@ -114,8 +114,6 @@ const getStatus = (status: number) => {
   }[status.toString()];
 };
 
-const formData = new FormData();
-
 const onFileSelect = async (e: any) => {
   if (!auth.isLoggedIn()) {
     toaster.error({
@@ -184,6 +182,7 @@ const onFileSelect = async (e: any) => {
     // formData.append('files', newFile);
     // formData.append('sig', String(b));
 
+    const formData = new FormData();
     const blob = new Blob([a], { type: 'application/json' });
     const newFile = new File([blob], file.name);
     formData.append('files', newFile);
@@ -208,7 +207,7 @@ const onFileSelect = async (e: any) => {
     } catch (e) {
       toaster.error({
         // @ts-ignore
-        message: JSON.stringify(e).toString(),
+        message: JSON.stringify(e?.data ?? e).toString(),
         duration: 8 * 1000 // show the toaster for 8 seconds
       });
     }
@@ -217,6 +216,12 @@ const onFileSelect = async (e: any) => {
   } else if (file?.name.match(/StreamingHistory[0-9][0-9]?.json/g)) {
     toaster.error({
       message: t('errors.invalid_filename_streaminghistory'),
+      duration: 8 * 1000 // show the toaster for 8 seconds
+    });
+  } else if (file?.name.startsWith('ap_')) {
+    toaster.error({
+      message:
+        'You just need to upload the "endsong.json" files, not the ap_endsong or any other files',
       duration: 8 * 1000 // show the toaster for 8 seconds
     });
   } else {
