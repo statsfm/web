@@ -40,7 +40,7 @@
                 },
                 {
                   label: 'My account',
-                  handler: () => router.push({ name: 'Account' })
+                  handler: () => router.push({ name: 'AccountInfo' })
                 },
                 {
                   label: 'Log out',
