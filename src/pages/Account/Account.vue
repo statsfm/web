@@ -29,7 +29,7 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted, ref } from 'vue';
+import { onBeforeMount, onMounted, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import Button from '~/components/base/Button.vue';
 import Container from '~/components/layout/Container.vue';
@@ -59,5 +59,9 @@ const validLogin = auth.hasValidToken(60);
 const loading = ref(false);
 const api = useApi();
 
-onMounted(async () => {});
+onBeforeMount(async () => {
+  if (!auth.isLoggedIn()) {
+    auth.login();
+  }
+});
 </script>
