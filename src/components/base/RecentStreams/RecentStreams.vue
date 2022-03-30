@@ -1,30 +1,19 @@
 <script lang="ts" setup>
 import * as statsfm from '@statsfm/statsfm.js';
-import { onMounted, ref, Ref, toRefs } from 'vue';
+import { onBeforeMount, onMounted, onUpdated, ref, Ref, toRefs } from 'vue';
 import { RouterLink } from 'vue-router';
 import dayjs from '~/dayjs';
 
 interface Props {
-  streams: statsfm.Stream[];
+  pairs?: Record<string, statsfm.Stream[]>;
 }
 
 const props = defineProps<Props>();
-const { streams } = toRefs(props);
-
-const pairs: Ref<Record<string, statsfm.Stream[]>> = ref({});
-
-// TODO: implement pagination
-onMounted(() => {
-  pairs.value = {};
-  streams.value?.forEach((stream) => {
-    const dm = dayjs(stream.endTime).format('LL');
-
-    pairs.value[dm] = [...(pairs.value[dm] ?? []), stream];
-  });
-});
+const { pairs } = toRefs(props);
 </script>
 
 <template>
+  <span class="text-center text-neutral-400" v-if="pairs == undefined">No streams</span>
   <ul class="w-full">
     <li v-for="(streams, key) in pairs" class="relative mb-6 flex w-full items-start">
       <div
@@ -80,14 +69,5 @@ onMounted(() => {
         </li>
       </ul>
     </li>
-    <!-- <Button
-      size="small"
-      id="dropdownButton"
-      data-dropdown-toggle="dropdown"
-      type="button"
-      @click="loadStreams"
-    >
-      Load more streams
-    </Button> -->
   </ul>
 </template>

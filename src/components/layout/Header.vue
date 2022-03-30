@@ -1,5 +1,13 @@
 <template>
   <header>
+    <div
+      class="fixed bottom-0 left-0 z-50 w-screen border-t-[1px] border-neutral-700 bg-bodyPrimary py-1 text-center"
+    >
+      <span class="text-sm font-semibold text-primary">This site is still a work in progress</span>
+      <span class="pl-1 text-sm font-semibold text-neutral-100">
+        Please note a lot of features are still missing ;)
+      </span>
+    </div>
     <Container class="flex items-center justify-between py-3">
       <router-link to="/" class="flex gap-3">
         <Logo class="h-[1.7rem] w-[1.7rem]" />

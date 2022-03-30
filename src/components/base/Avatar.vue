@@ -1,20 +1,23 @@
 <script lang="ts" setup>
 type Size = 'small' | 'medium' | 'large';
+type Shape = 'round' | 'squared';
 
 interface Props {
   size?: Size;
   src?: string;
+  shape?: Shape;
 }
 
 withDefaults(defineProps<Props>(), {
-  size: 'medium'
+  size: 'medium',
+  shape: 'round'
 });
 </script>
 
 <template>
   <div
-    class="aspect-square rounded-full bg-bodySecundary bg-cover bg-center"
-    :class="size"
+    class="aspect-square bg-bodySecundary bg-cover bg-center"
+    :class="[size, shape == 'round' ? 'rounded-full' : 'rounded-xl']"
     :style="src ? { backgroundImage: `url(${src})` } : {}"
   ></div>
 </template>

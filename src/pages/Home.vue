@@ -12,7 +12,7 @@
           Enter a new dimension of music by getting unique insights into your music taste.
         </p>
         <!-- <ChevronLink :to="{ name: 'Gift' }">Watch the video</ChevronLink> -->
-        <ChevronLink to="https://youtu.be/_4EFJJOXh_0">Watch the video</ChevronLink>
+        <ChevronLink to="https://spotistats.app/plus-demo">Watch the video</ChevronLink>
         <div class="mt-8 flex flex-col items-center gap-2 md:flex-row">
           <a
             class="duration-100"

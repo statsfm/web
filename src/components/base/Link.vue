@@ -3,12 +3,10 @@
     v-if="typeof to == 'string' && to.startsWith('http')"
     :href="to"
     target="blank"
-    class="min-w-max text-xl text-white hover:opacity-90"
+    class="min-w-max text-white hover:opacity-80"
     ><slot
   /></a>
-  <router-link v-else :to="to" class="min-w-max text-xl text-white hover:opacity-90"
-    ><slot
-  /></router-link>
+  <router-link v-else :to="to" class="min-w-max text-white hover:opacity-80"><slot /></router-link>
 </template>
 
 <script lang="ts" setup>

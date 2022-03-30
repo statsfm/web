@@ -1,31 +1,82 @@
 <template>
-  <div class="relative h-[400px] w-[400px]">
-    <canvas ref="canvas" class="absolute"></canvas>
-    <AudioFeatureBubble
-      v-for="(feature, index) in featuresWithPos"
-      :key="index"
-      :feature="feature"
-    />
+  <div class="grid min-h-[500px] w-full grid-flow-col grid-cols-2 grid-rows-2 gap-10">
+    <div class="col-span-1 row-span-2 grid-rows-2 gap-10" v-if="audioFeatures && _features">
+      <div class="row-span-1">
+        <div class="grid w-full grid-flow-col grid-rows-2 items-stretch gap-4">
+          <div
+            v-for="genre in _features?.sort((g1: any, g2: any) => g2.value - g1.value)"
+            class="group col-span-1 row-span-1 w-full"
+          >
+            <label
+              :aria-label="genre.label"
+              for="progress"
+              class="text-lg capitalize text-neutral-400 group-hover:text-white"
+              >{{ genre.label }}</label
+            >
+            <div name="progress" class="mt-1 h-2 w-full overflow-hidden rounded bg-bodySecundary">
+              <div
+                :style="{ width: `${genre.value * 100}%` }"
+                class="h-full rounded bg-primary"
+              ></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row-span-1 mt-8">
+        <div class="grid basis-1/2 grid-cols-2 gap-2 md:grid-cols-3">
+          <StatsCard :label="t('track.overall_loudness')">
+            {{ audioFeatures.loudness }}
+          </StatsCard>
+
+          <StatsCard :label="t('track.key')" v-if="audioFeatures.key >= 0">
+            {{ keyToNote(audioFeatures.key) }}
+          </StatsCard>
+
+          <StatsCard :label="t('track.mode')" v-if="audioFeatures.mode >= 0">
+            {{ audioFeatures.mode == 0 ? 'Minor' : 'Major' }}
+          </StatsCard>
+
+          <StatsCard :label="t('track.time_signature')">
+            {{ audioFeatures.time_signature }}/4
+          </StatsCard>
+
+          <StatsCard label="BPM">
+            {{ audioFeatures.tempo }}
+          </StatsCard>
+        </div>
+      </div>
+    </div>
+    <div class="col-span-1 row-span-2" v-if="featuresWithPos">
+      <div class="relative h-[400px] w-[400px]">
+        <canvas ref="canvas" class="absolute"></canvas>
+        <AudioFeatureBubble
+          v-for="(feature, index) in featuresWithPos"
+          :key="index"
+          :feature="feature"
+        />
+      </div>
+    </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { onMounted, Ref, ref } from 'vue';
-import { useApi, useAuth } from '~/hooks';
-import * as statsfm from '@statsfm/statsfm.js';
-
 import {
-  mdiMusic,
-  mdiGuitarAcoustic,
-  mdiLightningBolt,
-  mdiInstrumentTriangle,
   mdiAccountVoice,
   mdiEmoticonHappy,
+  mdiGuitarAcoustic,
+  mdiInstrumentTriangle,
+  mdiLightningBolt,
+  mdiMusic,
   mdiRecord
 } from '@mdi/js';
-import { AudioFeature } from './feature';
-import AudioFeatureBubble from './AudioFeatureBubble.vue';
+import * as statsfm from '@statsfm/statsfm.js';
+import { onMounted, Ref, ref } from 'vue';
+import { useI18n } from 'vue-i18n';
+import StatsCard from '~/components/base/StatsCard.vue';
+import { useApi, useAuth } from '~/hooks';
 import { Point } from '~/types/point';
+import AudioFeatureBubble from './AudioFeatureBubble.vue';
+import { AudioFeature } from './feature';
 
 const props = defineProps<{
   topTracks: statsfm.Track[];
@@ -35,10 +86,19 @@ const emit = defineEmits<{
   (event: 'features', payload: AudioFeature[]): void;
 }>();
 
+const { t } = useI18n();
 const auth = useAuth();
 const api = useApi();
 
+const audioFeatures: Ref<statsfm.AudioFeatures | null> = ref(null);
+const _features: Ref<AudioFeature[] | null> = ref(null);
+
 const canvas: Ref<HTMLCanvasElement | undefined> = ref();
+
+const keyToNote = (key: number): string => {
+  const notes = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
+  return notes[key];
+};
 
 const getAudioFeatures = async (): Promise<AudioFeature[]> => {
   const tracks = props.topTracks;
@@ -106,11 +166,34 @@ const getAudioFeatures = async (): Promise<AudioFeature[]> => {
     //   const json = await res.json();
     //   const data: Record<string, number>[] = json.audio_features;
 
+    const avg: statsfm.AudioFeatures | {} = {};
     for (const audioFeature of data) {
       for (let i = 0; i < features.length; i++) {
         features[i].value += audioFeature[features[i].label];
       }
+      for (let key in audioFeature) {
+        if (typeof audioFeature[key] == 'number') {
+          // @ts-ignore
+          if (typeof avg[key] != 'number') {
+            // @ts-ignore
+            avg[key] = 0;
+          }
+          // @ts-ignore
+          avg[key] += audioFeature[key];
+        }
+      }
     }
+
+    for (let key in avg) {
+      // @ts-ignore
+      avg[key] = Math.round((avg[key] / data.length + Number.EPSILON) * 100) / 100;
+      if (key == 'key') {
+        // @ts-ignore
+        avg[key] = Math.round(avg[key]);
+      }
+    }
+
+    audioFeatures.value = avg as statsfm.AudioFeatures;
 
     for (let i = 0; i < features.length; i++) {
       features[i].value = features[i].value / features.length;
@@ -124,9 +207,9 @@ const getAudioFeatures = async (): Promise<AudioFeature[]> => {
 const featuresWithPos: Ref<{ point: Point; feature: AudioFeature }[]> = ref([]);
 
 onMounted(async () => {
-  const features = await getAudioFeatures();
-  emit('features', features);
-  drawRadarChart(features);
+  _features.value = await getAudioFeatures();
+  emit('features', _features.value);
+  drawRadarChart(_features.value);
 });
 
 const drawRadarChart = (features: AudioFeature[]) => {

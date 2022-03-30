@@ -5,7 +5,11 @@
 @tailwind utilities;
 
 @layer base {
-  body {
+  /* html {
+    margin-top: 2rem !important;
+  } */
+
+  body, html {
     @apply bg-bodyPrimary font-body;
   }
 

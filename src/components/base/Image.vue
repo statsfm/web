@@ -1,10 +1,12 @@
 <script lang="ts" setup>
+import { mdiImageOff } from '@mdi/js';
 import { useAttrs } from 'vue';
+import Icon from '~/components/base/Icon.vue';
 
 type Variant = 'square' | 'round';
 
 interface Props {
-  src: string;
+  src?: string;
   alt?: string;
   variant: Variant;
 }
@@ -32,6 +34,7 @@ const attrs = useAttrs();
     mode="out-in"
   >
     <img
+      v-if="src"
       :src="src"
       :key="src"
       :alt="alt"
@@ -39,5 +42,14 @@ const attrs = useAttrs();
       class="grid place-items-center bg-bodySecundary object-cover object-center text-neutral-400"
       :class="variantMap[variant]"
     />
+    <div
+      v-else
+      :alt="alt"
+      v-bind="attrs"
+      class="grid place-items-center bg-bodySecundary object-cover object-center text-neutral-400"
+      :class="variantMap[variant]"
+    >
+      <Icon :path="mdiImageOff" class="scale-125 text-neutral-500" />
+    </div>
   </Transition>
 </template>

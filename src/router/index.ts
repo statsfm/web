@@ -124,6 +124,7 @@ NProgress.configure({
 });
 
 router.beforeEach(() => {
+  // const processStore = useStore(pinia ); // <-- passing Pinia instance directly
   NProgress.start();
 });
 

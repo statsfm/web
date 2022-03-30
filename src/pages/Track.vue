@@ -1,122 +1,303 @@
 <template>
   <div v-if="track">
-    <HeroWithImageAndInfo
-      :name="track.name"
-      :image="track.albums[0].image"
-      :subtitle="track.artists.map((artist: statsfm.ArtistSimple) => artist.name).join(', ')"
-      :subtitle-to="{ path: `/artist/${track.artists[0].id}` }"
-    />
-  </div>
-  <Container>
-    <ComingSoon />
-    <!-- <section class="mt-5" v-if="audioAnalysis">
-      <h2>{{ t('track.audio_analysis') }}</h2>
-      <div class="mt-2 flex flex-col justify-between md:flex-row">
-        <div>
-          <div class="grid basis-1/2 grid-cols-2 gap-2 md:grid-cols-3">
-            The overall loudness of a track in decibels (dB). Loudness values are averaged across the entire track and are useful for comparing relative loudness of tracks. Loudness is the quality of a sound that is the primary psychological correlate of physical strength (amplitude). Values typically range between -60 and 0 db.
-            <StatsCard :label="t('track.overall_loudness')">
-              {{ audioAnalysis.loudness }}
-            </StatsCard>
-
-            The estimated overall key of the section. The values in this field ranging from 0 to 11 mapping to pitches using standard Pitch Class notation (E.g. 0 = C, 1 = C♯/D♭, 2 = D, and so on). If no key was detected, the value is -1.
-            <StatsCard :label="t('track.key')" v-if="audioAnalysis.key >= 0">
-              {{ keyToNote(audioAnalysis.key) }}
-            </StatsCard>
-
-            Indicates the modality (major or minor) of a section, the type of scale from which its melodic content is derived. This field will contain a 0 for "minor", a 1 for "major", or a -1 for no result. Note that the major key (e.g. C major) could more likely be confused with the minor key at 3 semitones lower (e.g. A minor) as both keys carry the same pitches.
-            <StatsCard :label="t('track.mode')" v-if="audioAnalysis.mode >= 0">
-              {{ audioAnalysis.mode == 0 ? 'Minor' : 'Major' }}
-            </StatsCard>
-
-            An estimated time signature. The time signature (meter) is a notational convention to specify how many beats are in each bar (or measure). The time signature ranges from 3 to 7 indicating time signatures of "3/4", to "7/4".
-            <StatsCard :label="t('track.time_signature')">
-              {{ audioAnalysis.time_signature }}/4
-            </StatsCard>
-
-            The overall estimated tempo of a track in beats per minute (BPM). In musical terminology, tempo is the speed or pace of a given piece and derives directly from the average beat duration.
-            <StatsCard label="BPM">
-              {{ audioAnalysis.tempo }}
-            </StatsCard>
-          </div>
-
-          <div v-if="segment" class="mt-5">
-            <h3>{{ t('track.segment') }}</h3>
-            <span
-              >{{ t('track.selected_segment') }}
-              {{ dayjs.duration(segment.current.start, 'seconds').format('mm:ss') }} -
-              {{ dayjs.duration(segment.next.start, 'seconds').format('mm:ss') }}</span
-            >
-
-            <StatsCard class="mt-2" :label="t('track.average_loudness_in_timeframe')">
-              {{
-                Math.round(((segment.current.loudness_max + segment.next.loudness_max) / 2) * 10) /
-                10
-              }}
-            </StatsCard>
-          </div>
-        </div>
-
-        <div>
-          <AudioAnalysis :analysis="audioAnalysis" @segment="onSegmentHover" />
+    <Hero>
+      <Avatar :src="track.albums[0]?.image" size="large" shape="squared" />
+      <div class="flex flex-col justify-end">
+        <span class="text-center text-xl font-medium md:text-left">
+          <router-link :to="{ path: `/artist/${track.artists[0].id}` }">
+            {{ track.artists.map((artist: statsfm.ArtistSimple) => artist.name).join(', ') }}
+          </router-link>
+        </span>
+        <h1 class="text-center md:text-left">{{ track.name }}</h1>
+        <div
+          class="mt-2 grid w-full auto-cols-max grid-flow-col content-around items-stretch gap-3 text-center"
+        >
+          <a
+            :href="`https://open.spotify.com/track/${track.externalIds.spotify![0]}`"
+            target="blank"
+          >
+            <SpotifyIcon />
+          </a>
+          <a :href="`https://song.link/s/${track.externalIds.spotify![0]}`" target="blank">
+            <img
+              src="https://cdn.stats.fm/file/statsfm/images/brands/songlink/color.webp"
+              class="h-7 w-7"
+            />
+          </a>
         </div>
       </div>
-    </section> -->
+    </Hero>
+  </div>
+  <Container>
+    <div class="my-8"></div>
+
+    <section class="mt-5">
+      <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
+        <div>
+          <h3>Your streams</h3>
+          <ImportRequired>
+            <span class="text-xl" v-if="stats && stats?.count != undefined">
+              {{ stats?.count }}
+            </span>
+            <span class="text-xl" v-else> Loading... </span>
+          </ImportRequired>
+        </div>
+        <div>
+          <h3>Your minutes streamed</h3>
+          <ImportRequired>
+            <span class="text-xl" v-if="stats && stats?.durationMs != undefined">
+              {{ Math.round(stats.durationMs / 1000 / 60 / 60)?.toLocaleString() }}
+            </span>
+            <span class="text-xl" v-else> Loading... </span>
+          </ImportRequired>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <StickyHeader>
+        <h2 v-if="track && track.artists.length > 1">Artists</h2>
+        <h2 v-else>Artist</h2>
+      </StickyHeader>
+
+      <ul class="grid grid-cols-3 gap-y-4 gap-x-4 md:grid-cols-4 md:gap-x-6 lg:grid-cols-6">
+        <!-- TODO: fade between images -->
+        <li v-if="track && !artists" v-for="(artist, index) in track.artists" :key="index">
+          <RouterLink :to="{ name: 'Artist', params: { id: artist.id } }" class="group relative">
+            <div class="aspect-square group-hover:opacity-90">
+              <Image variant="round" :alt="artist.name" class="h-full w-full" />
+            </div>
+
+            <div class="mt-2 text-center">
+              <div>
+                <h4 class="line-clamp-2">
+                  {{ artist.name }}
+                </h4>
+              </div>
+            </div>
+          </RouterLink>
+        </li>
+        <li v-if="artists" v-for="(artist, index) in artists" :key="index">
+          <RouterLink :to="{ name: 'Artist', params: { id: artist.id } }" class="group relative">
+            <div class="aspect-square group-hover:opacity-90">
+              <Image
+                :src="artist?.image"
+                variant="round"
+                :alt="artist.name"
+                class="h-full w-full"
+              />
+            </div>
+
+            <div class="mt-2 text-center">
+              <div>
+                <h4 class="line-clamp-2">
+                  {{ artist.name }}
+                </h4>
+              </div>
+            </div>
+          </RouterLink>
+        </li>
+      </ul>
+    </section>
+
+    <section>
+      <StickyHeader>
+        <h2>Appears on</h2>
+
+        <RealDropdown>
+          <template v-slot:button="{ active }">
+            <Button
+              variant="secundary"
+              size="small"
+              id="dropdownButton"
+              data-dropdown-toggle="dropdown"
+              type="button"
+            >
+              {{ maxAlbumCount }}
+              albums
+
+              <Icon :path="active ? mdiChevronUp : mdiChevronDown" />
+            </Button>
+          </template>
+
+          <List class="w-44 rounded-xl">
+            <ListItemGroup :items="maxAlbumCounts" @click="(e) => (maxAlbumCount = e)">
+              <template v-slot="{ item }">
+                <ListItem
+                  :class="{ 'text-primary': maxAlbumCount == item }"
+                  @click="maxAlbumCount = item"
+                  >{{ item }} albums</ListItem
+                >
+              </template>
+            </ListItemGroup>
+          </List>
+        </RealDropdown>
+      </StickyHeader>
+
+      <ul class="grid grid-cols-3 gap-y-4 gap-x-4 md:grid-cols-4 md:gap-x-6 lg:grid-cols-6">
+        <li
+          v-for="(album, index) in track?.albums?.slice(0, maxAlbumCount)"
+          :key="index"
+          class="group"
+        >
+          <router-link :to="{ name: 'Album', params: { id: album.id } }">
+            <div class="min-h-80 aspect-square w-full group-hover:opacity-90">
+              <Image :src="album.image" :alt="album.name" class="h-full w-full" />
+            </div>
+            <div class="mt-3 flex justify-between">
+              <div>
+                <h4 class="line-clamp-2">
+                  {{ album.name }}
+                </h4>
+                <!-- <ArtistNameListRender :artists="album.album.artists" /> -->
+              </div>
+            </div>
+          </router-link>
+        </li>
+      </ul>
+    </section>
+
+    <section>
+      <StickyHeader>
+        <h2>Audio features</h2>
+      </StickyHeader>
+
+      <AudioFeaturesRadarChart
+        v-if="track"
+        @features="(e: any) => (genres = e)"
+        :topTracks="[track]"
+      />
+    </section>
+
+    <section>
+      <StickyHeader>
+        <h2>Your streams</h2>
+      </StickyHeader>
+
+      <ImportRequired>
+        <div v-if="streams">
+          <RecentStreams :pairs="pairs" />
+
+          <div class="text-center" v-if="streams && streams.length > 0">
+            <Button
+              variant="secundary"
+              size="small"
+              id="loadMoreButton"
+              type="button"
+              @click="loadStreams()"
+            >
+              Load more streams
+              <Icon :path="mdiChevronDown" />
+            </Button>
+          </div>
+        </div>
+        <span v-else>Loading...</span>
+      </ImportRequired>
+    </section>
   </Container>
 </template>
 
 <script lang="ts" setup>
+import { mdiChevronDown, mdiChevronUp } from '@mdi/js';
 import * as statsfm from '@statsfm/statsfm.js';
 import { onMounted, Ref, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { useRoute } from 'vue-router';
+import { RouterLink, useRoute } from 'vue-router';
 import AudioAnalysis from '~/components/base/AudioAnalysis/AudioAnalysis.vue';
-import HeroWithImageAndInfo from '~/components/base/HeroWithImageAndInfo.vue';
+import AudioFeaturesRadarChart from '~/components/base/AudioFeatures/AudioFeaturesRadarChart.vue';
+import Avatar from '~/components/base/Avatar.vue';
+import Button from '~/components/base/Button.vue';
+import RealDropdown from '~/components/base/dropdowns/RealDropdown.vue';
+import Hero from '~/components/base/Hero.vue';
+import Icon from '~/components/base/Icon.vue';
+import Image from '~/components/base/Image.vue';
+import List from '~/components/base/List/List.vue';
+import ListItem from '~/components/base/List/ListItem.vue';
+import ListItemGroup from '~/components/base/List/ListItemGroup.vue';
+import SpotifyIcon from '~/components/base/SpotifyIcon.vue';
+import ImportRequired from '~/components/base/ImportRequired.vue';
+import RecentStreams from '~/components/base/RecentStreams/RecentStreams.vue';
 import StatsCard from '~/components/base/StatsCard.vue';
+import StickyHeader from '~/components/base/StickyHeader.vue';
 import Container from '~/components/layout/Container.vue';
-import ComingSoon from '~/components/base/ComingSoon.vue';
 import dayjs from '~/dayjs';
-import { useApi } from '~/hooks';
+import { useApi, useAuth, useUser } from '~/hooks';
 
 const route = useRoute();
 const { t } = useI18n();
 const api = useApi();
+const auth = useAuth();
+const user = useUser();
+
+const genres: Ref<any | null> = ref(null);
 
 const track: Ref<statsfm.Track | null> = ref(null);
 const audioAnalysis: Ref<statsfm.AudioAnalysis | null> = ref(null);
+const artists: Ref<statsfm.Artist[] | null> = ref(null);
+const stats: Ref<statsfm.StreamStats | null> = ref(null);
+const streams: Ref<statsfm.Stream[] | undefined> = ref(undefined);
+const pairs: Ref<Record<string, statsfm.Stream[]>> = ref({});
+
+const maxAlbumCounts = ref([6, 10, 25, 50, 100, 150, 200, 250, 300]);
+const maxAlbumCount = ref(maxAlbumCounts.value[0]);
 
 const segment: Ref<{
   current: statsfm.AudioAnalysisSegment;
   next: statsfm.AudioAnalysisSegment;
 } | null> = ref(null);
 
-const getTrackAudioAnalysis = async (track: statsfm.Track): Promise<statsfm.AudioAnalysis> => {
-  // todo: add this endpoint to api
-  const id = (track.externalIds.spotify as string[])[0];
-  // const token = await new auth().getSpotifyToken();
-  // return await fetch(`https://api.spotify.com/v1/audio-analysis/${id}`, {
-  //   headers: {
-  //     Authorization: `Bearer ${token}`
-  //   }
-  // }).then((res) => res.json());
-  return await (
-    await api.http.get(`/spotify/audio-analysis/${id}`)
-  ).data.item;
-};
-
-const keyToNote = (key: number): string => {
-  const notes = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
-  return notes[key];
-};
-
 const onSegmentHover = (e: any) => {
   segment.value = e;
 };
 
-onMounted(async () => {
+const loadTrack = async () => {
   const id = parseInt(route.params.id.toString());
-
   track.value = await api.tracks.get(id);
-  // audioAnalysis.value = await getTrackAudioAnalysis(track.value);
+
+  maxAlbumCounts.value = maxAlbumCounts.value.filter((x, i, a) => {
+    x = a[i - 1] ?? x;
+    return track.value!.albums.length >= x;
+  });
+};
+
+const loadStreams = async () => {
+  streams.value = (streams.value ?? []).concat(
+    await api.users.trackStreams('me', track.value!.id, {
+      limit: 100,
+      offset: streams.value?.length ?? 0
+    })
+  );
+
+  pairs.value = {};
+  if (streams?.value != undefined) {
+    streams.value?.forEach((stream) => {
+      const dm = dayjs(stream.endTime).format('LL');
+
+      pairs.value[dm] = [...(pairs.value[dm] ?? []), stream];
+    });
+  }
+};
+
+const loadArtists = async () => {
+  artists.value = await api.artists.list(track.value!.artists.map(({ id }) => id));
+};
+
+const loadStats = async () => {
+  stats.value = await api.users.trackStats(user!.id, track.value!.id);
+};
+
+const loadAnalysis = async () => {
+  audioAnalysis.value = await (
+    await api.http.get(`/spotify/audio-features/${track.value!.externalIds.spotify![0]}`)
+  ).data.item;
+  console.log(audioAnalysis.value);
+};
+
+onMounted(async () => {
+  await loadTrack();
+  if (user?.isPlus == true && user?.hasImported == true) loadStats();
+  loadArtists();
+  loadAnalysis();
+  if (user?.isPlus == true && user?.hasImported == true) loadStreams();
 });
 </script>

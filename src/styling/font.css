@@ -1,3 +1,7 @@
+:root {
+  font-variant-ligatures: none;
+}
+
 @font-face {
   font-family: 'Open Sans';
   font-weight: 800;

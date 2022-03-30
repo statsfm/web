@@ -3,7 +3,7 @@ import { reactive } from 'vue';
 
 export const useStore = defineStore('main', () => {
   const state = reactive({
-    user: {}
+    user: undefined
   });
 
   const setUser = (user: any) => {
