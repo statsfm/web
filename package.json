@@ -9,7 +9,7 @@
   "dependencies": {
     "@mdi/js": "^6.5.95",
     "@popperjs/core": "^2.11.2",
-    "@statsfm/statsfm.js": "^1.13.7",
+    "@statsfm/statsfm.js": "^1.13.8",
     "@tailwindcss/line-clamp": "^0.3.0",
     "@tailwindcss/typography": "^0.5.0",
     "@vueuse/head": "^0.7.5",
