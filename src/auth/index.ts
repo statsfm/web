@@ -126,7 +126,7 @@ export default class auth {
     if (token?.startsWith('ey')) {
       const { exp, iat } = JSON.parse(atob(token!.split('.')[1]).toString()); // falsely marked as deprecated -> https://github.com/microsoft/TypeScript/issues/45566
       if (exp == undefined || exp == null) {
-        valid = true;
+        // valid = true;
       } else {
         valid = Math.floor(new Date().getTime() / 1000) <= exp;
 
