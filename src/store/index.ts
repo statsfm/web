@@ -1,8 +1,9 @@
 import { defineStore } from 'pinia';
 import { reactive } from 'vue';
+import * as statsfm from '@statsfm/statsfm.js';
 
 export const useStore = defineStore('main', () => {
-  const state = reactive({
+  const state: { user?: statsfm.UserPrivate } = reactive({
     user: undefined
   });
 
