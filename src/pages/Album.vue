@@ -133,6 +133,86 @@
 
     <section>
       <StickyHeader>
+        <h2>Top listeners</h2>
+
+        <RealDropdown>
+          <template v-slot:button="{ active }">
+            <Button
+              variant="secundary"
+              size="small"
+              id="dropdownButton"
+              data-dropdown-toggle="dropdown"
+              type="button"
+            >
+              {{ maxTopListenerCount }}
+              users
+
+              <Icon :path="active ? mdiChevronUp : mdiChevronDown" />
+            </Button>
+          </template>
+
+          <List class="w-44 rounded-xl">
+            <ListItemGroup :items="maxTopListenerCounts" @click="(e) => (maxTopListenerCount = e)">
+              <template v-slot="{ item }">
+                <ListItem
+                  :class="{ 'text-primary': maxTopListenerCount == item }"
+                  @click="maxTopListenerCount = item"
+                  >{{ item }} users</ListItem
+                >
+              </template>
+            </ListItemGroup>
+          </List>
+        </RealDropdown>
+      </StickyHeader>
+
+      <ul class="grid grid-cols-3 gap-y-8 gap-x-4 md:grid-cols-4 md:gap-x-6 lg:grid-cols-6">
+        <li
+          v-if="topListeners"
+          v-for="(user, index) in topListeners?.slice(0, maxTopListenerCount)"
+          :key="index"
+        >
+          <RouterLink
+            :to="{ name: 'User', params: { userId: user.user.customId ?? user.user.id } }"
+            class="group relative"
+          >
+            <div class="relative aspect-square group-hover:opacity-90">
+              <Image
+                :src="user.user.image"
+                variant="round"
+                :alt="user.user.displayName"
+                class="h-full w-full"
+              />
+              <div class="absolute bottom-1 left-2 rounded-lg bg-black py-[0.15rem]">
+                <span
+                  :class="[
+                    user.position == 1 ? '!bg-amber-400 !bg-opacity-30 !text-amber-400' : '',
+                    user.position == 2 ? '!bg-gray-500 !bg-opacity-30 !text-gray-500' : '',
+                    user.position == 3 ? ' !bg-yellow-700 !bg-opacity-30 !text-yellow-700' : '',
+                    'rounded-lg bg-bodySecundary py-[0.35rem] px-2 text-lg drop-shadow-lg'
+                  ]"
+                  >#{{ user.position }}</span
+                >
+              </div>
+            </div>
+
+            <div class="mt-2 text-center">
+              <div>
+                <h4 class="line-clamp-2">
+                  {{ user.user.displayName }}
+                </h4>
+                <span class="text-neutral-400 line-clamp-2">
+                  {{ user.streams?.toLocaleString() }} streams •
+                  {{ Math.round((user.playedMs ?? 0) / 1000 / 60)?.toLocaleString() + ' minutes' }}
+                </span>
+              </div>
+            </div>
+          </RouterLink>
+        </li>
+      </ul>
+    </section>
+
+    <section>
+      <StickyHeader>
         <h2>Your streams</h2>
       </StickyHeader>
 
@@ -160,15 +240,19 @@
 </template>
 
 <script lang="ts" setup>
-import { mdiChevronDown } from '@mdi/js';
+import { mdiChevronDown, mdiChevronUp } from '@mdi/js';
 import * as statsfm from '@statsfm/statsfm.js';
 import { onMounted, Ref, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { RouterLink, useRoute } from 'vue-router';
 import Avatar from '~/components/base/Avatar.vue';
 import Button from '~/components/base/Button.vue';
+import RealDropdown from '~/components/base/dropdowns/RealDropdown.vue';
 import Hero from '~/components/base/Hero.vue';
 import Icon from '~/components/base/Icon.vue';
+import List from '~/components/base/List/List.vue';
+import ListItem from '~/components/base/List/ListItem.vue';
+import ListItemGroup from '~/components/base/List/ListItemGroup.vue';
 import Image from '~/components/base/Image.vue';
 import ImportRequired from '~/components/base/ImportRequired.vue';
 import RecentStreams from '~/components/base/RecentStreams/RecentStreams.vue';
@@ -192,6 +276,10 @@ const artists: Ref<statsfm.Artist[] | null> = ref(null);
 const stats: Ref<statsfm.StreamStats | null> = ref(null);
 const streams: Ref<statsfm.Stream[] | undefined> = ref(undefined);
 const pairs: Ref<Record<string, statsfm.Stream[]>> = ref({});
+const topListeners: Ref<statsfm.TopUser[] | null> = ref(null);
+
+const maxTopListenerCounts = ref([6, 12, 18, 24, 30, 60, 120, 180, 250]);
+const maxTopListenerCount = ref(maxTopListenerCounts.value[0]);
 
 const tracks: Ref<statsfm.Track[] | null> = ref(null);
 const loadAlbum = async () => {
@@ -230,11 +318,23 @@ const loadStats = async () => {
   console.log(stats.value);
 };
 
+const loadTopListeners = async () => {
+  topListeners.value = (await (
+    await api.http.get(`/albums/${album.value!.id}/top/listeners`)
+  ).data.items) as statsfm.TopUser[];
+
+  maxTopListenerCounts.value = maxTopListenerCounts.value.filter((x, i, a) => {
+    x = a[i - 1] ?? x;
+    return topListeners.value!.length >= x;
+  });
+};
+
 onMounted(async () => {
   await loadAlbum();
   if (user?.isPlus == true && user?.hasImported == true) loadStats();
   loadTracks();
   loadArtists();
+  loadTopListeners();
   if (user?.isPlus == true && user?.hasImported == true) loadStreams();
 });
 </script>
