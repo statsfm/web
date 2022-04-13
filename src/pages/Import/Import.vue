@@ -218,7 +218,7 @@ const onFileSelect = async (e: any) => {
       message: t('errors.invalid_filename_streaminghistory'),
       duration: 8 * 1000 // show the toaster for 8 seconds
     });
-  } else if (file?.name.startsWith('ap_')) {
+  } else if (file?.name?.toLowerCase().startsWith('ap_')) {
     toaster.error({
       message:
         'You just need to upload the "endsong.json" files, not the ap_endsong or any other files',
