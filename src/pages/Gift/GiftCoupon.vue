@@ -54,6 +54,7 @@
         @input="(val: string) => (giftCode!.message = val)"
       />
     </div>
+    <div v-else class="my-3"></div>
     <Button @click="onModalHide" class="w-full" :full="true" size="small">Save</Button>
     <Divider class="my-4" />
     <Button @click="copyRedeemLink" class="w-full" :full="true" size="small">{{ copyText }}</Button>
