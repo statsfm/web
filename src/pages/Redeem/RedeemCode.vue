@@ -4,7 +4,10 @@
     <GiftCard
       :giftCode="giftCode"
       :isFlipped="isFlipped"
-      @flipped="isFlipped = $event"
+      @flipped="
+        isFlipped = $event;
+        if (isFlipped) redeemGiftCode();
+      "
       @click="onGiftCardNotAuthenticatedClick"
       class="mt-24"
     />
