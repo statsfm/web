@@ -3,8 +3,10 @@ export type GiftCode = {
   stripePaymentId: string;
   purchaseDate: string;
   claimedDate: string | null;
-  claimedBy: string | null;
-  boughtBy: string;
+  claimedById: string | null;
+  boughtById: string;
+  claimedBy: any | null;
+  boughtBy: any;
   productId: string;
   code: string;
   message: string;

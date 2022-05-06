@@ -20,9 +20,9 @@
           <i18n-t keypath="gift.gifted_by">
             <template v-slot:name>
               <Link
-                :to="{ name: 'User', params: { id: giftCode.boughtBy } }"
-                class="font-extrabold"
-                >{{ giftCode.boughtBy }}</Link
+                :to="{ name: 'User', params: { userId: giftCode.boughtBy.id } }"
+                class="font-bold text-primary"
+                >{{ giftCode.boughtBy.displayName }}</Link
               >
             </template>
           </i18n-t>
@@ -57,10 +57,10 @@
 import { ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { GiftCode } from '~/types';
-const { t } = useI18n();
-
 import Card from '../layout/Card.vue';
 import Link from './Link.vue';
+
+const { t } = useI18n();
 
 const props = defineProps<{
   giftCode: GiftCode | null;

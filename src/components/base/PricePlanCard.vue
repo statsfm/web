@@ -16,9 +16,10 @@
       >
         {{ t('gift.save_with_bundle', { percentage: calculateSavePercentage(plan, defaultPlan) }) }}
       </p>
+      <p class="my-[-3px] font-bold opacity-0" v-else>-</p>
     </Card>
 
-    <Button class="mt-2 w-full text-xl" size="small"
+    <Button class="mt-2 w-full text-xl" size="small" :full="true"
       >{{ formatAmount(plan.price.amount) }}{{ plan.price.currency
       }}<small class="ml-1">excl vat & fees</small></Button
     >
