@@ -7,6 +7,7 @@
       <Card
         class="face absolute flex aspect-[5/3] items-center justify-center bg-[url('/images/giftcard_pattern.svg')] bg-contain"
       >
+        <div class="h-[20rem]"></div>
       </Card>
       <Card
         v-if="giftCode"
