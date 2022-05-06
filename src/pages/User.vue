@@ -1,20 +1,38 @@
 <template>
-  <HeroWithImageAndInfo v-if="user" :name="user.displayName" :image="user.image" />
-  <Container>
-    <div class="my-8"></div>
-    <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
-      <div>
-        <h3>Bio</h3>
-        <span class="text-xl">{{ user?.profile?.bio }}</span>
-      </div>
-      <div v-if="user?.profile?.pronouns">
-        <h3>Pronouns</h3>
-        <span class="text-xl">{{ user.profile.pronouns }}</span>
+  <!-- <HeroWithImageAndInfo v-if="user" :name="user.displayName" :image="user.image" /> -->
+  <Hero v-if="user">
+    <Avatar :src="user.image" size="large" />
+    <div class="flex flex-col justify-end">
+      <span class="text-center text-lg font-medium text-neutral-500 md:text-left">
+        {{ user.profile.pronouns }}
+      </span>
+      <h1 class="text-center md:text-left">{{ user.displayName }}</h1>
+      <span class="mt-1 text-center text-lg font-medium md:text-left">
+        {{ user.profile.bio }}
+      </span>
+      <div
+        class="mt-5 grid w-full auto-cols-max grid-flow-col content-around items-stretch gap-3 text-center"
+      >
+        <a :href="`https://open.spotify.com/user/${user.id}`" target="blank">
+          <SpotifyIcon />
+        </a>
+        <a
+          v-if="user.socialMediaConnections.find((x) => x.platform.name == 'Discord') != undefined"
+          :href="`https://discord.com/users/${
+            user.socialMediaConnections.find((x) => x.platform.name == 'Discord')!.platformUserId
+          }`"
+          target="blank"
+        >
+          <img
+            src="https://cdn.stats.fm/file/statsfm/images/brands/discord/color.svg"
+            class="mt-[2px] h-6 w-6"
+          />
+        </a>
       </div>
     </div>
-
+  </Hero>
+  <Container>
     <div class="my-8"></div>
-
     <div class="flex items-center justify-between gap-5">
       <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
         <div v-for="item in stats" :key="item.name">
@@ -223,31 +241,11 @@
         <h2>{{ t('user.audio_analysis') }}</h2>
       </StickyHeader>
 
-      <div class="flex justify-between pb-4">
-        <div class="flex w-full flex-col justify-between md:w-1/2">
-          <div v-for="genre in genres?.sort((g1: any, g2: any) => g2.value - g1.value)">
-            <label
-              :aria-label="genre.label"
-              for="progress"
-              class="text-xl font-medium capitalize text-white"
-              >{{ genre.label }}</label
-            >
-            <div name="progress" class="mt-1 h-3 w-full overflow-hidden rounded bg-bodySecundary">
-              <div
-                :style="{ width: `${genre.value * 100}%` }"
-                class="h-full rounded bg-primary"
-              ></div>
-            </div>
-          </div>
-        </div>
-        <div class="hidden w-1/2 justify-end md:flex">
-          <AudioFeaturesRadarChart
-            v-if="recentStreams"
-            @features="(e) => (genres = e)"
-            :topTracks="recentStreams.map((stream) => stream.track)"
-          />
-        </div>
-      </div>
+      <AudioFeaturesRadarChart
+        v-if="recentStreams"
+        @features="(e) => (genres = e)"
+        :topTracks="recentStreams.map((stream) => stream.track)"
+      />
     </section>
 
     <StickyHeader>
@@ -316,7 +314,8 @@ import Icon from '~/components/base/Icon.vue';
 import ListItemGroup from '~/components/base/List/ListItemGroup.vue';
 import List from '~/components/base/List/List.vue';
 import ListItem from '~/components/base/List/ListItem.vue';
-
+import Hero from '~/components/base/Hero.vue';
+import SpotifyIcon from '~/components/base/SpotifyIcon.vue';
 import dayjs from '~/dayjs';
 import { useApi } from '~/hooks';
 import * as statsfm from '@statsfm/statsfm.js';
@@ -335,7 +334,14 @@ const id = route.params.userId.toString();
 
 const range: Ref<statsfm.Range> = ref(statsfm.Range.LIFETIME);
 const genres: Ref<any | null> = ref(null);
-const user: Ref<any | null> = ref(null);
+const user: Ref<
+  | (statsfm.UserPublic & {
+      profile: statsfm.UserProfile;
+      privacySettings: statsfm.UserPrivacySettings;
+      socialMediaConnections: statsfm.UserSocialMediaConnection[];
+    })
+  | null
+> = ref(null);
 const recentStreams: Ref<statsfm.RecentlyPlayedTrack[] | null> = ref(null);
 const topTracks: Ref<statsfm.TopTrack[] | null> = ref(null);
 const topArtists: Ref<statsfm.TopArtist[] | null> = ref(null);
@@ -396,11 +402,11 @@ const load = async () => {
     stats.value.push(
       {
         name: t('user.streams'),
-        stat: count
+        stat: count?.toLocaleString()
       },
       {
         name: t('user.time_streamed'),
-        stat: Math.round(durationMs / 1000 / 60 / 60) + ' hours'
+        stat: Math.round(durationMs / 1000 / 60 / 60)?.toLocaleString() + ' hours'
       }
     );
   });

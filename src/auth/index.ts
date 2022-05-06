@@ -2,6 +2,12 @@ import { useApi } from '~/hooks';
 import router from '~/router';
 import { useStore } from '~/store';
 
+// const store = useStore();
+// import { useAuth } from './hooks';
+// import { useStore } from './store';
+
+// useStore();
+// useAuth();
 const store = useStore();
 
 export interface Response {
