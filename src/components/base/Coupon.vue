@@ -9,9 +9,9 @@
     <p v-if="giftcode.claimedDate" class="mt-3 text-center">
       Claimed {{ dayjs(giftcode.claimedDate).fromNow() }} by
       <Link
-        :to="{ name: 'User', params: { userId: giftcode.boughtBy.id } }"
+        :to="{ name: 'User', params: { userId: giftcode.claimedBy.id } }"
         class="font-bold text-white"
-        >{{ giftcode.boughtBy.displayName }}</Link
+        >{{ giftcode.claimedBy.displayName }}</Link
       >
     </p>
     <p v-else class="mt-3 text-center">

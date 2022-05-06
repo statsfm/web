@@ -26,9 +26,9 @@
         }}</span> -->
         <Link
           v-if="giftCode.claimedBy"
-          :to="{ name: 'User', params: { userId: giftCode.boughtBy.id } }"
+          :to="{ name: 'User', params: { userId: giftCode.claimedBy.id } }"
           class="font-bold text-primary"
-          >{{ giftCode.boughtBy.displayName }}</Link
+          >{{ giftCode.claimedBy.displayName }}</Link
         >
         <span v-else class="text-white">-</span>
       </div>
