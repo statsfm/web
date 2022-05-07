@@ -6,8 +6,8 @@
     <Badge @click="copyRedeemCode" class="w-full cursor-pointer">{{
       formatCode(giftcode.code)
     }}</Badge>
-    <p v-if="giftcode.claimedDate" class="mt-3 text-center">
-      Claimed {{ dayjs(giftcode.claimedDate).fromNow() }} by
+    <p v-if="giftcode.claimedAt" class="mt-3 text-center">
+      Claimed {{ dayjs(giftcode.claimedAt).fromNow() }} by
       <Link
         :to="{ name: 'User', params: { userId: giftcode.claimedBy.id } }"
         class="font-bold text-white"
@@ -15,7 +15,7 @@
       >
     </p>
     <p v-else class="mt-3 text-center">
-      {{ t('coupon.purchased') }} {{ dayjs(giftcode.purchaseDate).fromNow() }}
+      {{ t('coupon.purchased') }} {{ dayjs(giftcode.purchasedAt).fromNow() }}
     </p>
   </Card>
 </template>

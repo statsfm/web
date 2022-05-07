@@ -6,7 +6,7 @@
     <div class="lg:w-30 mt-2 flex w-[90vw] flex-col gap-2 md:w-[60vw]">
       <div class="flex justify-between gap-5">
         <span>{{ t('coupon.purchased_on') }}</span>
-        <span class="text-white">{{ dayjs(giftCode.purchaseDate).format('L') }}</span>
+        <span class="text-white">{{ dayjs(giftCode.purchasedAt).format('L') }}</span>
       </div>
       <div class="flex justify-between gap-5">
         <span>{{ t('coupon.bought_by') }}</span>
@@ -35,7 +35,7 @@
       <div class="flex justify-between gap-5">
         <span>{{ t('coupon.claimed_on') }}</span>
         <span class="text-white">{{
-          giftCode.claimedDate ? dayjs(giftCode.claimedDate).format('L') : '-'
+          giftCode.claimedAt ? dayjs(giftCode.claimedAt).format('L') : '-'
         }}</span>
       </div>
       <div class="flex justify-between gap-5">

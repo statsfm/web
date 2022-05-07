@@ -1,8 +1,8 @@
 export type GiftCode = {
   id: number;
   stripePaymentId: string;
-  purchaseDate: string;
-  claimedDate: string | null;
+  purchasedAt: string;
+  claimedAt: string | null;
   claimedById: string | null;
   boughtById: string;
   claimedBy: any | null;
