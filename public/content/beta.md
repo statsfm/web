@@ -2,6 +2,9 @@
 
 To get access to the latest features and bug fixes you can join the beta. Please note that these features and fixes are in beta for a reason and can be a bit buggy/unfinished. If you have any feedback please contact me on [Discord](https://discord.gg/spotistats) or send me an email at [beta@spotistats.app](mailto:beta@spotistats.app)
 
+## Web
+Go to [preview.stats.fm](https://preview.stats.fm) to use the beta version of the website
+
 ## Android
 
 ### Joining the Beta

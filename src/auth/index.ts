@@ -33,6 +33,9 @@ export default class auth {
       const user = JSON.parse(localStorage.getItem('user') as string);
       this.store.setUser(user);
     }
+    if (this.hasValidToken()) {
+      this.setUser();
+    }
   };
 
   // TODO: rewrite this function
@@ -101,13 +104,7 @@ export default class auth {
 
     localStorage.setItem('token', token);
 
-    const user = await this.api.me.get();
-    if (user) {
-      // TODO: fix types
-      this.store.setUser(user as any);
-    } else {
-      alert('user not found: ' + JSON.stringify(user));
-    }
+    await this.setUser();
 
     let page = localStorage.getItem('redirectPage') ?? '/';
 
@@ -116,6 +113,16 @@ export default class auth {
     }
 
     router.push(page);
+  };
+
+  public setUser = async () => {
+    const user = await this.api.me.get();
+    if (user) {
+      // TODO: fix types
+      this.store.setUser(user as any);
+    } else {
+      alert('user not found: ' + JSON.stringify(user));
+    }
   };
 
   public isLoggedIn = () => {
@@ -135,10 +142,10 @@ export default class auth {
         valid = true;
       } else {
         valid = Math.floor(new Date().getTime() / 1000) <= exp;
+      }
 
-        if (valid && maxAge && maxAge > 0) {
-          valid = Date.now() / 1000 - iat < maxAge;
-        }
+      if (valid && maxAge && maxAge > 0) {
+        valid = Date.now() / 1000 - iat < maxAge;
       }
     }
 

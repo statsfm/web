@@ -32,8 +32,7 @@
     </div>
     <p class="mt-10 min-w-full pt-10 text-center text-neutral-500 md:order-1 md:mt-0">
       All copyrighted content (i.e. album artwork) on Stats.fm are owned by their respective owners.
-      Data is provided by Spotify. Spotify is a trademark of Spotify AB. Stats.fm is in no way
-      affiliated with Spotify.
+      Data is provided by Spotify. Spotify is a trademark of Spotify AB. Stats.fm is in no wayaffiliated with Spotify.
     </p>
     <p class="mt-10 min-w-full pt-5 text-center md:order-1 md:mt-0">
       © 2022 Stats.fm / Spotistats for Spotify. All rights reserved. Made with ❤️ in the

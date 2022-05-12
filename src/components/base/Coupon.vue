@@ -1,12 +1,22 @@
 <template>
   <Card
-    class="max-w-max cursor-pointer"
+    class="max-w-max cursor-pointer pb-2 pt-5"
     @click="router.push({ name: 'GiftCoupon', params: { code: giftcode.code } })"
   >
-    <p class="mb-3">{{ t('coupon.purchased') }} {{ dayjs(giftcode.purchaseDate).fromNow() }}</p>
-    <Badge @click="copyRedeemCode" class="w-full cursor-copy">{{
+    <Badge @click="copyRedeemCode" class="w-full cursor-pointer">{{
       formatCode(giftcode.code)
     }}</Badge>
+    <p v-if="giftcode.claimedAt" class="mt-3 text-center">
+      Claimed {{ dayjs(giftcode.claimedAt).fromNow() }} by
+      <Link
+        :to="{ name: 'User', params: { userId: giftcode.claimedBy.id } }"
+        class="font-bold text-white"
+        >{{ giftcode.claimedBy.displayName }}</Link
+      >
+    </p>
+    <p v-else class="mt-3 text-center">
+      {{ t('coupon.purchased') }} {{ dayjs(giftcode.purchasedAt).fromNow() }}
+    </p>
   </Card>
 </template>
 
@@ -14,6 +24,7 @@
 import { defineProps } from 'vue';
 
 import Card from '~/components/layout/Card.vue';
+import Link from '~/components/base/Link.vue';
 import Badge from '~/components/base/Badge.vue';
 
 import { useI18n } from 'vue-i18n';
