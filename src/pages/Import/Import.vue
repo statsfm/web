@@ -144,7 +144,7 @@ const onFileSelect = async (e: any) => {
   const file = files.item(0)!;
 
   // check if filename is valid
-  if (file && file.name.match(/endsong(?:_[0-9]+)?\.json/i)) {
+  if (file && file.name.match(/$endsong(?:_[0-9]+)?\.json/i)) {
     let streams = JSON.parse(await file.text());
     const validStreams = streams
       .map((e: any) => {
@@ -222,7 +222,7 @@ const onFileSelect = async (e: any) => {
   } else if (file?.name?.toLowerCase().startsWith('ap_')) {
     toaster.error({
       message:
-        'You just need to upload the "endsong.json" files, not the ap_endsong or any other files',
+        'You just need to upload the "endsong_X.json" files, not the ap_endsong or any other files :)',
       duration: 8 * 1000 // show the toaster for 8 seconds
     });
   } else {
