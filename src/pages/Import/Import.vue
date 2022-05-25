@@ -218,7 +218,7 @@ const onFileSelect = async (e: any) => {
     //   message: t('errors.invalid_filename_streaminghistory'),
     //   duration: 8 * 1000 // show the toaster for 8 seconds
     // });
-    location.href = 'https://support.spotistats.app/docs/import/faq/no-endsong';
+    location.href = 'https://support.stats.fm/docs/import/faq/no-endsong';
   } else {
     toaster.error({
       message:
