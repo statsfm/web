@@ -219,15 +219,11 @@ const onFileSelect = async (e: any) => {
     //   duration: 8 * 1000 // show the toaster for 8 seconds
     // });
     location.href = 'https://support.spotistats.app/docs/import/faq/no-endsong';
-  } else if (file?.name?.toLowerCase().startsWith('ap_')) {
+  } else {
     toaster.error({
       message:
         'You just need to upload the "endsong_X.json" files, not the ap_endsong or any other files :)',
       duration: 8 * 1000 // show the toaster for 8 seconds
-    });
-  } else {
-    toaster.error({
-      message: t('errors.invalid_filename')
     });
   }
 };
