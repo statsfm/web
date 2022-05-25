@@ -214,10 +214,11 @@ const onFileSelect = async (e: any) => {
     api.http.config.baseUrl = oldUrl;
     loading.value = false;
   } else if (file?.name.match(/StreamingHistory[0-9][0-9]?.json/g)) {
-    toaster.error({
-      message: t('errors.invalid_filename_streaminghistory'),
-      duration: 8 * 1000 // show the toaster for 8 seconds
-    });
+    // toaster.error({
+    //   message: t('errors.invalid_filename_streaminghistory'),
+    //   duration: 8 * 1000 // show the toaster for 8 seconds
+    // });
+    location.href = 'https://support.spotistats.app/docs/import/faq/no-endsong';
   } else if (file?.name?.toLowerCase().startsWith('ap_')) {
     toaster.error({
       message:
