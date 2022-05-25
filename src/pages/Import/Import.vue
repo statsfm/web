@@ -144,7 +144,7 @@ const onFileSelect = async (e: any) => {
   const file = files.item(0)!;
 
   // check if filename is valid
-  if (file && file.name.match(/$endsong(?:_[0-9]+)?\.json/i)) {
+  if (file && file.name.match(/^endsong(?:_[0-9]+)?\.json/i)) {
     let streams = JSON.parse(await file.text());
     const validStreams = streams
       .map((e: any) => {
