@@ -41,7 +41,7 @@
           { label: 'Months', value: statsfm.Range.MONTHS },
           { label: 'Lifetime', value: statsfm.Range.LIFETIME }
         ]"
-        @change="(value) => setRange(value)"
+        @selected="(value) => setRange(value)"
       />
 
       <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
