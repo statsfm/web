@@ -3,83 +3,84 @@ import { defineComponent, onBeforeUnmount, onMounted, PropType, Ref, ref, watch 
 interface Segment {
   label: string;
   value: string;
-  ref?: Ref<HTMLLIElement>;
+  ref?: Ref;
 }
 
-export default defineComponent({
-  //  TODO: look why whe can't use typescript generics as props
-  props: {
-    segments: Object as PropType<Segment[]>,
-    defaultIndex: Number
-  },
-  emits: ['change'],
-  setup({ segments, defaultIndex = 0 }, { emit }) {
-    const activeIndex = ref(defaultIndex);
-    const offsetWidth = ref(0);
+interface Props {
+  segments: Segment[];
+  defaultIndex?: number;
+}
 
-    onMounted(() => {
-      // create a ref for each segment so it styles can be accessed when calculating the width
-      // TODO: improve this
-      segments?.forEach((segment) => {
-        if (!segment.ref) {
-          segment.ref = ref();
-        }
-      });
+// TODO: add emit types
+const SegmentedControls = defineComponent<Props>(({ segments, defaultIndex = 0 }, { emit }) => {
+  const activeIndex = ref(defaultIndex);
+  const offsetWidth = ref(0);
 
-      // recalculate the pill width on resize
-      window.addEventListener('resize', calculateActiveSegmentOffsetWidth);
+  onMounted(() => {
+    // create a ref for each segment so it styles can be accessed when calculating the width
+    // TODO: improve this
+    segments?.forEach((segment) => {
+      if (!segment.ref) segment.ref = ref<HTMLLIElement>();
     });
 
-    onBeforeUnmount(() => {
-      // remove the resize event listener before unmount
-      window.removeEventListener('resize', calculateActiveSegmentOffsetWidth);
-    });
+    // recalculate the pill width on resize
+    window.addEventListener('resize', calculateActiveSegmentOffsetWidth);
+  });
 
-    // recalculate the pill width on index change
-    // TODO: look if necessary and listen for the segments prop to recalculate
-    watch(activeIndex, () => calculateActiveSegmentOffsetWidth());
+  onBeforeUnmount(() => {
+    // remove the resize event listener before unmount
+    window.removeEventListener('resize', calculateActiveSegmentOffsetWidth);
+  });
 
-    const calculateActiveSegmentOffsetWidth = () => {
-      const activeSegmentRef = segments![activeIndex.value].ref;
-      if (activeSegmentRef?.value) offsetWidth.value = activeSegmentRef.value.offsetWidth;
-    };
+  // recalculate the pill width on index change
+  // TODO: look if necessary and listen for the segments prop to recalculate
+  watch(activeIndex, () => calculateActiveSegmentOffsetWidth());
 
-    const handleInputChange = (value: string, i: number) => {
-      activeIndex.value = i;
-      emit('change', value);
-    };
+  const calculateActiveSegmentOffsetWidth = () => {
+    const activeSegmentRef = segments![activeIndex.value].ref;
+    if (activeSegmentRef?.value) offsetWidth.value = activeSegmentRef.value.offsetWidth;
+  };
 
-    return () => (
-      <ul class="grid auto-cols-[1fr] grid-flow-col rounded-2xl bg-bodySecundary p-2">
-        <span
-          class="z-2 col-[1] row-[1] rounded-xl bg-primaryLighter transition-transform duration-200 will-change-transform"
-          style={[`transform:translateX(${offsetWidth.value * activeIndex.value}px)`]}
-        />
-        {segments?.map((segment, i) => (
-          <li
-            ref={segment.ref}
-            class="relative select-none rounded-lg px-4 py-1 text-white first-of-type:col-[1] first-of-type:row-[1]"
+  const handleInputChange = (value: string, i: number) => {
+    activeIndex.value = i;
+    emit('selected', value);
+  };
+
+  return () => (
+    <ul class="grid auto-cols-[1fr] grid-flow-col rounded-2xl bg-bodySecundary p-2">
+      <span
+        class="z-2 col-[1] row-[1] rounded-xl bg-primaryLighter transition-transform duration-200 will-change-transform"
+        style={[`transform:translateX(${offsetWidth.value * activeIndex.value}px)`]}
+      />
+      {segments?.map((segment, i) => (
+        <li
+          ref={segment.ref}
+          class="relative select-none rounded-lg px-4 py-1 text-white first-of-type:col-[1] first-of-type:row-[1]"
+        >
+          <input
+            class="peer sr-only"
+            type="radio"
+            id={segment.value}
+            value={segment.value}
+            onChange={() => handleInputChange(segment.value, i)}
+            checked={i == activeIndex.value}
+          />
+          <label
+            htmlFor={segment.value}
+            class={[
+              'flex h-full w-full  cursor-pointer items-center justify-center font-semibold',
+              i == activeIndex.value && 'text-primary'
+            ]}
           >
-            <input
-              class="peer sr-only"
-              type="radio"
-              id={segment.value}
-              value={segment.value}
-              onChange={() => handleInputChange(segment.value, i)}
-              checked={i == activeIndex.value}
-            />
-            <label
-              htmlFor={segment.value}
-              class={[
-                'flex h-full w-full  cursor-pointer items-center justify-center font-semibold',
-                i == activeIndex.value && 'text-primary'
-              ]}
-            >
-              {segment.label}
-            </label>
-          </li>
-        ))}
-      </ul>
-    );
-  }
+            {segment.label}
+          </label>
+        </li>
+      ))}
+    </ul>
+  );
 });
+
+//  TODO: look why whe can't directly use typescript generics as props without defining the props like this
+SegmentedControls.props = ['segments', 'defaultIndex'];
+
+export default SegmentedControls;
