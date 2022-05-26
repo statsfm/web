@@ -58,7 +58,7 @@ export default defineComponent({
         {segments?.map((segment, i) => (
           <li
             ref={segment.ref}
-            class="relative select-none rounded-lg px-4 py-2 text-white first-of-type:col-[1] first-of-type:row-[1]"
+            class="relative select-none rounded-lg px-4 py-1 text-white first-of-type:col-[1] first-of-type:row-[1]"
           >
             <input
               class="peer sr-only"
