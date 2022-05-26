@@ -41,25 +41,14 @@
         </div>
       </div>
 
-      <RealDropdown>
-        <template v-slot:button>
-          <Button size="small" class="capitalize">{{ range }}</Button>
-        </template>
-
-        <List class="w-44 rounded-xl">
-          <!-- TODO: fix with i18n and range -->
-          <ListItemGroup
-            :items="[statsfm.Range.WEEKS, statsfm.Range.MONTHS, statsfm.Range.LIFETIME]"
-            @click="(e) => setRange(e)"
-          >
-            <template v-slot="{ item }">
-              <ListItem :class="{ 'text-primary': item == range }" @click="setRange(item)">{{
-                item
-              }}</ListItem>
-            </template>
-          </ListItemGroup>
-        </List>
-      </RealDropdown>
+      <SegmentedControls
+        :segments="[
+          { label: 'Weeks', value: statsfm.Range.WEEKS },
+          { label: 'Months', value: statsfm.Range.MONTHS },
+          { label: 'Lifetime', value: statsfm.Range.LIFETIME }
+        ]"
+        @change="(value) => setRange(value)"
+      />
     </div>
 
     <div class="my-10"></div>
@@ -324,6 +313,7 @@ import { mdiChevronDown, mdiChevronUp } from '@mdi/js';
 import Avatar from '~/components/base/Avatar.vue';
 import StickyHeader from '~/components/base/StickyHeader.vue';
 import ArtistNameListRender from '~/components/base/ArtistNameListRender.vue';
+import { SegmentedControls } from '~/components/base/SegmentedControls';
 
 const route = useRoute();
 const router = useRouter();
