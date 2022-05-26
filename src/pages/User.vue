@@ -33,15 +33,9 @@
   </Hero>
   <Container>
     <div class="my-8"></div>
-    <div class="flex items-center justify-between gap-5">
-      <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
-        <div v-for="item in stats" :key="item.name">
-          <h3>{{ item.name }}</h3>
-          <span class="text-xl">{{ item.stat }}</span>
-        </div>
-      </div>
-
+    <div class="flex flex-col justify-between gap-5 md:flex-row-reverse">
       <SegmentedControls
+        class="w-full md:h-max md:w-max"
         :segments="[
           { label: 'Weeks', value: statsfm.Range.WEEKS },
           { label: 'Months', value: statsfm.Range.MONTHS },
@@ -49,6 +43,13 @@
         ]"
         @change="(value) => setRange(value)"
       />
+
+      <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
+        <div v-for="item in stats" :key="item.name">
+          <h3>{{ item.name }}</h3>
+          <span class="text-xl">{{ item.stat }}</span>
+        </div>
+      </div>
     </div>
 
     <div class="my-10"></div>
