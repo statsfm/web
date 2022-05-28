@@ -1,11 +1,23 @@
 import { computed, FC, ImgHTMLAttributes } from 'vue';
 import { Image } from '../Image';
 
+type Size = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
+
 interface Props extends ImgHTMLAttributes {
   name: string;
+  size: Size;
 }
 
-const Avatar: FC<Props> = ({ name, ...props }) => {
+const sizes: Record<Size, string> = {
+  xs: 'w-6',
+  sm: 'w-8',
+  md: 'w-12',
+  lg: 'w-16',
+  xl: 'w-24',
+  '2xl': 'w-32'
+};
+
+const Avatar: FC<Props> = ({ name, size, ...props }, { slots }) => {
   const initials = computed(() => {
     return name
       .match(/(\b\S)?/g)!
