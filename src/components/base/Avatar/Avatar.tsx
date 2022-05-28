@@ -32,13 +32,16 @@ const Avatar: FC<Props> = ({ name, size = 'md', ...props }, { slots }) => {
   return (
     <div class="relative">
       <Image class={['select-none rounded-full shadow-sm', sizes[size]]} {...props}>
-      {{
-        loading: () => (
-          <span class={'text-fontSecundary animation-pulse font-medium'}>{initials.value}</span>
-        ),
-        unavailable: () => <span class={'font-medium'}>{initials.value}</span>
-      }}
-    </Image>
+        {{
+          loading: () => (
+            <span class={'text-fontSecundary animation-pulse font-medium'}>{initials.value}</span>
+          ),
+          unavailable: () => <span class={'font-medium'}>{initials.value}</span>
+        }}
+      </Image>
+
+      <div class="absolute bottom-0 right-0">{slots.default && slots.default()}</div>
+    </div>
   );
 };
 
