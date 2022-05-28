@@ -5,7 +5,7 @@ type Size = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
 
 interface Props extends ImgHTMLAttributes {
   name: string;
-  size: Size;
+  size?: Size;
 }
 
 const sizes: Record<Size, string> = {
@@ -17,7 +17,7 @@ const sizes: Record<Size, string> = {
   '2xl': 'w-32'
 };
 
-const Avatar: FC<Props> = ({ name, size, ...props }, { slots }) => {
+const Avatar: FC<Props> = ({ name, size = 'md', ...props }, { slots }) => {
   const initials = computed(() => {
     return name
       .match(/(\b\S)?/g)!
