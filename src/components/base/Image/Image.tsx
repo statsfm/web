@@ -9,7 +9,7 @@ const Image = defineComponent<Props>(({ src, ...props }, { slots }) => {
   const { state } = useImageState(src);
 
   return () => (
-    <div class="grid aspect-square place-items-center overflow-hidden bg-bodySecundary">
+    <div class="grid place-items-center overflow-hidden bg-bodySecundary">
       <Transition
         enter-active-class="transition ease-out"
         enter-from-class="transform opacity-0"
