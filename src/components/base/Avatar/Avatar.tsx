@@ -2,13 +2,14 @@ import { computed, FC, ImgHTMLAttributes } from 'vue';
 import { Image } from '../Image';
 
 type Size = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' | '3xl' | '4xl';
+export type AvatarSize = Size;
 
 interface Props extends ImgHTMLAttributes {
   name: string;
   size?: Size;
 }
 
-const sizes: Record<Size, string> = {
+export const sizes: Record<Size, string> = {
   xs: 'w-6',
   sm: 'w-8',
   md: 'w-12',
@@ -31,7 +32,7 @@ const Avatar: FC<Props> = ({ name, size = 'md', ...props }, { slots }) => {
 
   return (
     <div class="relative">
-      <Image class={['select-none rounded-full shadow-sm', sizes[size]]} {...props}>
+      <Image class={['aspect-square select-none rounded-full shadow-sm', sizes[size]]} {...props}>
         {{
           loading: () => (
             <span class={'text-fontSecundary animation-pulse font-medium'}>{initials.value}</span>
