@@ -1,6 +1,6 @@
 <template>
   <Hero>
-    <Avatar :src="image" size="large" />
+    <Avatar :src="image" size="md" />
     <div class="flex flex-col justify-end">
       <span class="text-center text-xl font-medium md:text-left">
         <router-link v-if="subtitleTo" :to="subtitleTo">
@@ -15,7 +15,7 @@
 
 <script lang="ts" setup>
 import Hero from './Hero.vue';
-import Avatar from './Avatar.vue';
+import { Avatar } from './Avatar';
 import { useI18n } from 'vue-i18n';
 
 defineProps<{

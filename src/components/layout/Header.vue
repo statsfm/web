@@ -47,7 +47,7 @@
       <div v-if="!isSpotistats" class="flex items-center gap-5">
         <RealDropdown v-if="auth.isLoggedIn() && user">
           <template v-slot:button>
-            <Avatar :src="user.image" class="cursor-pointer" />
+            <Avatar :src="user.image" :name="user.displayName" size="md" class="cursor-pointer" />
           </template>
 
           <List class="rounded-xl">
@@ -56,7 +56,7 @@
               @click="router.push({ name: 'User', params: { userId: user!.customId ?? user!.id } })"
             >
               <div class="flex items-center">
-                <Avatar :src="user.image" />
+                <Avatar :src="user.image" :name="user.displayName" size="md" />
               </div>
               <div>
                 <h5>{{ user.displayName }}</h5>
@@ -100,7 +100,7 @@
 <script lang="ts" setup>
 import Container from './Container.vue';
 import Logo from '../base/Logo.vue';
-import Avatar from '../base/Avatar.vue';
+import { Avatar } from '../base/Avatar';
 import Button from '../base/Button.vue';
 import RealDropdown from '../base/dropdowns/RealDropdown.vue';
 import { useAuth, useUser } from '~/hooks';
