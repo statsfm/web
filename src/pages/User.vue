@@ -1,7 +1,7 @@
 <template>
   <!-- <HeroWithImageAndInfo v-if="user" :name="user.displayName" :image="user.image" /> -->
   <Hero v-if="user">
-    <Avatar :src="user.image" size="large" />
+    <Avatar :src="user.image" :name="user.displayName" size="4xl" />
     <div class="flex flex-col justify-end">
       <span class="text-center text-lg font-medium text-neutral-500 md:text-left">
         {{ user.profile.pronouns }}

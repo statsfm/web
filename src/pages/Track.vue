@@ -1,7 +1,7 @@
 <template>
   <div v-if="track">
     <Hero>
-      <Avatar :src="track.albums[0]?.image" size="large" shape="squared" />
+      <Avatar :src="track.albums[0]?.image" :name="track.name" size="4xl" shape="squared" />
       <div class="flex flex-col justify-end">
         <span class="text-center text-xl font-medium md:text-left">
           <router-link :to="{ path: `/artist/${track.artists[0].id}` }">
