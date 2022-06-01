@@ -223,7 +223,7 @@ export default defineComponent(() => {
                   </li>
                 ))
               : Array(10)
-                  .fill()
+                  .fill(null)
                   .map(() => (
                     <li>
                       <Skeleton.Image width="10rem" height="10rem" />
@@ -253,7 +253,7 @@ export default defineComponent(() => {
                   </li>
                 ))
               : Array(10)
-                  .fill()
+                  .fill(null)
                   .map(() => (
                     <li>
                       <Skeleton.Avatar size="3xl" />
@@ -282,7 +282,7 @@ export default defineComponent(() => {
                   </li>
                 ))
               : Array(20)
-                  .fill()
+                  .fill(null)
                   .map(() => (
                     <li>
                       <div class="flex items-center gap-2">
