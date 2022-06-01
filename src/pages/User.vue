@@ -37,11 +37,11 @@
       <SegmentedControls
         class="w-full md:h-max md:w-max"
         :segments="[
-          { label: 'Weeks', value: statsfm.Range.WEEKS },
-          { label: 'Months', value: statsfm.Range.MONTHS },
-          { label: 'Lifetime', value: statsfm.Range.LIFETIME }
+          { label: '4 weeks', value: statsfm.Range.WEEKS },
+          { label: '6 months', value: statsfm.Range.MONTHS },
+          { label: 'lifetime', value: statsfm.Range.LIFETIME }
         ]"
-        @selected="(value) => setRange(value)"
+        @selected="(value: any) => setRange(value)"
       />
 
       <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
