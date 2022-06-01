@@ -27,7 +27,7 @@ const Image = defineComponent<Props>(({ src, ...props }, { slots }) => {
             }
 
             case 'loaded': {
-              return <img src={src} {...props} />;
+              return <img class={'object-cover h-full w-full'} src={src} {...props} />;
             }
 
             case 'failed':
