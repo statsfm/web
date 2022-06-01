@@ -18,7 +18,7 @@ interface ImageProps extends Props {
 
 export const Image: FC<ImageProps> = ({ animation = 'pulse', width, height }) => (
   <span
-    class={['block bg-bodySecundary', animation && animations[animation]]}
+    class={['block rounded-lg bg-bodySecundary', animation && animations[animation]]}
     style={{ width, height }}
   />
 );
