@@ -51,7 +51,7 @@
 <script lang="ts" setup>
 import { onMounted, Ref, ref, watch } from 'vue';
 import { useRoute } from 'vue-router';
-import Avatar from '~/components/base/Avatar.vue';
+import { Avatar } from '~/components/base/Avatar';
 import Chip from '~/components/base/Chip/Chip.vue';
 import ChipGroup from '~/components/base/Chip/ChipGroup.vue';
 import Hero from '~/components/base/Hero.vue';
