@@ -9,7 +9,8 @@
     margin-top: 2rem !important;
   } */
 
-  body, html {
+  body,
+  html {
     @apply bg-bodyPrimary font-body;
   }
 
@@ -53,5 +54,16 @@
 
   svg {
     @apply text-white;
+  }
+}
+
+@layer utilities {
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
   }
 }
