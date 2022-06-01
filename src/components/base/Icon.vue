@@ -1,5 +1,5 @@
 <template>
-  <svg width="24" height="24" viewport="0 0 24 24" :style="{ fill: color ?? 'currentColor' }">
+  <svg width="24" height="24" viewport="0 0 24 24" class="fill-icon" :style="{ fill: color }">
     <path :d="path" />
   </svg>
 </template>

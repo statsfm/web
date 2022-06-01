@@ -7,7 +7,8 @@ module.exports = {
         primaryLighter: 'rgba(30, 215, 96, 0.1)',
         bodyPrimary: '#111112',
         bodySecundary: '#18181c',
-        textGrey: '#727272'
+        textGrey: '#727272',
+        icon: '#727272'
       },
       fontFamily: {
         body: 'Open Sans',
