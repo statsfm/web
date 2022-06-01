@@ -7,7 +7,6 @@
     "redeem": "Redeem",
     "login": "Login"
   },
-
   "errors": {
     "successfully_redeemed": "Successfully redeemed code",
     "invalid_filename": "Invalid filename",
@@ -43,9 +42,6 @@
     "edit_message": "Edit message",
     "gifted_by": "Gifted by {name}",
     "save_with_bundle": "Save {percentage}% with this bundle!"
-  },
-  "artist": {
-    "followers": "{count} followers"
   },
   "import": {
     "successfully_uploaded_file": "Successfully uploaded {filename}",
@@ -102,5 +98,15 @@
     "weeks": "4 weeks",
     "months": "6 months",
     "lifetime": "lifetime"
-  }
+  },
+  "artist": {
+    "tracks": "Tracks",
+    "related": {
+      "title": "Related artists",
+      "description": "Artists that fans might also like"
+    },
+    "followers": "{count} followers"
+  },
+  "minutes": "{count} minutes",
+  "streams": "{count} streams"
 }
