@@ -47,7 +47,7 @@ const SegmentedControls = defineComponent<Props>(({ segments, defaultIndex = 0 }
   };
 
   return () => (
-    <ul class="grid auto-cols-[1fr] grid-flow-col rounded-2xl bg-bodySecundary p-2">
+    <ul class="grid auto-cols-[1fr] grid-flow-col rounded-2xl bg-bodySecundary p-1.5">
       <span
         class="z-2 col-[1] row-[1] rounded-xl bg-primaryLighter transition-transform duration-200 will-change-transform"
         style={[`transform:translateX(${offsetWidth.value * activeIndex.value}px)`]}
