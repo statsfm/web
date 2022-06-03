@@ -31,7 +31,7 @@ const TrackCard: FC<Props> = ({ track }) => (
   <RouterLink to={{ name: 'Track', params: { id: track.id } }}>
     <div class="w-40">
       <div class="min-h-50 aspect-square w-full group-hover:opacity-90">
-        <Image src={track.albums[0].image} alt={track.name} />
+        <Image src={track.albums[0].image} alt={track.name} class="aspect-square" />
       </div>
       <div class="mt-2">
         <h4 class="line-clamp-2">{track.name}</h4>
