@@ -1,7 +1,7 @@
 import { FC } from 'vue';
 import { AvatarSize, sizes } from '../Avatar';
 
-type Animation = 'pulse' | false;
+type Animation = 'pulse';
 
 interface Props {
   animation?: Animation;
