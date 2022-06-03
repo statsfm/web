@@ -105,8 +105,21 @@
       "title": "Related artists",
       "description": "Artists that fans might also like"
     },
+    "top_listeners": {
+      "title": "Top Listeners",
+      "description": "People who love {artist}"
+    },
+    "more_tracks": {
+      "title": "More tracks",
+      "description": "More tracks by {artist}"
+    },
+    "recent_streams": {
+      "title": "Recent streams",
+      "description": "Your recent streams featuring {artist}"
+    },
     "followers": "{count} followers"
   },
   "minutes": "{count} minutes",
-  "streams": "{count} streams"
+  "streams": "{count} streams",
+  "artist.recent_streams.title": "Recent streams"
 }

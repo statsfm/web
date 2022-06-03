@@ -26,40 +26,29 @@ const MoreTracks = defineComponent<{ tracks?: statsfm.Track[] }>(({ tracks }) =>
   const { data, toggle, showMore } = useLessMore(tracks!, limit);
 
   return () => (
-    <>
-      <StickyHeader>
-        <div class="flex flex-col">
-          <h2>{t('artist.more_tracks.title')}</h2>
-          <p class="my-1">{t('artist.more_tracks.description')}</p>
-        </div>
-      </StickyHeader>
+    <ul>
+      {tracks ? (
+        <>
+          {data.value.map((track) => (
+            <li>
+              <TrackListRow track={track} />
+            </li>
+          ))}
 
-      <section>
-        <ul>
-          {tracks ? (
-            <>
-              {data.value.map((track) => (
-                <li>
-                  <TrackListRow track={track} />
-                </li>
-              ))}
-
-              <button class="py-3 font-bold uppercase text-textGrey" onClick={toggle}>
-                {showMore.value ? 'show less' : 'show more'}
-              </button>
-            </>
-          ) : (
-            Array(limit)
-              .fill(null)
-              .map(() => (
-                <li>
-                  <TrackListRowSkeleton />
-                </li>
-              ))
-          )}
-        </ul>
-      </section>
-    </>
+          <button class="py-3 font-bold uppercase text-textGrey" onClick={toggle}>
+            {showMore.value ? 'show less' : 'show more'}
+          </button>
+        </>
+      ) : (
+        Array(limit)
+          .fill(null)
+          .map(() => (
+            <li>
+              <TrackListRowSkeleton />
+            </li>
+          ))
+      )}
+    </ul>
   );
 });
 
@@ -141,7 +130,9 @@ export default defineComponent(() => {
         <StickyHeader>
           <div class="flex flex-col">
             <h2>{t('artist.top_listeners.title')}</h2>
-            <p class="my-1">{t('artist.top_listeners.description')}</p>
+            <p class="my-1">
+              {t('artist.top_listeners.description', { artist: artist.value?.name })}
+            </p>
           </div>
         </StickyHeader>
 
@@ -187,7 +178,23 @@ export default defineComponent(() => {
           </Carousel>
         </section>
 
-        {<MoreTracks tracks={tracks.value} />}
+        {/* more tracks */}
+        <StickyHeader>
+          <h2>{t('artist.more_tracks.title')}</h2>
+          <p class="my-1">{t('artist.more_tracks.description', { artist: artist.value?.name })}</p>
+        </StickyHeader>
+
+        <section>
+          <MoreTracks tracks={tracks.value} />
+        </section>
+
+        {/* recent streams */}
+        <StickyHeader>
+          <h2>{t('artist.recent_streams.title')}</h2>
+          <p class="my-1">
+            {t('artist.recent_streams.description', { artist: artist.value?.name })}
+          </p>
+        </StickyHeader>
         {recentStreams.value && <RecentStreams streams={recentStreams.value} />}
       </Container>
     </>
