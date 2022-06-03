@@ -1,8 +1,6 @@
-import { defineComponent, FC, onBeforeMount, onMounted, ref } from 'vue';
+import { defineComponent, onBeforeMount, ref } from 'vue';
 import { RouterLink } from 'vue-router';
 import * as statsfm from '@statsfm/statsfm.js';
-import dayjs from '~/dayjs';
-import { mdiClockOutline } from '@mdi/js';
 
 // components
 import Hero from '~/components/base/Hero.vue';
