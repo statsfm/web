@@ -66,7 +66,7 @@ const SegmentedControls = defineComponent<Props>(({ segments, defaultIndex = 0 }
             checked={i == activeIndex.value}
           />
           <label
-            htmlFor={segment.value}
+            for={segment.value}
             class={[
               'flex h-full w-full  cursor-pointer items-center justify-center font-semibold',
               i == activeIndex.value && 'text-primary'
