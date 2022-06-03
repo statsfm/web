@@ -1,8 +1,9 @@
-import { ref, watch } from 'vue';
+import { Ref, ref, watch } from 'vue';
 
 export const useLessMore = <T>(list: T[], limit: number) => {
   const showMore = ref(false);
-  const data = ref<T[]>(list.slice(0, limit));
+  // https://github.com/vuejs/core/issues/2136
+  const data = ref<T[]>(list.slice(0, limit)) as Ref<T[]>;
 
   const less = () => {
     showMore.value = false;
