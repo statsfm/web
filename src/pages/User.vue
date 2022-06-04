@@ -93,6 +93,7 @@
           <RouterLink :to="{ name: 'Track', params: { id: track.track.id } }" class="group">
             <div class="min-h-80 aspect-square w-full group-hover:opacity-90">
               <Image
+                :key="track.track.albums[0].image"
                 :src="track.track.albums[0].image"
                 :alt="track.track.albums[0].name"
                 class="h-full w-full"
@@ -154,6 +155,7 @@
           >
             <div class="aspect-square group-hover:opacity-90">
               <Image
+                :key="artist.artist.image"
                 :src="artist.artist.image"
                 variant="round"
                 :alt="artist.artist.name"
@@ -210,7 +212,12 @@
         <li v-for="(album, index) in topAlbums?.slice(0, albumCount)" :key="index" class="group">
           <router-link :to="{ name: 'Album', params: { id: album.album.id } }">
             <div class="min-h-80 aspect-square w-full group-hover:opacity-90">
-              <Image :src="album.album.image" :alt="album.album.name" class="h-full w-full" />
+              <Image
+                :key="album.album.image"
+                :src="album.album.image"
+                :alt="album.album.name"
+                class="h-full w-full"
+              />
             </div>
             <div class="mt-3 flex justify-between">
               <div>
