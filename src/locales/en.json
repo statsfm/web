@@ -100,7 +100,10 @@
     "lifetime": "lifetime"
   },
   "artist": {
-    "tracks": "Tracks",
+    "popular_tracks": {
+      "title": "Popular tracks",
+      "description": "The most popular tracks by {artist}"
+    },
     "related": {
       "title": "Related artists",
       "description": "Artists that fans might also like"

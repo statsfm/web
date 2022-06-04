@@ -65,6 +65,7 @@ export default defineComponent(() => {
   const topListeners = ref<statsfm.TopUser[]>();
   const recentStreams = ref<statsfm.Stream[]>();
 
+  // TODO: look at async loading in refs
   onBeforeMount(async () => {
     const id = parseInt(route.params.id.toString());
 
@@ -103,9 +104,12 @@ export default defineComponent(() => {
 
         <div class="my-8"></div>
 
-        {/* tracks */}
+        {/* popular tracks */}
         <StickyHeader>
-          <h2>{t('artist.tracks')}</h2>
+          <h2>{t('artist.popular_tracks.title')}</h2>
+          <p class="my-1">
+            {t('artist.popular_tracks.description', { artist: artist.value?.name })}
+          </p>
         </StickyHeader>
 
         <section>
@@ -128,12 +132,10 @@ export default defineComponent(() => {
 
         {/* top listeners */}
         <StickyHeader>
-          <div class="flex flex-col">
             <h2>{t('artist.top_listeners.title')}</h2>
             <p class="my-1">
               {t('artist.top_listeners.description', { artist: artist.value?.name })}
             </p>
-          </div>
         </StickyHeader>
 
         <section>
