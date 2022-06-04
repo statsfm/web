@@ -1,4 +1,4 @@
-import { defineAsyncComponent, defineComponent, onBeforeMount, ref, Suspense } from 'vue';
+import { defineComponent, onBeforeMount, ref, Suspense } from 'vue';
 import { RouterLink } from 'vue-router';
 import * as statsfm from '@statsfm/statsfm.js';
 
@@ -129,10 +129,10 @@ export default defineComponent(() => {
         </StickyHeader>
 
         <section>
-          <Carousel rows={3} gap={16}>
+          <Carousel rows={3} gap={16} class="snap snap-x snap-mandatory">
             {related.value
               ? related.value?.map((artist) => (
-                  <li>
+                  <li class="snap-start snap-normal">
                     <RelatedArtistCard artist={artist} />
                   </li>
                 ))
@@ -186,6 +186,7 @@ export default defineComponent(() => {
 
 const MoreTracks = defineComponent<{ id: number; limit: number }>(async ({ id, limit }) => {
   const api = useApi();
+  // TODO: don't fetch artist tracks multiple times
   const { data, toggle, showMore } = useLessMore(await api.artists.tracks(id), limit);
 
   return () => (
