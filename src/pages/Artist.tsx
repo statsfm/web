@@ -1,4 +1,4 @@
-import { defineComponent, onBeforeMount, ref } from 'vue';
+import { defineAsyncComponent, defineComponent, onBeforeMount, ref, Suspense } from 'vue';
 import { RouterLink } from 'vue-router';
 import * as statsfm from '@statsfm/statsfm.js';
 
@@ -20,40 +20,6 @@ import { useI18n } from 'vue-i18n';
 import { Carousel } from '~/components/base/Carousel';
 import { RecentStreams } from '~/components/base/RecentStreams';
 
-const MoreTracks = defineComponent<{ tracks?: statsfm.Track[] }>(({ tracks }) => {
-  const { t } = useI18n();
-  const limit = 8;
-  const { data, toggle, showMore } = useLessMore(tracks!, limit);
-
-  return () => (
-    <ul>
-      {tracks ? (
-        <>
-          {data.value.map((track) => (
-            <li>
-              <TrackListRow track={track} />
-            </li>
-          ))}
-
-          <button class="py-3 font-bold uppercase text-textGrey" onClick={toggle}>
-            {showMore.value ? 'show less' : 'show more'}
-          </button>
-        </>
-      ) : (
-        Array(limit)
-          .fill(null)
-          .map(() => (
-            <li>
-              <TrackListRowSkeleton />
-            </li>
-          ))
-      )}
-    </ul>
-  );
-});
-
-MoreTracks.props = ['tracks'];
-
 export default defineComponent(() => {
   const api = useApi();
   const route = useRoute();
@@ -65,10 +31,10 @@ export default defineComponent(() => {
   const topListeners = ref<statsfm.TopUser[]>();
   const recentStreams = ref<statsfm.Stream[]>();
 
+  const id = parseInt(route.params.id.toString());
+
   // TODO: look at async loading in refs
   onBeforeMount(async () => {
-    const id = parseInt(route.params.id.toString());
-
     artist.value = await api.artists.get(id);
     tracks.value = await api.artists.tracks(id);
     related.value = await api.artists.related(id);
@@ -132,10 +98,10 @@ export default defineComponent(() => {
 
         {/* top listeners */}
         <StickyHeader>
-            <h2>{t('artist.top_listeners.title')}</h2>
-            <p class="my-1">
-              {t('artist.top_listeners.description', { artist: artist.value?.name })}
-            </p>
+          <h2>{t('artist.top_listeners.title')}</h2>
+          <p class="my-1">
+            {t('artist.top_listeners.description', { artist: artist.value?.name })}
+          </p>
         </StickyHeader>
 
         <section>
@@ -187,7 +153,22 @@ export default defineComponent(() => {
         </StickyHeader>
 
         <section>
-          <MoreTracks tracks={tracks.value} />
+          <ul>
+            <Suspense>
+              {{
+                default: <MoreTracks limit={8} id={id} />,
+                fallback: (
+                  <>
+                    {Array(8)
+                      .fill(null)
+                      .map(() => (
+                        <TrackListRowSkeleton />
+                      ))}
+                  </>
+                )
+              }}
+            </Suspense>
+          </ul>
         </section>
 
         {/* recent streams */}
@@ -202,3 +183,24 @@ export default defineComponent(() => {
     </>
   );
 });
+
+const MoreTracks = defineComponent<{ id: number; limit: number }>(async ({ id, limit }) => {
+  const api = useApi();
+  const { data, toggle, showMore } = useLessMore(await api.artists.tracks(id), limit);
+
+  return () => (
+    <>
+      {data.value.map((track) => (
+        <li>
+          <TrackListRow track={track} />
+        </li>
+      ))}
+
+      <button class="py-3 font-bold uppercase text-textGrey" onClick={toggle}>
+        {showMore.value ? 'show less' : 'show more'}
+      </button>
+    </>
+  );
+});
+
+MoreTracks.props = ['id', 'limit'];
