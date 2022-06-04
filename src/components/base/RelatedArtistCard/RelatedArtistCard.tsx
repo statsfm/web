@@ -11,7 +11,7 @@ interface Props {
 
 export const RelatedArtistCard: FC<Props> = ({ artist }) => (
   <RouterLink to={{ name: 'Artist', params: { id: artist.id } }}>
-    <div class="flex w-80 items-center gap-2">
+    <div class="flex w-60 items-center gap-2">
       <Avatar name={artist.name} src={artist.image} />
       <div>
         <h4>{artist.name}</h4>
