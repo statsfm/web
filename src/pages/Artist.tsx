@@ -62,7 +62,7 @@ export default defineComponent(() => {
           <ChipGroup>
             {artist.value?.genres.map((genre) => (
               <RouterLink to={{ name: 'Genre', params: { tag: genre } }}>
-                <Chip>{genre}</Chip>
+                <Chip class="font-bold">{genre}</Chip>
               </RouterLink>
             ))}
           </ChipGroup>

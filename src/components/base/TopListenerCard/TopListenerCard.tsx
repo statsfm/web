@@ -40,15 +40,18 @@ export const TopListenerCard = defineComponent<Props>(({ listener }) => {
           </div>
         </Avatar>
 
-        <h4>{listener.user.displayName}</h4>
-        <p class="m-0 text-center line-clamp-2">
-          <span>
-            {t('minutes', {
-              count: dayjs.duration(listener.playedMs!, 'milliseconds').asMinutes().toLocaleString()
-            })}
-          </span>
-          • <span>{t('streams', { count: listener.streams })}</span>
-        </p>
+        <div class="mt-2">
+          <h4>{listener.user.displayName}</h4>
+          <p class="m-0 text-center line-clamp-2">
+            <span>
+              {t('minutes', {
+                count: Math.round(dayjs.duration(listener.playedMs!, 'milliseconds').asMinutes()).toLocaleString()
+              })}
+            </span>
+            <br />
+            <span>{t('streams', { count: listener.streams })}</span>
+          </p>
+        </div>
       </div>
     </RouterLink>
   );

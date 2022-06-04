@@ -109,7 +109,7 @@
       "description": "Artists that fans might also like"
     },
     "top_listeners": {
-      "title": "Top Listeners",
+      "title": "Top listeners",
       "description": "People who love {artist}"
     },
     "more_tracks": {

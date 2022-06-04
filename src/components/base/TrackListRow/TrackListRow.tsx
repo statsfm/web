@@ -29,7 +29,7 @@ export const TrackListRow: FC<Props> = ({ track }) => (
 
       <p class="flex gap-2 text-right">
         {dayjs.duration(track.durationMs, 'milliseconds').format('m:ss')}{' '}
-        <Icon path={mdiClockOutline} />
+        {/* <Icon path={mdiClockOutline} /> */}
       </p>
     </RouterLink>
     <hr class="my-3 border-bodySecundary" />
