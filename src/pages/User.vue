@@ -330,7 +330,7 @@ const api = useApi();
 
 const id = route.params.userId.toString();
 
-const range: Ref<statsfm.Range> = ref(statsfm.Range.LIFETIME);
+const range: Ref<statsfm.Range> = ref(statsfm.Range.WEEKS);
 const genres: Ref<any | null> = ref(null);
 const user: Ref<
   | (statsfm.UserPublic & {
