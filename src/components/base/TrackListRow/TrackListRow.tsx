@@ -1,21 +1,21 @@
 import { FC } from 'vue';
 import * as statsfm from '@statsfm/statsfm.js';
-import dayjs from '../../../dayjs';
-import { mdiClockOutline } from '@mdi/js';
+import dayjs from '~/dayjs';
+import { slugify } from '~/utils/slugify';
 
 // components
 import { RouterLink } from 'vue-router';
 import { Image } from '../Image';
-import Icon from '../Icon.vue';
 
 interface Props {
   track: statsfm.Track;
+  // streams: statsfm.Stream[];
 }
 
 export const TrackListRow: FC<Props> = ({ track }) => (
   <>
     <RouterLink
-      to={{ name: 'Track', params: { id: track.id } }}
+      to={{ name: 'Track', params: { id: track.id, slug: slugify(track.name) } }}
       class="flex items-center justify-between"
     >
       <div class="flex items-center gap-3">
@@ -27,10 +27,7 @@ export const TrackListRow: FC<Props> = ({ track }) => (
         </div>
       </div>
 
-      <p class="flex gap-2 text-right">
-        {dayjs.duration(track.durationMs, 'milliseconds').format('m:ss')}{' '}
-        {/* <Icon path={mdiClockOutline} /> */}
-      </p>
+      <p class="text-right">{dayjs.duration(track.durationMs, 'milliseconds').format('m:ss')}</p>
     </RouterLink>
     <hr class="my-3 border-bodySecundary" />
   </>

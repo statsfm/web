@@ -1,6 +1,8 @@
 import { FC } from 'vue';
 import * as statsfm from '@statsfm/statsfm.js';
+import { slugify } from '~/utils/slugify';
 
+// components
 import { RouterLink } from 'vue-router';
 import { Image } from '../Image';
 import ArtistNameListRender from '../ArtistNameListRender.vue';
@@ -10,7 +12,7 @@ interface Props {
 }
 
 export const TrackCard: FC<Props> = ({ track }) => (
-  <RouterLink to={{ name: 'Track', params: { id: track.id } }}>
+  <RouterLink to={{ name: 'Track', params: { id: track.id, slug: slugify(track.name) } }}>
     <div class="w-40">
       <div class="min-h-50 aspect-square w-full group-hover:opacity-90">
         <Image src={track.albums[0].image} alt={track.name} class="aspect-square" />
