@@ -1,1 +1,1 @@
-export './slugify'
+import './slugify';
