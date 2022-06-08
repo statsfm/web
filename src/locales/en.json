@@ -124,5 +124,6 @@
   },
   "minutes": "{count} minutes",
   "streams": "{count} streams",
-  "artist.recent_streams.title": "Recent streams"
+  "artist.recent_streams.title": "Recent streams",
+  "times_streamed": "{count}x streamed"
 }
