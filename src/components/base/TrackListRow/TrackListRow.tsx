@@ -30,7 +30,9 @@ export const TrackListRow: FC<Props> = ({ track, streams }) => {
           <div class="leading-tight">
             <h4>{track.name}</h4>
             <p class="m-0">
-              {track.artists[0].name} • {t('times_streamed', { count: streams })}
+              {/* TODO: list all artist */}
+              {track.artists[0].name} • {track.albums[0].name} •{' '}
+              {t('times_streamed', { count: streams })}
             </p>
           </div>
         </div>
