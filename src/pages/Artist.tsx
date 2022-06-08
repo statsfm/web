@@ -187,15 +187,28 @@ export default defineComponent(() => {
 const MoreTracks = defineComponent<{ id: number; limit: number }>(async ({ id, limit }) => {
   const api = useApi();
   // TODO: don't fetch artist tracks multiple times
-  const { data, toggle, showMore } = useLessMore(await api.artists.tracks(id), limit);
+  const tracks = ref(await api.artists.tracks(id));
+  const top = ref(await api.users.topTracksFromArtist('me', id));
+
+  // TODO: clean up
+  const items: { track: statsfm.Track; count: number }[] = tracks.value.map((track) => {
+    return {
+      track,
+      count: top.value.find((stream) => stream.track.id == track.id)?.streams || 0
+    };
+  });
+
+  const { data, toggle, showMore } = useLessMore(items, limit);
 
   return () => (
     <>
-      {data.value.map((track) => (
-        <li>
-          <TrackListRow track={track} />
-        </li>
-      ))}
+      {data.value
+        .sort((a, b) => b.count - a.count)
+        .map((item) => (
+          <li>
+            <TrackListRow track={item.track} streams={item.count} />
+          </li>
+        ))}
 
       <button class="py-3 font-bold uppercase text-textGrey" onClick={toggle}>
         {showMore.value ? 'show less' : 'show more'}
