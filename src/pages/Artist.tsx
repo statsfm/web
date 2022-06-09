@@ -198,17 +198,18 @@ const MoreTracks = defineComponent<{ id: number; limit: number }>(async ({ id, l
     };
   });
 
-  const { data, toggle, showMore } = useLessMore(items, limit);
+  const { data, toggle, showMore } = useLessMore(
+    items.sort((a, b) => b.count - a.count),
+    limit
+  );
 
   return () => (
     <>
-      {data.value
-        .sort((a, b) => b.count - a.count)
-        .map((item) => (
-          <li>
-            <TrackListRow track={item.track} streams={item.count} />
-          </li>
-        ))}
+      {data.value.map((item) => (
+        <li>
+          <TrackListRow track={item.track} streams={item.count} />
+        </li>
+      ))}
 
       {items.length > limit && (
         <button class="py-3 font-bold uppercase text-textGrey" onClick={toggle}>
