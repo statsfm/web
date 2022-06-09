@@ -32,7 +32,11 @@ const Avatar: FC<Props> = ({ name, size = 'md', ...props }, { slots }) => {
 
   return (
     <div class="relative">
-      <Image class={['aspect-square select-none rounded-full shadow-sm', sizes[size]]} {...props}>
+      <Image
+        // webkit aspect ratio issue
+        class={['aspect-square select-none rounded-full pt-[100%] shadow-sm', sizes[size]]}
+        {...props}
+      >
         {{
           loading: () => (
             <span class={'text-fontSecundary animation-pulse font-medium'}>{initials.value}</span>
