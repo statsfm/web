@@ -210,9 +210,11 @@ const MoreTracks = defineComponent<{ id: number; limit: number }>(async ({ id, l
           </li>
         ))}
 
-      <button class="py-3 font-bold uppercase text-textGrey" onClick={toggle}>
-        {showMore.value ? 'show less' : 'show more'}
-      </button>
+      {items.length > limit && (
+        <button class="py-3 font-bold uppercase text-textGrey" onClick={toggle}>
+          {showMore.value ? 'show less' : 'show more'}
+        </button>
+      )}
     </>
   );
 });
