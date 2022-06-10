@@ -26,7 +26,7 @@ Go to [preview.stats.fm](https://preview.stats.fm) to use the beta version of th
 
 ### Joining the Beta
 
-Click [here](https://testflight.apple.com/join/5gwo8HCw) to join the Testflight programme
+Click [here](https://testflight.apple.com/join/ATXJemn4) to join the Testflight programme
 
 ### Leaving the Beta
 
