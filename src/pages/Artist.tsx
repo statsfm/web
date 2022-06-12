@@ -72,10 +72,12 @@ export default defineComponent(() => {
 
         {/* popular tracks */}
         <StickyHeader>
+          <div>
           <h2>{t('artist.popular_tracks.title')}</h2>
           <p class="my-1">
             {t('artist.popular_tracks.description', { artist: artist.value?.name })}
           </p>
+          </div>
         </StickyHeader>
 
         <section>
@@ -98,10 +100,12 @@ export default defineComponent(() => {
 
         {/* top listeners */}
         <StickyHeader>
+          <div>
           <h2>{t('artist.top_listeners.title')}</h2>
           <p class="my-1">
             {t('artist.top_listeners.description', { artist: artist.value?.name })}
           </p>
+          </div>
         </StickyHeader>
 
         <section>
@@ -124,8 +128,10 @@ export default defineComponent(() => {
 
         {/* related artists */}
         <StickyHeader>
+          <div>
           <h2>{t('artist.related.title')}</h2>
           <p class="my-1">{t('artist.related.description')}</p>
+          </div>
         </StickyHeader>
 
         <section>
@@ -148,8 +154,12 @@ export default defineComponent(() => {
 
         {/* more tracks */}
         <StickyHeader>
+          <div>
           <h2>{t('artist.more_tracks.title')}</h2>
-          <p class="my-1">{t('artist.more_tracks.description', { artist: artist.value?.name })}</p>
+            <p class="my-1">
+              {t('artist.more_tracks.description', { artist: artist.value?.name })}
+            </p>
+          </div>
         </StickyHeader>
 
         <section>
@@ -173,10 +183,12 @@ export default defineComponent(() => {
 
         {/* recent streams */}
         <StickyHeader>
+          <div>
           <h2>{t('artist.recent_streams.title')}</h2>
           <p class="my-1">
             {t('artist.recent_streams.description', { artist: artist.value?.name })}
           </p>
+          </div>
         </StickyHeader>
         {recentStreams.value && <RecentStreams streams={recentStreams.value} />}
       </Container>
