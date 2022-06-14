@@ -11,7 +11,7 @@ import {
 import { Keys } from '~/types';
 
 // hooks
-import { useActiveElement } from '~/hooks';
+import { useActiveElement, useClickAway } from '~/hooks';
 
 enum Focus {
   First = 'first',
@@ -75,6 +75,8 @@ export const Menu = defineComponent<MenuProps>((props, { slots }) => {
         )?.focus();
         break;
       case Focus.Previous:
+        // TODO: look at types and cleanup
+        // @ts-ignore
         focus([...activeElement.value?.parentElement?.children].indexOf(activeElement.value) - 1);
         break;
       case Focus.Next:
@@ -176,6 +178,14 @@ export const MenuItems = defineComponent((props, { slots }) => {
         api.focus(Focus.Next);
     }
   };
+
+  useClickAway(api.menuItemsRef, () => {
+    api.closeMenu();
+
+    nextTick(() => {
+      api.menuItemsRef.value?.focus();
+    });
+  });
 
   return () => {
     if (api.menuState.value === MenuState.Opened) {
