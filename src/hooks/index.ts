@@ -4,3 +4,4 @@ export * from './toaster';
 export * from './user';
 export * from './lessmore';
 export * from './active-element';
+export * from './click-away';
