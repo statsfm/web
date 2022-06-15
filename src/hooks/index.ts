@@ -3,6 +3,7 @@ export * from './auth';
 export * from './toaster';
 export * from './user';
 export * from './lessmore';
+export * from './sort';
 export * from './toggle';
 export * from './active-element';
 export * from './click-away';
