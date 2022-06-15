@@ -1,6 +1,7 @@
 import { defineComponent, onBeforeMount, ref, Suspense } from 'vue';
 import { RouterLink } from 'vue-router';
 import * as statsfm from '@statsfm/statsfm.js';
+import { mdiSortVariant } from '@mdi/js';
 
 // components
 import Hero from '~/components/base/Hero.vue';
@@ -12,13 +13,15 @@ import { RelatedArtistCard, RelatedArtistCardSkeleton } from '~/components/base/
 import { TrackCard, TrackCardSkeleton } from '~/components/base/TrackCard';
 import { TrackListRow, TrackListRowSkeleton } from '~/components/base/TrackListRow';
 import { TopListenerCard, TopListenerCardSkeleton } from '~/components/base/TopListenerCard';
-
-// hooks
-import { useApi, useLessMore } from '~/hooks';
-import { useRoute } from 'vue-router';
-import { useI18n } from 'vue-i18n';
 import { Carousel } from '~/components/base/Carousel';
 import { RecentStreams } from '~/components/base/RecentStreams';
+import { Menu, MenuButton, MenuItem, MenuItems } from '~/components/base/Menu';
+import Icon from '~/components/base/Icon.vue';
+
+// hooks
+import { useApi, useLessMore, useSort, SortOptions } from '~/hooks';
+import { useRoute } from 'vue-router';
+import { useI18n } from 'vue-i18n';
 
 export default defineComponent(() => {
   const api = useApi();
@@ -73,10 +76,10 @@ export default defineComponent(() => {
         {/* popular tracks */}
         <StickyHeader>
           <div>
-          <h2>{t('artist.popular_tracks.title')}</h2>
-          <p class="my-1">
-            {t('artist.popular_tracks.description', { artist: artist.value?.name })}
-          </p>
+            <h2>{t('artist.popular_tracks.title')}</h2>
+            <p class="my-1">
+              {t('artist.popular_tracks.description', { artist: artist.value?.name })}
+            </p>
           </div>
         </StickyHeader>
 
@@ -101,10 +104,10 @@ export default defineComponent(() => {
         {/* top listeners */}
         <StickyHeader>
           <div>
-          <h2>{t('artist.top_listeners.title')}</h2>
-          <p class="my-1">
-            {t('artist.top_listeners.description', { artist: artist.value?.name })}
-          </p>
+            <h2>{t('artist.top_listeners.title')}</h2>
+            <p class="my-1">
+              {t('artist.top_listeners.description', { artist: artist.value?.name })}
+            </p>
           </div>
         </StickyHeader>
 
@@ -129,8 +132,8 @@ export default defineComponent(() => {
         {/* related artists */}
         <StickyHeader>
           <div>
-          <h2>{t('artist.related.title')}</h2>
-          <p class="my-1">{t('artist.related.description')}</p>
+            <h2>{t('artist.related.title')}</h2>
+            <p class="my-1">{t('artist.related.description')}</p>
           </div>
         </StickyHeader>
 
@@ -155,7 +158,7 @@ export default defineComponent(() => {
         {/* more tracks */}
         <StickyHeader>
           <div>
-          <h2>{t('artist.more_tracks.title')}</h2>
+            <h2>{t('artist.more_tracks.title')}</h2>
             <p class="my-1">
               {t('artist.more_tracks.description', { artist: artist.value?.name })}
             </p>
@@ -184,10 +187,10 @@ export default defineComponent(() => {
         {/* recent streams */}
         <StickyHeader>
           <div>
-          <h2>{t('artist.recent_streams.title')}</h2>
-          <p class="my-1">
-            {t('artist.recent_streams.description', { artist: artist.value?.name })}
-          </p>
+            <h2>{t('artist.recent_streams.title')}</h2>
+            <p class="my-1">
+              {t('artist.recent_streams.description', { artist: artist.value?.name })}
+            </p>
           </div>
         </StickyHeader>
         {recentStreams.value && <RecentStreams streams={recentStreams.value} />}
@@ -202,28 +205,55 @@ const MoreTracks = defineComponent<{ id: number; limit: number }>(async ({ id, l
   const tracks = ref(await api.artists.tracks(id));
   const top = ref(await api.users.topTracksFromArtist('me', id));
 
-  // TODO: clean up
-  const items: { track: statsfm.Track; count: number }[] = tracks.value.map((track) => {
-    return {
-      track,
-      count: top.value.find((stream) => stream.track.id == track.id)?.streams || 0
-    };
-  });
+  const streams = (id: number) => top.value.find((stream) => stream.track.id === id)?.streams ?? 0;
 
-  const { data, toggle, showMore } = useLessMore(
-    items.sort((a, b) => b.count - a.count),
-    limit
-  );
+  const sortOptions: SortOptions<statsfm.Track>[] = [
+    {
+      label: 'Popularity',
+      value: 'popularity',
+      compare: (a, b) => b.spotifyPopularity - a.spotifyPopularity
+    },
+    {
+      label: 'Streams',
+      value: 'streams',
+      compare: (a, b) => streams(b.id) - streams(a.id)
+    },
+    {
+      label: 'Duration',
+      value: 'duration',
+      compare: (a, b) => b.durationMs - a.durationMs
+    }
+  ];
+
+  const { data: sorted, setSortKey } = useSort(tracks.value, sortOptions);
+  const { data, toggle, showMore } = useLessMore(sorted, limit);
 
   return () => (
     <>
-      {data.value.map((item) => (
-        <li>
-          <TrackListRow track={item.track} streams={item.count} />
-        </li>
-      ))}
+      {/* TODO: move menu to header */}
+      <div class="flex justify-end">
+        <Menu>
+          <MenuButton>
+            Sort <Icon path={mdiSortVariant} />
+          </MenuButton>
 
-      {items.length > limit && (
+          <MenuItems class="right-0">
+            {sortOptions.map((option) => (
+              <MenuItem onSelect={() => setSortKey(option.value)}>{option.label}</MenuItem>
+            ))}
+          </MenuItems>
+        </Menu>
+      </div>
+
+      <ul>
+        {data.value?.map((item) => (
+          <li>
+            <TrackListRow track={item} streams={streams(item.id)} />
+          </li>
+        ))}
+      </ul>
+
+      {tracks.value.length > limit && (
         <button class="py-3 font-bold uppercase text-textGrey" onClick={toggle}>
           {showMore.value ? 'show less' : 'show more'}
         </button>
