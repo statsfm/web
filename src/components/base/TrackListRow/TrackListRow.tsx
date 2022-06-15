@@ -25,7 +25,7 @@ export const TrackListRow: FC<Props> = ({ track, streams }) => {
         class="flex items-center justify-between"
       >
         <div class="flex items-center gap-3">
-          <Image class="w-12" src={track.albums[0].image} />
+          <Image key={track.albums[0].image} class="w-12" src={track.albums[0].image} />
 
           <div class="leading-tight">
             <h4>{track.name}</h4>
