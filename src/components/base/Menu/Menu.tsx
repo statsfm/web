@@ -202,11 +202,13 @@ export const MenuItems = defineComponent((props, { slots }) => {
 
 interface MenuItemProps extends LiHTMLAttributes {}
 
-export const MenuItem = defineComponent<MenuItemProps>((props, { slots }) => {
+// TODO: type checking for emits
+export const MenuItem = defineComponent<MenuItemProps>((props, { slots, emit }) => {
   const api = useMenuContext('MenuItem');
 
   const handleClick = (e: MouseEvent) => {
     api.closeMenu();
+    emit('select', e);
 
     // set the focus back to the menu button
     nextTick(() => api.menuButtonRef.value?.focus());
@@ -219,6 +221,7 @@ export const MenuItem = defineComponent<MenuItemProps>((props, { slots }) => {
         e.preventDefault();
         e.stopPropagation();
         api.closeMenu();
+        emit('select', e);
 
         // set the focus back to the menu button
         nextTick(() => api.menuButtonRef.value?.focus());
