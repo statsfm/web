@@ -10,8 +10,8 @@ export const TrackListRowSkeleton: FC = () => (
         <Skeleton.Image width="48px" height="48px" />
 
         <div class="flex flex-col gap-2">
-          <Skeleton.Text width="8rem" />
-          <Skeleton.Text width="8rem" />
+          <Skeleton.Text width="4rem" />
+          <Skeleton.Text width="15rem" />
         </div>
       </div>
 
