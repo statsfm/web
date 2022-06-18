@@ -164,7 +164,7 @@ export const MenuItems = defineComponent((props, { slots }) => {
         api.closeMenu();
 
         nextTick(() => {
-          api.menuItemsRef.value?.focus();
+          api.menuButtonRef.value?.focus();
         });
         break;
       case Keys.ArrowUp:
