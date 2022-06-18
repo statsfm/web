@@ -63,24 +63,24 @@ export const Menu = defineComponent<MenuProps>((props, { slots }) => {
   };
 
   const focus = (index: Focus | number) => {
+    // @ts-ignore
+    const children: HTMLElement[] = [...menuItemsRef.value?.children];
+    const i = children.indexOf(activeElement.value as HTMLElement);
+
     switch (index) {
       case Focus.First:
         focus(0);
         break;
       case Focus.Last:
-        (
-          menuItemsRef.value?.children[menuItemsRef.value.children.length - 1] as
-            | HTMLElement
-            | undefined
-        )?.focus();
+        children[children.length - 1].focus();
         break;
       case Focus.Previous:
-        // TODO: look at types and cleanup
-        // @ts-ignore
-        focus([...activeElement.value?.parentElement?.children].indexOf(activeElement.value) - 1);
+        const prevIndex = i - 1;
+        prevIndex == -1 ? focus(Focus.Last) : focus(prevIndex);
         break;
       case Focus.Next:
-        focus([...activeElement.value?.parentElement?.children].indexOf(activeElement.value) + 1);
+        const nextIndex = i + 1;
+        nextIndex == children.length ? focus(Focus.First) : focus(nextIndex);
         break;
       default:
         (menuItemsRef.value?.children[index] as HTMLElement | undefined)?.focus();
