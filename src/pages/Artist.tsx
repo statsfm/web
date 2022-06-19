@@ -1,4 +1,13 @@
-import { defineComponent, onBeforeMount, ref, Suspense } from 'vue';
+import {
+  computed,
+  defineComponent,
+  onBeforeMount,
+  onMounted,
+  Ref,
+  ref,
+  Suspense,
+  watchEffect
+} from 'vue';
 import { RouterLink } from 'vue-router';
 import * as statsfm from '@statsfm/statsfm.js';
 import { mdiSortVariant } from '@mdi/js';
@@ -19,7 +28,7 @@ import { Menu, MenuButton, MenuItem, MenuItems } from '~/components/base/Menu';
 import Icon from '~/components/base/Icon.vue';
 
 // hooks
-import { useApi, useLessMore, useSort, SortOptions } from '~/hooks';
+import { useApi, useLessMore, useSort, SortOptions, useTitle } from '~/hooks';
 import { useRoute } from 'vue-router';
 import { useI18n } from 'vue-i18n';
 
@@ -47,6 +56,9 @@ export default defineComponent(() => {
     recentStreams.value = await api.users.artistStreams('me', id);
   });
 
+  watchEffect(() => {
+    useTitle(artist.value?.name);
+  });
   return () => (
     <>
       <Hero>
