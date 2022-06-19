@@ -7,3 +7,4 @@ export * from './sort';
 export * from './toggle';
 export * from './active-element';
 export * from './click-away';
+export * from './title';
