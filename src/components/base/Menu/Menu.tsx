@@ -6,7 +6,8 @@ import {
   nextTick,
   provide,
   ref,
-  Ref
+  Ref,
+  Transition
 } from 'vue';
 import { Keys } from '~/types';
 
@@ -187,17 +188,24 @@ export const MenuItems = defineComponent((props, { slots }) => {
     });
   });
 
-  return () => {
-    if (api.menuState.value === MenuState.Opened) {
-      return (
-        <div class="absolute z-20 mt-2 animate-fadeIn rounded-xl bg-bodySecundary py-3 shadow-xl">
+  return () => (
+    <Transition
+      enterActiveClass="transition ease-out duration-100"
+      enterFromClass="transform opacity-0 scale-95"
+      enterToClass="transform opacity-100 scale-100"
+      leaveActiveClass="transition ease-in duration-75"
+      leaveFromClass="transform opacity-100 scale-100"
+      leaveToClass="transform opacity-0 scale-95"
+    >
+      {api.menuState.value === MenuState.Opened && (
+        <div class="absolute z-20 mt-2 rounded-xl bg-bodySecundary py-3 shadow-xl">
           <ul ref={api.menuItemsRef} onKeydown={handleKeyDown}>
             {slots.default && slots.default()}
           </ul>
         </div>
-      );
-    }
-  };
+      )}
+    </Transition>
+  );
 });
 
 interface MenuItemProps extends LiHTMLAttributes {}
