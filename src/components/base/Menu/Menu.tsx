@@ -229,12 +229,18 @@ export const MenuItem = defineComponent<MenuItemProps>((props, { slots, emit }) 
     }
   };
 
+  const handleMove = (e: MouseEvent) => {
+    api.focus([...api.menuItemsRef.value?.children].indexOf(e.target));
+  };
+
   return () => (
     <li
       tabindex={0}
       onClick={handleClick}
       onKeydown={handleKeyDown}
-      class="cursor-pointer select-none px-4 py-2 font-semibold text-white hover:bg-bodyPrimary/80 focus:bg-bodyPrimary/80 focus:outline-none"
+      onMousemove={handleMove}
+      onPointermove={handleMove}
+      class="cursor-pointer select-none px-4 py-2 font-semibold text-white  focus:bg-bodyPrimary/80 focus:outline-none"
     >
       {slots.default && slots.default()}
     </li>
