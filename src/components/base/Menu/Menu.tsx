@@ -5,6 +5,7 @@ import {
   LiHTMLAttributes,
   nextTick,
   provide,
+  readonly,
   ref,
   Ref,
   Transition
@@ -22,7 +23,7 @@ enum Focus {
 }
 
 interface Api {
-  menuState: Ref<MenuState>;
+  menuState: Readonly<Ref<MenuState>>;
   menuItemsRef: Ref<HTMLUListElement | undefined>;
   menuButtonRef: Ref<HTMLButtonElement | undefined>;
   closeMenu: () => void;
@@ -90,7 +91,7 @@ export const Menu = defineComponent<MenuProps>((props, { slots }) => {
   };
 
   const api: Api = {
-    menuState,
+    menuState: readonly(menuState),
     menuItemsRef,
     menuButtonRef,
     closeMenu,
