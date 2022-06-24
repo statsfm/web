@@ -140,7 +140,6 @@ export const MenuButton = defineComponent<ButtonProps>((props, { slots }) => {
       case Keys.Space:
       case Keys.Enter:
       case Keys.ArrowDown:
-      case Keys.ArrowUp:
         e.preventDefault();
         e.stopPropagation();
         api.openMenu();
@@ -149,6 +148,14 @@ export const MenuButton = defineComponent<ButtonProps>((props, { slots }) => {
           api.focus(Focus.First);
         });
         break;
+      case Keys.ArrowUp:
+        e.preventDefault();
+        e.stopPropagation();
+        api.openMenu();
+
+        nextTick(() => {
+          api.focus(Focus.Last);
+        });
     }
   };
 
