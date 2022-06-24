@@ -228,10 +228,10 @@ export const MenuItems = defineComponent((props, { slots }) => {
         v-show={api.menuState.value === MenuState.Opened}
         class="absolute z-20 mt-2 rounded-xl bg-bodySecundary py-3 shadow-xl"
       >
-          <ul ref={api.menuItemsRef} onKeydown={handleKeyDown}>
-            {slots.default && slots.default()}
-          </ul>
-        </div>
+        <ul ref={api.menuItemsRef} onKeydown={handleKeyDown}>
+          {slots.default && slots.default()}
+        </ul>
+      </div>
       {/* )} */}
     </Transition>
   );
@@ -249,6 +249,8 @@ export const MenuItem = defineComponent<MenuItemProps>((props, { slots, emit }) 
   onMounted(() => api.register(id, internalRef));
   onUnmounted(() => api.unregister(id));
 
+  // TODO: would be better if this is an api function
+  const isActive = computed(() => api.activeItemId.value == id);
 
   const handleClick = (e: MouseEvent) => {
     api.closeMenu();
@@ -290,7 +292,10 @@ export const MenuItem = defineComponent<MenuItemProps>((props, { slots, emit }) 
       onKeydown={handleKeyDown}
       onMousemove={handleMove}
       onPointermove={handleMove}
-      class="cursor-pointer select-none px-4 py-2 font-semibold text-white  focus:bg-bodyPrimary/80 focus:outline-none"
+      class={[
+        `cursor-pointer select-none px-4 py-2 font-semibold text-white focus:bg-bodyPrimary/80 focus:outline-none`,
+        isActive.value && 'text-primary'
+      ]}
     >
       {slots.default && slots.default()}
     </li>
