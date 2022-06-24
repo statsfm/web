@@ -1,9 +1,12 @@
 import {
+  computed,
   defineComponent,
   inject,
   InjectionKey,
   LiHTMLAttributes,
   nextTick,
+  onMounted,
+  onUnmounted,
   provide,
   readonly,
   ref,
@@ -13,22 +16,26 @@ import {
 import { Keys } from '~/types';
 
 // hooks
-import { useActiveElement, useClickAway } from '~/hooks';
+import { useClickAway } from '~/hooks';
 
 enum Focus {
-  First = 'first',
-  Previous = 'previous',
-  Next = 'next',
-  Last = 'last'
+  First,
+  Previous,
+  Next,
+  Last
 }
 
 interface Api {
+  activeItemId: Readonly<Ref<string | undefined>>;
   menuState: Readonly<Ref<MenuState>>;
   menuItemsRef: Ref<HTMLUListElement | undefined>;
   menuButtonRef: Ref<HTMLButtonElement | undefined>;
   closeMenu: () => void;
   openMenu: () => void;
   focus: (index: Focus | number) => void;
+  register: (id: string, ref: Ref<any>) => void;
+  unregister: (id: string) => void;
+  setActive: (id: string) => void;
 }
 
 const MenuContext: InjectionKey<Api> = Symbol('MenuContext');
@@ -54,7 +61,9 @@ export const Menu = defineComponent<MenuProps>((props, { slots }) => {
   const menuItemsRef = ref<HTMLUListElement>();
   const menuButtonRef = ref<HTMLButtonElement>();
 
-  const activeElement = useActiveElement();
+  const items: { id: string; ref: HTMLElement }[] = [];
+  const activeItemId = ref<string>();
+  const activeFocussedItemId = ref<string>();
 
   const closeMenu = () => {
     menuState.value = MenuState.Closed;
@@ -64,42 +73,58 @@ export const Menu = defineComponent<MenuProps>((props, { slots }) => {
     menuState.value = MenuState.Opened;
   };
 
-  const focus = (index: Focus | number) => {
-    // @ts-ignore
-    const children: HTMLElement[] = [...menuItemsRef.value?.children];
-    const i = children.indexOf(activeElement.value as HTMLElement);
+  const register = (id: string, ref: Ref<HTMLElement>) => {
+    items.push({ id, ref: ref.value });
+  };
 
-    switch (index) {
+  const unregister = (id: string) => {
+    items.splice(
+      items.findIndex((a) => a.id === id),
+      1
+    );
+  };
+
+  const setActive = (id: string) => {
+    activeItemId.value = id;
+  };
+
+  const focus = (id: Focus | string) => {
+    const i = items.findIndex((a) => a.id === activeFocussedItemId.value);
+
+    switch (id) {
       case Focus.First:
-        focus(0);
+        focus(items[0].id);
         break;
       case Focus.Last:
-        children[children.length - 1].focus();
+        focus(items[items.length - 1].id);
         break;
       case Focus.Previous:
         const prevIndex = i - 1;
-        prevIndex == -1 ? focus(Focus.Last) : focus(prevIndex);
+        prevIndex == -1 ? focus(Focus.Last) : focus(items[prevIndex].id);
         break;
       case Focus.Next:
         const nextIndex = i + 1;
-        nextIndex == children.length ? focus(Focus.First) : focus(nextIndex);
+        nextIndex == items.length ? focus(Focus.First) : focus(items[nextIndex].id);
         break;
       default:
-        (menuItemsRef.value?.children[index] as HTMLElement | undefined)?.focus();
+        items.find((a) => a.id === id)?.ref.focus();
+        activeFocussedItemId.value = id;
         break;
     }
   };
 
-  const api: Api = {
+  provide(MenuContext, {
+    activeItemId: readonly(activeItemId),
     menuState: readonly(menuState),
     menuItemsRef,
     menuButtonRef,
     closeMenu,
     openMenu,
-    focus
-  };
-
-  provide(MenuContext, api);
+    focus,
+    register,
+    unregister,
+    setActive
+  });
 
   return () => <div class="relative h-max">{slots.default && slots.default()}</div>;
 });
@@ -198,13 +223,16 @@ export const MenuItems = defineComponent((props, { slots }) => {
       leaveFromClass="transform opacity-100 scale-100"
       leaveToClass="transform opacity-0 scale-95"
     >
-      {api.menuState.value === MenuState.Opened && (
-        <div class="absolute z-20 mt-2 rounded-xl bg-bodySecundary py-3 shadow-xl">
+      {/* { && ( */}
+      <div
+        v-show={api.menuState.value === MenuState.Opened}
+        class="absolute z-20 mt-2 rounded-xl bg-bodySecundary py-3 shadow-xl"
+      >
           <ul ref={api.menuItemsRef} onKeydown={handleKeyDown}>
             {slots.default && slots.default()}
           </ul>
         </div>
-      )}
+      {/* )} */}
     </Transition>
   );
 });
@@ -214,9 +242,17 @@ interface MenuItemProps extends LiHTMLAttributes {}
 // TODO: type checking for emits
 export const MenuItem = defineComponent<MenuItemProps>((props, { slots, emit }) => {
   const api = useMenuContext('MenuItem');
+  const id = Math.random().toString(36);
+
+  const internalRef = ref<HTMLLIElement>();
+
+  onMounted(() => api.register(id, internalRef));
+  onUnmounted(() => api.unregister(id));
+
 
   const handleClick = (e: MouseEvent) => {
     api.closeMenu();
+    api.setActive(id);
     emit('select', e);
 
     // set the focus back to the menu button
@@ -230,6 +266,8 @@ export const MenuItem = defineComponent<MenuItemProps>((props, { slots, emit }) 
         e.preventDefault();
         e.stopPropagation();
         api.closeMenu();
+        api.setActive(id);
+
         emit('select', e);
 
         // set the focus back to the menu button
@@ -239,11 +277,14 @@ export const MenuItem = defineComponent<MenuItemProps>((props, { slots, emit }) 
   };
 
   const handleMove = (e: MouseEvent) => {
-    api.focus([...api.menuItemsRef.value?.children].indexOf(e.target));
+    // @ts-ignore
+    api.focus(e.target.id);
   };
 
   return () => (
     <li
+      id={id}
+      ref={internalRef}
       tabindex={0}
       onClick={handleClick}
       onKeydown={handleKeyDown}
