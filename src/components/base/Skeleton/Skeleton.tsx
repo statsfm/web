@@ -1,9 +1,9 @@
-import { FC } from 'vue';
+import { FC, HTMLAttributes } from 'vue';
 import { AvatarSize, sizes } from '../Avatar';
 
 type Animation = 'pulse';
 
-interface Props {
+interface Props extends HTMLAttributes {
   animation?: Animation;
 }
 
