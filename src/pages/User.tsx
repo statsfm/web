@@ -18,7 +18,7 @@ import { TrackListRow, TrackListRowSkeleton } from '~/components/base/TrackListR
 import { Skeleton } from '~/components/base/Skeleton';
 
 // hooks
-import { useApi, useTitle, useUser } from '../hooks';
+import { useApi, usePrivacyScope, useTitle, useUser } from '../hooks';
 import { RouterLink, useRoute, useRouter } from 'vue-router';
 import { useI18n } from 'vue-i18n';
 
@@ -66,7 +66,7 @@ export default defineComponent(() => {
   const stats = ref<{ label: string; value: string | number }[]>([]);
   const topTracks = ref<statsfm.TopTrack[]>();
   const topArtists = ref<statsfm.TopArtist[]>();
-  const topGenres = ref<statsfm.TopGenre[]>();
+  // const topGenres = ref<statsfm.TopGenre[]>();
   const recentStreams = ref<statsfm.RecentlyPlayedTrack[]>();
 
   const id = route.params.userId.toString();
@@ -76,7 +76,10 @@ export default defineComponent(() => {
   onBeforeMount(async () => {
     // TODO: show not found screen but stay on same route
     user.value = await api.users.get(id).catch(() => router.push({ name: 'NotFound' }));
-    recentStreams.value = await api.users.recentlyStreamed(id);
+    // TOOD: think of a better way of fetching based on privacy settings
+    recentStreams.value = user.value?.privacySettings!.recentlyPlayed
+      ? await api.users.recentlyStreamed(id)
+      : [];
 
     // load data with weeks as default
     load(rangeRef.value);
@@ -87,26 +90,33 @@ export default defineComponent(() => {
     stats.value = [];
 
     // TODO: look for a better solution
-    api.users.stats(id, { range }).then(({ durationMs, count }) => {
-      stats.value.push(
-        {
-          label: t('user.streams'),
-          value: count?.toLocaleString()
-        },
-        {
-          label: t('user.minutes_streamed'),
-          value: Math.round(dayjs.duration(durationMs).asMinutes()).toLocaleString()
-        },
-        {
-          label: t('user.hours_streamed'),
-          value: Math.round(dayjs.duration(durationMs).asHours()).toLocaleString()
-        }
-      );
-    });
+    user.value?.privacySettings?.streamStats &&
+      api.users.stats(id, { range }).then(({ durationMs, count }) => {
+        stats.value.push(
+          {
+            label: t('user.streams'),
+            value: count?.toLocaleString()
+          },
+          {
+            label: t('user.minutes_streamed'),
+            value: Math.round(dayjs.duration(durationMs).asMinutes()).toLocaleString()
+          },
+          {
+            label: t('user.hours_streamed'),
+            value: Math.round(dayjs.duration(durationMs).asHours()).toLocaleString()
+          }
+        );
+      });
 
-    topTracks.value = await api.users.topTracks(id, { range });
-    topArtists.value = await api.users.topArtists(id, { range });
-    topGenres.value = await api.users.topGenres(id, { range });
+    topTracks.value = user.value?.privacySettings?.topTracks
+      ? await api.users.topTracks(id, { range })
+      : [];
+    topArtists.value = user.value?.privacySettings?.topArtists
+      ? await api.users.topArtists(id, { range })
+      : [];
+    // topGenres.value = user.value?.privacySettings?.topGenres
+    //   ? await api.users.topGenres(id, { range })
+    //   : [];
   };
 
   watchEffect(() => useTitle(user.value?.displayName));
