@@ -2,6 +2,7 @@ import { computed, defineComponent, FC, onBeforeMount, ref, watchEffect } from '
 import * as statsfm from '@statsfm/statsfm.js';
 import dayjs from '../dayjs';
 import { mdiEyeOff } from '@mdi/js';
+import { slugify } from '~/utils/slugify';
 
 // components
 import { Header } from '~/components/layout/Header';
@@ -251,8 +252,14 @@ export default defineComponent(() => {
             <Carousel rows={1} gap={16}>
               {topArtists.value
                 ? topArtists.value?.map((item) => (
+                    // TODO: move to separate component
                     <li>
-                      <RouterLink to={{ name: 'Artist', params: { id: item.artist.id } }}>
+                      <RouterLink
+                        to={{
+                          name: 'Artist',
+                          params: { id: item.artist.id, slug: slugify(item.artist.name) }
+                        }}
+                      >
                         <div class="flex w-40 flex-col items-center">
                           <Avatar
                             key={item.artist.image}
