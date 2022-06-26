@@ -230,7 +230,6 @@ export const MenuItems = defineComponent((props, { slots }) => {
       leaveFromClass="transform opacity-100 scale-100"
       leaveToClass="transform opacity-0 scale-95"
     >
-      {/* { && ( */}
       <div
         v-show={api.menuState.value === MenuState.Opened}
         class="absolute z-20 mt-2 rounded-xl bg-bodySecundary py-3 shadow-xl"
@@ -239,7 +238,6 @@ export const MenuItems = defineComponent((props, { slots }) => {
           {slots.default && slots.default()}
         </ul>
       </div>
-      {/* )} */}
     </Transition>
   );
 });
