@@ -1,4 +1,4 @@
-import { defineComponent, onBeforeUnmount, onMounted, PropType, Ref, ref, watch } from 'vue';
+import { defineComponent, HTMLAttributes, onBeforeUnmount, onMounted, Ref, ref, watch } from 'vue';
 
 interface Segment {
   label: string;
@@ -6,7 +6,7 @@ interface Segment {
   ref?: Ref;
 }
 
-interface Props {
+interface Props extends HTMLAttributes {
   segments: Segment[];
   defaultIndex?: number;
 }
@@ -43,7 +43,7 @@ const SegmentedControls = defineComponent<Props>(({ segments, defaultIndex = 0 }
 
   const handleInputChange = (value: string, i: number) => {
     activeIndex.value = i;
-    emit('selected', value);
+    emit('select', value);
   };
 
   return () => (
@@ -68,7 +68,7 @@ const SegmentedControls = defineComponent<Props>(({ segments, defaultIndex = 0 }
           <label
             for={segment.value}
             class={[
-              'flex h-full w-full  cursor-pointer items-center justify-center font-semibold',
+              'flex cursor-pointer items-center justify-center whitespace-nowrap font-semibold',
               i == activeIndex.value && 'text-primary'
             ]}
           >
