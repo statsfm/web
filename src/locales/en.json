@@ -86,13 +86,23 @@
     "albums": "Albums"
   },
   "user": {
-    "streams": "Streams",
-    "time_streamed": "Time streamed",
-    "top_tracks": "Top tracks",
-    "top_artists": "Top artists",
+    "streams": "streams",
+    "hours_streamed": "hours streamed",
+    "minutes_streamed": "minutes streamed",
+    "top_tracks": {
+      "title": "Top tracks",
+      "description": "{name} top track from the past {range}"
+    },
+    "top_artists": {
+      "title": "Top artists",
+      "description": "{name} top artists from the past {range}"
+    },
     "top_albums": "Top albums",
     "audio_analysis": "Audio analysis",
-    "recent_streams": "Recent streams"
+    "recent_streams": {
+      "title": "Recent streams",
+      "description": "{name} recently played tracks"
+    }
   },
   "range": {
     "weeks": "4 weeks",
