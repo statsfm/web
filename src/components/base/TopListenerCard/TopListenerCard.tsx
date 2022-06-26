@@ -46,7 +46,7 @@ export const TopListenerCard = defineComponent<Props>(({ listener }) => {
             <span>
               {t('minutes', {
                 count: Math.round(
-                  dayjs.duration(listener.playedMs!, 'milliseconds').asMinutes()
+                  dayjs.duration(listener.playedMs!, 'ms').asMinutes()
                 ).toLocaleString()
               })}
             </span>
