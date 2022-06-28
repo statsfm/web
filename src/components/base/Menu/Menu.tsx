@@ -207,6 +207,7 @@ export const MenuItems = defineComponent((props, { slots }) => {
         api.focus(Focus.Previous);
         break;
       case Keys.ArrowDown:
+      case Keys.Tab:
         e.preventDefault();
         e.stopPropagation();
         api.focus(Focus.Next);
