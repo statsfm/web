@@ -1,7 +1,7 @@
 import { computed, defineComponent, FC, onBeforeMount, ref, watchEffect } from 'vue';
 import * as statsfm from '@statsfm/statsfm.js';
 import dayjs from '../dayjs';
-import { mdiEyeOff } from '@mdi/js';
+import { mdiEyeOff, mdiFileImportOutline } from '@mdi/js';
 import { slugify } from '~/utils/slugify';
 
 // components
@@ -18,7 +18,7 @@ import { TrackListRow, TrackListRowSkeleton } from '~/components/base/TrackListR
 import { Skeleton } from '~/components/base/Skeleton';
 
 // hooks
-import { useApi, usePrivacyScope, useTitle, useUser } from '../hooks';
+import { useApi, useTitle, useUser } from '../hooks';
 import { RouterLink, useRoute, useRouter } from 'vue-router';
 import { useI18n } from 'vue-i18n';
 
@@ -42,15 +42,27 @@ const PrivacyScope: FC<{
 
 const ImportRequiredScope: FC<{
   imported?: boolean;
-}> = ({ imported = false }, { slots }) => {
+  userId: string;
+}> = ({ imported = false, userId }, { slots }) => {
+  const currentUser = useUser();
+
   if (imported) return slots.default && slots.default();
 
-  return (
-    <div class="grid w-full place-items-center">
-      <Icon path={mdiEyeOff} />
-      <p class="m-0 text-textGrey"> shared</p>
-    </div>
-  );
+  // TODO: look for a better way to implement getting the user context
+  if (currentUser?.id == userId) {
+    return (
+      <div class="grid w-full place-items-center">
+        <Icon path={mdiFileImportOutline} />
+        {/* TODO: use i18n */}
+        <p class="m-0 text-textGrey">
+          this feature requires{' '}
+          <RouterLink class="underline" to={{ name: 'Import' }}>
+            import of streams
+          </RouterLink>
+        </p>
+      </div>
+    );
+  }
 };
 
 export default defineComponent(() => {
@@ -146,6 +158,23 @@ export default defineComponent(() => {
                   {user.value.profile?.bio}
                 </span>
               )}
+              {/* TODO: look if connections can be scoped (privacy) */}
+              <ul>
+                {
+                  // TODO: create a pull request to the statsfm library to add the social media connections to the `UserPublic` interface
+                  (
+                    user.value as statsfm.UserPublic & {
+                      socialMediaConnections: statsfm.UserSocialMediaConnection[];
+                    }
+                  ).socialMediaConnections.map((connection) => (
+                    <li>
+                      <a href="/">
+                        <img src={connection.platform.icon} alt={connection.platform.name} />
+                      </a>
+                    </li>
+                  ))
+                }
+              </ul>
             </div>
           </>
         ) : (
@@ -177,7 +206,7 @@ export default defineComponent(() => {
             onSelect={(value) => onRangeSelect(value as unknown as string)}
           />
 
-          <ImportRequiredScope imported={user.value?.hasImported}>
+          <ImportRequiredScope imported={user.value?.hasImported} userId={id}>
             <PrivacyScope
               scope="streamStats"
               settings={user.value?.privacySettings!}
