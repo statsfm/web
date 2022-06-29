@@ -49,7 +49,7 @@ const ImportRequiredScope: FC<{
   if (imported) return slots.default && slots.default();
 
   // TODO: look for a better way to implement getting the user context
-  if (currentUser?.id == userId) {
+  if (userId == currentUser?.id || 'me') {
     return (
       <div class="grid w-full place-items-center">
         <Icon path={mdiFileImportOutline} />
