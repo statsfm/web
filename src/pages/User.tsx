@@ -159,7 +159,7 @@ export default defineComponent(() => {
                 </span>
               )}
               {/* TODO: look if connections can be scoped (privacy) */}
-              <ul>
+              {/* <ul>
                 {
                   // TODO: create a pull request to the statsfm library to add the social media connections to the `UserPublic` interface
                   (
@@ -174,7 +174,7 @@ export default defineComponent(() => {
                     </li>
                   ))
                 }
-              </ul>
+              </ul> */}
             </div>
           </>
         ) : (
