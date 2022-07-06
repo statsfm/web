@@ -7,6 +7,7 @@ import { slugify } from '~/utils/slugify';
 // components
 import { Header } from '~/components/layout/Header';
 import Container from '~/components/layout/Container.vue';
+import Button from '~/components/base/Button.vue';
 import { Avatar } from '~/components/base/Avatar';
 import StickyHeader from '~/components/base/StickyHeader.vue';
 import { Carousel } from '~/components/base/Carousel';
@@ -18,7 +19,7 @@ import { TrackListRow, TrackListRowSkeleton } from '~/components/base/TrackListR
 import { Skeleton } from '~/components/base/Skeleton';
 
 // hooks
-import { useApi, useTitle, useUser } from '../hooks';
+import { useApi, useAuth, useTitle, useUser } from '../hooks';
 import { RouterLink, useRoute, useRouter } from 'vue-router';
 import { useI18n } from 'vue-i18n';
 
@@ -73,6 +74,7 @@ export default defineComponent(() => {
   const router = useRouter();
   const route = useRoute();
   const { t } = useI18n();
+  const auth = useAuth();
 
   const user = ref<statsfm.UserPublic>();
   const stats = ref<{ label: string; value: string | number }[]>([]);
@@ -80,6 +82,7 @@ export default defineComponent(() => {
   const topArtists = ref<statsfm.TopArtist[]>();
   // const topGenres = ref<statsfm.TopGenre[]>();
   const recentStreams = ref<statsfm.RecentlyPlayedTrack[]>();
+  const friendStatus = ref<statsfm.FriendStatus>();
 
   const id = route.params.userId.toString();
   const isCurrentUser = computed(() => currentUser?.id == user.value?.id);
@@ -95,6 +98,10 @@ export default defineComponent(() => {
 
     // load data with weeks as default
     load(rangeRef.value);
+
+    if(auth.isLoggedIn()) {
+      friendStatus.value  = await api.me.friendStatus(user.value!.id);
+    }
   });
 
   const load = async (range: statsfm.Range) => {
@@ -158,6 +165,47 @@ export default defineComponent(() => {
                   {user.value.profile?.bio}
                 </span>
               )}
+
+              
+              {(() => {
+                if(auth.isLoggedIn()) {
+                  switch(friendStatus.value) {
+                    case statsfm.FriendStatus.FRIENDS:
+                      return <Button 
+                        class="cursor-pointer text-red-500 mt-3"
+                        size="small"
+                        onClick={() => api.me.removeFriend(user.value!.id)}
+                      >
+                        Remove friend
+                      </Button>;
+                    case statsfm.FriendStatus.NONE:
+                      return <Button 
+                        class="cursor-pointer text-primary mt-3"
+                        size="small"
+                        onClick={() => api.me.sendFriendRequest(user.value!.id)}
+                      >
+                        Send friend request
+                      </Button>;
+                    case statsfm.FriendStatus.INCOMING:
+                      return <Button 
+                        class="cursor-pointer text-primary mt-3"
+                        size="small"
+                        onClick={() => api.me.acceptFriendRequest(user.value!.id)}
+                      >
+                        Accept friend request
+                      </Button>;
+                    case statsfm.FriendStatus.OUTGOING:
+                      return <Button 
+                        class="cursor-pointer text-red-500 mt-3"
+                        size="small"
+                        onClick={() => api.me.cancelFriendRequest(user.value!.id)}
+                      >
+                        Cancel friend request
+                      </Button>;
+                  }
+                }
+              })()}
+
               {/* TODO: look if connections can be scoped (privacy) */}
               {/* <ul>
                 {
