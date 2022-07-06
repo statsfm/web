@@ -100,7 +100,7 @@ export default defineComponent(() => {
     load(rangeRef.value);
 
     if(auth.isLoggedIn()) {
-      friendStatus.value  = await api.me.friendStatus(user.value!.id);
+      loadFriendship();
     }
   });
 
@@ -138,6 +138,11 @@ export default defineComponent(() => {
     //   : [];
   };
 
+  const loadFriendship = async () => {
+    friendStatus.value = undefined;
+    friendStatus.value = await api.me.friendStatus(user.value!.id);
+  }
+
   watchEffect(() => useTitle(user.value?.displayName));
 
   const onRangeSelect = (value: string) => {
@@ -174,7 +179,7 @@ export default defineComponent(() => {
                       return <Button 
                         class="cursor-pointer text-red-500 mt-3"
                         size="small"
-                        onClick={() => api.me.removeFriend(user.value!.id)}
+                        onClick={() => api.me.removeFriend(user.value!.id).then(() => loadFriendship())}
                       >
                         Remove friend
                       </Button>;
@@ -182,25 +187,33 @@ export default defineComponent(() => {
                       return <Button 
                         class="cursor-pointer text-primary mt-3"
                         size="small"
-                        onClick={() => api.me.sendFriendRequest(user.value!.id)}
+                        onClick={() => api.me.sendFriendRequest(user.value!.id).then(() => loadFriendship())}
                       >
                         Send friend request
                       </Button>;
-                    case statsfm.FriendStatus.INCOMING:
+                    case statsfm.FriendStatus.REQUEST_INCOMING:
                       return <Button 
                         class="cursor-pointer text-primary mt-3"
                         size="small"
-                        onClick={() => api.me.acceptFriendRequest(user.value!.id)}
+                        onClick={() => api.me.acceptFriendRequest(user.value!.id).then(() => loadFriendship())}
                       >
                         Accept friend request
                       </Button>;
-                    case statsfm.FriendStatus.OUTGOING:
+                    case statsfm.FriendStatus.REQUEST_OUTGOING:
                       return <Button 
                         class="cursor-pointer text-red-500 mt-3"
                         size="small"
-                        onClick={() => api.me.cancelFriendRequest(user.value!.id)}
+                        onClick={() => api.me.cancelFriendRequest(user.value!.id).then(() => loadFriendship())}
                       >
                         Cancel friend request
+                      </Button>;
+                    default:
+                      return <Button 
+                        class="cursor-pointer text-red-500 mt-3"
+                        size="small"
+                        disabled={true}
+                      >
+                        Loading friendship...
                       </Button>;
                   }
                 }

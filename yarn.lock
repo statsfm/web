@@ -462,10 +462,10 @@
     estree-walker "^2.0.1"
     picomatch "^2.2.2"
 
-"@statsfm/statsfm.js@^1.14.1":
-  version "1.14.1"
-  resolved "https://registry.yarnpkg.com/@statsfm/statsfm.js/-/statsfm.js-1.14.1.tgz#f35eca7b9f85457d4b579e1bcd3876cd605c72f1"
-  integrity sha512-UJfieW0XVNOmvWj1/3JpHV1MvWTSvGofxLZLdO2qj7eNVhqoz12mxwYwWZWxDYs3GIfwuUpAb6QuBaTWwYT1YQ==
+"@statsfm/statsfm.js@^1.14.3":
+  version "1.14.3"
+  resolved "https://registry.yarnpkg.com/@statsfm/statsfm.js/-/statsfm.js-1.14.3.tgz#d3041031aaab804ea411449c915d55155c3fc0ae"
+  integrity sha512-kYF5hF1B/JkGO8AFdI1OIknvaawMEcX1wUeghcx1DlBNjOuXK553dC5tqsTr70JrQYI+cLq6T2R7uQcEMmTA3Q==
   dependencies:
     isomorphic-unfetch "^3.1.0"
 
