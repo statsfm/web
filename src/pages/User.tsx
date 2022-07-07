@@ -211,7 +211,6 @@ export default defineComponent(() => {
                       return <Button 
                         class="cursor-pointer text-red-500 mt-3"
                         size="small"
-                        disabled={true}
                       >
                         Loading friendship...
                       </Button>;
