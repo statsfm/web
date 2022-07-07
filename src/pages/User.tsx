@@ -173,7 +173,7 @@ export default defineComponent(() => {
 
               
               {(() => {
-                if(auth.isLoggedIn()) {
+                if(auth.isLoggedIn() && useUser()?.id != user.value.id) {
                   switch(friendStatus.value) {
                     case statsfm.FriendStatus.FRIENDS:
                       return <Button 
