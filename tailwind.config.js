@@ -1,59 +1,23 @@
+/** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: ['./index.html', './src/**/*.{vue,js,ts,jsx,tsx}'],
+  content: [
+    './pages/**/*.{js,ts,jsx,tsx}',
+    './components/**/*.{js,ts,jsx,tsx}',
+  ],
   theme: {
-    extend: {
-      colors: {
-        primary: '#1ed760',
-        primaryLighter: 'rgba(30, 215, 96, 0.1)',
-        bodyPrimary: '#111112',
-        bodySecundary: '#18181c',
-        textGrey: '#727272',
-        icon: '#727272'
-      },
-      fontFamily: {
-        body: 'Open Sans',
-        heading: 'Open Sans'
-      },
-      keyframes: {
-        fade: {
-          from: { opacity: 0 },
-          to: { opacity: 1 }
-        },
-        fadeIn: {
-          from: {
-            scale: 0.95,
-            transform: 'translate3d(0, 5px, 0)',
-            opacity: 0
-          },
-          to: {
-            scale: 1,
-            transform: 'translate3d(0, 0px, 0)',
-            opacity: 1
-          }
-        },
-        fadeOut: {
-          from: {
-            transform: 'translate3d(0, 0, 0)',
-            opacity: 1
-          },
-          to: {
-            transform: 'translate3d(0, 5px, 0)',
-            opacity: 0
-          }
-        }
-      },
-      animation: {
-        fade: 'fade 0.3s ease-in-out',
-        fadeIn: 'fadeIn 0.2s ease-in-out',
-        fadeOut: 'fadeOut 0.2s ease-in-out'
-      }
+    fontSize: {
+      xs: '0.75rem',
+      sm: '0.875rem',
+      base: '1rem',
+      lg: '1.125rem',
+      xl: '1.25rem',
+      '2xl': '1.5rem',
+      '3xl': '1.875rem',
+      '4xl': '2.25rem',
+      '5xl': '3rem',
+      '6xl': '4rem',
     },
-    container: {
-      center: true,
-      padding: {
-        DEFAULT: '1.5rem'
-      }
-    }
+    extend: {},
   },
-  plugins: [require('@tailwindcss/line-clamp'), require('@tailwindcss/typography')]
+  plugins: [],
 };

@@ -1,5 +1,14 @@
 {
   "editor.tabSize": 2,
-  "i18n-ally.localesPaths": ["src/i18n", "src/locales"],
-  "i18n-ally.keystyle": "flat"
+  "editor.detectIndentation": false,
+  "editor.defaultFormatter": "dbaeumer.vscode-eslint",
+  "editor.formatOnSave": false,
+  "editor.codeActionsOnSave": [
+    "source.addMissingImports",
+    "source.fixAll.eslint"
+  ],
+  "[json][jsonc]": {
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  }
 }
