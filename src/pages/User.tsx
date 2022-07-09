@@ -1,4 +1,4 @@
-import { computed, defineComponent, FC, onBeforeMount, ref, watchEffect } from 'vue';
+import { computed, defineComponent, FC, onBeforeMount, onMounted, ref, watchEffect } from 'vue';
 import * as statsfm from '@statsfm/statsfm.js';
 import dayjs from '../dayjs';
 import { mdiEyeOff, mdiFileImportOutline } from '@mdi/js';
@@ -19,7 +19,7 @@ import { TrackListRow, TrackListRowSkeleton } from '~/components/base/TrackListR
 import { Skeleton } from '~/components/base/Skeleton';
 
 // hooks
-import { useApi, useAuth, useTitle, useUser } from '../hooks';
+import { useApi, useTitle, useUser } from '../hooks';
 import { RouterLink, useRoute, useRouter } from 'vue-router';
 import { useI18n } from 'vue-i18n';
 
@@ -66,6 +66,80 @@ const ImportRequiredScope: FC<{
   }
 };
 
+const FriendStatusButton = defineComponent<{ userId: string }>(({ userId }) => {
+  const api = useApi()
+  const status = ref<statsfm.FriendStatus>()
+
+  const loadUserFriend = async () => {
+    status.value  = await api.me.friendStatus(userId);
+  }
+
+  onMounted(loadUserFriend)
+
+  const handleReloadFriendStatus = async () => {
+    status.value = undefined
+    loadUserFriend()
+  }
+
+  return () => {
+  switch (status.value) {
+    case statsfm.FriendStatus.FRIENDS:
+      return (
+        <Button
+          size="small"
+          onClick={() =>
+            api.me.removeFriend(userId).then(handleReloadFriendStatus)
+          }
+        >
+          Remove friend
+        </Button>
+      );
+    case statsfm.FriendStatus.NONE:
+      return (
+        <Button
+          size="small"
+          onClick={() =>
+            api.me.sendFriendRequest(userId).then(handleReloadFriendStatus)
+          }
+        >
+          Send friend request
+        </Button>
+      );
+    case statsfm.FriendStatus.REQUEST_INCOMING:
+      return (
+        <Button
+          size="small"
+          onClick={() =>
+            api.me.acceptFriendRequest(userId).then(handleReloadFriendStatus)
+          }
+        >
+          Accept friend request
+        </Button>
+      );
+    case statsfm.FriendStatus.REQUEST_OUTGOING:
+      return (
+        <Button
+          class="text-red-500"
+          size="small"
+          onClick={() =>
+            api.me.cancelFriendRequest(userId).then(handleReloadFriendStatus)
+          }
+        >
+          Cancel friend request
+        </Button>
+      );
+    default:
+      return (
+        <Button size="small" disabled>
+          Loading friendship...
+        </Button>
+      );
+  }
+}
+})
+
+FriendStatusButton.props = ['userId']
+
 export default defineComponent(() => {
   const api = useApi();
   // TODO: rename
@@ -74,7 +148,6 @@ export default defineComponent(() => {
   const router = useRouter();
   const route = useRoute();
   const { t } = useI18n();
-  const auth = useAuth();
 
   const user = ref<statsfm.UserPublic>();
   const stats = ref<{ label: string; value: string | number }[]>([]);
@@ -82,7 +155,6 @@ export default defineComponent(() => {
   const topArtists = ref<statsfm.TopArtist[]>();
   // const topGenres = ref<statsfm.TopGenre[]>();
   const recentStreams = ref<statsfm.RecentlyPlayedTrack[]>();
-  const friendStatus = ref<statsfm.FriendStatus>();
 
   const id = route.params.userId.toString();
   const isCurrentUser = computed(() => currentUser?.id == user.value?.id);
@@ -98,10 +170,6 @@ export default defineComponent(() => {
 
     // load data with weeks as default
     load(rangeRef.value);
-
-    if(auth.isLoggedIn()) {
-      loadFriendship();
-    }
   });
 
   const load = async (range: statsfm.Range) => {
@@ -138,11 +206,6 @@ export default defineComponent(() => {
     //   : [];
   };
 
-  const loadFriendship = async () => {
-    friendStatus.value = undefined;
-    friendStatus.value = await api.me.friendStatus(user.value!.id);
-  }
-
   watchEffect(() => useTitle(user.value?.displayName));
 
   const onRangeSelect = (value: string) => {
@@ -171,52 +234,8 @@ export default defineComponent(() => {
                 </span>
               )}
 
-              
-              {(() => {
-                if(auth.isLoggedIn() && useUser()?.id != user.value.id) {
-                  switch(friendStatus.value) {
-                    case statsfm.FriendStatus.FRIENDS:
-                      return <Button 
-                        class="cursor-pointer text-red-500 mt-3"
-                        size="small"
-                        onClick={() => api.me.removeFriend(user.value!.id).then(() => loadFriendship())}
-                      >
-                        Remove friend
-                      </Button>;
-                    case statsfm.FriendStatus.NONE:
-                      return <Button 
-                        class="cursor-pointer text-primary mt-3"
-                        size="small"
-                        onClick={() => api.me.sendFriendRequest(user.value!.id).then(() => loadFriendship())}
-                      >
-                        Send friend request
-                      </Button>;
-                    case statsfm.FriendStatus.REQUEST_INCOMING:
-                      return <Button 
-                        class="cursor-pointer text-primary mt-3"
-                        size="small"
-                        onClick={() => api.me.acceptFriendRequest(user.value!.id).then(() => loadFriendship())}
-                      >
-                        Accept friend request
-                      </Button>;
-                    case statsfm.FriendStatus.REQUEST_OUTGOING:
-                      return <Button 
-                        class="cursor-pointer text-red-500 mt-3"
-                        size="small"
-                        onClick={() => api.me.cancelFriendRequest(user.value!.id).then(() => loadFriendship())}
-                      >
-                        Cancel friend request
-                      </Button>;
-                    default:
-                      return <Button 
-                        class="cursor-pointer text-red-500 mt-3"
-                        size="small"
-                      >
-                        Loading friendship...
-                      </Button>;
-                  }
-                }
-              })()}
+              {/* TOOD: look why we can't use the custom id as id */}
+              {!isCurrentUser.value && <FriendStatusButton class="mt-3" userId={user.value.id} />}
 
               {/* TODO: look if connections can be scoped (privacy) */}
               {/* <ul>
