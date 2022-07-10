@@ -1,6 +1,7 @@
 import { useApi } from '~/hooks';
 import router from '~/router';
 import { useStore } from '~/store';
+import * as jose from 'jose';
 
 // const store = useStore();
 // import { useAuth } from './hooks';
@@ -137,7 +138,13 @@ export default class auth {
     let valid = false;
 
     if (token?.startsWith('ey')) {
-      const { exp, iat } = JSON.parse(atob(token!.split('.')[1]).toString()); // falsely marked as deprecated -> https://github.com/microsoft/TypeScript/issues/45566
+      // const { exp, iat } = JSON.parse(atob(token!.split('.')[1]).toString()); // falsely marked as deprecated -> https://github.com/microsoft/TypeScript/issues/45566
+      const { exp, iat } = jose.decodeJwt(token);
+
+      if (iat == undefined || iat == null) {
+        return false;
+      }
+
       if (exp == undefined || exp == null) {
         valid = true;
       } else {
