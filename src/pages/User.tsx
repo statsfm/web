@@ -130,7 +130,7 @@ const FriendStatusButton = defineComponent<{ userId: string }>(({ userId }) => {
       );
     default:
       return (
-        <Button size="small" disabled>
+        <Button size="small">
           Loading friendship...
         </Button>
       );
