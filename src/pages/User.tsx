@@ -50,7 +50,7 @@ const ImportRequiredScope: FC<{
   if (imported) return slots.default && slots.default();
 
   // TODO: look for a better way to implement getting the user context
-  if (userId == currentUser?.id || 'me') {
+  if (userId == currentUser?.id || userId == 'me') {
     return (
       <div class="grid w-full place-items-center">
         <Icon path={mdiFileImportOutline} />
@@ -67,78 +67,66 @@ const ImportRequiredScope: FC<{
 };
 
 const FriendStatusButton = defineComponent<{ userId: string }>(({ userId }) => {
-  const api = useApi()
-  const status = ref<statsfm.FriendStatus>()
+  const api = useApi();
+  const status = ref<statsfm.FriendStatus>();
 
   const loadUserFriend = async () => {
-    status.value  = await api.me.friendStatus(userId);
-  }
+    status.value = await api.me.friendStatus(userId);
+  };
 
-  onMounted(loadUserFriend)
+  onMounted(loadUserFriend);
 
   const handleReloadFriendStatus = async () => {
-    status.value = undefined
-    loadUserFriend()
-  }
+    status.value = undefined;
+    loadUserFriend();
+  };
 
   return () => {
-  switch (status.value) {
-    case statsfm.FriendStatus.FRIENDS:
-      return (
-        <Button
-          size="small"
-          onClick={() =>
-            api.me.removeFriend(userId).then(handleReloadFriendStatus)
-          }
-        >
-          Remove friend
-        </Button>
-      );
-    case statsfm.FriendStatus.NONE:
-      return (
-        <Button
-          size="small"
-          onClick={() =>
-            api.me.sendFriendRequest(userId).then(handleReloadFriendStatus)
-          }
-        >
-          Send friend request
-        </Button>
-      );
-    case statsfm.FriendStatus.REQUEST_INCOMING:
-      return (
-        <Button
-          size="small"
-          onClick={() =>
-            api.me.acceptFriendRequest(userId).then(handleReloadFriendStatus)
-          }
-        >
-          Accept friend request
-        </Button>
-      );
-    case statsfm.FriendStatus.REQUEST_OUTGOING:
-      return (
-        <Button
-          class="text-red-500"
-          size="small"
-          onClick={() =>
-            api.me.cancelFriendRequest(userId).then(handleReloadFriendStatus)
-          }
-        >
-          Cancel friend request
-        </Button>
-      );
-    default:
-      return (
-        <Button size="small">
-          Loading friendship...
-        </Button>
-      );
-  }
-}
-})
+    switch (status.value) {
+      case statsfm.FriendStatus.FRIENDS:
+        return (
+          <Button
+            size="small"
+            onClick={() => api.me.removeFriend(userId).then(handleReloadFriendStatus)}
+          >
+            Remove friend
+          </Button>
+        );
+      case statsfm.FriendStatus.NONE:
+        return (
+          <Button
+            size="small"
+            onClick={() => api.me.sendFriendRequest(userId).then(handleReloadFriendStatus)}
+          >
+            Send friend request
+          </Button>
+        );
+      case statsfm.FriendStatus.REQUEST_INCOMING:
+        return (
+          <Button
+            size="small"
+            onClick={() => api.me.acceptFriendRequest(userId).then(handleReloadFriendStatus)}
+          >
+            Accept friend request
+          </Button>
+        );
+      case statsfm.FriendStatus.REQUEST_OUTGOING:
+        return (
+          <Button
+            class="text-red-500"
+            size="small"
+            onClick={() => api.me.cancelFriendRequest(userId).then(handleReloadFriendStatus)}
+          >
+            Cancel friend request
+          </Button>
+        );
+      default:
+        return <Button size="small">Loading friendship...</Button>;
+    }
+  };
+});
 
-FriendStatusButton.props = ['userId']
+FriendStatusButton.props = ['userId'];
 
 export default defineComponent(() => {
   const api = useApi();
