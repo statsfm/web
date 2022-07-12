@@ -436,7 +436,7 @@ export default defineComponent(() => {
           >
             {/* TOOD: replace this with a recently streamed ui */}
             {recentStreams.value?.length! > 0
-              ? recentStreams.value?.map((item) => <TrackListRow track={item.track} streams={0} />)
+              ? recentStreams.value?.map((item) => <TrackListRow {...item} />)
               : Array(8)
                   .fill(null)
                   .map(() => <TrackListRowSkeleton />)}
