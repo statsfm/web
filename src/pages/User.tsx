@@ -30,7 +30,7 @@ const PrivacyScope: FC<{
   settings: statsfm.UserPrivacySettings;
   name?: string;
 }> = ({ scope, settings, name }, { slots }) => {
-  if (settings[scope]) {
+  if (settings && settings[scope]) {
     return slots.default && slots.default();
   }
 
