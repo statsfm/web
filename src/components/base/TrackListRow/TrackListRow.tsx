@@ -33,7 +33,7 @@ export const TrackListRow: FC<Props> = ({ track, streams, endTime }) => {
             <p class="m-0">
               {/* TODO: list all artist */}
               {track.artists[0].name} • {track.albums[0].name}
-              {streams && `• ${t('times_streamed', { count: streams })}`}
+              {streams !== undefined && ` • ${t('times_streamed', { count: streams })}`}
             </p>
           </div>
         </div>
