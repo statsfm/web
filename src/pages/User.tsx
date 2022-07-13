@@ -299,8 +299,6 @@ export default defineComponent(() => {
           </ImportRequiredScope>
         </section>
 
-        <div class="my-8"></div>
-
         {/* top tracks */}
         <StickyHeader>
           <div>
@@ -338,8 +336,6 @@ export default defineComponent(() => {
             </Carousel>
           </PrivacyScope>
         </section>
-
-        <div class="my-8"></div>
 
         {/* top artists */}
         <StickyHeader>
@@ -409,8 +405,6 @@ export default defineComponent(() => {
           </PrivacyScope>
         </section>
 
-        <div class="my-8"></div>
-
         {/* top albums */}
         <StickyHeader>
           <div>
@@ -432,7 +426,7 @@ export default defineComponent(() => {
           >
             <Carousel rows={1} gap={16}>
               {topAlbums.value
-                ? topAlbums.value?.map((item, index) => (
+                ? topAlbums.value?.map((item) => (
                     // TODO: move to separate component
                     <li>
                       <RouterLink
