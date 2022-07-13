@@ -19,7 +19,7 @@ export const TrackCard: FC<Props> = ({ track, playedMs, streams }) => {
   const { t } = useI18n();
   const image = computed(() => track.albums[0].image);
   const minutes = computed(() =>
-    Math.round(dayjs.duration(playedMs!, 'ms').asMinutes()).toLocaleString()
+    Math.floor(dayjs.duration(playedMs!, 'ms').asMinutes()).toLocaleString()
   );
 
   return (
