@@ -181,6 +181,10 @@ export default defineComponent(() => {
     rangeRef.value = range;
     stats.value = [];
 
+    topTracks.value = undefined;
+    topArtists.value = undefined;
+    topAlbums.value = undefined;
+
     // TODO: look for a better solution
     user.value?.privacySettings?.streamStats &&
       api.users.stats(id, { range }).then(({ durationMs, count }) => {
