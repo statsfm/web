@@ -17,6 +17,7 @@ import { TrackCard, TrackCardSkeleton } from '~/components/base/TrackCard';
 import Icon from '~/components/base/Icon.vue';
 import { TrackListRow, TrackListRowSkeleton } from '~/components/base/TrackListRow';
 import { Skeleton } from '~/components/base/Skeleton';
+import { Image } from '~/components/base/Image';
 
 // hooks
 import { useApi, useTitle, useUser } from '../hooks';
@@ -141,6 +142,7 @@ export default defineComponent(() => {
   const stats = ref<{ label: string; value: string | number }[]>([]);
   const topTracks = ref<statsfm.TopTrack[]>();
   const topArtists = ref<statsfm.TopArtist[]>();
+  const topAlbums = ref<statsfm.TopAlbum[]>();
   // const topGenres = ref<statsfm.TopGenre[]>();
   const recentStreams = ref<statsfm.RecentlyPlayedTrack[]>();
 
@@ -188,6 +190,9 @@ export default defineComponent(() => {
       : [];
     topArtists.value = user.value?.privacySettings?.topArtists
       ? await api.users.topArtists(id, { range })
+      : [];
+    topAlbums.value = user.value?.privacySettings?.topAlbums
+      ? await api.users.topAlbums(id, { range })
       : [];
     // topGenres.value = user.value?.privacySettings?.topGenres
     //   ? await api.users.topGenres(id, { range })
@@ -397,6 +402,77 @@ export default defineComponent(() => {
 
                         <div class="mt-2 flex flex-col items-center gap-2">
                           <Skeleton.Text width="6rem" />
+                        </div>
+                      </li>
+                    ))}
+            </Carousel>
+          </PrivacyScope>
+        </section>
+
+        <div class="my-8"></div>
+
+        {/* top albums */}
+        <StickyHeader>
+          <div>
+            <h2>{t('user.top_albums.title')}</h2>
+            <p class="my-1">
+              {t('user.top_albums.description', {
+                name: isCurrentUser.value ? 'Your' : user.value?.displayName,
+                range: t(`range.${rangeRef.value}`)
+              })}
+            </p>
+          </div>
+        </StickyHeader>
+
+        <section>
+          <PrivacyScope
+            scope="topAlbums"
+            settings={user.value?.privacySettings!}
+            name={user.value?.displayName}
+          >
+            <Carousel rows={1} gap={16}>
+              {topAlbums.value
+                ? topAlbums.value?.map((item, index) => (
+                    // TODO: move to separate component
+                    <li>
+                      <RouterLink
+                        to={{
+                          name: 'Album',
+                          params: { id: item.album.id, slug: slugify(item.album.name) }
+                        }}
+                      >
+                        <div class="w-40">
+                          <div class="min-h-50 aspect-square w-full group-hover:opacity-90">
+                            <Image
+                              key={item.album.image}
+                              src={item.album.image}
+                              alt={item.album.name}
+                              class="aspect-square"
+                            />
+                          </div>
+                          <div class="mt-2">
+                            <h4 class="line-clamp-2">{item.album.name}</h4>
+                            <p class="m-0 truncate">
+                              {t('minutes', {
+                                count: Math.floor(
+                                  dayjs.duration(item.playedMs!, 'ms').asMinutes()
+                                ).toLocaleString()
+                              })}{' '}
+                              • {t('streams', { count: item.streams })}
+                            </p>
+                          </div>
+                        </div>
+                      </RouterLink>
+                    </li>
+                  ))
+                : Array(10)
+                    .fill(null)
+                    .map(() => (
+                      <li>
+                        <Skeleton.Image width="10rem" height="10rem" />
+                        <div class="mt-2 flex flex-col gap-2">
+                          <Skeleton.Text width="9rem" />
+                          <Skeleton.Text width="6.5rem" />
                         </div>
                       </li>
                     ))}

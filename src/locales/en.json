@@ -97,7 +97,10 @@
       "title": "Top artists",
       "description": "{name} top artists from the past {range}"
     },
-    "top_albums": "Top albums",
+    "top_albums": {
+      "title": "Top albums",
+      "description": "{name} top albums from the past {range}"
+    },
     "audio_analysis": "Audio analysis",
     "recent_streams": {
       "title": "Recent streams",
