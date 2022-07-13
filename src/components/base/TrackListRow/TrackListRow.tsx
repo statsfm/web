@@ -12,10 +12,11 @@ import { useI18n } from 'vue-i18n';
 
 interface Props {
   track: statsfm.Track;
-  streams: number;
+  streams?: number;
+  endTime?: Date;
 }
 
-export const TrackListRow: FC<Props> = ({ track, streams }) => {
+export const TrackListRow: FC<Props> = ({ track, streams, endTime }) => {
   const { t } = useI18n();
 
   return (
@@ -31,13 +32,17 @@ export const TrackListRow: FC<Props> = ({ track, streams }) => {
             <h4>{track.name}</h4>
             <p class="m-0">
               {/* TODO: list all artist */}
-              {track.artists[0].name} • {track.albums[0].name} •{' '}
-              {t('times_streamed', { count: streams })}
+              {track.artists[0].name} • {track.albums[0].name}
+              {streams && `• ${t('times_streamed', { count: streams })}`}
             </p>
           </div>
         </div>
 
-        <p class="text-right">{dayjs.duration(track.durationMs, 'milliseconds').format('m:ss')}</p>
+        <p class="text-right">
+          {endTime
+            ? dayjs(endTime).fromNow()
+            : dayjs.duration(track.durationMs, 'milliseconds').format('m:ss')}
+        </p>
       </RouterLink>
       <hr class="my-3 border-bodySecundary" />
     </>
