@@ -129,6 +129,21 @@ const FriendStatusButton = defineComponent<{ userId: string }>(({ userId }) => {
 
 FriendStatusButton.props = ['userId'];
 
+// const Indicator = defineComponent<{ indicator: statsfm.Indicator }>(({ indicator }) => {
+//   return () => {
+//     switch(indicator) {
+//       case statsfm.Indicator.DOWN:
+//         return (
+//           // <Icon path={mdiSmall} />
+//         )
+//     }
+//   }
+// });
+
+const PlusBadge = () => (
+  <span class="rounded-lg bg-primaryLighter p-1 py-0.5 text-sm text-primary">Spotistats Plus</span>
+);
+
 export default defineComponent(() => {
   const api = useApi();
   // TODO: rename
@@ -215,11 +230,10 @@ export default defineComponent(() => {
             <Avatar size="4xl" name={user.value.displayName} src={user.value.image} />
 
             <div class="flex flex-col justify-end">
-              {user.value.privacySettings?.profile && (
-                <span class="text-center text-lg font-medium md:text-left">
-                  {user.value.profile?.pronouns}
-                </span>
-              )}
+              <span class="text-center text-lg font-medium md:text-left">
+                {user.value.privacySettings?.profile && user.value.profile?.pronouns}{' '}
+                {user.value.isPlus && <PlusBadge />}
+              </span>
               <h1 class="text-center md:text-left">{user.value.displayName}</h1>
               {user.value.privacySettings?.profile && (
                 <span class="text-center text-xl font-medium md:text-left">
