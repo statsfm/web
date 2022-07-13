@@ -1,7 +1,7 @@
 import { computed, defineComponent, FC, onBeforeMount, onMounted, ref, watchEffect } from 'vue';
 import * as statsfm from '@statsfm/statsfm.js';
 import dayjs from '../dayjs';
-import { mdiEyeOff, mdiFileImportOutline } from '@mdi/js';
+import { mdiCloudOffOutline, mdiEyeOff, mdiFileImportOutline } from '@mdi/js';
 import { slugify } from '~/utils/slugify';
 
 // components
@@ -65,6 +65,19 @@ const ImportRequiredScope: FC<{
       </div>
     );
   }
+};
+
+const NotEnoughData: FC<{ data?: any[] }> = ({ data }, { slots }) => {
+  if (data && data.length == 0) {
+    return (
+      <div class="grid w-full place-items-center">
+        <Icon path={mdiCloudOffOutline} />
+        <p class="m-0 text-textGrey">not enough data to calculate advanced stats</p>
+      </div>
+    );
+  }
+
+  return slots.default && slots.default();
 };
 
 const FriendStatusButton = defineComponent<{ userId: string }>(({ userId }) => {
@@ -332,27 +345,29 @@ export default defineComponent(() => {
         </StickyHeader>
 
         <section>
-          <PrivacyScope
-            scope="topTracks"
-            settings={user.value?.privacySettings!}
-            name={user.value?.displayName}
-          >
-            <Carousel rows={1} gap={16}>
-              {topTracks.value
-                ? topTracks.value.map((item) => (
-                    <li>
-                      <TrackCard {...item} />
-                    </li>
-                  ))
-                : Array(10)
-                    .fill(null)
-                    .map(() => (
+          <NotEnoughData data={topTracks.value}>
+            <PrivacyScope
+              scope="topTracks"
+              settings={user.value?.privacySettings!}
+              name={user.value?.displayName}
+            >
+              <Carousel rows={1} gap={16}>
+                {topTracks.value
+                  ? topTracks.value.map((item) => (
                       <li>
-                        <TrackCardSkeleton />
+                        <TrackCard {...item} />
                       </li>
-                    ))}
-            </Carousel>
-          </PrivacyScope>
+                    ))
+                  : Array(10)
+                      .fill(null)
+                      .map(() => (
+                        <li>
+                          <TrackCardSkeleton />
+                        </li>
+                      ))}
+              </Carousel>
+            </PrivacyScope>
+          </NotEnoughData>
         </section>
 
         {/* top artists */}
@@ -369,58 +384,60 @@ export default defineComponent(() => {
         </StickyHeader>
 
         <section>
-          <PrivacyScope
-            scope="topArtists"
-            settings={user.value?.privacySettings!}
-            name={user.value?.displayName}
-          >
-            <Carousel rows={1} gap={16}>
-              {topArtists.value
-                ? topArtists.value?.map((item) => (
-                    // TODO: move to separate component
-                    <li>
-                      <RouterLink
-                        to={{
-                          name: 'Artist',
-                          params: { id: item.artist.id, slug: slugify(item.artist.name) }
-                        }}
-                      >
-                        <div class="flex w-40 flex-col items-center">
-                          <Avatar
-                            key={item.artist.image}
-                            name={item.artist.name}
-                            src={item.artist.image}
-                            size="3xl"
-                          >
-                            <div class="rounded-lg bg-bodySecundary px-2 py-1">
-                              <h4 class="text-neutral-400">#{item.position}</h4>
-                            </div>
-                          </Avatar>
+          <NotEnoughData data={topArtists.value}>
+            <PrivacyScope
+              scope="topArtists"
+              settings={user.value?.privacySettings!}
+              name={user.value?.displayName}
+            >
+              <Carousel rows={1} gap={16}>
+                {topArtists.value
+                  ? topArtists.value?.map((item) => (
+                      // TODO: move to separate component
+                      <li>
+                        <RouterLink
+                          to={{
+                            name: 'Artist',
+                            params: { id: item.artist.id, slug: slugify(item.artist.name) }
+                          }}
+                        >
+                          <div class="flex w-40 flex-col items-center">
+                            <Avatar
+                              key={item.artist.image}
+                              name={item.artist.name}
+                              src={item.artist.image}
+                              size="3xl"
+                            >
+                              <div class="rounded-lg bg-bodySecundary px-2 py-1">
+                                <h4 class="text-neutral-400">#{item.position}</h4>
+                              </div>
+                            </Avatar>
 
-                          <div class="mt-2 text-center">
-                            <h4>{item.artist.name}</h4>
-                            {/* TOOD: add minutes played and streams count */}
-                            {/* <p class="m-0 line-clamp-2">
+                            <div class="mt-2 text-center">
+                              <h4>{item.artist.name}</h4>
+                              {/* TOOD: add minutes played and streams count */}
+                              {/* <p class="m-0 line-clamp-2">
                           <span>{item.playedMs}</span>
                         </p> */}
+                            </div>
                           </div>
-                        </div>
-                      </RouterLink>
-                    </li>
-                  ))
-                : Array(10)
-                    .fill(null)
-                    .map(() => (
-                      <li>
-                        <Skeleton.Avatar size="3xl" />
-
-                        <div class="mt-2 flex flex-col items-center gap-2">
-                          <Skeleton.Text width="6rem" />
-                        </div>
+                        </RouterLink>
                       </li>
-                    ))}
-            </Carousel>
-          </PrivacyScope>
+                    ))
+                  : Array(10)
+                      .fill(null)
+                      .map(() => (
+                        <li>
+                          <Skeleton.Avatar size="3xl" />
+
+                          <div class="mt-2 flex flex-col items-center gap-2">
+                            <Skeleton.Text width="6rem" />
+                          </div>
+                        </li>
+                      ))}
+              </Carousel>
+            </PrivacyScope>
+          </NotEnoughData>
         </section>
 
         {/* top albums */}
@@ -437,59 +454,61 @@ export default defineComponent(() => {
         </StickyHeader>
 
         <section>
-          <PrivacyScope
-            scope="topAlbums"
-            settings={user.value?.privacySettings!}
-            name={user.value?.displayName}
-          >
-            <Carousel rows={1} gap={16}>
-              {topAlbums.value
-                ? topAlbums.value?.map((item) => (
-                    // TODO: move to separate component
-                    <li>
-                      <RouterLink
-                        to={{
-                          name: 'Album',
-                          params: { id: item.album.id, slug: slugify(item.album.name) }
-                        }}
-                      >
-                        <div class="w-40">
-                          <div class="min-h-50 aspect-square w-full group-hover:opacity-90">
-                            <Image
-                              key={item.album.image}
-                              src={item.album.image}
-                              alt={item.album.name}
-                              class="aspect-square"
-                            />
-                          </div>
-                          <div class="mt-2">
-                            <h4 class="line-clamp-2">{item.album.name}</h4>
-                            <p class="m-0 truncate">
-                              {t('minutes', {
-                                count: Math.floor(
-                                  dayjs.duration(item.playedMs!, 'ms').asMinutes()
-                                ).toLocaleString()
-                              })}{' '}
-                              • {t('streams', { count: item.streams })}
-                            </p>
-                          </div>
-                        </div>
-                      </RouterLink>
-                    </li>
-                  ))
-                : Array(10)
-                    .fill(null)
-                    .map(() => (
+          <NotEnoughData data={topAlbums.value}>
+            <PrivacyScope
+              scope="topAlbums"
+              settings={user.value?.privacySettings!}
+              name={user.value?.displayName}
+            >
+              <Carousel rows={1} gap={16}>
+                {topAlbums.value
+                  ? topAlbums.value?.map((item) => (
+                      // TODO: move to separate component
                       <li>
-                        <Skeleton.Image width="10rem" height="10rem" />
-                        <div class="mt-2 flex flex-col gap-2">
-                          <Skeleton.Text width="9rem" />
-                          <Skeleton.Text width="6.5rem" />
-                        </div>
+                        <RouterLink
+                          to={{
+                            name: 'Album',
+                            params: { id: item.album.id, slug: slugify(item.album.name) }
+                          }}
+                        >
+                          <div class="w-40">
+                            <div class="min-h-50 aspect-square w-full group-hover:opacity-90">
+                              <Image
+                                key={item.album.image}
+                                src={item.album.image}
+                                alt={item.album.name}
+                                class="aspect-square"
+                              />
+                            </div>
+                            <div class="mt-2">
+                              <h4 class="line-clamp-2">{item.album.name}</h4>
+                              <p class="m-0 truncate">
+                                {t('minutes', {
+                                  count: Math.floor(
+                                    dayjs.duration(item.playedMs!, 'ms').asMinutes()
+                                  ).toLocaleString()
+                                })}{' '}
+                                • {t('streams', { count: item.streams })}
+                              </p>
+                            </div>
+                          </div>
+                        </RouterLink>
                       </li>
-                    ))}
-            </Carousel>
-          </PrivacyScope>
+                    ))
+                  : Array(10)
+                      .fill(null)
+                      .map(() => (
+                        <li>
+                          <Skeleton.Image width="10rem" height="10rem" />
+                          <div class="mt-2 flex flex-col gap-2">
+                            <Skeleton.Text width="9rem" />
+                            <Skeleton.Text width="6.5rem" />
+                          </div>
+                        </li>
+                      ))}
+              </Carousel>
+            </PrivacyScope>
+          </NotEnoughData>
         </section>
 
         {/* recent streams */}
@@ -505,18 +524,20 @@ export default defineComponent(() => {
         </StickyHeader>
 
         <section>
-          <PrivacyScope
-            scope="recentlyPlayed"
-            settings={user.value?.privacySettings!}
-            name={user.value?.displayName}
-          >
-            {/* TOOD: replace this with a recently streamed ui */}
-            {recentStreams.value?.length! > 0
-              ? recentStreams.value?.map((item) => <TrackListRow {...item} />)
-              : Array(8)
-                  .fill(null)
-                  .map(() => <TrackListRowSkeleton />)}
-          </PrivacyScope>
+          <NotEnoughData data={recentStreams.value}>
+            <PrivacyScope
+              scope="recentlyPlayed"
+              settings={user.value?.privacySettings!}
+              name={user.value?.displayName}
+            >
+              {/* TOOD: replace this with a recently streamed ui */}
+              {recentStreams.value?.length! > 0
+                ? recentStreams.value?.map((item) => <TrackListRow {...item} />)
+                : Array(8)
+                    .fill(null)
+                    .map(() => <TrackListRowSkeleton />)}
+            </PrivacyScope>
+          </NotEnoughData>
         </section>
       </Container>
     </>
