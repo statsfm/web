@@ -345,12 +345,12 @@ export default defineComponent(() => {
         </StickyHeader>
 
         <section>
-          <NotEnoughData data={topTracks.value}>
-            <PrivacyScope
-              scope="topTracks"
-              settings={user.value?.privacySettings!}
-              name={user.value?.displayName}
-            >
+          <PrivacyScope
+            scope="topTracks"
+            settings={user.value?.privacySettings!}
+            name={user.value?.displayName}
+          >
+            <NotEnoughData data={topTracks.value}>
               <Carousel rows={1} gap={16}>
                 {topTracks.value
                   ? topTracks.value.map((item) => (
@@ -366,8 +366,8 @@ export default defineComponent(() => {
                         </li>
                       ))}
               </Carousel>
-            </PrivacyScope>
-          </NotEnoughData>
+            </NotEnoughData>
+          </PrivacyScope>
         </section>
 
         {/* top artists */}
@@ -384,12 +384,12 @@ export default defineComponent(() => {
         </StickyHeader>
 
         <section>
-          <NotEnoughData data={topArtists.value}>
-            <PrivacyScope
-              scope="topArtists"
-              settings={user.value?.privacySettings!}
-              name={user.value?.displayName}
-            >
+          <PrivacyScope
+            scope="topArtists"
+            settings={user.value?.privacySettings!}
+            name={user.value?.displayName}
+          >
+            <NotEnoughData data={topArtists.value}>
               <Carousel rows={1} gap={16}>
                 {topArtists.value
                   ? topArtists.value?.map((item) => (
@@ -436,8 +436,8 @@ export default defineComponent(() => {
                         </li>
                       ))}
               </Carousel>
-            </PrivacyScope>
-          </NotEnoughData>
+            </NotEnoughData>
+          </PrivacyScope>
         </section>
 
         {/* top albums */}
@@ -454,12 +454,12 @@ export default defineComponent(() => {
         </StickyHeader>
 
         <section>
-          <NotEnoughData data={topAlbums.value}>
-            <PrivacyScope
-              scope="topAlbums"
-              settings={user.value?.privacySettings!}
-              name={user.value?.displayName}
-            >
+          <PrivacyScope
+            scope="topAlbums"
+            settings={user.value?.privacySettings!}
+            name={user.value?.displayName}
+          >
+            <NotEnoughData data={topAlbums.value}>
               <Carousel rows={1} gap={16}>
                 {topAlbums.value
                   ? topAlbums.value?.map((item) => (
@@ -507,8 +507,8 @@ export default defineComponent(() => {
                         </li>
                       ))}
               </Carousel>
-            </PrivacyScope>
-          </NotEnoughData>
+            </NotEnoughData>
+          </PrivacyScope>
         </section>
 
         {/* recent streams */}
@@ -524,20 +524,20 @@ export default defineComponent(() => {
         </StickyHeader>
 
         <section>
-          <NotEnoughData data={recentStreams.value}>
-            <PrivacyScope
-              scope="recentlyPlayed"
-              settings={user.value?.privacySettings!}
-              name={user.value?.displayName}
-            >
+          <PrivacyScope
+            scope="recentlyPlayed"
+            settings={user.value?.privacySettings!}
+            name={user.value?.displayName}
+          >
+            <NotEnoughData data={recentStreams.value}>
               {/* TOOD: replace this with a recently streamed ui */}
               {recentStreams.value?.length! > 0
                 ? recentStreams.value?.map((item) => <TrackListRow {...item} />)
                 : Array(8)
                     .fill(null)
                     .map(() => <TrackListRowSkeleton />)}
-            </PrivacyScope>
-          </NotEnoughData>
+            </NotEnoughData>
+          </PrivacyScope>
         </section>
       </Container>
     </>
