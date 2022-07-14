@@ -5,9 +5,11 @@
   >
     <div class="flip relative transition-transform duration-1000" :class="{ flipped }">
       <Card
-        class="face absolute flex aspect-[5/3] items-center justify-center bg-[url('/images/giftcard_pattern.svg')] bg-contain"
+        class="face absolute flex aspect-[5/3] items-center justify-center bg-bodySecundary bg-[url('/images/giftcard_pattern.svg')] bg-contain"
       >
-        <div class="h-[20rem]"></div>
+        <div class="text-center align-middle">
+          <span class="text-2xl font-medium">Click to redeem</span>
+        </div>
       </Card>
       <Card
         v-if="giftCode"
