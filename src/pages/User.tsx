@@ -154,7 +154,9 @@ FriendStatusButton.props = ['userId'];
 // });
 
 const PlusBadge = () => (
-  <span class="rounded-lg bg-primaryLighter p-1 py-0.5 text-sm text-primary">Spotistats Plus</span>
+  <span class="rounded-md bg-primaryLighter px-1.5 py-0.5 text-sm text-primary">
+    Spotistats Plus
+  </span>
 );
 
 export default defineComponent(() => {
