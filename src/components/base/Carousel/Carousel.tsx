@@ -1,5 +1,5 @@
 import { mdiChevronLeft, mdiChevronRight } from '@mdi/js';
-import { defineComponent, OlHTMLAttributes, ref, watchEffect } from 'vue';
+import { defineComponent, OlHTMLAttributes, onMounted, onUnmounted, ref, watchEffect } from 'vue';
 import Icon from '../Icon.vue';
 
 interface Props extends OlHTMLAttributes {
@@ -11,14 +11,24 @@ const Carousel = defineComponent<Props>(({ rows, gap }, { slots }) => {
   const scrollLeft = ref(0);
   const carouselRef = ref<HTMLUListElement>();
 
+  const handleScrollEvent = (e: Event) => {
+    scrollLeft.value = (e.target as any).scrollLeft;
+  };
+
+  onMounted(() => {
+    carouselRef.value?.addEventListener('scroll', handleScrollEvent);
+  });
+
+  onUnmounted(() => {
+    carouselRef.value?.removeEventListener('scroll', handleScrollEvent);
+  });
+
   const handlePreviousClick = () => {
-    carouselRef.value?.scrollBy(-carouselRef.value.clientWidth, 0);
-    scrollLeft.value = carouselRef.value?.scrollLeft || 0;
+    carouselRef.value?.scrollBy(-carouselRef.value?.clientWidth, 0);
   };
 
   const handleNextClick = () => {
-    carouselRef.value?.scrollBy(carouselRef.value.clientWidth, 0);
-    scrollLeft.value = carouselRef.value?.scrollLeft || 0;
+    carouselRef.value?.scrollBy(carouselRef.value?.clientWidth, 0);
   };
 
   return () => (
