@@ -1,4 +1,16 @@
-import { computed, defineComponent, FC, onBeforeMount, onMounted, ref, watchEffect } from 'vue';
+import {
+  computed,
+  defineComponent,
+  FC,
+  inject,
+  InjectionKey,
+  onBeforeMount,
+  onMounted,
+  provide,
+  Ref,
+  ref,
+  watchEffect
+} from 'vue';
 import * as statsfm from '@statsfm/statsfm.js';
 import dayjs from '../dayjs';
 import { mdiCloudOffOutline, mdiEyeOff, mdiFileImportOutline } from '@mdi/js';
@@ -24,34 +36,37 @@ import { useApi, useTitle, useUser } from '../hooks';
 import { RouterLink, useRoute, useRouter } from 'vue-router';
 import { useI18n } from 'vue-i18n';
 
-// TODO: maby inject the privacysettings instead of constantly passing it as a prop
+let UserContext: InjectionKey<Ref<statsfm.UserPublic>> = Symbol('UserContext');
+
 const PrivacyScope: FC<{
   scope: keyof statsfm.UserPrivacySettings;
-  settings: statsfm.UserPrivacySettings;
-  name?: string;
-}> = ({ scope, settings, name }, { slots }) => {
-  if (settings && settings[scope]) {
+}> = ({ scope }, { slots }) => {
+  const user = inject(UserContext);
+
+  console.log(user);
+
+  if (user?.value.privacySettings && user?.value.privacySettings[scope]) {
     return slots.default && slots.default();
   }
 
   return (
     <div class="grid w-full place-items-center">
       <Icon path={mdiEyeOff} />
-      <p class="m-0 text-textGrey">{name} doesn't share this</p>
+      <p class="m-0 text-textGrey">{user?.value.displayName} doesn't share this</p>
     </div>
   );
 };
 
 const ImportRequiredScope: FC<{
   imported?: boolean;
-  userId: string;
-}> = ({ imported = false, userId }, { slots }) => {
+}> = ({ imported = false }, { slots }) => {
+  const user = inject(UserContext);
   const currentUser = useUser();
 
   if (imported) return slots.default && slots.default();
 
   // TODO: look for a better way to implement getting the user context
-  if (userId == currentUser?.id || userId == 'me') {
+  if (user?.value.id == currentUser?.id || user?.value.id == 'me') {
     return (
       <div class="grid w-full place-items-center">
         <Icon path={mdiFileImportOutline} />
@@ -183,6 +198,7 @@ export default defineComponent(() => {
   onBeforeMount(async () => {
     // TODO: show not found screen but stay on same route
     user.value = await api.users.get(id).catch(() => router.push({ name: 'NotFound' }));
+
     // TOOD: think of a better way of fetching based on privacy settings
     recentStreams.value = user.value?.privacySettings!.recentlyPlayed
       ? await api.users.recentlyStreamed(id)
@@ -191,6 +207,8 @@ export default defineComponent(() => {
     // load data with weeks as default
     load(rangeRef.value);
   });
+
+  provide(UserContext, user);
 
   const load = async (range: statsfm.Range) => {
     rangeRef.value = range;
@@ -311,12 +329,8 @@ export default defineComponent(() => {
             onSelect={(value) => onRangeSelect(value as unknown as string)}
           />
 
-          <ImportRequiredScope imported={user.value?.hasImported} userId={id}>
-            <PrivacyScope
-              scope="streamStats"
-              settings={user.value?.privacySettings!}
-              name={user.value?.displayName}
-            >
+          <ImportRequiredScope imported={user.value?.hasImported}>
+            <PrivacyScope scope="streamStats">
               <ul class="grid grid-cols-2 gap-4 md:grid-cols-4">
                 {stats.value.length > 0
                   ? stats.value.map((item) => (
@@ -347,11 +361,7 @@ export default defineComponent(() => {
         </StickyHeader>
 
         <section>
-          <PrivacyScope
-            scope="topTracks"
-            settings={user.value?.privacySettings!}
-            name={user.value?.displayName}
-          >
+          <PrivacyScope scope="topTracks">
             <NotEnoughData data={topTracks.value}>
               <Carousel rows={1} gap={16}>
                 {topTracks.value
@@ -386,11 +396,7 @@ export default defineComponent(() => {
         </StickyHeader>
 
         <section>
-          <PrivacyScope
-            scope="topArtists"
-            settings={user.value?.privacySettings!}
-            name={user.value?.displayName}
-          >
+          <PrivacyScope scope="topArtists">
             <NotEnoughData data={topArtists.value}>
               <Carousel rows={1} gap={16}>
                 {topArtists.value
@@ -456,11 +462,7 @@ export default defineComponent(() => {
         </StickyHeader>
 
         <section>
-          <PrivacyScope
-            scope="topAlbums"
-            settings={user.value?.privacySettings!}
-            name={user.value?.displayName}
-          >
+          <PrivacyScope scope="topAlbums">
             <NotEnoughData data={topAlbums.value}>
               <Carousel rows={1} gap={16}>
                 {topAlbums.value
@@ -526,11 +528,7 @@ export default defineComponent(() => {
         </StickyHeader>
 
         <section>
-          <PrivacyScope
-            scope="recentlyPlayed"
-            settings={user.value?.privacySettings!}
-            name={user.value?.displayName}
-          >
+          <PrivacyScope scope="recentlyPlayed">
             <NotEnoughData data={recentStreams.value}>
               {/* TOOD: replace this with a recently streamed ui */}
               {recentStreams.value?.length! > 0
