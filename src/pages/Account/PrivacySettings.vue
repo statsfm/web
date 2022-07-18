@@ -9,7 +9,14 @@
         class="mb-5 flex w-full flex-row items-center justify-between"
       >
         <div class="whitespace-nowrap">
-          <h4>{{ setting }}</h4>
+          <h4>
+            {{
+              setting
+                .split(/(?=[A-Z])/)
+                .map((p) => p.toLowerCase())
+                .join(' ')
+            }}
+          </h4>
           <span>Some info about this setting</span>
         </div>
         <div class="flex items-center">
@@ -25,12 +32,16 @@
 
 <script lang="ts" setup>
 import * as statsfm from '@statsfm/statsfm.js';
-import { onBeforeMount, Ref, ref, watch } from 'vue';
+import { onBeforeMount, Ref, ref, watch, defineProps } from 'vue';
 import { useApi, useToaster } from '~/hooks';
 import Switch from '~/components/base/Switch/Switch.vue';
 
 const api = useApi();
 const toaster = useToaster();
+
+defineProps<{
+  setting: keyof statsfm.UserPrivacySettings;
+}>();
 
 const privacySettings: Ref<statsfm.UserPrivacySettings | undefined> = ref();
 
