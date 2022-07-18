@@ -43,8 +43,6 @@ const PrivacyScope: FC<{
 }> = ({ scope }, { slots }) => {
   const user = inject(UserContext);
 
-  console.log(user);
-
   if (user?.value.privacySettings && user?.value.privacySettings[scope]) {
     return slots.default && slots.default();
   }
