@@ -14,8 +14,7 @@
         </div>
         <div class="flex items-center">
           <Switch
-            :checked="true"
-            label="Public"
+            :checked="(privacySettings as any)[setting]"
             @checked="(privacySettings as any)[setting] = !value"
           />
         </div>
