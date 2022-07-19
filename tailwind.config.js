@@ -21,6 +21,10 @@ module.exports = {
         foreground: '#18181c',
         icon: '#727272',
       },
+      fontFamily: {
+        body: 'Open Sans',
+        heading: 'Open Sans',
+      },
     },
   },
   plugins: [],
