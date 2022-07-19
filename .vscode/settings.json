@@ -2,13 +2,12 @@
   "editor.tabSize": 2,
   "editor.detectIndentation": false,
   "editor.defaultFormatter": "dbaeumer.vscode-eslint",
-  "editor.formatOnSave": false,
+  "editor.formatOnSave": true,
   "editor.codeActionsOnSave": [
     "source.addMissingImports",
     "source.fixAll.eslint"
   ],
-  "[json][jsonc]": {
-    "editor.formatOnSave": true,
+  "[json][jsonc][typescriptreact]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   }
 }
