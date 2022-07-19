@@ -1,4 +1,4 @@
-import { FC } from 'vue';
+import { computed, FC } from 'vue';
 import * as statsfm from '@statsfm/statsfm.js';
 import { slugify } from '~/utils/slugify';
 import dayjs from '~/dayjs';
@@ -14,6 +14,10 @@ interface Props extends statsfm.TopArtist {}
 
 export const ArtistCard: FC<Props> = ({ playedMs, streams, position, artist }) => {
   const { t } = useI18n();
+
+  const minutes = computed(() =>
+    Math.floor(dayjs.duration(playedMs!, 'ms').asMinutes()).toLocaleString()
+  );
 
   return (
     <RouterLink
@@ -36,7 +40,7 @@ export const ArtistCard: FC<Props> = ({ playedMs, streams, position, artist }) =
               {playedMs && (
                 <span>
                   {t('minutes', {
-                    count: Math.floor(dayjs.duration(playedMs!, 'ms').asMinutes()).toLocaleString()
+                    count: minutes.value
                   })}{' '}
                   •{' '}
                 </span>
