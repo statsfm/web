@@ -14,7 +14,14 @@ module.exports = {
       '5xl': '3rem',
       '6xl': '4rem',
     },
-    extend: {},
+    extend: {
+      colors: {
+        primary: '#1ed760',
+        background: '#111112',
+        foreground: '#18181c',
+        icon: '#727272',
+      },
+    },
   },
   plugins: [],
 };
