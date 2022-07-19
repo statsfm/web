@@ -30,13 +30,14 @@ import Icon from '~/components/base/Icon.vue';
 import { TrackListRow, TrackListRowSkeleton } from '~/components/base/TrackListRow';
 import { Skeleton } from '~/components/base/Skeleton';
 import { Image } from '~/components/base/Image';
+import { ArtistCard, ArtistCardSkeleton } from '~/components/base/ArtistCard';
 
 // hooks
 import { useApi, useTitle, useUser } from '../hooks';
 import { RouterLink, useRoute, useRouter } from 'vue-router';
 import { useI18n } from 'vue-i18n';
 
-let UserContext: InjectionKey<Ref<statsfm.UserPublic>> = Symbol('UserContext');
+const UserContext: InjectionKey<Ref<statsfm.UserPublic>> = Symbol('UserContext');
 
 const PrivacyScope: FC<{
   scope: keyof statsfm.UserPrivacySettings;
@@ -399,57 +400,15 @@ export default defineComponent(() => {
               <Carousel rows={1} gap={16}>
                 {topArtists.value
                   ? topArtists.value?.map((item) => (
-                      // TODO: move to separate component
                       <li>
-                        <RouterLink
-                          to={{
-                            name: 'Artist',
-                            params: { id: item.artist.id, slug: slugify(item.artist.name) }
-                          }}
-                        >
-                          <div class="flex w-40 flex-col items-center">
-                            <Avatar
-                              key={item.artist.image}
-                              name={item.artist.name}
-                              src={item.artist.image}
-                              size="3xl"
-                            >
-                              <div class="rounded-lg bg-bodySecundary px-2 py-1">
-                                <h4 class="text-neutral-400">#{item.position}</h4>
-                              </div>
-                            </Avatar>
-
-                            <div class="mt-2 text-center">
-                              <h4>{item.artist.name}</h4>
-                              <p class="m-0 leading-tight line-clamp-2">
-                                <span>
-                                  {item.playedMs && (
-                                    <span>
-                                      {t('minutes', {
-                                        count: Math.floor(
-                                          dayjs.duration(item.playedMs!, 'ms').asMinutes()
-                                        ).toLocaleString()
-                                      })}{' '}
-                                      •{' '}
-                                    </span>
-                                  )}
-                                  <span>{t('streams', { count: item.streams })}</span>
-                                </span>
-                              </p>
-                            </div>
-                          </div>
-                        </RouterLink>
+                        <ArtistCard {...item} />
                       </li>
                     ))
                   : Array(10)
                       .fill(null)
                       .map(() => (
                         <li>
-                          <Skeleton.Avatar size="3xl" />
-
-                          <div class="mt-2 flex flex-col items-center gap-2">
-                            <Skeleton.Text width="6rem" />
-                          </div>
+                          <ArtistCardSkeleton />
                         </li>
                       ))}
               </Carousel>
