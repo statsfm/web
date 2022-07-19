@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@next/bundle-analyzer": "^12.2.1",
+    "clsx": "^1.2.1",
     "next": "12.2.1",
     "next-seo": "^5.4.0",
     "react": "18.2.0",
