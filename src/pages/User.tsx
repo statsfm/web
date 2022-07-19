@@ -421,10 +421,21 @@ export default defineComponent(() => {
 
                             <div class="mt-2 text-center">
                               <h4>{item.artist.name}</h4>
-                              {/* TOOD: add minutes played and streams count */}
-                              {/* <p class="m-0 line-clamp-2">
-                          <span>{item.playedMs}</span>
-                        </p> */}
+                              <p class="m-0 leading-tight line-clamp-2">
+                                <span>
+                                  {item.playedMs && (
+                                    <span>
+                                      {t('minutes', {
+                                        count: Math.floor(
+                                          dayjs.duration(item.playedMs!, 'ms').asMinutes()
+                                        ).toLocaleString()
+                                      })}{' '}
+                                      •{' '}
+                                    </span>
+                                  )}
+                                  <span>{t('streams', { count: item.streams })}</span>
+                                </span>
+                              </p>
                             </div>
                           </div>
                         </RouterLink>
