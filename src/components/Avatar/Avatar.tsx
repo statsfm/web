@@ -1,14 +1,14 @@
-import type { ImageProps as NextImageProps } from 'next/image';
 import Image from 'next/image';
 
 type Size = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' | '3xl' | '4xl';
 
-interface Props extends NextImageProps {
+interface Props {
   name: string;
   size: Size;
+  src: string;
 }
 
-export const sizes: Record<Size, number> = {
+const sizes: Record<Size, number> = {
   xs: 24,
   sm: 32,
   md: 48,
@@ -19,7 +19,9 @@ export const sizes: Record<Size, number> = {
   '4xl': 192,
 };
 
-const Avatar = ({ name, size, ...props }: Props) => {
+// TODO: conditionally render because src prop is not recieved
+// https://github.com/vercel/next.js/discussions/18531
+const Avatar = ({ name, size, src, ...props }: Props) => {
   const initials = name
     .match(/(\b\S)?/g)!
     .join('')
@@ -30,9 +32,11 @@ const Avatar = ({ name, size, ...props }: Props) => {
   return (
     <Image
       className="rounded-full"
+      objectFit="cover"
       width={sizes[size]}
       height={sizes[size]}
       alt={initials}
+      src={src}
       {...props}
     />
   );
