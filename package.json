@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@next/bundle-analyzer": "^12.2.1",
+    "@statsfm/statsfm.js": "^1.14.7",
     "@tailwindcss/line-clamp": "^0.4.0",
     "clsx": "^1.2.1",
     "next": "12.2.1",
