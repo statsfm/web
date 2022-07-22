@@ -1,14 +1,22 @@
 import Image from 'next/image';
 
-type Size = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' | '3xl' | '4xl';
+export type AvatarSize =
+  | 'xs'
+  | 'sm'
+  | 'md'
+  | 'lg'
+  | 'xl'
+  | '2xl'
+  | '3xl'
+  | '4xl';
 
 interface Props {
   name: string;
-  size: Size;
-  src: string;
+  size: AvatarSize;
+  src?: string;
 }
 
-const sizes: Record<Size, number> = {
+export const sizes: Record<AvatarSize, number> = {
   xs: 24,
   sm: 32,
   md: 48,
@@ -21,13 +29,24 @@ const sizes: Record<Size, number> = {
 
 // TODO: conditionally render because src prop is not recieved
 // https://github.com/vercel/next.js/discussions/18531
-const Avatar = ({ name, size, src, ...props }: Props) => {
+export const Avatar = ({ name, size, src, ...props }: Props) => {
   const initials = name
     .match(/(\b\S)?/g)!
     .join('')
     .match(/(^\S|\S$)?/g)!
     .join('')
     .toUpperCase();
+
+  if (!src) {
+    return (
+      <div
+        className="grid aspect-square place-items-center rounded-full bg-foreground"
+        style={{ width: sizes[size] }}
+      >
+        {initials}
+      </div>
+    );
+  }
 
   return (
     <Image
@@ -41,5 +60,3 @@ const Avatar = ({ name, size, src, ...props }: Props) => {
     />
   );
 };
-
-export default Avatar;
