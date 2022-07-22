@@ -13,8 +13,8 @@ export const ArtistCard = ({ playedMs, streams, artist }: Props) => {
   ).toLocaleString();
 
   return (
-    <Link href={`/artist/${artist.id}`}>
-      <div className="flex w-40 flex-col items-center">
+    <Link href={`/artist/${artist.id}`} passHref>
+      <a className="flex w-40 flex-col items-center">
         {artist.image && (
           <Avatar src={artist.image} name={artist.name} size="3xl" />
         )}
@@ -28,7 +28,7 @@ export const ArtistCard = ({ playedMs, streams, artist }: Props) => {
             </span>
           </p>
         </div>
-      </div>
+      </a>
     </Link>
   );
 };

@@ -14,8 +14,8 @@ export const TrackCard = ({ track, playedMs, streams }: Props) => {
   ).toLocaleString();
 
   return (
-    <Link href={`/track/${track.id}`}>
-      <div className="w-40">
+    <Link href={`/track/${track.id}`} passHref>
+      <a className="flex w-40 flex-col">
         <div className="aspect-square w-full group-hover:opacity-90">
           {track.albums[0]?.image && (
             <Image
@@ -40,7 +40,7 @@ export const TrackCard = ({ track, playedMs, streams }: Props) => {
             </span>
           </p>
         </div>
-      </div>
+      </a>
     </Link>
   );
 };
