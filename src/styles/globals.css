@@ -49,6 +49,9 @@
   }
 
   svg {
+    @apply text-icon w-6 h-6;
+  }
+}
 @layer utilities {
   .no-scrollbar::-webkit-scrollbar {
     display: none;
