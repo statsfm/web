@@ -12,7 +12,7 @@ export type AvatarSize =
 
 interface Props {
   name: string;
-  size: AvatarSize;
+  size?: AvatarSize;
   src?: string;
 }
 
@@ -29,7 +29,7 @@ export const sizes: Record<AvatarSize, number> = {
 
 // TODO: conditionally render because src prop is not recieved
 // https://github.com/vercel/next.js/discussions/18531
-export const Avatar = ({ name, size, src, ...props }: Props) => {
+export const Avatar = ({ name, size = 'md', src, ...props }: Props) => {
   const initials = name
     .match(/(\b\S)?/g)!
     .join('')
