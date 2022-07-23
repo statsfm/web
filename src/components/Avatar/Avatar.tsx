@@ -43,7 +43,7 @@ export const Avatar = ({ name, size = 'md', src, ...props }: Props) => {
         className="grid aspect-square place-items-center rounded-full bg-foreground"
         style={{ width: sizes[size] }}
       >
-        {initials}
+        <p>{initials}</p>
       </div>
     );
   }
