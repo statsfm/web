@@ -11,4 +11,7 @@ module.exports = withBundleAnalyzer({
   trailingSlash: true,
   basePath: '',
   reactStrictMode: true,
+  images: {
+    domains: ['i.scdn.co'],
+  },
 });
