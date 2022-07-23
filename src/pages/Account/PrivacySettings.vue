@@ -32,16 +32,12 @@
 
 <script lang="ts" setup>
 import * as statsfm from '@statsfm/statsfm.js';
-import { onBeforeMount, Ref, ref, watch, defineProps } from 'vue';
+import { onBeforeMount, Ref, ref, watch } from 'vue';
 import { useApi, useToaster } from '~/hooks';
 import Switch from '~/components/base/Switch/Switch.vue';
 
 const api = useApi();
 const toaster = useToaster();
-
-defineProps<{
-  setting: keyof statsfm.UserPrivacySettings;
-}>();
 
 const privacySettings: Ref<statsfm.UserPrivacySettings | undefined> = ref();
 
