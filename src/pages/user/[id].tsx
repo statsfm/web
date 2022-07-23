@@ -232,196 +232,199 @@ const User: NextPage<Props> = ({ user }) => {
         <title>{user.displayName}</title>
       </Head>
 
-    <UserContext.Provider value={user}>
-      <section className="flex flex-col items-center gap-5 pt-24 pb-10 md:flex-row">
-        <Avatar src={user.image} name={user.displayName} size="4xl" />
+      <UserContext.Provider value={user}>
+        <section className="flex flex-col items-center gap-5 pt-24 pb-10 md:flex-row">
+          <Avatar src={user.image} name={user.displayName} size="4xl" />
 
-        <div className="flex flex-col justify-end">
-          <span className="text-center text-lg font-medium md:text-left">
-            {user.privacySettings?.profile && user.profile?.pronouns}{' '}
-            {user.isPlus && <PlusBadge />}
-          </span>
-
-          <h1 className="text-center md:text-left">{user.displayName}</h1>
-
-          {user.privacySettings?.profile && (
-            <span className="text-center text-xl font-medium md:text-left">
-              {user.profile?.bio}
+          <div className="flex flex-col justify-end">
+            <span className="text-center text-lg font-medium md:text-left">
+              {user.privacySettings?.profile && user.profile?.pronouns}{' '}
+              {user.isPlus && <PlusBadge />}
             </span>
-          )}
-        </div>
-      </section>
 
-      <section className="flex flex-col justify-between gap-5 md:flex-row-reverse">
-        <SegmentedControls
-          className="w-1/6"
-          segments={[
-            { label: '4 weeks', value: statsfm.Range.WEEKS, ref: useRef() },
-            { label: '6 months', value: statsfm.Range.MONTHS, ref: useRef() },
-            { label: 'lifetime', value: statsfm.Range.LIFETIME, ref: useRef() },
-          ]}
-          onSegmentSelect={handleSegmentSelect}
-        />
+            <h1 className="text-center md:text-left">{user.displayName}</h1>
 
-        <ImportRequiredScope>
-          <PrivacyScope scope="streamStats">
-            <ul className="grid grid-cols-2 gap-4 md:grid-cols-4">
-              {stats.length > 0
-                ? stats.map((item, i) => (
+            {user.privacySettings?.profile && (
+              <span className="text-center text-xl font-medium md:text-left">
+                {user.profile?.bio}
+              </span>
+            )}
+          </div>
+        </section>
+
+        <section className="flex flex-col justify-between gap-5 md:flex-row-reverse">
+          <SegmentedControls
+            segments={[
+              { label: '4 weeks', value: statsfm.Range.WEEKS, ref: useRef() },
+              { label: '6 months', value: statsfm.Range.MONTHS, ref: useRef() },
+              {
+                label: 'lifetime',
+                value: statsfm.Range.LIFETIME,
+                ref: useRef(),
+              },
+            ]}
+            onSegmentSelect={handleSegmentSelect}
+          />
+
+          <ImportRequiredScope>
+            <PrivacyScope scope="streamStats">
+              <ul className="grid w-full grid-cols-2 gap-4 md:grid-cols-4">
+                {stats.length > 0
+                  ? stats.map((item, i) => (
+                      <li key={i}>
+                        <StatsCard {...item} />
+                      </li>
+                    ))
+                  : Array(3)
+                      .fill(null)
+                      .map((_n, i) => (
+                        <li key={i}>
+                          <StatsCardSkeleton />
+                        </li>
+                      ))}
+              </ul>
+            </PrivacyScope>
+          </ImportRequiredScope>
+        </section>
+
+        <Section
+          title="Top tracks"
+          description={`${
+            isCurrentUser ? 'Your' : `${user.displayName}'s`
+          } top tracks from the past ${ranges[range]}`}
+        >
+          <PrivacyScope scope="topTracks">
+            {/* <NotEnoughData data={topTracks}> */}
+            <Carousel gap={16} rows={1}>
+              {topTracks.length > 0
+                ? topTracks.map((item, i) => (
                     <li key={i}>
-                      <StatsCard {...item} />
+                      <TrackCard {...item} />
                     </li>
                   ))
-                : Array(3)
+                : Array(10)
                     .fill(null)
                     .map((_n, i) => (
                       <li key={i}>
-                        <StatsCardSkeleton />
+                        <TrackCardSkeleton />
+                      </li>
+                    ))}
+            </Carousel>
+            {/* </NotEnoughData> */}
+          </PrivacyScope>
+        </Section>
+
+        <Section
+          title="Top artists"
+          // TODO: pluralization
+          description={`${
+            isCurrentUser ? 'Your' : `${user.displayName}'s`
+          } top artists from the past ${ranges[range]}`}
+        >
+          <PrivacyScope scope="topArtists">
+            {/* <NotEnoughData data={topArtists}> */}
+            <Carousel gap={16} rows={1}>
+              {topArtists.length > 0
+                ? topArtists.map((item, i) => (
+                    <li key={i}>
+                      <ArtistCard {...item} />
+                    </li>
+                  ))
+                : Array(10)
+                    .fill(null)
+                    .map((_n, i) => (
+                      <li key={i}>
+                        <ArtistCardSkeleton />
+                      </li>
+                    ))}
+            </Carousel>
+            {/* </NotEnoughData> */}
+          </PrivacyScope>
+        </Section>
+
+        <Section
+          title="Top albums"
+          description={`${
+            isCurrentUser ? 'Your' : `${user.displayName}'s`
+          } top albums from the past ${ranges[range]}`}
+        >
+          <PrivacyScope scope="topAlbums">
+            {/* <NotEnoughData data={topAlbums}> */}
+            <Carousel rows={1} gap={16}>
+              {topAlbums && topAlbums.length > 0
+                ? topAlbums.map((item, i) => (
+                    // TODO: move to separate component
+                    <li key={i}>
+                      <Link href={`/album/${item.album.id}`}>
+                        <div className="w-40">
+                          <div className="aspect-square w-full group-hover:opacity-90">
+                            {item.album.image && (
+                              <Image
+                                src={item.album.image}
+                                width={160}
+                                height={160}
+                                alt={item.album.name}
+                                className="aspect-square"
+                              />
+                            )}
+                          </div>
+                          <div className="mt-2">
+                            <h4 className="line-clamp-2">{item.album.name}</h4>
+                            <p className="m-0 truncate">
+                              {Math.floor(
+                                dayjs.duration(item.playedMs!, 'ms').asMinutes()
+                              ).toLocaleString()}{' '}
+                              minutes • {item.streams} streams
+                            </p>
+                          </div>
+                        </div>
+                      </Link>
+                    </li>
+                  ))
+                : Array(10)
+                    .fill(null)
+                    .map((_n, i) => (
+                      <li key={i}>
+                        <Skeleton.Image width="10rem" height="10rem" />
+                        <div className="mt-2 flex flex-col gap-2">
+                          <Skeleton.Text width="9rem" />
+                          <Skeleton.Text width="6.5rem" />
+                        </div>
+                      </li>
+                    ))}
+            </Carousel>
+            {/* </NotEnoughData> */}
+          </PrivacyScope>
+        </Section>
+
+        <Section
+          title="Recent streams"
+          description={`${
+            isCurrentUser ? 'Your' : `${user.displayName}'s`
+          } recently played tracks`}
+        >
+          <PrivacyScope scope="recentlyPlayed">
+            {/* <NotEnoughData data={recentStreams.value}> */}
+            <ul>
+              {recentStreams.length > 0
+                ? recentStreams.map((item, i) => (
+                    <li key={i}>
+                      <TrackListRow {...item} />
+                    </li>
+                  ))
+                : Array(8)
+                    .fill(null)
+                    .map((_n, i) => (
+                      <li key={i}>
+                        <TrackListRowSkeleton />
                       </li>
                     ))}
             </ul>
+
+            {/* </NotEnoughData> */}
           </PrivacyScope>
-        </ImportRequiredScope>
-      </section>
-
-      <Section
-        title="Top tracks"
-        description={`${
-          isCurrentUser ? 'Your' : `${user.displayName}'s`
-        } top tracks from the past ${ranges[range]}`}
-      >
-        <PrivacyScope scope="topTracks">
-          {/* <NotEnoughData data={topTracks}> */}
-          <Carousel gap={16} rows={1}>
-            {topTracks.length > 0
-              ? topTracks.map((item, i) => (
-                  <li key={i}>
-                    <TrackCard {...item} />
-                  </li>
-                ))
-              : Array(10)
-                  .fill(null)
-                  .map((_n, i) => (
-                    <li key={i}>
-                      <TrackCardSkeleton />
-                    </li>
-                  ))}
-          </Carousel>
-          {/* </NotEnoughData> */}
-        </PrivacyScope>
-      </Section>
-
-      <Section
-        title="Top artists"
-        // TODO: pluralization
-        description={`${
-          isCurrentUser ? 'Your' : `${user.displayName}'s`
-        } top artists from the past ${ranges[range]}`}
-      >
-        <PrivacyScope scope="topArtists">
-          {/* <NotEnoughData data={topArtists}> */}
-          <Carousel gap={16} rows={1}>
-            {topArtists.length > 0
-              ? topArtists.map((item, i) => (
-                  <li key={i}>
-                    <ArtistCard {...item} />
-                  </li>
-                ))
-              : Array(10)
-                  .fill(null)
-                  .map((_n, i) => (
-                    <li key={i}>
-                      <ArtistCardSkeleton />
-                    </li>
-                  ))}
-          </Carousel>
-          {/* </NotEnoughData> */}
-        </PrivacyScope>
-      </Section>
-
-      <Section
-        title="Top albums"
-        description={`${
-          isCurrentUser ? 'Your' : `${user.displayName}'s`
-        } top albums from the past ${ranges[range]}`}
-      >
-        <PrivacyScope scope="topAlbums">
-          {/* <NotEnoughData data={topAlbums}> */}
-          <Carousel rows={1} gap={16}>
-            {topAlbums && topAlbums.length > 0
-              ? topAlbums.map((item, i) => (
-                  // TODO: move to separate component
-                  <li key={i}>
-                    <Link href={`/album/${item.album.id}`}>
-                      <div className="w-40">
-                        <div className="aspect-square w-full group-hover:opacity-90">
-                          {item.album.image && (
-                            <Image
-                              src={item.album.image}
-                              width={160}
-                              height={160}
-                              alt={item.album.name}
-                              className="aspect-square"
-                            />
-                          )}
-                        </div>
-                        <div className="mt-2">
-                          <h4 className="line-clamp-2">{item.album.name}</h4>
-                          <p className="m-0 truncate">
-                            {Math.floor(
-                              dayjs.duration(item.playedMs!, 'ms').asMinutes()
-                            ).toLocaleString()}{' '}
-                            minutes • {item.streams} streams
-                          </p>
-                        </div>
-                      </div>
-                    </Link>
-                  </li>
-                ))
-              : Array(10)
-                  .fill(null)
-                  .map((_n, i) => (
-                    <li key={i}>
-                      <Skeleton.Image width="10rem" height="10rem" />
-                      <div className="mt-2 flex flex-col gap-2">
-                        <Skeleton.Text width="9rem" />
-                        <Skeleton.Text width="6.5rem" />
-                      </div>
-                    </li>
-                  ))}
-          </Carousel>
-          {/* </NotEnoughData> */}
-        </PrivacyScope>
-      </Section>
-
-      <Section
-        title="Recent streams"
-        description={`${
-          isCurrentUser ? 'Your' : `${user.displayName}'s`
-        } recently played tracks`}
-      >
-        <PrivacyScope scope="recentlyPlayed">
-          {/* <NotEnoughData data={recentStreams.value}> */}
-          <ul>
-            {recentStreams.length > 0
-              ? recentStreams.map((item, i) => (
-                  <li key={i}>
-                    <TrackListRow {...item} />
-                  </li>
-                ))
-              : Array(8)
-                  .fill(null)
-                  .map((_n, i) => (
-                    <li key={i}>
-                      <TrackListRowSkeleton />
-                    </li>
-                  ))}
-          </ul>
-
-          {/* </NotEnoughData> */}
-        </PrivacyScope>
-      </Section>
-    </UserContext.Provider>
+        </Section>
+      </UserContext.Provider>
     </>
   );
 };
