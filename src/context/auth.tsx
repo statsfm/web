@@ -75,9 +75,7 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
 
   // set the token and fetch the user signed in with the token
   useEffect(() => {
-    console.log('token effect', token);
     if (token) {
-      console.log('has token');
       localStorage.setItem('token', token);
       api.http.config.accessToken = token;
 
