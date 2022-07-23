@@ -19,6 +19,7 @@ import { Skeleton } from '@/components/Skeleton';
 import { TrackListRow, TrackListRowSkeleton } from '@/components/TrackListRow';
 import { useApi } from '@/hooks/use-api';
 import { useAuth } from '@/hooks';
+import Head from 'next/head';
 
 interface Props {
   user: statsfm.UserPublic;
@@ -225,6 +226,12 @@ const User: NextPage<Props> = ({ user }) => {
   };
 
   return (
+    <>
+      {/* TODO: move to a hook so we can use a base title */}
+      <Head>
+        <title>{user.displayName}</title>
+      </Head>
+
     <UserContext.Provider value={user}>
       <section className="flex flex-col items-center gap-5 pt-24 pb-10 md:flex-row">
         <Avatar src={user.image} name={user.displayName} size="4xl" />
@@ -415,6 +422,7 @@ const User: NextPage<Props> = ({ user }) => {
         </PrivacyScope>
       </Section>
     </UserContext.Provider>
+    </>
   );
 };
 
