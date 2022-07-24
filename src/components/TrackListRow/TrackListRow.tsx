@@ -1,7 +1,7 @@
-import type * as statsfm from '@statsfm/statsfm.js';
-import dayjs from 'dayjs';
-import Image from 'next/image';
 import Link from 'next/link';
+import type * as statsfm from '@statsfm/statsfm.js';
+import Image from 'next/image';
+import dayjs from '@/utils/dayjs';
 
 interface Props {
   track: statsfm.Track;
@@ -17,35 +17,40 @@ export const TrackListRow = ({ track, streams, endTime }: Props) => {
         className="flex max-w-full items-center justify-between"
         passHref
       >
-        <a className="flex justify-between">
-          <div className="flex items-center gap-3">
-            {track.albums[0]?.image && (
-              <Image
-                src={track.albums[0].image}
-                alt={track.name}
-                width={48}
-                height={48}
-              />
-            )}
+        <a>
+          <div className="flex justify-between">
+            <div className="flex items-center gap-3">
+              {track.albums[0]?.image && (
+                <Image
+                  width={48}
+                  height={48}
+                  alt={track.name}
+                  src={track.albums[0]?.image}
+                />
+              )}
 
-            <div className="truncate leading-tight">
-              <h4 className="truncate">{track.name}</h4>
-              <p className="m-0 truncate">
-                {/* TODO: list all artist */}
-                {track.artists[0]?.name} • {track.albums[0]?.name}
-                {streams && ` • ${streams} streams`}
-              </p>
+              <div className="truncate leading-tight">
+                <h4 className="truncate">{track.name}</h4>
+                <p className="m-0 truncate">
+                  {/* TODO: list all artist */}
+                  {track.artists[0]?.name} • {track.albums[0]?.name}
+                  {streams !== undefined && ` • ${streams}x streamed`}
+                </p>
+              </div>
             </div>
+
+            <p className="text-right">
+              {endTime
+                ? dayjs(endTime).fromNow()
+                : dayjs
+                    .duration(track.durationMs, 'milliseconds')
+                    .format('m:ss')}
+            </p>
           </div>
 
-          <p className="text-right">
-            {endTime
-              ? dayjs(endTime).fromNow()
-              : dayjs.duration(track.durationMs, 'milliseconds').format('m:ss')}
-          </p>
+          <hr className="my-3 border-foreground" />
         </a>
       </Link>
-      <hr className="my-3 border-foreground" />
     </>
   );
 };
