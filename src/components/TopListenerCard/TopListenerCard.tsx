@@ -17,16 +17,14 @@ const TopListenerCard = ({ user, position, playedMs, streams }: Props) => {
     <Link href={`/user/${user.id}`} passHref>
       <a className="flex w-40 flex-col items-center">
         <Avatar src={user.image} name={user.displayName} size="3xl">
-          <div className="rounded-lg bg-black">
-            <span
-              className={clsx(
-                'rounded-lg bg-foreground px-2 py-1.5 text-lg drop-shadow-lg',
-                positions[position]
-              )}
-            >
-              #{position}
-            </span>
-          </div>
+          <span
+            className={clsx(
+              'rounded-lg bg-foreground px-2 py-1.5 text-lg drop-shadow-lg',
+              positions[position]
+            )}
+          >
+            #{position}
+          </span>
         </Avatar>
 
         <div className="mt-2 text-center">
