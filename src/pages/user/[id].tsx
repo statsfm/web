@@ -245,7 +245,7 @@ const User: NextPage<Props> = ({ user }) => {
             <h1 className="text-center md:text-left">{user.displayName}</h1>
 
             {user.privacySettings?.profile && (
-              <span className="text-center text-xl font-medium md:text-left">
+              <span className="text-center text-lg md:text-left">
                 {user.profile?.bio}
               </span>
             )}
