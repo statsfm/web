@@ -12,6 +12,17 @@ module.exports = withBundleAnalyzer({
   basePath: '',
   reactStrictMode: true,
   images: {
-    domains: ['i.scdn.co'],
+    domains: [
+      'i.scdn.co',
+      'platform-lookaside.fbsbx.com',
+      'scontent-cdt1-1.xx.fbcdn.net',
+      'scontent-cdg2-1.xx.fbcdn.net',
+      'scontent-frt3-1.xx.fbcdn.net',
+      'scontent.flux1-1.fna.fbcdn.net',
+      'scontent-frx5-1.xx.fbcdn.net',
+      'scontent-amt2-1.xx.fbcdn.net',
+      'scontent-ams4-1.xx.fbcdn.net',
+    ],
+  },
   },
 });
