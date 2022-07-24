@@ -48,10 +48,12 @@ export const Avatar = ({
   if (!src) {
     return (
       <div
-        className="grid aspect-square place-items-center rounded-full bg-foreground"
+        className="relative grid aspect-square place-items-center rounded-full bg-foreground"
         style={{ width: sizes[size] }}
       >
         <p>{initials}</p>
+
+        <div className="absolute bottom-0 right-0">{children}</div>
       </div>
     );
   }
