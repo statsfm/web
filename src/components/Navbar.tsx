@@ -17,7 +17,11 @@ export const NavBar = () => {
       </Link>
 
       {user ? (
-        <Avatar name={user.displayName} src={user.image} />
+        <Link href={`/user/${user.customId ?? user.id}`} passHref>
+          <a>
+            <Avatar name={user.displayName} src={user.image} />
+          </a>
+        </Link>
       ) : (
         <Link href="/login">
           <Button>Log in</Button>
