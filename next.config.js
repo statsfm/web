@@ -24,5 +24,9 @@ module.exports = withBundleAnalyzer({
       'scontent-ams4-1.xx.fbcdn.net',
     ],
   },
+  experimental: {
+    images: {
+      allowFutureImage: true,
+    },
   },
 });
