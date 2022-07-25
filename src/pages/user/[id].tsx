@@ -85,7 +85,10 @@ const PrivacyScope = ({
   );
 };
 
-const ImportRequiredScope = ({ children }: PropsWithChildren) => {
+const ImportRequiredScope = ({
+  placeholder,
+  children,
+}: PropsWithChildren<{ placeholder?: JSX.Element }>) => {
   const user = useUserContext('ImportRequiredScope');
   // the currently logged in user
   const { user: currentUser } = useAuth();
@@ -97,17 +100,18 @@ const ImportRequiredScope = ({ children }: PropsWithChildren) => {
   // TODO: look for a better way to implement getting the user context
   if (user.id === currentUser?.id || user.id === 'me') {
     return (
-      <div className="grid w-full place-items-center">
-        {/* <Icon path={mdiFileImportOutline} /> */}
+      <div className="relative w-full">
+        <div className="blur-sm">{placeholder}</div>
 
-        {/* TODO: add a blurred feature preview */}
-        <p className="m-0 text-text-grey">
-          This feature requires{' '}
-          {/* TODO: replace the link with a router link */}
-          <a className="underline" href="https://stats.fm/import">
-            import of streams
-          </a>
-        </p>
+        <div className="absolute inset-0 grid place-items-center">
+          <p className="m-0">
+            This feature requires{' '}
+            {/* TODO: replace the link with a router link */}
+            <a className="underline" href="https://stats.fm/import">
+              import of streams
+            </a>
+          </p>
+        </div>
       </div>
     );
   }
@@ -266,7 +270,27 @@ const User: NextPage<Props> = ({ user }) => {
             onSegmentSelect={handleSegmentSelect}
           />
 
-          <ImportRequiredScope>
+          <ImportRequiredScope
+            placeholder={
+              <ul className="grid w-full grid-cols-2 gap-4 md:grid-cols-4">
+                {Array(3)
+                  .fill(null)
+                  .map((_n, i) => (
+                    <li key={i}>
+                      <StatsCard
+                        // TODO: better way of implementing this
+                        label={
+                          ['minutes streamed', 'hours streamed', 'streams'][
+                            Math.floor(Math.random() * 3)
+                          ]!
+                        }
+                        value="?"
+                      />
+                    </li>
+                  ))}
+              </ul>
+            }
+          >
             <PrivacyScope scope="streamStats">
               <ul className="grid w-full grid-cols-2 gap-4 md:grid-cols-4">
                 {stats.length > 0
