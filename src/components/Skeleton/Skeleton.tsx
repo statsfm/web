@@ -13,7 +13,7 @@ const animations: Record<Animation, string> = {
   pulse: 'animate-pulse',
 };
 
-interface ImageProps extends DefaultProps {
+export interface ImageProps extends DefaultProps {
   width: string;
   height: string;
 }
@@ -28,7 +28,7 @@ export const Image = ({ animation = 'pulse', width, height }: ImageProps) => (
   />
 );
 
-interface TextProps extends DefaultProps {
+export interface TextProps extends DefaultProps {
   width: string;
 }
 
@@ -42,7 +42,7 @@ export const Text = ({ animation = 'pulse', width }: TextProps) => (
   />
 );
 
-interface AvatarProps extends DefaultProps {
+export interface AvatarProps extends DefaultProps {
   size?: AvatarSize;
 }
 
