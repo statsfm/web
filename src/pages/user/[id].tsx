@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useRef, useState } from 'react';
+import { createContext, useContext, useEffect, useState } from 'react';
 import type { PropsWithChildren } from 'react';
 import dayjs from 'dayjs';
 import type { GetServerSideProps, NextPage } from 'next';
@@ -20,6 +20,7 @@ import { TrackListRow, TrackListRowSkeleton } from '@/components/TrackListRow';
 import { useApi } from '@/hooks/use-api';
 import { useAuth } from '@/hooks';
 import Head from 'next/head';
+import Segment from '@/components/SegmentedControls/Segment';
 
 interface Props {
   user: statsfm.UserPublic;
@@ -257,18 +258,11 @@ const User: NextPage<Props> = ({ user }) => {
         </section>
 
         <section className="flex flex-col justify-between gap-5 md:flex-row-reverse">
-          <SegmentedControls
-            segments={[
-              { label: '4 weeks', value: statsfm.Range.WEEKS, ref: useRef() },
-              { label: '6 months', value: statsfm.Range.MONTHS, ref: useRef() },
-              {
-                label: 'lifetime',
-                value: statsfm.Range.LIFETIME,
-                ref: useRef(),
-              },
-            ]}
-            onSegmentSelect={handleSegmentSelect}
-          />
+          <SegmentedControls onChange={handleSegmentSelect}>
+            <Segment value={statsfm.Range.WEEKS}>4 weeks</Segment>
+            <Segment value={statsfm.Range.MONTHS}>6 months</Segment>
+            <Segment value={statsfm.Range.LIFETIME}>lifetime</Segment>
+          </SegmentedControls>
 
           <ImportRequiredScope
             placeholder={
@@ -292,7 +286,7 @@ const User: NextPage<Props> = ({ user }) => {
             }
           >
             <PrivacyScope scope="streamStats">
-              <ul className="grid w-full grid-cols-2 gap-4 md:grid-cols-4">
+              <ul className="grid w-4/6 grid-cols-2 gap-4 md:grid-cols-4">
                 {stats.length > 0
                   ? stats.map((item, i) => (
                       <li key={i}>
