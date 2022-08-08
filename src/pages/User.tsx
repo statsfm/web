@@ -33,7 +33,7 @@ import { Image } from '~/components/base/Image';
 import { ArtistCard, ArtistCardSkeleton } from '~/components/base/ArtistCard';
 
 // hooks
-import { useApi, useTitle, useUser } from '../hooks';
+import { useApi, useAuth, useTitle, useUser } from '../hooks';
 import { RouterLink, useRoute, useRouter } from 'vue-router';
 import { useI18n } from 'vue-i18n';
 
@@ -175,6 +175,7 @@ const PlusBadge = () => (
 
 export default defineComponent(() => {
   const api = useApi();
+  const auth = useAuth();
   // TODO: rename
   // the currently signed in user
   const currentUser = useUser();
@@ -278,7 +279,7 @@ export default defineComponent(() => {
               )}
 
               {/* TOOD: look why we can't use the custom id as id */}
-              {!isCurrentUser.value && <FriendStatusButton class="mt-3" userId={user.value.id} />}
+              {auth.isLoggedIn() && !isCurrentUser.value && <FriendStatusButton class="mt-3" userId={user.value.id} />}
 
               {/* TODO: look if connections can be scoped (privacy) */}
               {/* <ul>
