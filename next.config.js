@@ -29,4 +29,12 @@ module.exports = withBundleAnalyzer({
       allowFutureImage: true,
     },
   },
+  async rewrites() {
+    return [
+      {
+        source: '/:id',
+        destination: '/user/:id',
+      },
+    ];
+  },
 });

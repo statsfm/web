@@ -35,7 +35,8 @@ export const getServerSideProps: GetServerSideProps<Props> = async (ctx) => {
     throw new Error('no param id recieved');
   }
 
-  const user = await api.users.get(id);
+  const user = await api.users.get(id).catch(() => {});
+  if (!user) return { notFound: true };
 
   return {
     props: {
