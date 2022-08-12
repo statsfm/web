@@ -14,7 +14,7 @@ import { Carousel } from '@/components/Carousel';
 import { Avatar } from '@/components/Avatar';
 import { MdVisibilityOff } from 'react-icons/md';
 import Link from 'next/link';
-import Image from 'next/image';
+import { Image } from '@/components/Image';
 import { Skeleton } from '@/components/Skeleton';
 import { TrackListRow, TrackListRowSkeleton } from '@/components/TrackListRow';
 import { useApi } from '@/hooks/use-api';

@@ -1,6 +1,6 @@
 import type * as statsfm from '@statsfm/statsfm.js';
 import dayjs from '@/utils/dayjs';
-import Image from 'next/image';
+import { Image } from '@/components/Image';
 import Link from 'next/link';
 
 interface Props extends Partial<Omit<statsfm.TopTrack, 'track'>> {

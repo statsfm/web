@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import Image from 'next/future/image';
+import { Image } from '@/components/Image';
 import type { PropsWithChildren } from 'react';
 
 export type AvatarSize =

@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import type * as statsfm from '@statsfm/statsfm.js';
-import Image from 'next/image';
+import { Image } from '@/components/Image';
 import dayjs from '@/utils/dayjs';
 
 interface Props {
