@@ -20,7 +20,7 @@ import { TrackListRow, TrackListRowSkeleton } from '@/components/TrackListRow';
 import { useApi } from '@/hooks/use-api';
 import { useAuth } from '@/hooks';
 import Head from 'next/head';
-import Segment from '@/components/SegmentedControls/Segment';
+import { AlbumCard, AlbumCardSkeleton } from '@/components/AlbumCard';
 
 interface Props {
   user: statsfm.UserPublic;
@@ -372,43 +372,15 @@ const User: NextPage<Props> = ({ user }) => {
             <Carousel rows={1} gap={16}>
               {topAlbums && topAlbums.length > 0
                 ? topAlbums.map((item, i) => (
-                    // TODO: move to separate component
                     <li key={i}>
-                      <Link href={`/album/${item.album.id}`}>
-                        <div className="w-40">
-                          <div className="aspect-square w-full group-hover:opacity-90">
-                            {item.album.image && (
-                              <Image
-                                src={item.album.image}
-                                width={160}
-                                height={160}
-                                alt={item.album.name}
-                                className="aspect-square"
-                              />
-                            )}
-                          </div>
-                          <div className="mt-2">
-                            <h4 className="line-clamp-2">{item.album.name}</h4>
-                            <p className="m-0 truncate">
-                              {Math.floor(
-                                dayjs.duration(item.playedMs!, 'ms').asMinutes()
-                              ).toLocaleString()}{' '}
-                              minutes • {item.streams} streams
-                            </p>
-                          </div>
-                        </div>
-                      </Link>
+                      <AlbumCard {...item} />
                     </li>
                   ))
                 : Array(10)
                     .fill(null)
                     .map((_n, i) => (
                       <li key={i}>
-                        <Skeleton.Image width="10rem" height="10rem" />
-                        <div className="mt-2 flex flex-col gap-2">
-                          <Skeleton.Text width="9rem" />
-                          <Skeleton.Text width="6.5rem" />
-                        </div>
+                        <AlbumCardSkeleton />
                       </li>
                     ))}
             </Carousel>
