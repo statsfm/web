@@ -7,9 +7,10 @@ interface Props {
   track: statsfm.Track;
   streams?: number;
   endTime?: Date;
+  playedMs?: number;
 }
 
-export const TrackListRow = ({ track, streams, endTime }: Props) => {
+export const TrackListRow = ({ track, streams, endTime, playedMs }: Props) => {
   return (
     <>
       <Link
@@ -35,6 +36,8 @@ export const TrackListRow = ({ track, streams, endTime }: Props) => {
                   {/* TODO: list all artist */}
                   {track.artists[0]?.name} • {track.albums[0]?.name}
                   {streams !== undefined && ` • ${streams}x streamed`}
+                  {playedMs &&
+                    ` • listened for ${dayjs(playedMs).format('m:ss')}`}
                 </p>
               </div>
             </div>
