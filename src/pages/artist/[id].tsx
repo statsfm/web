@@ -17,6 +17,7 @@ import {
 import { TrackListRow, TrackListRowSkeleton } from '@/components/TrackListRow';
 import TopListenerCard from '@/components/TopListenerCard/TopListenerCard';
 import { TopListenerCardSkeleton } from '@/components/TopListenerCard';
+import { RecentStreams } from '@/components/RecentStreams';
 
 const MoreTracks = ({
   artist,
@@ -142,6 +143,7 @@ const Artist: NextPage<Props> = ({ artist }) => {
   const [topTracks, setTopTracks] = useState<statsfm.Track[]>([]);
   const [topListeners, setTopListeners] = useState<statsfm.TopUser[]>([]);
   const [related, setRelated] = useState<statsfm.Artist[]>([]);
+  const [streams, setStreams] = useState<statsfm.Stream[]>([]);
 
   useEffect(() => {
     (async () => {
@@ -152,6 +154,7 @@ const Artist: NextPage<Props> = ({ artist }) => {
           .then((res) => res.data.items)
       );
       setRelated(await api.artists.related(artist.id));
+      setStreams(await api.users.artistStreams('martijn', artist.id));
     })();
   }, []);
 
@@ -245,6 +248,25 @@ const Artist: NextPage<Props> = ({ artist }) => {
       </Section>
 
       <MoreTracks artist={artist} tracks={topTracks} />
+
+      <Section
+        title="Your streams"
+        description={`Your streams featuring ${artist.name}`}
+      >
+        <ul>
+          {streams.length > 0 ? (
+            <RecentStreams streams={streams} />
+          ) : (
+            Array(10)
+              .fill(null)
+              .map((_n, i) => (
+                <li key={i}>
+                  <TrackListRowSkeleton />
+                </li>
+              ))
+          )}
+        </ul>
+      </Section>
     </>
   );
 };
