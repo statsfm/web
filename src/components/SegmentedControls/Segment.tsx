@@ -7,7 +7,14 @@ interface Props {
   value: string;
 }
 
-const Segment = ({ value, children }: PropsWithChildren<Props>) => {
+type NativeAttrs = Omit<React.HTMLAttributes<HTMLLIElement>, keyof Props>;
+export type SegmentProps = Props & NativeAttrs;
+
+const Segment = ({
+  value,
+  children,
+  ...props
+}: PropsWithChildren<SegmentProps>) => {
   const { register, unregister, highlight, set, active } =
     useSegmentedControlsContext();
 
@@ -38,6 +45,7 @@ const Segment = ({ value, children }: PropsWithChildren<Props>) => {
         active === id ? 'text-primary' : 'text-white'
       )}
       onClick={handleChange}
+      {...props}
     >
       {children}
     </li>
