@@ -11,6 +11,7 @@ export const Section = ({
   description,
   rightHeaderContent,
   children,
+  ...props
 }: PropsWithChildren<Props>) => {
   return (
     <section>
@@ -23,7 +24,7 @@ export const Section = ({
         {rightHeaderContent}
       </header>
 
-      <main>{children}</main>
+      <main {...props}>{children}</main>
     </section>
   );
 };
