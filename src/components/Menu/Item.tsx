@@ -9,10 +9,11 @@ import { useMenuContext } from './context';
 import type { MenuItemDataRef } from './MenuRoot';
 import { ActivationTrigger, ActionType, Focus } from './MenuRoot';
 
-export interface ItemProps extends HTMLAttributes<HTMLLIElement> {
+export interface ItemProps
+  extends Omit<HTMLAttributes<HTMLLIElement>, 'onClick'> {
   disabled?: boolean;
 
-  onClick?: (value: string) => void;
+  onClick: (value: string) => void;
 }
 
 export const Item = ({
@@ -51,6 +52,7 @@ export const Item = ({
 
   const handleClick: MouseEventHandler = (e) => {
     if (disabled) e.preventDefault();
+    onClick(bag.current.value ?? '');
     dispatch({ type: ActionType.Focus, focus: Focus.Specific, id });
   };
 
