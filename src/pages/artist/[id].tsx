@@ -64,8 +64,8 @@ const MoreTracks = ({
   const { sorted, setSortKey } = useSort(tracks, sortOptions);
   const { data, toggle, showAll } = useLessOrAll(sorted, limit);
 
-  const handleSortChange: ChangeEventHandler<HTMLSelectElement> = (e) => {
-    setSortKey(e.target.value);
+  const handleSortChange = (value: string) => {
+    setSortKey(value);
   };
 
   return (
@@ -81,7 +81,9 @@ const MoreTracks = ({
 
           <Menu.Items>
           {sortOptions.map((option, i) => (
-              <Menu.Item key={i}>{option.label}</Menu.Item>
+              <Menu.Item onClick={handleSortChange} key={i}>
+                {option.label}
+              </Menu.Item>
           ))}
           </Menu.Items>
         </Menu>
