@@ -7,7 +7,6 @@ import Head from 'next/head';
 import { Chip, ChipGroup } from '@/components/Chip';
 import { Section } from '@/components/Section';
 import { Carousel } from '@/components/Carousel';
-import type { ChangeEventHandler } from 'react';
 import { useEffect, useState } from 'react';
 import { TrackCard, TrackCardSkeleton } from '@/components/TrackCard';
 import {
@@ -80,11 +79,11 @@ const MoreTracks = ({
           </Menu.Button>
 
           <Menu.Items>
-          {sortOptions.map((option, i) => (
+            {sortOptions.map((option, i) => (
               <Menu.Item onClick={handleSortChange} key={i}>
                 {option.label}
               </Menu.Item>
-          ))}
+            ))}
           </Menu.Items>
         </Menu>
       }
