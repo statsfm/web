@@ -18,6 +18,8 @@ import { TrackListRow, TrackListRowSkeleton } from '@/components/TrackListRow';
 import TopListenerCard from '@/components/TopListenerCard/TopListenerCard';
 import { TopListenerCardSkeleton } from '@/components/TopListenerCard';
 import { RecentStreams } from '@/components/RecentStreams';
+import { Menu } from '@/components/Menu';
+import { MdSort } from 'react-icons/md';
 
 const MoreTracks = ({
   artist,
@@ -71,19 +73,18 @@ const MoreTracks = ({
       title="More tracks"
       description={`More tracks by ${artist.name}`}
       rightHeaderContent={
-        // TODO: replace with a Menu
-        <select
-          name="sort"
-          id="sort"
-          className="cursor-pointer appearance-none rounded-xl bg-foreground p-2 font-semibold"
-          onChange={handleSortChange}
-        >
+        <Menu>
+          <Menu.Button>
+            <MdSort />
+            Sort
+          </Menu.Button>
+
+          <Menu.Items>
           {sortOptions.map((option, i) => (
-            <option key={i} value={option.value}>
-              {option.label}
-            </option>
+              <Menu.Item key={i}>{option.label}</Menu.Item>
           ))}
-        </select>
+          </Menu.Items>
+        </Menu>
       }
     >
       <ul>
