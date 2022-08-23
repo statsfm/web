@@ -53,7 +53,12 @@ export const Item = ({
   const handleClick: MouseEventHandler = (e) => {
     if (disabled) e.preventDefault();
     onClick(bag.current.value ?? '');
-    dispatch({ type: ActionType.Focus, focus: Focus.Specific, id });
+    dispatch({ type: ActionType.CloseMenu });
+
+    // TODO: replace with some disposable or nextTick function to wait for the DOM flush
+    setTimeout(() => {
+      state.buttonRef.current?.focus();
+    }, 100);
   };
 
   const handleFocus: FocusEventHandler = () => {
