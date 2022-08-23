@@ -50,14 +50,6 @@ export const Button = ({
     }
   };
 
-  // const handleKeyUp: KeyboardEventHandler = (e) => {
-  //   switch (e.key) {
-  //     case Keys.Space:
-  //       e.preventDefault();
-  //       break;
-  //   }
-  // };
-
   const handleClick: MouseEventHandler = (e) => {
     if (state.menuState === MenuState.Open) {
       dispatch({ type: ActionType.CloseMenu });
@@ -77,7 +69,6 @@ export const Button = ({
       aria-controls={state.itemsRef.current?.id}
       aria-expanded={state.menuState === MenuState.Open}
       onKeyDown={handleKeyDown}
-      // onKeyUp={handleKeyUp}
       onClick={handleClick}
       {...props}
     >

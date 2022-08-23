@@ -32,6 +32,7 @@ export const Items = ({
           ]?.dataRef.current.domRef.current?.click();
         }
 
+        // TODO: replace with some disposable or nextTick function to wait for the DOM flush
         setTimeout(() => {
           state.buttonRef.current?.focus();
         }, 100);
@@ -42,18 +43,14 @@ export const Items = ({
         e.preventDefault();
         e.stopPropagation();
 
-        setTimeout(() => {
-          dispatch({ type: ActionType.Focus, focus: Focus.Next });
-        }, 100);
+        dispatch({ type: ActionType.Focus, focus: Focus.Next });
         break;
 
       case Keys.ArrowUp:
         e.preventDefault();
         e.stopPropagation();
 
-        setTimeout(() => {
-          dispatch({ type: ActionType.Focus, focus: Focus.Previous });
-        }, 100);
+        dispatch({ type: ActionType.Focus, focus: Focus.Previous });
         break;
 
       case Keys.Home:
@@ -61,9 +58,7 @@ export const Items = ({
         e.preventDefault();
         e.stopPropagation();
 
-        setTimeout(() => {
-          dispatch({ type: ActionType.Focus, focus: Focus.First });
-        }, 100);
+        dispatch({ type: ActionType.Focus, focus: Focus.First });
         break;
 
       case Keys.End:
@@ -71,9 +66,7 @@ export const Items = ({
         e.preventDefault();
         e.stopPropagation();
 
-        setTimeout(() => {
-          dispatch({ type: ActionType.Focus, focus: Focus.Last });
-        }, 100);
+        dispatch({ type: ActionType.Focus, focus: Focus.Last });
         break;
 
       case Keys.Escape:
@@ -88,14 +81,6 @@ export const Items = ({
         break;
     }
   };
-
-  // const useKeyUp: KeyboardEventHandler = (e) => {
-  //   switch (e.key) {
-  //     case Keys.Space:
-  //       e.preventDefault();
-  //       break;
-  //   }
-  // };
 
   return (
     <>
@@ -113,7 +98,6 @@ export const Items = ({
           role="menu"
           tabIndex={-1}
           onKeyDown={useKeyDown}
-          // onKeyUp={useKeyUp}
           {...props}
         >
           {children}
