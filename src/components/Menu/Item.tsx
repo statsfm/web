@@ -3,6 +3,7 @@ import type {
   HTMLAttributes,
   MouseEventHandler,
   PropsWithChildren,
+  ReactNode,
 } from 'react';
 import { useRef, useEffect, useId } from 'react';
 import clsx from 'clsx';
@@ -13,12 +14,14 @@ import { ActivationTrigger, ActionType, Focus } from './MenuRoot';
 export interface ItemProps
   extends Omit<HTMLAttributes<HTMLLIElement>, 'onClick'> {
   disabled?: boolean;
+  icon?: ReactNode;
 
   onClick?: (value: string) => void;
 }
 
 export const Item = ({
   disabled = false,
+  icon,
   onClick,
   children,
   className,
@@ -91,9 +94,11 @@ export const Item = ({
       id={id}
       ref={internalRef}
       className={clsx(
-        'select-none px-4 py-2 font-semibold focus:bg-background/80 focus:outline-none',
+        'flex select-none gap-2 px-4 py-2 font-semibold focus:bg-background/80 focus:outline-none',
         // TOOD: change color
-        disabled ? 'text-text-grey' : 'cursor-pointer text-white',
+        disabled
+          ? '[&>svg]:fill-text-gray text-text-grey'
+          : 'cursor-pointer text-white [&>svg]:fill-white',
         className
       )}
       role="menuitem"
@@ -107,6 +112,7 @@ export const Item = ({
       onMouseLeave={handleLeave}
       {...props}
     >
+      {icon}
       {children}
     </li>
   );
