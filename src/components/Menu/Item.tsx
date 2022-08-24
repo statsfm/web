@@ -5,6 +5,7 @@ import type {
   PropsWithChildren,
 } from 'react';
 import { useRef, useEffect, useId } from 'react';
+import clsx from 'clsx';
 import { useMenuContext } from './context';
 import type { MenuItemDataRef } from './MenuRoot';
 import { ActivationTrigger, ActionType, Focus } from './MenuRoot';
@@ -20,6 +21,7 @@ export const Item = ({
   disabled = false,
   onClick,
   children,
+  className,
   ...props
 }: PropsWithChildren<ItemProps>) => {
   const id = useId();
@@ -88,7 +90,10 @@ export const Item = ({
     <li
       id={id}
       ref={internalRef}
-      className="cursor-pointer select-none px-4 py-2 font-semibold text-white focus:bg-background/80 focus:outline-none"
+      className={clsx(
+        'cursor-pointer select-none px-4 py-2 font-semibold text-white focus:bg-background/80 focus:outline-none',
+        className
+      )}
       role="menuitem"
       tabIndex={disabled === true ? undefined : -1}
       aria-disabled={disabled === true ? true : undefined}
