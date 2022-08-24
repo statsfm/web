@@ -1,10 +1,11 @@
+import { useOutsideClick } from '@/hooks';
 import type {
   HTMLAttributes,
   MutableRefObject,
   PropsWithChildren,
   Reducer,
 } from 'react';
-import { useEffect, createRef, useReducer } from 'react';
+import { createRef, useReducer } from 'react';
 import { MenuContext } from './context';
 
 export enum MenuState {
@@ -185,7 +186,9 @@ export const MenuRoot = ({
     }
   );
 
-  useEffect(() => {}, [state.items]);
+  useOutsideClick(state.itemsRef, () => {
+    dispatch({ type: ActionType.CloseMenu });
+  });
 
   return (
     <MenuContext.Provider value={[state, dispatch]}>
