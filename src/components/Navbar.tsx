@@ -50,7 +50,8 @@ export const NavBar = () => {
         </Menu>
       ) : (
         <Link href="/login">
-          <Button>Log in</Button>
+          {/* TODO: same height as avatar to prevent jank */}
+          <Button style={{ height: 64 }}>Log in</Button>
         </Link>
       )}
     </Container>
