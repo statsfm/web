@@ -1,6 +1,5 @@
 import type { MutableRefObject } from 'react';
 import { useEffect } from 'react';
-import type { Node } from 'typescript';
 
 export const useOutsideClick = (
   ref: MutableRefObject<HTMLElement | null>,
@@ -8,7 +7,8 @@ export const useOutsideClick = (
 ) => {
   useEffect(() => {
     const listener = (event: MouseEvent | TouchEvent) => {
-      if (!ref.current || ref.current.contains(event.target as Node)) {
+      // TODO: fix type
+      if (!ref.current || ref.current.contains(event.target as any)) {
         return;
       }
 
