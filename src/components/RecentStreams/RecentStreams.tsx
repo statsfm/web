@@ -37,19 +37,23 @@ export const RecentStreams = <
           return 0;
         })
         .map((streams, i) => (
-          <li key={i}>
-            {/* TODO: make the date sticky */}
-            <p>{dayjs(streams[1][0]!.endTime).format('LL')}</p>
+          <>
+            {/* don't hardcode header height */}
+            <p className="sticky top-[121px] z-30 bg-background py-2">
+              {dayjs(streams[1][0]!.endTime).format('LL')}
+            </p>
 
-            <ul key={i}>
-              {streams[1].map((stream, i) => (
-                <li key={i}>
-                  {/* @ts-ignore TODO: fix type */}
-                  <TrackListRow {...stream} track={stream.track ?? track} />
-                </li>
-              ))}
-            </ul>
-          </li>
+            <li key={i}>
+              <ul key={i}>
+                {streams[1].map((stream, i) => (
+                  <li key={i}>
+                    {/* @ts-ignore TODO: fix type */}
+                    <TrackListRow {...stream} track={stream.track ?? track} />
+                  </li>
+                ))}
+              </ul>
+            </li>
+          </>
         ))}
     </ul>
   );
