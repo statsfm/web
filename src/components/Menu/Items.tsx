@@ -88,7 +88,7 @@ export const Items = ({
         <ul
           id={id}
           ref={state.itemsRef}
-          className="absolute z-20 mt-2 rounded-xl bg-foreground py-3 shadow-xl"
+          className="absolute z-20 mt-2 rounded-xl bg-foreground py-2 shadow-xl"
           aria-activedescendant={
             state.activeItemIndex === null
               ? undefined
