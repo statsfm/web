@@ -22,7 +22,7 @@ export const Image = ({ rounded = false, className, ...props }: Props) => {
         )}
         objectFit="cover"
         placeholder="blur"
-        blurDataURL="https://media.discordapp.net/attachments/756495774975655987/1012102493716611132/Rectangle_44.png"
+        blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAQSURBVHgBAQUA+v8ANTU1/wLhAZ/HkyyzAAAAAElFTkSuQmCC"
         {...props}
       />
     </div>
