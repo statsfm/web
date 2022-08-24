@@ -14,7 +14,7 @@ export interface ItemProps
   extends Omit<HTMLAttributes<HTMLLIElement>, 'onClick'> {
   disabled?: boolean;
 
-  onClick: (value: string) => void;
+  onClick?: (value: string) => void;
 }
 
 export const Item = ({
@@ -54,7 +54,7 @@ export const Item = ({
 
   const handleClick: MouseEventHandler = (e) => {
     if (disabled) e.preventDefault();
-    onClick(bag.current.value ?? '');
+    if (onClick) onClick(bag.current.value ?? '');
     dispatch({ type: ActionType.CloseMenu });
 
     // TODO: replace with some disposable or nextTick function to wait for the DOM flush
