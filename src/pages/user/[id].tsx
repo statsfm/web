@@ -7,7 +7,7 @@ import * as statsfm from '@statsfm/statsfm.js';
 // components
 import { ArtistCard, ArtistCardSkeleton } from '@/components/ArtistCard';
 import { Section } from '@/components/Section';
-import { SegmentedControls } from '@/components/SegmentedControls';
+import { Segment, SegmentedControls } from '@/components/SegmentedControls';
 import { StatsCard, StatsCardSkeleton } from '@/components/StatsCard';
 import { TrackCard, TrackCardSkeleton } from '@/components/TrackCard';
 import { Carousel } from '@/components/Carousel';
