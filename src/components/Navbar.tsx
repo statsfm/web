@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { useAuth } from '@/hooks';
 
+import { MdAccountCircle, MdExitToApp, MdManageAccounts } from 'react-icons/md';
 import { Container } from './Container';
 import { Logo } from './Logo';
 import { Avatar } from './Avatar/Avatar';
@@ -36,11 +37,15 @@ export const NavBar = () => {
                 <p className="m-0">{user.email}</p>
               </div>
             </Menu.Item>
-            <Menu.Item>
+            <Menu.Item icon={<MdAccountCircle />}>
               <Link href={`/${user.customId ?? user.id}`}>My page</Link>
             </Menu.Item>
-            <Menu.Item disabled>My account</Menu.Item>
-            <Menu.Item onClick={handleLogOutClick}>Log out</Menu.Item>
+            <Menu.Item disabled icon={<MdManageAccounts />}>
+              My account
+            </Menu.Item>
+            <Menu.Item icon={<MdExitToApp />} onClick={handleLogOutClick}>
+              Log out
+            </Menu.Item>
           </Menu.Items>
         </Menu>
       ) : (
