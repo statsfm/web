@@ -2,6 +2,7 @@ import Link from 'next/link';
 import type * as statsfm from '@statsfm/statsfm.js';
 import { Image } from '@/components/Image';
 import dayjs from '@/utils/dayjs';
+import { Divider } from '../Divider';
 
 interface Props {
   track?: statsfm.Track;
@@ -69,7 +70,7 @@ export const TrackListRow = ({
             </p>
           </div>
 
-          <hr className="my-3 border-foreground" />
+          <Divider />
         </a>
       </Link>
     </>

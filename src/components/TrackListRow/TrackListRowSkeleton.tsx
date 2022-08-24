@@ -1,3 +1,4 @@
+import { Divider } from '../Divider';
 import { Skeleton } from '../Skeleton';
 
 export const TrackListRowSkeleton = () => (
@@ -14,6 +15,6 @@ export const TrackListRowSkeleton = () => (
 
       <Skeleton.Text width="4rem" />
     </div>
-    <hr className="my-3 border-foreground" />
+    <Divider />
   </>
 );
