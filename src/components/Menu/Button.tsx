@@ -19,6 +19,7 @@ export const Button = ({
   const [state, dispatch] = useMenuContext();
 
   const handleKeyDown: KeyboardEventHandler = (e) => {
+    // eslint-disable-next-line default-case
     switch (e.key) {
       case Keys.Space:
       case Keys.Enter:
@@ -43,10 +44,6 @@ export const Button = ({
           dispatch({ type: ActionType.Focus, focus: Focus.Last });
         }, 100);
         break;
-
-      default: {
-        console.log('aa');
-      }
     }
   };
 

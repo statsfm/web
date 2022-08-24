@@ -18,6 +18,7 @@ export const Items = ({
   const [state, dispatch] = useMenuContext();
 
   const useKeyDown: KeyboardEventHandler = (e) => {
+    // eslint-disable-next-line default-case
     switch (e.key) {
       // https://www.w3.org/TR/wai-aria-practices-1.2/#keyboard-interaction-12
 
@@ -70,7 +71,6 @@ export const Items = ({
         break;
 
       case Keys.Escape:
-      default:
         e.preventDefault();
         e.stopPropagation();
         dispatch({ type: ActionType.CloseMenu });
