@@ -14,6 +14,7 @@ module.exports = withBundleAnalyzer({
   images: {
     domains: [
       'i.scdn.co',
+      'cdn.stats.fm',
       'platform-lookaside.fbsbx.com',
       'scontent-cdt1-1.xx.fbcdn.net',
       'scontent-cdg2-1.xx.fbcdn.net',
