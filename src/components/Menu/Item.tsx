@@ -91,7 +91,9 @@ export const Item = ({
       id={id}
       ref={internalRef}
       className={clsx(
-        'cursor-pointer select-none px-4 py-2 font-semibold text-white focus:bg-background/80 focus:outline-none',
+        'cursor-pointer select-none px-4 py-2 font-semibold focus:bg-background/80 focus:outline-none',
+        // TOOD: change color
+        disabled ? 'text-text-grey' : 'text-white',
         className
       )}
       role="menuitem"
