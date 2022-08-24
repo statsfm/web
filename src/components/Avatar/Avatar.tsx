@@ -59,7 +59,10 @@ export const Avatar = ({
   }
 
   return (
-    <div className="relative">
+    <div
+      className="relative"
+      style={{ width: sizes[size], height: sizes[size] }}
+    >
       <Image
         // eslint-disable-next-line tailwindcss/no-custom-classname
         className={clsx(
