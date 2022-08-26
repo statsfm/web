@@ -1,23 +1,23 @@
-import { createContext, useContext, useEffect, useState } from 'react';
-import type { PropsWithChildren } from 'react';
-import dayjs from 'dayjs';
-import type { GetServerSideProps, NextPage } from 'next';
-import * as statsfm from '@statsfm/statsfm.js';
+import { createContext, useContext, useEffect, useState } from "react";
+import type { PropsWithChildren } from "react";
+import dayjs from "dayjs";
+import type { GetServerSideProps, NextPage } from "next";
+import * as statsfm from "@statsfm/statsfm.js";
 
 // components
-import { ArtistCard, ArtistCardSkeleton } from '@/components/ArtistCard';
-import { Section } from '@/components/Section';
-import { Segment, SegmentedControls } from '@/components/SegmentedControls';
-import { StatsCard, StatsCardSkeleton } from '@/components/StatsCard';
-import { TrackCard, TrackCardSkeleton } from '@/components/TrackCard';
-import { Carousel } from '@/components/Carousel';
-import { Avatar } from '@/components/Avatar';
-import { MdVisibilityOff } from 'react-icons/md';
-import { TrackListRow, TrackListRowSkeleton } from '@/components/TrackListRow';
-import { useApi } from '@/hooks/use-api';
-import { useAuth } from '@/hooks';
-import Head from 'next/head';
-import { AlbumCard, AlbumCardSkeleton } from '@/components/AlbumCard';
+import { ArtistCard, ArtistCardSkeleton } from "@/components/ArtistCard";
+import { Section } from "@/components/Section";
+import { Segment, SegmentedControls } from "@/components/SegmentedControls";
+import { StatsCard, StatsCardSkeleton } from "@/components/StatsCard";
+import { TrackCard, TrackCardSkeleton } from "@/components/TrackCard";
+import { Carousel } from "@/components/Carousel";
+import { Avatar } from "@/components/Avatar";
+import { MdVisibilityOff } from "react-icons/md";
+import { TrackListRow, TrackListRowSkeleton } from "@/components/TrackListRow";
+import { useApi } from "@/hooks/use-api";
+import { useAuth } from "@/hooks";
+import Head from "next/head";
+import { AlbumCard, AlbumCardSkeleton } from "@/components/AlbumCard";
 
 interface Props {
   user: statsfm.UserPublic;
@@ -29,7 +29,7 @@ export const getServerSideProps: GetServerSideProps<Props> = async (ctx) => {
   const id = ctx.params?.id?.toString();
 
   if (!id) {
-    throw new Error('no param id recieved');
+    throw new Error("no param id recieved");
   }
 
   const user = await api.users.get(id).catch(() => {});
@@ -44,7 +44,7 @@ export const getServerSideProps: GetServerSideProps<Props> = async (ctx) => {
 
 const PlusBadge = () => (
   <span className="rounded-md bg-primary/10 px-1.5 py-0.5 text-sm text-primary">
-    Spotistats Plus
+    Stats.fm Plus
   </span>
 );
 
@@ -67,7 +67,7 @@ const PrivacyScope = ({
 }: PropsWithChildren<{
   scope: keyof statsfm.UserPrivacySettings;
 }>) => {
-  const user = useUserContext('PrivacyScope');
+  const user = useUserContext("PrivacyScope");
 
   if (user.privacySettings && user.privacySettings[scope]) {
     return <>{children}</>;
@@ -88,7 +88,7 @@ const ImportRequiredScope = ({
   placeholder,
   children,
 }: PropsWithChildren<{ placeholder?: JSX.Element }>) => {
-  const user = useUserContext('ImportRequiredScope');
+  const user = useUserContext("ImportRequiredScope");
   // the currently logged in user
   const { user: currentUser } = useAuth();
 
@@ -97,14 +97,14 @@ const ImportRequiredScope = ({
   }
 
   // TODO: look for a better way to implement getting the user context
-  if (user.id === currentUser?.id || user.id === 'me') {
+  if (user.id === currentUser?.id || user.id === "me") {
     return (
       <div className="relative w-full">
         <div className="blur-sm">{placeholder}</div>
 
         <div className="absolute inset-0 grid place-items-center">
           <p className="m-0">
-            This feature requires{' '}
+            This feature requires{" "}
             {/* TODO: replace the link with a router link */}
             <a className="underline" href="https://stats.fm/import">
               import of streams
@@ -118,10 +118,10 @@ const ImportRequiredScope = ({
   return (
     <div className="grid w-full place-items-center">
       <p className="m-0 text-text-grey">
-        Ask {user.displayName} to{' '}
+        Ask {user.displayName} to{" "}
         <a className="underline" href="https://stats.fm/import">
           import their streaming history
-        </a>{' '}
+        </a>{" "}
         to view this
       </p>
     </div>
@@ -149,11 +149,11 @@ const ImportRequiredScope = ({
 
 // TODO: use i18n strings instead
 const ranges: Record<statsfm.Range, string> = {
-  weeks: '4 weeks',
-  months: '6 months',
-  lifetime: 'lifetime',
-  days: 'days',
-  today: 'today',
+  weeks: "4 weeks",
+  months: "6 months",
+  lifetime: "lifetime",
+  days: "days",
+  today: "today",
 };
 
 const User: NextPage<Props> = ({ user }) => {
@@ -185,17 +185,17 @@ const User: NextPage<Props> = ({ user }) => {
 
         setStats([
           {
-            label: 'streams',
+            label: "streams",
             value: stats.count.toLocaleString(),
           },
           {
-            label: 'minutes streamed',
+            label: "minutes streamed",
             value: Math.round(
               dayjs.duration(stats.durationMs).asMinutes()
             ).toLocaleString(),
           },
           {
-            label: 'hours streamed',
+            label: "hours streamed",
             value: Math.round(
               dayjs.duration(stats.durationMs).asHours()
             ).toLocaleString(),
@@ -241,7 +241,7 @@ const User: NextPage<Props> = ({ user }) => {
 
           <div className="flex flex-col justify-end">
             <span className="text-center text-lg font-medium md:text-left">
-              {user.privacySettings?.profile && user.profile?.pronouns}{' '}
+              {user.privacySettings?.profile && user.profile?.pronouns}{" "}
               {user.isPlus && <PlusBadge />}
             </span>
 
@@ -272,7 +272,7 @@ const User: NextPage<Props> = ({ user }) => {
                       <StatsCard
                         // TODO: better way of implementing this
                         label={
-                          ['minutes streamed', 'hours streamed', 'streams'][
+                          ["minutes streamed", "hours streamed", "streams"][
                             Math.floor(Math.random() * 3)
                           ]!
                         }
@@ -306,7 +306,7 @@ const User: NextPage<Props> = ({ user }) => {
         <Section
           title="Top tracks"
           description={`${
-            isCurrentUser ? 'Your' : `${user.displayName}'s`
+            isCurrentUser ? "Your" : `${user.displayName}'s`
           } top tracks from the past ${ranges[range]}`}
         >
           <PrivacyScope scope="topTracks">
@@ -334,7 +334,7 @@ const User: NextPage<Props> = ({ user }) => {
           title="Top artists"
           // TODO: pluralization
           description={`${
-            isCurrentUser ? 'Your' : `${user.displayName}'s`
+            isCurrentUser ? "Your" : `${user.displayName}'s`
           } top artists from the past ${ranges[range]}`}
         >
           <PrivacyScope scope="topArtists">
@@ -361,7 +361,7 @@ const User: NextPage<Props> = ({ user }) => {
         <Section
           title="Top albums"
           description={`${
-            isCurrentUser ? 'Your' : `${user.displayName}'s`
+            isCurrentUser ? "Your" : `${user.displayName}'s`
           } top albums from the past ${ranges[range]}`}
         >
           <PrivacyScope scope="topAlbums">
@@ -388,7 +388,7 @@ const User: NextPage<Props> = ({ user }) => {
         <Section
           title="Recent streams"
           description={`${
-            isCurrentUser ? 'Your' : `${user.displayName}'s`
+            isCurrentUser ? "Your" : `${user.displayName}'s`
           } recently played tracks`}
         >
           <PrivacyScope scope="recentlyPlayed">
