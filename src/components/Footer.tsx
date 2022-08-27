@@ -103,8 +103,6 @@ export const Footer = () => {
         All copyrighted content (i.e. album artwork) on Stats.fm are owned by
         their respective owners. Data is provided by Spotify. Spotify is a
         trademark of Spotify AB. Stats.fm is in no way affiliated with Spotify.
-        Spotify is a trademark of Spotify AB. Stats.fm is not affiliated with
-        Spotify.
         <br />© 2022 Stats.fm / Spotistats for Spotify. All rights reserved.
         Made with ❤️ in the Netherlands.
       </p>
