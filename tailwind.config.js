@@ -21,6 +21,7 @@ module.exports = {
         background: '#111112',
         foreground: '#18181c',
         icon: '#727272',
+        plus: '#ffd700',
         'text-grey': '#727272',
       },
       fontFamily: {
