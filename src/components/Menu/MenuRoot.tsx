@@ -175,7 +175,10 @@ interface MenuRootRenderPropArg {
 
 export interface MenuRootProps
   extends Omit<HTMLAttributes<HTMLElement>, 'children'> {
-  children: (args: MenuRootRenderPropArg) => ReactNode | ReactNode;
+  children:
+    | ((args: MenuRootRenderPropArg) => ReactNode | ReactNode[])
+    | ReactNode
+    | ReactNode[];
 }
 
 export const MenuRoot = ({ id, children, ...props }: MenuRootProps) => {
