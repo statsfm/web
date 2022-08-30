@@ -2,7 +2,7 @@ import { useOutsideClick } from '@/hooks';
 import type {
   HTMLAttributes,
   MutableRefObject,
-  PropsWithChildren,
+  ReactNode,
   Reducer,
 } from 'react';
 import { createRef, useReducer } from 'react';
@@ -169,13 +169,16 @@ const reducer = (state: StateDefinition, action: Action) => {
   }
 };
 
-export interface MenuRootProps extends HTMLAttributes<HTMLElement> {}
+interface MenuRootRenderPropArg {
+  open: boolean;
+}
 
-export const MenuRoot = ({
-  id,
-  children,
-  ...props
-}: PropsWithChildren<MenuRootProps>) => {
+export interface MenuRootProps
+  extends Omit<HTMLAttributes<HTMLElement>, 'children'> {
+  children: (args: MenuRootRenderPropArg) => ReactNode | ReactNode;
+}
+
+export const MenuRoot = ({ id, children, ...props }: MenuRootProps) => {
   const [state, dispatch] = useReducer<Reducer<StateDefinition, Action>>(
     reducer,
     {
@@ -196,7 +199,9 @@ export const MenuRoot = ({
   return (
     <MenuContext.Provider value={[state, dispatch]}>
       <div className="relative" {...props}>
-        {children}
+        {typeof children === 'function'
+          ? children({ open: state.menuState === MenuState.Open })
+          : children}
       </div>
     </MenuContext.Provider>
   );
