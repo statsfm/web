@@ -198,7 +198,7 @@ export const MenuRoot = ({ id, children, ...props }: MenuRootProps) => {
 
   return (
     <MenuContext.Provider value={[state, dispatch]}>
-      <div className="relative" {...props}>
+      <div className="relative z-30" {...props}>
         {typeof children === 'function'
           ? children({ open: state.menuState === MenuState.Open })
           : children}
