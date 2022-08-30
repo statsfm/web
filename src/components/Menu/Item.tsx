@@ -15,6 +15,7 @@ export interface ItemProps
   extends Omit<HTMLAttributes<HTMLLIElement>, 'onClick'> {
   disabled?: boolean;
   icon?: ReactNode;
+  value?: string;
 
   onClick?: (value: string) => void;
 }
@@ -22,6 +23,7 @@ export interface ItemProps
 export const Item = ({
   disabled = false,
   icon,
+  value,
   onClick,
   children,
   className,
@@ -46,7 +48,8 @@ export const Item = ({
   }, [bag, disabled]);
 
   useEffect(() => {
-    bag.current.value = internalRef.current?.textContent?.toLowerCase();
+    bag.current.value =
+      value ?? internalRef.current?.textContent?.toLowerCase();
   }, [bag, internalRef]);
 
   useEffect(() => {
