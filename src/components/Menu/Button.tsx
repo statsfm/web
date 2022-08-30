@@ -15,8 +15,10 @@ export const Button = ({
   children,
   ...props
 }: PropsWithChildren<ButtonProps>) => {
-  const id = useId();
   const [state, dispatch] = useMenuContext();
+
+  const reactId = useId();
+  const id = state.buttonId ?? reactId;
 
   const handleKeyDown: KeyboardEventHandler = (e) => {
     // eslint-disable-next-line default-case

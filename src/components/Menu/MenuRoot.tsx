@@ -38,6 +38,7 @@ type MenuStateItem = { id: string; dataRef: MenuItemDataRef };
 export interface StateDefinition {
   menuState: MenuState;
   buttonRef: MutableRefObject<HTMLButtonElement | null>;
+  buttonId: string | undefined;
   itemsRef: MutableRefObject<HTMLUListElement | null>;
   items: MenuStateItem[];
   activeItemIndex: number | null;
@@ -171,6 +172,7 @@ const reducer = (state: StateDefinition, action: Action) => {
 export interface MenuRootProps extends HTMLAttributes<HTMLElement> {}
 
 export const MenuRoot = ({
+  id,
   children,
   ...props
 }: PropsWithChildren<MenuRootProps>) => {
@@ -179,6 +181,7 @@ export const MenuRoot = ({
     {
       menuState: MenuState.Closed,
       buttonRef: createRef(),
+      buttonId: id,
       itemsRef: createRef(),
       items: [],
       activeItemIndex: null,
