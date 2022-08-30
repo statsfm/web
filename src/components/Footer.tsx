@@ -79,7 +79,7 @@ export const Footer = () => {
             target="blank"
           >
             <img
-              src="../../assets/apple_appstore_badge.png"
+              src="https://cdn.stats.fm/file/statsfm/images/brands/stores/app_store.webp"
               alt="Apple Appstore"
               className="h-9"
             />
@@ -91,7 +91,7 @@ export const Footer = () => {
             target="blank"
           >
             <img
-              src="../../assets/google_play_badge.png"
+              src="https://cdn.stats.fm/file/statsfm/images/brands/stores/play_store.webp"
               alt="Google Play"
               className="h-9"
             />
