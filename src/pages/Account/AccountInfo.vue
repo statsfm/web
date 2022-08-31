@@ -18,10 +18,22 @@
             ref="image"
             @change="updatePreview"
             class="absolute inset-0 w-full h-full opacity-0 cursor-pointer border-gray-300 rounded-xl"
-            accept="image/jpg,image/png"
+            accept="image/jpg,image/png,image/gif"
           />
         </label>
         <span class="text-white">^ click the image to change (and make sure to hit save)</span>
+      </div>
+
+      <br>
+
+      <div class="">
+        <Input
+          name="displayName"
+          label="Display name"
+          :value="user.displayName"
+          maxlength="15"
+          @input="updateDisplayName"
+        />
       </div>
 
       <br>
@@ -151,6 +163,12 @@ const updatePreview = async () => {
   if (file) {
     imagePreview.value = URL.createObjectURL(file);
   }
+};
+
+
+// dit zou niet eens moeten maar we zijn toch bezig met next dus ff quick n dirty
+const updateDisplayName = async (val) => {
+  user.value!.displayName = val;
 };
 
 
