@@ -1,13 +1,18 @@
 <template>
   <div>
-    <div class="fixed left-0 top-0 right-0 bottom-0 min-h-screen min-w-screen bg-black bg-opacity-70 z-50 pt-[30vh] text-white text-center text-xl" v-if="loading">Loading...</div>
+    <div
+      class="min-w-screen fixed left-0 top-0 right-0 bottom-0 z-50 min-h-screen bg-black bg-opacity-70 pt-[30vh] text-center text-xl text-white"
+      v-if="loading"
+    >
+      Loading...
+    </div>
     <h1 class="mb-4">Account info</h1>
     <div v-if="user != undefined">
-      <div class="relative rounded-xl overflow-hidden">
-        <img class="relative rounded-xl w-60 h-60" :src="imagePreview" alt="" />
+      <div class="relative overflow-hidden rounded-xl">
+        <img class="relative h-60 w-60 rounded-xl" :src="imagePreview" alt="" />
         <label
           for="desktop-image"
-          class="absolute inset-0 w-60 h-60 bg-black bg-opacity-75 flex items-center justify-center text-sm font-medium text-white opacity-0 hover:opacity-100 focus-within:opacity-100"
+          class="absolute inset-0 flex h-60 w-60 items-center justify-center bg-black bg-opacity-75 text-sm font-medium text-white opacity-0 focus-within:opacity-100 hover:opacity-100"
         >
           <span>Change</span>
           <span class="sr-only"> ad image</span>
@@ -17,14 +22,14 @@
             name="image"
             ref="image"
             @change="updatePreview"
-            class="absolute inset-0 w-full h-full opacity-0 cursor-pointer border-gray-300 rounded-xl"
+            class="absolute inset-0 h-full w-full cursor-pointer rounded-xl border-gray-300 opacity-0"
             accept="image/jpg,image/png,image/gif"
           />
         </label>
         <span class="text-white">^ click the image to change (and make sure to hit save)</span>
       </div>
 
-      <br>
+      <br />
 
       <div class="">
         <Input
@@ -36,7 +41,7 @@
         />
       </div>
 
-      <br>
+      <br />
 
       <div class="md:items-between flex flex-col md:flex-row md:gap-5">
         <div class="flex w-full flex-col md:w-6/12">
@@ -84,7 +89,7 @@
         rows="3"
         placeholder="Something about yourself..."
         :value="user.profile?.bio"
-      @input="(val) => (user!.profile!.bio = val)"
+        @input="(val) => (user!.profile!.bio = val)"
       />
 
       <br />
@@ -116,15 +121,15 @@ const loading = ref(false);
 
 const save = async () => {
   if (!user.value) return;
-  
+
   try {
     loading.value = true;
     await api.me.updateProfile(user.value.profile!);
     await api.me.updateMe(user.value);
     await uploadImage();
-  } catch(e) {
+  } catch (e) {
     alert(JSON.stringify(e));
-  } finally { 
+  } finally {
     loading.value = false;
   }
 };
@@ -157,7 +162,6 @@ const uploadImage = async (): Promise<string> => {
   return url;
 };
 
-
 const updatePreview = async () => {
   const file = image.value?.files[0];
   if (file) {
@@ -165,12 +169,10 @@ const updatePreview = async () => {
   }
 };
 
-
 // dit zou niet eens moeten maar we zijn toch bezig met next dus ff quick n dirty
-const updateDisplayName = async (val) => {
+const updateDisplayName = async (val: string) => {
   user.value!.displayName = val;
 };
-
 
 onBeforeMount(async () => {
   user.value = await api.me.get();
