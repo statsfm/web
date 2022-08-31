@@ -41,7 +41,7 @@ const Segment = ({
       ref={internalRef}
       {...bindings}
       className={clsx(
-        'relative flex cursor-pointer select-none items-center justify-center whitespace-nowrap rounded-lg px-4 py-1 font-semibold first-of-type:col-[1] first-of-type:row-[1]',
+        'relative flex cursor-pointer select-none items-center justify-center whitespace-nowrap rounded-lg px-4 py-1 font-semibold transition duration-200 first-of-type:col-[1] first-of-type:row-[1] hover:text-primary',
         active === id ? 'text-primary' : 'text-white'
       )}
       onClick={handleChange}

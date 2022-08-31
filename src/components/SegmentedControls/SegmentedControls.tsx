@@ -46,6 +46,8 @@ const SegmentedControls = ({
   const getIndexById = (id: string) =>
     segments.findIndex((segment) => segment.id === id);
 
+  const getIdByIndex = (index: number) => segments[index]?.id ?? null;
+
   const register = (segment: Segment) => {
     setSegments((prevSegments) => [...prevSegments, segment]);
   };
@@ -60,27 +62,39 @@ const SegmentedControls = ({
     return {
       onMouseOver: () => {
         calculateActiveSegmentOffsetWidth();
+        setActive(id);
         setActiveHighlight(index);
       },
       onMouseLeave: () => {
         calculateActiveSegmentOffsetWidth();
+        setActive(getIdByIndex(activeIndex) ?? '');
         setActiveHighlight(activeIndex);
       },
     };
   };
 
-  const set = (id: string) => {
+  const set = (id: string, initial = false) => {
     const index = getIndexById(id);
     setActiveIndex(index);
+    setActive(id);
 
-    const segment = segments[index];
-    onChange(segment!.value);
+    if (!initial) {
+      const segment = segments[index];
+      onChange(segment!.value);
+    }
   };
 
+  // improve performance
+  let firstSegmentMounted = false;
   useEffect(() => {
-    const id = segments[activeHighlight]?.id;
-    setActive(id ?? segments[defaultIndex]?.id);
-  }, [activeHighlight]);
+    if (segments.length > 0) firstSegmentMounted = true;
+
+    calculateActiveSegmentOffsetWidth();
+
+    if (firstSegmentMounted) {
+      set(segments[0]?.id ?? '', true);
+    }
+  }, [segments]);
 
   const exposed: SegmentedControlsContextProps = {
     register,

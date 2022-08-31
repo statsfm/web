@@ -14,8 +14,7 @@ export interface SegmentedControlsContextProps {
     onMouseOver: () => void;
     onMouseLeave: () => void;
   };
-  set: (id: string) => void;
-  // active: (id: string) => boolean;
+  set: (id: string, initial?: boolean) => void;
   active: string | undefined;
 }
 
