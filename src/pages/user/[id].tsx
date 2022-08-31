@@ -263,6 +263,18 @@ const User: NextPage<Props> = ({ user }) => {
             label: 'hours streamed',
             value: Math.round(hours).toLocaleString(),
           },
+          {
+            label: 'different tracks',
+            value: stats.cardinality.tracks.toLocaleString() ?? 0,
+          },
+          {
+            label: 'different artists',
+            value: stats.cardinality.artists.toLocaleString() ?? 0,
+          },
+          {
+            label: 'different albums',
+            value: stats.cardinality.albums.toLocaleString() ?? 0,
+          },
           // {
           //   label: `You were listening to music {${
           //     Math.round((hours / timeframe[range]) * 100 * 10) / 10
