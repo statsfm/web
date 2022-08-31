@@ -99,12 +99,23 @@ export const Footer = () => {
         </div>
       </div>
 
-      <p className="mt-10 min-w-full pt-10 text-center md:order-1 md:mt-0">
+      <br />
+      <br />
+
+      {/* <p className="min-w-full text-center text-sm text-neutral-500 md:order-1">
         All copyrighted content (i.e. album artwork) on Stats.fm are owned by
-        their respective owners. Data is provided by Spotify. Spotify is a
-        trademark of Spotify AB. Stats.fm is in no way affiliated with Spotify.
-        <br />© 2022 Stats.fm / Spotistats for Spotify. All rights reserved.
-        Made with ❤️ in the Netherlands.
+        their respective owners. Data is provided by Spotify AB and Apple
+        Music®. Stats.fm is in no way affiliated with Spotify AB or Apple
+        Music®.
+      </p> */}
+      <p className="min-w-full text-center text-sm text-neutral-500 md:order-1">
+        All copyrighted content (i.e. album artwork) on Stats.fm are owned by
+        their respective owners. Data is provided by Spotify AB. Stats.fm is in
+        no way affiliated with Spotify AB.
+      </p>
+      <p className="min-w-full text-center md:mt-0">
+        © 2022 StatsFM B.V. (formerly Spotistats for Spotify). All rights
+        reserved. Made with ❤️ in the Netherlands.
       </p>
     </Container>
   );
