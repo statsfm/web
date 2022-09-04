@@ -5,7 +5,6 @@ import type { GetServerSideProps, NextPage } from 'next';
 import * as statsfm from '@statsfm/statsfm.js';
 
 // components
-import { ArtistCard, ArtistCardSkeleton } from '@/components/ArtistCard';
 import { Section } from '@/components/Section';
 import { Segment, SegmentedControls } from '@/components/SegmentedControls';
 import { StatsCard, StatsCardSkeleton } from '@/components/StatsCard';
@@ -15,10 +14,12 @@ import { Avatar } from '@/components/Avatar';
 import { MdVisibilityOff } from 'react-icons/md';
 import { useApi } from '@/hooks/use-api';
 import Head from 'next/head';
-import { AlbumCard, AlbumCardSkeleton } from '@/components/AlbumCard';
-import { RecentStreams } from '@/components/RecentStreams';
 import { Chip, ChipGroup } from '@/components/Chip';
 import { useAuth } from '@/hooks';
+import { AlbumCard, AlbumCardSkeleton } from '@/components/AlbumCard';
+import { ArtistCard, ArtistCardSkeleton } from '@/components/ArtistCard';
+import { RecentStreams } from '@/components/RecentStreams';
+import { SectionToolbarCarouselNavigationButton } from '@/components/SectionToolbarCarouselNavigationButton';
 
 // const ListeningClockChart = () => {
 //   const config = {
@@ -402,87 +403,112 @@ const User: NextPage<Props> = ({ user }) => {
           </ChipGroup>
         </Section>
 
-        <Section
-          title="Top tracks"
-          description={`${
-            isCurrentUser ? 'Your' : `${user.displayName}'s`
-          } top tracks from the past ${ranges[range]}`}
-        >
-          <PrivacyScope scope="topTracks">
-            {/* <NotEnoughData data={topTracks}> */}
-            <Carousel gap={16} rows={1}>
-              {topTracks.length > 0
-                ? topTracks.map((item, i) => (
-                    <li key={i}>
-                      <TrackCard {...item} />
-                    </li>
-                  ))
-                : Array(10)
-                    .fill(null)
-                    .map((_n, i) => (
-                      <li key={i}>
-                        <TrackCardSkeleton />
-                      </li>
-                    ))}
-            </Carousel>
-            {/* </NotEnoughData> */}
-          </PrivacyScope>
-        </Section>
+        <Carousel slide={6}>
+          <Section
+            title="Top tracks"
+            description={`${
+              isCurrentUser ? 'Your' : `${user.displayName}'s`
+            } top tracks from the past ${ranges[range]}`}
+            toolbar={
+              <div className="flex gap-1">
+                <SectionToolbarCarouselNavigationButton />
+                <SectionToolbarCarouselNavigationButton next />
+              </div>
+            }
+          >
+            <PrivacyScope scope="topTracks">
+              {/* <NotEnoughData data={topTracks}> */}
 
-        <Section
-          title="Top artists"
-          // TODO: pluralization
-          description={`${
-            isCurrentUser ? 'Your' : `${user.displayName}'s`
-          } top artists from the past ${ranges[range]}`}
-        >
-          <PrivacyScope scope="topArtists">
-            {/* <NotEnoughData data={topArtists}> */}
-            <Carousel gap={16} rows={1}>
-              {topArtists.length > 0
-                ? topArtists.map((item, i) => (
-                    <li key={i}>
-                      <ArtistCard {...item} />
-                    </li>
-                  ))
-                : Array(10)
-                    .fill(null)
-                    .map((_n, i) => (
-                      <li key={i}>
-                        <ArtistCardSkeleton />
-                      </li>
-                    ))}
-            </Carousel>
-            {/* </NotEnoughData> */}
-          </PrivacyScope>
-        </Section>
+              <Carousel.Items>
+                {topTracks.length > 0
+                  ? topTracks.map((item, i) => (
+                      <Carousel.Item key={i}>
+                        <TrackCard {...item} />
+                      </Carousel.Item>
+                    ))
+                  : Array(10)
+                      .fill(null)
+                      .map((_n, i) => (
+                        <Carousel.Item key={i}>
+                          <TrackCardSkeleton />
+                        </Carousel.Item>
+                      ))}
+              </Carousel.Items>
+              {/* </NotEnoughData> */}
+            </PrivacyScope>
+          </Section>
+        </Carousel>
 
-        <Section
-          title="Top albums"
-          description={`${
-            isCurrentUser ? 'Your' : `${user.displayName}'s`
-          } top albums from the past ${ranges[range]}`}
-        >
-          <PrivacyScope scope="topAlbums">
-            {/* <NotEnoughData data={topAlbums}> */}
-            <Carousel rows={1} gap={16}>
-              {topAlbums && topAlbums.length > 0
-                ? topAlbums.map((item, i) => (
-                    <li key={i}>
-                      <AlbumCard {...item} />
-                    </li>
-                  ))
-                : Array(10)
-                    .fill(null)
-                    .map((_n, i) => (
-                      <li key={i}>
-                        <AlbumCardSkeleton />
-                      </li>
-                    ))}
-            </Carousel>
-            {/* </NotEnoughData> */}
-          </PrivacyScope>
-        </Section>
+        <Carousel slide={6}>
+          <Section
+            title="Top artists"
+            // TODO: pluralization
+            description={`${
+              isCurrentUser ? 'Your' : `${user.displayName}'s`
+            } top artists from the past ${ranges[range]}`}
+            toolbar={
+              <div className="flex gap-1">
+                <SectionToolbarCarouselNavigationButton />
+                <SectionToolbarCarouselNavigationButton next />
+              </div>
+            }
+          >
+            <PrivacyScope scope="topArtists">
+              {/* <NotEnoughData data={topArtists}> */}
+              <Carousel.Items>
+                {topArtists.length > 0
+                  ? topArtists.map((item, i) => (
+                      <Carousel.Item key={i}>
+                        <ArtistCard {...item} />
+                      </Carousel.Item>
+                    ))
+                  : Array(10)
+                      .fill(null)
+                      .map((_n, i) => (
+                        <Carousel.Item key={i}>
+                          <ArtistCardSkeleton />
+                        </Carousel.Item>
+                      ))}
+              </Carousel.Items>
+              {/* </NotEnoughData> */}
+            </PrivacyScope>
+          </Section>
+        </Carousel>
+
+        <Carousel slide={6}>
+          <Section
+            title="Top albums"
+            description={`${
+              isCurrentUser ? 'Your' : `${user.displayName}'s`
+            } top albums from the past ${ranges[range]}`}
+            toolbar={
+              <div className="flex gap-1">
+                <SectionToolbarCarouselNavigationButton />
+                <SectionToolbarCarouselNavigationButton next />
+              </div>
+            }
+          >
+            <PrivacyScope scope="topAlbums">
+              {/* <NotEnoughData data={topAlbums}> */}
+              <Carousel.Items>
+                {topAlbums && topAlbums.length > 0
+                  ? topAlbums.map((item, i) => (
+                      <Carousel.Item key={i}>
+                        <AlbumCard {...item} />
+                      </Carousel.Item>
+                    ))
+                  : Array(10)
+                      .fill(null)
+                      .map((_n, i) => (
+                        <Carousel.Item key={i}>
+                          <AlbumCardSkeleton />
+                        </Carousel.Item>
+                      ))}
+              </Carousel.Items>
+              {/* </NotEnoughData> */}
+            </PrivacyScope>
+          </Section>
+        </Carousel>
 
         <Section
           title="Recent streams"

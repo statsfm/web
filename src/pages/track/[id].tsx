@@ -1,19 +1,105 @@
 import type { GetServerSideProps, NextPage } from 'next';
+import { useEffect, useState } from 'react';
+
 import * as statsfm from '@statsfm/statsfm.js';
-import dayjs from '@/utils/dayjs';
-import { MdMusicOff } from 'react-icons/md';
 
 import { Image } from '@/components/Image';
 import Head from 'next/head';
 import { Section } from '@/components/Section';
 import { Carousel } from '@/components/Carousel';
-import { useEffect, useState } from 'react';
 import { TopListenerCardSkeleton } from '@/components/TopListenerCard';
 import TopListenerCard from '@/components/TopListenerCard/TopListenerCard';
-import { AlbumCard, AlbumCardSkeleton } from '@/components/AlbumCard';
-import { TrackListRow } from '@/components/TrackListRow';
+import { AlbumCard } from '@/components/AlbumCard';
 
 import { useApi } from '@/hooks';
+
+import { Radar } from 'react-chartjs-2';
+import {
+  Chart as ChartJS,
+  RadialLinearScale,
+  PointElement,
+  LineElement,
+  Filler,
+} from 'chart.js';
+import { RecentStreams } from '@/components/RecentStreams';
+import { MdMusicOff } from 'react-icons/md';
+import { SectionToolbarCarouselNavigationButton } from '@/components/SectionToolbarCarouselNavigationButton';
+
+const AudioFeaturesRadarChart = ({
+  acousticness,
+  danceability,
+  energy,
+  instrumentalness,
+  liveness,
+  speechiness,
+  valence,
+}: Partial<statsfm.AudioFeatures>) => {
+  const config = {
+    data: {
+      labels: [
+        'Acoustic',
+        'Danceable',
+        'Energetic',
+        'Instrumental',
+        'Lively',
+        'Speechful',
+        'Valence',
+      ],
+      datasets: [
+        {
+          label: '',
+          data: [
+            acousticness,
+            danceability,
+            energy,
+            instrumentalness,
+            liveness,
+            speechiness,
+            valence,
+          ],
+          fill: true,
+          backgroundColor: 'rgb(30, 215, 96, 0.2)',
+          borderColor: 'rgb(30, 215, 96)',
+          pointBackgroundColor: 'rgb(30, 215, 96)',
+        },
+      ],
+    },
+    options: {
+      scales: {
+        r: {
+          grid: {
+            circular: true,
+            color: 'rgb(23, 26, 32)',
+          },
+          beginAtZero: true,
+          angleLines: {
+            color: 'rgb(23, 26, 32)',
+          },
+          pointLabels: {
+            color: 'rgb(163, 163, 163)',
+            font: {
+              size: 12,
+              weight: 'bold',
+            },
+          },
+          ticks: {
+            display: false,
+            stepSize: 0.25,
+          },
+        },
+      },
+      elements: {
+        line: {
+          borderWidth: 3,
+        },
+      },
+    },
+  };
+
+  ChartJS.register(RadialLinearScale, PointElement, LineElement, Filler);
+
+  return <Radar {...config} />;
+};
 
 interface Props {
   track: statsfm.Track;
@@ -37,37 +123,52 @@ export const getServerSideProps: GetServerSideProps<Props> = async (ctx) => {
   };
 };
 
+// const omitAudioFeatures = ({
+//   danceability,
+//   energy,
+//   loudness,
+//   speechiness,
+//   acousticness,
+//   instrumentalness,
+//   liveness,
+//   valence,
+// }: statsfm.AudioFeatures) => ({
+//   danceability,
+//   energy,
+//   loudness,
+//   speechiness,
+//   acousticness,
+//   instrumentalness,
+//   liveness,
+//   valence,
+// });
+
 const Track: NextPage<Props> = ({ track }) => {
   const api = useApi();
 
+  // const [stats, setStats] = useState<statsfm.StreamStats>();
   const [topListeners, setTopListeners] = useState<statsfm.TopUser[]>([]);
-  const [recentStreams, setRecentStreams] = useState<Record<
-    string,
-    statsfm.Stream[]
-  > | null>(null);
+  const [audioFeatures, setAudioFeatures] = useState<statsfm.AudioFeatures>();
+  // const audioFeaturesOnly = omitAudioFeatures(audioFeatures);
+
+  const [recentStreams, setRecentStreams] = useState<statsfm.Stream[] | null>(
+    null
+  );
 
   useEffect(() => {
     (async () => {
+      // const stats = await api.users.trackStats('me', track.id);
+
       setTopListeners(
         await api.http
           .get<statsfm.TopUser[]>(`/tracks/${track.id}/top/listeners`)
           .then((res) => res.data.items)
       );
-
-      const recentStreams = await api.users.trackStreams('martijn', track.id);
-
-      if (recentStreams.length > 0) {
-        const pairs: Record<string, statsfm.Stream[]> = {};
-
-        recentStreams.forEach((stream) => {
-          const key = dayjs(stream.endTime).format('YYYYMMDD');
-
-          if (!pairs[key]) pairs[key] = [];
-          pairs[key]?.push(stream);
-        });
-
-        setRecentStreams(pairs);
-      }
+      // TODO: fix
+      setAudioFeatures(
+        await api.tracks.audioFeature(track.externalIds.spotify![0] ?? '')
+      );
+      setRecentStreams(await api.users.trackStreams('martijn', track.id));
     })();
   }, []);
 
@@ -95,72 +196,81 @@ const Track: NextPage<Props> = ({ track }) => {
         </div>
       </section>
 
-      <Section
-        title="Appears on"
-        description={`Albums featuring ${track.name}`}
-      >
-        <Carousel gap={16} rows={1}>
-          {track.albums.length > 0
-            ? track.albums.map((item, i) => (
-                <li key={i} className="w-max">
-                  <AlbumCard album={item} />
-                </li>
-              ))
-            : Array(10)
-                .fill(null)
-                .map((_n, i) => (
-                  <li key={i}>
-                    <AlbumCardSkeleton />
-                  </li>
-                ))}
-        </Carousel>
-      </Section>
+      <Carousel slide={6}>
+        <Section
+          title="Appears on"
+          description={`Albums featuring ${track.name}`}
+          toolbar={
+            <div className="flex gap-1">
+              <SectionToolbarCarouselNavigationButton />
+              <SectionToolbarCarouselNavigationButton next />
+            </div>
+          }
+        >
+          <Carousel.Items>
+            {track.albums.map((item, i) => (
+              <Carousel.Item key={i} className="w-max">
+                <AlbumCard album={item} />
+              </Carousel.Item>
+            ))}
+          </Carousel.Items>
+        </Section>
+      </Carousel>
 
-      <Section
-        title="Top listeners"
-        description={`People who listen a lot to ${track.name}`}
-      >
-        <Carousel gap={16} rows={1}>
-          {topListeners.length > 0
-            ? topListeners.map((item, i) => (
-                <li key={i}>
-                  <TopListenerCard {...item} />
+      <Carousel slide={6}>
+        <Section
+          title="Top listeners"
+          description={`People who listen a lot to ${track.name}`}
+          toolbar={
+            <div className="flex gap-1">
+              <SectionToolbarCarouselNavigationButton />
+              <SectionToolbarCarouselNavigationButton next />
+            </div>
+          }
+        >
+          <Carousel.Items>
+            {topListeners.length > 0
+              ? topListeners.map((item, i) => (
+                  <Carousel.Item key={i}>
+                    <TopListenerCard {...item} />
+                  </Carousel.Item>
+                ))
+              : Array(10)
+                  .fill(null)
+                  .map((_n, i) => (
+                    <Carousel.Item key={i}>
+                      <TopListenerCardSkeleton />
+                    </Carousel.Item>
+                  ))}
+          </Carousel.Items>
+        </Section>
+      </Carousel>
+
+      <Section title="Audio features" className="grid grid-cols-2">
+        <div>
+          {/* <ul className="grid w-full grid-cols-2 items-stretch gap-4">
+            {audioFeaturesOnly &&
+              Object.entries(audioFeaturesOnly).map((feature, i) => (
+                <li key={i} className="flex flex-col">
+                  <label>{feature[0]}</label>
+                  <div className="h-2 appearance-none rounded-full bg-foreground">
+                    <span
+                      className="h-full bg-primary"
+                      style={{ width: `${feature[1] * 100}%` }}
+                    ></span>
+                  </div>
                 </li>
-              ))
-            : Array(10)
-                .fill(null)
-                .map((_n, i) => (
-                  <li key={i}>
-                    <TopListenerCardSkeleton />
-                  </li>
-                ))}
-        </Carousel>
+              ))}
+          </ul> */}
+        </div>
+        <div>
+          <AudioFeaturesRadarChart {...audioFeatures} />
+        </div>
       </Section>
 
       <Section title="Recent streams" description="Your recently played tracks">
         {recentStreams ? (
-          <ul>
-            {Object.entries(recentStreams)
-              .sort((a, b) => {
-                if (a[0] > b[0]) return -1;
-                if (a[0] < b[0]) return 1;
-                return 0;
-              })
-              .map((streams, i) => (
-                <li key={i}>
-                  {/* TODO: make the date sticky */}
-                  <p>{dayjs(streams[1][0]!.endTime).format('LL')}</p>
-
-                  <ul key={i}>
-                    {streams[1].map((stream, i) => (
-                      <li key={i}>
-                        <TrackListRow {...stream} track={track} />
-                      </li>
-                    ))}
-                  </ul>
-                </li>
-              ))}
-          </ul>
+          <RecentStreams streams={recentStreams} track={track} />
         ) : (
           <div className="grid w-full place-items-center">
             <MdMusicOff />

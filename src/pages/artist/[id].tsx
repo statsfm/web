@@ -19,6 +19,7 @@ import { TopListenerCardSkeleton } from '@/components/TopListenerCard';
 import { RecentStreams } from '@/components/RecentStreams';
 import { Menu } from '@/components/Menu';
 import { MdSort } from 'react-icons/md';
+import { SectionToolbarCarouselNavigationButton } from '@/components/SectionToolbarCarouselNavigationButton';
 
 const MoreTracks = ({
   artist,
@@ -143,6 +144,7 @@ const Artist: NextPage<Props> = ({ artist }) => {
   const api = useApi();
 
   const [topTracks, setTopTracks] = useState<statsfm.Track[]>([]);
+  // const [albums, setAlbums] = useState<statsfm.Album[]>([]);
   const [topListeners, setTopListeners] = useState<statsfm.TopUser[]>([]);
   const [related, setRelated] = useState<statsfm.Artist[]>([]);
   const [streams, setStreams] = useState<statsfm.Stream[]>([]);
@@ -150,6 +152,7 @@ const Artist: NextPage<Props> = ({ artist }) => {
   useEffect(() => {
     (async () => {
       setTopTracks(await api.artists.tracks(artist.id));
+      // setAlbums(await api.artists.albums(artist.id));
       setTopListeners(
         await api.http
           .get<statsfm.TopUser[]>(`/artists/${artist.id}/top/listeners`)
@@ -186,68 +189,110 @@ const Artist: NextPage<Props> = ({ artist }) => {
         </ChipGroup>
       </section>
 
-      <Section
-        title="Popular tracks"
-        description={`The most popular tracks by ${artist.name}`}
-      >
+      <Carousel slide={6}>
+        <Section
+          title="Popular tracks"
+          description={`The most popular tracks by ${artist.name}`}
+          toolbar={
+            <div className="flex gap-1">
+              <SectionToolbarCarouselNavigationButton />
+              <SectionToolbarCarouselNavigationButton next />
+            </div>
+          }
+        >
+          <Carousel.Items>
+            {topTracks.length > 0
+              ? topTracks.map((item, i) => (
+                  <Carousel.Item key={i}>
+                    <TrackCard track={item} />
+                  </Carousel.Item>
+                ))
+              : Array(10)
+                  .fill(null)
+                  .map((_n, i) => (
+                    <Carousel.Item key={i}>
+                      <TrackCardSkeleton />
+                    </Carousel.Item>
+                  ))}
+          </Carousel.Items>
+        </Section>
+      </Carousel>
+
+      {/* <Section title="Albums" description={`Albums featuring ${artist.name}`}>
         <Carousel gap={16} rows={1}>
-          {topTracks.length > 0
-            ? topTracks.map((item, i) => (
+          {albums.length > 0
+            ? albums.map((album, i) => (
                 <li key={i}>
-                  <TrackCard track={item} />
+                  <AlbumCard album={album} />
                 </li>
               ))
             : Array(10)
                 .fill(null)
                 .map((_n, i) => (
                   <li key={i}>
-                    <TrackCardSkeleton />
+                    <AlbumCardSkeleton />
                   </li>
                 ))}
         </Carousel>
-      </Section>
+      </Section> */}
 
-      <Section
-        title="Top listeners"
-        description={`People who love ${artist.name}`}
-      >
-        <Carousel gap={16} rows={1}>
-          {topListeners.length > 0
-            ? topListeners.map((item, i) => (
-                <li key={i}>
-                  <TopListenerCard {...item} />
-                </li>
-              ))
-            : Array(10)
-                .fill(null)
-                .map((_n, i) => (
-                  <li key={i}>
-                    <TopListenerCardSkeleton />
-                  </li>
-                ))}
-        </Carousel>
-      </Section>
+      <Carousel slide={6}>
+        <Section
+          title="Top listeners"
+          description={`People who love ${artist.name}`}
+          toolbar={
+            <div className="flex gap-1">
+              <SectionToolbarCarouselNavigationButton />
+              <SectionToolbarCarouselNavigationButton next />
+            </div>
+          }
+        >
+          <Carousel.Items>
+            {topListeners.length > 0
+              ? topListeners.map((item, i) => (
+                  <Carousel.Item key={i}>
+                    <TopListenerCard {...item} />
+                  </Carousel.Item>
+                ))
+              : Array(10)
+                  .fill(null)
+                  .map((_n, i) => (
+                    <Carousel.Item key={i}>
+                      <TopListenerCardSkeleton />
+                    </Carousel.Item>
+                  ))}
+          </Carousel.Items>
+        </Section>
+      </Carousel>
 
-      <Section
-        title="Related artists"
-        description="Artists that fans might also like"
-      >
-        <Carousel rows={3} gap={16} className="snap-x snap-mandatory">
-          {related.length > 0
-            ? related.map((item, i) => (
-                <li key={i}>
-                  <RelatedArtistCard {...item} />
-                </li>
-              ))
-            : Array(20)
-                .fill(null)
-                .map((_n, i) => (
-                  <li key={i}>
-                    <RelatedArtistCardSkeleton />
-                  </li>
-                ))}
-        </Carousel>
-      </Section>
+      <Carousel slide={6} rows={3}>
+        <Section
+          title="Related artists"
+          description="Artists that fans might also like"
+          toolbar={
+            <div className="flex gap-1">
+              <SectionToolbarCarouselNavigationButton />
+              <SectionToolbarCarouselNavigationButton next />
+            </div>
+          }
+        >
+          <Carousel.Items>
+            {related.length > 0
+              ? related.map((item, i) => (
+                  <Carousel.Item key={i}>
+                    <RelatedArtistCard {...item} />
+                  </Carousel.Item>
+                ))
+              : Array(20)
+                  .fill(null)
+                  .map((_n, i) => (
+                    <Carousel.Item key={i}>
+                      <RelatedArtistCardSkeleton />
+                    </Carousel.Item>
+                  ))}
+          </Carousel.Items>
+        </Section>
+      </Carousel>
 
       <MoreTracks artist={artist} tracks={topTracks} />
 
