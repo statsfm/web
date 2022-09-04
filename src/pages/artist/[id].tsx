@@ -71,7 +71,7 @@ const MoreTracks = ({
     <Section
       title="More tracks"
       description={`More tracks by ${artist.name}`}
-      rightHeaderContent={
+      toolbar={
         <Menu>
           <Menu.Button>
             <MdSort />
