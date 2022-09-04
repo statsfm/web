@@ -3,13 +3,13 @@ import type { HTMLAttributes, PropsWithChildren } from 'react';
 interface Props extends HTMLAttributes<HTMLElement> {
   title: string;
   description?: string;
-  rightHeaderContent?: JSX.Element;
+  toolbar?: JSX.Element;
 }
 
 export const Section = ({
   title,
   description,
-  rightHeaderContent,
+  toolbar,
   children,
   ...props
 }: PropsWithChildren<Props>) => {
@@ -21,7 +21,7 @@ export const Section = ({
           <p className="my-0">{description}</p>
         </div>
 
-        {rightHeaderContent}
+        <div className="flex gap-2">{toolbar}</div>
       </header>
 
       <main {...props}>{children}</main>
