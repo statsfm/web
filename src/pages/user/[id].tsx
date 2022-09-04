@@ -375,7 +375,7 @@ const User: NextPage<Props> = ({ user }) => {
                         <StatsCard {...item} />
                       </li>
                     ))
-                  : Array(3)
+                  : Array(6)
                       .fill(null)
                       .map((_n, i) => (
                         <li key={i}>
