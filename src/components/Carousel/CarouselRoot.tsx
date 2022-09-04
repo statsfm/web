@@ -55,32 +55,10 @@ export type Action =
 
 const reducer = (state: StateDefinition, action: Action) => {
   switch (action.type) {
-    case ActionType.Previous: {
-      const direction = Direction.Previous;
-
-      const slideTo = Math.min(
-        Math.max(0, state.current - direction * state.slide),
-        state.items.length
-      );
-
-      const slideAmount = -1 * direction;
-      const newTransform =
-        state.transform +
-        Math.abs(slideAmount) *
-          direction *
-          (state.width + state.gap) *
-          state.slide;
-
-      return {
-        ...state,
-        current: slideTo,
-        transform: newTransform,
-        isPreviousDisabled: slideTo < state.slide,
-        isNextDisabled: slideTo >= state.items.length - state.slide,
-      };
-    }
+    case ActionType.Previous:
     case ActionType.Next: {
-      const direction = Direction.Next;
+      const direction =
+        action.type === ActionType.Next ? Direction.Next : Direction.Previous;
 
       const slideTo = Math.min(
         Math.max(0, state.current - direction * state.slide),
