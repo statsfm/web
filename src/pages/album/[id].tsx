@@ -13,6 +13,7 @@ import { TopListenerCardSkeleton } from '@/components/TopListenerCard';
 import { RecentStreams } from '@/components/RecentStreams';
 
 import { useApi } from '@/hooks';
+import { SectionToolbarCarouselNavigationButton } from '@/components/SectionToolbarCarouselNavigationButton';
 
 interface Props {
   album: statsfm.Album;
@@ -96,26 +97,34 @@ const Album: NextPage<Props> = ({ album, tracks, streams }) => {
         </ul>
       </Section>
 
-      <Section
-        title="Top listeners"
-        description={`People who listen a lot to ${album.name}`}
-      >
-        <Carousel gap={16} rows={1}>
-          {topListeners.length > 0
-            ? topListeners.map((item, i) => (
-                <li key={i}>
-                  <TopListenerCard {...item} />
-                </li>
-              ))
-            : Array(10)
-                .fill(null)
-                .map((_n, i) => (
-                  <li key={i}>
-                    <TopListenerCardSkeleton />
-                  </li>
-                ))}
-        </Carousel>
-      </Section>
+      <Carousel slide={6}>
+        <Section
+          title="Top listeners"
+          description={`People who listen a lot to ${album.name}`}
+          toolbar={
+            <div className="flex gap-1">
+              <SectionToolbarCarouselNavigationButton />
+              <SectionToolbarCarouselNavigationButton next />
+            </div>
+          }
+        >
+          <Carousel.Items>
+            {topListeners.length > 0
+              ? topListeners.map((item, i) => (
+                  <Carousel.Item key={i}>
+                    <TopListenerCard {...item} />
+                  </Carousel.Item>
+                ))
+              : Array(10)
+                  .fill(null)
+                  .map((_n, i) => (
+                    <Carousel.Item key={i}>
+                      <TopListenerCardSkeleton />
+                    </Carousel.Item>
+                  ))}
+          </Carousel.Items>
+        </Section>
+      </Carousel>
 
       <Section title="Your streams">
         {streams ? (
