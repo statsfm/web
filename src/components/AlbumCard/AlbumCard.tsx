@@ -15,8 +15,8 @@ export const AlbumCard = ({
   streams,
 }: PropsWithChildren<Props>) => {
   return (
-    <Link href={`/album/${album.id}`}>
-      <div className="w-40">
+    <Link href={`/album/${album.id}`} passHref>
+      <a className="w-40">
         <div className="aspect-square w-full group-hover:opacity-90">
           {album.image && (
             <Image
@@ -38,7 +38,7 @@ export const AlbumCard = ({
             {streams && `• ${streams} streams`}
           </p>
         </div>
-      </div>
+      </a>
     </Link>
   );
 };
