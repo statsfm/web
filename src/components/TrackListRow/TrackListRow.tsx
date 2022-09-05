@@ -41,7 +41,7 @@ export const TrackListRow = ({
       >
         <a>
           <div className="flex justify-between">
-            <div className="flex items-center gap-3">
+            <div className="flex w-10/12 items-center gap-3">
               {track && track.albums[0]?.image && (
                 <Image
                   width={48}
@@ -61,7 +61,7 @@ export const TrackListRow = ({
               </div>
             </div>
 
-            <p className="text-right">
+            <p className="m-0 text-right">
               {endTime
                 ? dayjs(endTime).fromNow()
                 : dayjs
