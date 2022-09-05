@@ -39,7 +39,7 @@ export const RecentStreams = <
         .map((streams, i) => (
           <>
             {/* don't hardcode header height */}
-            <p className="sticky top-[121px] z-30 bg-background py-2">
+            <p className="sticky top-[109px]  z-30 bg-background py-2 md:top-[121px]">
               {dayjs(streams[1][0]!.endTime).format('LL')}
             </p>
 
