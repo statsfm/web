@@ -329,7 +329,9 @@ const User: NextPage<Props> = ({ user }) => {
               {user.isPlus && <PlusBadge />}
             </span>
 
-            <h1 className="text-center md:text-left">{user.displayName}</h1>
+            <h1 className="text-center font-extrabold md:text-left">
+              {user.displayName}
+            </h1>
 
             {user.privacySettings?.profile && (
               <span className="text-center text-lg md:text-left">

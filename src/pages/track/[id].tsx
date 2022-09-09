@@ -192,7 +192,9 @@ const Track: NextPage<Props> = ({ track }) => {
           <span className="text-center text-lg md:text-left">
             {track.artists.map((artist) => artist.name).join(', ')}
           </span>
-          <h1 className="text-center md:text-left">{track.name}</h1>
+          <h1 className="text-center font-extrabold md:text-left">
+            {track.name}
+          </h1>
         </div>
       </section>
 

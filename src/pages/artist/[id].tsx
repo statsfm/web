@@ -173,7 +173,9 @@ const Artist: NextPage<Props> = ({ artist }) => {
         <Avatar src={artist.image} name={artist.name} size="4xl" />
 
         <div className="flex flex-col justify-end">
-          <h1 className="text-center md:text-left">{artist.name}</h1>
+          <h1 className="text-center font-extrabold md:text-left">
+            {artist.name}
+          </h1>
 
           <span className="text-center text-lg md:text-left">
             {artist.followers.toLocaleString()} followers
