@@ -11,7 +11,7 @@ import { useMenuContext } from './context';
 import { ActionType, Focus, MenuState } from './MenuRoot';
 
 export interface ItemsProps extends HTMLAttributes<HTMLUListElement> {
-  placement: Placement;
+  placement?: Placement;
 }
 
 export const Items = ({
