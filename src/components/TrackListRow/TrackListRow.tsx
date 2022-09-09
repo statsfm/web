@@ -51,7 +51,7 @@ export const TrackListRow = ({
                 />
               )}
 
-              <div className="truncate leading-tight">
+              <div className="w-9/12 truncate leading-tight">
                 <h4 className="truncate">{track ? track.name : trackName}</h4>
                 <p className="m-0 truncate">
                   {[artists, album, streamCount, playedFor]
