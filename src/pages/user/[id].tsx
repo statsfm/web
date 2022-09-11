@@ -3,6 +3,7 @@ import type { PropsWithChildren } from 'react';
 import dayjs from 'dayjs';
 import type { GetServerSideProps, NextPage } from 'next';
 import * as statsfm from '@statsfm/statsfm.js';
+import linkifyHtml from 'linkify-html';
 
 // components
 import { Section } from '@/components/Section';
@@ -333,10 +334,13 @@ const User: NextPage<Props> = ({ user }) => {
               {user.displayName}
             </h1>
 
-            {user.privacySettings?.profile && (
-              <span className="text-center text-lg md:text-left">
-                {user.profile?.bio}
-              </span>
+            {user.privacySettings?.profile && user.profile?.bio && (
+              <pre
+                className="font-body text-lg  md:text-left  [&>a]:font-semibold [&>a]:text-primary"
+                dangerouslySetInnerHTML={{
+                  __html: linkifyHtml(user.profile.bio),
+                }}
+              />
             )}
           </div>
         </section>
