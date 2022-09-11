@@ -19,6 +19,8 @@
     "chart.js": "^3.9.1",
     "clsx": "^1.2.1",
     "dayjs": "^1.11.4",
+    "linkify-html": "^3.0.5",
+    "linkifyjs": "^3.0.5",
     "next": "12.2.1",
     "next-seo": "^5.4.0",
     "react": "18.2.0",
