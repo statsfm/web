@@ -67,7 +67,7 @@
             streamed or by advanced machine learning!</FeatureItem
           >
           <FeatureItem :icon="mdiHistory" title="Import your lifetime history*"
-            >Follow the unique import process to import your lifetime streaminghistory and unlock
+            >Follow the unique import process to import your lifetime streaming history and unlock
             the full potential of the platform by getting access to lots of cool features. It's
             really cool, I promise : )</FeatureItem
           >
