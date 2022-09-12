@@ -18,6 +18,7 @@ module.exports = {
     extend: {
       colors: {
         primary: '#1ed760',
+        primaryLighter: 'rgba(30, 215, 96, 0.1)',
         background: '#111112',
         bodySecundary: '#18181c',
         foreground: '#18181c',

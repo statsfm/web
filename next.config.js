@@ -23,6 +23,8 @@ module.exports = withBundleAnalyzer({
       'scontent-frx5-1.xx.fbcdn.net',
       'scontent-amt2-1.xx.fbcdn.net',
       'scontent-ams4-1.xx.fbcdn.net',
+      'scontent-lcy1-1.xx.fbcdn.net',
+      'scontent-ams2-1.xx.fbcdn.net',
     ],
   },
   experimental: {
