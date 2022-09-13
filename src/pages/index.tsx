@@ -1,3 +1,4 @@
+import { ChevronLink } from '@/components/ChevronLink';
 import { Container } from '@/components/Container';
 import { Divider } from '@/components/Divider';
 import { StoreBadge } from '@/components/StoreBadges';
@@ -7,12 +8,63 @@ import Link from 'next/link';
 import type { FC, PropsWithChildren } from 'react';
 import type { IconType } from 'react-icons';
 import {
-  MdChevronRight,
+  MdOutlineArrowRightAlt,
   MdFormatListBulleted,
   MdHistory,
   MdLock,
   MdShowChart,
 } from 'react-icons/md';
+
+const TotalStatsItem: FC<{
+  label: string;
+  count: number;
+  hourlyCount: number;
+  liveIndicator?: boolean;
+}> = (props) => {
+  const formatNumber = (count: number) =>
+    Math.round(count).toLocaleString('en-US');
+
+  return (
+    <li className="-mb-5">
+      <span>{props.label}</span>
+      <h2>
+        {formatNumber(props.count)}
+        {props.liveIndicator && (
+          <span className="relative aspect-square w-3">
+            <span className="absolute aspect-square h-4 animate-ping rounded-full bg-primary/75 duration-[1000s]"></span>
+            <span className="absolute mt-0.5 ml-0.5 aspect-square w-3 rounded-full bg-primary opacity-80"></span>
+          </span>
+        )}
+      </h2>
+      <p className="mt-0 ml-[-12px] inline-flex scale-90 text-neutral-500">
+        <MdOutlineArrowRightAlt className="-rotate-90" />
+        <span className="mr-1 font-bold text-inherit">
+          {formatNumber(props.hourlyCount)}
+        </span>
+        in the last hour
+      </p>
+    </li>
+  );
+};
+
+const TotalStats: FC = () => {
+  return (
+    <ul className="mt-5 grid grid-cols-2 gap-x-4 gap-y-6">
+      {/* TODO: make these statistics live */}
+      <TotalStatsItem label="Users" count={5_921_945} hourlyCount={1_540} />
+      <TotalStatsItem label="Users" count={5_921_945} hourlyCount={1_540} />
+      <TotalStatsItem label="Users" count={5_921_945} hourlyCount={1_540} />
+      <TotalStatsItem label="Users" count={5_921_945} hourlyCount={1_540} />
+      <TotalStatsItem label="Users" count={5_921_945} hourlyCount={1_540} />
+      <TotalStatsItem
+        label="Streams"
+        count={7_368_921_243}
+        hourlyCount={36}
+        liveIndicator
+      />
+    </ul>
+  );
+};
 
 const Card: FC<PropsWithChildren<{ className?: string }>> = (props) => {
   return (
@@ -24,38 +76,6 @@ const Card: FC<PropsWithChildren<{ className?: string }>> = (props) => {
     >
       {props.children}
     </div>
-  );
-};
-
-type ChevronLinkProps = FC<
-  PropsWithChildren<{ href: string; local?: boolean }>
->;
-
-const ChevronLink: ChevronLinkProps = (props) => {
-  const body = (
-    <>
-      {props.children} <MdChevronRight className="inline" />
-    </>
-  );
-
-  if (props.local)
-    return (
-      <Link href={props.href}>
-        <a className="flex flex-row items-center font-bold text-primary">
-          {body}
-        </a>
-      </Link>
-    );
-
-  return (
-    <a
-      href={props.href}
-      className="flex flex-row items-center font-bold text-primary"
-      target="_blank"
-      rel="noopener noreferrer"
-    >
-      {body}
-    </a>
   );
 };
 
@@ -178,8 +198,7 @@ const Home: NextPage = () => {
               </p>
             </div>
             <Divider invert className="border-neutral-600" />
-            {/* TODO: fix the total stats */}
-            {/* <TotalStats className="mt-5" /> */}
+            <TotalStats />
           </div>
         </Container>
       </section>
@@ -250,7 +269,7 @@ const Home: NextPage = () => {
       </Container>
       <section className="bg-bodySecundary py-14 text-[black]">
         <Container>
-          <Card className="flex flex-col items-center bg-primary px-6 py-10 text-center transition-transform duration-200 hover:scale-[1.02] sm:px-12 sm:py-20">
+          <Card className="flex flex-col items-center !bg-primary px-6 py-10 text-center transition-transform duration-200 hover:scale-[1.02] sm:px-12 sm:py-20">
             <h1 className="text-bodySecundary">
               Download today and start your journey
             </h1>
