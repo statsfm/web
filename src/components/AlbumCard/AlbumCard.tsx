@@ -16,8 +16,8 @@ export const AlbumCard = ({
 }: PropsWithChildren<Props>) => {
   return (
     <Link href={`/album/${album.id}`} passHref>
-      <a className="w-40">
-        <div className="aspect-square w-full group-hover:opacity-90">
+      <a className="block w-40">
+        <div className="w-full group-hover:opacity-90">
           {album.image && (
             <Image
               src={album.image}
