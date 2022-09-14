@@ -12,25 +12,24 @@ module.exports = withBundleAnalyzer({
   basePath: '',
   reactStrictMode: true,
   images: {
-    domains: [
-      'i.scdn.co',
-      'cdn.stats.fm',
-      'platform-lookaside.fbsbx.com',
-      'scontent-cdt1-1.xx.fbcdn.net',
-      'scontent-cdg2-1.xx.fbcdn.net',
-      'scontent-frt3-1.xx.fbcdn.net',
-      'scontent.flux1-1.fna.fbcdn.net',
-      'scontent-frx5-1.xx.fbcdn.net',
-      'scontent-amt2-1.xx.fbcdn.net',
-      'scontent-ams4-1.xx.fbcdn.net',
-      'scontent-lcy1-1.xx.fbcdn.net',
-      'scontent-ams2-1.xx.fbcdn.net',
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'cdn.stats.fm',
+      },
+      {
+        protocol: 'https',
+        hostname: 'i.scdn.co',
+      },
+      {
+        protocol: 'https',
+        hostname: '**.fbcdn.net',
+      },
+      {
+        protocol: 'https',
+        hostname: '**.fbsbx.com',
+      },
     ],
-  },
-  experimental: {
-    images: {
-      allowFutureImage: true,
-    },
   },
   async rewrites() {
     return [
