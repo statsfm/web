@@ -14,13 +14,21 @@ const App = ({ Component, pageProps }: AppProps) => {
     this is a temporary solution to fix the homepage being wrapped in a Container element which messes with the layout,
     we will have to wrap all the other pages in a Container or leave it like this until nextjs implements layouts (later this year).
   */
-  const { asPath } = useRouter();
-  const onHome = asPath === '/';
+  const { pathname } = useRouter();
+  const noContainerPaths = [
+    '/',
+    '/user/[id]',
+    '/track/[id]',
+    '/artist/[id]',
+    '/album/[id]',
+  ];
+
+  const noContainer = noContainerPaths.includes(pathname);
 
   return (
     <AuthProvider>
       <NavBar />
-      {onHome ? (
+      {noContainer ? (
         <Component {...pageProps} />
       ) : (
         <Container as="main">

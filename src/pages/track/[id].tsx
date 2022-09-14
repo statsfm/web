@@ -24,6 +24,7 @@ import {
 import { RecentStreams } from '@/components/RecentStreams';
 import { MdMusicOff } from 'react-icons/md';
 import { SectionToolbarCarouselNavigationButton } from '@/components/SectionToolbarCarouselNavigationButton';
+import { Container } from '@/components/Container';
 
 const AudioFeaturesRadarChart = ({
   acousticness,
@@ -178,79 +179,84 @@ const Track: NextPage<Props> = ({ track }) => {
         <title>{track.name}</title>
       </Head>
 
-      <section className="flex flex-col items-center gap-5 pt-24 pb-10 md:flex-row">
-        {track.albums[0]?.image && (
-          <Image
-            src={track.albums[0].image}
-            alt={track.name}
-            width={192}
-            height={192}
-          />
-        )}
+      <div className="bg-bodySecundary pt-20">
+        <Container>
+          <section className="flex flex-col items-center gap-5 pt-24 pb-10 md:flex-row">
+            {track.albums[0]?.image && (
+              <Image
+                src={track.albums[0].image}
+                alt={track.name}
+                width={192}
+                height={192}
+              />
+            )}
 
-        <div className="flex flex-col justify-end">
-          <span className="text-center text-lg md:text-left">
-            {track.artists.map((artist) => artist.name).join(', ')}
-          </span>
-          <h1 className="text-center font-extrabold md:text-left">
-            {track.name}
-          </h1>
-        </div>
-      </section>
-
-      <Carousel slide={6}>
-        <Section
-          title="Appears on"
-          description={`Albums featuring ${track.name}`}
-          toolbar={
-            <div className="flex gap-1">
-              <SectionToolbarCarouselNavigationButton />
-              <SectionToolbarCarouselNavigationButton next />
+            <div className="flex flex-col justify-end">
+              <span className="text-center text-lg md:text-left">
+                {track.artists.map((artist) => artist.name).join(', ')}
+              </span>
+              <h1 className="text-center font-extrabold md:text-left">
+                {track.name}
+              </h1>
             </div>
-          }
-        >
-          <Carousel.Items>
-            {track.albums.map((item, i) => (
-              <Carousel.Item key={i} className="w-max">
-                <AlbumCard album={item} />
-              </Carousel.Item>
-            ))}
-          </Carousel.Items>
-        </Section>
-      </Carousel>
+          </section>
+        </Container>
+      </div>
 
-      <Carousel slide={6}>
-        <Section
-          title="Top listeners"
-          description={`People who listen a lot to ${track.name}`}
-          toolbar={
-            <div className="flex gap-1">
-              <SectionToolbarCarouselNavigationButton />
-              <SectionToolbarCarouselNavigationButton next />
-            </div>
-          }
-        >
-          <Carousel.Items>
-            {topListeners.length > 0
-              ? topListeners.map((item, i) => (
-                  <Carousel.Item key={i}>
-                    <TopListenerCard {...item} />
-                  </Carousel.Item>
-                ))
-              : Array(10)
-                  .fill(null)
-                  .map((_n, i) => (
+      <Container className="mt-8">
+        <Carousel slide={6}>
+          <Section
+            title="Appears on"
+            description={`Albums featuring ${track.name}`}
+            toolbar={
+              <div className="flex gap-1">
+                <SectionToolbarCarouselNavigationButton />
+                <SectionToolbarCarouselNavigationButton next />
+              </div>
+            }
+          >
+            <Carousel.Items>
+              {track.albums.map((item, i) => (
+                <Carousel.Item key={i} className="w-max">
+                  <AlbumCard album={item} />
+                </Carousel.Item>
+              ))}
+            </Carousel.Items>
+          </Section>
+        </Carousel>
+
+        <Carousel slide={6}>
+          <Section
+            title="Top listeners"
+            description={`People who listen a lot to ${track.name}`}
+            toolbar={
+              <div className="flex gap-1">
+                <SectionToolbarCarouselNavigationButton />
+                <SectionToolbarCarouselNavigationButton next />
+              </div>
+            }
+          >
+            <Carousel.Items>
+              {topListeners.length > 0
+                ? topListeners.map((item, i) => (
                     <Carousel.Item key={i}>
-                      <TopListenerCardSkeleton />
+                      <TopListenerCard {...item} />
                     </Carousel.Item>
-                  ))}
-          </Carousel.Items>
-        </Section>
-      </Carousel>
+                  ))
+                : Array(10)
+                    .fill(null)
+                    .map((_n, i) => (
+                      <Carousel.Item key={i}>
+                        <TopListenerCardSkeleton />
+                      </Carousel.Item>
+                    ))}
+            </Carousel.Items>
+          </Section>
+        </Carousel>
 
-      <Section title="Audio features" className="grid grid-cols-2">
-        <div>
-          {/* <ul className="grid w-full grid-cols-2 items-stretch gap-4">
+        <Section title="Audio features" className="grid grid-cols-2">
+          <div>
+            {/* <ul className="grid w-full grid-cols-2 items-stretch gap-4">
             {audioFeaturesOnly &&
               Object.entries(audioFeaturesOnly).map((feature, i) => (
                 <li key={i} className="flex flex-col">
@@ -264,25 +270,29 @@ const Track: NextPage<Props> = ({ track }) => {
                 </li>
               ))}
           </ul> */}
-        </div>
-        <div>
-          <AudioFeaturesRadarChart {...audioFeatures} />
-        </div>
-      </Section>
-
-      <Section title="Recent streams" description="Your recently played tracks">
-        {recentStreams ? (
-          <RecentStreams streams={recentStreams} track={track} />
-        ) : (
-          <div className="grid w-full place-items-center">
-            <MdMusicOff />
-
-            <p className="m-0 text-text-grey">
-              Looks like you haven&apos;t listened to {track.name} yet
-            </p>
           </div>
-        )}
-      </Section>
+          <div>
+            <AudioFeaturesRadarChart {...audioFeatures} />
+          </div>
+        </Section>
+
+        <Section
+          title="Recent streams"
+          description="Your recently played tracks"
+        >
+          {recentStreams ? (
+            <RecentStreams streams={recentStreams} track={track} />
+          ) : (
+            <div className="grid w-full place-items-center">
+              <MdMusicOff />
+
+              <p className="m-0 text-text-grey">
+                Looks like you haven&apos;t listened to {track.name} yet
+              </p>
+            </div>
+          )}
+        </Section>
+      </Container>
     </>
   );
 };

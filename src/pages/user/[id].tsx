@@ -21,6 +21,7 @@ import { AlbumCard, AlbumCardSkeleton } from '@/components/AlbumCard';
 import { ArtistCard, ArtistCardSkeleton } from '@/components/ArtistCard';
 import { RecentStreams } from '@/components/RecentStreams';
 import { SectionToolbarCarouselNavigationButton } from '@/components/SectionToolbarCarouselNavigationButton';
+import { Container } from '@/components/Container';
 
 // const ListeningClockChart = () => {
 //   const config = {
@@ -317,218 +318,224 @@ const User: NextPage<Props> = ({ user }) => {
     <>
       {/* TODO: move to a hook so we can use a base title */}
       <Head>
-        <title>{user.displayName}</title>
+        <title>{user.displayName} | Stats.fm</title>
       </Head>
 
       <UserContext.Provider value={user}>
-        <section className="flex flex-col items-center gap-5 pt-24 pb-10 md:flex-row">
-          <Avatar src={user.image} name={user.displayName} size="4xl" />
+        <div className="bg-bodySecundary pt-20">
+          <Container>
+            <section className="flex flex-col items-center gap-5 pt-24 pb-10 md:flex-row">
+              <Avatar src={user.image} name={user.displayName} size="4xl" />
 
-          <div className="flex flex-col justify-end">
-            <span className="text-center text-lg font-medium md:text-left">
-              {user.privacySettings?.profile && user.profile?.pronouns}{' '}
-              {user.isPlus && <PlusBadge />}
-            </span>
+              <div className="flex flex-col justify-end">
+                <span className="text-center text-lg font-medium md:text-left">
+                  {user.privacySettings?.profile && user.profile?.pronouns}{' '}
+                  {user.isPlus && <PlusBadge />}
+                </span>
 
-            <h1 className="text-center font-extrabold md:text-left">
-              {user.displayName}
-            </h1>
+                <h1 className="text-center font-extrabold md:text-left">
+                  {user.displayName}
+                </h1>
 
-            {user.privacySettings?.profile && user.profile?.bio && (
-              <pre className="font-body text-lg  md:text-left  [&>a]:font-semibold [&>a]:text-primary">
-                <Linkify
-                  options={{ target: '_blank', rel: 'noopener noreferrer' }}
-                >
-                  {user.profile.bio}
-                </Linkify>
-              </pre>
-            )}
-          </div>
-        </section>
+                {user.privacySettings?.profile && user.profile?.bio && (
+                  <pre className="font-body text-lg  md:text-left  [&>a]:font-semibold [&>a]:text-primary">
+                    <Linkify
+                      options={{ target: '_blank', rel: 'noopener noreferrer' }}
+                    >
+                      {user.profile.bio}
+                    </Linkify>
+                  </pre>
+                )}
+              </div>
+            </section>
+          </Container>
+        </div>
 
-        <section className="flex flex-col justify-between gap-5 md:flex-row-reverse">
-          <SegmentedControls onChange={handleSegmentSelect}>
-            <Segment value={statsfm.Range.WEEKS}>4 weeks</Segment>
-            <Segment value={statsfm.Range.MONTHS}>6 months</Segment>
-            <Segment value={statsfm.Range.LIFETIME}>lifetime</Segment>
-          </SegmentedControls>
+        <Container className="mt-8">
+          <section className="flex flex-col justify-between gap-5 md:flex-row-reverse">
+            <SegmentedControls onChange={handleSegmentSelect}>
+              <Segment value={statsfm.Range.WEEKS}>4 weeks</Segment>
+              <Segment value={statsfm.Range.MONTHS}>6 months</Segment>
+              <Segment value={statsfm.Range.LIFETIME}>lifetime</Segment>
+            </SegmentedControls>
 
-          <ImportRequiredScope
-            placeholder={
-              <ul className="grid w-full grid-cols-2 gap-4 md:grid-cols-4">
-                {Array(3)
-                  .fill(null)
-                  .map((_n, i) => (
-                    <li key={i}>
-                      <StatsCard
-                        // TODO: better way of implementing this
-                        label={
-                          ['minutes streamed', 'hours streamed', 'streams'][
-                            Math.floor(Math.random() * 3)
-                          ]!
-                        }
-                        value="?"
-                      />
-                    </li>
-                  ))}
-              </ul>
-            }
-          >
-            <PrivacyScope scope="streamStats">
-              <ul className="grid w-full grid-cols-2 gap-4 md:w-4/6 md:grid-cols-4">
-                {stats.length > 0
-                  ? stats.map((item, i) => (
+            <ImportRequiredScope
+              placeholder={
+                <ul className="grid w-full grid-cols-2 gap-4 md:grid-cols-4">
+                  {Array(3)
+                    .fill(null)
+                    .map((_n, i) => (
                       <li key={i}>
-                        <StatsCard {...item} />
+                        <StatsCard
+                          // TODO: better way of implementing this
+                          label={
+                            ['minutes streamed', 'hours streamed', 'streams'][
+                              Math.floor(Math.random() * 3)
+                            ]!
+                          }
+                          value="?"
+                        />
                       </li>
-                    ))
-                  : Array(6)
-                      .fill(null)
-                      .map((_n, i) => (
+                    ))}
+                </ul>
+              }
+            >
+              <PrivacyScope scope="streamStats">
+                <ul className="grid w-full grid-cols-2 gap-4 md:w-4/6 md:grid-cols-4">
+                  {stats.length > 0
+                    ? stats.map((item, i) => (
                         <li key={i}>
-                          <StatsCardSkeleton />
+                          <StatsCard {...item} />
                         </li>
-                      ))}
-              </ul>
-            </PrivacyScope>
-          </ImportRequiredScope>
-        </section>
+                      ))
+                    : Array(6)
+                        .fill(null)
+                        .map((_n, i) => (
+                          <li key={i}>
+                            <StatsCardSkeleton />
+                          </li>
+                        ))}
+                </ul>
+              </PrivacyScope>
+            </ImportRequiredScope>
+          </section>
 
-        {/* <ListeningClockChart /> */}
+          {/* <ListeningClockChart /> */}
 
-        <Section
-          title="Top genres"
-          description={`${
-            isCurrentUser ? 'Your' : `${user.displayName}'s`
-          } top genres from the past ${ranges[range]}`}
-        >
-          {/* TODO: add some sort of skeleton */}
-          <ChipGroup>
-            {topGenres.map((genre, i) => (
-              <Chip key={i}>{genre.genre.tag}</Chip>
-            ))}
-          </ChipGroup>
-        </Section>
-
-        <Carousel slide={6}>
           <Section
-            title="Top tracks"
+            title="Top genres"
             description={`${
               isCurrentUser ? 'Your' : `${user.displayName}'s`
-            } top tracks from the past ${ranges[range]}`}
-            toolbar={
-              <div className="flex gap-1">
-                <SectionToolbarCarouselNavigationButton />
-                <SectionToolbarCarouselNavigationButton next />
-              </div>
-            }
+            } top genres from the past ${ranges[range]}`}
           >
-            <PrivacyScope scope="topTracks">
-              {/* <NotEnoughData data={topTracks}> */}
+            {/* TODO: add some sort of skeleton */}
+            <ChipGroup>
+              {topGenres.map((genre, i) => (
+                <Chip key={i}>{genre.genre.tag}</Chip>
+              ))}
+            </ChipGroup>
+          </Section>
 
-              <Carousel.Items>
-                {topTracks.length > 0
-                  ? topTracks.map((item, i) => (
-                      <Carousel.Item key={i}>
-                        <TrackCard {...item} />
-                      </Carousel.Item>
-                    ))
-                  : Array(10)
-                      .fill(null)
-                      .map((_n, i) => (
+          <Carousel slide={6}>
+            <Section
+              title="Top tracks"
+              description={`${
+                isCurrentUser ? 'Your' : `${user.displayName}'s`
+              } top tracks from the past ${ranges[range]}`}
+              toolbar={
+                <div className="flex gap-1">
+                  <SectionToolbarCarouselNavigationButton />
+                  <SectionToolbarCarouselNavigationButton next />
+                </div>
+              }
+            >
+              <PrivacyScope scope="topTracks">
+                {/* <NotEnoughData data={topTracks}> */}
+
+                <Carousel.Items>
+                  {topTracks.length > 0
+                    ? topTracks.map((item, i) => (
                         <Carousel.Item key={i}>
-                          <TrackCardSkeleton />
+                          <TrackCard {...item} />
                         </Carousel.Item>
-                      ))}
-              </Carousel.Items>
+                      ))
+                    : Array(10)
+                        .fill(null)
+                        .map((_n, i) => (
+                          <Carousel.Item key={i}>
+                            <TrackCardSkeleton />
+                          </Carousel.Item>
+                        ))}
+                </Carousel.Items>
+                {/* </NotEnoughData> */}
+              </PrivacyScope>
+            </Section>
+          </Carousel>
+
+          <Carousel slide={6}>
+            <Section
+              title="Top artists"
+              // TODO: pluralization
+              description={`${
+                isCurrentUser ? 'Your' : `${user.displayName}'s`
+              } top artists from the past ${ranges[range]}`}
+              toolbar={
+                <div className="flex gap-1">
+                  <SectionToolbarCarouselNavigationButton />
+                  <SectionToolbarCarouselNavigationButton next />
+                </div>
+              }
+            >
+              <PrivacyScope scope="topArtists">
+                {/* <NotEnoughData data={topArtists}> */}
+                <Carousel.Items>
+                  {topArtists.length > 0
+                    ? topArtists.map((item, i) => (
+                        <Carousel.Item key={i}>
+                          <ArtistCard {...item} />
+                        </Carousel.Item>
+                      ))
+                    : Array(10)
+                        .fill(null)
+                        .map((_n, i) => (
+                          <Carousel.Item key={i}>
+                            <ArtistCardSkeleton />
+                          </Carousel.Item>
+                        ))}
+                </Carousel.Items>
+                {/* </NotEnoughData> */}
+              </PrivacyScope>
+            </Section>
+          </Carousel>
+
+          <Carousel slide={6}>
+            <Section
+              title="Top albums"
+              description={`${
+                isCurrentUser ? 'Your' : `${user.displayName}'s`
+              } top albums from the past ${ranges[range]}`}
+              toolbar={
+                <div className="flex gap-1">
+                  <SectionToolbarCarouselNavigationButton />
+                  <SectionToolbarCarouselNavigationButton next />
+                </div>
+              }
+            >
+              <PrivacyScope scope="topAlbums">
+                {/* <NotEnoughData data={topAlbums}> */}
+                <Carousel.Items>
+                  {topAlbums && topAlbums.length > 0
+                    ? topAlbums.map((item, i) => (
+                        <Carousel.Item key={i}>
+                          <AlbumCard {...item} />
+                        </Carousel.Item>
+                      ))
+                    : Array(10)
+                        .fill(null)
+                        .map((_n, i) => (
+                          <Carousel.Item key={i}>
+                            <AlbumCardSkeleton />
+                          </Carousel.Item>
+                        ))}
+                </Carousel.Items>
+                {/* </NotEnoughData> */}
+              </PrivacyScope>
+            </Section>
+          </Carousel>
+
+          <Section
+            title="Recent streams"
+            description={`${
+              isCurrentUser ? 'Your' : `${user.displayName}'s`
+            } recently played tracks`}
+          >
+            <PrivacyScope scope="recentlyPlayed">
+              {/* <NotEnoughData data={recentStreams.value}> */}
+              <RecentStreams streams={recentStreams} />
               {/* </NotEnoughData> */}
             </PrivacyScope>
           </Section>
-        </Carousel>
-
-        <Carousel slide={6}>
-          <Section
-            title="Top artists"
-            // TODO: pluralization
-            description={`${
-              isCurrentUser ? 'Your' : `${user.displayName}'s`
-            } top artists from the past ${ranges[range]}`}
-            toolbar={
-              <div className="flex gap-1">
-                <SectionToolbarCarouselNavigationButton />
-                <SectionToolbarCarouselNavigationButton next />
-              </div>
-            }
-          >
-            <PrivacyScope scope="topArtists">
-              {/* <NotEnoughData data={topArtists}> */}
-              <Carousel.Items>
-                {topArtists.length > 0
-                  ? topArtists.map((item, i) => (
-                      <Carousel.Item key={i}>
-                        <ArtistCard {...item} />
-                      </Carousel.Item>
-                    ))
-                  : Array(10)
-                      .fill(null)
-                      .map((_n, i) => (
-                        <Carousel.Item key={i}>
-                          <ArtistCardSkeleton />
-                        </Carousel.Item>
-                      ))}
-              </Carousel.Items>
-              {/* </NotEnoughData> */}
-            </PrivacyScope>
-          </Section>
-        </Carousel>
-
-        <Carousel slide={6}>
-          <Section
-            title="Top albums"
-            description={`${
-              isCurrentUser ? 'Your' : `${user.displayName}'s`
-            } top albums from the past ${ranges[range]}`}
-            toolbar={
-              <div className="flex gap-1">
-                <SectionToolbarCarouselNavigationButton />
-                <SectionToolbarCarouselNavigationButton next />
-              </div>
-            }
-          >
-            <PrivacyScope scope="topAlbums">
-              {/* <NotEnoughData data={topAlbums}> */}
-              <Carousel.Items>
-                {topAlbums && topAlbums.length > 0
-                  ? topAlbums.map((item, i) => (
-                      <Carousel.Item key={i}>
-                        <AlbumCard {...item} />
-                      </Carousel.Item>
-                    ))
-                  : Array(10)
-                      .fill(null)
-                      .map((_n, i) => (
-                        <Carousel.Item key={i}>
-                          <AlbumCardSkeleton />
-                        </Carousel.Item>
-                      ))}
-              </Carousel.Items>
-              {/* </NotEnoughData> */}
-            </PrivacyScope>
-          </Section>
-        </Carousel>
-
-        <Section
-          title="Recent streams"
-          description={`${
-            isCurrentUser ? 'Your' : `${user.displayName}'s`
-          } recently played tracks`}
-        >
-          <PrivacyScope scope="recentlyPlayed">
-            {/* <NotEnoughData data={recentStreams.value}> */}
-            <RecentStreams streams={recentStreams} />
-            {/* </NotEnoughData> */}
-          </PrivacyScope>
-        </Section>
+        </Container>
       </UserContext.Provider>
     </>
   );

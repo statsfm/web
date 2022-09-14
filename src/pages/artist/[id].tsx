@@ -20,6 +20,7 @@ import { RecentStreams } from '@/components/RecentStreams';
 import { Menu } from '@/components/Menu';
 import { MdSort } from 'react-icons/md';
 import { SectionToolbarCarouselNavigationButton } from '@/components/SectionToolbarCarouselNavigationButton';
+import { Container } from '@/components/Container';
 
 const MoreTracks = ({
   artist,
@@ -169,58 +170,63 @@ const Artist: NextPage<Props> = ({ artist }) => {
         <title>{artist.name}</title>
       </Head>
 
-      <section className="flex flex-col items-center gap-5 pt-24 pb-10 md:flex-row">
-        <Avatar src={artist.image} name={artist.name} size="4xl" />
+      <div className="bg-bodySecundary pt-20">
+        <Container>
+          <section className="flex flex-col items-center gap-5 pt-24 pb-10 md:flex-row">
+            <Avatar src={artist.image} name={artist.name} size="4xl" />
 
-        <div className="flex flex-col justify-end">
-          <h1 className="text-center font-extrabold md:text-left">
-            {artist.name}
-          </h1>
+            <div className="flex flex-col justify-end">
+              <h1 className="text-center font-extrabold md:text-left">
+                {artist.name}
+              </h1>
 
-          <span className="text-center text-lg md:text-left">
-            {artist.followers.toLocaleString()} followers
-          </span>
-        </div>
-      </section>
-
-      <section>
-        <ChipGroup>
-          {artist.genres.map((genre, i) => (
-            <Chip key={i}>{genre}</Chip>
-          ))}
-        </ChipGroup>
-      </section>
-
-      <Carousel slide={6}>
-        <Section
-          title="Popular tracks"
-          description={`The most popular tracks by ${artist.name}`}
-          toolbar={
-            <div className="flex gap-1">
-              <SectionToolbarCarouselNavigationButton />
-              <SectionToolbarCarouselNavigationButton next />
+              <span className="text-center text-lg md:text-left">
+                {artist.followers.toLocaleString()} followers
+              </span>
             </div>
-          }
-        >
-          <Carousel.Items>
-            {topTracks.length > 0
-              ? topTracks.map((item, i) => (
-                  <Carousel.Item key={i}>
-                    <TrackCard track={item} />
-                  </Carousel.Item>
-                ))
-              : Array(10)
-                  .fill(null)
-                  .map((_n, i) => (
-                    <Carousel.Item key={i}>
-                      <TrackCardSkeleton />
-                    </Carousel.Item>
-                  ))}
-          </Carousel.Items>
-        </Section>
-      </Carousel>
+          </section>
+        </Container>
+      </div>
 
-      {/* <Section title="Albums" description={`Albums featuring ${artist.name}`}>
+      <Container className="mt-8">
+        <section>
+          <ChipGroup>
+            {artist.genres.map((genre, i) => (
+              <Chip key={i}>{genre}</Chip>
+            ))}
+          </ChipGroup>
+        </section>
+
+        <Carousel slide={6}>
+          <Section
+            title="Popular tracks"
+            description={`The most popular tracks by ${artist.name}`}
+            toolbar={
+              <div className="flex gap-1">
+                <SectionToolbarCarouselNavigationButton />
+                <SectionToolbarCarouselNavigationButton next />
+              </div>
+            }
+          >
+            <Carousel.Items>
+              {topTracks.length > 0
+                ? topTracks.map((item, i) => (
+                    <Carousel.Item key={i}>
+                      <TrackCard track={item} />
+                    </Carousel.Item>
+                  ))
+                : Array(10)
+                    .fill(null)
+                    .map((_n, i) => (
+                      <Carousel.Item key={i}>
+                        <TrackCardSkeleton />
+                      </Carousel.Item>
+                    ))}
+            </Carousel.Items>
+          </Section>
+        </Carousel>
+
+        {/* <Section title="Albums" description={`Albums featuring ${artist.name}`}>
         <Carousel gap={16} rows={1}>
           {albums.length > 0
             ? albums.map((album, i) => (
@@ -238,84 +244,85 @@ const Artist: NextPage<Props> = ({ artist }) => {
         </Carousel>
       </Section> */}
 
-      <Carousel slide={6}>
-        <Section
-          title="Top listeners"
-          description={`People who love ${artist.name}`}
-          toolbar={
-            <div className="flex gap-1">
-              <SectionToolbarCarouselNavigationButton />
-              <SectionToolbarCarouselNavigationButton next />
-            </div>
-          }
-        >
-          <Carousel.Items>
-            {topListeners.length > 0
-              ? topListeners.map((item, i) => (
-                  <Carousel.Item key={i}>
-                    <TopListenerCard {...item} />
-                  </Carousel.Item>
-                ))
-              : Array(10)
-                  .fill(null)
-                  .map((_n, i) => (
+        <Carousel slide={6}>
+          <Section
+            title="Top listeners"
+            description={`People who love ${artist.name}`}
+            toolbar={
+              <div className="flex gap-1">
+                <SectionToolbarCarouselNavigationButton />
+                <SectionToolbarCarouselNavigationButton next />
+              </div>
+            }
+          >
+            <Carousel.Items>
+              {topListeners.length > 0
+                ? topListeners.map((item, i) => (
                     <Carousel.Item key={i}>
-                      <TopListenerCardSkeleton />
+                      <TopListenerCard {...item} />
                     </Carousel.Item>
-                  ))}
-          </Carousel.Items>
-        </Section>
-      </Carousel>
+                  ))
+                : Array(10)
+                    .fill(null)
+                    .map((_n, i) => (
+                      <Carousel.Item key={i}>
+                        <TopListenerCardSkeleton />
+                      </Carousel.Item>
+                    ))}
+            </Carousel.Items>
+          </Section>
+        </Carousel>
 
-      <Carousel slide={6} rows={3}>
-        <Section
-          title="Related artists"
-          description="Artists that fans might also like"
-          toolbar={
-            <div className="flex gap-1">
-              <SectionToolbarCarouselNavigationButton />
-              <SectionToolbarCarouselNavigationButton next />
-            </div>
-          }
-        >
-          <Carousel.Items>
-            {related.length > 0
-              ? related.map((item, i) => (
-                  <Carousel.Item key={i}>
-                    <RelatedArtistCard {...item} />
-                  </Carousel.Item>
-                ))
-              : Array(20)
-                  .fill(null)
-                  .map((_n, i) => (
+        <Carousel slide={6} rows={3}>
+          <Section
+            title="Related artists"
+            description="Artists that fans might also like"
+            toolbar={
+              <div className="flex gap-1">
+                <SectionToolbarCarouselNavigationButton />
+                <SectionToolbarCarouselNavigationButton next />
+              </div>
+            }
+          >
+            <Carousel.Items>
+              {related.length > 0
+                ? related.map((item, i) => (
                     <Carousel.Item key={i}>
-                      <RelatedArtistCardSkeleton />
+                      <RelatedArtistCard {...item} />
                     </Carousel.Item>
-                  ))}
-          </Carousel.Items>
+                  ))
+                : Array(20)
+                    .fill(null)
+                    .map((_n, i) => (
+                      <Carousel.Item key={i}>
+                        <RelatedArtistCardSkeleton />
+                      </Carousel.Item>
+                    ))}
+            </Carousel.Items>
+          </Section>
+        </Carousel>
+
+        <MoreTracks artist={artist} tracks={topTracks} />
+
+        <Section
+          title="Your streams"
+          description={`Your streams featuring ${artist.name}`}
+        >
+          <ul>
+            {streams.length > 0 ? (
+              <RecentStreams streams={streams} />
+            ) : (
+              Array(10)
+                .fill(null)
+                .map((_n, i) => (
+                  <li key={i}>
+                    <TrackListRowSkeleton />
+                  </li>
+                ))
+            )}
+          </ul>
         </Section>
-      </Carousel>
-
-      <MoreTracks artist={artist} tracks={topTracks} />
-
-      <Section
-        title="Your streams"
-        description={`Your streams featuring ${artist.name}`}
-      >
-        <ul>
-          {streams.length > 0 ? (
-            <RecentStreams streams={streams} />
-          ) : (
-            Array(10)
-              .fill(null)
-              .map((_n, i) => (
-                <li key={i}>
-                  <TrackListRowSkeleton />
-                </li>
-              ))
-          )}
-        </ul>
-      </Section>
+      </Container>
     </>
   );
 };
