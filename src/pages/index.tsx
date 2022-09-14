@@ -27,7 +27,7 @@ const TotalStatsItem: FC<{
   return (
     <li className="-mb-5">
       <span>{props.label}</span>
-      <h2>
+      <h2 className="leading-9">
         {formatNumber(props.count)}
         {props.liveIndicator && (
           <span className="relative aspect-square w-3">
@@ -90,7 +90,7 @@ const FeatureItem: FC<PropsWithChildren<{ title: string; Icon: IconType }>> = ({
         <Icon color="#1ed760" />
       </div>
       <div className="flex flex-col align-middle">
-        <h2 className="text-2xl font-bold">{title}</h2>
+        <h2 className="text-2xl font-bold leading-8">{title}</h2>
         <p className="text-neutral-400">{children}</p>
       </div>
     </div>
@@ -147,7 +147,7 @@ const Home: NextPage = () => {
             />
           </div>
           <div className="w-full lg:w-6/12">
-            <h1>Easy, extensive and secure</h1>
+            <h1 className="leading-10">Easy, extensive and secure</h1>
             <p>
               With the click of a button you&apos;ll be logged with your Spotify
               account and you&apos;ll instantly gain access to a valhalla of
@@ -203,7 +203,7 @@ const Home: NextPage = () => {
         </Container>
       </section>
       <Container className="py-14">
-        <Card className="flex max-h-[575px] flex-col justify-between overflow-hidden p-0 md:max-h-[365px] md:flex-row md:gap-5">
+        <Card className="flex flex-col justify-between overflow-hidden p-0 md:max-h-[365px] md:flex-row md:gap-5">
           <div className="flex w-full flex-col justify-start p-5 md:w-8/12 md:p-10">
             <h1>Connect with your friends</h1>
             <p className="text-xl font-normal">
