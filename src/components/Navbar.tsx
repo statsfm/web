@@ -19,8 +19,9 @@ export const NavBar = () => {
     <nav className="absolute z-20 flex w-full">
       <Container className="flex w-full items-center justify-between bg-inherit py-3">
         <Link href="/" passHref>
-          <a>
+          <a className="flex gap-3">
             <Logo className="h-[1.7rem] w-[1.7rem] cursor-pointer" />
+            <h3 className="mt-[-3px]">Stats.fm</h3>
           </a>
         </Link>
 
