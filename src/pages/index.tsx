@@ -1,6 +1,7 @@
 import { ChevronLink } from '@/components/ChevronLink';
 import { Container } from '@/components/Container';
 import { Divider } from '@/components/Divider';
+import { TotalStats } from '@/components/Home/TotalStats';
 import { StoreBadge } from '@/components/StoreBadges';
 import clsx from 'clsx';
 import type { NextPage } from 'next';
@@ -8,63 +9,11 @@ import Link from 'next/link';
 import type { FC, PropsWithChildren } from 'react';
 import type { IconType } from 'react-icons';
 import {
-  MdOutlineArrowRightAlt,
   MdFormatListBulleted,
   MdHistory,
   MdLock,
   MdShowChart,
 } from 'react-icons/md';
-
-const TotalStatsItem: FC<{
-  label: string;
-  count: number;
-  hourlyCount: number;
-  liveIndicator?: boolean;
-}> = (props) => {
-  const formatNumber = (count: number) =>
-    Math.round(count).toLocaleString('en-US');
-
-  return (
-    <li className="-mb-5">
-      <span>{props.label}</span>
-      <h2 className="leading-9">
-        {formatNumber(props.count)}
-        {props.liveIndicator && (
-          <span className="relative aspect-square w-3">
-            <span className="absolute aspect-square h-4 animate-ping rounded-full bg-primary/75 duration-[1000s]"></span>
-            <span className="absolute mt-0.5 ml-0.5 aspect-square w-3 rounded-full bg-primary opacity-80"></span>
-          </span>
-        )}
-      </h2>
-      <p className="mt-0 ml-[-12px] inline-flex scale-90 text-neutral-500">
-        <MdOutlineArrowRightAlt className="-rotate-90" />
-        <span className="mr-1 font-bold text-inherit">
-          {formatNumber(props.hourlyCount)}
-        </span>
-        in the last hour
-      </p>
-    </li>
-  );
-};
-
-const TotalStats: FC = () => {
-  return (
-    <ul className="mt-5 grid grid-cols-2 gap-x-4 gap-y-6">
-      {/* TODO: make these statistics live */}
-      <TotalStatsItem label="Users" count={5_921_945} hourlyCount={1_540} />
-      <TotalStatsItem label="Users" count={5_921_945} hourlyCount={1_540} />
-      <TotalStatsItem label="Users" count={5_921_945} hourlyCount={1_540} />
-      <TotalStatsItem label="Users" count={5_921_945} hourlyCount={1_540} />
-      <TotalStatsItem label="Users" count={5_921_945} hourlyCount={1_540} />
-      <TotalStatsItem
-        label="Streams"
-        count={7_368_921_243}
-        hourlyCount={36}
-        liveIndicator
-      />
-    </ul>
-  );
-};
 
 const Card: FC<PropsWithChildren<{ className?: string }>> = (props) => {
   return (
