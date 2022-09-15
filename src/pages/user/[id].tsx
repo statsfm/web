@@ -338,7 +338,7 @@ const User: NextPage<Props> = ({ user }) => {
                 </h1>
 
                 {user.privacySettings?.profile && user.profile?.bio && (
-                  <pre className="font-body text-lg  md:text-left  [&>a]:font-semibold [&>a]:text-primary">
+                  <pre className="whitespace-pre-wrap  font-body  text-lg md:text-left [&>a]:font-semibold [&>a]:text-primary">
                     <Linkify
                       options={{ target: '_blank', rel: 'noopener noreferrer' }}
                     >
