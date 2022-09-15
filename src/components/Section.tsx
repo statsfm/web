@@ -1,4 +1,5 @@
 import { Keys } from '@/types/keyboard';
+import clsx from 'clsx';
 import type {
   HTMLAttributes,
   KeyboardEventHandler,
@@ -12,12 +13,14 @@ interface Props extends HTMLAttributes<HTMLElement> {
   title: string;
   description?: string;
   toolbar?: JSX.Element;
+  sticky?: boolean;
 }
 
 export const Section = ({
   title,
   description,
   toolbar,
+  sticky,
   children,
   ...props
 }: PropsWithChildren<Props>) => {
@@ -43,7 +46,12 @@ export const Section = ({
 
   return (
     <section onKeyDown={handleKeyDown}>
-      <header className="sticky top-0 z-20 flex items-center justify-between bg-background pt-10 pb-3">
+      <header
+        className={clsx(
+          sticky === undefined || sticky === true ? 'sticky top-0' : '',
+          'z-30 flex items-center justify-between bg-background pt-10 pb-3'
+        )}
+      >
         <div>
           <h2>{title}</h2>
           <p className="my-0">{description}</p>
