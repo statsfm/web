@@ -16,7 +16,7 @@ export const NavBar = () => {
   };
 
   return (
-    <nav className="absolute z-20 flex w-full">
+    <nav className="absolute z-40 flex w-full">
       <Container className="flex w-full items-center justify-between bg-inherit py-3">
         <Link href="/" passHref>
           <a className="flex gap-3">
