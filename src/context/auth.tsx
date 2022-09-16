@@ -7,6 +7,7 @@ import { createContext, useEffect, useState } from 'react';
 
 export const AuthContext = createContext<{
   user: statsfm.UserPrivate | null;
+  updateUser: (user: statsfm.UserPrivate) => void;
   login: () => void;
   logout: () => void;
   callback: (token: string) => void;
@@ -57,6 +58,10 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
     );
   };
 
+  const updateUser = (user: statsfm.UserPrivate) => {
+    setUser(user);
+  };
+
   const logout = () => {
     setUser(null);
     localStorage.removeItem('token');
@@ -87,6 +92,7 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
 
   const exposed = {
     user,
+    updateUser,
     login,
     logout,
     callback,
