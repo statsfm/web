@@ -39,6 +39,7 @@ export const Input = ({
             id={id}
             className="w-full bg-transparent"
             onInput={handleInput}
+            maxLength={maxLength}
             {...props}
           />
           {suffix && <span>{suffix}</span>}

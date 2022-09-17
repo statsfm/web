@@ -38,6 +38,7 @@ export const Textarea = ({
           style={{ resize }}
           // @ts-ignore
           onInput={handleInput}
+          maxLength={maxLength}
           {...props}
         />
 
