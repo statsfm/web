@@ -1,4 +1,5 @@
 import { AccountLayout } from '@/components/account/Layout';
+import { DropDownNav } from '@/components/account/Nav';
 import { Avatar } from '@/components/Avatar';
 import { Button } from '@/components/Button';
 import { Container } from '@/components/Container';
@@ -166,7 +167,7 @@ const AvatarInput: FC<{ defaultSrc: string }> = ({ defaultSrc }) => {
       />
       <label
         htmlFor="fileInput"
-        className="relative h-min cursor-pointer"
+        className="relative mx-auto mt-6 mb-4 h-min w-min cursor-pointer sm:my-0"
         onMouseEnter={() => setHovering(true)}
         onMouseLeave={() => setHovering(false)}
       >
@@ -196,7 +197,6 @@ const AvatarInput: FC<{ defaultSrc: string }> = ({ defaultSrc }) => {
   );
 };
 
-// TODO: make account & privacy page responsive
 const AccountPrivacyInfoForm: FC<{
   pronouns: Pronoun[];
   user: UserPrivate;
@@ -225,12 +225,13 @@ const AccountPrivacyInfoForm: FC<{
         </div>
       </div>
 
-      <header className="sticky top-0 z-30 flex flex-row items-center justify-between bg-background py-4">
-        <h1>Account & Privacy</h1>
+      <header className="sticky top-0 z-30 flex flex-row items-center bg-background py-4">
+        <DropDownNav />
+        <h1 className="ml-4 text-2xl sm:text-4xl">Account & Privacy</h1>
         <Button
           className={clsx(
             changed ? 'hover:bg-primary/60 active:bg-primary/40' : '',
-            'block h-min rounded-md bg-primary py-2 px-4 text-background'
+            'ml-auto block h-min rounded-md bg-primary py-2 px-4 text-background'
           )}
           onClick={save}
           disabled={!changed || status === 'SAVING'}
@@ -239,7 +240,7 @@ const AccountPrivacyInfoForm: FC<{
         </Button>
       </header>
 
-      <section className="mb-4 flex flex-row gap-8">
+      <section className="flex flex-col sm:mb-4 sm:flex-row sm:gap-8">
         <AvatarInput defaultSrc={user.image} />
 
         <div className="w-full">
