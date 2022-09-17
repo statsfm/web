@@ -18,6 +18,7 @@ const App = ({ Component, pageProps }: AppProps) => {
   const noContainerPaths = [
     '/',
     '/account',
+    '/account/connections',
     '/user/[id]',
     '/track/[id]',
     '/artist/[id]',

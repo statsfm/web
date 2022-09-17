@@ -1,3 +1,4 @@
+import { AccountLayout } from '@/components/account/Layout';
 import { Avatar } from '@/components/Avatar';
 import { Button } from '@/components/Button';
 import { Container } from '@/components/Container';
@@ -11,52 +12,15 @@ import { Switch } from '@headlessui/react';
 import type { UserPrivacySettings, UserPrivate } from '@statsfm/statsfm.js';
 import clsx from 'clsx';
 import type { GetServerSideProps, NextPage } from 'next';
-import Link from 'next/link';
-import { useRouter } from 'next/router';
 import type { Dispatch, FC, PropsWithChildren } from 'react';
 import {
-  useCallback,
   createContext,
+  useCallback,
   useContext,
   useMemo,
   useState,
 } from 'react';
 import { MdArrowDropDown, MdCameraEnhance } from 'react-icons/md';
-
-type Pronoun = { aliases: string[]; description: string };
-
-interface Props {
-  pronouns: Pronoun[];
-}
-
-const SideNavItem: FC<PropsWithChildren<{ href: string }>> = (props) => {
-  const { pathname } = useRouter();
-
-  return (
-    <Link href={props.href}>
-      <a
-        className={clsx(
-          pathname === props.href
-            ? 'bg-bodySecundary text-primary'
-            : 'bg-transparent text-white',
-          '-ml-4 block rounded-lg px-4 py-2 font-bold  hover:bg-bodySecundary hover:opacity-90 focus:bg-bodySecundary'
-        )}
-      >
-        {props.children}
-      </a>
-    </Link>
-  );
-};
-
-const SideNav: FC = () => {
-  return (
-    <aside className="flex flex-col gap-1">
-      <SideNavItem href="/account">Account & Privacy</SideNavItem>
-      <SideNavItem href="/account/connections">Connections</SideNavItem>
-      <SideNavItem href="/account/privacy">Privacy & Data</SideNavItem>
-    </aside>
-  );
-};
 
 type StatusOptions = 'SAVING' | 'SAVED' | 'ERROR' | 'DEFAULT';
 
@@ -228,6 +192,7 @@ const AvatarInput: FC<{ defaultSrc: string }> = ({ defaultSrc }) => {
   );
 };
 
+// TODO: make account & privacy page responsive
 const AccountPrivacyInfoForm: FC<{
   pronouns: Pronoun[];
   user: UserPrivate;
@@ -390,33 +355,22 @@ const AccountPrivacyInfoForm: FC<{
   );
 };
 
-const Account: NextPage<Props> = ({ pronouns }) => {
-  // const api = useApi();
-  const { user } = useAuth();
+type Pronoun = { aliases: string[]; description: string };
 
+interface Props {
+  pronouns: Pronoun[];
+}
+
+const Account: NextPage<Props> = ({ pronouns }) => {
+  const { user } = useAuth();
   if (!user) return <Container>Unauthorized</Container>;
 
-  // useEffect(() => {
-  //   (async () => {
-  //     if (user?.profile) {
-  //       await api.me.updateProfile({
-  //         ...user.profile,
-  //         pronouns: pronoun ?? undefined,
-  //       });
-  //     }
-  //   })();
-  // }, [pronoun]);
-
   return (
-    <Container className="flex flex-row gap-12 pt-32">
-      <nav className="sticky top-0 h-min shrink-0 py-4 md:w-48">
-        <h3 className="mb-2">Account</h3>
-        <SideNav />
-      </nav>
+    <AccountLayout>
       <StateContextProvider user={user}>
         <AccountPrivacyInfoForm pronouns={pronouns} user={user} />
       </StateContextProvider>
-    </Container>
+    </AccountLayout>
   );
 };
 
