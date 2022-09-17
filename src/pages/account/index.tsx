@@ -30,7 +30,7 @@ type StateContextType = {
   customId: [string, Dispatch<string>];
   bio: [string, Dispatch<string>];
   privacySettings: [UserPrivacySettings, Dispatch<UserPrivacySettings>];
-  pronouns: [string | null, Dispatch<string | null>];
+  pronouns: [string, Dispatch<string>];
   status: [StatusOptions, Dispatch<StatusOptions>];
   changed: boolean;
   save: () => Promise<boolean>;
@@ -52,8 +52,8 @@ const StateContextProvider: FC<PropsWithChildren<{ user: UserPrivate }>> = ({
   const [privacySettings, setPrivacySettings] = useState<UserPrivacySettings>(
     user.privacySettings!
   );
-  const [pronouns, setPronouns] = useState<string | null>(
-    user.profile?.pronouns ?? null
+  const [pronouns, setPronouns] = useState<string>(
+    user.profile?.pronouns ?? 'none'
   );
 
   const [status, setStatus] = useState<StatusOptions>('DEFAULT');
@@ -65,7 +65,7 @@ const StateContextProvider: FC<PropsWithChildren<{ user: UserPrivate }>> = ({
       customId !== user.customId ||
       bio !== user.profile?.bio ||
       privacySettings !== user.privacySettings ||
-      pronouns !== user.profile?.pronouns,
+      pronouns !== (user.profile?.pronouns ?? 'none'),
     [files, displayName, customId, bio, privacySettings, pronouns, user]
   );
 
@@ -91,7 +91,11 @@ const StateContextProvider: FC<PropsWithChildren<{ user: UserPrivate }>> = ({
   const save = async () => {
     setStatus('SAVING');
     try {
-      await api.me.updateProfile({ bio, pronouns: pronouns || undefined });
+      const actualPronouns: string | null | undefined =
+        pronouns === 'none' ? null : pronouns;
+
+      // @ts-expect-error
+      await api.me.updateProfile({ bio, pronouns: actualPronouns });
       await api.me.updatePrivacySettings({ ...privacySettings });
       await api.me.updateMe({
         ...user,
@@ -282,7 +286,9 @@ const AccountPrivacyInfoForm: FC<{
             </Menu.Button>
 
             <Menu.Items className="absolute left-0 h-48 overflow-scroll rounded-xl bg-bodySecundary p-2 px-1">
-              <Menu.Item onClick={(value) => setPronoun(value)}>None</Menu.Item>
+              <Menu.Item value="none" onClick={(value) => setPronoun(value)}>
+                None
+              </Menu.Item>
               {pronouns.map((pronoun, i) => (
                 <Menu.Item
                   value={pronoun.aliases[0]}
