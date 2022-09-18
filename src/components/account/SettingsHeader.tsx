@@ -8,7 +8,7 @@ export const SettingsHeader: FC<PropsWithChildren<{ title: string }>> = ({
   return (
     <header className="sticky top-0 z-30 flex flex-row items-center bg-background py-4">
       <DropDownNav />
-      <h1 className="ml-4 text-2xl sm:text-4xl">{title}</h1>
+      <h1 className="ml-4 text-2xl sm:ml-0 sm:text-4xl">{title}</h1>
       <div className="ml-auto flex gap-2">{children}</div>
     </header>
   );
