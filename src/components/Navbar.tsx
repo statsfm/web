@@ -24,6 +24,7 @@ export const NavBar = () => {
           </a>
         </Link>
 
+        {/* TODO: disappear on intersection observer */}
         {user ? (
           <Menu>
             <Menu.Button>
@@ -46,9 +47,9 @@ export const NavBar = () => {
                 </Link>
               </Menu.Item>
               <Menu.Item>
-                <Link href="/account">
+                <Link href="/settings/profile">
                   <a className="flex h-full w-full flex-row gap-2">
-                    <MdManageAccounts className="text-white" /> My account
+                    <MdManageAccounts className="text-white" /> Settings
                   </a>
                 </Link>
               </Menu.Item>
