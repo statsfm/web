@@ -12,6 +12,60 @@ import type { NextPage } from 'next';
 import type { FC } from 'react';
 import { useCallback, useMemo, useState } from 'react';
 
+type DisplayNamesType = {
+  [key in keyof UserPrivacySettings | 'leaderboards']: {
+    title: string;
+    description: string;
+  };
+};
+
+const displayNames: DisplayNamesType = {
+  profile: {
+    title: 'Public Profile',
+    description:
+      'Whether or not your profile is visible to other users. If you disable this, your profile wont be accessible to others.',
+  },
+  currentlyPlaying: {
+    title: 'Currently Playing',
+    description: "The track you're currently playing.",
+  },
+  recentlyPlayed: {
+    title: 'Recently played',
+    description: 'Your 50 last played tracks.',
+  },
+  topTracks: {
+    title: 'Top tracks',
+    description: 'Your top tracks.',
+  },
+  topArtists: {
+    title: 'Top artists',
+    description: 'Your top artists',
+  },
+  topAlbums: {
+    title: 'Top albums',
+    description: 'Your top albums.',
+  },
+  topGenres: {
+    title: 'Top genres',
+    description: 'Your top genres.',
+  },
+  streams: {
+    title: 'Streams',
+    description:
+      'Your individual streams (all or filtered by artist, track or album).',
+  },
+  streamStats: {
+    title: 'Stream stats',
+    description:
+      'Statistics such as number of streams, minutes streamed and charts using that data.',
+  },
+  leaderboards: {
+    title: 'Leaderboards',
+    description:
+      'Show your profile in global leaderboards (for example top listeners of a specific artist)',
+  },
+};
+
 type StatusOptions = 'SAVING' | 'SAVED' | 'ERROR' | 'DEFAULT';
 
 const PrivacyList: FC<{ user: UserPrivate }> = ({ user }) => {
@@ -61,15 +115,21 @@ const PrivacyList: FC<{ user: UserPrivate }> = ({ user }) => {
 
       <ul>
         {privacySettings &&
-          Object.entries<boolean>(
-            privacySettings as unknown as { [s: string]: boolean }
-          ).map(([setting, value], i) => (
-            <li key={i}>
+          (
+            Object.entries<boolean>(
+              privacySettings as unknown as {
+                [key in keyof UserPrivacySettings]: boolean;
+              }
+            ) as [keyof UserPrivacySettings, boolean][]
+          ).map(([setting, value]) => (
+            <li key={setting}>
               <Divider />
               <div className="flex items-center justify-between">
                 <div>
-                  <h3 className="text-xl">placeholder {setting}</h3>
-                  <p className="m-0 font-normal">placeholder description</p>
+                  <h3 className="text-xl">{displayNames[setting].title}</h3>
+                  <p className="m-0 font-normal">
+                    {displayNames[setting].description}
+                  </p>
                 </div>
 
                 <Switch
