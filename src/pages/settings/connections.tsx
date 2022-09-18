@@ -1,5 +1,5 @@
 import { AccountLayout } from '@/components/account/Layout';
-import { DropDownNav } from '@/components/account/Nav';
+import { SettingsHeader } from '@/components/account/SettingsHeader';
 import { Button } from '@/components/Button';
 import { useApi, useAuth } from '@/hooks';
 import type { UserSocialMediaConnection } from '@statsfm/statsfm.js';
@@ -84,11 +84,8 @@ const ConnectionsList = () => {
   const platforms = useConnections();
 
   return (
-    <main className="relative w-full">
-      <header className="sticky top-0 z-30 flex flex-row items-center bg-background py-4">
-        <DropDownNav />
-        <h1 className="ml-4 text-2xl sm:text-4xl">Connections</h1>
-      </header>
+    <div className="relative w-full">
+      <SettingsHeader title="Connections" />
 
       <ul className="grid grid-cols-1 gap-4 lg:grid-cols-2">
         {platforms.map((platform) => (
@@ -124,11 +121,11 @@ const ConnectionsList = () => {
           </li>
         ))}
       </ul>
-    </main>
+    </div>
   );
 };
 
-const Connections: NextPage = () => {
+const ConnectionsPage: NextPage = () => {
   const { user } = useAuth();
   if (!user) return <>Unauthorized</>;
 
@@ -139,4 +136,4 @@ const Connections: NextPage = () => {
   );
 };
 
-export default Connections;
+export default ConnectionsPage;

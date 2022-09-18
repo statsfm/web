@@ -1,5 +1,5 @@
+import { SettingsHeader } from '@/components/account/SettingsHeader';
 import { AccountLayout } from '@/components/account/Layout';
-import { DropDownNav } from '@/components/account/Nav';
 import { Avatar } from '@/components/Avatar';
 import { Button } from '@/components/Button';
 import { Container } from '@/components/Container';
@@ -225,20 +225,18 @@ const AccountPrivacyInfoForm: FC<{
         </div>
       </div>
 
-      <header className="sticky top-0 z-30 flex flex-row items-center bg-background py-4">
-        <DropDownNav />
-        <h1 className="ml-4 text-2xl sm:text-4xl">Account & Privacy</h1>
+      <SettingsHeader title="Profile">
         <Button
           className={clsx(
             changed ? 'hover:bg-primary/60 active:bg-primary/40' : '',
-            'ml-auto block h-min rounded-md bg-primary py-2 px-4 text-background'
+            ' block h-min rounded-md bg-primary py-2 px-4 text-background'
           )}
           onClick={save}
           disabled={!changed || status === 'SAVING'}
         >
           Save
         </Button>
-      </header>
+      </SettingsHeader>
 
       <section className="flex flex-col sm:mb-4 sm:flex-row sm:gap-8">
         <AvatarInput defaultSrc={user.image} />
@@ -368,7 +366,7 @@ interface Props {
   pronouns: Pronoun[];
 }
 
-const Account: NextPage<Props> = ({ pronouns }) => {
+const ProfilePage: NextPage<Props> = ({ pronouns }) => {
   const { user } = useAuth();
   if (!user) return <Container>Unauthorized</Container>;
 
@@ -395,4 +393,4 @@ export const getServerSideProps: GetServerSideProps<Props> = async () => {
   };
 };
 
-export default Account;
+export default ProfilePage;
