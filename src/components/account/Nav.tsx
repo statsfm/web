@@ -6,17 +6,20 @@ import type { FC, PropsWithChildren } from 'react';
 import { Fragment } from 'react';
 import { MdMenu } from 'react-icons/md';
 
-const SideNavItem: FC<PropsWithChildren<{ href: string }>> = (props) => {
+const SideNavItem: FC<
+  PropsWithChildren<{ href: string; disabled?: boolean }>
+> = (props) => {
   const { pathname } = useRouter();
 
   return (
     <Link href={props.href}>
       <a
         className={clsx(
+          // props.disabled && '!text-neutral-500 pointer-events-none',
           pathname === props.href
             ? 'bg-bodySecundary text-primary'
-            : 'bg-transparent text-white',
-          ' -ml-4 block rounded-lg px-4 py-2 font-bold hover:bg-bodySecundary hover:opacity-90 focus:bg-bodySecundary'
+            : 'bg-transparent text-neutral-500',
+          ' -ml-4 block rounded-lg px-4 py-1.5 font-medium hover:bg-bodySecundary hover:opacity-90 focus:bg-bodySecundary'
         )}
       >
         {props.children}
@@ -25,16 +28,39 @@ const SideNavItem: FC<PropsWithChildren<{ href: string }>> = (props) => {
   );
 };
 
+const NavGroup: FC<PropsWithChildren<{ title: string }>> = ({
+  title,
+  children,
+}) => {
+  return (
+    <div className="mb-4">
+      <h4 className="-mt-1 text-xl text-white">{title}</h4>
+      <div className="flex flex-col gap-1">{children}</div>
+    </div>
+  );
+};
+
 const NavBody: FC = () => (
   <nav>
-    <h3 className="mb-2 border-b border-bodySecundary text-2xl">Account</h3>
+    <h3 className="mb-2 text-2xl">Settings</h3>
 
     <aside className="flex flex-col gap-1 sm:gap-2">
-      <SideNavItem href="/account">Account & Privacy</SideNavItem>
-      {/* <SideNavItem href="/account/import">Import</SideNavItem> */}
-      <SideNavItem href="/account/connections">Connections</SideNavItem>
-      {/* <SideNavItem href="/account/algorithms">Stats & Algorithms</SideNavItem> */}
-      {/* <SideNavItem href="/account/lang">Language & Theme</SideNavItem> */}
+      {/* <hr /> */}
+      <NavGroup title="Account">
+        <SideNavItem href="/settings/profile">Profile</SideNavItem>
+        <SideNavItem href="/settings/privacy">Privacy</SideNavItem>
+        <SideNavItem href="/settings/connections">Connections</SideNavItem>
+        <SideNavItem disabled href="/settings/devices">
+          Devices
+        </SideNavItem>
+      </NavGroup>
+
+      <NavGroup title="Stats">
+        <SideNavItem href="/account/import">Import</SideNavItem>
+        <SideNavItem href="/account/import">Algorithms</SideNavItem>
+        {/* <SideNavItem href="/account/algorithms">Stats & Algorithms</SideNavItem> */}
+        {/* <SideNavItem href="/account/lang">Language & Theme</SideNavItem> */}
+      </NavGroup>
     </aside>
   </nav>
 );
