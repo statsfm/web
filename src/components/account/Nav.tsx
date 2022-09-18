@@ -15,7 +15,6 @@ const SideNavItem: FC<
     <Link href={props.href}>
       <a
         className={clsx(
-          // props.disabled && '!text-neutral-500 pointer-events-none',
           pathname === props.href
             ? 'bg-bodySecundary text-primary'
             : 'bg-transparent text-neutral-500',
@@ -42,10 +41,9 @@ const NavGroup: FC<PropsWithChildren<{ title: string }>> = ({
 
 const NavBody: FC = () => (
   <nav>
-    <h3 className="mb-2 text-2xl">Settings</h3>
+    <h3 className="mb-2 hidden text-2xl sm:block">Settings</h3>
 
     <aside className="flex flex-col gap-1 sm:gap-2">
-      {/* <hr /> */}
       <NavGroup title="Account">
         <SideNavItem href="/settings/profile">Profile</SideNavItem>
         <SideNavItem href="/settings/privacy">Privacy</SideNavItem>
@@ -82,10 +80,10 @@ export const DropDownNav: FC = () => {
 
       <Transition
         as={Fragment}
-        enter="transition duration-200 ease-out"
+        enter="transition duration-100 ease-out"
         enterFrom="transform opacity-0"
         enterTo="transform opacity-100"
-        leave="transition duration-200 ease-out"
+        leave="transition duration-100 ease-out"
         leaveFrom="transform opacity-100"
         leaveTo="transform opacity-0"
       >
@@ -94,10 +92,10 @@ export const DropDownNav: FC = () => {
 
       <Transition
         as={Fragment}
-        enter="transition duration-200 ease-out"
+        enter="transition duration-100 ease-out"
         enterFrom="transform opacity-0"
         enterTo="transform opacity-100"
-        leave="transition duration-200 ease-out"
+        leave="transition duration-100 ease-out"
         leaveFrom="transform opacity-100"
         leaveTo="transform opacity-0"
       >
