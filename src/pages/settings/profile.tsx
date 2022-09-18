@@ -254,6 +254,7 @@ const AccountPrivacyInfoForm: FC<{
       />
 
       {/* pronouns */}
+      {/* TODO: rewrite this with an overlay */}
       <label htmlFor="pronouns">Pronouns</label>
       <Menu id="pronouns" className="z-20">
         {({ open }) => (
@@ -265,7 +266,10 @@ const AccountPrivacyInfoForm: FC<{
               />
             </Menu.Button>
 
-            <Menu.Items className="absolute left-0 h-48 overflow-scroll rounded-xl bg-bodySecundary p-2 px-1">
+            <Menu.Items
+              placement="bottom-start"
+              className="absolute -mt-2 h-48 overflow-scroll rounded-lg bg-bodySecundary p-2 px-1"
+            >
               <Menu.Item value="none" onClick={(value) => setPronoun(value)}>
                 None
               </Menu.Item>
