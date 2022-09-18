@@ -213,7 +213,7 @@ const AccountPrivacyInfoForm: FC<{
   } = useContext(stateContext)!;
 
   return (
-    <main className="relative w-full">
+    <div className="relative w-full">
       <div
         className={clsx(
           status === 'SAVING' ? 'opacity-100' : 'pointer-events-none opacity-0',
@@ -358,7 +358,7 @@ const AccountPrivacyInfoForm: FC<{
           <Button className="mt-2">Delete my account and all my data</Button>
         </div>
       </Section>
-    </main>
+    </div>
   );
 };
 

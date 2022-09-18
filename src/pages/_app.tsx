@@ -17,8 +17,9 @@ const App = ({ Component, pageProps }: AppProps) => {
   const { pathname } = useRouter();
   const noContainerPaths = [
     '/',
-    '/account',
-    '/account/connections',
+    '/settings/profile',
+    '/settings/privacy',
+    '/settings/connections',
     '/user/[id]',
     '/track/[id]',
     '/artist/[id]',
