@@ -1,16 +1,15 @@
-import { SettingsHeader } from '@/components/account/SettingsHeader';
 import { AccountLayout } from '@/components/account/Layout';
+import { SettingsHeader } from '@/components/account/SettingsHeader';
 import { Avatar } from '@/components/Avatar';
 import { Button } from '@/components/Button';
 import { Container } from '@/components/Container';
-import { Divider } from '@/components/Divider';
 import { Input } from '@/components/Input';
 import { Menu } from '@/components/Menu';
+import { Overlay } from '@/components/Overlay';
 import { Section } from '@/components/Section';
 import { Textarea } from '@/components/Textarea';
 import { useApi, useAuth } from '@/hooks';
-import { Switch } from '@headlessui/react';
-import type { UserPrivacySettings, UserPrivate } from '@statsfm/statsfm.js';
+import type { UserPrivate } from '@statsfm/statsfm.js';
 import clsx from 'clsx';
 import type { GetServerSideProps, NextPage } from 'next';
 import type { Dispatch, FC, PropsWithChildren } from 'react';
@@ -30,7 +29,6 @@ type StateContextType = {
   displayName: [string, Dispatch<string>];
   customId: [string, Dispatch<string>];
   bio: [string, Dispatch<string>];
-  privacySettings: [UserPrivacySettings, Dispatch<UserPrivacySettings>];
   pronouns: [string, Dispatch<string>];
   status: [StatusOptions, Dispatch<StatusOptions>];
   changed: boolean;
@@ -50,9 +48,6 @@ const StateContextProvider: FC<PropsWithChildren<{ user: UserPrivate }>> = ({
   const [displayName, setDisplayName] = useState<string>(user.displayName);
   const [customId, setCustomId] = useState<string>(user.customId);
   const [bio, setBio] = useState<string>(user.profile?.bio ?? '');
-  const [privacySettings, setPrivacySettings] = useState<UserPrivacySettings>(
-    user.privacySettings!
-  );
   const [pronouns, setPronouns] = useState<string>(
     user.profile?.pronouns ?? 'none'
   );
@@ -65,9 +60,8 @@ const StateContextProvider: FC<PropsWithChildren<{ user: UserPrivate }>> = ({
       displayName !== user.displayName ||
       customId !== user.customId ||
       bio !== user.profile?.bio ||
-      privacySettings !== user.privacySettings ||
       pronouns !== (user.profile?.pronouns ?? 'none'),
-    [files, displayName, customId, bio, privacySettings, pronouns, user]
+    [files, displayName, customId, bio, pronouns, user]
   );
 
   const uploadAvatar = useCallback(async () => {
@@ -97,7 +91,6 @@ const StateContextProvider: FC<PropsWithChildren<{ user: UserPrivate }>> = ({
 
       // @ts-expect-error
       await api.me.updateProfile({ bio, pronouns: actualPronouns });
-      await api.me.updatePrivacySettings({ ...privacySettings });
       await api.me.updateMe({
         ...user,
         displayName,
@@ -131,7 +124,6 @@ const StateContextProvider: FC<PropsWithChildren<{ user: UserPrivate }>> = ({
         displayName: [displayName, setDisplayName],
         customId: [customId, setCustomId],
         bio: [bio, setBio],
-        privacySettings: [privacySettings, setPrivacySettings],
         pronouns: [pronouns, setPronouns],
         status: [status, setStatus],
         changed,
@@ -206,7 +198,6 @@ const AccountPrivacyInfoForm: FC<{
     customId: [customId, setCustomId],
     bio: [bio, setBio],
     pronouns: [pronoun, setPronoun],
-    privacySettings: [privacySettings, setPrivacySettings],
     status: [status],
     changed,
     save,
@@ -214,17 +205,7 @@ const AccountPrivacyInfoForm: FC<{
 
   return (
     <div className="relative w-full">
-      <div
-        className={clsx(
-          status === 'SAVING' ? 'opacity-100' : 'pointer-events-none opacity-0',
-          'absolute top-0 z-30 h-full w-full bg-background/60 transition-opacity'
-        )}
-      >
-        <div className="sticky top-0 flex h-screen w-full items-center justify-center">
-          <span className="text-lg text-white">saving...</span>
-        </div>
-      </div>
-
+      <Overlay visible={status === 'SAVING'}>saving...</Overlay>
       <SettingsHeader title="Profile">
         <Button
           className={clsx(
@@ -305,51 +286,6 @@ const AccountPrivacyInfoForm: FC<{
       <span className="text-sm">
         Pronouns are provided by https://pronouns.page
       </span>
-
-      {/* privacy settings */}
-      <Section
-        title="Privacy settings"
-        description="Choose what data should be publicy visible on your profile"
-        sticky={false}
-      >
-        <ul>
-          {privacySettings &&
-            Object.entries<boolean>(
-              privacySettings as unknown as { [s: string]: boolean }
-            ).map(([setting, value], i) => (
-              <li key={i}>
-                <Divider />
-                <div className="flex items-center justify-between">
-                  <div>
-                    <h3>placeholder {setting}</h3>
-                    <p className="m-0">placeholder description</p>
-                  </div>
-
-                  <Switch
-                    checked={value}
-                    onChange={(value) =>
-                      setPrivacySettings({
-                        ...privacySettings,
-                        [setting]: value,
-                      })
-                    }
-                    className={clsx(
-                      value ? 'bg-primary' : 'bg-primaryLighter',
-                      'relative flex h-6 w-12 shrink-0 cursor-pointer items-center rounded-full border-2 border-transparent py-3 transition-colors duration-200 ease-in-out focus:outline-none focus-visible:ring-2 focus-visible:ring-white/75'
-                    )}
-                  >
-                    <span
-                      className={clsx(
-                        value ? 'translate-x-5' : 'translate-x-[2px]',
-                        'h-[22px] w-[22px] rounded-full bg-white transition-transform duration-200 ease-in-out'
-                      )}
-                    />
-                  </Switch>
-                </div>
-              </li>
-            ))}
-        </ul>
-      </Section>
       <Section title="Danger zone" sticky={false}>
         <div className="w-full rounded-xl border border-red-500 p-5">
           <h3>Delete Account</h3>
