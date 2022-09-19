@@ -7,6 +7,7 @@ import { useLayoutEffect, useId } from 'react';
 import { Keys } from '@/types/keyboard';
 import type { Placement } from '@floating-ui/react-dom';
 import { offset, useFloating } from '@floating-ui/react-dom';
+import { useOffscreen } from '@/hooks/use-offscreen';
 import { useMenuContext } from './context';
 import { ActionType, Focus, MenuState } from './MenuRoot';
 
@@ -25,6 +26,10 @@ export const Items = ({
   const { x, y, reference, floating, strategy } = useFloating({
     middleware: [offset(8)],
     placement,
+  });
+
+  const offScreenRef = useOffscreen(() => {
+    dispatch({ type: ActionType.CloseMenu });
   });
 
   useLayoutEffect(() => {
@@ -105,6 +110,7 @@ export const Items = ({
           // TODO: this funky react business needs to go but this does the job for now.
           ref={(el) => {
             floating(el);
+            offScreenRef(el);
             state.itemsRef.current = el;
           }}
           className="absolute z-20 max-h-96 overflow-y-hidden rounded-xl bg-foreground py-2 shadow-xl"
