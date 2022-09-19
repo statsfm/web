@@ -195,9 +195,13 @@ export const MenuRoot = ({ id, children, ...props }: MenuRootProps) => {
     }
   );
 
-  useOutsideClick(state.itemsRef, () => {
-    dispatch({ type: ActionType.CloseMenu });
-  });
+  useOutsideClick(
+    state.menuState === MenuState.Open,
+    [state.itemsRef, state.buttonRef],
+    () => {
+      dispatch({ type: ActionType.CloseMenu });
+    }
+  );
 
   return (
     <MenuContext.Provider value={[state, dispatch]}>

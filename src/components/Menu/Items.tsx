@@ -102,7 +102,11 @@ export const Items = ({
       {state.menuState === MenuState.Open && (
         <ul
           id={id}
-          ref={floating}
+          // TODO: this funky react business needs to go but this does the job for now.
+          ref={(el) => {
+            floating(el);
+            state.itemsRef.current = el;
+          }}
           className="absolute z-20 max-h-96 overflow-y-hidden rounded-xl bg-foreground py-2 shadow-xl"
           aria-activedescendant={
             state.activeItemIndex === null
