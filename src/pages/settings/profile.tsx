@@ -230,30 +230,24 @@ const AvailibilityIndicator: FC<{ user: UserPrivate }> = ({ user }) => {
     }, 500);
   }, [customId]);
 
-  const Wrapper: FC<PropsWithChildren> = ({ children }) => (
-    <span className="flex h-5 items-center">{children}</span>
-  );
-
   if (urlAvailable === 'LOADING')
-    return (
-      <Wrapper>
-        <span className="text-sm">checking...</span>
-      </Wrapper>
-    );
+    return <span className="text-sm">checking...</span>;
 
   if (urlAvailable === 'UNAVAILABLE')
     return (
-      <Wrapper>
+      <>
         <MdCancel className="h-5 text-red-600" />
-        <span className="text-sm text-red-600">Unavailable</span>
-      </Wrapper>
+        <span className="hidden text-sm text-red-600 sm:block">
+          Unavailable
+        </span>
+      </>
     );
 
   return (
-    <Wrapper>
+    <>
       <MdCheckCircle className="h-5 text-primary" />
-      <span className="text-sm text-primary">Available</span>
-    </Wrapper>
+      <span className="hidden text-sm text-primary sm:block">Available</span>
+    </>
   );
 };
 

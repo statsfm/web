@@ -38,7 +38,7 @@ export const Input = ({
 
       <div className="flex flex-col">
         <div className="flex rounded-lg bg-foreground py-2 px-4 text-base font-semibold ring-neutral-500 focus-within:ring-2">
-          {prefix && <span>{prefix}</span>}
+          {prefix && <span className="flex items-center">{prefix}</span>}
           <input
             id={id}
             className="w-full bg-transparent focus:outline-none"
@@ -46,7 +46,7 @@ export const Input = ({
             maxLength={maxLength}
             {...props}
           />
-          {suffix && <span>{suffix}</span>}
+          {suffix && <span className="flex items-center">{suffix}</span>}
         </div>
 
         {maxLength && (
