@@ -38,7 +38,7 @@ export const Textarea = ({
       <div className="flex flex-col">
         <textarea
           id={id}
-          className="flex rounded-lg bg-foreground p-4 font-semibold ring-neutral-500 focus:outline-none focus:ring-2"
+          className="flex rounded-lg bg-foreground p-4 text-base font-semibold ring-neutral-500 focus:outline-none focus:ring-2"
           style={{ resize }}
           // @ts-ignore
           onInput={handleInput}
