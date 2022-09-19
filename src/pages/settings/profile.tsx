@@ -255,7 +255,9 @@ const AccountPrivacyInfoForm: FC<{
 
       {/* pronouns */}
       {/* TODO: rewrite this with an overlay */}
-      <label htmlFor="pronouns">Pronouns</label>
+      <label className="font-medium" htmlFor="pronouns">
+        Pronouns
+      </label>
       <Menu id="pronouns" className="z-20">
         {({ open }) => (
           <>

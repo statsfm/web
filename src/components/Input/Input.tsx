@@ -30,7 +30,11 @@ export const Input = ({
 
   return (
     <>
-      {label && <label htmlFor={id}>{label}</label>}
+      {label && (
+        <label className="font-medium" htmlFor={id}>
+          {label}
+        </label>
+      )}
 
       <div className="flex flex-col">
         <div className="flex rounded-lg bg-foreground py-2 px-4 font-semibold">

@@ -29,7 +29,11 @@ export const Textarea = ({
 
   return (
     <>
-      {label && <label htmlFor={id}>{label}</label>}
+      {label && (
+        <label className="font-medium" htmlFor={id}>
+          {label}
+        </label>
+      )}
 
       <div className="flex flex-col">
         <textarea
