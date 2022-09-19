@@ -12,6 +12,7 @@ import { useApi, useAuth } from '@/hooks';
 import type { UserPrivate } from '@statsfm/statsfm.js';
 import clsx from 'clsx';
 import type { GetServerSideProps, NextPage } from 'next';
+import { useRouter } from 'next/router';
 import type { Dispatch, FC, PropsWithChildren } from 'react';
 import {
   useEffect,
@@ -251,6 +252,93 @@ const AvailibilityIndicator: FC<{ user: UserPrivate }> = ({ user }) => {
   );
 };
 
+const DeleteAccount: FC = () => {
+  const { login, logout, tokenAge } = useAuth();
+  const { pathname } = useRouter();
+  const router = useRouter();
+  const api = useApi();
+
+  const [timeLeft, setTimeLeft] = useState(0);
+  const [agreed, setAgreed] = useState(false);
+
+  useEffect(() => {
+    const age = tokenAge();
+    if (age) {
+      setTimeLeft(Math.floor(60 - age));
+    }
+
+    const interval = setInterval(() => {
+      setTimeLeft((timeleft) => timeleft - 1);
+    }, 1000);
+
+    return () => {
+      clearInterval(interval);
+    };
+  }, []);
+
+  const deleteAccount = useCallback(async () => {
+    // eslint-disable-next-line no-restricted-globals, no-alert
+    const confirmed = confirm(
+      'Are you sure you want to delete your account? This action is irreversible!'
+    );
+    if (!confirmed) return;
+
+    await api.me.deleteAccount();
+    router.push('/');
+  }, []);
+
+  return (
+    <Section title="Danger zone" sticky={false}>
+      <div className="w-full rounded-xl border border-red-500 p-5">
+        <h3>Delete Account</h3>
+        <p>
+          Before you can delete your data you must login with your Spotify
+          account to confirm it&apos;s you. After logging in you have 60 seconds
+          to delete your account; after that you have to login again to proceed.
+        </p>
+        {timeLeft > 0 ? (
+          <>
+            <div className="mb-2 flex flex-row items-start">
+              <input
+                className="mt-1 mr-2"
+                type="checkbox"
+                id="confirm"
+                onChange={(e) => setAgreed(e.target.checked)}
+                checked={agreed}
+              />
+              <label htmlFor="confirm">
+                I acknowledge that this action is irreversable and this will
+                delete all my data such as:
+                <br />
+                - Any purchases I&apos;ve made (for example for Spotistats Plus)
+                <br />
+                - Any automatically syncing playlists I&apos;ve made
+                <br />
+                - Any streams I&apos;ve imported / synced
+                <br />- Any friend (requests)
+              </label>
+            </div>
+
+            <Button className="mt-2" onClick={deleteAccount} disabled={!agreed}>
+              Delete my account and all my data, {timeLeft}s left
+            </Button>
+          </>
+        ) : (
+          <Button
+            onClick={() => {
+              logout();
+              login(pathname);
+            }}
+            className="mt-2"
+          >
+            Login
+          </Button>
+        )}
+      </div>
+    </Section>
+  );
+};
+
 const AccountPrivacyInfoForm: FC<{
   pronouns: Pronoun[];
   user: UserPrivate;
@@ -356,12 +444,7 @@ const AccountPrivacyInfoForm: FC<{
       <span className="text-sm">
         Pronouns are provided by https://pronouns.page
       </span>
-      <Section title="Danger zone" sticky={false}>
-        <div className="w-full rounded-xl border border-red-500 p-5">
-          <h3>Delete Account</h3>
-          <Button className="mt-2">Delete my account and all my data</Button>
-        </div>
-      </Section>
+      <DeleteAccount />
     </div>
   );
 };
