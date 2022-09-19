@@ -2,13 +2,15 @@
 // eslint-disable-next-line import/no-cycle
 import { useApi } from '@/hooks';
 import type * as statsfm from '@statsfm/statsfm.js';
+import { decodeJwt } from 'jose';
 import type { PropsWithChildren } from 'react';
 import { createContext, useEffect, useState } from 'react';
 
 export const AuthContext = createContext<{
   user: statsfm.UserPrivate | null;
   updateUser: (user: statsfm.UserPrivate) => void;
-  login: () => void;
+  tokenAge: () => number | null;
+  login: (redirectUrl?: string) => void;
   logout: () => void;
   callback: (token: string) => void;
 } | null>(null);
@@ -19,7 +21,7 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
 
   const api = useApi();
 
-  const login = () => {
+  const login = (redirectUrl?: string) => {
     const scope = [
       // Images
       'ugc-image-upload',
@@ -51,11 +53,26 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
       'user-follow-modify',
     ].join('%20');
 
+    if (redirectUrl) localStorage.setItem('redirectUrl', redirectUrl);
+
     // eslint-disable-next-line no-restricted-globals
     location.replace(
       // eslint-disable-next-line no-restricted-globals
       `https://api.stats.fm/api/v1/auth/redirect/spotify?scope=${scope}&redirect_uri=${location.origin}/auth/callback`
     );
+  };
+
+  const tokenAge = () => {
+    const token = localStorage.getItem('token') || '';
+    const { iat, exp } = decodeJwt(token);
+
+    let valid = false;
+
+    if (!iat) return null;
+    if (!exp) valid = true;
+    else valid = Math.floor(new Date().getTime() / 1000) <= exp;
+
+    return valid ? Date.now() / 1000 - iat : null;
   };
 
   const updateUser = (user: statsfm.UserPrivate) => {
@@ -91,6 +108,7 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
   }, [token]);
 
   const exposed = {
+    tokenAge,
     user,
     updateUser,
     login,

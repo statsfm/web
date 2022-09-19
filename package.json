@@ -20,6 +20,7 @@
     "chart.js": "^3.9.1",
     "clsx": "^1.2.1",
     "dayjs": "^1.11.4",
+    "jose": "^4.9.3",
     "linkify-react": "^3.0.4",
     "linkifyjs": "^3.0.5",
     "next": "^12.3.0",
