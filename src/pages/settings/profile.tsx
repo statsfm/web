@@ -14,15 +14,23 @@ import clsx from 'clsx';
 import type { GetServerSideProps, NextPage } from 'next';
 import type { Dispatch, FC, PropsWithChildren } from 'react';
 import {
+  useEffect,
+  useRef,
   createContext,
   useCallback,
   useContext,
   useMemo,
   useState,
 } from 'react';
-import { MdArrowDropDown, MdCameraEnhance } from 'react-icons/md';
+import {
+  MdArrowDropDown,
+  MdCameraEnhance,
+  MdCancel,
+  MdCheckCircle,
+} from 'react-icons/md';
 
 type StatusOptions = 'SAVING' | 'SAVED' | 'ERROR' | 'DEFAULT';
+type UrlAvailableOptions = 'LOADING' | 'AVAILABLE' | 'UNAVAILABLE';
 
 type StateContextType = {
   avatarFiles: [FileList | null, Dispatch<FileList | null>];
@@ -31,6 +39,7 @@ type StateContextType = {
   bio: [string, Dispatch<string>];
   pronouns: [string, Dispatch<string>];
   status: [StatusOptions, Dispatch<StatusOptions>];
+  urlAvailable: [UrlAvailableOptions, Dispatch<UrlAvailableOptions>];
   changed: boolean;
   save: () => Promise<boolean>;
 };
@@ -51,6 +60,8 @@ const StateContextProvider: FC<PropsWithChildren<{ user: UserPrivate }>> = ({
   const [pronouns, setPronouns] = useState<string>(
     user.profile?.pronouns ?? 'none'
   );
+  const [urlAvailable, setUrlAvailable] =
+    useState<UrlAvailableOptions>('AVAILABLE');
 
   const [status, setStatus] = useState<StatusOptions>('DEFAULT');
 
@@ -126,6 +137,7 @@ const StateContextProvider: FC<PropsWithChildren<{ user: UserPrivate }>> = ({
         bio: [bio, setBio],
         pronouns: [pronouns, setPronouns],
         status: [status, setStatus],
+        urlAvailable: [urlAvailable, setUrlAvailable],
         changed,
         save,
       }}
@@ -189,6 +201,62 @@ const AvatarInput: FC<{ defaultSrc: string }> = ({ defaultSrc }) => {
   );
 };
 
+const AvailibilityIndicator: FC<{ user: UserPrivate }> = ({ user }) => {
+  const api = useApi();
+  const {
+    urlAvailable: [urlAvailable, setUrlAvailable],
+    customId: [customId],
+  } = useContext(stateContext)!;
+
+  const timeout = useRef<NodeJS.Timeout | null>(null);
+
+  useEffect(() => {
+    if (timeout.current) clearTimeout(timeout.current);
+
+    if (customId === user.customId) {
+      setUrlAvailable('AVAILABLE');
+      return;
+    }
+
+    if (!customId || customId.length <= 2) {
+      setUrlAvailable('UNAVAILABLE');
+      return;
+    }
+
+    if (urlAvailable !== 'LOADING') setUrlAvailable('LOADING');
+    timeout.current = setTimeout(async () => {
+      const res = await api.me.customIdAvailable(customId);
+      setUrlAvailable(res ? 'AVAILABLE' : 'UNAVAILABLE');
+    }, 500);
+  }, [customId]);
+
+  const Wrapper: FC<PropsWithChildren> = ({ children }) => (
+    <span className="flex h-5 items-center">{children}</span>
+  );
+
+  if (urlAvailable === 'LOADING')
+    return (
+      <Wrapper>
+        <span className="text-sm">checking...</span>
+      </Wrapper>
+    );
+
+  if (urlAvailable === 'UNAVAILABLE')
+    return (
+      <Wrapper>
+        <MdCancel className="h-5 text-red-600" />
+        <span className="text-sm text-red-600">Unavailable</span>
+      </Wrapper>
+    );
+
+  return (
+    <Wrapper>
+      <MdCheckCircle className="h-5 text-primary" />
+      <span className="text-sm text-primary">Available</span>
+    </Wrapper>
+  );
+};
+
 const AccountPrivacyInfoForm: FC<{
   pronouns: Pronoun[];
   user: UserPrivate;
@@ -199,6 +267,7 @@ const AccountPrivacyInfoForm: FC<{
     bio: [bio, setBio],
     pronouns: [pronoun, setPronoun],
     status: [status],
+    urlAvailable: [urlAvailable],
     changed,
     save,
   } = useContext(stateContext)!;
@@ -213,7 +282,9 @@ const AccountPrivacyInfoForm: FC<{
             ' block h-min rounded-md bg-primary py-2 px-4 text-background'
           )}
           onClick={save}
-          disabled={!changed || status === 'SAVING'}
+          disabled={
+            !changed || urlAvailable !== 'AVAILABLE' || status === 'SAVING'
+          }
         >
           Save
         </Button>
@@ -230,16 +301,15 @@ const AccountPrivacyInfoForm: FC<{
             onChange={(e) => setDisplayName(e.target.value)}
           />
 
-          {customId !== '' && (
-            <Input
-              label="Custom url"
-              maxLength={30}
-              defaultValue={customId}
-              onChange={(e) => setCustomId(e.target.value)}
-              // TODO: replace with window.location.host
-              prefix={`https://stats.fm/`}
-            />
-          )}
+          <Input
+            label="Custom url"
+            maxLength={30}
+            defaultValue={customId}
+            onChange={(e) => setCustomId(e.target.value)}
+            // TODO: replace with window.location.host
+            prefix={`https://stats.fm/`}
+            suffix={<AvailibilityIndicator user={user} />}
+          />
         </div>
       </section>
 
