@@ -15,9 +15,7 @@ export const ArtistCard = ({ playedMs, streams, artist }: Props) => {
   return (
     <Link href={`/artist/${artist.id}`} passHref>
       <a className="flex w-40 flex-col items-center">
-        {artist.image && (
-          <Avatar src={artist.image} name={artist.name} size="3xl" />
-        )}
+        <Avatar src={artist.image} name={artist.name} size="3xl" />
 
         <div className="mt-2 text-center">
           <h4>{artist.name}</h4>
