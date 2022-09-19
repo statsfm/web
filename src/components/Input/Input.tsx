@@ -1,12 +1,12 @@
-import type { ChangeEventHandler, InputHTMLAttributes } from 'react';
+import type { ChangeEventHandler, InputHTMLAttributes, ReactNode } from 'react';
 import { useEffect, useState, useId } from 'react';
 import clsx from 'clsx';
 
-interface Props extends InputHTMLAttributes<HTMLInputElement> {
+type Props = InputHTMLAttributes<HTMLInputElement> & {
   label?: string;
-  prefix?: string;
-  suffix?: string;
-}
+  prefix?: ReactNode;
+  suffix?: ReactNode;
+};
 
 export const Input = ({
   label,
@@ -37,11 +37,11 @@ export const Input = ({
       )}
 
       <div className="flex flex-col">
-        <div className="flex rounded-lg bg-foreground py-2 px-4 font-semibold">
+        <div className="flex rounded-lg bg-foreground py-2 px-4 font-semibold ring-neutral-500 focus-within:ring-2">
           {prefix && <span>{prefix}</span>}
           <input
             id={id}
-            className="w-full bg-transparent"
+            className="w-full bg-transparent focus:outline-none"
             onInput={handleInput}
             maxLength={maxLength}
             {...props}
