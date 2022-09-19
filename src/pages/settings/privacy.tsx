@@ -124,10 +124,10 @@ const PrivacyList: FC<{ user: UserPrivate }> = ({ user }) => {
           ).map(([setting, value]) => (
             <li key={setting}>
               <Divider />
-              <div className="flex items-center justify-between">
+              <div className="flex items-center justify-between gap-4">
                 <div>
-                  <h3 className="text-xl">{displayNames[setting].title}</h3>
-                  <p className="m-0 font-normal">
+                  <h3 className="text-lg">{displayNames[setting].title}</h3>
+                  <p className="m-0 text-sm font-medium">
                     {displayNames[setting].description}
                   </p>
                 </div>
