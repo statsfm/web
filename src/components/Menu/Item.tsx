@@ -100,7 +100,7 @@ export const Item = ({
         'flex select-none gap-2 px-4 py-2 font-semibold focus:bg-background/80 focus:outline-none',
         // TOOD: change color
         disabled
-          ? '[&>svg]:fill-text-gray text-text-grey'
+          ? 'text-text-grey'
           : 'cursor-pointer text-white [&>svg]:fill-white',
         className
       )}

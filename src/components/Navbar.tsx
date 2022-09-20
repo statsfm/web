@@ -32,12 +32,20 @@ export const NavBar = () => {
             </Menu.Button>
 
             <Menu.Items>
-              <Menu.Item disabled className="flex gap-2">
-                <Avatar size="md" name={user.displayName} src={user.image} />
-                <div>
-                  <h5>{user.displayName}</h5>
-                  <p className="m-0">{user.email}</p>
-                </div>
+              <Menu.Item className="focus:bg-transparent">
+                <Link href={`/${user.customId ?? user.id}`}>
+                  <a className="flex gap-2">
+                    <Avatar
+                      size="md"
+                      name={user.displayName}
+                      src={user.image}
+                    />
+                    <div>
+                      <h5>{user.displayName}</h5>
+                      <p className="m-0">{user.email}</p>
+                    </div>
+                  </a>
+                </Link>
               </Menu.Item>
               <Menu.Item>
                 <Link href={`/${user.customId ?? user.id}`}>
