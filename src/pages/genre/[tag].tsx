@@ -65,11 +65,21 @@ const GenrePage: NextPage<Props> = ({ tag, genre }) => {
         </Container>
       </div>
 
-      <Container className="mt-8">
+      <Container className="mt-4">
+        <Section title="Sub Genres">
+          <ChipGroup>
+            {genre &&
+              genre.sub.map((genre, i) => <Chip key={i}>{genre.tag}</Chip>)}
+          </ChipGroup>
+        </Section>
         <Section title="Related Genres">
           <ChipGroup>
             {genre &&
-              genre.related.map((genre, i) => <Chip key={i}>{genre.tag}</Chip>)}
+              genre.related
+                .filter(
+                  (g1) => genre.sub.findIndex((g2) => g1.tag === g2.tag) === -1
+                )
+                .map((genre, i) => <Chip key={i}>{genre.tag}</Chip>)}
           </ChipGroup>
         </Section>
 
