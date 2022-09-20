@@ -1,5 +1,5 @@
-import { AccountLayout } from '@/components/account/Layout';
-import { SettingsHeader } from '@/components/account/SettingsHeader';
+import { AccountLayout } from '@/components/settings/Layout';
+import { SettingsHeader } from '@/components/settings/SettingsHeader';
 import { Button } from '@/components/Button';
 import { Container } from '@/components/Container';
 import { Divider } from '@/components/Divider';

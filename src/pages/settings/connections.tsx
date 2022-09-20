@@ -1,5 +1,5 @@
-import { AccountLayout } from '@/components/account/Layout';
-import { SettingsHeader } from '@/components/account/SettingsHeader';
+import { AccountLayout } from '@/components/settings/Layout';
+import { SettingsHeader } from '@/components/settings/SettingsHeader';
 import { Button } from '@/components/Button';
 import { useApi, useAuth } from '@/hooks';
 import type { UserSocialMediaConnection } from '@statsfm/statsfm.js';

@@ -12,13 +12,16 @@ const SideNavItem: FC<
   const { pathname } = useRouter();
 
   return (
-    <Link href={props.href}>
+    <Link href={props.disabled ? '' : props.href}>
       <a
         className={clsx(
           pathname === props.href
             ? 'bg-bodySecundary text-primary'
             : 'bg-transparent text-neutral-500',
-          ' -ml-4 block rounded-lg px-4 py-1.5 font-medium hover:bg-bodySecundary hover:opacity-90 focus:bg-bodySecundary'
+          props.disabled
+            ? 'opacity-40 hover:cursor-not-allowed hover:bg-transparent focus:bg-transparent'
+            : 'hover:bg-bodySecundary hover:opacity-90 focus:bg-bodySecundary',
+          ' -ml-4 block rounded-lg px-4 py-1.5 font-medium'
         )}
       >
         {props.children}
@@ -54,8 +57,12 @@ const NavBody: FC = () => (
       </NavGroup>
 
       <NavGroup title="Stats">
-        <SideNavItem href="/account/import">Import</SideNavItem>
-        <SideNavItem href="/account/import">Algorithms</SideNavItem>
+        <SideNavItem disabled href="/settings/import">
+          Import
+        </SideNavItem>
+        <SideNavItem disabled href="/settings/algorithms">
+          Algorithms
+        </SideNavItem>
         {/* <SideNavItem href="/account/algorithms">Stats & Algorithms</SideNavItem> */}
         {/* <SideNavItem href="/account/lang">Language & Theme</SideNavItem> */}
       </NavGroup>
