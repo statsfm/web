@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { useAuth } from '@/hooks';
 
 import { MdAccountCircle, MdExitToApp, MdManageAccounts } from 'react-icons/md';
+import { Transition } from '@headlessui/react';
 import { Logo } from './Logo';
 import { Avatar } from './Avatar/Avatar';
 import { Menu } from './Menu';
@@ -27,44 +28,62 @@ export const NavBar = () => {
         {/* TODO: move animation to Menu component itself? */}
         {user ? (
           <Menu>
-            <Menu.Button>
-              <Avatar name={user.displayName} src={user.image} />
-            </Menu.Button>
+            {({ open }) => (
+              <>
+                <Menu.Button>
+                  <Avatar name={user.displayName} src={user.image} />
+                </Menu.Button>
 
-            <Menu.Items>
-              <Menu.Item className="focus:bg-transparent">
-                <Link href={`/${user.customId ?? user.id}`}>
-                  <a className="flex gap-2">
-                    <Avatar
-                      size="md"
-                      name={user.displayName}
-                      src={user.image}
-                    />
-                    <div>
-                      <h5>{user.displayName}</h5>
-                      <p className="m-0">{user.email}</p>
-                    </div>
-                  </a>
-                </Link>
-              </Menu.Item>
-              <Menu.Item>
-                <Link href={`/${user.customId ?? user.id}`}>
-                  <a className="flex h-full w-full flex-row gap-2">
-                    <MdAccountCircle className="text-white" /> My page
-                  </a>
-                </Link>
-              </Menu.Item>
-              <Menu.Item>
-                <Link href="/settings/profile">
-                  <a className="flex h-full w-full flex-row gap-2">
-                    <MdManageAccounts className="text-white" /> Settings
-                  </a>
-                </Link>
-              </Menu.Item>
-              <Menu.Item icon={<MdExitToApp />} onClick={handleLogOutClick}>
-                Log out
-              </Menu.Item>
-            </Menu.Items>
+                <Transition
+                  as="div"
+                  show={open}
+                  enter="transition ease-out duration-100"
+                  enterFrom="transform opacity-0 scale-95"
+                  enterTo="transform opacity-100 scale-100"
+                  leave="transition ease-in duration-75"
+                  leaveFrom="transform opacity-100 scale-100"
+                  leaveTo="transform opacity-0 scale-95"
+                >
+                  <Menu.Items>
+                    <Menu.Item className="focus:bg-transparent">
+                      <Link href={`/${user.customId ?? user.id}`}>
+                        <a className="flex gap-2">
+                          <Avatar
+                            size="md"
+                            name={user.displayName}
+                            src={user.image}
+                          />
+                          <div>
+                            <h5>{user.displayName}</h5>
+                            <p className="m-0">{user.email}</p>
+                          </div>
+                        </a>
+                      </Link>
+                    </Menu.Item>
+                    <Menu.Item>
+                      <Link href={`/${user.customId ?? user.id}`}>
+                        <a className="flex h-full w-full flex-row gap-2">
+                          <MdAccountCircle className="text-white" /> My page
+                        </a>
+                      </Link>
+                    </Menu.Item>
+                    <Menu.Item>
+                      <Link href="/settings/profile">
+                        <a className="flex h-full w-full flex-row gap-2">
+                          <MdManageAccounts className="text-white" /> Settings
+                        </a>
+                      </Link>
+                    </Menu.Item>
+                    <Menu.Item
+                      icon={<MdExitToApp />}
+                      onClick={handleLogOutClick}
+                    >
+                      Log out
+                    </Menu.Item>
+                  </Menu.Items>
+                </Transition>
+              </>
+            )}
           </Menu>
         ) : (
           <Link href="/login">
