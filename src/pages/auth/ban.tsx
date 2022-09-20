@@ -10,8 +10,8 @@ type Props = {
 };
 
 export const getServerSideProps: GetServerSideProps<Props> = async (ctx) => {
-  const reason = ctx.params?.reason?.toString();
-  const bannedAt = ctx.params?.bannedAt?.toString() || null;
+  const reason = ctx.query.reason?.toString();
+  const bannedAt = ctx.query.bannedAt?.toString() || null;
 
   if (!reason) {
     return {
