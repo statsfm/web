@@ -1,27 +1,41 @@
-import type { NextPage } from 'next';
+import type { GetServerSideProps, NextPage } from 'next';
 
-import { useEffect, useState } from 'react';
-import { useRouter } from 'next/router';
+import { useMemo } from 'react';
 import { Container } from '@/components/Container';
 import { ChevronLink } from '@/components/ChevronLink';
 
-const Ban: NextPage = () => {
-  const router = useRouter();
+type Props = {
+  reason: string | null;
+  bannedAt: string | null;
+};
 
-  const [reason, setReason] = useState('');
-  const [bannedAt, setBannedAt] = useState(new Date());
+export const getServerSideProps: GetServerSideProps<Props> = async (ctx) => {
+  const reason = ctx.params?.reason?.toString();
+  const bannedAt = ctx.params?.bannedAt?.toString() || null;
 
-  useEffect(() => {
-    // TODO: look why router.params doesn't work
-    const params = new URLSearchParams(window.location.search);
+  if (!reason) {
+    return {
+      redirect: {
+        destination: '/',
+      },
+      props: {
+        reason: null,
+        bannedAt: null,
+      },
+    };
+  }
 
-    if (!params.has('reason')) {
-      // TODO: show toaster error
-      router.push('/');
-    }
+  return {
+    props: {
+      reason,
+      bannedAt,
+    },
+  };
+};
 
-    setReason(params.get('reason')!);
-    setBannedAt(new Date(params.get('bannedAt')!));
+const Ban: NextPage<Props> = ({ reason, bannedAt }) => {
+  const bannedAtFormatted = useMemo(() => {
+    return bannedAt ? new Date(bannedAt).toLocaleString() : 'Invalid Date';
   }, []);
 
   return (
@@ -40,9 +54,9 @@ const Ban: NextPage = () => {
 
       <Container className="mt-4">
         <h3>Banned at</h3>
-        <span className="text-base">{bannedAt.toLocaleString()}</span>
+        <span className="text-base">{bannedAtFormatted}</span>
         <h3 className="mt-3">Reason</h3>
-        <span className="text-base">{reason}</span>
+        <span className="text-base">{reason || 'No Reason Available'}</span>
         <br />
         <br />
         <ChevronLink href="https://support.stats.fm/docs/banned">
