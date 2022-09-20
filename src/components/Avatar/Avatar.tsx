@@ -48,7 +48,7 @@ export const Avatar = ({
   if (!src) {
     return (
       <div
-        className="relative grid aspect-square place-items-center rounded-full bg-foreground"
+        className="relative grid aspect-square shrink-0 place-items-center rounded-full bg-foreground"
         style={{ width: sizes[size] }}
       >
         <p>{initials}</p>
@@ -60,7 +60,7 @@ export const Avatar = ({
 
   return (
     <div
-      className="relative"
+      className="relative shrink-0"
       style={{ width: sizes[size], height: sizes[size] }}
     >
       <Image
