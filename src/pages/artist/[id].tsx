@@ -1,6 +1,6 @@
 import type * as statsfm from '@statsfm/statsfm.js';
 import type { SortOptions } from '@/hooks';
-import { useLessOrAll, useApi, useSort } from '@/hooks';
+import { useAuth, useLessOrAll, useApi, useSort } from '@/hooks';
 import type { GetServerSideProps, NextPage } from 'next';
 import { Avatar } from '@/components/Avatar';
 import Head from 'next/head';
@@ -25,9 +25,11 @@ import { Container } from '@/components/Container';
 const MoreTracks = ({
   artist,
   tracks,
+  user,
 }: {
   artist: statsfm.Artist;
   tracks: statsfm.Track[];
+  user: statsfm.UserPrivate;
 }) => {
   const api = useApi();
   const [currentUserTop, setCurrentUserTop] = useState<statsfm.TopTrack[]>([]);
@@ -36,7 +38,7 @@ const MoreTracks = ({
 
   useEffect(() => {
     api.users
-      .topTracksFromArtist('me', artist.id)
+      .topTracksFromArtist(user.id, artist.id)
       .then((res) => setCurrentUserTop(res));
   }, []);
 
@@ -143,6 +145,7 @@ export const getServerSideProps: GetServerSideProps<Props> = async (ctx) => {
 
 const Artist: NextPage<Props> = ({ artist }) => {
   const api = useApi();
+  const { user } = useAuth();
 
   const [topTracks, setTopTracks] = useState<statsfm.Track[]>([]);
   // const [albums, setAlbums] = useState<statsfm.Album[]>([]);
@@ -160,9 +163,15 @@ const Artist: NextPage<Props> = ({ artist }) => {
           .then((res) => res.data.items)
       );
       setRelated(await api.artists.related(artist.id));
-      setStreams(await api.users.artistStreams('martijn', artist.id));
     })();
   }, []);
+
+  useEffect(() => {
+    if (!user) return;
+    (async () => {
+      setStreams(await api.users.artistStreams(user.id, artist.id));
+    })();
+  }, [user]);
 
   return (
     <>
@@ -181,7 +190,7 @@ const Artist: NextPage<Props> = ({ artist }) => {
               </h1>
 
               <span className="text-center text-lg md:text-left">
-                {artist.followers.toLocaleString()} followers
+                {artist.followers.toLocaleString('en')} followers
               </span>
             </div>
           </section>
@@ -301,8 +310,7 @@ const Artist: NextPage<Props> = ({ artist }) => {
             </Carousel.Items>
           </Section>
         </Carousel>
-
-        <MoreTracks artist={artist} tracks={topTracks} />
+        {user && <MoreTracks artist={artist} tracks={topTracks} user={user} />}
 
         <Section
           title="Your streams"
