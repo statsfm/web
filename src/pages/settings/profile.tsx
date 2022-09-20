@@ -413,19 +413,25 @@ const AccountPrivacyInfoForm: FC<{
       <Menu id="pronouns" className="z-20">
         {({ open }) => (
           <>
+            <Overlay
+              className="bg-background/60 sm:bg-transparent"
+              visible={open}
+            />
             <Menu.Button>
-              {pronoun}
-              <MdArrowDropDown
-                style={{ transform: `rotate(${open ? 180 : 0}deg)` }}
-              />
+              <div className="z-30 flex">
+                {pronoun}
+                <MdArrowDropDown
+                  style={{ transform: `rotate(${open ? 180 : 0}deg)` }}
+                />
+              </div>
             </Menu.Button>
 
             <Menu.Items
               placement="bottom-start"
-              className="absolute -mt-2 h-48 overflow-scroll rounded-lg bg-bodySecundary p-2 px-1"
+              className="absolute z-30 -mt-2 h-64 overflow-scroll rounded-lg bg-bodySecundary p-2 px-1"
             >
               <Menu.Item value="none" onClick={(value) => setPronoun(value)}>
-                None
+                none
               </Menu.Item>
               {pronouns.map((pronoun, i) => (
                 <Menu.Item
