@@ -21,6 +21,7 @@ import { Menu } from '@/components/Menu';
 import { MdSort } from 'react-icons/md';
 import { SectionToolbarCarouselNavigationButton } from '@/components/SectionToolbarCarouselNavigationButton';
 import { Container } from '@/components/Container';
+import Link from 'next/link';
 
 const MoreTracks = ({
   artist,
@@ -201,7 +202,9 @@ const Artist: NextPage<Props> = ({ artist }) => {
         <section>
           <ChipGroup>
             {artist.genres.map((genre, i) => (
-              <Chip key={i}>{genre}</Chip>
+              <Chip key={i}>
+                <Link href={`/genre/${genre}`}>{genre}</Link>
+              </Chip>
             ))}
           </ChipGroup>
         </section>

@@ -66,22 +66,35 @@ const GenrePage: NextPage<Props> = ({ tag, genre }) => {
       </div>
 
       <Container className="mt-4">
-        <Section title="Sub Genres">
-          <ChipGroup>
-            {genre &&
-              genre.sub.map((genre, i) => <Chip key={i}>{genre.tag}</Chip>)}
-          </ChipGroup>
-        </Section>
-        <Section title="Related Genres">
-          <ChipGroup>
-            {genre &&
-              genre.related
-                .filter(
-                  (g1) => genre.sub.findIndex((g2) => g1.tag === g2.tag) === -1
-                )
-                .map((genre, i) => <Chip key={i}>{genre.tag}</Chip>)}
-          </ChipGroup>
-        </Section>
+        {genre.sub.length > 0 && (
+          <Section title="Sub Genres">
+            <ChipGroup>
+              {genre &&
+                genre.sub.map((genre, i) => (
+                  <Chip key={i}>
+                    <Link href={`/genre/${genre.tag}`}>{genre.tag}</Link>
+                  </Chip>
+                ))}
+            </ChipGroup>
+          </Section>
+        )}
+        {genre.related.length > 0 && (
+          <Section title="Related Genres">
+            <ChipGroup>
+              {genre &&
+                genre.related
+                  .filter(
+                    (g1) =>
+                      genre.sub.findIndex((g2) => g1.tag === g2.tag) === -1
+                  )
+                  .map((genre, i) => (
+                    <Chip key={i}>
+                      <Link href={`/genre/${genre.tag}`}>{genre.tag}</Link>
+                    </Chip>
+                  ))}
+            </ChipGroup>
+          </Section>
+        )}
 
         <Section title="Top Artists">
           <ul className="grid grid-cols-5 gap-4 gap-y-12">

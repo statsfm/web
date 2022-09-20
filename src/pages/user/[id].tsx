@@ -22,6 +22,7 @@ import { ArtistCard, ArtistCardSkeleton } from '@/components/ArtistCard';
 import { RecentStreams } from '@/components/RecentStreams';
 import { SectionToolbarCarouselNavigationButton } from '@/components/SectionToolbarCarouselNavigationButton';
 import { Container } from '@/components/Container';
+import Link from 'next/link';
 
 // const ListeningClockChart = () => {
 //   const config = {
@@ -407,7 +408,11 @@ const User: NextPage<Props> = ({ user }) => {
             {/* TODO: add some sort of skeleton */}
             <ChipGroup>
               {topGenres.map((genre, i) => (
-                <Chip key={i}>{genre.genre.tag}</Chip>
+                <Chip key={i}>
+                  <Link href={`/genre/${genre.genre.tag}`}>
+                    {genre.genre.tag}
+                  </Link>
+                </Chip>
               ))}
             </ChipGroup>
           </Section>
