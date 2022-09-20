@@ -97,21 +97,21 @@ const GenrePage: NextPage<Props> = ({ tag, genre }) => {
                       )}{' '}
                       Followers
                     </p>
-                    <p className="mt-1 text-center text-sm font-medium line-clamp-1">
-                      {artist.genres.map((genre, i) => (
-                        <span key="a">
-                          <Link href={`/genre/${genre}`}>
-                            <a className="transition-colors hover:text-white">
-                              {genre}
-                            </a>
-                          </Link>
-
-                          {i !== artist.genres.length - 1 && ', '}
-                        </span>
-                      ))}
-                    </p>
                   </a>
                 </Link>
+                <p className="mt-1 text-center text-sm font-medium line-clamp-1">
+                  {artist.genres.map((genre, i) => (
+                    <span key={genre + artist}>
+                      <Link href={`/genre/${genre}`}>
+                        <a className="transition-colors hover:text-white">
+                          {genre}
+                        </a>
+                      </Link>
+
+                      {i !== artist.genres.length - 1 && ', '}
+                    </span>
+                  ))}
+                </p>
               </li>
             ))}
           </ul>
