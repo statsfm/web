@@ -37,7 +37,7 @@ export const RecentStreams = <
           return 0;
         })
         .map((streams, i) => (
-          <>
+          <div key={`recentStreams-${i}`}>
             {/* don't hardcode header height */}
             <p className="sticky top-[109px]  z-30 bg-background py-2 md:top-[121px]">
               {dayjs(streams[1][0]!.endTime).format('LL')}
@@ -53,7 +53,7 @@ export const RecentStreams = <
                 ))}
               </ul>
             </li>
-          </>
+          </div>
         ))}
     </ul>
   );

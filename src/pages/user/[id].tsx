@@ -362,21 +362,17 @@ const User: NextPage<Props> = ({ user }) => {
             <ImportRequiredScope
               placeholder={
                 <ul className="grid w-full grid-cols-2 gap-4 md:grid-cols-4">
-                  {Array(3)
-                    .fill(null)
-                    .map((_n, i) => (
+                  {['minutes streamed', 'hours streamed', 'streams'].map(
+                    (label, i) => (
                       <li key={i}>
                         <StatsCard
                           // TODO: better way of implementing this
-                          label={
-                            ['minutes streamed', 'hours streamed', 'streams'][
-                              Math.floor(Math.random() * 3)
-                            ]!
-                          }
+                          label={label}
                           value="?"
                         />
                       </li>
-                    ))}
+                    )
+                  )}
                 </ul>
               }
             >

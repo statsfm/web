@@ -14,33 +14,35 @@ export const TrackCard = ({ track, playedMs, streams }: Props) => {
   ).toLocaleString();
 
   return (
-    <Link href={`/track/${track.id}`} passHref>
-      <a className="flex w-40 flex-col">
-        <div className="aspect-square w-full group-hover:opacity-90">
-          {track.albums[0]?.image && (
-            <Image
-              src={track.albums[0].image}
-              alt={track.name}
-              width={160}
-              height={160}
-            />
-          )}
-        </div>
-        <div className="mt-2">
-          <h4 className="line-clamp-2">{track.name}</h4>
-          <p className="m-0 line-clamp-2">
-            {playedMs && <span>{minutes} minutes • </span>}
-            {streams && <span>{streams} streams • </span>}
-            <span>
-              {track.artists.map((artist, i) => (
-                <Link href={`/artist/${artist.id}`} key={i}>
-                  {artist.name}
-                </Link>
-              ))}
-            </span>
-          </p>
-        </div>
-      </a>
-    </Link>
+    <div className="flex w-40 flex-col">
+      <Link href={`/track/${track.id}`} passHref>
+        <a className="">
+          <div className="aspect-square w-full group-hover:opacity-90">
+            {track.albums[0]?.image && (
+              <Image
+                src={track.albums[0].image}
+                alt={track.name}
+                width={160}
+                height={160}
+              />
+            )}
+          </div>
+        </a>
+      </Link>
+      <div className="mt-2">
+        <h4 className="line-clamp-2">{track.name}</h4>
+        <p className="m-0 line-clamp-2">
+          {playedMs && <span>{minutes} minutes • </span>}
+          {streams && <span>{streams} streams • </span>}
+          <span>
+            {track.artists.map((artist, i) => (
+              <Link href={`/artist/${artist.id}`} key={i}>
+                {artist.name}
+              </Link>
+            ))}
+          </span>
+        </p>
+      </div>
+    </div>
   );
 };
