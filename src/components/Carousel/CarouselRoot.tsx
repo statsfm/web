@@ -66,6 +66,8 @@ const reducer = (state: StateDefinition, action: Action) => {
       );
 
       const slideAmount = -1 * direction;
+      const numberOfSlides = state.items.length / state.rows;
+
       const newTransform =
         state.transform +
         Math.abs(slideAmount) *
@@ -77,8 +79,8 @@ const reducer = (state: StateDefinition, action: Action) => {
         ...state,
         current: slideTo,
         transform: newTransform,
-        isPreviousDisabled: slideTo < state.slide,
-        isNextDisabled: slideTo >= state.items.length - state.slide,
+        isPreviousDisabled: slideTo - state.slide < 0,
+        isNextDisabled: slideTo >= numberOfSlides - 1,
       };
     }
     case ActionType.Register: {
