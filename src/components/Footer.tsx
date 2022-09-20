@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { Container } from './Container';
+import { StoreBadge } from './StoreBadges';
 
 const links: { label: string; links: { label: string; href: string }[] }[] = [
   {
@@ -24,7 +25,7 @@ const links: { label: string; links: { label: string; href: string }[] }[] = [
     links: [
       {
         label: 'Discord',
-        href: 'https://discord.gg/spotistats',
+        href: 'https://stats.fm/',
       },
       {
         label: 'Twitter',
@@ -32,7 +33,7 @@ const links: { label: string; links: { label: string; href: string }[] }[] = [
       },
       {
         label: 'Instagram',
-        href: 'https://instagram.com/spotistats',
+        href: 'https://www.instagram.com/statsfm/',
       },
     ],
   },
@@ -54,7 +55,7 @@ const links: { label: string; links: { label: string; href: string }[] }[] = [
 export const Footer = () => {
   return (
     <Container as="footer" className="py-14">
-      <div className="grid grid-flow-row place-items-start gap-4 md:grid-flow-col">
+      <div className="grid grid-cols-2 place-items-start gap-4 md:grid-cols-4">
         {links.map((cat, i) => (
           <div key={i} className="grid place-items-start">
             <h4 className="mb-2 text-text-grey">{cat.label}</h4>
@@ -73,29 +74,9 @@ export const Footer = () => {
         <div>
           <h4 className="text-neutral-400">Download</h4>
           <div className="mt-4"></div>
-          <a
-            className="h-9"
-            href="https://apps.apple.com/app/spotistats-for-spotify/id1526912392"
-            target="blank"
-          >
-            <img
-              src="https://cdn.stats.fm/file/statsfm/images/brands/stores/app_store.webp"
-              alt="Apple Appstore"
-              className="h-9"
-            />
-          </a>
+          <StoreBadge store="apple" size="xs" />
           <div className="mt-2"></div>
-          <a
-            className="h-9"
-            href="https://play.google.com/store/apps/details?id=dev.netlob.spotistats"
-            target="blank"
-          >
-            <img
-              src="https://cdn.stats.fm/file/statsfm/images/brands/stores/play_store.webp"
-              alt="Google Play"
-              className="h-9"
-            />
-          </a>
+          <StoreBadge store="google" size="xs" />
         </div>
       </div>
 
