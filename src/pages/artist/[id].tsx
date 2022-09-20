@@ -197,7 +197,7 @@ const Artist: NextPage<Props> = ({ artist }) => {
           </ChipGroup>
         </section>
 
-        <Carousel slide={6}>
+        <Carousel>
           <Section
             title="Popular tracks"
             description={`The most popular tracks by ${artist.name}`}
@@ -244,7 +244,7 @@ const Artist: NextPage<Props> = ({ artist }) => {
         </Carousel>
       </Section> */}
 
-        <Carousel slide={6}>
+        <Carousel>
           <Section
             title="Top listeners"
             description={`People who love ${artist.name}`}
@@ -273,7 +273,7 @@ const Artist: NextPage<Props> = ({ artist }) => {
           </Section>
         </Carousel>
 
-        <Carousel slide={6} rows={3}>
+        <Carousel slide={1} rows={3}>
           <Section
             title="Related artists"
             description="Artists that fans might also like"

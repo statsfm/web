@@ -416,7 +416,7 @@ const User: NextPage<Props> = ({ user }) => {
             </ChipGroup>
           </Section>
 
-          <Carousel slide={6}>
+          <Carousel>
             <Section
               title="Top tracks"
               description={`${
@@ -452,7 +452,7 @@ const User: NextPage<Props> = ({ user }) => {
             </Section>
           </Carousel>
 
-          <Carousel slide={6}>
+          <Carousel>
             <Section
               title="Top artists"
               // TODO: pluralization
@@ -488,7 +488,7 @@ const User: NextPage<Props> = ({ user }) => {
             </Section>
           </Carousel>
 
-          <Carousel slide={6}>
+          <Carousel>
             <Section
               title="Top albums"
               description={`${
