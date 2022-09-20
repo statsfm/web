@@ -20,6 +20,7 @@ const App = ({ Component, pageProps }: AppProps) => {
     '/settings/profile',
     '/settings/privacy',
     '/settings/connections',
+    '/genre/[tag]',
     '/user/[id]',
     '/track/[id]',
     '/artist/[id]',
