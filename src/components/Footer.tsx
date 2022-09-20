@@ -25,7 +25,7 @@ const links: { label: string; links: { label: string; href: string }[] }[] = [
     links: [
       {
         label: 'Discord',
-        href: 'https://stats.fm/',
+        href: 'https://stats.fm/discord',
       },
       {
         label: 'Twitter',
