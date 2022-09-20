@@ -15,6 +15,7 @@ import { RecentStreams } from '@/components/RecentStreams';
 import { useApi } from '@/hooks';
 import { SectionToolbarCarouselNavigationButton } from '@/components/SectionToolbarCarouselNavigationButton';
 import { Container } from '@/components/Container';
+import { ArtistList } from '@/components/ArtistList';
 
 interface Props {
   album: statsfm.Album;
@@ -78,7 +79,7 @@ const Album: NextPage<Props> = ({ album, tracks, streams }) => {
 
             <div className="flex flex-col justify-end">
               <span className="text-center text-lg md:text-left">
-                {album.artists.map((artist) => artist.name).join(', ')}
+                <ArtistList artists={album.artists} />
               </span>
               <h1 className="text-center font-extrabold md:text-left">
                 {album.name}

@@ -25,6 +25,7 @@ import { RecentStreams } from '@/components/RecentStreams';
 import { MdMusicOff } from 'react-icons/md';
 import { SectionToolbarCarouselNavigationButton } from '@/components/SectionToolbarCarouselNavigationButton';
 import { Container } from '@/components/Container';
+import { ArtistList } from '@/components/ArtistList';
 
 const AudioFeaturesRadarChart = ({
   acousticness,
@@ -193,7 +194,7 @@ const Track: NextPage<Props> = ({ track }) => {
 
             <div className="flex flex-col justify-end">
               <span className="text-center text-lg md:text-left">
-                {track.artists.map((artist) => artist.name).join(', ')}
+                <ArtistList artists={track.artists} />
               </span>
               <h1 className="text-center font-extrabold md:text-left">
                 {track.name}
