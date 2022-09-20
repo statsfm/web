@@ -28,7 +28,7 @@ export interface StateDefinition {
 
   current: number;
   transform: number;
-  slide: number;
+  slide?: number;
   width: number;
   rows: number;
   gap: number;
@@ -59,26 +59,32 @@ const reducer = (state: StateDefinition, action: Action) => {
     case ActionType.Next: {
       const direction =
         action.type === ActionType.Next ? Direction.Next : Direction.Previous;
+      const itemsWidth = state.itemsRef.current!.clientWidth;
+      // TODO: only calculate in state.slide is not passed
+      const numberOfItemsVisible = Math.floor(itemsWidth / state.width);
+      const numberOfItemsToSlide = state.slide ?? numberOfItemsVisible;
 
       const slideTo = Math.min(
-        Math.max(0, state.current - direction * state.slide),
+        Math.max(0, state.current - direction * numberOfItemsToSlide),
         state.items.length
       );
 
       const slideAmount = -1 * direction;
+      const numberOfSlides = state.items.length / state.rows;
+
       const newTransform =
         state.transform +
         Math.abs(slideAmount) *
           direction *
           (state.width + state.gap) *
-          state.slide;
+          numberOfItemsToSlide;
 
       return {
         ...state,
         current: slideTo,
         transform: newTransform,
-        isPreviousDisabled: slideTo < state.slide,
-        isNextDisabled: slideTo >= state.items.length - state.slide,
+        isPreviousDisabled: slideTo - numberOfItemsToSlide < 0,
+        isNextDisabled: slideTo >= numberOfSlides - 1,
       };
     }
     case ActionType.Register: {
@@ -114,7 +120,7 @@ export interface CarouselRootProps extends HTMLAttributes<HTMLUListElement> {
   rows?: number;
   gap?: number;
   // the items to slide on navigation click
-  slide: number;
+  slide?: number;
 }
 
 export const CarouselRoot = ({

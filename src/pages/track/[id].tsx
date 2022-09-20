@@ -205,7 +205,7 @@ const Track: NextPage<Props> = ({ track }) => {
       </div>
 
       <Container className="mt-8">
-        <Carousel slide={6}>
+        <Carousel>
           <Section
             title="Appears on"
             description={`Albums featuring ${track.name}`}
@@ -226,7 +226,7 @@ const Track: NextPage<Props> = ({ track }) => {
           </Section>
         </Carousel>
 
-        <Carousel slide={6}>
+        <Carousel>
           <Section
             title="Top listeners"
             description={`People who listen a lot to ${track.name}`}

@@ -111,7 +111,7 @@ const Album: NextPage<Props> = ({ album, tracks, streams }) => {
           </ul>
         </Section>
 
-        <Carousel slide={6}>
+        <Carousel>
           <Section
             title="Top listeners"
             description={`People who listen a lot to ${album.name}`}
