@@ -12,7 +12,6 @@ export const Coupon: FC<{ giftcode: GiftCode }> = ({ giftcode }) => {
     <div
       className="max-h-max max-w-max rounded-2xl bg-bodySecundary p-5"
       onClick={() => {
-        console.log('asd');
         setOpen(true);
       }}
     >
@@ -36,6 +35,7 @@ export const Coupon: FC<{ giftcode: GiftCode }> = ({ giftcode }) => {
           Purchased {dayjs(giftcode.purchasedAt).fromNow()}
         </p>
       )}
+      {/* TODO: move this modal to a more central place bc this is not optimal for performance */}
       <CouponModal
         open={open}
         onClose={() => setOpen(false)}

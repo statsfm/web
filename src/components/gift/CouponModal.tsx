@@ -41,8 +41,9 @@ export const CouponModal: FC<{
     );
     setSaving(false);
 
-    // TOOD: replace with toaster
+    // TODO: replace with toaster
     if (!success) {
+      // eslint-disable-next-line no-alert
       alert('something went wrong trying to save!');
       return;
     }
