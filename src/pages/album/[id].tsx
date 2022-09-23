@@ -16,6 +16,8 @@ import { SectionToolbarCarouselNavigationButton } from '@/components/SectionTool
 import { Container } from '@/components/Container';
 import { ArtistList } from '@/components/ArtistList';
 import { Title } from '@/components/Title';
+import { SectionToolbarInfoMenu } from '@/components/SectionToolbarInfoMenu';
+import { supportUrls } from '@/utils/supportUrls';
 
 interface Props {
   album: statsfm.Album;
@@ -117,6 +119,10 @@ const Album: NextPage<Props> = ({ album, tracks, streams }) => {
               <div className="flex gap-1">
                 <SectionToolbarCarouselNavigationButton />
                 <SectionToolbarCarouselNavigationButton next />
+                <SectionToolbarInfoMenu
+                  description="Learn more about what top listeners are and how they're calculated"
+                  link={supportUrls.artist.top_listeners}
+                />
               </div>
             }
           >
