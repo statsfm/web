@@ -7,6 +7,7 @@ import type { Artist, Genre } from '@statsfm/statsfm.js';
 import { Section } from '@/components/Section';
 import { Avatar } from '@/components/Avatar';
 import Link from 'next/link';
+import { Title } from '@/components/Title';
 
 type Props = {
   tag: string;
@@ -53,6 +54,7 @@ const GenrePage: NextPage<Props> = ({ tag, genre }) => {
 
   return (
     <>
+      <Title>{tag}</Title>
       <div className="bg-bodySecundary pt-20">
         <Container>
           <section className="flex flex-col items-center gap-5 pt-24 pb-10 md:flex-row">

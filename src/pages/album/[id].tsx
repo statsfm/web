@@ -3,7 +3,6 @@ import { useEffect, useState } from 'react';
 import * as statsfm from '@statsfm/statsfm.js';
 import { MdMusicOff } from 'react-icons/md';
 
-import Head from 'next/head';
 import Link from 'next/link';
 import { Image } from '@/components/Image';
 import { Section } from '@/components/Section';
@@ -16,6 +15,7 @@ import { useApi } from '@/hooks';
 import { SectionToolbarCarouselNavigationButton } from '@/components/SectionToolbarCarouselNavigationButton';
 import { Container } from '@/components/Container';
 import { ArtistList } from '@/components/ArtistList';
+import { Title } from '@/components/Title';
 
 interface Props {
   album: statsfm.Album;
@@ -61,9 +61,7 @@ const Album: NextPage<Props> = ({ album, tracks, streams }) => {
 
   return (
     <>
-      <Head>
-        <title>{album.name}</title>
-      </Head>
+      <Title>{album.name}</Title>
 
       <div className="bg-bodySecundary pt-20">
         <Container>

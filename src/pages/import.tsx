@@ -1,5 +1,6 @@
 import { Container } from '@/components/Container';
 import { Divider } from '@/components/Divider';
+import { Title } from '@/components/Title';
 import { useApi, useAuth } from '@/hooks';
 import type { UserImport } from '@statsfm/statsfm.js';
 import dayjs from 'dayjs';
@@ -143,6 +144,7 @@ const ImportPage: NextPage<Props> = () => {
 
   return (
     <Container className="pt-20">
+      <Title>Import</Title>
       <h2>Imports</h2>
       <p>
         Check more about importing your lifetime streaming history{' '}

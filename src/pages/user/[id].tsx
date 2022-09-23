@@ -14,7 +14,6 @@ import { Carousel } from '@/components/Carousel';
 import { Avatar } from '@/components/Avatar';
 import { MdVisibilityOff } from 'react-icons/md';
 import { useApi } from '@/hooks/use-api';
-import Head from 'next/head';
 import { Chip, ChipGroup } from '@/components/Chip';
 import { useAuth } from '@/hooks';
 import { AlbumCard, AlbumCardSkeleton } from '@/components/AlbumCard';
@@ -23,6 +22,7 @@ import { RecentStreams } from '@/components/RecentStreams';
 import { SectionToolbarCarouselNavigationButton } from '@/components/SectionToolbarCarouselNavigationButton';
 import { Container } from '@/components/Container';
 import Link from 'next/link';
+import { Title } from '@/components/Title';
 
 // const ListeningClockChart = () => {
 //   const config = {
@@ -324,10 +324,7 @@ const User: NextPage<Props> = ({ user }) => {
 
   return (
     <>
-      {/* TODO: move to a hook so we can use a base title */}
-      <Head>
-        <title>{user.displayName} | Stats.fm</title>
-      </Head>
+      <Title>{user.displayName}</Title>
 
       <UserContext.Provider value={user}>
         <div className="bg-bodySecundary pt-20">

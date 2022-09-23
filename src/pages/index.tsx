@@ -3,9 +3,9 @@ import { Container } from '@/components/Container';
 import { Divider } from '@/components/Divider';
 import { TotalStats } from '@/components/Home/TotalStats';
 import { StoreBadge } from '@/components/StoreBadges';
+import { Title } from '@/components/Title';
 import clsx from 'clsx';
 import type { NextPage } from 'next';
-import Head from 'next/head';
 import Link from 'next/link';
 import type { FC, PropsWithChildren } from 'react';
 import type { IconType } from 'react-icons';
@@ -58,9 +58,7 @@ const PhoneAppDisplay: FC = () => (
 const Home: NextPage = () => {
   return (
     <>
-      <Head>
-        <title>Stats.fm</title>
-      </Head>
+      <Title noDivider>(Formerly Spotistats for spotify)</Title>
       <Container className="flex flex-col justify-between gap-5 pt-20 lg:flex-row">
         <div className="my-12 w-full pt-10 lg:my-28 lg:w-5/12">
           <h1 className="text-5xl leading-none">

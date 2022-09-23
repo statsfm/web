@@ -6,6 +6,7 @@ import { useApi, useAuth } from '@/hooks';
 import { Button } from '@/components/Button';
 import type { GiftCode, Plan } from '@/types/gift';
 import { Coupon } from '@/components/gift/Coupon';
+import { Title } from '@/components/Title';
 
 const Coupons: FC<{ giftCodes: GiftCode[] }> = ({ giftCodes }) => {
   const [unClaimedCodes, claimedCodes] = useMemo(
@@ -140,6 +141,7 @@ const GiftPage: NextPage<Props> = ({ plans }) => {
 
   return (
     <Container className="pt-32">
+      <Title>Gift</Title>
       <section className="mb-5 mt-2 flex flex-col gap-3">
         <div v-if="plans" className="flex w-full flex-col justify-between">
           {plans.length > 0 ? (

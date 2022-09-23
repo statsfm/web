@@ -3,6 +3,7 @@ import type { GetServerSideProps, NextPage } from 'next';
 import { useMemo } from 'react';
 import { Container } from '@/components/Container';
 import { ChevronLink } from '@/components/ChevronLink';
+import { Title } from '@/components/Title';
 
 type Props = {
   reason: string | null;
@@ -40,6 +41,7 @@ const Ban: NextPage<Props> = ({ reason, bannedAt }) => {
 
   return (
     <>
+      <Title>Banned</Title>
       <div className="bg-bodySecundary pt-20">
         <Container>
           <section className="flex flex-col items-center gap-5 pt-24 pb-10 md:flex-row">

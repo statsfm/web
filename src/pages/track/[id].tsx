@@ -4,7 +4,6 @@ import { useEffect, useState } from 'react';
 import * as statsfm from '@statsfm/statsfm.js';
 
 import { Image } from '@/components/Image';
-import Head from 'next/head';
 import { Section } from '@/components/Section';
 import { Carousel } from '@/components/Carousel';
 import { TopListenerCardSkeleton } from '@/components/TopListenerCard';
@@ -26,6 +25,7 @@ import { MdMusicOff } from 'react-icons/md';
 import { SectionToolbarCarouselNavigationButton } from '@/components/SectionToolbarCarouselNavigationButton';
 import { Container } from '@/components/Container';
 import { ArtistList } from '@/components/ArtistList';
+import { Title } from '@/components/Title';
 
 const AudioFeaturesRadarChart = ({
   acousticness,
@@ -176,10 +176,7 @@ const Track: NextPage<Props> = ({ track }) => {
 
   return (
     <>
-      <Head>
-        <title>{track.name}</title>
-      </Head>
-
+      <Title>{track.name}</Title>
       <div className="bg-bodySecundary pt-20">
         <Container>
           <section className="flex flex-col items-center gap-5 pt-24 pb-10 md:flex-row">

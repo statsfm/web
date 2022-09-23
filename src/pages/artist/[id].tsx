@@ -3,7 +3,6 @@ import type { SortOptions } from '@/hooks';
 import { useAuth, useLessOrAll, useApi, useSort } from '@/hooks';
 import type { GetServerSideProps, NextPage } from 'next';
 import { Avatar } from '@/components/Avatar';
-import Head from 'next/head';
 import { Chip, ChipGroup } from '@/components/Chip';
 import { Section } from '@/components/Section';
 import { Carousel } from '@/components/Carousel';
@@ -22,6 +21,7 @@ import { MdSort } from 'react-icons/md';
 import { SectionToolbarCarouselNavigationButton } from '@/components/SectionToolbarCarouselNavigationButton';
 import { Container } from '@/components/Container';
 import Link from 'next/link';
+import { Title } from '@/components/Title';
 
 const MoreTracks = ({
   artist,
@@ -176,9 +176,7 @@ const Artist: NextPage<Props> = ({ artist }) => {
 
   return (
     <>
-      <Head>
-        <title>{artist.name}</title>
-      </Head>
+      <Title>{artist.name}</Title>
 
       <div className="bg-bodySecundary pt-20">
         <Container>
