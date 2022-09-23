@@ -22,6 +22,8 @@ import { SectionToolbarCarouselNavigationButton } from '@/components/SectionTool
 import { Container } from '@/components/Container';
 import Link from 'next/link';
 import { Title } from '@/components/Title';
+import { supportUrls } from '@/utils/supportUrls';
+import { SectionToolbarInfoMenu } from '@/components/SectionToolbarInfoMenu';
 
 const MoreTracks = ({
   artist,
@@ -262,6 +264,10 @@ const Artist: NextPage<Props> = ({ artist }) => {
               <div className="flex gap-1">
                 <SectionToolbarCarouselNavigationButton />
                 <SectionToolbarCarouselNavigationButton next />
+                <SectionToolbarInfoMenu
+                  description="Learn more about what top listeners are and how they're calculated"
+                  link={supportUrls.artist.top_listeners}
+                />
               </div>
             }
           >
