@@ -319,7 +319,11 @@ const DeleteAccount: FC = () => {
               </label>
             </div>
 
-            <Button className="mt-2" onClick={deleteAccount} disabled={!agreed}>
+            <Button
+              className="mt-2 max-w-full !text-sm sm:text-base"
+              onClick={deleteAccount}
+              disabled={!agreed}
+            >
               Delete my account and all my data, {timeLeft}s left
             </Button>
           </>
