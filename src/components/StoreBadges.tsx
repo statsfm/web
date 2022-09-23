@@ -4,9 +4,10 @@ import type { FC } from 'react';
 type Props = {
   store: 'apple' | 'google';
   size?: 'xs' | 'lg';
+  onClick?: () => void;
 };
 
-export const StoreBadge: FC<Props> = ({ store, size }) => {
+export const StoreBadge: FC<Props> = ({ store, size, onClick }) => {
   const storeUrl =
     store === 'apple'
       ? 'https://apps.apple.com/app/spotistats-for-spotify/id1526912392'
@@ -20,7 +21,12 @@ export const StoreBadge: FC<Props> = ({ store, size }) => {
   const isSmall = size === 'xs';
 
   return (
-    <a href={storeUrl} target="_blank" rel="noopener noreferrer">
+    <a
+      href={storeUrl}
+      target="_blank"
+      rel="noopener noreferrer"
+      onClick={onClick}
+    >
       <img
         src={imageUrl}
         alt={store}
