@@ -33,9 +33,13 @@ export const SectionToolbarInfoMenu = ({
             leaveFrom="transform opacity-100 scale-100"
             leaveTo="transform opacity-0 scale-95"
           >
-            <Menu.Items>
-              <Menu.Item className="truncate">
-                <a className="flex gap-2" target="blank" href={link}>
+            <Menu.Items className="w-96">
+              <Menu.Item>
+                <a
+                  className="flex gap-2 [&>svg]:shrink-0"
+                  target="blank"
+                  href={link}
+                >
                   <MdInfoOutline className="text-white" />
                   {description}
                 </a>
