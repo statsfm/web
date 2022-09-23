@@ -1,3 +1,4 @@
+import clsx from 'clsx';
 import type { ButtonHTMLAttributes } from 'react';
 import { MdNavigateNext, MdNavigateBefore } from 'react-icons/md';
 import { useNavigate, Direction } from './Carousel';
@@ -15,7 +16,14 @@ export const SectionToolbarCarouselNavigationButton = ({
   );
 
   return (
-    <button className="rounded-full bg-foreground p-2" {...bindings} {...props}>
+    <button
+      className={clsx(
+        'rounded-full bg-foreground p-2 transition-all',
+        !disabled ? 'hover:scale-105' : ''
+      )}
+      {...bindings}
+      {...props}
+    >
       {next ? (
         <MdNavigateNext className={!disabled ? 'fill-white' : ''} />
       ) : (
