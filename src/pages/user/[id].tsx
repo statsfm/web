@@ -338,7 +338,7 @@ const User: NextPage<Props> = ({ user }) => {
                   {user.isPlus && <PlusBadge />}
                 </span>
 
-                <h1 className="text-center font-bold md:text-left">
+                <h1 className="text-center font-extrabold md:text-left">
                   {user.displayName}
                 </h1>
 

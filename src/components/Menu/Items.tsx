@@ -8,6 +8,7 @@ import { Keys } from '@/types/keyboard';
 import type { Placement } from '@floating-ui/react-dom';
 import { offset, useFloating } from '@floating-ui/react-dom';
 import { useOffscreen } from '@/hooks/use-offscreen';
+import clsx from 'clsx';
 import { useMenuContext } from './context';
 import { ActionType, Focus, MenuState } from './MenuRoot';
 
@@ -17,6 +18,7 @@ export interface ItemsProps extends HTMLAttributes<HTMLUListElement> {
 
 export const Items = ({
   placement = 'bottom-end',
+  className,
   children,
   ...props
 }: PropsWithChildren<ItemsProps>) => {
@@ -113,7 +115,10 @@ export const Items = ({
             offScreenRef(el);
             state.itemsRef.current = el;
           }}
-          className="absolute z-20 max-h-96 overflow-y-hidden rounded-xl bg-foreground py-2 shadow-xl"
+          className={clsx(
+            'absolute z-20 max-h-96 overflow-y-hidden rounded-xl bg-foreground py-2 shadow-xl',
+            className
+          )}
           aria-activedescendant={
             state.activeItemIndex === null
               ? undefined
