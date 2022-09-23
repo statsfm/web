@@ -19,7 +19,7 @@ export const SectionToolbarCarouselNavigationButton = ({
     <button
       className={clsx(
         'rounded-full bg-foreground p-2 transition-all',
-        !disabled ? 'hover:scale-105' : ''
+        !disabled ? 'active:scale-95' : ''
       )}
       {...bindings}
       {...props}
