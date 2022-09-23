@@ -1,0 +1,31 @@
+{
+  "applinks": {
+    "apps": [],
+    "details": [
+      {
+        "appID": "SW982352Z8.dev.netlob.spotistats",
+        "paths": [
+          "NOT /",
+          "NOT /terms",
+          "NOT /privacy",
+          "NOT /beta",
+          "NOT /auth/*",
+          "NOT /account",
+          "NOT /account/*",
+          "NOT /gift",
+          "NOT /gift/*",
+          "NOT /redeem",
+          "NOT /redeem/*",
+          "NOT /import",
+          "NOT /404",
+          "/user/*",
+          "/track/*",
+          "/artist/*",
+          "/album/*",
+          "/playlist/*",
+          "/*/"
+        ]
+      }
+    ]
+  }
+}
