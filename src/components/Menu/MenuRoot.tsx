@@ -5,7 +5,7 @@ import type {
   ReactNode,
   Reducer,
 } from 'react';
-import { createRef, useReducer } from 'react';
+import { useEffect, createRef, useReducer } from 'react';
 import { MenuContext } from './context';
 
 export enum MenuState {
@@ -202,6 +202,11 @@ export const MenuRoot = ({ id, children, ...props }: MenuRootProps) => {
       dispatch({ type: ActionType.CloseMenu });
     }
   );
+
+  useEffect(() => {
+    if (state.items.length > 0 && state.menuState === MenuState.Open)
+      dispatch({ type: ActionType.Focus, focus: Focus.First });
+  }, [state.items, state.menuState]);
 
   return (
     <MenuContext.Provider value={[state, dispatch]}>
