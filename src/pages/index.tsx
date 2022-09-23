@@ -4,9 +4,11 @@ import { Divider } from '@/components/Divider';
 import { TotalStats } from '@/components/Home/TotalStats';
 import { StoreBadge } from '@/components/StoreBadges';
 import { Title } from '@/components/Title';
+import { useScrollPercentage } from '@/hooks/use-scroll-percentage';
 import clsx from 'clsx';
 import type { NextPage } from 'next';
 import Link from 'next/link';
+import { event } from 'nextjs-google-analytics';
 import type { FC, PropsWithChildren } from 'react';
 import type { IconType } from 'react-icons';
 import {
@@ -56,6 +58,7 @@ const PhoneAppDisplay: FC = () => (
 );
 
 const Home: NextPage = () => {
+  useScrollPercentage(30, () => event('HOME_scroll_30'));
   return (
     <>
       <Title noDivider>(Formerly Spotistats for spotify)</Title>
@@ -72,12 +75,25 @@ const Home: NextPage = () => {
             Enter a new dimension of music by getting unique insights into your
             music taste.
           </p>
-          <ChevronLink href="https://spotistats.app/plus-demo">
+          <ChevronLink
+            href="https://spotistats.app/plus-demo"
+            onClick={() => event('HOME_header_watch_video')}
+          >
             Watch the video
           </ChevronLink>
           <div className="mt-8 flex flex-col items-center gap-2 md:flex-row">
-            <StoreBadge store="apple" />
-            <StoreBadge store="google" />
+            <StoreBadge
+              store="apple"
+              onClick={() => {
+                event('HOME_header_appstore');
+              }}
+            />
+            <StoreBadge
+              store="google"
+              onClick={() => {
+                event('HOME_header_playstore');
+              }}
+            />
           </div>
         </div>
         <div className="mb-10 flex w-full items-end lg:w-7/12">
@@ -141,7 +157,12 @@ const Home: NextPage = () => {
               <p>
                 *{' '}
                 <Link href="import">
-                  <a className="text-white hover:opacity-80">
+                  <a
+                    className="text-white hover:opacity-80"
+                    onClick={() => {
+                      event('HOME_features_import_link');
+                    }}
+                  >
                     import of streaming history
                   </a>
                 </Link>{' '}
@@ -168,7 +189,11 @@ const Home: NextPage = () => {
             </p>
             <div className="h-full"></div>
 
-            <ChevronLink href="sjoerdgaatwakawaka" local>
+            <ChevronLink
+              onClick={() => event('HOME_friends_example_page')}
+              href="sjoerdgaatwakawaka"
+              local
+            >
               Check out an example page
             </ChevronLink>
           </div>
@@ -228,8 +253,14 @@ const Home: NextPage = () => {
               Available on Android & iOS
             </h4>
             <div className="mt-8 flex flex-col items-center justify-center gap-2 md:flex-row">
-              <StoreBadge store="google" />
-              <StoreBadge store="apple" />
+              <StoreBadge
+                store="google"
+                onClick={() => event('HOME_cta_appstore')}
+              />
+              <StoreBadge
+                store="apple"
+                onClick={() => event('HOME_cta_playstore')}
+              />
             </div>
           </Card>
         </Container>
