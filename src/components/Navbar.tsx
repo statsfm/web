@@ -45,9 +45,9 @@ export const NavBar = () => {
                   leaveTo="transform opacity-0 scale-95"
                 >
                   <Menu.Items>
-                    <Menu.Item className="focus:bg-transparent">
+                    <Menu.Item className="!p-0 focus:!bg-transparent">
                       <Link href={`/${user.customId ?? user.id}`}>
-                        <a className="flex gap-2">
+                        <a className="flex gap-2 px-4 py-2">
                           <Avatar
                             size="md"
                             name={user.displayName}
@@ -60,16 +60,16 @@ export const NavBar = () => {
                         </a>
                       </Link>
                     </Menu.Item>
-                    <Menu.Item>
+                    <Menu.Item className="!p-0">
                       <Link href={`/${user.customId ?? user.id}`}>
-                        <a className="flex h-full w-full flex-row gap-2">
+                        <a className="flex h-full w-full flex-row gap-2 px-4 py-2">
                           <MdAccountCircle className="text-white" /> My page
                         </a>
                       </Link>
                     </Menu.Item>
-                    <Menu.Item>
+                    <Menu.Item className="!p-0">
                       <Link href="/settings/profile">
-                        <a className="flex h-full w-full flex-row gap-2">
+                        <a className="flex h-full w-full flex-row gap-2 px-4 py-2">
                           <MdManageAccounts className="text-white" /> Settings
                         </a>
                       </Link>
