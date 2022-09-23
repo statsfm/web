@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { event } from 'nextjs-google-analytics';
 import { Container } from './Container';
 import { StoreBadge } from './StoreBadges';
 
@@ -63,7 +64,16 @@ export const Footer = () => {
               {cat.links.map((link, i) => (
                 <li key={i}>
                   <Link href={link.href} className="text-[1rem]">
-                    {link.label}
+                    <a
+                      onClick={
+                        cat.label === 'Socials'
+                          ? () =>
+                              event(`FOOTER_${link.label.toLowerCase()}_click`)
+                          : undefined
+                      }
+                    >
+                      {link.label}
+                    </a>
                   </Link>
                 </li>
               ))}
@@ -74,9 +84,17 @@ export const Footer = () => {
         <div>
           <h4 className="text-neutral-400">Download</h4>
           <div className="mt-4"></div>
-          <StoreBadge store="apple" size="xs" />
+          <StoreBadge
+            store="apple"
+            size="xs"
+            onClick={() => event('FOOTER_appstore')}
+          />
           <div className="mt-2"></div>
-          <StoreBadge store="google" size="xs" />
+          <StoreBadge
+            store="google"
+            size="xs"
+            onClick={() => event('FOOTER_playstore')}
+          />
         </div>
       </div>
 
