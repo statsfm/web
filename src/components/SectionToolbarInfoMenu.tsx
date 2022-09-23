@@ -16,7 +16,10 @@ export const SectionToolbarInfoMenu = ({
     <Menu>
       {({ open }) => (
         <>
-          <Menu.Button className="rounded-full bg-foreground p-2 active:scale-95">
+          <Menu.Button
+            aria-label="More options"
+            className="rounded-full bg-foreground p-2 active:scale-95"
+          >
             <MdMoreHoriz className="text-white" />
           </Menu.Button>
           {/* TODO: move transition to component itself */}
@@ -32,7 +35,7 @@ export const SectionToolbarInfoMenu = ({
           >
             <Menu.Items>
               <Menu.Item className="truncate">
-                <a className="flex gap-2" href={link}>
+                <a className="flex gap-2" target="blank" href={link}>
                   <MdInfoOutline className="text-white" />
                   {description}
                 </a>
