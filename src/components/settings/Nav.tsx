@@ -4,10 +4,10 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import type { FC, PropsWithChildren } from 'react';
 import { Fragment } from 'react';
-import { MdMenu } from 'react-icons/md';
+import { MdMenu, MdOpenInNew } from 'react-icons/md';
 
 const SideNavItem: FC<
-  PropsWithChildren<{ href: string; disabled?: boolean }>
+  PropsWithChildren<{ href: string; disabled?: boolean; external?: boolean }>
 > = (props) => {
   const { pathname } = useRouter();
 
@@ -21,10 +21,11 @@ const SideNavItem: FC<
           props.disabled
             ? 'opacity-40 hover:cursor-not-allowed hover:bg-transparent focus:bg-transparent'
             : 'hover:bg-bodySecundary hover:opacity-90 focus:bg-bodySecundary',
-          ' -ml-4 block rounded-lg px-4 py-1.5 font-medium'
+          ' -ml-4 flex items-center rounded-lg px-4 py-1.5 font-medium'
         )}
       >
         {props.children}
+        {props.external && <MdOpenInNew className="h-4" />}
       </a>
     </Link>
   );
@@ -57,7 +58,7 @@ const NavBody: FC = () => (
       </NavGroup>
 
       <NavGroup title="Stats">
-        <SideNavItem disabled href="/settings/import">
+        <SideNavItem external href="/import">
           Import
         </SideNavItem>
         <SideNavItem disabled href="/settings/algorithms">
