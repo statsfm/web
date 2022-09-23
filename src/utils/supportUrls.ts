@@ -1,6 +1,5 @@
 export const supportUrls = {
   artist: {
-    // TODO: add support url
-    top_listeners: 'https://support.stats.fm/',
+    top_listeners: 'https://support.stats.fm/docs/statsfm-plus/top-listeners/',
   },
 };
