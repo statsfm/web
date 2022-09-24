@@ -18,8 +18,10 @@ const Callback: NextPage = () => {
       auth.callback(code!);
       const redirectUrl = localStorage.getItem('redirectUrl');
 
-      if (redirectUrl) router.push(redirectUrl);
-      else router.back();
+      if (redirectUrl) {
+        router.push(redirectUrl);
+        localStorage.removeItem('redirectUrl');
+      } else router.back();
     } else {
       // TODO: show toaster error
       router.push('/login');
