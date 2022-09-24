@@ -3,6 +3,7 @@ import { useAuth } from '@/hooks';
 
 import { MdAccountCircle, MdExitToApp, MdManageAccounts } from 'react-icons/md';
 import { Transition } from '@headlessui/react';
+import { event } from 'nextjs-google-analytics';
 import { Logo } from './Logo';
 import { Avatar } from './Avatar/Avatar';
 import { Menu } from './Menu';
@@ -19,7 +20,7 @@ export const NavBar = () => {
     <nav className="absolute z-40 flex w-full">
       <Container className="flex w-full items-center justify-between bg-inherit py-3">
         <Link href="/" passHref>
-          <a className="flex gap-3">
+          <a className="flex gap-3" onClick={() => event('NAV_home')}>
             <Logo className="h-[1.7rem] w-[1.7rem] cursor-pointer" />
             <h3 className="mt-[-3px]">Stats.fm</h3>
           </a>
@@ -45,7 +46,10 @@ export const NavBar = () => {
                   leaveTo="transform opacity-0 scale-95"
                 >
                   <Menu.Items>
-                    <Menu.Item className="!p-0 focus:!bg-transparent">
+                    <Menu.Item
+                      className="!p-0 focus:!bg-transparent"
+                      onClick={() => event('NAV_profile')}
+                    >
                       <Link href={`/${user.customId ?? user.id}`}>
                         <a className="flex gap-2 px-4 py-2">
                           <Avatar
@@ -60,14 +64,20 @@ export const NavBar = () => {
                         </a>
                       </Link>
                     </Menu.Item>
-                    <Menu.Item className="!p-0">
+                    <Menu.Item
+                      className="!p-0"
+                      onClick={() => event('NAV_profile')}
+                    >
                       <Link href={`/${user.customId ?? user.id}`}>
                         <a className="flex h-full w-full flex-row gap-2 px-4 py-2">
                           <MdAccountCircle className="text-white" /> My page
                         </a>
                       </Link>
                     </Menu.Item>
-                    <Menu.Item className="!p-0">
+                    <Menu.Item
+                      className="!p-0"
+                      onClick={() => event('NAV_settings')}
+                    >
                       <Link href="/settings/profile">
                         <a className="flex h-full w-full flex-row gap-2 px-4 py-2">
                           <MdManageAccounts className="text-white" /> Settings
@@ -76,7 +86,10 @@ export const NavBar = () => {
                     </Menu.Item>
                     <Menu.Item
                       icon={<MdExitToApp />}
-                      onClick={handleLogOutClick}
+                      onClick={() => {
+                        event('NAV_logout');
+                        handleLogOutClick();
+                      }}
                     >
                       Log out
                     </Menu.Item>
