@@ -51,7 +51,12 @@
   svg {
     @apply text-icon w-6 h-6;
   }
+
+  button, textarea, input {
+    @apply focus:outline-none focus:ring focus:ring-neutral-500 focus-within:ring-2
+  }
 }
+
 @layer utilities {
   .no-scrollbar::-webkit-scrollbar {
     display: none;
