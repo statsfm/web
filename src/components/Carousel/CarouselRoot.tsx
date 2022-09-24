@@ -3,8 +3,9 @@ import type {
   MutableRefObject,
   PropsWithChildren,
   Reducer,
+  TouchEventHandler,
 } from 'react';
-import React, { useEffect, createRef, useReducer } from 'react';
+import React, { useState, useEffect, createRef, useReducer } from 'react';
 import { CarouselContext } from './context';
 
 export enum Direction {
@@ -45,8 +46,8 @@ export enum ActionType {
 }
 
 export type Action =
-  | { type: ActionType.Previous }
-  | { type: ActionType.Next }
+  | { type: ActionType.Previous; amount?: number }
+  | { type: ActionType.Next; amount?: number }
   | { type: ActionType.Register; id: string; domRef: CarouselStateItemDomRef }
   | { type: ActionType.Unregister; id: string }
   | { type: ActionType.SetWidth; value: number }
@@ -62,7 +63,8 @@ const reducer = (state: StateDefinition, action: Action) => {
       const itemsWidth = state.itemsRef.current!.clientWidth;
       // TODO: only calculate in state.slide is not passed
       const numberOfItemsVisible = Math.floor(itemsWidth / state.width);
-      const numberOfItemsToSlide = state.slide ?? numberOfItemsVisible;
+      const numberOfItemsToSlide =
+        action.amount ?? state.slide ?? numberOfItemsVisible;
 
       const slideTo = Math.min(
         Math.max(0, state.current - direction * numberOfItemsToSlide),
@@ -155,9 +157,44 @@ export const CarouselRoot = ({
       });
   }, [state.items]);
 
+  const [swipe, setSwipe] = useState(0);
+
+  const handleTouchStart: TouchEventHandler = (e) => {
+    const touch = e.changedTouches[0];
+    setSwipe(touch?.pageX ?? 0);
+  };
+
+  const handleTouchEnd: TouchEventHandler = (e) => {
+    const touch = e.changedTouches[0];
+
+    if (touch) {
+      const deltaX = touch.pageX - swipe;
+      const swipeDirection = deltaX > 0 ? Direction.Previous : Direction.Next;
+
+      const disabled =
+        swipeDirection === Direction.Next
+          ? state.isNextDisabled
+          : state.isPreviousDisabled;
+
+      const swipeAmount = Math.abs(deltaX);
+      const numberOfSlidesToSwipe = Math.floor(swipeAmount / state.width);
+
+      if (!disabled)
+        dispatch({
+          type:
+            swipeDirection === Direction.Next
+              ? ActionType.Next
+              : ActionType.Previous,
+          amount: numberOfSlidesToSwipe === 0 ? 1 : numberOfSlidesToSwipe,
+        });
+    }
+  };
+
   return (
     <CarouselContext.Provider value={[state, dispatch]}>
-      {children}
+      <div onTouchStart={handleTouchStart} onTouchEnd={handleTouchEnd}>
+        {children}
+      </div>
     </CarouselContext.Provider>
   );
 };
