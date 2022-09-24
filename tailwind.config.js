@@ -29,6 +29,15 @@ module.exports = {
         body: 'Open Sans',
         heading: 'Open Sans',
       },
+      keyframes: {
+        fade: {
+          from: { opacity: 0 },
+          to: { opacity: 1 },
+        },
+      },
+      animation: {
+        fade: 'fade 0.3s ease-in-out',
+      },
     },
   },
   plugins: [

@@ -43,17 +43,17 @@ const RedeemCodePage: NextPage = () => {
         body: JSON.stringify({ code }),
       })
       .catch((e) => {
-        toaster(e.data.message);
+        toaster.error(e.data.message);
       });
 
     if (res?.success) {
-      toaster('Succesfully redeemed gift code!');
+      toaster.message('Succesfully redeemed gift code!');
     }
   }, [code]);
 
   const redeemCallback = useCallback(async () => {
     if (!user) {
-      toaster('You need to be logged in to claim a gift code');
+      toaster.error('You need to be logged in to claim a gift code');
       return;
     }
 
