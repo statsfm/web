@@ -188,7 +188,7 @@ const AvatarInput: FC<{ defaultSrc: string }> = ({ defaultSrc }) => {
             'absolute top-0 h-full w-full rounded-full bg-black transition-opacity'
           )}
         />
-        <div className="absolute right-0 bottom-0 flex h-10 w-10 items-center justify-center rounded-full border-4 border-background bg-bodySecundary">
+        <div className="absolute right-0 bottom-0 flex h-10 w-10 items-center justify-center rounded-full border-4 border-background bg-foreground">
           <MdCameraEnhance
             size="22px"
             className={clsx(
@@ -432,7 +432,7 @@ const AccountPrivacyInfoForm: FC<{
 
             <Menu.Items
               placement="bottom-start"
-              className="absolute z-30 -mt-2 h-64 overflow-scroll rounded-lg bg-bodySecundary p-2 px-1"
+              className="absolute z-30 -mt-2 h-64 overflow-scroll rounded-lg bg-foreground p-2 px-1"
             >
               <Menu.Item value="none" onClick={(value) => setPronoun(value)}>
                 none

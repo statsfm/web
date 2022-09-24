@@ -152,10 +152,10 @@ const GiftPage: NextPage<Props> = ({ plans }) => {
                   className="relative w-full cursor-pointer select-none transition duration-200 hover:scale-105"
                   onClick={() => startCheckout(plan.id)}
                 >
-                  <div className="flex max-h-max w-full flex-col items-center rounded-2xl bg-bodySecundary p-5 py-3 text-center">
+                  <div className="flex max-h-max w-full flex-col items-center rounded-2xl bg-foreground p-5 py-3 text-center">
                     {plan.isMostChosen && (
                       <div className="absolute top-0 -translate-y-1/2 select-none rounded-lg bg-primary px-3">
-                        <span className="font-medium text-bodySecundary">
+                        <span className="font-medium text-foreground">
                           Most chosen
                         </span>
                       </div>

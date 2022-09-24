@@ -22,7 +22,7 @@ const Card: FC<PropsWithChildren<{ className?: string }>> = (props) => {
   return (
     <div
       className={clsx(
-        'max-h-max w-full rounded-2xl bg-bodySecundary p-5',
+        'max-h-max w-full rounded-2xl bg-foreground p-5',
         props.className
       )}
     >
@@ -104,7 +104,7 @@ const Home: NextPage = () => {
           />
         </div>
       </Container>
-      <section className="-mt-10 bg-bodySecundary py-28">
+      <section className="-mt-10 bg-foreground py-28">
         <Container className="flex flex-col justify-between gap-10 lg:flex-row">
           <div className="mb-5 hidden w-full justify-center lg:flex lg:w-6/12">
             <img
@@ -243,15 +243,13 @@ const Home: NextPage = () => {
           </Card>
         </div>
       </Container>
-      <section className="bg-bodySecundary py-14 text-[black]">
+      <section className="bg-foreground py-14 text-[black]">
         <Container>
           <Card className="flex flex-col items-center !bg-primary px-6 py-10 text-center transition-transform duration-200 hover:scale-[1.02] sm:px-12 sm:py-20">
-            <h1 className="text-bodySecundary">
+            <h1 className="text-foreground">
               Download today and start your journey
             </h1>
-            <h4 className="py-2 text-bodySecundary">
-              Available on Android & iOS
-            </h4>
+            <h4 className="py-2 text-foreground">Available on Android & iOS</h4>
             <div className="mt-8 flex flex-col items-center justify-center gap-2 md:flex-row">
               <StoreBadge
                 store="google"

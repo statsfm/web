@@ -65,7 +65,7 @@ const Album: NextPage<Props> = ({ album, tracks, streams }) => {
     <>
       <Title>{album.name}</Title>
 
-      <div className="bg-bodySecundary pt-20">
+      <div className="bg-foreground pt-20">
         <Container>
           <section className="flex flex-col items-center gap-5 pt-24 pb-10 md:flex-row">
             {album.image && (

@@ -16,11 +16,11 @@ const SideNavItem: FC<
       <a
         className={clsx(
           pathname === props.href
-            ? 'bg-bodySecundary text-primary'
+            ? 'bg-foreground text-primary'
             : 'bg-transparent text-neutral-500',
           props.disabled
             ? 'opacity-40 hover:cursor-not-allowed hover:bg-transparent focus:bg-transparent'
-            : 'hover:bg-bodySecundary hover:opacity-90 focus:bg-bodySecundary',
+            : 'hover:bg-foreground hover:opacity-90 focus:bg-foreground',
           ' -ml-4 flex items-center rounded-lg px-4 py-1.5 font-medium'
         )}
       >
@@ -82,7 +82,7 @@ export const SideNav: FC = () => {
 export const DropDownNav: FC = () => {
   return (
     <Popover>
-      <Popover.Button className="relative z-20 flex h-10 w-10 items-center justify-center rounded-md bg-bodySecundary sm:hidden">
+      <Popover.Button className="relative z-20 flex h-10 w-10 items-center justify-center rounded-md bg-foreground sm:hidden">
         <MdMenu className="h-10 text-white" />
       </Popover.Button>
 

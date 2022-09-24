@@ -55,7 +55,7 @@ const GenrePage: NextPage<Props> = ({ tag, genre }) => {
   return (
     <>
       <Title>{tag}</Title>
-      <div className="bg-bodySecundary pt-20">
+      <div className="bg-foreground pt-20">
         <Container>
           <section className="flex flex-col items-center gap-5 pt-24 pb-10 md:flex-row">
             <div className="flex flex-col justify-end">
