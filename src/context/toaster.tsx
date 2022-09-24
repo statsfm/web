@@ -58,7 +58,7 @@ export const ToasterContainer: FC<PropsWithChildren> = ({ children }) => {
         <Container className="bg-transparent">
           {toasts.length > 0 && (
             <ul className="mb-10 flex flex-col gap-4">
-              {toasts.map((toast) => (
+              {toasts.slice(0, 5).map((toast) => (
                 <Toaster
                   removeToast={removeToast}
                   toast={toast}
