@@ -7,6 +7,7 @@ import { Button } from '@/components/Button';
 import type { GiftCode, Plan } from '@/types/gift';
 import { Coupon } from '@/components/gift/Coupon';
 import { Title } from '@/components/Title';
+import Link from 'next/link';
 
 const Coupons: FC<{ giftCodes: GiftCode[] }> = ({ giftCodes }) => {
   const [unClaimedCodes, claimedCodes] = useMemo(
@@ -207,11 +208,11 @@ const GiftPage: NextPage<Props> = ({ plans }) => {
             </li>
             <li>
               If you want to claim the Plus yourself, you can enter it yourself
-              at <a href="/redeem">stats.fm/redeem</a>
+              at <Link href="/redeem">stats.fm/redeem</Link>
             </li>
             <li>
               You can send the other coupons to your friends so they can redeem
-              them at <a href="/redeem">stats.fm/redeem</a>
+              them at <Link href="/redeem">stats.fm/redeem</Link>
             </li>
           </ol>
         </article>
