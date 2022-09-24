@@ -2,7 +2,7 @@ import type { GetStaticProps, NextPage } from 'next';
 import { Container } from '@/components/Container';
 import type { FC } from 'react';
 import { useCallback, useMemo, useEffect, useState } from 'react';
-import { useApi, useAuth } from '@/hooks';
+import { useApi, useAuth, useToaster } from '@/hooks';
 import { Button } from '@/components/Button';
 import type { GiftCode, Plan } from '@/types/gift';
 import { Coupon } from '@/components/gift/Coupon';
@@ -90,6 +90,7 @@ export const getStaticProps: GetStaticProps<Props> = async () => {
 };
 
 const GiftPage: NextPage<Props> = ({ plans }) => {
+  const toaster = useToaster();
   const [giftCodes, setGiftCodes] = useState<GiftCode[]>([]);
   const api = useApi();
   const { user, login } = useAuth();
@@ -133,9 +134,7 @@ const GiftPage: NextPage<Props> = ({ plans }) => {
       );
 
       if (success) window.location.href = data.item.url;
-      // TODO: use toaster
-      // eslint-disable-next-line no-alert
-      else alert('Something went wrong');
+      else toaster.error('Something went wrong');
     },
     [user]
   );

@@ -1,4 +1,4 @@
-import { useApi } from '@/hooks';
+import { useApi, useToaster } from '@/hooks';
 import type { GiftCode } from '@/types/gift';
 import { Dialog } from '@headlessui/react';
 import dayjs from 'dayjs';
@@ -15,6 +15,7 @@ export const CouponModal: FC<{
   open: boolean;
   onClose: () => void;
 }> = ({ giftCode, open, onClose }) => {
+  const toaster = useToaster();
   const api = useApi();
   const [message, setMessage] = useState(giftCode.message);
   const [saving, setSaving] = useState(false);
@@ -41,10 +42,8 @@ export const CouponModal: FC<{
     );
     setSaving(false);
 
-    // TODO: replace with toaster
     if (!success) {
-      // eslint-disable-next-line no-alert
-      alert('something went wrong trying to save!');
+      toaster.error('something went wrong trying to save!');
       return;
     }
 

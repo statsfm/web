@@ -1,7 +1,7 @@
 import { Container } from '@/components/Container';
 import { Divider } from '@/components/Divider';
 import { Title } from '@/components/Title';
-import { useApi, useAuth } from '@/hooks';
+import { useApi, useAuth, useToaster } from '@/hooks';
 import type { UserImport } from '@statsfm/statsfm.js';
 import dayjs from 'dayjs';
 import type { NextPage } from 'next';
@@ -65,26 +65,21 @@ type Props = {};
 const ImportPage: NextPage<Props> = () => {
   const { user } = useAuth();
   const api = useApi();
+  const toaster = useToaster();
 
   const [refetchCounter, setRefetchCounter] = useState(0);
-
-  // TODO: replace this with a real toaster
-  const toaster = (message: string) => {
-    // eslint-disable-next-line no-alert
-    alert(message);
-  };
 
   // TODO: this function is a direct port of the vue one, it can do with some improvments and refactoring
   const onFileChange = async (e: ChangeEvent<HTMLInputElement>) => {
     const { files } = e.target;
 
     if (!files || files.length === 0) {
-      toaster('No files selected');
+      toaster.error('No files selected');
       return;
     }
 
     if (files.length > 1) {
-      toaster('You can only upload one file at a time');
+      toaster.error('You can only upload one file at a time');
       return;
     }
 
@@ -123,7 +118,7 @@ const ImportPage: NextPage<Props> = () => {
           body: formData,
         });
 
-        toaster(`succesfully uploaded.. ${file.name}`);
+        toaster.message(`succesfully uploaded.. ${file.name}`);
         setRefetchCounter((c) => c + 1);
       } catch (e) {
         // @ts-expect-error
@@ -134,7 +129,7 @@ const ImportPage: NextPage<Props> = () => {
       window.location.href =
         'https://support.stats.fm/docs/import/faq/no-endsong';
     } else {
-      toaster(
+      toaster.error(
         'You just need to upload the "endsong_X.json" files, not the ap_endsong or any other files :)'
       );
     }

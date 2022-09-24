@@ -1,6 +1,7 @@
 import { Button } from '@/components/Button';
 import { Container } from '@/components/Container';
 import { Title } from '@/components/Title';
+import { useToaster } from '@/hooks';
 import type { NextPage } from 'next';
 import { useRouter } from 'next/router';
 import { useCallback, useState } from 'react';
@@ -8,6 +9,7 @@ import { useCallback, useState } from 'react';
 const RedeemPage: NextPage = () => {
   const router = useRouter();
   const [couponCode, setCouponCode] = useState('');
+  const toaster = useToaster();
 
   const setCoupongCallback = (value: string) => {
     const cleanCode = value.replaceAll('-', '');
@@ -25,13 +27,10 @@ const RedeemPage: NextPage = () => {
   };
 
   const continueRedeem = useCallback(() => {
-    // TODO: make this a real toaster
-    // eslint-disable-next-line no-alert
-    const toaster = (message: string) => alert(message);
     const cleanCode = couponCode.replaceAll('-', '');
 
     if (cleanCode.length === 12) router.push(`/redeem/${cleanCode}`);
-    else toaster('Invalid coupon code');
+    else toaster.error('Invalid coupon code');
   }, [couponCode]);
 
   return (
