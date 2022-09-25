@@ -11,7 +11,7 @@ import TopListenerCard from '@/components/TopListenerCard/TopListenerCard';
 import { TopListenerCardSkeleton } from '@/components/TopListenerCard';
 import { RecentStreams } from '@/components/RecentStreams';
 
-import { useApi } from '@/hooks';
+import { useApi, useAuth } from '@/hooks';
 import { SectionToolbarCarouselNavigationButton } from '@/components/SectionToolbarCarouselNavigationButton';
 import { Container } from '@/components/Container';
 import { ArtistList } from '@/components/ArtistList';
@@ -22,7 +22,6 @@ import { supportUrls } from '@/utils/supportUrls';
 interface Props {
   album: statsfm.Album;
   tracks: statsfm.Track[];
-  streams: statsfm.Stream[];
 }
 
 export const getServerSideProps: GetServerSideProps<Props> = async (ctx) => {
@@ -36,20 +35,21 @@ export const getServerSideProps: GetServerSideProps<Props> = async (ctx) => {
 
   const album = await api.albums.get(parseInt(id, 10));
   const tracks = await api.albums.tracks(parseInt(id, 10));
-  const streams = await api.users.albumStreams('martijn', album.id);
+  // const streams = await api.users.albumStreams('martijn', album.id);
 
   return {
     props: {
       album,
       tracks,
-      streams,
     },
   };
 };
 
-const Album: NextPage<Props> = ({ album, tracks, streams }) => {
+const Album: NextPage<Props> = ({ album, tracks }) => {
   const api = useApi();
   const [topListeners, setTopListeners] = useState<statsfm.TopUser[]>([]);
+  const [streams, setStreams] = useState<statsfm.Stream[]>([]);
+  const { user } = useAuth();
 
   useEffect(() => {
     (async () => {
@@ -60,6 +60,14 @@ const Album: NextPage<Props> = ({ album, tracks, streams }) => {
       );
     })();
   }, [album]);
+
+  useEffect(() => {
+    if (user) {
+      api.users
+        .albumStreams(user.customId, album.id)
+        .then((res) => setStreams(res));
+    }
+  }, [album, user]);
 
   return (
     <>

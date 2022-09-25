@@ -10,7 +10,7 @@ import { TopListenerCardSkeleton } from '@/components/TopListenerCard';
 import TopListenerCard from '@/components/TopListenerCard/TopListenerCard';
 import { AlbumCard } from '@/components/AlbumCard';
 
-import { useApi } from '@/hooks';
+import { useApi, useAuth } from '@/hooks';
 
 import { Radar } from 'react-chartjs-2';
 import {
@@ -149,6 +149,7 @@ export const getServerSideProps: GetServerSideProps<Props> = async (ctx) => {
 
 const Track: NextPage<Props> = ({ track }) => {
   const api = useApi();
+  const { user } = useAuth();
 
   // const [stats, setStats] = useState<statsfm.StreamStats>();
   const [topListeners, setTopListeners] = useState<statsfm.TopUser[]>([]);
@@ -172,9 +173,16 @@ const Track: NextPage<Props> = ({ track }) => {
       setAudioFeatures(
         await api.tracks.audioFeature(track.externalIds.spotify![0] ?? '')
       );
-      setRecentStreams(await api.users.trackStreams('martijn', track.id));
     })();
   }, [track]);
+
+  useEffect(() => {
+    if (user) {
+      api.users
+        .trackStreams(user?.customId, track.id)
+        .then((res) => setRecentStreams(res));
+    }
+  }, [track, user]);
 
   return (
     <>
