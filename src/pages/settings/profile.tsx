@@ -410,7 +410,6 @@ const AccountPrivacyInfoForm: FC<{
       />
 
       {/* pronouns */}
-      {/* TODO: rewrite this with an overlay */}
       <label className="font-medium" htmlFor="pronouns">
         Pronouns
       </label>
@@ -418,11 +417,11 @@ const AccountPrivacyInfoForm: FC<{
         {({ open }) => (
           <>
             <Overlay
-              className="bg-background/60 sm:bg-transparent"
+              className="!z-20 bg-background/60 sm:bg-transparent"
               visible={open}
             />
             <Menu.Button>
-              <div className="z-30 flex">
+              <div className="z-20 flex">
                 {pronoun}
                 <MdArrowDropDown
                   style={{ transform: `rotate(${open ? 180 : 0}deg)` }}
@@ -432,7 +431,7 @@ const AccountPrivacyInfoForm: FC<{
 
             <Menu.Items
               placement="bottom-start"
-              className="absolute z-30 -mt-2 h-64 overflow-scroll rounded-lg bg-foreground p-2 px-1"
+              className="absolute z-30 -mt-2 h-64 !overflow-y-scroll rounded-lg bg-foreground p-2 px-1"
             >
               <Menu.Item value="none" onClick={(value) => setPronoun(value)}>
                 none
