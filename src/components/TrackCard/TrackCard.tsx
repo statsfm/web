@@ -36,9 +36,15 @@ export const TrackCard = ({ track, playedMs, streams }: Props) => {
           {streams && <span>{streams} streams • </span>}
           <span>
             {track.artists.map((artist, i) => (
-              <Link href={`/artist/${artist.id}`} key={i}>
-                {artist.name}
-              </Link>
+              <span key={artist.id + i}>
+                <Link href={`/artist/${artist.id}`}>
+                  <a className="transition-colors hover:text-white">
+                    {artist.name}
+                  </a>
+                </Link>
+
+                {i !== track.artists.length - 1 && ', '}
+              </span>
             ))}
           </span>
         </p>
