@@ -167,7 +167,7 @@ const Artist: NextPage<Props> = ({ artist }) => {
       );
       setRelated(await api.artists.related(artist.id));
     })();
-  }, []);
+  }, [artist]);
 
   useEffect(() => {
     if (!user) return;

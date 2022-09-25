@@ -174,7 +174,7 @@ const Track: NextPage<Props> = ({ track }) => {
       );
       setRecentStreams(await api.users.trackStreams('martijn', track.id));
     })();
-  }, []);
+  }, [track]);
 
   return (
     <>

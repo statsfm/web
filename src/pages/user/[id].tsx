@@ -306,7 +306,7 @@ const User: NextPage<Props> = ({ user }) => {
     };
 
     load();
-  }, [range]);
+  }, [range, user]);
 
   // TODO: improvements
   useEffect(() => {
@@ -316,7 +316,7 @@ const User: NextPage<Props> = ({ user }) => {
     };
 
     load();
-  }, []);
+  }, [user]);
 
   const handleSegmentSelect = (value: string) => {
     setRange(statsfm.Range[value.toUpperCase() as keyof typeof statsfm.Range]);

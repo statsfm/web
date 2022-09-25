@@ -59,7 +59,7 @@ const Album: NextPage<Props> = ({ album, tracks, streams }) => {
           .then((res) => res.data.items)
       );
     })();
-  }, []);
+  }, [album]);
 
   return (
     <>
