@@ -20,6 +20,8 @@ export const SectionToolbarCarouselNavigationButton = ({
       aria-label={next ? 'Go to next slide' : 'Go to previous slide'}
       className={clsx(
         'rounded-full bg-foreground p-2 transition-all',
+        // moved from the global css file
+        'focus-within:ring-2 focus:outline-none focus:ring focus:ring-neutral-500',
         !disabled ? 'active:scale-95' : ''
       )}
       {...bindings}

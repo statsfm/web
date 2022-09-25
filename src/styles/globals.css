@@ -52,9 +52,11 @@
     @apply text-icon w-6 h-6;
   }
 
+  /* TODO: apply these styles for i11y
   button, textarea, input {
     @apply focus:outline-none focus:ring focus:ring-neutral-500 focus-within:ring-2
   }
+  */
 }
 
 @layer utilities {
