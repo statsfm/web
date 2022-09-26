@@ -319,24 +319,11 @@ const Artist: NextPage<Props> = ({ artist }) => {
         </Carousel>
         {user && <MoreTracks artist={artist} tracks={topTracks} user={user} />}
 
-        <Section
+        <RecentStreams
           title="Your streams"
           description={`Your streams featuring ${artist.name}`}
-        >
-          <ul>
-            {streams.length > 0 ? (
-              <RecentStreams streams={streams} />
-            ) : (
-              Array(10)
-                .fill(null)
-                .map((_n, i) => (
-                  <li key={i}>
-                    <TrackListRowSkeleton />
-                  </li>
-                ))
-            )}
-          </ul>
-        </Section>
+          streams={streams}
+        />
       </Container>
     </>
   );

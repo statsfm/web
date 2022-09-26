@@ -528,18 +528,17 @@ const User: NextPage<Props> = ({ user }) => {
             </Section>
           </Carousel>
 
-          <Section
-            title="Recent streams"
-            description={`${
-              isCurrentUser ? 'Your' : `${user.displayName}'s`
-            } recently played tracks`}
-          >
-            <PrivacyScope scope="recentlyPlayed">
-              {/* <NotEnoughData data={recentStreams.value}> */}
-              <RecentStreams streams={recentStreams} />
-              {/* </NotEnoughData> */}
-            </PrivacyScope>
-          </Section>
+          {/* TODO: redo this with privacy scope */}
+          {user.privacySettings && user.privacySettings.recentlyPlayed && (
+            <RecentStreams
+              title="Recent streams"
+              description={`${
+                isCurrentUser ? 'Your' : `${user.displayName}'s`
+              } recently played tracks`}
+              streams={recentStreams}
+            />
+          )}
+          {/* <PrivacyScope scope="recentlyPlayed"></PrivacyScope> */}
         </Container>
       </UserContext.Provider>
     </>

@@ -1,7 +1,6 @@
 import type { GetServerSideProps, NextPage } from 'next';
 import { useEffect, useState } from 'react';
 import * as statsfm from '@statsfm/statsfm.js';
-import { MdMusicOff } from 'react-icons/md';
 
 import Link from 'next/link';
 import { Image } from '@/components/Image';
@@ -152,10 +151,10 @@ const Album: NextPage<Props> = ({ album, tracks }) => {
           </Section>
         </Carousel>
 
-        <Section title="Your streams">
-          {streams ? (
-            <RecentStreams streams={streams} />
-          ) : (
+        {/* <Section title="Your streams" ref={recentStreamsSection}> */}
+        {/* {streams ? ( */}
+        <RecentStreams streams={streams} title="Your streams" />
+        {/* ) : (
             <div className="grid w-full place-items-center">
               <MdMusicOff />
 
@@ -164,8 +163,8 @@ const Album: NextPage<Props> = ({ album, tracks }) => {
                 {album.name} yet
               </p>
             </div>
-          )}
-        </Section>
+          )} */}
+        {/* </Section> */}
       </Container>
     </>
   );

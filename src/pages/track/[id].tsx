@@ -21,7 +21,6 @@ import {
   Filler,
 } from 'chart.js';
 import { RecentStreams } from '@/components/RecentStreams';
-import { MdMusicOff } from 'react-icons/md';
 import { SectionToolbarCarouselNavigationButton } from '@/components/SectionToolbarCarouselNavigationButton';
 import { Container } from '@/components/Container';
 import { ArtistList } from '@/components/ArtistList';
@@ -287,23 +286,12 @@ const Track: NextPage<Props> = ({ track }) => {
             <AudioFeaturesRadarChart {...audioFeatures} />
           </div>
         </Section>
-
-        <Section
+        <RecentStreams
           title="Recent streams"
           description="Your recently played tracks"
-        >
-          {recentStreams ? (
-            <RecentStreams streams={recentStreams} track={track} />
-          ) : (
-            <div className="grid w-full place-items-center">
-              <MdMusicOff />
-
-              <p className="m-0 text-text-grey">
-                Looks like you haven&apos;t listened to {track.name} yet
-              </p>
-            </div>
-          )}
-        </Section>
+          streams={recentStreams || []}
+          track={track}
+        />
       </Container>
     </>
   );
