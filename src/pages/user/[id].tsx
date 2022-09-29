@@ -23,6 +23,7 @@ import { SectionToolbarCarouselNavigationButton } from '@/components/SectionTool
 import { Container } from '@/components/Container';
 import Link from 'next/link';
 import { Title } from '@/components/Title';
+import Head from 'next/head';
 
 // const ListeningClockChart = () => {
 //   const config = {
@@ -325,7 +326,21 @@ const User: NextPage<Props> = ({ user }) => {
   return (
     <>
       <Title>{user.displayName}</Title>
-
+      <Head>
+        <meta property="og:image" content={user.image} />
+        <meta
+          property="og:image:alt"
+          content={`${user.displayName}'s profile picture`}
+        />
+        <meta property="og:image:width" content="240" />
+        <meta property="og:image:height" content="240" />
+        <meta property="og:title" content={`${user.displayName} | Stats.fm`} />
+        <meta
+          property="og:description"
+          content={`View ${user.displayName} on stats.fm to see all of their listening statistics!`}
+        />
+        <meta property="twitter:card" content="summary" />
+      </Head>
       <UserContext.Provider value={user}>
         <div className="bg-foreground pt-20">
           <Container>

@@ -61,7 +61,9 @@ const Home: NextPage = () => {
   useScrollPercentage(30, () => event('HOME_scroll_30'));
   return (
     <>
-      <Title noDivider>(Formerly Spotistats for spotify)</Title>
+      <Title reverse noDivider>
+        (Formerly Spotistats for spotify)
+      </Title>
       <Container className="flex flex-col justify-between gap-5 pt-20 lg:flex-row">
         <div className="my-12 w-full pt-10 lg:my-28 lg:w-5/12">
           <h1 className="text-5xl leading-none">
