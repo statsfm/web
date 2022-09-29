@@ -24,6 +24,7 @@ import Link from 'next/link';
 import { Title } from '@/components/Title';
 import { supportUrls } from '@/utils/supportUrls';
 import { SectionToolbarInfoMenu } from '@/components/SectionToolbarInfoMenu';
+import Head from 'next/head';
 
 const MoreTracks = ({
   artist,
@@ -179,6 +180,21 @@ const Artist: NextPage<Props> = ({ artist }) => {
   return (
     <>
       <Title>{artist.name}</Title>
+      <Head>
+        <meta property="og:image" content={artist.image} />
+        <meta
+          property="og:image:alt"
+          content={`${artist.name}'s profile picture`}
+        />
+        <meta property="og:image:width" content="240" />
+        <meta property="og:image:height" content="240" />
+        <meta property="og:title" content={`${artist.name} | Stats.fm`} />
+        <meta
+          property="og:description"
+          content={`View ${artist.name} on stats.fm`}
+        />
+        <meta property="twitter:card" content="summary" />
+      </Head>
 
       <div className="bg-foreground pt-20">
         <Container>
