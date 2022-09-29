@@ -27,6 +27,7 @@ import { ArtistList } from '@/components/ArtistList';
 import { Title } from '@/components/Title';
 import { SectionToolbarInfoMenu } from '@/components/SectionToolbarInfoMenu';
 import { supportUrls } from '@/utils/supportUrls';
+import Head from 'next/head';
 
 const AudioFeaturesRadarChart = ({
   acousticness,
@@ -186,6 +187,22 @@ const Track: NextPage<Props> = ({ track }) => {
   return (
     <>
       <Title>{track.name}</Title>
+      <Head>
+        <meta property="og:image" content={track.albums[0]?.image} />
+        <meta property="og:image:alt" content={`${track.name}'s album cover`} />
+        <meta property="og:image:width" content="240" />
+        <meta property="og:image:height" content="240" />
+        <meta
+          property="og:title"
+          content={`${track.name} (${track.albums[0]?.name}) | Stats.fm`}
+        />
+        <meta
+          property="og:description"
+          content={`View ${track.name} on stats.fm`}
+        />
+        <meta property="twitter:card" content="summary" />
+      </Head>
+
       <div className="bg-foreground pt-20">
         <Container>
           <section className="flex flex-col items-center gap-5 pt-24 pb-10 md:flex-row">

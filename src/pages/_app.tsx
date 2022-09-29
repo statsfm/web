@@ -37,7 +37,12 @@ const Ogp = () => (
 const App = ({ Component, pageProps }: AppProps) => {
   const router = useRouter();
   // only show default ogp tags for routes who don't define their own
-  const showOgp = !['/user/[id]', '/artist/[id]'].includes(router.pathname);
+  const showOgp = ![
+    '/user/[id]',
+    '/artist/[id]',
+    '/track/[id]',
+    '/album/[id]',
+  ].includes(router.pathname);
 
   return (
     <>

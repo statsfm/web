@@ -17,6 +17,7 @@ import { ArtistList } from '@/components/ArtistList';
 import { Title } from '@/components/Title';
 import { SectionToolbarInfoMenu } from '@/components/SectionToolbarInfoMenu';
 import { supportUrls } from '@/utils/supportUrls';
+import Head from 'next/head';
 
 interface Props {
   album: statsfm.Album;
@@ -71,6 +72,18 @@ const Album: NextPage<Props> = ({ album, tracks }) => {
   return (
     <>
       <Title>{album.name}</Title>
+      <Head>
+        <meta property="og:image" content={album.image} />
+        <meta property="og:image:alt" content={`${album.name}'s cover`} />
+        <meta property="og:image:width" content="240" />
+        <meta property="og:image:height" content="240" />
+        <meta property="og:title" content={`${album.name} | Stats.fm`} />
+        <meta
+          property="og:description"
+          content={`View ${album.name} on stats.fm`}
+        />
+        <meta property="twitter:card" content="summary" />
+      </Head>
 
       <div className="bg-foreground pt-20">
         <Container>
