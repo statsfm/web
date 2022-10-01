@@ -16,7 +16,7 @@ export const TrackCard = ({ track, playedMs, streams }: Props) => {
   return (
     <div className="flex w-40 flex-col">
       <Link href={`/track/${track.id}`} passHref>
-        <a className="">
+        <a>
           <div className="aspect-square w-full group-hover:opacity-90">
             {track.albums[0]?.image && (
               <Image
@@ -27,28 +27,27 @@ export const TrackCard = ({ track, playedMs, streams }: Props) => {
               />
             )}
           </div>
+          <h4 className="mt-2 line-clamp-2">{track.name}</h4>
         </a>
       </Link>
-      <div className="mt-2">
-        <h4 className="line-clamp-2">{track.name}</h4>
-        <p className="m-0 line-clamp-2">
-          {playedMs && <span>{minutes} minutes • </span>}
-          {streams && <span>{streams} streams • </span>}
-          <span>
-            {track.artists.map((artist, i) => (
-              <span key={artist.id + i}>
-                <Link href={`/artist/${artist.id}`}>
-                  <a className="transition-colors hover:text-white">
-                    {artist.name}
-                  </a>
-                </Link>
 
-                {i !== track.artists.length - 1 && ', '}
-              </span>
-            ))}
-          </span>
-        </p>
-      </div>
+      <p className="m-0 line-clamp-2">
+        {playedMs && <span>{minutes} minutes • </span>}
+        {streams && <span>{streams} streams • </span>}
+        <span>
+          {track.artists.map((artist, i) => (
+            <span key={artist.id + i}>
+              <Link href={`/artist/${artist.id}`}>
+                <a className="transition-colors hover:text-white">
+                  {artist.name}
+                </a>
+              </Link>
+
+              {i !== track.artists.length - 1 && ', '}
+            </span>
+          ))}
+        </span>
+      </p>
     </div>
   );
 };
