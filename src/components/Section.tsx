@@ -1,24 +1,33 @@
 import { Keys } from '@/types/keyboard';
 import clsx from 'clsx';
+import { forwardRef, useContext } from 'react';
 import type {
+  ForwardedRef,
   HTMLAttributes,
   KeyboardEventHandler,
-  PropsWithChildren,
+  ReactNode,
 } from 'react';
-import { forwardRef, useContext } from 'react';
 import { ActionType } from './Carousel';
 import { CarouselContext } from './Carousel/context';
 
-interface Props extends HTMLAttributes<HTMLElement> {
+interface SectionRenderPropArg {
+  ref: ForwardedRef<HTMLElement>;
+}
+
+interface Props extends Omit<HTMLAttributes<HTMLElement>, 'children'> {
   title: string;
   description?: string;
   toolbar?: JSX.Element;
   sticky?: boolean;
   headerStyle?: string;
+  children:
+    | ((args: SectionRenderPropArg) => ReactNode | ReactNode[])
+    | ReactNode
+    | ReactNode[];
 }
 
 // eslint-disable-next-line react/display-name
-export const Section = forwardRef<HTMLElement, PropsWithChildren<Props>>(
+export const Section = forwardRef<HTMLElement, Props>(
   (
     { title, description, toolbar, sticky, children, headerStyle, ...props },
     ref
@@ -61,7 +70,9 @@ export const Section = forwardRef<HTMLElement, PropsWithChildren<Props>>(
           <div className="flex gap-2">{toolbar}</div>
         </header>
 
-        <main {...props}>{children}</main>
+        <main {...props}>
+          {typeof children === 'function' ? children({ ref }) : children}
+        </main>
       </section>
     );
   }

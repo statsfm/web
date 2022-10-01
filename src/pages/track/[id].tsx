@@ -1,5 +1,5 @@
 import type { GetServerSideProps, NextPage } from 'next';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import * as statsfm from '@statsfm/statsfm.js';
 
@@ -303,12 +303,20 @@ const Track: NextPage<Props> = ({ track }) => {
             <AudioFeaturesRadarChart {...audioFeatures} />
           </div>
         </Section>
-        <RecentStreams
+
+        <Section
+          ref={useRef(null)}
           title="Recent streams"
           description="Your recently played tracks"
-          streams={recentStreams || []}
-          track={track}
-        />
+        >
+          {({ ref }) => (
+            <RecentStreams
+              sectionRef={ref}
+              streams={recentStreams || []}
+              track={track}
+            />
+          )}
+        </Section>
       </Container>
     </>
   );

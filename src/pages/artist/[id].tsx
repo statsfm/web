@@ -6,7 +6,7 @@ import { Avatar } from '@/components/Avatar';
 import { Chip, ChipGroup } from '@/components/Chip';
 import { Section } from '@/components/Section';
 import { Carousel } from '@/components/Carousel';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { TrackCard, TrackCardSkeleton } from '@/components/TrackCard';
 import {
   RelatedArtistCard,
@@ -17,7 +17,7 @@ import TopListenerCard from '@/components/TopListenerCard/TopListenerCard';
 import { TopListenerCardSkeleton } from '@/components/TopListenerCard';
 import { RecentStreams } from '@/components/RecentStreams';
 import { Menu } from '@/components/Menu';
-import { MdSort } from 'react-icons/md';
+import { MdOutlinePreview, MdSort } from 'react-icons/md';
 import { SectionToolbarCarouselNavigationButton } from '@/components/SectionToolbarCarouselNavigationButton';
 import { Container } from '@/components/Container';
 import Link from 'next/link';
@@ -283,7 +283,27 @@ const Artist: NextPage<Props> = ({ artist }) => {
                 <SectionToolbarInfoMenu
                   description="Learn more about what top listeners are and how they're calculated"
                   link={supportUrls.artist.top_listeners}
-                />
+                >
+                  <Menu.Item>
+                    <Menu>
+                      <Menu.Button>
+                        <MdOutlinePreview className="text-white" /> Display
+                        options
+                      </Menu.Button>
+
+                      <Menu.Items>
+                        <Menu.Item>
+                          Learn more about blablabalbalabballabl
+                        </Menu.Item>
+                        <Menu.Item>
+                          Learn more about blablabalbalabballabl
+                        </Menu.Item>
+                      </Menu.Items>
+                    </Menu>
+                  </Menu.Item>
+
+                  <Menu.Item>gdasgkdasg</Menu.Item>
+                </SectionToolbarInfoMenu>
               </div>
             }
           >
@@ -335,11 +355,13 @@ const Artist: NextPage<Props> = ({ artist }) => {
         </Carousel>
         {user && <MoreTracks artist={artist} tracks={topTracks} user={user} />}
 
-        <RecentStreams
+        <Section
+          ref={useRef(null)}
           title="Your streams"
           description={`Your streams featuring ${artist.name}`}
-          streams={streams}
-        />
+        >
+          {({ ref }) => <RecentStreams sectionRef={ref} streams={streams} />}
+        </Section>
       </Container>
     </>
   );
