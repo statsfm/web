@@ -10,7 +10,7 @@ export const Items = ({ children }: PropsWithChildren<ItemsProps>) => {
     <div className="overflow-hidden">
       <ul
         ref={state.itemsRef}
-        className="grid grid-flow-col transition-transform duration-300 ease-in-out"
+        className="grid grid-flow-col justify-start transition-transform duration-300 ease-in-out"
         style={{
           gridTemplateRows: `repeat(${state.rows}, minmax(0, 1fr))`,
           gap: `${state.gap}px`,
