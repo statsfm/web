@@ -25,10 +25,9 @@ const PlusScrollAnimation: FC = () => {
       paused: true,
       scrollTrigger: {
         start: 'top top',
-        end: '6000px',
+        end: '8000px',
         trigger: boxRef.current,
         scrub: 1,
-        markers: true,
         pin: true,
       },
     });
@@ -41,8 +40,10 @@ const PlusScrollAnimation: FC = () => {
       .fromTo(q('#ps'), { opacity: 0 }, { opacity: 1 }, '<')
       .to(q('#p1'), { color: '#ffd700', duration: 2 })
       .to(q('#p1'), { color: '#a3a3a3', duration: 1 })
+      .fromTo(q('#screen2'), { x: '100%' }, { x: '0%', duration: 2 }, '<')
       .to(q('#p2'), { color: '#ffd700', duration: 2 })
       .to(q('#p2'), { color: '#a3a3a3', duration: 1 })
+      .fromTo(q('#screen3'), { x: '100%' }, { x: '0%', duration: 2 }, '<')
       .to(q('#p3'), { color: '#ffd700', duration: 2 })
       .to(q('#p3'), { color: '#a3a3a3', duration: 1 })
       .fromTo(q('#ps'), { opacity: 1 }, { opacity: 0 })
@@ -54,6 +55,7 @@ const PlusScrollAnimation: FC = () => {
       )
       .to(q('#hd1'), { opacity: 0 })
       .fromTo(q('#hd2'), { opacity: 0 }, { opacity: 1 }, '<')
+      .fromTo(q('#screen4'), { x: '100%' }, { x: '0%', duration: 2 }, '<')
       .to(q('#soulmatesBg'), {
         y: '-=60rem',
         duration: 4,
@@ -66,6 +68,7 @@ const PlusScrollAnimation: FC = () => {
         '<'
       )
       .fromTo(q('#soulmatesBg'), { opacity: 0.5, duration: 4 }, { opacity: 0 })
+      .fromTo(q('#screen5'), { opacity: 0 }, { opacity: 1, duration: 2 }, '<')
       .to(q('#hd2'), { opacity: 0 }, '<')
       .fromTo(q('#hd3'), { opacity: 0 }, { opacity: 1 }, '<')
       .fromTo(
@@ -104,22 +107,49 @@ const PlusScrollAnimation: FC = () => {
           className="absolute top-56 bottom-32 left-1/2 z-30 -translate-x-1/2"
         >
           <div className="flex flex-row gap-8">
-            <div id="phone" className="relative flex shrink-0 justify-center">
-              <div className="relative z-40 h-min w-80">
+            <div
+              id="phone"
+              className="relative z-40 flex shrink-0 justify-center"
+            >
+              <div className="relative h-min w-80 overflow-hidden rounded-[52px]">
+                <img
+                  id="screen5"
+                  src="/images/screen1.png"
+                  alt="bruh"
+                  className="absolute inset-x-4 top-4 z-[34] h-[calc(100%-32px)] w-[calc(100%-32px)]"
+                />
+                <img
+                  id="screen4"
+                  src="/images/screen3.png"
+                  alt="bruh"
+                  className="absolute inset-x-4 top-4 z-[33] h-[calc(100%-32px)] w-[calc(100%-32px)]"
+                />
+                <img
+                  id="screen3"
+                  src="/images/screen3.png"
+                  alt="bruh"
+                  className="absolute inset-x-4 top-4 z-[32] h-[calc(100%-32px)] w-[calc(100%-32px)]"
+                />
+                <img
+                  id="screen2"
+                  src="/images/screen2.png"
+                  alt="bruh"
+                  className="absolute inset-x-4 top-4 z-[31] h-[calc(100%-32px)] w-[calc(100%-32px)]"
+                />
                 <img
                   src="/images/screen1.png"
                   alt="bruh"
-                  className="absolute inset-x-4 top-4 z-[39] h-[calc(100%-32px)] w-[calc(100%-32px)]"
+                  className="absolute inset-x-4 top-4 z-[30] h-[calc(100%-32px)] w-[calc(100%-32px)]"
                 />
                 <img
                   src="/images/phone_frame.png"
                   alt="bruh"
-                  className="relative z-40"
+                  className="relative left-[2px] z-40"
                 />
               </div>
               <div
                 id="adsOverlay"
-                className="absolute top-0 left-0 z-50 flex h-full w-full rounded-[56px] bg-black/50"
+                className="absolute top-0 left-0 z-50 flex h-full w-full rounded-[56px] bg-black/50 opacity-0"
               >
                 <MdDoNotDisturbAlt className="mx-auto h-min w-32 self-center text-red-600" />
               </div>
@@ -127,7 +157,7 @@ const PlusScrollAnimation: FC = () => {
             <div
               id="ps"
               ref={psRef}
-              className="flex h-full shrink-0 flex-col gap-4 self-center text-lg"
+              className="flex h-full shrink-0 flex-col gap-4 self-center text-lg opacity-0"
             >
               <p className="m-0" id="p1">
                 view your total minutes listened
@@ -147,13 +177,13 @@ const PlusScrollAnimation: FC = () => {
               Import your history and &hellip;
             </h2>
           </div>
-          <div className="absolute inset-x-0" id="hd2">
+          <div className="absolute inset-x-0 opacity-0" id="hd2">
             <h2 className=" mb-2 bg-gradient-to-br from-white to-slate-300 bg-clip-text text-5xl text-transparent">
               Find your soulmate
             </h2>
             <p>get unlimited soulmates, experience music together</p>
           </div>
-          <div className="absolute inset-x-0" id="hd3">
+          <div className="absolute inset-x-0 opacity-0" id="hd3">
             <h2 className=" mb-2 bg-gradient-to-br from-white to-slate-300 bg-clip-text text-5xl text-transparent">
               No more ads
             </h2>
@@ -161,7 +191,10 @@ const PlusScrollAnimation: FC = () => {
           </div>
         </div>
       </Container>
-      <div id="adsBegoneBg" className="absolute inset-x-0 top-[12rem] z-10">
+      <div
+        id="adsBegoneBg"
+        className="absolute inset-x-0 top-[12rem] z-10 opacity-0"
+      >
         <div className="flex flex-row gap-8">
           <MdOutlineDoDisturbAlt className="absolute top-[2px] left-[214px] h-min w-32 text-zinc-800" />
           <MdOutlineDoDisturbAlt className="absolute top-[223px] left-[94px] h-min w-32 text-zinc-800" />
