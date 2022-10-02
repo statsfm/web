@@ -1,18 +1,23 @@
 import { Container } from '@/components/Container';
 import { CrownIcon } from '@/components/CrownIcon';
+import { Image } from '@/components/Image';
 import { Title } from '@/components/Title';
-import Link from 'next/link';
-import type { FC } from 'react';
-import { useLayoutEffect, useRef } from 'react';
+import { useApi, useAuth } from '@/hooks';
+import { Range } from '@statsfm/statsfm.js';
+import type { TopArtist } from '@statsfm/statsfm.js';
+import clsx from 'clsx';
 import { gsap, Power0 } from 'gsap';
 import { ScrollTrigger } from 'gsap/dist/ScrollTrigger';
+import type { NextPage } from 'next';
+import Link from 'next/link';
+import type { FC } from 'react';
+import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import {
   MdCancel,
   MdCheckCircle,
   MdDoNotDisturbAlt,
   MdOutlineDoDisturbAlt,
 } from 'react-icons/md';
-import clsx from 'clsx';
 
 const PlusScrollAnimation: FC = () => {
   const boxRef = useRef<HTMLDivElement>(null);
@@ -279,7 +284,57 @@ const TierItem: FC<{
   );
 };
 
-const PlusPage = () => {
+const HeaderBubbles: FC<{ topArtists: TopArtist[] }> = ({ topArtists }) => {
+  const bubbles: Array<Record<'top' | 'left' | 's', number>> = [
+    { top: 104, left: 0, s: 164 },
+    { top: 23, left: 176, s: 135 },
+    { top: 233, left: 285, s: 110 },
+    { top: 115, left: 340, s: 100 },
+    { top: 195, left: 465, s: 90 },
+    { top: 0, left: 360, s: 80 },
+    { top: 186, left: 189, s: 75 },
+    { top: 21, left: 76, s: 60 },
+    { top: 61, left: 450, s: 60 },
+    { top: 275, left: 116, s: 60 },
+  ];
+
+  return (
+    <ul className="relative h-[350px] w-[555px]">
+      {bubbles.map((bubble, i) => (
+        <li
+          key={i}
+          style={{ ...bubble, height: bubble.s, width: bubble.s }}
+          className="absolute rounded-full bg-gray-600 bg-cover bg-center"
+        >
+          {topArtists[i] && (
+            <Image
+              alt="Top artist"
+              className="!rounded-full !bg-gray-600"
+              src={topArtists[i]?.artist.image ?? ''}
+              width={bubble.s}
+              height={bubble.s}
+            />
+          )}
+        </li>
+      ))}
+    </ul>
+  );
+};
+
+const PlusPage: NextPage = () => {
+  const { user } = useAuth();
+  const api = useApi();
+  const [topArtists, setTopArtists] = useState<TopArtist[]>([]);
+
+  useEffect(() => {
+    // TODO: add default top artists here
+    if (user) {
+      api.users.topArtists(user.id, { range: Range.WEEKS }).then((res) => {
+        setTopArtists(res);
+      });
+    }
+  }, [user]);
+
   return (
     <>
       <Title>plus</Title>
@@ -299,6 +354,9 @@ const PlusPage = () => {
               Get stats.fm plus!
             </a>
           </Link>
+        </div>
+        <div className="ml-auto flex items-center">
+          <HeaderBubbles topArtists={topArtists} />
         </div>
       </Container>
       <PlusScrollAnimation />
