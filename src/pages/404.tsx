@@ -1,12 +1,24 @@
+import { Container } from '@/components/Container';
 import { Title } from '@/components/Title';
 import type { NextPage } from 'next';
+import Link from 'next/link';
 
 const NotFound: NextPage = () => {
   return (
-    <>
+    <Container className="flex min-h-screen items-center">
       <Title>Page not found!</Title>
-      <h1 className="text-center text-6xl font-extrabold">404</h1>
-    </>
+      <div className="flex w-full flex-col justify-center">
+        <h1 className="mb-0 text-center text-[5rem] font-extrabold">
+          Whoops...
+        </h1>
+        <p className="-mt-2 text-center text-xl">This page doesnt exist</p>
+        <Link href="/">
+          <a className="mx-auto mt-8 w-fit rounded-xl bg-primaryLighter px-4 py-3 text-primary">
+            Go back home
+          </a>
+        </Link>
+      </div>
+    </Container>
   );
 };
 
