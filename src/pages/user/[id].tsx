@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useRef, useState } from 'react';
+import { createContext, useContext, useEffect, useState } from 'react';
 import type { PropsWithChildren } from 'react';
 import dayjs from 'dayjs';
 import type { GetServerSideProps, NextPage } from 'next';
@@ -544,15 +544,14 @@ const User: NextPage<Props> = ({ user }) => {
           </Carousel>
 
           <Section
-            ref={useRef(null)}
             title="Recent streams"
             description={`${
               isCurrentUser ? 'Your' : `${user.displayName}'s`
             } recently played tracks`}
           >
-            {({ ref }) => (
+            {({ headerRef }) => (
               <PrivacyScope scope="recentlyPlayed">
-                <RecentStreams sectionRef={ref} streams={recentStreams} />
+                <RecentStreams headerRef={headerRef} streams={recentStreams} />
               </PrivacyScope>
             )}
           </Section>

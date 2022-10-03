@@ -1,5 +1,5 @@
 import type { GetServerSideProps, NextPage } from 'next';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import * as statsfm from '@statsfm/statsfm.js';
 
 import Link from 'next/link';
@@ -164,8 +164,10 @@ const Album: NextPage<Props> = ({ album, tracks }) => {
           </Section>
         </Carousel>
 
-        <Section title="Your streams" ref={useRef(null)}>
-          {({ ref }) => <RecentStreams sectionRef={ref} streams={streams} />}
+        <Section title="Your streams">
+          {({ headerRef }) => (
+            <RecentStreams headerRef={headerRef} streams={streams} />
+          )}
           {/* {streams ? ( */}
           {/* ) : (
             <div className="grid w-full place-items-center">

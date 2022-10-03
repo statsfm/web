@@ -6,7 +6,7 @@ import { Avatar } from '@/components/Avatar';
 import { Chip, ChipGroup } from '@/components/Chip';
 import { Section } from '@/components/Section';
 import { Carousel } from '@/components/Carousel';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { TrackCard, TrackCardSkeleton } from '@/components/TrackCard';
 import {
   RelatedArtistCard,
@@ -356,11 +356,12 @@ const Artist: NextPage<Props> = ({ artist }) => {
         {user && <MoreTracks artist={artist} tracks={topTracks} user={user} />}
 
         <Section
-          ref={useRef(null)}
           title="Your streams"
           description={`Your streams featuring ${artist.name}`}
         >
-          {({ ref }) => <RecentStreams sectionRef={ref} streams={streams} />}
+          {({ headerRef }) => (
+            <RecentStreams headerRef={headerRef} streams={streams} />
+          )}
         </Section>
       </Container>
     </>
