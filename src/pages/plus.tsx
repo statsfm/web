@@ -303,8 +303,13 @@ const HeaderBubbles: FC<{ topArtists: TopArtist[] }> = ({ topArtists }) => {
       {bubbles.map((bubble, i) => (
         <li
           key={i}
-          style={{ ...bubble, height: bubble.s, width: bubble.s }}
-          className="absolute rounded-full bg-gray-600 bg-cover bg-center"
+          style={{
+            ...bubble,
+            height: bubble.s,
+            width: bubble.s,
+            animationDelay: `${i % 6}s`,
+          }}
+          className="floating absolute rounded-full bg-gray-600 bg-cover bg-center"
         >
           {topArtists[i] && (
             <Image
