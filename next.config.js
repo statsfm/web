@@ -2,6 +2,7 @@
 const withBundleAnalyzer = require('@next/bundle-analyzer')({
   enabled: process.env.ANALYZE === 'true',
 });
+const nextBuildId = require('next-build-id');
 
 module.exports = withBundleAnalyzer({
   eslint: {
@@ -39,4 +40,5 @@ module.exports = withBundleAnalyzer({
       },
     ];
   },
+  generateBuildId: () => nextBuildId({ dir: __dirname }),
 });

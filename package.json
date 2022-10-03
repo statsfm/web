@@ -27,6 +27,7 @@
     "linkify-react": "^3.0.4",
     "linkifyjs": "^3.0.5",
     "next": "^12.3.0",
+    "next-build-id": "^3.0.0",
     "next-seo": "^5.4.0",
     "nextjs-google-analytics": "^2.1.0",
     "react": "18.2.0",
