@@ -69,3 +69,25 @@
     scrollbar-width: none;
   }
 }
+
+/*TODO: move to tailwind*/
+
+.floating {
+  animation-name: floating;
+  animation-duration: 6s;
+  animation-iteration-count: infinite;
+  animation-timing-function: ease-in-out;
+  animation-direction: alternate;
+}
+
+@keyframes floating {
+  0% {
+    transform: translate(3px, 0px);
+  }
+  50% {
+    transform: translate(0, 2px);
+  }
+  100% {
+    transform: translate(1px, 0px);
+  }
+}
