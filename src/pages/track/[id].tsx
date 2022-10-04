@@ -1,5 +1,6 @@
 import type { GetServerSideProps, NextPage } from 'next';
-import { useEffect, useState } from 'react';
+import type { FC } from 'react';
+import { useMemo, useEffect, useState } from 'react';
 
 import * as statsfm from '@statsfm/statsfm.js';
 
@@ -127,25 +128,53 @@ export const getServerSideProps: GetServerSideProps<Props> = async (ctx) => {
   };
 };
 
-// const omitAudioFeatures = ({
-//   danceability,
-//   energy,
-//   loudness,
-//   speechiness,
-//   acousticness,
-//   instrumentalness,
-//   liveness,
-//   valence,
-// }: statsfm.AudioFeatures) => ({
-//   danceability,
-//   energy,
-//   loudness,
-//   speechiness,
-//   acousticness,
-//   instrumentalness,
-//   liveness,
-//   valence,
-// });
+const omitAudioFeatures = ({
+  danceability,
+  energy,
+  loudness,
+  speechiness,
+  acousticness,
+  instrumentalness,
+  liveness,
+  valence,
+}: statsfm.AudioFeatures) => ({
+  danceability,
+  energy,
+  loudness,
+  speechiness,
+  acousticness,
+  instrumentalness,
+  liveness,
+  valence,
+});
+
+const keyToNote = (key: number): string => {
+  const notes = [
+    'C',
+    'C#',
+    'D',
+    'D#',
+    'E',
+    'F',
+    'F#',
+    'G',
+    'G#',
+    'A',
+    'A#',
+    'B',
+  ];
+  return notes[key] || '-';
+};
+
+const FeatureCard: FC<{ feature: string; value: string }> = ({
+  feature,
+  value,
+}) => (
+  <li className="rounded-2xl bg-foreground p-5 text-center text-white">
+    <h1 className="text-primary">{value}</h1>
+    <span>{feature}</span>
+  </li>
+);
 
 const Track: NextPage<Props> = ({ track }) => {
   const api = useApi();
@@ -154,11 +183,13 @@ const Track: NextPage<Props> = ({ track }) => {
   // const [stats, setStats] = useState<statsfm.StreamStats>();
   const [topListeners, setTopListeners] = useState<statsfm.TopUser[]>([]);
   const [audioFeatures, setAudioFeatures] = useState<statsfm.AudioFeatures>();
-  // const audioFeaturesOnly = omitAudioFeatures(audioFeatures);
-
   const [recentStreams, setRecentStreams] = useState<statsfm.Stream[] | null>(
     null
   );
+
+  const omittedAudioFeatures = useMemo(() => {
+    return audioFeatures ? omitAudioFeatures(audioFeatures) : undefined;
+  }, [audioFeatures]);
 
   useEffect(() => {
     (async () => {
@@ -169,7 +200,7 @@ const Track: NextPage<Props> = ({ track }) => {
           .get<statsfm.TopUser[]>(`/tracks/${track.id}/top/listeners`)
           .then((res) => res.data.items)
       );
-      // TODO: fix
+
       setAudioFeatures(
         await api.tracks.audioFeature(track.externalIds.spotify![0] ?? '')
       );
@@ -282,24 +313,61 @@ const Track: NextPage<Props> = ({ track }) => {
           </Section>
         </Carousel>
 
-        <Section title="Audio features" className="grid grid-cols-2">
-          <div>
-            {/* <ul className="grid w-full grid-cols-2 items-stretch gap-4">
-            {audioFeaturesOnly &&
-              Object.entries(audioFeaturesOnly).map((feature, i) => (
-                <li key={i} className="flex flex-col">
-                  <label>{feature[0]}</label>
-                  <div className="h-2 appearance-none rounded-full bg-foreground">
-                    <span
-                      className="h-full bg-primary"
-                      style={{ width: `${feature[1] * 100}%` }}
-                    ></span>
-                  </div>
-                </li>
-              ))}
-          </ul> */}
+        <Section
+          title="Audio features"
+          className="grid grid-cols-1 gap-12 lg:grid-cols-2"
+        >
+          <div className="flex flex-col">
+            <ul className="mt-8 grid w-full grid-cols-2 items-stretch gap-4 gap-y-5">
+              {omittedAudioFeatures &&
+                Object.entries(omittedAudioFeatures).map((feature, i) => (
+                  <li key={i} className="flex flex-col text-neutral-300">
+                    <span className="mb-1 capitalize">{feature[0]}</span>
+                    <div className="h-2 appearance-none overflow-hidden rounded-full bg-foreground">
+                      <span
+                        className="block h-full rounded-full bg-primary"
+                        style={{ width: `${feature[1] * 100}%` }}
+                      />
+                    </div>
+                  </li>
+                ))}
+            </ul>
+            <ul className="mt-12 grid w-full grid-cols-2 gap-4 lg:grid-cols-3">
+              <FeatureCard
+                feature="Loudness"
+                value={audioFeatures?.loudness.toFixed(1) ?? '-'}
+              />
+              <FeatureCard
+                feature="Key"
+                value={keyToNote(audioFeatures?.key || -1)}
+              />
+
+              <FeatureCard
+                feature="Mode"
+                value={
+                  // eslint-disable-next-line no-nested-ternary
+                  audioFeatures?.mode !== undefined
+                    ? audioFeatures?.mode === 0
+                      ? 'Minor'
+                      : 'Major'
+                    : '-'
+                }
+              />
+              <FeatureCard
+                feature="Time signature"
+                value={
+                  audioFeatures?.time_signature
+                    ? `${audioFeatures?.time_signature.toLocaleString('en')}/4`
+                    : '-'
+                }
+              />
+              <FeatureCard
+                feature="BPM"
+                value={audioFeatures?.tempo.toFixed(1) ?? '-'}
+              />
+            </ul>
           </div>
-          <div>
+          <div className="mx-auto w-full max-w-lg lg:max-w-none">
             <AudioFeaturesRadarChart {...audioFeatures} />
           </div>
         </Section>
