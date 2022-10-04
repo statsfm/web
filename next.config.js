@@ -38,6 +38,18 @@ module.exports = withBundleAnalyzer({
         source: '/:id',
         destination: '/user/:id',
       },
+      {
+        source: '/artist/:id/:ignore',
+        destination: '/artist/:id',
+      },
+      {
+        source: '/track/:id/:ignore',
+        destination: '/track/:id',
+      },
+      {
+        source: '/album/:id/:ignore',
+        destination: '/album/:id',
+      },
     ];
   },
   generateBuildId: () => nextBuildId({ dir: __dirname }),
