@@ -31,6 +31,7 @@ import { supportUrls } from '@/utils/supportUrls';
 import Head from 'next/head';
 import { StatsCard } from '@/components/StatsCard';
 import dayjs from '@/utils/dayjs';
+import { SpotifyIcon } from '@/components/Icons';
 
 const AudioFeaturesRadarChart = ({
   acousticness,
@@ -182,7 +183,6 @@ const Track: NextPage<Props> = ({ track }) => {
   const api = useApi();
   const { user } = useAuth();
 
-  // const [stats, setStats] = useState<statsfm.StreamStats>();
   const [topListeners, setTopListeners] = useState<statsfm.TopUser[]>([]);
   const [audioFeatures, setAudioFeatures] = useState<statsfm.AudioFeatures>();
   const [recentStreams, setRecentStreams] = useState<statsfm.Stream[] | null>(
@@ -206,8 +206,6 @@ const Track: NextPage<Props> = ({ track }) => {
 
   useEffect(() => {
     (async () => {
-      // const stats = await api.users.trackStats('me', track.id);
-
       setTopListeners(
         await api.http
           .get<statsfm.TopUser[]>(`/tracks/${track.id}/top/listeners`)
@@ -270,6 +268,17 @@ const Track: NextPage<Props> = ({ track }) => {
               <h1 className="text-center font-extrabold md:text-left">
                 {track.name}
               </h1>
+              <div className="mt-2 flex flex-row">
+                <a
+                  href={`https://open.spotify.com/track/${
+                    track.externalIds.spotify![0]
+                  }`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <SpotifyIcon className="h-7 w-7" />
+                </a>
+              </div>
             </div>
           </section>
         </Container>

@@ -1,5 +1,5 @@
 import { Container } from '@/components/Container';
-import { CrownIcon } from '@/components/CrownIcon';
+import { CrownIcon } from '@/components/Icons';
 import { Image } from '@/components/Image';
 import { Title } from '@/components/Title';
 import { useApi, useAuth } from '@/hooks';

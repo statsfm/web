@@ -18,6 +18,7 @@ import { Title } from '@/components/Title';
 import { SectionToolbarInfoMenu } from '@/components/SectionToolbarInfoMenu';
 import { supportUrls } from '@/utils/supportUrls';
 import Head from 'next/head';
+import { SpotifyIcon } from '@/components/Icons';
 
 interface Props {
   album: statsfm.Album;
@@ -104,6 +105,17 @@ const Album: NextPage<Props> = ({ album, tracks }) => {
               <h1 className="text-center font-extrabold md:text-left">
                 {album.name}
               </h1>
+              <div className="mt-2 flex flex-row">
+                <a
+                  href={`https://open.spotify.com/track/${
+                    album.externalIds.spotify![0]
+                  }`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <SpotifyIcon className="h-7 w-7" />
+                </a>
+              </div>
             </div>
           </section>
         </Container>
