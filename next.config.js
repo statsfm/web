@@ -20,7 +20,7 @@ module.exports = withBundleAnalyzer({
       },
       {
         protocol: 'https',
-        hostname: 'i.scdn.co',
+        hostname: '**.scdn.co',
       },
       {
         protocol: 'https',
