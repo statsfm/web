@@ -24,6 +24,7 @@ import { Container } from '@/components/Container';
 import Link from 'next/link';
 import { Title } from '@/components/Title';
 import Head from 'next/head';
+import { CrownIcon } from '@/components/Icons';
 
 // const ListeningClockChart = () => {
 //   const config = {
@@ -106,8 +107,10 @@ export const getServerSideProps: GetServerSideProps<Props> = async (ctx) => {
   };
 };
 
+// TODO: Link to /plus
 const PlusBadge = () => (
-  <span className="rounded-md bg-plus/10 px-1.5 py-0.5 text-sm text-plus">
+  <span className="flex w-fit items-center rounded-md bg-plus/10 px-1.5 py-0.5 text-sm text-plus">
+    <CrownIcon className="mr-1 h-4 w-3.5" />
     Stats.fm Plus
   </span>
 );
