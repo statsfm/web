@@ -1,6 +1,6 @@
 import type { GetServerSideProps, NextPage } from 'next';
 import type { FC } from 'react';
-import { useMemo, useEffect, useState } from 'react';
+import React, { useMemo, useEffect, useState } from 'react';
 
 import * as statsfm from '@statsfm/statsfm.js';
 
@@ -29,6 +29,8 @@ import { Title } from '@/components/Title';
 import { SectionToolbarInfoMenu } from '@/components/SectionToolbarInfoMenu';
 import { supportUrls } from '@/utils/supportUrls';
 import Head from 'next/head';
+import { StatsCard } from '@/components/StatsCard';
+import dayjs from '@/utils/dayjs';
 
 const AudioFeaturesRadarChart = ({
   acousticness,
@@ -186,10 +188,21 @@ const Track: NextPage<Props> = ({ track }) => {
   const [recentStreams, setRecentStreams] = useState<statsfm.Stream[] | null>(
     null
   );
+  const [trackStats, setTrackStats] = useState<statsfm.StreamStats | null>(
+    null
+  );
 
   const omittedAudioFeatures = useMemo(() => {
     return audioFeatures ? omitAudioFeatures(audioFeatures) : undefined;
   }, [audioFeatures]);
+
+  const trackStatsResult = useMemo(() => {
+    if (!user || !trackStats) return ['-', '-'];
+
+    const duration = `${Math.floor(trackStats.durationMs / 1000 / 60)}m`;
+    const count = `${trackStats.count.toLocaleString()}x`;
+    return [duration, count];
+  }, [user, trackStats]);
 
   useEffect(() => {
     (async () => {
@@ -212,6 +225,10 @@ const Track: NextPage<Props> = ({ track }) => {
       api.users
         .trackStreams(user?.customId, track.id)
         .then((res) => setRecentStreams(res));
+
+      api.users
+        .trackStats(user?.customId, track.id)
+        .then((res) => setTrackStats(res));
     }
   }, [track, user]);
 
@@ -259,6 +276,37 @@ const Track: NextPage<Props> = ({ track }) => {
       </div>
 
       <Container className="mt-8">
+        {/* TODO: make a reusable component out of this */}
+        <ul className="grid grid-cols-2 gap-6 md:grid-cols-4">
+          <li>
+            <StatsCard
+              label={
+                user ? 'total minutes streamed' : 'login to see your stats'
+              }
+              value={trackStatsResult[1]!}
+            />
+          </li>
+          <li>
+            <StatsCard
+              label={
+                user ? 'total minutes streamed' : 'login to see your stats'
+              }
+              value={trackStatsResult[0]!}
+            />
+          </li>
+          <li>
+            <StatsCard
+              label="0-10 popularity"
+              value={track.spotifyPopularity.toString().split('').join(',')}
+            />
+          </li>
+          <li>
+            <StatsCard
+              label="track length"
+              value={dayjs.duration(track.durationMs).format('m:ss')}
+            />
+          </li>
+        </ul>
         <Carousel>
           <Section
             title="Appears on"
