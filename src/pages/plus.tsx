@@ -6,7 +6,7 @@ import { useApi, useAuth } from '@/hooks';
 import { Range } from '@statsfm/statsfm.js';
 import type { TopArtist } from '@statsfm/statsfm.js';
 import clsx from 'clsx';
-import { gsap, Power0 } from 'gsap';
+import { gsap, Power0, Power1 } from 'gsap';
 import { ScrollTrigger } from 'gsap/dist/ScrollTrigger';
 import type { NextPage } from 'next';
 import Link from 'next/link';
@@ -42,6 +42,12 @@ const PlusScrollAnimation: FC = () => {
       { x: `${(psRef.current?.clientWidth ?? 0) / 2}px` },
       { x: `0px`, duration: 2 }
     )
+      .fromTo(
+        q('#snackbar'),
+        { y: '100px' },
+        { y: '10px', ease: Power1.easeInOut },
+        '<'
+      )
       .fromTo(q('#ps'), { opacity: 0 }, { opacity: 1 }, '<')
       .to(q('#p1'), { color: '#ffd700', duration: 2 })
       .to(q('#p1'), { color: '#a3a3a3', duration: 1 })
@@ -97,7 +103,13 @@ const PlusScrollAnimation: FC = () => {
         { opacity: 0.5 },
         '<'
       )
-      .fromTo(q('#adsBegoneBg'), { opacity: 0.5, duration: 4 }, { opacity: 0 });
+      .fromTo(q('#adsBegoneBg'), { opacity: 0.5, duration: 4 }, { opacity: 0 })
+      .fromTo(
+        q('#snackbar'),
+        { y: '10px' },
+        { y: '100px', ease: Power1.easeInOut },
+        '<'
+      );
 
     return () => {
       ScrollTrigger.killAll();
@@ -106,10 +118,10 @@ const PlusScrollAnimation: FC = () => {
 
   return (
     <section ref={boxRef} className="overflow-hidden bg-foreground">
-      <Container className="relative min-h-screen py-20">
+      <Container className="relative min-h-screen py-12">
         <div
           id="phoneBox"
-          className="absolute top-56 bottom-32 left-1/2 z-30 -translate-x-1/2"
+          className="absolute top-48 bottom-32 left-1/2 z-30 -translate-x-1/2"
         >
           <div className="flex flex-row gap-8">
             <div
@@ -176,6 +188,19 @@ const PlusScrollAnimation: FC = () => {
             </div>
           </div>
         </div>
+
+        <div
+          id="snackbar"
+          className="absolute left-1/2 bottom-10 z-50 flex h-min w-1/2 -translate-x-1/2 flex-row items-center justify-between rounded-xl bg-background p-2 px-4"
+        >
+          <p>Get these and even more perks available with plus.</p>
+          <Link href="/gift">
+            <a className="block rounded-lg bg-plus/80 px-3 py-1.5 text-center font-medium text-black transition-colors hover:bg-plus/90 active:bg-plus/75">
+              Get stats.fm plus!
+            </a>
+          </Link>
+        </div>
+
         <div className="relative inset-0 z-20 w-full text-center">
           <div className="absolute inset-x-0" id="hd1">
             <h2 className="mt-8 mb-2 bg-gradient-to-br from-white to-slate-300 bg-clip-text text-5xl text-transparent">
