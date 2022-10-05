@@ -111,7 +111,7 @@ export const getServerSideProps: GetServerSideProps<Props> = async (ctx) => {
 const PlusBadge = () => (
   <span className="flex w-fit items-center rounded-md bg-plus/10 px-1.5 py-0.5 text-sm text-plus">
     <CrownIcon className="mr-1 h-4 w-3.5" />
-    Stats.fm Plus
+    stats.fm Plus
   </span>
 );
 
@@ -337,7 +337,7 @@ const User: NextPage<Props> = ({ user }) => {
         />
         <meta property="og:image:width" content="240" />
         <meta property="og:image:height" content="240" />
-        <meta property="og:title" content={`${user.displayName} | Stats.fm`} />
+        <meta property="og:title" content={`${user.displayName} | stats.fm`} />
         <meta
           property="og:description"
           content={`View ${user.displayName} on stats.fm to see all of their listening statistics!`}

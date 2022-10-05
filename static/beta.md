@@ -10,15 +10,15 @@ Go to [next.stats.fm](https://next.stats.fm) to use the beta version of the webs
 ### Joining the Beta
 
 1. Open the Play Store on your Android device
-2. Search for the Stats.fm app
-3. Scroll down on Stats.fm' page until you see the "Join beta" button
+2. Search for the stats.fm app
+3. Scroll down on stats.fm' page until you see the "Join beta" button
 4. Click "Join beta" (It may take a few minutes for Google Play to process your request)
 
 ### Leaving the Beta
 
 1. Open the Play Store on your Android device
-2. Search for the Stats.fm app
-3. Scroll down on Stats.fm' page until you see the "Join beta" button
+2. Search for the stats.fm app
+3. Scroll down on stats.fm' page until you see the "Join beta" button
 4. Click "Leave beta" (It may take a few minutes for Google Play to process your request)
 5. Delete and reinstall the app to get back to the public version
 
@@ -30,4 +30,4 @@ Click [here](https://testflight.apple.com/join/ATXJemn4) to join the Testflight 
 
 ### Leaving the Beta
 
-Open the App Store and install Stats.fm from the App Store. This will overwrite the beta version.
+Open the App Store and install stats.fm from the App Store. This will overwrite the beta version.

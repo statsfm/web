@@ -33,9 +33,9 @@ class MyDocument extends Document {
           />
           <meta
             name="apple-mobile-web-app-title"
-            content="Stats.fm (formerly Spotistats for Spotify)"
+            content="stats.fm (formerly Spotistats for Spotify)"
           />
-          <meta name="application-name" content="Stats.fm" />
+          <meta name="application-name" content="stats.fm" />
           <meta name="theme-color" content="#1ED761" />
         </Head>
         <body>

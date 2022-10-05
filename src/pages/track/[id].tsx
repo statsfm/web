@@ -240,7 +240,7 @@ const Track: NextPage<Props> = ({ track }) => {
         <meta property="og:image:height" content="240" />
         <meta
           property="og:title"
-          content={`${track.name} (${track.albums[0]?.name}) | Stats.fm`}
+          content={`${track.name} (${track.albums[0]?.name}) | stats.fm`}
         />
         <meta
           property="og:description"

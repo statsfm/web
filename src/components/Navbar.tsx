@@ -22,7 +22,7 @@ export const NavBar = () => {
         <Link href="/" passHref>
           <a className="flex gap-3" onClick={() => event('NAV_home')}>
             <Logo className="h-[1.7rem] w-[1.7rem] cursor-pointer" />
-            <h3 className="mt-[-3px]">Stats.fm</h3>
+            <h3 className="mt-[-3px]">stats.fm</h3>
           </a>
         </Link>
 

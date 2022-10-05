@@ -48,7 +48,7 @@ const App = ({ Component, pageProps }: AppProps) => {
     <>
       <AuthProvider>
         <Head>
-          <title>Stats.fm</title>
+          <title>stats.fm</title>
           <meta property="og:site_name" content="stats.fm" />
           <meta property="og:url" content="https://stats.fm/" />
           <meta property="og:type" content="website" />

@@ -5,7 +5,7 @@ import { StoreBadge } from './StoreBadges';
 
 const links: { label: string; links: { label: string; href: string }[] }[] = [
   {
-    label: 'Stats.fm',
+    label: 'stats.fm',
     links: [
       {
         label: 'Home',
@@ -102,14 +102,14 @@ export const Footer = () => {
       <br />
 
       {/* <p className="min-w-full text-center text-sm text-neutral-500 md:order-1">
-        All copyrighted content (i.e. album artwork) on Stats.fm are owned by
+        All copyrighted content (i.e. album artwork) on stats.fm are owned by
         their respective owners. Data is provided by Spotify AB and Apple
-        Music®. Stats.fm is in no way affiliated with Spotify AB or Apple
+        Music®. stats.fm is in no way affiliated with Spotify AB or Apple
         Music®.
       </p> */}
       <p className="min-w-full text-center text-sm text-neutral-500 md:order-1">
-        All copyrighted content (i.e. album artwork) on Stats.fm are owned by
-        their respective owners. Data is provided by Spotify AB. Stats.fm is in
+        All copyrighted content (i.e. album artwork) on stats.fm are owned by
+        their respective owners. Data is provided by Spotify AB. stats.fm is in
         no way affiliated with Spotify AB.
       </p>
       <p className="min-w-full text-center md:mt-0">

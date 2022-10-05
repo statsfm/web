@@ -6,8 +6,8 @@ export const Title: FC<
 > = ({ noDivider, children, reverse }) => {
   const divider = children && !noDivider ? '|' : '';
   const title = reverse
-    ? `Stats.fm ${divider} ${children || ''}`
-    : `${children || ''} ${divider} Stats.fm`;
+    ? `stats.fm ${divider} ${children || ''}`
+    : `${children || ''} ${divider} stats.fm`;
 
   return (
     <Head>

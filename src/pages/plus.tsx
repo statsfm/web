@@ -346,7 +346,7 @@ const PlusPage: NextPage = () => {
       <Container className="flex flex-col justify-between gap-5 pt-20 lg:flex-row">
         <div className="my-12 w-full pt-10 lg:my-28 lg:w-4/12">
           <h1 className="flex items-center text-5xl leading-none">
-            Stats.fm Plus{' '}
+            stats.fm Plus{' '}
             <CrownIcon className="ml-3 inline-block h-auto w-12" />
           </h1>
           <p className="mt-4 font-medium">

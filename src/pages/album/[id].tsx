@@ -78,7 +78,7 @@ const Album: NextPage<Props> = ({ album, tracks }) => {
         <meta property="og:image:alt" content={`${album.name}'s cover`} />
         <meta property="og:image:width" content="240" />
         <meta property="og:image:height" content="240" />
-        <meta property="og:title" content={`${album.name} | Stats.fm`} />
+        <meta property="og:title" content={`${album.name} | stats.fm`} />
         <meta
           property="og:description"
           content={`View ${album.name} on stats.fm`}
