@@ -1,13 +1,13 @@
 import { useApi } from '@/hooks';
 import type { GetServerSideProps, NextPage } from 'next';
 import { Chip, ChipGroup } from '@/components/Chip';
-import { useEffect } from 'react';
 import { Container } from '@/components/Container';
 import type { Artist, Genre } from '@statsfm/statsfm.js';
 import { Section } from '@/components/Section';
 import { Avatar } from '@/components/Avatar';
 import Link from 'next/link';
 import { Title } from '@/components/Title';
+import { useMedia } from 'react-use';
 
 type Props = {
   tag: string;
@@ -36,22 +36,7 @@ export const getServerSideProps: GetServerSideProps<Props> = async (ctx) => {
 };
 
 const GenrePage: NextPage<Props> = ({ tag, genre }) => {
-  // const api = useApi();
-
-  useEffect(() => {
-    // (async () => {
-    //   setTopTracks(await api.artists.tracks(artist.id));
-    //   // setAlbums(await api.artists.albums(artist.id));
-    //   setTopListeners(
-    //     await api.http
-    //       .get<statsfm.TopUser[]>(`/artists/${artist.id}/top/listeners`)
-    //       .then((res) => res.data.items)
-    //   );
-    //   setRelated(await api.artists.related(artist.id));
-    //   setStreams(await api.users.artistStreams('martijn', artist.id));
-    // })();
-  }, []);
-
+  const mobile = useMedia('(max-width: 640px)');
   return (
     <>
       <Title>{tag}</Title>
@@ -99,12 +84,16 @@ const GenrePage: NextPage<Props> = ({ tag, genre }) => {
         )}
 
         <Section title="Top Artists">
-          <ul className="grid grid-cols-5 gap-4 gap-y-12">
+          <ul className="grid grid-cols-2 gap-4 gap-y-12 md:grid-cols-3 lg:grid-cols-5 ">
             {genre.artists.map((artist) => (
               <li key={artist.name}>
                 <Link href={`/artist/${artist.id}`}>
                   <a className="flex flex-col items-center">
-                    <Avatar name={artist.name} src={artist.image} size="4xl" />
+                    <Avatar
+                      name={artist.name}
+                      src={artist.image}
+                      size={mobile ? '2xl' : '4xl'}
+                    />
                     <h4 className="mt-2 text-center">{artist.name}</h4>
                     <p className="my-0">
                       {Intl.NumberFormat('en', { notation: 'compact' }).format(
