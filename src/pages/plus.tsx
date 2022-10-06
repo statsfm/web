@@ -367,7 +367,7 @@ const PlusPage: NextPage = () => {
 
   return (
     <>
-      <Title>plus</Title>
+      <Title>Plus</Title>
       <Container className="flex flex-col justify-between gap-5 pt-20 lg:flex-row">
         <div className="my-12 w-full pt-10 lg:my-28 lg:w-4/12">
           <h1 className="flex items-center text-5xl leading-none">

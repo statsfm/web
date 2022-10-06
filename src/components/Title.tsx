@@ -12,6 +12,7 @@ export const Title: FC<
   return (
     <Head>
       <title>{title}</title>
+      <meta key="huts" property="og:title" content={title} />
     </Head>
   );
 };

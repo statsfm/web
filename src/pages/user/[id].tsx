@@ -328,7 +328,11 @@ const User: NextPage<Props> = ({ user }) => {
 
   return (
     <>
-      <Title>{user.displayName}</Title>
+      <Title>
+        {`${user.displayName}'${
+          user.displayName.endsWith('s') || 's'
+        } stats, streams and more`}
+      </Title>
       <Head>
         <meta property="og:image" content={user.image} />
         <meta
@@ -337,7 +341,6 @@ const User: NextPage<Props> = ({ user }) => {
         />
         <meta property="og:image:width" content="240" />
         <meta property="og:image:height" content="240" />
-        <meta property="og:title" content={`${user.displayName} | stats.fm`} />
         <meta
           property="og:description"
           content={`View ${user.displayName} on stats.fm to see all of their listening statistics!`}

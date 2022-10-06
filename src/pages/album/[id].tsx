@@ -72,7 +72,7 @@ const Album: NextPage<Props> = ({ album, tracks }) => {
 
   return (
     <>
-      <Title>{album.name}</Title>
+      <Title>{`${album.name}, tracks, stats and more`}</Title>
       <Head>
         <meta property="og:image" content={album.image} />
         <meta property="og:image:alt" content={`${album.name}'s cover`} />

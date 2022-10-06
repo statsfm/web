@@ -179,7 +179,7 @@ const Artist: NextPage<Props> = ({ artist }) => {
 
   return (
     <>
-      <Title>{artist.name}</Title>
+      <Title>{`${artist.name} music, stats and more`}</Title>
       <Head>
         <meta property="og:image" content={artist.image} />
         <meta

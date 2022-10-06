@@ -232,16 +232,12 @@ const Track: NextPage<Props> = ({ track }) => {
 
   return (
     <>
-      <Title>{track.name}</Title>
+      <Title>{`${track.name}, artists, stats and more`}</Title>
       <Head>
         <meta property="og:image" content={track.albums[0]?.image} />
         <meta property="og:image:alt" content={`${track.name}'s album cover`} />
         <meta property="og:image:width" content="240" />
         <meta property="og:image:height" content="240" />
-        <meta
-          property="og:title"
-          content={`${track.name} (${track.albums[0]?.name}) | stats.fm`}
-        />
         <meta
           property="og:description"
           content={`View ${track.name} on stats.fm`}
