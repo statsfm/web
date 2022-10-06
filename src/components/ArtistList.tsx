@@ -6,12 +6,12 @@ export const ArtistList: FC<{ artists: ArtistSimple[] }> = ({ artists }) => {
   return (
     <>
       {artists.map((artist, index) => (
-        <>
-          <Link href={`/artist/${artist.id}`} key={artist.id}>
+        <span key={artist.id + index}>
+          <Link href={`/artist/${artist.id}`}>
             <a className="transition-colors hover:text-white">{artist.name}</a>
           </Link>
           {index < artists.length - 1 && ', '}
-        </>
+        </span>
       ))}
     </>
   );
