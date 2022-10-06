@@ -34,9 +34,21 @@ module.exports = {
           from: { opacity: 0 },
           to: { opacity: 1 },
         },
+        floating: {
+          '0%': {
+            transform: 'translate(3px, 0px)',
+          },
+          '50%': {
+            transform: 'translate(0, 2px)',
+          },
+          '100%': {
+            transform: 'translate(1px, 0px)',
+          },
+        },
       },
       animation: {
         fade: 'fade 0.3s ease-in-out',
+        floating: 'floating 6s ease-in-out infinite alternate;',
       },
     },
   },

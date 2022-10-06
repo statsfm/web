@@ -10,8 +10,15 @@ import { gsap, Power0, Power1 } from 'gsap';
 import { ScrollTrigger } from 'gsap/dist/ScrollTrigger';
 import type { NextPage } from 'next';
 import Link from 'next/link';
-import type { FC } from 'react';
-import { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import type { FC, PropsWithChildren } from 'react';
+import {
+  useId,
+  forwardRef,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from 'react';
 import {
   MdCancel,
   MdCheckCircle,
@@ -19,13 +26,132 @@ import {
   MdOutlineDoDisturbAlt,
 } from 'react-icons/md';
 
+// eslint-disable-next-line react/display-name
+const AdsBackground = forwardRef<HTMLDivElement>((_, ref) => {
+  const positions = [
+    { top: 2, left: 214 },
+    { top: 223, left: 94 },
+    { top: 430, left: 280 },
+    { top: 583, left: 83 },
+    { top: 737, left: 334 },
+    { top: 56, right: 215 },
+    { top: 278, right: 370 },
+    { top: 387, right: 120 },
+    { top: 530, right: 280 },
+    { top: 714, right: 380 },
+  ];
+
+  return (
+    <div ref={ref} className="absolute inset-x-0 top-[12rem] z-10 opacity-0">
+      <div className="flex flex-row gap-8">
+        {positions.map((pos, i) => (
+          <MdOutlineDoDisturbAlt
+            key={`${i}ads`}
+            style={{
+              top: `${pos.top}px`,
+              left: `${pos.left}px`,
+              right: `${pos.right}px`,
+            }}
+            className="absolute h-min w-32 text-zinc-800"
+          />
+        ))}
+      </div>
+    </div>
+  );
+});
+
+// eslint-disable-next-line react/display-name
+const Snackbar = forwardRef<
+  HTMLDivElement,
+  PropsWithChildren<{ className?: string }>
+>(({ className, children }, ref) => {
+  return (
+    <div
+      ref={ref}
+      className={clsx(
+        className,
+        'absolute left-1/2 bottom-10 z-50 flex h-min w-1/2 -translate-x-1/2 flex-row items-center justify-between rounded-xl bg-background p-2 px-4'
+      )}
+    >
+      {children}
+    </div>
+  );
+});
+
+const Heading: FC<{
+  title: string;
+  id: string;
+  sub?: string;
+  visible?: boolean;
+}> = ({ title, id, sub, visible }) => {
+  return (
+    <div
+      className={clsx(
+        visible ? 'opacity-100' : 'opacity-0',
+        'absolute inset-x-0 opacity-0'
+      )}
+      id={id}
+    >
+      <h2
+        className={clsx(
+          sub ? '' : 'mt-8',
+          'mb-2 bg-gradient-to-br from-white to-slate-300 bg-clip-text text-5xl text-transparent'
+        )}
+      >
+        {title}
+      </h2>
+      <p>{sub}</p>
+    </div>
+  );
+};
+
+const PhoneScreen: FC<{ src: string; id: string; alt?: string }> = ({
+  id,
+  src,
+  alt,
+}) => {
+  return (
+    <img
+      id={id}
+      src={src}
+      alt={alt || 'phone screen'}
+      className="absolute inset-x-4 top-4 z-[34] h-[calc(100%-32px)] w-[calc(100%-32px)]"
+    />
+  );
+};
+
+const SoulmateBackgroundCol: FC<{ amount: number; className?: string }> = ({
+  amount,
+  className,
+}) => {
+  const rowKey = useId();
+
+  return (
+    <div className={clsx(className, 'flex flex-col gap-8')}>
+      {Array(amount)
+        .fill('')
+        .map((_, i) => (
+          // eslint-disable-next-line jsx-a11y/alt-text
+          <img key={rowKey + i} src="/images/app_1.webp" className="w-40" />
+        ))}
+    </div>
+  );
+};
+
 const PlusScrollAnimation: FC = () => {
   const boxRef = useRef<HTMLDivElement>(null);
+  const phoneWrapperRef = useRef<HTMLDivElement>(null);
+  const phoneRef = useRef<HTMLDivElement>(null);
+  const snackbarRef = useRef<HTMLDivElement>(null);
+  const adsBegoneBackgroundRef = useRef<HTMLDivElement>(null);
+
   const q = gsap.utils.selector(boxRef);
-  const phoneWrapper = useRef<HTMLDivElement>(null);
-  const phone = useRef<HTMLDivElement>(null);
 
   useLayoutEffect(() => {
+    const phoneOffset =
+      (phoneWrapperRef.current?.clientWidth ?? 0) / 2 -
+      (phoneRef.current?.clientWidth ?? 0) / 2;
+
     gsap.registerPlugin(ScrollTrigger);
     const tl = gsap.timeline({
       paused: true,
@@ -39,17 +165,14 @@ const PlusScrollAnimation: FC = () => {
     });
 
     tl.fromTo(
-      q('#phone'),
+      phoneRef.current,
       {
-        x: `${
-          (phoneWrapper.current?.clientWidth ?? 0) / 2 -
-          (phone.current?.clientWidth ?? 0) / 2
-        }px`,
+        x: `${phoneOffset}px`,
       },
       { x: `0px`, duration: 2 }
     )
       .fromTo(
-        q('#snackbar'),
+        snackbarRef.current,
         { y: '100px' },
         { y: '10px', ease: Power1.easeInOut },
         '<'
@@ -65,13 +188,10 @@ const PlusScrollAnimation: FC = () => {
       .to(q('#p3'), { color: '#a3a3a3', duration: 1 })
       .fromTo(q('#ps'), { opacity: 1 }, { opacity: 0 })
       .fromTo(
-        q('#phone'),
+        phoneRef.current,
         { x: `0px`, duration: 2 },
         {
-          x: `${
-            (phoneWrapper.current?.clientWidth ?? 0) / 2 -
-            (phone.current?.clientWidth ?? 0) / 2
-          }px`,
+          x: `${phoneOffset}px`,
         },
         '<'
       )
@@ -100,7 +220,7 @@ const PlusScrollAnimation: FC = () => {
         '<'
       )
       .to(
-        q('#adsBegoneBg'),
+        adsBegoneBackgroundRef.current,
         {
           y: '-=16rem',
           duration: 4,
@@ -109,14 +229,18 @@ const PlusScrollAnimation: FC = () => {
         '<'
       )
       .fromTo(
-        q('#adsBegoneBg'),
+        adsBegoneBackgroundRef.current,
         { opacity: 0, duration: 2 },
         { opacity: 0.5 },
         '<'
       )
-      .fromTo(q('#adsBegoneBg'), { opacity: 0.5, duration: 4 }, { opacity: 0 })
       .fromTo(
-        q('#snackbar'),
+        adsBegoneBackgroundRef.current,
+        { opacity: 0.5, duration: 4 },
+        { opacity: 0 }
+      )
+      .fromTo(
+        snackbarRef.current,
         { y: '10px' },
         { y: '100px', ease: Power1.easeInOut },
         '<'
@@ -134,42 +258,18 @@ const PlusScrollAnimation: FC = () => {
           id="phoneBox"
           className="absolute top-48 bottom-32 left-1/2 z-30 -translate-x-1/2"
         >
-          <div ref={phoneWrapper} className="flex flex-row gap-8">
+          <div ref={phoneWrapperRef} className="flex flex-row gap-8">
             <div
-              ref={phone}
-              id="phone"
+              ref={phoneRef}
               className="relative z-40 flex shrink-0 justify-center"
             >
               <div className="relative h-min w-80 overflow-hidden rounded-[52px]">
-                <img
-                  id="screen5"
-                  src="/images/screen1.png"
-                  alt="bruh"
-                  className="absolute inset-x-4 top-4 z-[34] h-[calc(100%-32px)] w-[calc(100%-32px)]"
-                />
-                <img
-                  id="screen4"
-                  src="/images/screen3.png"
-                  alt="bruh"
-                  className="absolute inset-x-4 top-4 z-[33] h-[calc(100%-32px)] w-[calc(100%-32px)]"
-                />
-                <img
-                  id="screen3"
-                  src="/images/screen3.png"
-                  alt="bruh"
-                  className="absolute inset-x-4 top-4 z-[32] h-[calc(100%-32px)] w-[calc(100%-32px)]"
-                />
-                <img
-                  id="screen2"
-                  src="/images/screen2.png"
-                  alt="bruh"
-                  className="absolute inset-x-4 top-4 z-[31] h-[calc(100%-32px)] w-[calc(100%-32px)]"
-                />
-                <img
-                  src="/images/screen1.png"
-                  alt="bruh"
-                  className="absolute inset-x-4 top-4 z-[30] h-[calc(100%-32px)] w-[calc(100%-32px)]"
-                />
+                <PhoneScreen id="screen5" src="/images/screen1.png" />
+                <PhoneScreen id="screen4" src="/images/screen3.png" />
+                <PhoneScreen id="screen3" src="/images/screen3.png" />
+                <PhoneScreen id="screen2" src="/images/screen2.png" />
+                <PhoneScreen id="screen1" src="/images/screen1.png" />
+
                 <img
                   src="/images/phone_frame.png"
                   alt="bruh"
@@ -200,56 +300,31 @@ const PlusScrollAnimation: FC = () => {
           </div>
         </div>
 
-        <div
-          id="snackbar"
-          className="absolute left-1/2 bottom-10 z-50 flex h-min w-1/2 -translate-x-1/2 flex-row items-center justify-between rounded-xl bg-background p-2 px-4"
-        >
+        <Snackbar ref={snackbarRef}>
           <p>Get these and even more perks available with plus.</p>
           <Link href="/gift">
             <a className="block rounded-lg bg-plus/80 px-3 py-1.5 text-center font-medium text-black transition-colors hover:bg-plus/90 active:bg-plus/75">
               Get stats.fm plus!
             </a>
           </Link>
-        </div>
+        </Snackbar>
 
         <div className="relative inset-0 z-20 w-full text-center">
-          <div className="absolute inset-x-0" id="hd1">
-            <h2 className="mt-8 mb-2 bg-gradient-to-br from-white to-slate-300 bg-clip-text text-5xl text-transparent">
-              Import your history and &hellip;
-            </h2>
-          </div>
-          <div className="absolute inset-x-0 opacity-0" id="hd2">
-            <h2 className=" mb-2 bg-gradient-to-br from-white to-slate-300 bg-clip-text text-5xl text-transparent">
-              Find your soulmate
-            </h2>
-            <p>get unlimited soulmates, experience music together</p>
-          </div>
-          <div className="absolute inset-x-0 opacity-0" id="hd3">
-            <h2 className=" mb-2 bg-gradient-to-br from-white to-slate-300 bg-clip-text text-5xl text-transparent">
-              No more ads
-            </h2>
-            <p>Never be bothered again while looking at your stats</p>
-          </div>
+          <Heading title="Import your history and &hellip;" id="hd1" visible />
+          <Heading
+            title="Find your soulmate"
+            sub="get unlimited soulmates, experience music together"
+            id="hd2"
+          />
+          <Heading
+            title="No more ads"
+            sub="Never be bothered again while looking at your stats"
+            id="hd3"
+          />
         </div>
       </Container>
-      <div
-        id="adsBegoneBg"
-        className="absolute inset-x-0 top-[12rem] z-10 opacity-0"
-      >
-        <div className="flex flex-row gap-8">
-          <MdOutlineDoDisturbAlt className="absolute top-[2px] left-[214px] h-min w-32 text-zinc-800" />
-          <MdOutlineDoDisturbAlt className="absolute top-[223px] left-[94px] h-min w-32 text-zinc-800" />
-          <MdOutlineDoDisturbAlt className="absolute top-[430px] left-[280px] h-min w-32 text-zinc-800" />
-          <MdOutlineDoDisturbAlt className="absolute top-[583px] left-[83px] h-min w-32 text-zinc-800" />
-          <MdOutlineDoDisturbAlt className="absolute top-[737px] left-[334px] h-min w-32 text-zinc-800" />
-          <MdOutlineDoDisturbAlt className="absolute top-[56px] right-[215px] h-min w-32 text-zinc-800" />
-          <MdOutlineDoDisturbAlt className="absolute top-[278px] right-[370px] h-min w-32 text-zinc-800" />
-          <MdOutlineDoDisturbAlt className="absolute top-[387px] right-[120px] h-min w-32 text-zinc-800" />
-          <MdOutlineDoDisturbAlt className="absolute top-[530px] right-[280px] h-min w-32 text-zinc-800" />
-          <MdOutlineDoDisturbAlt className="absolute top-[714px] right-[380px] h-min w-32 text-zinc-800" />
-        </div>
-      </div>
 
+      <AdsBackground ref={adsBegoneBackgroundRef} />
       <div
         id="soulmatesBg"
         className="absolute inset-x-0 top-0 z-10 opacity-40"
@@ -257,41 +332,10 @@ const PlusScrollAnimation: FC = () => {
         <div className="absolute inset-y-0 right-0 h-full w-1/2 bg-gradient-to-l from-black/50 to-transparent" />
         <div className="absolute inset-y-0 left-0 h-full w-1/2 bg-gradient-to-r from-black/50 to-transparent" />
         <div className="flex flex-row gap-8">
-          <div className="-mt-4 flex flex-col gap-8">
-            <img src="/images/app_1.webp" alt="" className="w-40" />
-            <img src="/images/app_1.webp" alt="" className="w-40" />
-            <img src="/images/app_1.webp" alt="" className="w-40" />
-            <img src="/images/app_1.webp" alt="" className="w-40" />
-            <img src="/images/app_1.webp" alt="" className="w-40" />
-            <img src="/images/app_1.webp" alt="" className="w-40" />
-          </div>
-          <div className="-mt-48 flex flex-col gap-8">
-            <img src="/images/app_1.webp" alt="" className="w-40" />
-            <img src="/images/app_1.webp" alt="" className="w-40" />
-            <img src="/images/app_1.webp" alt="" className="w-40" />
-            <img src="/images/app_1.webp" alt="" className="w-40" />
-            <img src="/images/app_1.webp" alt="" className="w-40" />
-            <img src="/images/app_1.webp" alt="" className="w-40" />
-            <img src="/images/app_1.webp" alt="" className="w-40" />
-          </div>
-
-          <div className="ml-auto -mt-4 flex flex-col gap-8">
-            <img src="/images/app_1.webp" alt="" className="w-40" />
-            <img src="/images/app_1.webp" alt="" className="w-40" />
-            <img src="/images/app_1.webp" alt="" className="w-40" />
-            <img src="/images/app_1.webp" alt="" className="w-40" />
-            <img src="/images/app_1.webp" alt="" className="w-40" />
-            <img src="/images/app_1.webp" alt="" className="w-40" />
-          </div>
-          <div className="-mt-48 flex flex-col gap-8">
-            <img src="/images/app_1.webp" alt="" className="w-40" />
-            <img src="/images/app_1.webp" alt="" className="w-40" />
-            <img src="/images/app_1.webp" alt="" className="w-40" />
-            <img src="/images/app_1.webp" alt="" className="w-40" />
-            <img src="/images/app_1.webp" alt="" className="w-40" />
-            <img src="/images/app_1.webp" alt="" className="w-40" />
-            <img src="/images/app_1.webp" alt="" className="w-40" />
-          </div>
+          <SoulmateBackgroundCol amount={6} className="-mt-4" />
+          <SoulmateBackgroundCol amount={7} className="-mt-48" />
+          <SoulmateBackgroundCol amount={6} className="ml-auto -mt-4" />
+          <SoulmateBackgroundCol amount={7} className="-mt-48" />
         </div>
       </div>
     </section>
@@ -345,7 +389,7 @@ const HeaderBubbles: FC<{ topArtists: TopArtist[] }> = ({ topArtists }) => {
             width: bubble.s,
             animationDelay: `${i % 6}s`,
           }}
-          className="floating absolute rounded-full bg-gray-600 bg-cover bg-center"
+          className="absolute animate-floating rounded-full bg-gray-600 bg-cover bg-center"
         >
           {topArtists[i] && (
             <Image
