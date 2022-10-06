@@ -61,7 +61,12 @@ export const TrackListRow = ({
               </div>
             </div>
 
-            <p className="m-0 text-right">
+            <p
+              className="m-0 text-right"
+              title={
+                endTime && dayjs(endTime).format('dddd, D MMMM YYYY HH:mm')
+              }
+            >
               {endTime
                 ? dayjs(endTime).fromNow()
                 : dayjs
