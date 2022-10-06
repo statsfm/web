@@ -22,7 +22,8 @@ import {
 const PlusScrollAnimation: FC = () => {
   const boxRef = useRef<HTMLDivElement>(null);
   const q = gsap.utils.selector(boxRef);
-  const psRef = useRef<HTMLDivElement>(null);
+  const phoneWrapper = useRef<HTMLDivElement>(null);
+  const phone = useRef<HTMLDivElement>(null);
 
   useLayoutEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
@@ -39,7 +40,12 @@ const PlusScrollAnimation: FC = () => {
 
     tl.fromTo(
       q('#phone'),
-      { x: `${(psRef.current?.clientWidth ?? 0) / 2}px` },
+      {
+        x: `${
+          (phoneWrapper.current?.clientWidth ?? 0) / 2 -
+          (phone.current?.clientWidth ?? 0) / 2
+        }px`,
+      },
       { x: `0px`, duration: 2 }
     )
       .fromTo(
@@ -61,7 +67,12 @@ const PlusScrollAnimation: FC = () => {
       .fromTo(
         q('#phone'),
         { x: `0px`, duration: 2 },
-        { x: `${(psRef.current?.clientWidth ?? 0) / 2}px` },
+        {
+          x: `${
+            (phoneWrapper.current?.clientWidth ?? 0) / 2 -
+            (phone.current?.clientWidth ?? 0) / 2
+          }px`,
+        },
         '<'
       )
       .to(q('#hd1'), { opacity: 0 })
@@ -123,8 +134,9 @@ const PlusScrollAnimation: FC = () => {
           id="phoneBox"
           className="absolute top-48 bottom-32 left-1/2 z-30 -translate-x-1/2"
         >
-          <div className="flex flex-row gap-8">
+          <div ref={phoneWrapper} className="flex flex-row gap-8">
             <div
+              ref={phone}
               id="phone"
               className="relative z-40 flex shrink-0 justify-center"
             >
@@ -173,7 +185,6 @@ const PlusScrollAnimation: FC = () => {
             </div>
             <div
               id="ps"
-              ref={psRef}
               className="flex h-full shrink-0 flex-col gap-4 self-center text-lg opacity-0"
             >
               <p className="m-0" id="p1">
