@@ -37,6 +37,7 @@
     "react-use": "^17.4.0",
     "remark-html": "^15.0.1",
     "remark-parse": "^10.0.1",
+    "tailwind-scrollbar": "^2.0.1",
     "unified": "^10.1.2"
   },
   "devDependencies": {

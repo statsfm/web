@@ -5,6 +5,10 @@
 @tailwind utilities;
 
 @layer base {
+  .overflow-y-auto {
+    @apply pb-3 scrollbar-thin scrollbar-thumb-neutral-500/70 scrollbar-track-foreground scrollbar-thumb-rounded-lg;
+  }
+
   body,
   html {
     @apply bg-background font-body text-white;
