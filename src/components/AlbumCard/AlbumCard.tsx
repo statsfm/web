@@ -31,7 +31,7 @@ export const AlbumCard = ({
         </div>
         <div className="mt-2">
           <h4 className="line-clamp-2">
-            {position}. {album.name}
+            {position && `${position}.`} {album.name}
           </h4>
           <p className="m-0 truncate">
             {playedMs &&

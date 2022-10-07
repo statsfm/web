@@ -19,9 +19,9 @@ export const ArtistCard = ({ playedMs, streams, artist, position }: Props) => {
 
         <div className="mt-2 text-center">
           <h4>
-            {position}. {artist.name}
+            {position && `${position}.`} {artist.name}
           </h4>
-          <p className="line-clamp-2 m-0 leading-tight">
+          <p className="m-0 leading-tight line-clamp-2">
             <span>
               {playedMs && <span>{minutes} minutes • </span>}
               <span>{streams} streams</span>

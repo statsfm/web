@@ -28,7 +28,7 @@ export const TrackCard = ({ track, playedMs, streams, position }: Props) => {
             )}
           </div>
           <h4 className="mt-2 line-clamp-2">
-            {position}. {track.name}
+            {position && `${position}.`} {track.name}
           </h4>
         </a>
       </Link>
