@@ -35,6 +35,10 @@ module.exports = withBundleAnalyzer({
   async rewrites() {
     return [
       {
+        source: '/account/privacy',
+        destination: '/settings/privacy',
+      },
+      {
         source: '/:id',
         destination: '/user/:id',
       },
