@@ -17,7 +17,7 @@ import TopListenerCard from '@/components/TopListenerCard/TopListenerCard';
 import { TopListenerCardSkeleton } from '@/components/TopListenerCard';
 import { RecentStreams } from '@/components/RecentStreams';
 import { Menu } from '@/components/Menu';
-import { MdOutlinePreview, MdSort } from 'react-icons/md';
+import { MdSort } from 'react-icons/md';
 import { SectionToolbarCarouselNavigationButton } from '@/components/SectionToolbarCarouselNavigationButton';
 import { Container } from '@/components/Container';
 import Link from 'next/link';
@@ -283,27 +283,7 @@ const Artist: NextPage<Props> = ({ artist }) => {
                 <SectionToolbarInfoMenu
                   description="Learn more about what top listeners are and how they're calculated"
                   link={supportUrls.artist.top_listeners}
-                >
-                  <Menu.Item>
-                    <Menu>
-                      <Menu.Button>
-                        <MdOutlinePreview className="text-white" /> Display
-                        options
-                      </Menu.Button>
-
-                      <Menu.Items>
-                        <Menu.Item>
-                          Learn more about blablabalbalabballabl
-                        </Menu.Item>
-                        <Menu.Item>
-                          Learn more about blablabalbalabballabl
-                        </Menu.Item>
-                      </Menu.Items>
-                    </Menu>
-                  </Menu.Item>
-
-                  <Menu.Item>gdasgkdasg</Menu.Item>
-                </SectionToolbarInfoMenu>
+                />
               </div>
             }
           >
