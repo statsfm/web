@@ -37,7 +37,7 @@ export const getServerSideProps: GetServerSideProps<Props> = async (ctx) => {
 };
 
 const GenrePage: NextPage<Props> = ({ tag, genre }) => {
-  // deduping artists by id
+  // deduping artists by name
   const artists = useMemo(() => {
     const existingArtists: string[] = [];
     const dedupedArtists = genre.artists.filter((artist) => {
