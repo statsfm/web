@@ -1,7 +1,6 @@
 import { AccountLayout } from '@/components/settings/Layout';
 import { SettingsHeader } from '@/components/settings/SettingsHeader';
 import { Button } from '@/components/Button';
-import { Container } from '@/components/Container';
 import { Divider } from '@/components/Divider';
 import { Overlay } from '@/components/Overlay';
 import { useApi, useAuth } from '@/hooks';
@@ -10,7 +9,8 @@ import type { UserPrivacySettings, UserPrivate } from '@statsfm/statsfm.js';
 import clsx from 'clsx';
 import type { NextPage } from 'next';
 import type { FC } from 'react';
-import { useCallback, useMemo, useState } from 'react';
+import { useEffect, useCallback, useMemo, useState } from 'react';
+import { useRouter } from 'next/router';
 
 type DisplayNamesType = {
   [key in keyof UserPrivacySettings | 'leaderboards']: {
@@ -162,7 +162,15 @@ const PrivacyList: FC<{ user: UserPrivate }> = ({ user }) => {
 
 const PrivacyPage: NextPage = () => {
   const { user } = useAuth();
-  if (!user) return <Container>Unauthorized</Container>;
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!user) {
+      router.push('/login');
+    }
+  }, [router, user]);
+
+  if (!user) return <></>;
 
   return (
     <AccountLayout>

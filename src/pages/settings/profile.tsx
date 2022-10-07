@@ -2,7 +2,6 @@ import { AccountLayout } from '@/components/settings/Layout';
 import { SettingsHeader } from '@/components/settings/SettingsHeader';
 import { Avatar } from '@/components/Avatar';
 import { Button } from '@/components/Button';
-import { Container } from '@/components/Container';
 import { Input } from '@/components/Input';
 import { Menu } from '@/components/Menu';
 import { Overlay } from '@/components/Overlay';
@@ -480,7 +479,15 @@ interface Props {
 
 const ProfilePage: NextPage<Props> = ({ pronouns }) => {
   const { user } = useAuth();
-  if (!user) return <Container>Unauthorized</Container>;
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!user) {
+      router.push('/login');
+    }
+  }, [router, user]);
+
+  if (!user) return <></>;
 
   return (
     <AccountLayout>
