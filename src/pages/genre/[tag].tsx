@@ -8,6 +8,7 @@ import { Avatar } from '@/components/Avatar';
 import Link from 'next/link';
 import { Title } from '@/components/Title';
 import { useMedia } from 'react-use';
+import { useMemo } from 'react';
 
 type Props = {
   tag: string;
@@ -36,6 +37,21 @@ export const getServerSideProps: GetServerSideProps<Props> = async (ctx) => {
 };
 
 const GenrePage: NextPage<Props> = ({ tag, genre }) => {
+  // deduping artists by id
+  const artists = useMemo(() => {
+    const existingArtists: string[] = [];
+    const dedupedArtists = genre.artists.filter((artist) => {
+      if (existingArtists.includes(artist.name)) {
+        return false;
+      }
+
+      existingArtists.push(artist.name);
+      return true;
+    });
+
+    return dedupedArtists;
+  }, [genre]);
+
   const mobile = useMedia('(max-width: 640px)');
   return (
     <>
@@ -85,7 +101,7 @@ const GenrePage: NextPage<Props> = ({ tag, genre }) => {
 
         <Section title="Top Artists">
           <ul className="grid grid-cols-2 gap-4 gap-y-12 md:grid-cols-3 lg:grid-cols-5 ">
-            {genre.artists.map((artist) => (
+            {artists.map((artist) => (
               <li key={artist.name}>
                 <Link href={`/artist/${artist.id}`}>
                   <a className="flex flex-col items-center">
