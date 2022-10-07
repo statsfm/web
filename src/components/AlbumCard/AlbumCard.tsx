@@ -13,6 +13,7 @@ export const AlbumCard = ({
   album,
   playedMs,
   streams,
+  position,
 }: PropsWithChildren<Props>) => {
   return (
     <Link href={`/album/${album.id}`} passHref>
@@ -29,7 +30,9 @@ export const AlbumCard = ({
           )}
         </div>
         <div className="mt-2">
-          <h4 className="line-clamp-2">{album.name}</h4>
+          <h4 className="line-clamp-2">
+            {position}. {album.name}
+          </h4>
           <p className="m-0 truncate">
             {playedMs &&
               `${Math.floor(
