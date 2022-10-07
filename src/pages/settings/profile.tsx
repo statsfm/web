@@ -8,7 +8,7 @@ import { Menu } from '@/components/Menu';
 import { Overlay } from '@/components/Overlay';
 import { Section } from '@/components/Section';
 import { Textarea } from '@/components/Textarea';
-import { useApi, useAuth } from '@/hooks';
+import { useApi, useAuth, useToaster } from '@/hooks';
 import type { UserPrivate } from '@statsfm/statsfm.js';
 import clsx from 'clsx';
 import type { GetServerSideProps, NextPage } from 'next';
@@ -30,7 +30,7 @@ import {
   MdCheckCircle,
 } from 'react-icons/md';
 
-type StatusOptions = 'SAVING' | 'SAVED' | 'ERROR' | 'DEFAULT';
+type StatusOptions = 'SAVING' | 'SAVED' | 'ERROR' | 'DEFAULT' | 'DELETING';
 type UrlAvailableOptions = 'LOADING' | 'AVAILABLE' | 'UNAVAILABLE';
 
 type StateContextType = {
@@ -253,10 +253,14 @@ const AvailibilityIndicator: FC<{ user: UserPrivate }> = ({ user }) => {
 };
 
 const DeleteAccount: FC = () => {
+  const { error } = useToaster();
   const { login, logout, tokenAge } = useAuth();
-  const { pathname } = useRouter();
+  const { status } = useContext(stateContext)!;
   const router = useRouter();
   const api = useApi();
+
+  // eslint-disable-next-line @typescript-eslint/naming-convention, unused-imports/no-unused-vars
+  const [_status, setStatus] = status;
 
   const [timeLeft, setTimeLeft] = useState(0);
   const [agreed, setAgreed] = useState(false);
@@ -282,8 +286,16 @@ const DeleteAccount: FC = () => {
       'Are you sure you want to delete your account? This action is irreversible!'
     );
     if (!confirmed) return;
+    setStatus('DELETING');
 
-    await api.me.deleteAccount();
+    const res = await api.me.deleteAccount();
+    if (res.status !== 202) {
+      error(`Account could not be deleted: ${res.status}`);
+      setStatus('DEFAULT');
+      return;
+    }
+
+    logout();
     router.push('/');
   }, []);
 
@@ -331,7 +343,7 @@ const DeleteAccount: FC = () => {
           <Button
             onClick={() => {
               logout();
-              login(pathname);
+              login(router.pathname);
             }}
             className="mt-2"
           >
@@ -360,7 +372,9 @@ const AccountPrivacyInfoForm: FC<{
 
   return (
     <div className="relative w-full">
-      <Overlay visible={status === 'SAVING'}>saving...</Overlay>
+      <Overlay visible={['SAVING', 'DELETING'].includes(status)}>
+        {status === 'SAVING' ? 'saving...' : 'deleting...'}
+      </Overlay>
       <SettingsHeader title="Profile">
         <Button
           className={clsx(
