@@ -285,9 +285,7 @@ const Track: NextPage<Props> = ({ track }) => {
         <ul className="grid grid-cols-2 gap-6 md:grid-cols-4">
           <li>
             <StatsCard
-              label={
-                user ? 'total minutes streamed' : 'login to see your stats'
-              }
+              label={user ? 'total times streamed' : 'login to see your stats'}
               value={trackStatsResult[1]!}
             />
           </li>
