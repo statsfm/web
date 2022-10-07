@@ -1,12 +1,13 @@
 import type { NextPage } from 'next';
 
 import { useEffect } from 'react';
-import { useAuth } from '@/hooks';
+import { useAuth, useToaster } from '@/hooks';
 import { useRouter } from 'next/router';
 
 const Callback: NextPage = () => {
   const auth = useAuth();
   const router = useRouter();
+  const toaster = useToaster();
 
   useEffect(() => {
     // TODO: look why router.params doesn't work
@@ -21,9 +22,9 @@ const Callback: NextPage = () => {
       if (redirectUrl) {
         router.push(redirectUrl);
         localStorage.removeItem('redirectUrl');
-      } else router.back();
+      } else router.push('/');
     } else {
-      // TODO: show toaster error
+      toaster.message('Something went wrong trying to login');
       router.push('/login');
     }
   }, []);

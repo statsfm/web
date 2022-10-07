@@ -8,9 +8,10 @@ import { Logo } from './Logo';
 import { Avatar } from './Avatar/Avatar';
 import { Menu } from './Menu';
 import { Container } from './Container';
+import { Button } from './Button';
 
 export const NavBar = () => {
-  const { user, logout } = useAuth();
+  const { user, logout, login } = useAuth();
 
   const handleLogOutClick = () => {
     logout();
@@ -99,11 +100,9 @@ export const NavBar = () => {
             )}
           </Menu>
         ) : (
-          <Link href="/login">
-            <a className="my-2 flex h-12 items-center justify-center whitespace-nowrap rounded-2xl bg-primary/10 py-2 px-5 text-base font-bold text-primary shadow-sm transition-colors hover:bg-primary/20 active:bg-primary/5">
-              Log in
-            </a>
-          </Link>
+          <Button onClick={() => login()} className="my-2">
+            Log in
+          </Button>
         )}
       </Container>
     </nav>

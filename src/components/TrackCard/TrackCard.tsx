@@ -27,13 +27,13 @@ export const TrackCard = ({ track, playedMs, streams, position }: Props) => {
               />
             )}
           </div>
-          <h4 className="line-clamp-2 mt-2">
+          <h4 className="mt-2 line-clamp-2">
             {position}. {track.name}
           </h4>
         </a>
       </Link>
 
-      <p className="line-clamp-2 m-0">
+      <p className="m-0 line-clamp-2">
         {playedMs && <span>{minutes} minutes • </span>}
         {streams && <span>{streams} streams • </span>}
         <span>
