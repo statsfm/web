@@ -7,7 +7,7 @@ import { Avatar } from '../Avatar';
 
 interface Props extends statsfm.TopArtist {}
 
-export const ArtistCard = ({ playedMs, streams, artist }: Props) => {
+export const ArtistCard = ({ playedMs, streams, artist, position }: Props) => {
   const minutes = Math.floor(
     dayjs.duration(playedMs!, 'ms').asMinutes()
   ).toLocaleString();
@@ -18,8 +18,10 @@ export const ArtistCard = ({ playedMs, streams, artist }: Props) => {
         <Avatar src={artist.image} name={artist.name} size="3xl" />
 
         <div className="mt-2 text-center">
-          <h4>{artist.name}</h4>
-          <p className="m-0 leading-tight line-clamp-2">
+          <h4>
+            {position}. {artist.name}
+          </h4>
+          <p className="line-clamp-2 m-0 leading-tight">
             <span>
               {playedMs && <span>{minutes} minutes • </span>}
               <span>{streams} streams</span>

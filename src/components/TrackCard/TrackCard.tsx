@@ -7,7 +7,7 @@ interface Props extends Partial<Omit<statsfm.TopTrack, 'track'>> {
   track: statsfm.Track;
 }
 
-export const TrackCard = ({ track, playedMs, streams }: Props) => {
+export const TrackCard = ({ track, playedMs, streams, position }: Props) => {
   // TODO: move to util function
   const minutes = Math.floor(
     dayjs.duration(playedMs!, 'ms').asMinutes()
@@ -27,11 +27,13 @@ export const TrackCard = ({ track, playedMs, streams }: Props) => {
               />
             )}
           </div>
-          <h4 className="mt-2 line-clamp-2">{track.name}</h4>
+          <h4 className="line-clamp-2 mt-2">
+            {position}. {track.name}
+          </h4>
         </a>
       </Link>
 
-      <p className="m-0 line-clamp-2">
+      <p className="line-clamp-2 m-0">
         {playedMs && <span>{minutes} minutes • </span>}
         {streams && <span>{streams} streams • </span>}
         <span>
