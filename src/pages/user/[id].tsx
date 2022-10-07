@@ -109,7 +109,7 @@ export const getServerSideProps: GetServerSideProps<Props> = async (ctx) => {
 
 // TODO: Link to /plus
 const PlusBadge = () => (
-  <span className="flex w-fit items-center rounded-md bg-plus/10 px-1.5 py-0.5 text-sm text-plus">
+  <span className="mx-auto flex w-fit items-center rounded-md bg-plus/10 px-1.5 py-0.5 text-sm text-plus md:mx-0">
     <CrownIcon className="mr-1 h-4 w-3.5" />
     stats.fm Plus
   </span>
