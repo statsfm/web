@@ -1,5 +1,5 @@
 import type { GetServerSideProps, NextPage } from 'next';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import * as statsfm from '@statsfm/statsfm.js';
 
 import Link from 'next/link';
@@ -19,6 +19,7 @@ import { SectionToolbarInfoMenu } from '@/components/SectionToolbarInfoMenu';
 import { supportUrls } from '@/utils/supportUrls';
 import Head from 'next/head';
 import { SpotifyIcon } from '@/components/Icons';
+import { StatsCard } from '@/components/StatsCard';
 
 interface Props {
   album: statsfm.Album;
@@ -50,6 +51,7 @@ const Album: NextPage<Props> = ({ album, tracks }) => {
   const api = useApi();
   const [topListeners, setTopListeners] = useState<statsfm.TopUser[]>([]);
   const [streams, setStreams] = useState<statsfm.Stream[]>([]);
+  const [stats, setStats] = useState<statsfm.StreamStats | null>(null);
   const { user } = useAuth();
 
   useEffect(() => {
@@ -67,8 +69,20 @@ const Album: NextPage<Props> = ({ album, tracks }) => {
       api.users
         .albumStreams(user.customId, album.id)
         .then((res) => setStreams(res));
+
+      api.users
+        .albumStats(user.customId, album.id)
+        .then((res) => setStats(res));
     }
   }, [album, user]);
+
+  const statsResult = useMemo(() => {
+    if (!user || !stats) return { count: '-', duration: '-' };
+
+    const duration = `${Math.floor(stats.durationMs / 1000 / 60)}m`;
+    const count = `${stats.count.toLocaleString()}x`;
+    return { count, duration };
+  }, [user, stats]);
 
   return (
     <>
@@ -122,16 +136,53 @@ const Album: NextPage<Props> = ({ album, tracks }) => {
       </div>
 
       <Container className="mt-8">
+        <ul className="grid grid-cols-2 gap-6 md:grid-cols-4">
+          <li>
+            <StatsCard
+              value={statsResult.count}
+              label={
+                statsResult.count
+                  ? 'total times streamed'
+                  : 'login to see your stats'
+              }
+            />
+          </li>
+          <li>
+            <StatsCard
+              value={statsResult.duration}
+              label={
+                statsResult.duration
+                  ? 'total minutes streamed'
+                  : 'login to see your stats'
+              }
+            />
+          </li>
+          <li>
+            <StatsCard
+              value={(album.spotifyPopularity / 10).toLocaleString()}
+              label={'0-10 popularity'}
+            />
+          </li>
+          <li>
+            <StatsCard
+              value={album.totalTracks.toLocaleString()}
+              label={'Tracks'}
+            />
+          </li>
+        </ul>
+
         <Section title="Album content" description="The tracks on this album">
-          <ul className="grid grid-rows-none gap-y-3 md:grid-flow-col md:grid-rows-5">
+          <ul className="grid grid-cols-1 gap-y-3 md:grid-cols-2 lg:grid-cols-3">
             {tracks.map((track, i) => (
               <li key={i}>
                 <Link href={`/track/${track.id}`} passHref>
-                  <a className="flex">
+                  <a className="flex max-w-fit overflow-hidden text-ellipsis">
                     <span className="px-5">{i + 1}.</span>
 
-                    <div>
-                      <h4>{track.name}</h4>
+                    <div className="overflow-hidden">
+                      <h4 className="!block overflow-hidden text-ellipsis line-clamp-2">
+                        {track.name}
+                      </h4>
                       <p className="m-0">
                         {track.artists.map((artist) => artist.name).join(', ')}
                       </p>

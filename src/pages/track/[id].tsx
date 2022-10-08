@@ -248,20 +248,25 @@ const Track: NextPage<Props> = ({ track }) => {
       <div className="bg-foreground pt-20">
         <Container>
           <section className="flex flex-col items-center gap-5 pt-24 pb-10 md:flex-row">
-            {track.albums[0]?.image && (
-              <Image
-                src={track.albums[0].image}
-                alt={track.name}
-                width={192}
-                height={192}
-              />
-            )}
+            <div className="shrink-0">
+              {track.albums[0]?.image && (
+                <Image
+                  src={track.albums[0].image}
+                  alt={track.name}
+                  width={192}
+                  height={192}
+                />
+              )}
+            </div>
 
-            <div className="flex flex-col justify-end">
+            <div className="flex flex-col justify-end overflow-hidden">
               <span className="text-center text-lg md:text-left">
                 <ArtistList artists={track.artists} />
               </span>
-              <h1 className="text-center font-extrabold md:text-left">
+              <h1
+                className="inline-block truncate text-center font-extrabold md:text-left"
+                title={track.name}
+              >
                 {track.name}
               </h1>
               <div className="mt-2 flex flex-row">
@@ -300,7 +305,7 @@ const Track: NextPage<Props> = ({ track }) => {
           <li>
             <StatsCard
               label="0-10 popularity"
-              value={track.spotifyPopularity.toString().split('').join(',')}
+              value={(track.spotifyPopularity / 10).toLocaleString()}
             />
           </li>
           <li>

@@ -28,7 +28,7 @@ const TopListenerCard = ({ user, position, playedMs, streams }: Props) => {
         </Avatar>
 
         <div className="mt-2 text-center">
-          <h4>{user.displayName}</h4>
+          <h4 className="line-clamp-2">{user.displayName}</h4>
 
           <p className="m-0 line-clamp-2">
             {playedMs && (

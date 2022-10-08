@@ -6,7 +6,7 @@ import { Avatar } from '@/components/Avatar';
 import { Chip, ChipGroup } from '@/components/Chip';
 import { Section } from '@/components/Section';
 import { Carousel } from '@/components/Carousel';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { TrackCard, TrackCardSkeleton } from '@/components/TrackCard';
 import {
   RelatedArtistCard,
@@ -25,6 +25,7 @@ import { Title } from '@/components/Title';
 import { supportUrls } from '@/utils/supportUrls';
 import { SectionToolbarInfoMenu } from '@/components/SectionToolbarInfoMenu';
 import Head from 'next/head';
+import { StatsCard } from '@/components/StatsCard';
 
 const MoreTracks = ({
   artist,
@@ -152,15 +153,14 @@ const Artist: NextPage<Props> = ({ artist }) => {
   const { user } = useAuth();
 
   const [topTracks, setTopTracks] = useState<statsfm.Track[]>([]);
-  // const [albums, setAlbums] = useState<statsfm.Album[]>([]);
   const [topListeners, setTopListeners] = useState<statsfm.TopUser[]>([]);
   const [related, setRelated] = useState<statsfm.Artist[]>([]);
   const [streams, setStreams] = useState<statsfm.Stream[]>([]);
+  const [stats, setStats] = useState<statsfm.StreamStats | null>(null);
 
   useEffect(() => {
     (async () => {
       setTopTracks(await api.artists.tracks(artist.id));
-      // setAlbums(await api.artists.albums(artist.id));
       setTopListeners(
         await api.http
           .get<statsfm.TopUser[]>(`/artists/${artist.id}/top/listeners`)
@@ -174,8 +174,17 @@ const Artist: NextPage<Props> = ({ artist }) => {
     if (!user) return;
     (async () => {
       setStreams(await api.users.artistStreams(user.id, artist.id));
+      setStats(await api.users.artistStats(user.id, artist.id));
     })();
   }, [user]);
+
+  const statsResult = useMemo(() => {
+    if (!user || !stats) return { count: '-', duration: '-' };
+
+    const duration = `${Math.floor(stats.durationMs / 1000 / 60)}m`;
+    const count = `${stats.count.toLocaleString()}x`;
+    return { count, duration };
+  }, [user, stats]);
 
   return (
     <>
@@ -215,7 +224,36 @@ const Artist: NextPage<Props> = ({ artist }) => {
       </div>
 
       <Container className="mt-8">
-        <section>
+        <ul className="grid grid-cols-2 gap-6 md:grid-cols-4">
+          <li>
+            <StatsCard
+              value={statsResult.count}
+              label={
+                statsResult.count
+                  ? 'total times streamed'
+                  : 'login to see your stats'
+              }
+            />
+          </li>
+          <li>
+            <StatsCard
+              value={statsResult.duration}
+              label={
+                statsResult.duration
+                  ? 'total minutes streamed'
+                  : 'login to see your stats'
+              }
+            />
+          </li>
+          <li>
+            <StatsCard
+              value={(artist.spotifyPopularity / 10).toLocaleString()}
+              label={'0-10 popularity'}
+            />
+          </li>
+        </ul>
+
+        <Section title="Genres">
           <ChipGroup>
             {artist.genres.map((genre, i) => (
               <Chip key={i}>
@@ -223,7 +261,7 @@ const Artist: NextPage<Props> = ({ artist }) => {
               </Chip>
             ))}
           </ChipGroup>
-        </section>
+        </Section>
 
         <Carousel>
           <Section
