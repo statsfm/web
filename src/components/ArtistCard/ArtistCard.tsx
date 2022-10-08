@@ -18,7 +18,7 @@ export const ArtistCard = ({ playedMs, streams, artist, position }: Props) => {
         <Avatar src={artist.image} name={artist.name} size="3xl" />
 
         <div className="mt-2 text-center">
-          <h4>
+          <h4 className="line-clamp-2">
             {position && `${position}.`} {artist.name}
           </h4>
           <p className="m-0 leading-tight line-clamp-2">
