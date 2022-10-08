@@ -7,10 +7,9 @@ import { useApi, useAuth } from '@/hooks';
 import { Switch } from '@headlessui/react';
 import type { UserPrivacySettings, UserPrivate } from '@statsfm/statsfm.js';
 import clsx from 'clsx';
-import type { NextPage } from 'next';
+import type { GetServerSideProps, NextPage } from 'next';
 import type { FC } from 'react';
-import { useEffect, useCallback, useMemo, useState } from 'react';
-import { useRouter } from 'next/router';
+import { useCallback, useMemo, useState } from 'react';
 
 type DisplayNamesType = {
   [key in keyof UserPrivacySettings | 'leaderboards']: {
@@ -160,18 +159,26 @@ const PrivacyList: FC<{ user: UserPrivate }> = ({ user }) => {
   );
 };
 
-const PrivacyPage: NextPage = () => {
-  const { user } = useAuth();
-  const router = useRouter();
+type Props = {
+  user: UserPrivate;
+};
 
-  useEffect(() => {
-    if (!user) {
-      router.push('/login');
-    }
-  }, [router, user]);
+export const getServerSideProps: GetServerSideProps<Props> = async (ctx) => {
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  const api = useApi();
 
-  if (!user) return <></>;
+  const { identityToken } = ctx.req.cookies;
+  api.http.config.accessToken = identityToken;
+  const user = await api.me.get();
 
+  return {
+    props: {
+      user,
+    },
+  };
+};
+
+const PrivacyPage: NextPage<Props> = ({ user }) => {
   return (
     <AccountLayout>
       <PrivacyList user={user} />

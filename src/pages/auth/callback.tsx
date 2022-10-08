@@ -1,22 +1,18 @@
 import type { NextPage } from 'next';
 
 import { useEffect } from 'react';
-import { useAuth, useToaster } from '@/hooks';
+import { useToaster } from '@/hooks';
 import { useRouter } from 'next/router';
+import Cookies from 'js-cookie';
 
 const Callback: NextPage = () => {
-  const auth = useAuth();
   const router = useRouter();
   const toaster = useToaster();
 
+  // checks if cookie is set
   useEffect(() => {
-    // TODO: look why router.params doesn't work
-    const params = new URLSearchParams(window.location.search);
-
-    if (params.has('code')) {
-      const code = params.get('code');
-
-      auth.callback(code!);
+    const token = Cookies.get('identityToken');
+    if (token) {
       const redirectUrl = localStorage.getItem('redirectUrl');
 
       if (redirectUrl) {

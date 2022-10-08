@@ -3,6 +3,8 @@
 import { useApi } from '@/hooks';
 import type * as statsfm from '@statsfm/statsfm.js';
 import { decodeJwt } from 'jose';
+import Cookies from 'js-cookie';
+import { useRouter } from 'next/router';
 import type { PropsWithChildren } from 'react';
 import { createContext, useEffect, useState } from 'react';
 
@@ -12,13 +14,15 @@ export const AuthContext = createContext<{
   tokenAge: () => number | null;
   login: (redirectUrl?: string) => void;
   logout: () => void;
-  callback: (token: string) => void;
 } | null>(null);
 
-export const AuthProvider = ({ children }: PropsWithChildren) => {
-  const [user, setUser] = useState<statsfm.UserPrivate | null>(null);
-  const [token, setToken] = useState<string>();
-
+export const AuthProvider = (
+  props: PropsWithChildren<{ user?: statsfm.UserPrivate }>
+) => {
+  const [user, setUser] = useState<statsfm.UserPrivate | null>(
+    props.user ?? null
+  );
+  const router = useRouter();
   const api = useApi();
 
   const login = (redirectUrl?: string) => {
@@ -63,16 +67,20 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
   };
 
   const tokenAge = () => {
-    const token = localStorage.getItem('token') || '';
-    const { iat, exp } = decodeJwt(token);
+    const token = Cookies.get('identityToken');
+    try {
+      const { iat, exp } = decodeJwt(token!);
 
-    let valid = false;
+      let valid = false;
 
-    if (!iat) return null;
-    if (!exp) valid = true;
-    else valid = Math.floor(new Date().getTime() / 1000) <= exp;
+      if (!iat) return null;
+      if (!exp) valid = true;
+      else valid = Math.floor(new Date().getTime() / 1000) <= exp;
 
-    return valid ? Date.now() / 1000 - iat : null;
+      return valid ? Date.now() / 1000 - iat : null;
+    } catch (err) {
+      return null;
+    }
   };
 
   const updateUser = (user: statsfm.UserPrivate) => {
@@ -81,31 +89,25 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
 
   const logout = () => {
     setUser(null);
-    localStorage.removeItem('token');
+    Cookies.remove('identityToken', {
+      domain: '.stats.fm',
+      path: '/',
+      secure: true,
+    });
+    router.push('/');
   };
 
-  // call this function on callback of an oauth callback
-  const callback = async (token: string) => {
-    setToken(token);
-  };
-
-  // set the token from localstorage on mount
+  // hydrate the user on the frontend if not provided by gssp
   useEffect(() => {
-    const token = localStorage.getItem('token');
-    if (token) setToken(token);
-  }, []);
-
-  // set the token and fetch the user signed in with the token
-  useEffect(() => {
+    const token = Cookies.get('identityToken');
     if (token) {
-      localStorage.setItem('token', token);
       api.http.config.accessToken = token;
-
+      if (user) return;
       (async () => {
         setUser(await api.me.get());
       })();
     }
-  }, [token]);
+  }, []);
 
   const exposed = {
     tokenAge,
@@ -113,11 +115,11 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
     updateUser,
     login,
     logout,
-    callback,
-    token,
   };
 
   return (
-    <AuthContext.Provider value={exposed}>{children}</AuthContext.Provider>
+    <AuthContext.Provider value={exposed}>
+      {props.children}
+    </AuthContext.Provider>
   );
 };

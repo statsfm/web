@@ -475,20 +475,10 @@ type Pronoun = { aliases: string[]; description: string };
 
 interface Props {
   pronouns: Pronoun[];
+  user: UserPrivate;
 }
 
-const ProfilePage: NextPage<Props> = ({ pronouns }) => {
-  const { user } = useAuth();
-  const router = useRouter();
-
-  useEffect(() => {
-    if (!user) {
-      router.push('/login');
-    }
-  }, [router, user]);
-
-  if (!user) return <></>;
-
+const ProfilePage: NextPage<Props> = ({ pronouns, user }) => {
   return (
     <AccountLayout>
       <StateContextProvider user={user}>
@@ -498,16 +488,23 @@ const ProfilePage: NextPage<Props> = ({ pronouns }) => {
   );
 };
 
-export const getServerSideProps: GetServerSideProps<Props> = async () => {
+export const getServerSideProps: GetServerSideProps<Props> = async (ctx) => {
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  const api = useApi();
   const res = await fetch('https://en.pronouns.page/api/pronouns').then((res) =>
     res.json()
   );
-
   const pronouns = Object.values(res).flat() as Pronoun[];
+
+  // POC how the user fetching works
+  const { identityToken } = ctx.req.cookies;
+  api.http.config.accessToken = identityToken;
+  const user = await api.me.get();
 
   return {
     props: {
       pronouns,
+      user,
     },
   };
 };
