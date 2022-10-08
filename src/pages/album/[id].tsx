@@ -123,15 +123,17 @@ const Album: NextPage<Props> = ({ album, tracks }) => {
 
       <Container className="mt-8">
         <Section title="Album content" description="The tracks on this album">
-          <ul className="grid grid-rows-none gap-y-3 md:grid-flow-col md:grid-rows-5">
+          <ul className="grid grid-cols-1 gap-y-3 md:grid-cols-2 lg:grid-cols-3">
             {tracks.map((track, i) => (
               <li key={i}>
                 <Link href={`/track/${track.id}`} passHref>
-                  <a className="flex">
+                  <a className="flex max-w-fit overflow-hidden text-ellipsis">
                     <span className="px-5">{i + 1}.</span>
 
-                    <div>
-                      <h4>{track.name}</h4>
+                    <div className="overflow-hidden">
+                      <h4 className="overflow-hidden text-ellipsis line-clamp-2">
+                        {track.name}
+                      </h4>
                       <p className="m-0">
                         {track.artists.map((artist) => artist.name).join(', ')}
                       </p>
