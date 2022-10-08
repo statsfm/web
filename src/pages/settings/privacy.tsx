@@ -68,7 +68,8 @@ const displayNames: DisplayNamesType = {
 type StatusOptions = 'SAVING' | 'SAVED' | 'ERROR' | 'DEFAULT';
 
 const PrivacyList: FC<{ user: UserPrivate }> = ({ user }) => {
-  const { updateUser } = useAuth();
+  const auth = useAuth();
+  const hydratedUser = auth.user!;
   const api = useApi();
   const [status, setStatus] = useState<StatusOptions>('DEFAULT');
 
@@ -78,15 +79,16 @@ const PrivacyList: FC<{ user: UserPrivate }> = ({ user }) => {
 
   const changed = useMemo(() => {
     return (
-      JSON.stringify(privacySettings) !== JSON.stringify(user.privacySettings)
+      JSON.stringify(privacySettings) !==
+      JSON.stringify(hydratedUser.privacySettings)
     );
-  }, [privacySettings, user]);
+  }, [privacySettings, hydratedUser]);
 
   const save = useCallback(async () => {
     setStatus('SAVING');
     try {
       await api.me.updatePrivacySettings({ ...privacySettings });
-      updateUser({ ...user, privacySettings });
+      auth.updateUser({ ...hydratedUser, privacySettings });
     } catch (error) {
       // eslint-disable-next-line no-console
       console.warn(error);
@@ -104,8 +106,8 @@ const PrivacyList: FC<{ user: UserPrivate }> = ({ user }) => {
           onClick={save}
           disabled={!changed || status === 'SAVING'}
           className={clsx(
-            changed ? 'hover:bg-primary/60 active:bg-primary/40' : '',
-            ' block h-min rounded-md bg-primary py-2 px-4 text-background'
+            changed ? 'hover:!bg-primary/60 active:!bg-primary/40' : '',
+            ' block h-min rounded-md !bg-primary py-2 px-4 text-background'
           )}
         >
           Save
