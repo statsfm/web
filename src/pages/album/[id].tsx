@@ -140,13 +140,21 @@ const Album: NextPage<Props> = ({ album, tracks }) => {
           <li>
             <StatsCard
               value={statsResult.count}
-              label={'total times streamed'}
+              label={
+                statsResult.count
+                  ? 'total times streamed'
+                  : 'login to see your stats'
+              }
             />
           </li>
           <li>
             <StatsCard
               value={statsResult.duration}
-              label={'total minutes streamed'}
+              label={
+                statsResult.duration
+                  ? 'total minutes streamed'
+                  : 'login to see your stats'
+              }
             />
           </li>
           <li>
