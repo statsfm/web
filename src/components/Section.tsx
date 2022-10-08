@@ -68,12 +68,12 @@ export const Section: FC<Props> = ({
           'z-30 flex items-center justify-between bg-background pt-10 pb-3'
         )}
       >
-        <div className="overflow-hidden truncate">
+        <div className="w-full overflow-hidden truncate">
           <h2>{title}</h2>
           <p className="my-0 max-w-[60%] truncate">{description}</p>
         </div>
 
-        <div className="flex gap-2">{toolbar}</div>
+        <div className="flex shrink-0 gap-2">{toolbar}</div>
       </header>
 
       <main {...props}>

@@ -131,7 +131,7 @@ const Album: NextPage<Props> = ({ album, tracks }) => {
                     <span className="px-5">{i + 1}.</span>
 
                     <div className="overflow-hidden">
-                      <h4 className="overflow-hidden text-ellipsis line-clamp-2">
+                      <h4 className="!block overflow-hidden text-ellipsis line-clamp-2">
                         {track.name}
                       </h4>
                       <p className="m-0">
