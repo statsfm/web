@@ -5,6 +5,7 @@ import { useApi, useAuth } from '@/hooks';
 import type { UserSocialMediaConnection } from '@statsfm/statsfm.js';
 import type { NextPage } from 'next';
 import { useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
 
 type PlatformType = {
   status: 'LOADING' | 'CONNECTED' | 'DISCONNECTED';
@@ -127,7 +128,15 @@ const ConnectionsList = () => {
 
 const ConnectionsPage: NextPage = () => {
   const { user } = useAuth();
-  if (!user) return <>Unauthorized</>;
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!user) {
+      router.push('/login');
+    }
+  }, [router, user]);
+
+  if (!user) return <></>;
 
   return (
     <AccountLayout>
