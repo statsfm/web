@@ -219,12 +219,12 @@ const ImportRequiredScope = ({
 // };
 
 // TODO: use i18n strings instead
-const ranges: Record<statsfm.Range, string> = {
-  weeks: '4 weeks',
-  months: '6 months',
-  lifetime: 'lifetime',
-  days: 'days',
-  today: 'today',
+const ranges: Record<statsfm.Range, string | null> = {
+  weeks: 'from the past 4 weeks',
+  months: 'from the past 6 months',
+  lifetime: '',
+  days: null,
+  today: null,
 };
 
 const User: NextPage<Props> = ({ user }) => {
@@ -428,7 +428,7 @@ const User: NextPage<Props> = ({ user }) => {
             title="Top genres"
             description={`${
               isCurrentUser ? 'Your' : `${user.displayName}'s`
-            } top genres from the past ${ranges[range]}`}
+            } top genres ${ranges[range]}`}
           >
             {/* TODO: add some sort of skeleton */}
             <ChipGroup>
@@ -447,7 +447,7 @@ const User: NextPage<Props> = ({ user }) => {
               title="Top tracks"
               description={`${
                 isCurrentUser ? 'Your' : `${user.displayName}'s`
-              } top tracks from the past ${ranges[range]}`}
+              } top tracks ${ranges[range]}`}
               toolbar={
                 <div className="flex gap-1">
                   <SectionToolbarCarouselNavigationButton />
@@ -484,7 +484,7 @@ const User: NextPage<Props> = ({ user }) => {
               // TODO: pluralization
               description={`${
                 isCurrentUser ? 'Your' : `${user.displayName}'s`
-              } top artists from the past ${ranges[range]}`}
+              } top artists ${ranges[range]}`}
               toolbar={
                 <div className="flex gap-1">
                   <SectionToolbarCarouselNavigationButton />
@@ -519,7 +519,7 @@ const User: NextPage<Props> = ({ user }) => {
               title="Top albums"
               description={`${
                 isCurrentUser ? 'Your' : `${user.displayName}'s`
-              } top albums from the past ${ranges[range]}`}
+              } top albums ${ranges[range]}`}
               toolbar={
                 <div className="flex gap-1">
                   <SectionToolbarCarouselNavigationButton />
