@@ -22,7 +22,7 @@ const Login: NextPage = () => {
             className="w-full bg-primary/80 text-black hover:bg-primary/60 active:bg-primary/50"
           >
             <SpotifyIcon className="mr-2 !fill-black" />
-            Continue with spotify
+            Continue with Spotify
           </Button>
         </div>
       </div>
