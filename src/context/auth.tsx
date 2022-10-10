@@ -4,7 +4,6 @@ import { useApi } from '@/hooks';
 import type * as statsfm from '@statsfm/statsfm.js';
 import { decodeJwt } from 'jose';
 import Cookies from 'js-cookie';
-import { useRouter } from 'next/router';
 import type { PropsWithChildren } from 'react';
 import { createContext, useEffect, useState } from 'react';
 
@@ -22,7 +21,6 @@ export const AuthProvider = (
   const [user, setUser] = useState<statsfm.UserPrivate | null>(
     props.user ?? null
   );
-  const router = useRouter();
   const api = useApi();
 
   const login = (redirectUrl?: string) => {
@@ -57,12 +55,12 @@ export const AuthProvider = (
       'user-follow-modify',
     ].join('%20');
 
-    if (redirectUrl) localStorage.setItem('redirectUrl', redirectUrl);
+    if (redirectUrl) Cookies.set('redirectUrl', redirectUrl);
 
     // eslint-disable-next-line no-restricted-globals
     location.replace(
       // eslint-disable-next-line no-restricted-globals
-      `https://api.stats.fm/api/v1/auth/redirect/spotify?scope=${scope}&redirect_uri=${location.origin}/auth/callback`
+      `https://api.stats.fm/api/v1/auth/redirect/spotify?scope=${scope}&redirect_uri=${location.origin}/api/auth/callback`
     );
   };
 
@@ -94,19 +92,22 @@ export const AuthProvider = (
       path: '/',
       secure: true,
     });
-    router.push('/');
   };
 
-  // hydrate the user on the frontend if not provided by gssp
   useEffect(() => {
+    // remove deprecated token from localstorage;
+    localStorage.removeItem('token');
+
+    // set token
     const token = Cookies.get('identityToken');
-    if (token) {
-      api.http.config.accessToken = token;
-      if (user) return;
-      (async () => {
-        setUser(await api.me.get());
-      })();
-    }
+    if (!token) return;
+    api.http.config.accessToken = token;
+
+    // hydrate the user on the frontend if not provided by gssp
+    if (user) return;
+    (async () => {
+      setUser(await api.me.get());
+    })();
   }, []);
 
   const exposed = {

@@ -1,11 +1,26 @@
 import type { NextPage } from 'next';
-import { useAuth } from '@/hooks';
+import { useAuth, useToaster } from '@/hooks';
 import { Container } from '@/components/Container';
 import { Button } from '@/components/Button';
 import { SpotifyIcon } from '@/components/Icons';
+import { useEffect } from 'react';
+import { useRouter } from 'next/router';
+import Cookies from 'js-cookie';
 
 const Login: NextPage = () => {
   const auth = useAuth();
+  const router = useRouter();
+  const toaster = useToaster();
+
+  useEffect(() => {
+    const { redirect, failed } = router.query;
+    if (failed) {
+      toaster.error('Something went wrong trying to login. Please try again.');
+    }
+
+    if (!redirect) return;
+    Cookies.set('redirectUrl', redirect.toString());
+  }, [router]);
 
   return (
     <Container className="flex min-h-[90vh] pt-24">
