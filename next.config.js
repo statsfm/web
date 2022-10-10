@@ -49,6 +49,10 @@ module.exports = withBundleAnalyzer({
   async rewrites() {
     return [
       {
+        source: '/account/connections',
+        destination: '/settings/connections',
+      },
+      {
         source: '/:id',
         destination: '/user/:id',
       },
