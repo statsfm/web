@@ -62,7 +62,7 @@ const Home: NextPage = () => {
   return (
     <>
       <Title reverse noDivider>
-        (Formerly Spotistats for spotify)
+        (Formerly Spotistats for Spotify)
       </Title>
       <Container className="flex flex-col justify-between gap-5 pt-20 lg:flex-row">
         <div className="my-12 w-full pt-10 lg:my-28 lg:w-5/12">

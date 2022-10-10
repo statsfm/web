@@ -5,9 +5,11 @@ export const Title: FC<
   PropsWithChildren<{ noDivider?: boolean; reverse?: boolean }>
 > = ({ noDivider, children, reverse }) => {
   const divider = children && !noDivider ? '|' : '';
-  const title = reverse
-    ? `stats.fm ${divider} ${children || ''}`
-    : `${children || ''} ${divider} stats.fm`;
+
+  let titleGroups = [children?.toString(), divider, 'stats.fm'];
+  if (reverse) titleGroups = titleGroups.reverse();
+
+  const title = titleGroups.join(' ').trim();
 
   return (
     <Head>
