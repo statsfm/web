@@ -32,12 +32,22 @@ module.exports = withBundleAnalyzer({
       },
     ],
   },
-  async rewrites() {
+  async redirects() {
     return [
       {
-        source: '/account/privacy',
-        destination: '/settings/privacy',
+        source: '/account/:path*',
+        destination: '/settings/:path*',
+        permanent: false,
       },
+      {
+        source: '/settings',
+        destination: '/settings/profile',
+        permanent: false,
+      },
+    ];
+  },
+  async rewrites() {
+    return [
       {
         source: '/:id',
         destination: '/user/:id',
