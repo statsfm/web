@@ -16,8 +16,9 @@ export const NavBar = () => {
   const router = useRouter();
 
   const handleLogOutClick = () => {
-    logout();
-    router.push('/');
+    router.push('/').then(() => {
+      logout();
+    });
   };
 
   return (
