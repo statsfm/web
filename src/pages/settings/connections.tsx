@@ -1,11 +1,13 @@
 import { AccountLayout } from '@/components/settings/Layout';
 import { SettingsHeader } from '@/components/settings/SettingsHeader';
 import { Button } from '@/components/Button';
-import { useApi, useAuth } from '@/hooks';
-import type { UserSocialMediaConnection } from '@statsfm/statsfm.js';
-import type { NextPage } from 'next';
+import { useApi } from '@/hooks';
+import type {
+  UserPrivate,
+  UserSocialMediaConnection,
+} from '@statsfm/statsfm.js';
+import type { GetServerSideProps, NextPage } from 'next';
 import { useEffect, useState } from 'react';
-import { useRouter } from 'next/router';
 
 type PlatformType = {
   status: 'LOADING' | 'CONNECTED' | 'DISCONNECTED';
@@ -126,18 +128,26 @@ const ConnectionsList = () => {
   );
 };
 
-const ConnectionsPage: NextPage = () => {
-  const { user } = useAuth();
-  const router = useRouter();
+type Props = {
+  user: UserPrivate;
+};
 
-  useEffect(() => {
-    if (!user) {
-      router.push('/login');
-    }
-  }, [router, user]);
+export const getServerSideProps: GetServerSideProps<Props> = async (ctx) => {
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  const api = useApi();
 
-  if (!user) return <></>;
+  const { identityToken } = ctx.req.cookies;
+  api.http.config.accessToken = identityToken;
+  const user = await api.me.get();
 
+  return {
+    props: {
+      user,
+    },
+  };
+};
+
+const ConnectionsPage: NextPage<Props> = () => {
   return (
     <AccountLayout>
       <ConnectionsList />

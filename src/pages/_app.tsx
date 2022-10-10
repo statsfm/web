@@ -10,6 +10,7 @@ import { GoogleAnalytics } from 'nextjs-google-analytics';
 import { ToasterContainer } from '@/context/toaster';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
+import type { UserPrivate } from '@statsfm/statsfm.js';
 
 const Ogp = () => (
   <>
@@ -34,7 +35,7 @@ const Ogp = () => (
 );
 
 // TODO: we'll probably rewrite the auth logic to use a state management store instead of context, but we implemented this temporary for development
-const App = ({ Component, pageProps }: AppProps) => {
+const App = ({ Component, pageProps }: AppProps<{ user?: UserPrivate }>) => {
   const router = useRouter();
   // only show default ogp tags for routes who don't define their own
   const showOgp = ![
@@ -46,7 +47,7 @@ const App = ({ Component, pageProps }: AppProps) => {
 
   return (
     <>
-      <AuthProvider>
+      <AuthProvider user={pageProps.user}>
         <Head>
           <title>stats.fm</title>
           <meta property="og:site_name" content="stats.fm" />

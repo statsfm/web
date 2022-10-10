@@ -7,10 +7,9 @@ import { useApi, useAuth } from '@/hooks';
 import { Switch } from '@headlessui/react';
 import type { UserPrivacySettings, UserPrivate } from '@statsfm/statsfm.js';
 import clsx from 'clsx';
-import type { NextPage } from 'next';
+import type { GetServerSideProps, NextPage } from 'next';
 import type { FC } from 'react';
-import { useEffect, useCallback, useMemo, useState } from 'react';
-import { useRouter } from 'next/router';
+import { useCallback, useMemo, useState } from 'react';
 
 type DisplayNamesType = {
   [key in keyof UserPrivacySettings | 'leaderboards']: {
@@ -69,7 +68,8 @@ const displayNames: DisplayNamesType = {
 type StatusOptions = 'SAVING' | 'SAVED' | 'ERROR' | 'DEFAULT';
 
 const PrivacyList: FC<{ user: UserPrivate }> = ({ user }) => {
-  const { updateUser } = useAuth();
+  const auth = useAuth();
+  const hydratedUser = auth.user!;
   const api = useApi();
   const [status, setStatus] = useState<StatusOptions>('DEFAULT');
 
@@ -79,15 +79,16 @@ const PrivacyList: FC<{ user: UserPrivate }> = ({ user }) => {
 
   const changed = useMemo(() => {
     return (
-      JSON.stringify(privacySettings) !== JSON.stringify(user.privacySettings)
+      JSON.stringify(privacySettings) !==
+      JSON.stringify(hydratedUser.privacySettings)
     );
-  }, [privacySettings, user]);
+  }, [privacySettings, hydratedUser]);
 
   const save = useCallback(async () => {
     setStatus('SAVING');
     try {
       await api.me.updatePrivacySettings({ ...privacySettings });
-      updateUser({ ...user, privacySettings });
+      auth.updateUser({ ...hydratedUser, privacySettings });
     } catch (error) {
       // eslint-disable-next-line no-console
       console.warn(error);
@@ -105,8 +106,8 @@ const PrivacyList: FC<{ user: UserPrivate }> = ({ user }) => {
           onClick={save}
           disabled={!changed || status === 'SAVING'}
           className={clsx(
-            changed ? 'hover:bg-primary/60 active:bg-primary/40' : '',
-            ' block h-min rounded-md bg-primary py-2 px-4 text-background'
+            changed ? 'hover:!bg-primary/60 active:!bg-primary/40' : '',
+            ' block h-min rounded-md !bg-primary py-2 px-4 text-background'
           )}
         >
           Save
@@ -160,18 +161,26 @@ const PrivacyList: FC<{ user: UserPrivate }> = ({ user }) => {
   );
 };
 
-const PrivacyPage: NextPage = () => {
-  const { user } = useAuth();
-  const router = useRouter();
+type Props = {
+  user: UserPrivate;
+};
 
-  useEffect(() => {
-    if (!user) {
-      router.push('/login');
-    }
-  }, [router, user]);
+export const getServerSideProps: GetServerSideProps<Props> = async (ctx) => {
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  const api = useApi();
 
-  if (!user) return <></>;
+  const { identityToken } = ctx.req.cookies;
+  api.http.config.accessToken = identityToken;
+  const user = await api.me.get();
 
+  return {
+    props: {
+      user,
+    },
+  };
+};
+
+const PrivacyPage: NextPage<Props> = ({ user }) => {
   return (
     <AccountLayout>
       <PrivacyList user={user} />

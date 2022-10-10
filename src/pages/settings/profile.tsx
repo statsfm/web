@@ -52,6 +52,8 @@ const StateContextProvider: FC<PropsWithChildren<{ user: UserPrivate }>> = ({
 }) => {
   const api = useApi();
   const { updateUser } = useAuth();
+  const auth = useAuth();
+  const hydratedUser = auth.user!;
 
   const [files, setFiles] = useState<FileList | null>(null);
   const [displayName, setDisplayName] = useState<string>(user.displayName);
@@ -68,11 +70,11 @@ const StateContextProvider: FC<PropsWithChildren<{ user: UserPrivate }>> = ({
   const changed = useMemo(
     () =>
       (files?.length ?? 0) > 0 ||
-      displayName !== user.displayName ||
-      customId !== user.customId ||
-      bio !== user.profile?.bio ||
-      pronouns !== (user.profile?.pronouns ?? 'none'),
-    [files, displayName, customId, bio, pronouns, user]
+      displayName !== hydratedUser.displayName ||
+      customId !== hydratedUser.customId ||
+      bio !== hydratedUser.profile?.bio ||
+      pronouns !== (hydratedUser.profile?.pronouns ?? 'none'),
+    [files, displayName, customId, bio, pronouns, hydratedUser]
   );
 
   const uploadAvatar = useCallback(async () => {
@@ -103,7 +105,7 @@ const StateContextProvider: FC<PropsWithChildren<{ user: UserPrivate }>> = ({
       // @ts-expect-error
       await api.me.updateProfile({ bio, pronouns: actualPronouns });
       await api.me.updateMe({
-        ...user,
+        ...hydratedUser,
         displayName,
         customId,
       });
@@ -111,10 +113,10 @@ const StateContextProvider: FC<PropsWithChildren<{ user: UserPrivate }>> = ({
       const url = await uploadAvatar();
 
       updateUser({
-        ...user,
+        ...hydratedUser,
         displayName,
         customId,
-        image: url ?? user.image,
+        image: url ?? hydratedUser.image,
         profile: { bio, pronouns: pronouns || undefined },
       });
     } catch (e) {
@@ -377,8 +379,8 @@ const AccountPrivacyInfoForm: FC<{
       <SettingsHeader title="Profile">
         <Button
           className={clsx(
-            changed ? 'hover:bg-primary/60 active:bg-primary/40' : '',
-            ' block h-min rounded-md bg-primary py-2 px-4 text-background'
+            changed ? 'hover:!bg-primary/60 active:!bg-primary/40' : '',
+            ' block h-min rounded-md !bg-primary py-2 px-4 text-background'
           )}
           onClick={save}
           disabled={
@@ -475,20 +477,10 @@ type Pronoun = { aliases: string[]; description: string };
 
 interface Props {
   pronouns: Pronoun[];
+  user: UserPrivate;
 }
 
-const ProfilePage: NextPage<Props> = ({ pronouns }) => {
-  const { user } = useAuth();
-  const router = useRouter();
-
-  useEffect(() => {
-    if (!user) {
-      router.push('/login');
-    }
-  }, [router, user]);
-
-  if (!user) return <></>;
-
+const ProfilePage: NextPage<Props> = ({ pronouns, user }) => {
   return (
     <AccountLayout>
       <StateContextProvider user={user}>
@@ -498,16 +490,23 @@ const ProfilePage: NextPage<Props> = ({ pronouns }) => {
   );
 };
 
-export const getServerSideProps: GetServerSideProps<Props> = async () => {
+export const getServerSideProps: GetServerSideProps<Props> = async (ctx) => {
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  const api = useApi();
   const res = await fetch('https://en.pronouns.page/api/pronouns').then((res) =>
     res.json()
   );
-
   const pronouns = Object.values(res).flat() as Pronoun[];
+
+  // POC how the user fetching works
+  const { identityToken } = ctx.req.cookies;
+  api.http.config.accessToken = identityToken;
+  const user = await api.me.get();
 
   return {
     props: {
       pronouns,
+      user,
     },
   };
 };

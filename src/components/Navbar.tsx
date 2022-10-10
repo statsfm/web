@@ -4,6 +4,7 @@ import { useAuth } from '@/hooks';
 import { MdAccountCircle, MdExitToApp, MdManageAccounts } from 'react-icons/md';
 import { Transition } from '@headlessui/react';
 import { event } from 'nextjs-google-analytics';
+import { useRouter } from 'next/router';
 import { Logo } from './Logo';
 import { Avatar } from './Avatar/Avatar';
 import { Menu } from './Menu';
@@ -12,9 +13,11 @@ import { Button } from './Button';
 
 export const NavBar = () => {
   const { user, logout, login } = useAuth();
+  const router = useRouter();
 
   const handleLogOutClick = () => {
     logout();
+    router.push('/');
   };
 
   return (

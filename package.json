@@ -24,6 +24,7 @@
     "gsap": "^3.11.2",
     "jose": "^4.9.3",
     "js-confetti": "^0.10.2",
+    "js-cookie": "^3.0.1",
     "linkify-react": "^3.0.4",
     "linkifyjs": "^3.0.5",
     "next": "^12.3.0",

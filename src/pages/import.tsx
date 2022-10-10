@@ -5,7 +5,6 @@ import { useApi, useAuth, useToaster } from '@/hooks';
 import type { UserImport } from '@statsfm/statsfm.js';
 import dayjs from 'dayjs';
 import type { NextPage } from 'next';
-import { useRouter } from 'next/router';
 import type { ChangeEvent, FC } from 'react';
 import { useCallback, useEffect, useState } from 'react';
 
@@ -67,16 +66,7 @@ const ImportPage: NextPage<Props> = () => {
   const { user } = useAuth();
   const api = useApi();
   const toaster = useToaster();
-
   const [refetchCounter, setRefetchCounter] = useState(0);
-  const router = useRouter();
-
-  useEffect(() => {
-    if (!user) {
-      router.push('/login');
-    }
-  }, [router, user]);
-
   if (!user) return <></>;
 
   // TODO: this function is a direct port of the vue one, it can do with some improvments and refactoring

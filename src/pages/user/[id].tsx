@@ -78,7 +78,7 @@ import { CrownIcon } from '@/components/Icons';
 // };
 
 interface Props {
-  user: statsfm.UserPublic;
+  userProfile: statsfm.UserPublic;
 }
 
 export const getServerSideProps: GetServerSideProps<Props> = async (ctx) => {
@@ -90,8 +90,8 @@ export const getServerSideProps: GetServerSideProps<Props> = async (ctx) => {
     throw new Error('no param id recieved');
   }
 
-  const user = await api.users.get(id).catch(() => {});
-  if (!user) return { notFound: true };
+  const userProfile = await api.users.get(id).catch(() => {});
+  if (!userProfile) return { notFound: true };
 
   // TODO: extract this to a util function
   const oembedUrl = encodeURIComponent(`https://stats.fm${ctx.resolvedUrl}`);
@@ -102,7 +102,7 @@ export const getServerSideProps: GetServerSideProps<Props> = async (ctx) => {
 
   return {
     props: {
-      user,
+      userProfile,
     },
   };
 };
@@ -227,7 +227,7 @@ const ranges: Record<statsfm.Range, string | null> = {
   today: null,
 };
 
-const User: NextPage<Props> = ({ user }) => {
+const User: NextPage<Props> = ({ userProfile: user }) => {
   const api = useApi();
   const { user: currentUser } = useAuth();
   const [range, setRange] = useState<statsfm.Range>(statsfm.Range.WEEKS);
