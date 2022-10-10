@@ -16,9 +16,7 @@ export const NavBar = () => {
   const router = useRouter();
 
   const handleLogOutClick = () => {
-    router.push('/').then(() => {
-      logout();
-    });
+    logout();
   };
 
   return (
@@ -104,7 +102,7 @@ export const NavBar = () => {
             )}
           </Menu>
         ) : (
-          <Button onClick={() => login()} className="my-2">
+          <Button onClick={() => login(router.asPath)} className="my-2">
             Log in
           </Button>
         )}
