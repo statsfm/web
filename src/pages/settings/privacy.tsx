@@ -10,7 +10,8 @@ import clsx from 'clsx';
 import type { GetServerSideProps, NextPage } from 'next';
 import type { FC } from 'react';
 import { useCallback, useMemo, useState } from 'react';
-import type { SSRProps } from '@/types/ssrProps';
+import type { SSRProps } from '@/utils/ssrUtils';
+import { fetchUser } from '@/utils/ssrUtils';
 
 type DisplayNamesType = {
   [key in keyof UserPrivacySettings | 'leaderboards']: {
@@ -163,12 +164,7 @@ const PrivacyList: FC<{ user: UserPrivate }> = ({ user }) => {
 };
 
 export const getServerSideProps: GetServerSideProps<SSRProps> = async (ctx) => {
-  // eslint-disable-next-line react-hooks/rules-of-hooks
-  const api = useApi();
-
-  const { identityToken } = ctx.req.cookies;
-  api.http.config.accessToken = identityToken;
-  const user = await api.me.get();
+  const user = await fetchUser(ctx);
 
   return {
     props: {

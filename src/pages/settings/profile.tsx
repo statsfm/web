@@ -28,7 +28,8 @@ import {
   MdCancel,
   MdCheckCircle,
 } from 'react-icons/md';
-import type { SSRProps } from '@/types/ssrProps';
+import type { SSRProps } from '@/utils/ssrUtils';
+import { fetchUser } from '@/utils/ssrUtils';
 
 type StatusOptions = 'SAVING' | 'SAVED' | 'ERROR' | 'DEFAULT' | 'DELETING';
 type UrlAvailableOptions = 'LOADING' | 'AVAILABLE' | 'UNAVAILABLE';
@@ -480,16 +481,11 @@ type Props = SSRProps<{
 
 export const getServerSideProps: GetServerSideProps<Props> = async (ctx) => {
   // eslint-disable-next-line react-hooks/rules-of-hooks
-  const api = useApi();
   const res = await fetch('https://en.pronouns.page/api/pronouns').then((res) =>
     res.json()
   );
   const pronouns = Object.values(res).flat() as Pronoun[];
-
-  // POC how the user fetching works
-  const { identityToken } = ctx.req.cookies;
-  api.http.config.accessToken = identityToken;
-  const user = await api.me.get();
+  const user = await fetchUser(ctx);
 
   return {
     props: {
