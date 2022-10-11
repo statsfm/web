@@ -8,7 +8,7 @@ import type { TopArtist } from '@statsfm/statsfm.js';
 import clsx from 'clsx';
 import { gsap, Power0, Power1 } from 'gsap';
 import { ScrollTrigger } from 'gsap/dist/ScrollTrigger';
-import type { NextPage } from 'next';
+import type { GetServerSideProps, NextPage } from 'next';
 import Link from 'next/link';
 import type { FC, PropsWithChildren } from 'react';
 import {
@@ -25,6 +25,8 @@ import {
   MdDoNotDisturbAlt,
   MdOutlineDoDisturbAlt,
 } from 'react-icons/md';
+import type { SSRProps } from '@/utils/ssrUtils';
+import { fetchUser } from '@/utils/ssrUtils';
 
 // eslint-disable-next-line react/display-name
 const AdsBackground = forwardRef<HTMLDivElement>((_, ref) => {
@@ -325,10 +327,7 @@ const PlusScrollAnimation: FC = () => {
       </Container>
 
       <AdsBackground ref={adsBegoneBackgroundRef} />
-      <div
-        id="soulmatesBg"
-        className="absolute inset-x-0 top-0 z-10 opacity-40"
-      >
+      <div id="soulmatesBg" className="absolute inset-x-0 top-0 z-10 opacity-0">
         <div className="absolute inset-y-0 right-0 h-full w-1/2 bg-gradient-to-l from-black/50 to-transparent" />
         <div className="absolute inset-y-0 left-0 h-full w-1/2 bg-gradient-to-r from-black/50 to-transparent" />
         <div className="flex flex-row gap-8">
@@ -406,15 +405,28 @@ const HeaderBubbles: FC<{ topArtists: TopArtist[] }> = ({ topArtists }) => {
   );
 };
 
+export const getServerSideProps: GetServerSideProps<SSRProps> = async (ctx) => {
+  const user = await fetchUser(ctx);
+
+  return {
+    props: {
+      user,
+    },
+  };
+};
+
 const PlusPage: NextPage = () => {
-  const { user } = useAuth();
   const api = useApi();
   const [topArtists, setTopArtists] = useState<TopArtist[]>([]);
+  const { user } = useAuth();
 
   useEffect(() => {
-    // TODO: add default top artists here
     if (user) {
       api.users.topArtists(user.id, { range: Range.WEEKS }).then((res) => {
+        setTopArtists(res);
+      });
+    } else {
+      api.charts.topArtists({ range: Range.WEEKS }).then((res) => {
         setTopArtists(res);
       });
     }
