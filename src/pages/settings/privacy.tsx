@@ -10,6 +10,7 @@ import clsx from 'clsx';
 import type { GetServerSideProps, NextPage } from 'next';
 import type { FC } from 'react';
 import { useCallback, useMemo, useState } from 'react';
+import type { SSRProps } from '@/types/ssrProps';
 
 type DisplayNamesType = {
   [key in keyof UserPrivacySettings | 'leaderboards']: {
@@ -161,11 +162,7 @@ const PrivacyList: FC<{ user: UserPrivate }> = ({ user }) => {
   );
 };
 
-type Props = {
-  user: UserPrivate;
-};
-
-export const getServerSideProps: GetServerSideProps<Props> = async (ctx) => {
+export const getServerSideProps: GetServerSideProps<SSRProps> = async (ctx) => {
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const api = useApi();
 
@@ -180,7 +177,10 @@ export const getServerSideProps: GetServerSideProps<Props> = async (ctx) => {
   };
 };
 
-const PrivacyPage: NextPage<Props> = ({ user }) => {
+const PrivacyPage: NextPage = () => {
+  const { user } = useAuth();
+  if (!user) return null;
+
   return (
     <AccountLayout>
       <PrivacyList user={user} />

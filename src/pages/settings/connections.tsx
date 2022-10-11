@@ -1,13 +1,11 @@
 import { AccountLayout } from '@/components/settings/Layout';
 import { SettingsHeader } from '@/components/settings/SettingsHeader';
 import { Button } from '@/components/Button';
-import { useApi } from '@/hooks';
-import type {
-  UserPrivate,
-  UserSocialMediaConnection,
-} from '@statsfm/statsfm.js';
+import { useApi, useAuth } from '@/hooks';
+import type { UserSocialMediaConnection } from '@statsfm/statsfm.js';
 import type { GetServerSideProps, NextPage } from 'next';
 import { useEffect, useState } from 'react';
+import type { SSRProps } from '@/types/ssrProps';
 
 type PlatformType = {
   status: 'LOADING' | 'CONNECTED' | 'DISCONNECTED';
@@ -128,11 +126,7 @@ const ConnectionsList = () => {
   );
 };
 
-type Props = {
-  user: UserPrivate;
-};
-
-export const getServerSideProps: GetServerSideProps<Props> = async (ctx) => {
+export const getServerSideProps: GetServerSideProps<SSRProps> = async (ctx) => {
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const api = useApi();
 
@@ -147,7 +141,9 @@ export const getServerSideProps: GetServerSideProps<Props> = async (ctx) => {
   };
 };
 
-const ConnectionsPage: NextPage<Props> = () => {
+const ConnectionsPage: NextPage = () => {
+  const { user } = useAuth();
+  if (!user) return null;
   return (
     <AccountLayout>
       <ConnectionsList />

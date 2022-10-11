@@ -28,6 +28,7 @@ import {
   MdCancel,
   MdCheckCircle,
 } from 'react-icons/md';
+import type { SSRProps } from '@/types/ssrProps';
 
 type StatusOptions = 'SAVING' | 'SAVED' | 'ERROR' | 'DEFAULT' | 'DELETING';
 type UrlAvailableOptions = 'LOADING' | 'AVAILABLE' | 'UNAVAILABLE';
@@ -52,8 +53,6 @@ const StateContextProvider: FC<PropsWithChildren<{ user: UserPrivate }>> = ({
 }) => {
   const api = useApi();
   const { updateUser } = useAuth();
-  const auth = useAuth();
-  const hydratedUser = auth.user!;
 
   const [files, setFiles] = useState<FileList | null>(null);
   const [displayName, setDisplayName] = useState<string>(user.displayName);
@@ -70,11 +69,11 @@ const StateContextProvider: FC<PropsWithChildren<{ user: UserPrivate }>> = ({
   const changed = useMemo(
     () =>
       (files?.length ?? 0) > 0 ||
-      displayName !== hydratedUser.displayName ||
-      customId !== hydratedUser.customId ||
-      bio !== hydratedUser.profile?.bio ||
-      pronouns !== (hydratedUser.profile?.pronouns ?? 'none'),
-    [files, displayName, customId, bio, pronouns, hydratedUser]
+      displayName !== user.displayName ||
+      customId !== user.customId ||
+      bio !== user.profile?.bio ||
+      pronouns !== (user.profile?.pronouns ?? 'none'),
+    [files, displayName, customId, bio, pronouns, user]
   );
 
   const uploadAvatar = useCallback(async () => {
@@ -105,7 +104,7 @@ const StateContextProvider: FC<PropsWithChildren<{ user: UserPrivate }>> = ({
       // @ts-expect-error
       await api.me.updateProfile({ bio, pronouns: actualPronouns });
       await api.me.updateMe({
-        ...hydratedUser,
+        ...user,
         displayName,
         customId,
       });
@@ -113,10 +112,10 @@ const StateContextProvider: FC<PropsWithChildren<{ user: UserPrivate }>> = ({
       const url = await uploadAvatar();
 
       updateUser({
-        ...hydratedUser,
+        ...user,
         displayName,
         customId,
-        image: url ?? hydratedUser.image,
+        image: url ?? user.image,
         profile: { bio, pronouns: pronouns || undefined },
       });
     } catch (e) {
@@ -475,20 +474,9 @@ const AccountPrivacyInfoForm: FC<{
 
 type Pronoun = { aliases: string[]; description: string };
 
-interface Props {
+type Props = SSRProps<{
   pronouns: Pronoun[];
-  user: UserPrivate;
-}
-
-const ProfilePage: NextPage<Props> = ({ pronouns, user }) => {
-  return (
-    <AccountLayout>
-      <StateContextProvider user={user}>
-        <AccountPrivacyInfoForm pronouns={pronouns} user={user} />
-      </StateContextProvider>
-    </AccountLayout>
-  );
-};
+}>;
 
 export const getServerSideProps: GetServerSideProps<Props> = async (ctx) => {
   // eslint-disable-next-line react-hooks/rules-of-hooks
@@ -509,6 +497,19 @@ export const getServerSideProps: GetServerSideProps<Props> = async (ctx) => {
       user,
     },
   };
+};
+
+const ProfilePage: NextPage<Props> = ({ pronouns }) => {
+  const { user } = useAuth();
+  if (!user) return null;
+
+  return (
+    <AccountLayout>
+      <StateContextProvider user={user}>
+        <AccountPrivacyInfoForm pronouns={pronouns} user={user} />
+      </StateContextProvider>
+    </AccountLayout>
+  );
 };
 
 export default ProfilePage;
