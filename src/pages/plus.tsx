@@ -107,16 +107,17 @@ const Heading: FC<{
   );
 };
 
-const PhoneScreen: FC<{ src: string; id: string; alt?: string }> = ({
+const PhoneScreen: FC<{ src: string; id: number; alt?: string }> = ({
   id,
   src,
   alt,
 }) => {
   return (
     <img
-      id={id}
+      id={`screen${id}`}
       src={src}
       alt={alt || 'phone screen'}
+      style={{ zIndex: id }}
       className="absolute inset-x-4 top-4 z-[34] h-[calc(100%-32px)] w-[calc(100%-32px)]"
     />
   );
@@ -266,11 +267,11 @@ const PlusScrollAnimation: FC = () => {
               className="relative z-40 flex shrink-0 justify-center"
             >
               <div className="relative h-min w-80 overflow-hidden rounded-[52px]">
-                <PhoneScreen id="screen5" src="/images/screen1.png" />
-                <PhoneScreen id="screen4" src="/images/screen3.png" />
-                <PhoneScreen id="screen3" src="/images/screen3.png" />
-                <PhoneScreen id="screen2" src="/images/screen2.png" />
-                <PhoneScreen id="screen1" src="/images/screen1.png" />
+                <PhoneScreen id={5} src="/images/screen1.png" />
+                <PhoneScreen id={4} src="/images/screen3.png" />
+                <PhoneScreen id={3} src="/images/screen3.png" />
+                <PhoneScreen id={2} src="/images/screen2.png" />
+                <PhoneScreen id={1} src="/images/screen1.png" />
 
                 <img
                   src="/images/phone_frame.png"
@@ -305,7 +306,7 @@ const PlusScrollAnimation: FC = () => {
         <Snackbar ref={snackbarRef}>
           <p>Get these and even more perks available with plus.</p>
           <Link href="/gift">
-            <a className="block rounded-lg bg-plus/80 px-3 py-1.5 text-center font-medium text-black transition-colors hover:bg-plus/90 active:bg-plus/75">
+            <a className="block rounded-lg bg-plus px-3 py-1.5 text-center font-medium text-black transition-colors hover:bg-plus/90 active:bg-plus/75">
               Get stats.fm plus!
             </a>
           </Link>
@@ -435,9 +436,9 @@ const PlusPage: NextPage = () => {
   return (
     <>
       <Title>Plus</Title>
-      <Container className="flex flex-col justify-between gap-5 pt-20 lg:flex-row">
-        <div className="my-12 w-full pt-10 lg:my-28 lg:w-4/12">
-          <h1 className="flex items-center text-5xl leading-none">
+      <Container className="relative flex flex-col justify-between gap-5 overflow-hidden pt-20 lg:flex-row">
+        <div className="z-10 my-12 w-full pt-32 pb-10 sm:pb-0 md:pt-10 lg:my-28 lg:w-4/12">
+          <h1 className="flex items-center text-4xl leading-none sm:text-5xl">
             stats.fm Plus{' '}
             <CrownIcon className="ml-3 inline-block h-auto w-12" />
           </h1>
@@ -452,15 +453,15 @@ const PlusPage: NextPage = () => {
             </a>
           </Link>
         </div>
-        <div className="ml-auto flex items-center">
+        <div className="absolute z-0 ml-auto flex items-center after:absolute after:h-full after:w-full after:bg-gradient-to-tr after:from-background after:to-background/40 lg:relative lg:after:hidden">
           <HeaderBubbles topArtists={topArtists} />
         </div>
       </Container>
       <PlusScrollAnimation />
       <Container className="py-28">
         <h2 className="mb-24 w-full text-center text-4xl">Pick your tier</h2>
-        <div className="flex h-min justify-center gap-10">
-          <div className="flex w-[22rem] flex-col rounded-2xl bg-foreground py-7 px-8">
+        <div className="flex h-min flex-row justify-center gap-10">
+          <div className="hidden w-[22rem] flex-col rounded-2xl bg-foreground py-7 px-8 sm:flex">
             <div className="flex items-center">
               <h3 className="text-xl">Free</h3>
             </div>
