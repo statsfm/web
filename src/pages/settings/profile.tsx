@@ -102,7 +102,6 @@ const StateContextProvider: FC<PropsWithChildren<{ user: UserPrivate }>> = ({
       const actualPronouns: string | null | undefined =
         pronouns === 'none' ? null : pronouns;
 
-      // @ts-expect-error
       await api.me.updateProfile({ bio, pronouns: actualPronouns });
       await api.me.updateMe({
         ...user,

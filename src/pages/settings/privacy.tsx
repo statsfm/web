@@ -60,6 +60,10 @@ const displayNames: DisplayNamesType = {
     description:
       'Statistics such as number of streams, minutes streamed and charts using that data.',
   },
+  friends: {
+    title: 'Friends',
+    description: 'Your friends.',
+  },
   leaderboards: {
     title: 'Leaderboards',
     description:

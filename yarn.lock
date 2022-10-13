@@ -391,10 +391,10 @@
   resolved "https://registry.yarnpkg.com/@rushstack/eslint-patch/-/eslint-patch-1.1.4.tgz#0c8b74c50f29ee44f423f7416829c0bf8bb5eb27"
   integrity sha512-LwzQKA4vzIct1zNZzBmRKI9QuNpLgTQMEjsQLf3BXuGYb3QPTP4Yjf6mkdX+X1mYttZ808QpOwAzZjv28kq7DA==
 
-"@statsfm/statsfm.js@^1.14.7":
-  version "1.14.7"
-  resolved "https://registry.yarnpkg.com/@statsfm/statsfm.js/-/statsfm.js-1.14.7.tgz#157618afe4012ae9a186442c1bcbf79507f56ef5"
-  integrity sha512-Ojysfzr0Y2piFsADQOFgmG6Z6mpwWDvfyATMYtlAr/hHRK/P181wZdauidxZ5C/cJFnvX9xiaE6OF06Y1atvyA==
+"@statsfm/statsfm.js@^1.16.2":
+  version "1.16.2"
+  resolved "https://registry.yarnpkg.com/@statsfm/statsfm.js/-/statsfm.js-1.16.2.tgz#a11de13c0a4f986a2b74a01ad30c42623157bf7f"
+  integrity sha512-81i+KwZRm78I8zNkp3JS00NvQ6jjgnJOwjteEcX9jSg5PF6UnsWnytin8VSPCvEemzAKp+VB9LDQlHTgAbjXyQ==
   dependencies:
     isomorphic-unfetch "^3.1.0"
 
