@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useState } from 'react';
-import type { PropsWithChildren } from 'react';
+import type { PropsWithChildren, FC } from 'react';
 import dayjs from 'dayjs';
 import type { GetServerSideProps, NextPage } from 'next';
 import * as statsfm from '@statsfm/statsfm.js';
@@ -25,6 +25,11 @@ import Link from 'next/link';
 import { Title } from '@/components/Title';
 import Head from 'next/head';
 import { CrownIcon } from '@/components/Icons';
+import { Button } from '@/components/Button';
+import { FriendStatus } from '@statsfm/statsfm.js';
+import clsx from 'clsx';
+import type { SSRProps } from '@/utils/ssrUtils';
+import { fetchUser } from '@/utils/ssrUtils';
 
 // const ListeningClockChart = () => {
 //   const config = {
@@ -77,9 +82,10 @@ import { CrownIcon } from '@/components/Icons';
 //   return <PolarArea {...config} />;
 // };
 
-interface Props {
+type Props = SSRProps & {
   userProfile: statsfm.UserPublic;
-}
+  friendStatus: FriendStatus;
+};
 
 export const getServerSideProps: GetServerSideProps<Props> = async (ctx) => {
   // eslint-disable-next-line react-hooks/rules-of-hooks
@@ -93,6 +99,9 @@ export const getServerSideProps: GetServerSideProps<Props> = async (ctx) => {
   const userProfile = await api.users.get(id).catch(() => {});
   if (!userProfile) return { notFound: true };
 
+  const user = await fetchUser(ctx);
+  const friendStatus = await api.me.friendStatus(userProfile.id);
+
   // TODO: extract this to a util function
   const oembedUrl = encodeURIComponent(`https://stats.fm${ctx.resolvedUrl}`);
   ctx.res.setHeader(
@@ -103,15 +112,17 @@ export const getServerSideProps: GetServerSideProps<Props> = async (ctx) => {
   return {
     props: {
       userProfile,
+      user,
+      friendStatus,
     },
   };
 };
 
 // TODO: Link to /plus
 const PlusBadge = () => (
-  <span className="mx-auto flex w-fit items-center rounded-md bg-plus/10 px-1.5 py-0.5 text-sm text-plus md:mx-0">
-    <CrownIcon className="mr-1 h-4 w-3.5" />
-    stats.fm Plus
+  <span className="mx-auto flex w-fit items-center rounded-md bg-background px-1.5 py-0.5 text-lg text-plus md:mx-0">
+    <CrownIcon className="mr-1 w-5" />
+    Plus
   </span>
 );
 
@@ -218,6 +229,72 @@ const ImportRequiredScope = ({
 //   return <>{children}</>;
 // };
 
+const ButtonFrame: FC<
+  PropsWithChildren<{ red?: boolean; handler: () => void }>
+> = ({ red, children, handler }) => (
+  <Button
+    className={clsx(
+      red ? 'text-red-500' : '',
+      'mx-0 mt-2 w-min !bg-transparent !p-0 transition-opacity hover:opacity-80'
+    )}
+    onClick={handler}
+  >
+    {children}
+  </Button>
+);
+
+const FriendsButton: FC<{
+  friendUser: statsfm.UserPublic;
+  initialFriendStatus: statsfm.FriendStatus;
+}> = ({ friendUser, initialFriendStatus }) => {
+  const api = useApi();
+  const [friendStatus, setFriendStatus] =
+    useState<statsfm.FriendStatus>(initialFriendStatus);
+
+  const handleAccept = () => {
+    api.me.acceptFriendRequest(friendUser.id);
+    setFriendStatus(FriendStatus.FRIENDS);
+  };
+
+  const handleRemove = () => {
+    api.me.removeFriend(friendUser.id);
+    setFriendStatus(FriendStatus.NONE);
+  };
+
+  const handleCancel = () => {
+    api.me.cancelFriendRequest(friendUser.id);
+    setFriendStatus(FriendStatus.NONE);
+  };
+
+  const handleSend = () => {
+    api.me.sendFriendRequest(friendUser.id);
+    setFriendStatus(FriendStatus.REQUEST_OUTGOING);
+  };
+
+  switch (friendStatus) {
+    case FriendStatus.FRIENDS:
+      return (
+        <ButtonFrame red handler={handleRemove}>
+          Remove friend
+        </ButtonFrame>
+      );
+    case FriendStatus.REQUEST_INCOMING:
+      return (
+        <ButtonFrame handler={handleAccept}>Accept friend request</ButtonFrame>
+      );
+    case FriendStatus.REQUEST_OUTGOING:
+      return (
+        <ButtonFrame red handler={handleCancel}>
+          Cancel friend request
+        </ButtonFrame>
+      );
+    default:
+      return (
+        <ButtonFrame handler={handleSend}>Send friend request</ButtonFrame>
+      );
+  }
+};
+
 // TODO: use i18n strings instead
 const ranges: Record<statsfm.Range, string | null> = {
   weeks: 'from the past 4 weeks',
@@ -227,7 +304,7 @@ const ranges: Record<statsfm.Range, string | null> = {
   today: null,
 };
 
-const User: NextPage<Props> = ({ userProfile: user }) => {
+const User: NextPage<Props> = ({ userProfile: user, friendStatus }) => {
   const api = useApi();
   const { user: currentUser } = useAuth();
   const [range, setRange] = useState<statsfm.Range>(statsfm.Range.WEEKS);
@@ -351,26 +428,37 @@ const User: NextPage<Props> = ({ userProfile: user }) => {
         <div className="bg-foreground pt-20">
           <Container>
             <section className="flex flex-col items-center gap-5 pt-24 pb-10 md:flex-row">
-              <Avatar src={user.image} name={user.displayName} size="4xl" />
-
-              <div className="flex flex-col justify-end">
-                <span className="text-center text-lg font-medium md:text-left">
-                  {user.privacySettings?.profile && user.profile?.pronouns}{' '}
+              <div className="relative rounded-full border-2 border-background">
+                <Avatar src={user.image} name={user.displayName} size="4xl" />
+                <div className="absolute right-0 bottom-2 text-center text-lg font-medium md:text-left">
                   {user.isPlus && <PlusBadge />}
+                </div>
+              </div>
+
+              <div className="flex flex-col items-center justify-end md:items-start">
+                <span className="flex">
+                  <h1 className="text-center font-extrabold md:text-left">
+                    {user.displayName}
+                  </h1>
+                  <span className="ml-2 mt-2 self-center text-center text-lg font-medium md:text-left">
+                    {user.privacySettings?.profile && user.profile?.pronouns}
+                  </span>
                 </span>
 
-                <h1 className="text-center font-extrabold md:text-left">
-                  {user.displayName}
-                </h1>
-
                 {user.privacySettings?.profile && user.profile?.bio && (
-                  <pre className="whitespace-pre-wrap  font-body  text-lg md:text-left [&>a]:font-semibold [&>a]:text-primary">
+                  <pre className="whitespace-pre-wrap  font-body  text-lg line-clamp-3 md:text-left [&>a]:font-semibold [&>a]:text-primary">
                     <Linkify
                       options={{ target: '_blank', rel: 'noopener noreferrer' }}
                     >
-                      {user.profile.bio}
+                      {user.profile.bio.replaceAll('\n', ' ')}
                     </Linkify>
                   </pre>
+                )}
+                {currentUser && (
+                  <FriendsButton
+                    friendUser={user}
+                    initialFriendStatus={friendStatus}
+                  />
                 )}
               </div>
             </section>
