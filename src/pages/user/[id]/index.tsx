@@ -85,6 +85,7 @@ import { fetchUser } from '@/utils/ssrUtils';
 type Props = SSRProps & {
   userProfile: statsfm.UserPublic;
   friendStatus: FriendStatus;
+  friendCount: number;
 };
 
 export const getServerSideProps: GetServerSideProps<Props> = async (ctx) => {
@@ -101,6 +102,7 @@ export const getServerSideProps: GetServerSideProps<Props> = async (ctx) => {
 
   const user = await fetchUser(ctx);
   const friendStatus = await api.me.friendStatus(userProfile.id);
+  const friendCount = await api.users.friendCount(userProfile.id);
 
   // TODO: extract this to a util function
   const oembedUrl = encodeURIComponent(`https://stats.fm${ctx.resolvedUrl}`);
@@ -114,6 +116,7 @@ export const getServerSideProps: GetServerSideProps<Props> = async (ctx) => {
       userProfile,
       user,
       friendStatus,
+      friendCount,
     },
   };
 };
@@ -235,7 +238,7 @@ const ButtonFrame: FC<
   <Button
     className={clsx(
       red ? 'text-red-500' : '',
-      'mx-0 mt-2 w-min !bg-transparent !p-0 transition-opacity hover:opacity-80'
+      'mx-0 w-min !bg-transparent !p-0 transition-opacity hover:opacity-80'
     )}
     onClick={handler}
   >
@@ -304,7 +307,11 @@ const ranges: Record<statsfm.Range, string | null> = {
   today: null,
 };
 
-const User: NextPage<Props> = ({ userProfile: user, friendStatus }) => {
+const User: NextPage<Props> = ({
+  userProfile: user,
+  friendStatus,
+  friendCount,
+}) => {
   const api = useApi();
   const { user: currentUser } = useAuth();
   const [range, setRange] = useState<statsfm.Range>(statsfm.Range.WEEKS);
@@ -444,7 +451,6 @@ const User: NextPage<Props> = ({ userProfile: user, friendStatus }) => {
                     {user.privacySettings?.profile && user.profile?.pronouns}
                   </span>
                 </span>
-
                 {user.privacySettings?.profile && user.profile?.bio && (
                   <pre className="whitespace-pre-wrap  font-body  text-lg line-clamp-3 md:text-left [&>a]:font-semibold [&>a]:text-primary">
                     <Linkify
@@ -454,12 +460,23 @@ const User: NextPage<Props> = ({ userProfile: user, friendStatus }) => {
                     </Linkify>
                   </pre>
                 )}
-                {currentUser && (
-                  <FriendsButton
-                    friendUser={user}
-                    initialFriendStatus={friendStatus}
-                  />
-                )}
+                <div className="mt-2 flex items-center">
+                  {currentUser && currentUser.id !== user.id && (
+                    <>
+                      <FriendsButton
+                        friendUser={user}
+                        initialFriendStatus={friendStatus}
+                      />
+                      <span className="mx-2">{'▪'}</span>
+                      <Link href={`/${user.customId}/friends`}>
+                        <a className="text-neutral-400">
+                          {/* TODO: pluralisation */}
+                          {friendCount} Friends
+                        </a>
+                      </Link>
+                    </>
+                  )}
+                </div>
               </div>
             </section>
           </Container>
