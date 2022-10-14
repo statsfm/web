@@ -101,7 +101,14 @@ export const getServerSideProps: GetServerSideProps<Props> = async (ctx) => {
   if (!userProfile) return { notFound: true };
 
   const user = await fetchUser(ctx);
-  const friendStatus = await api.me.friendStatus(userProfile.id);
+
+  let friendStatus = FriendStatus.NONE;
+  try {
+    friendStatus = await api.me.friendStatus(userProfile.id);
+  } catch (e) {
+    friendStatus = FriendStatus.NONE;
+  }
+
   const friendCount = await api.users.friendCount(userProfile.id);
 
   // TODO: extract this to a util function
