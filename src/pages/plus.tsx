@@ -248,7 +248,7 @@ const PlusScrollAnimation: FC = () => {
         '<'
       );
 
-    if (mobile) {
+    if (mobile || typeof window === undefined) {
       const psTl = gsap
         .timeline()
         .fromTo(q('#ps'), { opacity: 1 }, { opacity: 1 })
@@ -382,11 +382,22 @@ const PlusScrollAnimation: FC = () => {
       <div id="soulmatesBg" className="absolute inset-x-0 top-0 z-10 opacity-0">
         <div className="absolute inset-y-0 right-0 h-full w-1/2 bg-gradient-to-l from-black/50 to-transparent" />
         <div className="absolute inset-y-0 left-0 h-full w-1/2 bg-gradient-to-r from-black/50 to-transparent" />
-        <div className="flex flex-row gap-8">
-          {!mobile && <SoulmateBackgroundCol amount={6} className="-mt-4" />}
+        <div
+          className={clsx(mobile ? 'hidden' : 'block', 'flex flex-row gap-8')}
+        >
+          <SoulmateBackgroundCol amount={6} className="-mt-4" />
           <SoulmateBackgroundCol amount={7} className="-mt-48" />
           <SoulmateBackgroundCol amount={6} className="ml-auto -mt-4" />
-          {!mobile && <SoulmateBackgroundCol amount={7} className="-mt-48" />}
+          <SoulmateBackgroundCol amount={7} className="-mt-48" />
+        </div>
+        <div
+          className={clsx(
+            mobile ? 'block' : 'hidden',
+            'absolute top-0 left-0 h-full w-full flex-row gap-8'
+          )}
+        >
+          <SoulmateBackgroundCol amount={7} className="-mt-48" />
+          <SoulmateBackgroundCol amount={6} className="ml-auto -mt-4" />
         </div>
       </div>
     </section>
