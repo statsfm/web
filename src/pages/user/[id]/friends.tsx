@@ -53,15 +53,15 @@ const FriendsPage: NextPage<Props> = ({ userProfile, friendCount }) => {
       <Title>{`${userProfile.displayName}'s friends`}</Title>
       <div className="bg-foreground pt-20">
         <Container>
-          <section className="flex flex-col items-center gap-5 pt-24 pb-10 md:flex-row">
-            <div className="flex flex-col justify-end">
+          <section className="flex flex-col items-center gap-5 pt-24 pb-10 md:flex-row md:items-start">
+            <div className="flex w-full flex-col justify-end">
               <Link href={`/${userProfile.customId || userProfile.id}`}>
                 <a className="-mb-3 flex items-center text-lg text-white">
                   <MdChevronLeft className="-mr-1 block h-12 w-6 text-white" />
                   back to {userProfile.displayName}
                 </a>
               </Link>
-              <h1 className="text-center text-4xl font-extrabold capitalize sm:text-5xl md:text-left">
+              <h1 className="text-4xl font-extrabold capitalize sm:text-5xl md:text-left">
                 {userProfile.displayName}
                 <span className="text-white">&apos;s Friends</span>
               </h1>
@@ -90,7 +90,9 @@ const FriendsPage: NextPage<Props> = ({ userProfile, friendCount }) => {
                         size={mobile ? '2xl' : '3xl'}
                       />
                       <div className="mt-2 text-center">
-                        <h4 className="line-clamp-2">{friend.displayName}</h4>
+                        <h4 className="w-full break-all line-clamp-2">
+                          {friend.displayName}
+                        </h4>
                       </div>
                     </a>
                   </Link>
