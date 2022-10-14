@@ -93,6 +93,7 @@ const FriendsPage: NextPage<Props> = ({ userProfile, friendCount }) => {
                         <h4 className="w-full break-all line-clamp-2">
                           {friend.displayName}
                         </h4>
+                        <span>{friend.profile?.pronouns}</span>
                       </div>
                     </a>
                   </Link>
