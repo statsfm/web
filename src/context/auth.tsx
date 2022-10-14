@@ -94,6 +94,7 @@ export const AuthProvider = (
       path: '/',
       secure: true,
     });
+    Cookies.set('redirectUrl', router.asPath);
     router.push('/api/auth/logout');
   };
 
