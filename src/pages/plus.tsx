@@ -12,6 +12,7 @@ import type { GetServerSideProps, NextPage } from 'next';
 import Link from 'next/link';
 import type { FC, PropsWithChildren } from 'react';
 import {
+  useMemo,
   useId,
   forwardRef,
   useEffect,
@@ -365,6 +366,10 @@ const TierItem: FC<{
 };
 
 const HeaderBubbles: FC<{ topArtists: TopArtist[] }> = ({ topArtists }) => {
+  const validTopArtists = useMemo(() => {
+    return topArtists.filter((artist) => artist.artist.image);
+  }, [topArtists]);
+
   const bubbles: Array<Record<'top' | 'left' | 's', number>> = [
     { top: 104, left: 0, s: 164 },
     { top: 23, left: 176, s: 135 },
@@ -391,7 +396,7 @@ const HeaderBubbles: FC<{ topArtists: TopArtist[] }> = ({ topArtists }) => {
           }}
           className="absolute animate-floating rounded-full bg-gray-600 bg-cover bg-center"
         >
-          {topArtists[i] && (
+          {validTopArtists[i] && (
             <Image
               alt="Top artist"
               className="!rounded-full !bg-gray-600"
