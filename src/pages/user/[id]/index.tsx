@@ -123,8 +123,8 @@ export const getServerSideProps: GetServerSideProps<Props> = async (ctx) => {
 
 // TODO: Link to /plus
 const PlusBadge = () => (
-  <span className="mx-auto flex w-fit items-center rounded-md bg-background px-1.5 py-0.5 text-lg text-plus md:mx-0">
-    <CrownIcon className="mr-1 w-5" />
+  <span className="mx-auto flex w-fit items-center rounded-md bg-background px-1.5 py-0.5 text-base text-plus md:mx-0">
+    <CrownIcon className="mr-1 w-4" />
     Plus
   </span>
 );
