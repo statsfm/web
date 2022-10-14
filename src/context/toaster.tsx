@@ -1,7 +1,7 @@
 import { Container } from '@/components/Container';
 import clsx from 'clsx';
 import type { FC, PropsWithChildren } from 'react';
-import { useState, useCallback, createContext } from 'react';
+import { useState, createContext } from 'react';
 
 type ToasterVariant = 'success' | 'error' | 'info';
 type ToasterType = {
@@ -9,6 +9,7 @@ type ToasterType = {
   message: string;
   variant?: ToasterVariant;
   timeout?: number;
+  hidden?: boolean;
 };
 
 type ToasterContextType = {
@@ -27,7 +28,8 @@ const Toaster: FC<{
       <div
         className={clsx(
           toast.variant === 'error' ? 'bg-red-500' : 'bg-primary text-black',
-          'max-h-max w-full animate-fade rounded-2xl bg-foreground p-5 text-center font-bold shadow-2xl'
+          toast.hidden ? 'opacity-0' : 'opacity-100',
+          'max-h-max w-full animate-fade rounded-2xl bg-foreground p-5 text-center font-bold shadow-2xl transition-opacity'
         )}
       >
         {toast.message}
@@ -39,17 +41,26 @@ const Toaster: FC<{
 export const ToasterContainer: FC<PropsWithChildren> = ({ children }) => {
   const [toasts, setToasts] = useState<ToasterType[]>([]);
 
-  const removeToast = useCallback((id: number) => {
-    setToasts((prev) => prev.filter((t) => t.id !== id));
-  }, []);
+  const removeToast = (id: number) => {
+    // set hidden on toasts to true and remove them after a timeout
+    setToasts((toasts) =>
+      toasts.map((t) => {
+        if (t.id === id) return { ...t, hidden: true };
+        return t;
+      })
+    );
+    setTimeout(() => {
+      setToasts((toasts) => toasts.filter((t) => t.id !== id));
+    }, 300);
+  };
 
-  const createToast = useCallback((toaster: ToasterType) => {
-    setToasts((prev) => [...prev, toaster]);
+  const createToast = (toaster: ToasterType) => {
+    setToasts([...toasts, toaster]);
     setTimeout(
       () => removeToast(toaster.id),
-      toaster.timeout ? toaster.timeout * 10 : 5000
+      toaster.timeout ? toaster.timeout : 5000
     );
-  }, []);
+  };
 
   return (
     <toasterContext.Provider value={{ createToast }}>
