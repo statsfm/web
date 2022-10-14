@@ -121,6 +121,8 @@ export const getServerSideProps: GetServerSideProps<Props> = async (ctx) => {
   };
 };
 
+const Square = () => <div className="block h-1 w-1 bg-neutral-400" />;
+
 // TODO: Link to /plus
 const PlusBadge = () => (
   <span className="mx-auto flex w-fit items-center rounded-md bg-background px-1.5 py-0.5 text-base text-plus md:mx-0">
@@ -468,7 +470,9 @@ const User: NextPage<Props> = ({
                           friendUser={user}
                           initialFriendStatus={friendStatus}
                         />
-                        <span className="mx-2">{'▪'}</span>
+                        <span className="mx-2">
+                          <Square />
+                        </span>
                       </>
                     )}
                     <Link href={`/${user.customId || user.id}/friends`}>
