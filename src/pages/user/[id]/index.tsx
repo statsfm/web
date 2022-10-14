@@ -471,7 +471,7 @@ const User: NextPage<Props> = ({
                         <span className="mx-2">{'▪'}</span>
                       </>
                     )}
-                    <Link href={`/${user.customId}/friends`}>
+                    <Link href={`/${user.customId || user.id}/friends`}>
                       <a className="font-medium text-neutral-400">
                         {/* TODO: pluralisation */}
                         {friendCount} Friends

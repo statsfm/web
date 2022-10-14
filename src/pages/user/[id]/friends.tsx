@@ -11,6 +11,7 @@ import { Avatar } from '@/components/Avatar';
 import Link from 'next/link';
 import { useMedia } from 'react-use';
 import { Skeleton } from '@/components/Skeleton';
+import { MdChevronLeft } from 'react-icons/md';
 
 type Props = SSRProps<{ userProfile: statsfm.UserPublic; friendCount: number }>;
 
@@ -54,13 +55,15 @@ const FriendsPage: NextPage<Props> = ({ userProfile, friendCount }) => {
         <Container>
           <section className="flex flex-col items-center gap-5 pt-24 pb-10 md:flex-row">
             <div className="flex flex-col justify-end">
-              <h1 className="text-center text-5xl font-extrabold capitalize md:text-left">
-                <Link href={`/${userProfile.customId}`}>
-                  <a className="flex items-center">
-                    {/* <MdChevronLeft className="block h-12 w-max" /> */}
-                    {userProfile.displayName}
-                  </a>
-                </Link>
+              <Link href={`/${userProfile.customId || userProfile.id}`}>
+                <a className="-mb-3 flex items-center text-lg text-white">
+                  <MdChevronLeft className="-mr-1 block h-12 w-6 text-white" />
+                  back to {userProfile.displayName}
+                </a>
+              </Link>
+              <h1 className="text-center text-4xl font-extrabold capitalize sm:text-5xl md:text-left">
+                {userProfile.displayName}
+                <span className="text-white">&apos;s Friends</span>
               </h1>
             </div>
           </section>
@@ -68,8 +71,8 @@ const FriendsPage: NextPage<Props> = ({ userProfile, friendCount }) => {
       </div>
 
       <Container className="mt-4">
-        <Section title="Friends">
-          <ul className="grid grid-cols-2 gap-4 gap-y-12 md:grid-cols-3 lg:grid-cols-5 ">
+        <Section title="">
+          <ul className="grid grid-cols-2 gap-4 gap-y-12 md:grid-cols-3 lg:grid-cols-6 ">
             {friendCount === 0 && (
               <span className="col-span-full my-4 text-lg">
                 Sadly, {userProfile.displayName} has no friends yet ;(
@@ -79,12 +82,12 @@ const FriendsPage: NextPage<Props> = ({ userProfile, friendCount }) => {
               friends.length > 0 &&
               friends.map((friend) => (
                 <li key={friend.id} className="mx-auto">
-                  <Link href={`/${friend.customId}`} passHref>
+                  <Link href={`/${friend.customId || friend.id}`} passHref>
                     <a className="flex flex-col items-center">
                       <Avatar
                         src={friend.image}
                         name={friend.displayName}
-                        size={mobile ? '2xl' : '4xl'}
+                        size={mobile ? '2xl' : '3xl'}
                       />
                       <div className="mt-2 text-center">
                         <h4 className="line-clamp-2">{friend.displayName}</h4>
