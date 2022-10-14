@@ -461,21 +461,23 @@ const User: NextPage<Props> = ({
                   </pre>
                 )}
                 <div className="mt-2 flex items-center">
-                  {currentUser && currentUser.id !== user.id && (
-                    <>
-                      <FriendsButton
-                        friendUser={user}
-                        initialFriendStatus={friendStatus}
-                      />
-                      <span className="mx-2">{'▪'}</span>
-                      <Link href={`/${user.customId}/friends`}>
-                        <a className="text-neutral-400">
-                          {/* TODO: pluralisation */}
-                          {friendCount} Friends
-                        </a>
-                      </Link>
-                    </>
-                  )}
+                  <>
+                    {currentUser && currentUser.id !== user.id && (
+                      <>
+                        <FriendsButton
+                          friendUser={user}
+                          initialFriendStatus={friendStatus}
+                        />
+                        <span className="mx-2">{'▪'}</span>
+                      </>
+                    )}
+                    <Link href={`/${user.customId}/friends`}>
+                      <a className="font-medium text-neutral-400">
+                        {/* TODO: pluralisation */}
+                        {friendCount} Friends
+                      </a>
+                    </Link>
+                  </>
                 </div>
               </div>
             </section>
