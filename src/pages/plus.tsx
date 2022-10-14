@@ -315,7 +315,7 @@ const PlusScrollAnimation: FC = () => {
           >
             <div
               ref={phoneRef}
-              className="relative z-40 flex shrink-0 justify-center"
+              className="relative z-40 -mt-8 flex shrink-0 scale-90 justify-center sm:mt-0 sm:scale-100"
             >
               <div className="relative h-min w-80 overflow-hidden rounded-[52px]">
                 <PhoneScreen id={5} src="/images/screen1.png" />
@@ -383,10 +383,10 @@ const PlusScrollAnimation: FC = () => {
         <div className="absolute inset-y-0 right-0 h-full w-1/2 bg-gradient-to-l from-black/50 to-transparent" />
         <div className="absolute inset-y-0 left-0 h-full w-1/2 bg-gradient-to-r from-black/50 to-transparent" />
         <div className="flex flex-row gap-8">
-          <SoulmateBackgroundCol amount={6} className="-mt-4" />
+          {!mobile && <SoulmateBackgroundCol amount={6} className="-mt-4" />}
           <SoulmateBackgroundCol amount={7} className="-mt-48" />
           <SoulmateBackgroundCol amount={6} className="ml-auto -mt-4" />
-          <SoulmateBackgroundCol amount={7} className="-mt-48" />
+          {!mobile && <SoulmateBackgroundCol amount={7} className="-mt-48" />}
         </div>
       </div>
     </section>
