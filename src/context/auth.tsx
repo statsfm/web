@@ -4,6 +4,7 @@ import { useApi } from '@/hooks';
 import type * as statsfm from '@statsfm/statsfm.js';
 import { decodeJwt } from 'jose';
 import Cookies from 'js-cookie';
+import { useRouter } from 'next/router';
 import type { PropsWithChildren } from 'react';
 import { createContext, useEffect, useState } from 'react';
 
@@ -22,6 +23,7 @@ export const AuthProvider = (
     props.user ?? null
   );
   const api = useApi();
+  const router = useRouter();
 
   const login = (redirectUrl?: string) => {
     const scope = [
@@ -92,6 +94,7 @@ export const AuthProvider = (
       path: '/',
       secure: true,
     });
+    router.push('/api/auth/logout');
   };
 
   useEffect(() => {
