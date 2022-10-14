@@ -28,6 +28,7 @@ import {
 } from 'react-icons/md';
 import type { SSRProps } from '@/utils/ssrUtils';
 import { fetchUser } from '@/utils/ssrUtils';
+import { useMedia } from 'react-use';
 
 // eslint-disable-next-line react/display-name
 const AdsBackground = forwardRef<HTMLDivElement>((_, ref) => {
@@ -73,7 +74,7 @@ const Snackbar = forwardRef<
       ref={ref}
       className={clsx(
         className,
-        'absolute left-1/2 bottom-10 z-50 flex h-min w-1/2 -translate-x-1/2 flex-row items-center justify-between rounded-xl bg-background p-2 px-4'
+        'absolute left-1/2 bottom-10 z-50 flex h-min w-11/12 -translate-x-1/2 flex-row items-center justify-between rounded-xl bg-background p-2 px-4 sm:w-1/2'
       )}
     >
       {children}
@@ -97,13 +98,13 @@ const Heading: FC<{
     >
       <h2
         className={clsx(
-          sub ? '' : 'mt-8',
-          'mb-2 bg-gradient-to-br from-white to-slate-300 bg-clip-text text-5xl text-transparent'
+          sub ? '' : 'sm:mt-8',
+          'mb-2 bg-gradient-to-br from-white to-slate-300 bg-clip-text text-3xl text-transparent sm:text-5xl'
         )}
       >
         {title}
       </h2>
-      <p>{sub}</p>
+      <p className="text-lg">{sub}</p>
     </div>
   );
 };
@@ -150,6 +151,7 @@ const PlusScrollAnimation: FC = () => {
   const adsBegoneBackgroundRef = useRef<HTMLDivElement>(null);
 
   const q = gsap.utils.selector(boxRef);
+  const mobile = useMedia('(max-width: 640px)');
 
   useLayoutEffect(() => {
     const phoneOffset =
@@ -168,28 +170,24 @@ const PlusScrollAnimation: FC = () => {
       },
     });
 
-    tl.fromTo(
-      phoneRef.current,
-      {
-        x: `${phoneOffset}px`,
-      },
-      { x: `0px`, duration: 2 }
-    )
+    const startTl = gsap
+      .timeline()
+      .fromTo(
+        phoneRef.current,
+        {
+          x: `${phoneOffset}px`,
+        },
+        { x: `0px`, duration: 2 }
+      )
       .fromTo(
         snackbarRef.current,
         { y: '100px' },
         { y: '10px', ease: Power1.easeInOut },
         '<'
-      )
-      .fromTo(q('#ps'), { opacity: 0 }, { opacity: 1 }, '<')
-      .to(q('#p1'), { color: '#ffd700', duration: 2 })
-      .to(q('#p1'), { color: '#a3a3a3', duration: 1 })
-      .fromTo(q('#screen2'), { x: '100%' }, { x: '0%', duration: 2 }, '<')
-      .to(q('#p2'), { color: '#ffd700', duration: 2 })
-      .to(q('#p2'), { color: '#a3a3a3', duration: 1 })
-      .fromTo(q('#screen3'), { x: '100%' }, { x: '0%', duration: 2 }, '<')
-      .to(q('#p3'), { color: '#ffd700', duration: 2 })
-      .to(q('#p3'), { color: '#a3a3a3', duration: 1 })
+      );
+
+    const endTl = gsap
+      .timeline()
       .fromTo(q('#ps'), { opacity: 1 }, { opacity: 0 })
       .fromTo(
         phoneRef.current,
@@ -246,9 +244,58 @@ const PlusScrollAnimation: FC = () => {
       .fromTo(
         snackbarRef.current,
         { y: '10px' },
-        { y: '100px', ease: Power1.easeInOut },
+        { y: '200px', ease: Power1.easeInOut },
         '<'
       );
+
+    if (mobile) {
+      const psTl = gsap
+        .timeline()
+        .fromTo(q('#ps'), { opacity: 1 }, { opacity: 1 })
+        // .fromTo(q('#p1'), { opacity: 0 }, { opacity: 1 }, '<')
+        .to(q('#p1'), { color: '#ffd700', duration: 2 }, '<')
+        .to(q('#p1'), { color: '#a3a3a3', duration: 1 })
+        .fromTo(q('#p1'), { opacity: 1 }, { opacity: 0 }, '<')
+        .fromTo(
+          q('#p2'),
+          { opacity: 0, y: 0 },
+          { opacity: 1, y: '-= 100%' },
+          '<'
+        )
+        .to(q('#p2'), { color: '#ffd700', duration: 2 }, '<')
+        .fromTo(q('#screen2'), { x: '100%' }, { x: '0%', duration: 2 }, '<')
+        .to(q('#p2'), { color: '#a3a3a3', duration: 1 })
+        .fromTo(q('#p2'), { opacity: 1 }, { opacity: 0 }, '<')
+        .fromTo(
+          q('#p3'),
+          { opacity: 0, y: 0 },
+          { opacity: 1, y: '-= 430%' },
+          '<'
+        )
+        .to(q('#p3'), { color: '#ffd700', duration: 2 }, '<')
+        .fromTo(q('#screen3'), { x: '100%' }, { x: '0%', duration: 2 }, '<')
+        .to(q('#p3'), { color: '#a3a3a3', duration: 1 });
+
+      tl.add(startTl);
+      tl.add(psTl);
+      tl.add(endTl);
+    } else {
+      const psTl = gsap
+        .timeline()
+        .fromTo(q('#ps'), { opacity: 0 }, { opacity: 1 }, '<')
+        .to(q('#p1'), { color: '#ffd700', duration: 2 })
+        .to(q('#p1'), { color: '#a3a3a3', duration: 1 })
+        .fromTo(q('#screen2'), { x: '100%' }, { x: '0%', duration: 2 }, '<')
+        .to(q('#p2'), { color: '#ffd700', duration: 2 })
+        .to(q('#p2'), { color: '#a3a3a3', duration: 1 })
+        .fromTo(q('#screen3'), { x: '100%' }, { x: '0%', duration: 2 }, '<')
+        .to(q('#p3'), { color: '#ffd700', duration: 2 })
+        .to(q('#p3'), { color: '#a3a3a3', duration: 1 });
+
+      tl.add(startTl);
+      tl.add(psTl);
+      tl.add(endTl);
+    }
 
     return () => {
       ScrollTrigger.killAll();
@@ -260,9 +307,12 @@ const PlusScrollAnimation: FC = () => {
       <Container className="relative min-h-screen py-12">
         <div
           id="phoneBox"
-          className="absolute top-48 bottom-32 left-1/2 z-30 -translate-x-1/2"
+          className="absolute inset-y-32 left-1/2 z-30 -translate-x-1/2 sm:top-48"
         >
-          <div ref={phoneWrapperRef} className="flex flex-row gap-8">
+          <div
+            ref={phoneWrapperRef}
+            className="flex flex-col-reverse gap-8 sm:flex-row"
+          >
             <div
               ref={phoneRef}
               className="relative z-40 flex shrink-0 justify-center"
@@ -289,7 +339,7 @@ const PlusScrollAnimation: FC = () => {
             </div>
             <div
               id="ps"
-              className="flex h-full shrink-0 flex-col gap-4 self-center text-lg opacity-0"
+              className="-mt-4 mb-4 flex h-0 shrink-0 flex-col gap-4 self-center text-center text-lg opacity-0 sm:my-0 sm:h-full sm:text-left"
             >
               <p className="m-0" id="p1">
                 view your total minutes listened
@@ -307,7 +357,7 @@ const PlusScrollAnimation: FC = () => {
         <Snackbar ref={snackbarRef}>
           <p>Get these and even more perks available with plus.</p>
           <Link href="/gift">
-            <a className="block rounded-lg bg-plus px-3 py-1.5 text-center font-medium text-black transition-colors hover:bg-plus/90 active:bg-plus/75">
+            <a className="block shrink-0 rounded-lg bg-plus px-3 py-1.5 text-center font-medium text-black transition-colors hover:bg-plus/90 active:bg-plus/75">
               Get stats.fm plus!
             </a>
           </Link>
