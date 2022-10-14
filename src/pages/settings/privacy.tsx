@@ -73,9 +73,9 @@ const displayNames: DisplayNamesType = {
 
 type StatusOptions = 'SAVING' | 'SAVED' | 'ERROR' | 'DEFAULT';
 
-const PrivacyList: FC<{ user: UserPrivate }> = ({ user }) => {
+const PrivacyList: FC<{ user: UserPrivate }> = () => {
   const auth = useAuth();
-  const hydratedUser = auth.user!;
+  const user = auth.user!;
   const api = useApi();
   const [status, setStatus] = useState<StatusOptions>('DEFAULT');
 
@@ -85,16 +85,15 @@ const PrivacyList: FC<{ user: UserPrivate }> = ({ user }) => {
 
   const changed = useMemo(() => {
     return (
-      JSON.stringify(privacySettings) !==
-      JSON.stringify(hydratedUser.privacySettings)
+      JSON.stringify(privacySettings) !== JSON.stringify(user.privacySettings)
     );
-  }, [privacySettings, hydratedUser]);
+  }, [privacySettings, user]);
 
   const save = useCallback(async () => {
     setStatus('SAVING');
     try {
       await api.me.updatePrivacySettings({ ...privacySettings });
-      auth.updateUser({ ...hydratedUser, privacySettings });
+      auth.updateUser({ ...user, privacySettings });
     } catch (error) {
       // eslint-disable-next-line no-console
       console.warn(error);
