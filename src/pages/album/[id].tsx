@@ -20,6 +20,8 @@ import { supportUrls } from '@/utils/supportUrls';
 import Head from 'next/head';
 import { SpotifyIcon } from '@/components/Icons';
 import { StatsCard } from '@/components/StatsCard';
+import { useScrollPercentage } from '@/hooks/use-scroll-percentage';
+import { event } from 'nextjs-google-analytics';
 
 interface Props {
   album: statsfm.Album;
@@ -53,6 +55,8 @@ const Album: NextPage<Props> = ({ album, tracks }) => {
   const [streams, setStreams] = useState<statsfm.Stream[]>([]);
   const [stats, setStats] = useState<statsfm.StreamStats | null>(null);
   const { user } = useAuth();
+
+  useScrollPercentage(30, () => event('ALBUM_scroll_30'));
 
   useEffect(() => {
     (async () => {
@@ -176,7 +180,10 @@ const Album: NextPage<Props> = ({ album, tracks }) => {
             {tracks.map((track, i) => (
               <li key={i}>
                 <Link href={`/track/${track.id}`} passHref>
-                  <a className="flex max-w-fit overflow-hidden text-ellipsis">
+                  <a
+                    className="flex max-w-fit overflow-hidden text-ellipsis"
+                    onClick={() => event('ALBUM_content_track_click')}
+                  >
                     <span className="px-5">{i + 1}.</span>
 
                     <div className="overflow-hidden">
@@ -200,8 +207,13 @@ const Album: NextPage<Props> = ({ album, tracks }) => {
             description={`People who listen a lot to ${album.name}`}
             toolbar={
               <div className="flex gap-1">
-                <SectionToolbarCarouselNavigationButton />
-                <SectionToolbarCarouselNavigationButton next />
+                <SectionToolbarCarouselNavigationButton
+                  callback={() => event('ALBUM_listener_previous')}
+                />
+                <SectionToolbarCarouselNavigationButton
+                  next
+                  callback={() => event('ALBUM_listener_next')}
+                />
                 <SectionToolbarInfoMenu
                   description="Learn more about what top listeners are and how they're calculated"
                   link={supportUrls.artist.top_listeners}
@@ -212,7 +224,10 @@ const Album: NextPage<Props> = ({ album, tracks }) => {
             <Carousel.Items>
               {topListeners.length > 0
                 ? topListeners.map((item, i) => (
-                    <Carousel.Item key={i}>
+                    <Carousel.Item
+                      key={i}
+                      onClick={() => event('ALBUM_listener_click')}
+                    >
                       <TopListenerCard {...item} />
                     </Carousel.Item>
                   ))
@@ -229,7 +244,11 @@ const Album: NextPage<Props> = ({ album, tracks }) => {
 
         <Section title="Your streams">
           {({ headerRef }) => (
-            <RecentStreams headerRef={headerRef} streams={streams} />
+            <RecentStreams
+              headerRef={headerRef}
+              streams={streams}
+              onItemClick={() => event('ALBUM_stream_track_click')}
+            />
           )}
           {/* {streams ? ( */}
           {/* ) : (
