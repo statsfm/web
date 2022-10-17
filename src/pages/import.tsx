@@ -5,6 +5,7 @@ import { useApi, useAuth, useToaster } from '@/hooks';
 import type { UserImport } from '@statsfm/statsfm.js';
 import dayjs from 'dayjs';
 import type { NextPage } from 'next';
+import { event } from 'nextjs-google-analytics';
 import type { ChangeEvent, FC } from 'react';
 import { useCallback, useEffect, useState } from 'react';
 
@@ -118,6 +119,7 @@ const ImportPage: NextPage<Props> = () => {
           body: formData,
         });
 
+        event('IMPORT_upload_files');
         toaster.message(`succesfully uploaded.. ${file.name}`);
         setRefetchCounter((c) => c + 1);
       } catch (e) {
@@ -126,6 +128,7 @@ const ImportPage: NextPage<Props> = () => {
       }
       api.http.config.baseUrl = oldUrl;
     } else if (file?.name.match(/StreamingHistory[0-9][0-9]?.json/g)) {
+      event('IMPORT_selected_wrong_files');
       window.location.href =
         'https://support.stats.fm/docs/import/faq/no-endsong';
     } else {
@@ -145,6 +148,7 @@ const ImportPage: NextPage<Props> = () => {
           className="text-primary hover:opacity-90"
           href="https://support.stats.fm/docs/import"
           target="blank"
+          onClick={() => event('IMPORT_guide_click')}
         >
           here in the support docs
         </a>
@@ -154,7 +158,10 @@ const ImportPage: NextPage<Props> = () => {
         <>
           <ImportList refetchCounter={refetchCounter} />
           <Divider className="my-5 border-neutral-600" />
-          <label className="mt-2 block w-full cursor-pointer rounded-2xl border-0 bg-primary/10 py-3 px-5 text-center font-bold text-primary transition-colors duration-300 hover:bg-primary/20 active:bg-primary/5">
+          <label
+            onClick={() => event('IMPORT_select_files')}
+            className="mt-2 block w-full cursor-pointer rounded-2xl border-0 bg-primary/10 py-3 px-5 text-center font-bold text-primary transition-colors duration-300 hover:bg-primary/20 active:bg-primary/5"
+          >
             <input
               type="file"
               accept="application/json"
