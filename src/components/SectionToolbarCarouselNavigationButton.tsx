@@ -5,10 +5,12 @@ import { useNavigate, Direction } from './Carousel';
 
 interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
   next?: boolean;
+  callback?: () => void;
 }
 
 export const SectionToolbarCarouselNavigationButton = ({
   next,
+  callback,
   ...props
 }: Props) => {
   const [bindings, disabled] = useNavigate(
@@ -24,7 +26,11 @@ export const SectionToolbarCarouselNavigationButton = ({
         'focus-within:ring-2 focus:outline-none focus:ring focus:ring-neutral-500',
         !disabled ? 'active:scale-95' : ''
       )}
-      {...bindings}
+      disabled={bindings.disabled}
+      onClick={() => {
+        if (callback) callback();
+        bindings.onClick();
+      }}
       {...props}
     >
       {next ? (

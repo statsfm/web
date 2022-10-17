@@ -8,6 +8,7 @@ import { TrackListRow, TrackListRowSkeleton } from '../TrackListRow';
 type Props<T extends statsfm.Stream | statsfm.RecentlyPlayedTrack> = {
   headerRef: RefObject<HTMLElement>;
   loading?: boolean;
+  onItemClick?: () => void;
 } & (T extends statsfm.Stream
   ? {
       streams: T[];
@@ -25,6 +26,7 @@ export const RecentStreams = <
   track,
   headerRef,
   loading,
+  onItemClick,
 }: Props<T>) => {
   const [streamsByDate, setStreamsByData] = useState<[string, T[]][]>([]);
 
@@ -83,7 +85,7 @@ export const RecentStreams = <
               <li key={i}>
                 <ul key={i}>
                   {streams[1].map((stream, i) => (
-                    <li key={i}>
+                    <li key={i} onClick={onItemClick}>
                       {/* TODO: fix type */}
                       <TrackListRow
                         track={(stream as any).track ?? track}

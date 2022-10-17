@@ -30,6 +30,8 @@ import clsx from 'clsx';
 import type { SSRProps } from '@/utils/ssrUtils';
 import { fetchUser } from '@/utils/ssrUtils';
 import { FriendStatus } from '@statsfm/statsfm.js';
+import { event } from 'nextjs-google-analytics';
+import { useScrollPercentage } from '@/hooks/use-scroll-percentage';
 
 // const ListeningClockChart = () => {
 //   const config = {
@@ -415,7 +417,10 @@ const User: NextPage<Props> = ({
     load();
   }, [user]);
 
+  useScrollPercentage(30, () => event('USER_scroll_30'));
+
   const handleSegmentSelect = (value: string) => {
+    event(`USER_switch_time_${value}`);
     setRange(statsfm.Range[value.toUpperCase() as keyof typeof statsfm.Range]);
   };
 
@@ -555,7 +560,9 @@ const User: NextPage<Props> = ({
                 ? topGenres.map((genre, i) => (
                     <Chip key={i}>
                       <Link href={`/genre/${genre.genre.tag}`}>
-                        {genre.genre.tag}
+                        <a onClick={() => event('USER_top_genre_click')}>
+                          {genre.genre.tag}
+                        </a>
                       </Link>
                     </Chip>
                   ))
@@ -580,8 +587,13 @@ const User: NextPage<Props> = ({
               } top tracks ${ranges[range]}`}
               toolbar={
                 <div className="flex gap-1">
-                  <SectionToolbarCarouselNavigationButton />
-                  <SectionToolbarCarouselNavigationButton next />
+                  <SectionToolbarCarouselNavigationButton
+                    callback={() => event('USER_top_albums_previous')}
+                  />
+                  <SectionToolbarCarouselNavigationButton
+                    next
+                    callback={() => event('USER_top_albums_next')}
+                  />
                 </div>
               }
             >
@@ -591,7 +603,10 @@ const User: NextPage<Props> = ({
                 <Carousel.Items>
                   {topTracks.length > 0
                     ? topTracks.map((item, i) => (
-                        <Carousel.Item key={i}>
+                        <Carousel.Item
+                          key={i}
+                          onClick={() => event('USER_top_track_click')}
+                        >
                           <TrackCard {...item} />
                         </Carousel.Item>
                       ))
@@ -617,8 +632,13 @@ const User: NextPage<Props> = ({
               } top artists ${ranges[range]}`}
               toolbar={
                 <div className="flex gap-1">
-                  <SectionToolbarCarouselNavigationButton />
-                  <SectionToolbarCarouselNavigationButton next />
+                  <SectionToolbarCarouselNavigationButton
+                    callback={() => event('USER_top_artist_previous')}
+                  />
+                  <SectionToolbarCarouselNavigationButton
+                    next
+                    callback={() => event('USER_top_artist_next')}
+                  />
                 </div>
               }
             >
@@ -627,7 +647,10 @@ const User: NextPage<Props> = ({
                 <Carousel.Items>
                   {topArtists.length > 0
                     ? topArtists.map((item, i) => (
-                        <Carousel.Item key={i}>
+                        <Carousel.Item
+                          key={i}
+                          onClick={() => event('USER_top_artist_click')}
+                        >
                           <ArtistCard {...item} />
                         </Carousel.Item>
                       ))
@@ -652,8 +675,13 @@ const User: NextPage<Props> = ({
               } top albums ${ranges[range]}`}
               toolbar={
                 <div className="flex gap-1">
-                  <SectionToolbarCarouselNavigationButton />
-                  <SectionToolbarCarouselNavigationButton next />
+                  <SectionToolbarCarouselNavigationButton
+                    callback={() => event('USER_top_albums_previous')}
+                  />
+                  <SectionToolbarCarouselNavigationButton
+                    next
+                    callback={() => event('USER_top_albums_next')}
+                  />
                 </div>
               }
             >
@@ -662,7 +690,10 @@ const User: NextPage<Props> = ({
                 <Carousel.Items>
                   {topAlbums && topAlbums.length > 0
                     ? topAlbums.map((item, i) => (
-                        <Carousel.Item key={i}>
+                        <Carousel.Item
+                          key={i}
+                          onClick={() => event('USER_top_album_click')}
+                        >
                           <AlbumCard {...item} />
                         </Carousel.Item>
                       ))
@@ -687,7 +718,11 @@ const User: NextPage<Props> = ({
           >
             {({ headerRef }) => (
               <PrivacyScope scope="recentlyPlayed">
-                <RecentStreams headerRef={headerRef} streams={recentStreams} />
+                <RecentStreams
+                  headerRef={headerRef}
+                  streams={recentStreams}
+                  onItemClick={() => event('USER_recent_track_click')}
+                />
               </PrivacyScope>
             )}
           </Section>
