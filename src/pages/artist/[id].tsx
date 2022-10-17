@@ -26,6 +26,8 @@ import { supportUrls } from '@/utils/supportUrls';
 import { SectionToolbarInfoMenu } from '@/components/SectionToolbarInfoMenu';
 import Head from 'next/head';
 import { StatsCard } from '@/components/StatsCard';
+import { useScrollPercentage } from '@/hooks/use-scroll-percentage';
+import { event } from 'nextjs-google-analytics';
 
 const MoreTracks = ({
   artist,
@@ -100,7 +102,7 @@ const MoreTracks = ({
       <ul>
         {tracks.length > 0
           ? data.map((item, i) => (
-              <li key={i}>
+              <li key={i} onClick={() => event('ARTIST_more_track_click')}>
                 <TrackListRow streams={streams(item.id)} track={item} />
               </li>
             ))
@@ -116,7 +118,10 @@ const MoreTracks = ({
       {tracks.length > limit && (
         <button
           className="py-3 font-bold uppercase text-text-grey"
-          onClick={toggle}
+          onClick={() => {
+            toggle();
+            event('ARTIST_more_track_show_all');
+          }}
         >
           {showAll ? 'show less' : 'show all'}
         </button>
@@ -157,6 +162,8 @@ const Artist: NextPage<Props> = ({ artist }) => {
   const [related, setRelated] = useState<statsfm.Artist[]>([]);
   const [streams, setStreams] = useState<statsfm.Stream[]>([]);
   const [stats, setStats] = useState<statsfm.StreamStats | null>(null);
+
+  useScrollPercentage(30, () => event('ARTIST_scroll_30'));
 
   useEffect(() => {
     (async () => {
@@ -257,7 +264,9 @@ const Artist: NextPage<Props> = ({ artist }) => {
           <ChipGroup>
             {artist.genres.map((genre, i) => (
               <Chip key={i}>
-                <Link href={`/genre/${genre}`}>{genre}</Link>
+                <Link href={`/genre/${genre}`}>
+                  <a onClick={() => event('ARTIST_genre_click')}>{genre}</a>
+                </Link>
               </Chip>
             ))}
           </ChipGroup>
@@ -269,15 +278,23 @@ const Artist: NextPage<Props> = ({ artist }) => {
             description={`The most popular tracks by ${artist.name}`}
             toolbar={
               <div className="flex gap-1">
-                <SectionToolbarCarouselNavigationButton />
-                <SectionToolbarCarouselNavigationButton next />
+                <SectionToolbarCarouselNavigationButton
+                  callback={() => event('ARTIST_popular_track_previous')}
+                />
+                <SectionToolbarCarouselNavigationButton
+                  next
+                  callback={() => event('ARTIST_popular_track_next')}
+                />
               </div>
             }
           >
             <Carousel.Items>
               {topTracks.length > 0
                 ? topTracks.map((item, i) => (
-                    <Carousel.Item key={i}>
+                    <Carousel.Item
+                      key={i}
+                      onClick={() => event('ARTIST_popular_track_click')}
+                    >
                       <TrackCard track={item} />
                     </Carousel.Item>
                   ))
@@ -316,8 +333,13 @@ const Artist: NextPage<Props> = ({ artist }) => {
             description={`People who love ${artist.name}`}
             toolbar={
               <div className="flex gap-1">
-                <SectionToolbarCarouselNavigationButton />
-                <SectionToolbarCarouselNavigationButton next />
+                <SectionToolbarCarouselNavigationButton
+                  callback={() => event('ARTIST_listener_previous')}
+                />
+                <SectionToolbarCarouselNavigationButton
+                  next
+                  callback={() => event('ARTIST_listener_next')}
+                />
                 <SectionToolbarInfoMenu
                   description="Learn more about what top listeners are and how they're calculated"
                   link={supportUrls.artist.top_listeners}
@@ -328,7 +350,10 @@ const Artist: NextPage<Props> = ({ artist }) => {
             <Carousel.Items>
               {topListeners.length > 0
                 ? topListeners.map((item, i) => (
-                    <Carousel.Item key={i}>
+                    <Carousel.Item
+                      key={i}
+                      onClick={() => event('ARTIST_listener_click')}
+                    >
                       <TopListenerCard {...item} />
                     </Carousel.Item>
                   ))
@@ -349,15 +374,23 @@ const Artist: NextPage<Props> = ({ artist }) => {
             description="Artists that fans might also like"
             toolbar={
               <div className="flex gap-1">
-                <SectionToolbarCarouselNavigationButton />
-                <SectionToolbarCarouselNavigationButton next />
+                <SectionToolbarCarouselNavigationButton
+                  callback={() => event('ARTIST_related_artist_previous')}
+                />
+                <SectionToolbarCarouselNavigationButton
+                  next
+                  callback={() => event('ARTIST_related_artist_next')}
+                />
               </div>
             }
           >
             <Carousel.Items>
               {related.length > 0
                 ? related.map((item, i) => (
-                    <Carousel.Item key={i}>
+                    <Carousel.Item
+                      key={i}
+                      onClick={() => event('ARTIST_related_artist_click')}
+                    >
                       <RelatedArtistCard {...item} />
                     </Carousel.Item>
                   ))
@@ -378,7 +411,11 @@ const Artist: NextPage<Props> = ({ artist }) => {
           description={`Your streams featuring ${artist.name}`}
         >
           {({ headerRef }) => (
-            <RecentStreams headerRef={headerRef} streams={streams} />
+            <RecentStreams
+              headerRef={headerRef}
+              streams={streams}
+              onItemClick={() => event('ARTIST_stream_click')}
+            />
           )}
         </Section>
       </Container>
