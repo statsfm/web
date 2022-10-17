@@ -26,10 +26,10 @@ import { Title } from '@/components/Title';
 import Head from 'next/head';
 import { CrownIcon } from '@/components/Icons';
 import { Button } from '@/components/Button';
-import { FriendStatus } from '@statsfm/statsfm.js';
 import clsx from 'clsx';
 import type { SSRProps } from '@/utils/ssrUtils';
 import { fetchUser } from '@/utils/ssrUtils';
+import { FriendStatus } from '@statsfm/statsfm.js';
 
 // const ListeningClockChart = () => {
 //   const config = {
@@ -84,7 +84,7 @@ import { fetchUser } from '@/utils/ssrUtils';
 
 type Props = SSRProps & {
   userProfile: statsfm.UserPublic;
-  friendStatus: FriendStatus;
+  friendStatus: statsfm.FriendStatus;
   friendCount: number;
 };
 
@@ -548,15 +548,27 @@ const User: NextPage<Props> = ({
               isCurrentUser ? 'Your' : `${user.displayName}'s`
             } top genres ${ranges[range]}`}
           >
-            {/* TODO: add some sort of skeleton */}
-            <ChipGroup>
-              {topGenres.map((genre, i) => (
-                <Chip key={i}>
-                  <Link href={`/genre/${genre.genre.tag}`}>
-                    {genre.genre.tag}
-                  </Link>
-                </Chip>
-              ))}
+            <ChipGroup
+              className={clsx(topGenres.length === 0 && '!overflow-x-hidden')}
+            >
+              {topGenres.length > 0
+                ? topGenres.map((genre, i) => (
+                    <Chip key={i}>
+                      <Link href={`/genre/${genre.genre.tag}`}>
+                        {genre.genre.tag}
+                      </Link>
+                    </Chip>
+                  ))
+                : Array(8)
+                    .fill(null)
+                    .map((_v, i) => (
+                      <Chip
+                        className="shrink-0 animate-pulse text-transparent"
+                        key={i}
+                      >
+                        {i.toString().repeat(i + (10 % 17))}
+                      </Chip>
+                    ))}
             </ChipGroup>
           </Section>
 
