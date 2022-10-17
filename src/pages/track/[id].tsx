@@ -32,6 +32,8 @@ import Head from 'next/head';
 import { StatsCard } from '@/components/StatsCard';
 import dayjs from '@/utils/dayjs';
 import { SpotifyIcon } from '@/components/Icons';
+import { useScrollPercentage } from '@/hooks/use-scroll-percentage';
+import { event } from 'nextjs-google-analytics';
 
 const AudioFeaturesRadarChart = ({
   acousticness,
@@ -182,6 +184,7 @@ const FeatureCard: FC<{ feature: string; value: string }> = ({
 const Track: NextPage<Props> = ({ track }) => {
   const api = useApi();
   const { user } = useAuth();
+  useScrollPercentage(30, () => event('TRACK_scroll_30'));
 
   const [topListeners, setTopListeners] = useState<statsfm.TopUser[]>([]);
   const [audioFeatures, setAudioFeatures] = useState<statsfm.AudioFeatures>();
@@ -321,14 +324,23 @@ const Track: NextPage<Props> = ({ track }) => {
             description={`Albums featuring ${track.name}`}
             toolbar={
               <div className="flex gap-1">
-                <SectionToolbarCarouselNavigationButton />
-                <SectionToolbarCarouselNavigationButton next />
+                <SectionToolbarCarouselNavigationButton
+                  callback={() => event('TRACK_album_previous')}
+                />
+                <SectionToolbarCarouselNavigationButton
+                  next
+                  callback={() => event('TRACK_album_next')}
+                />
               </div>
             }
           >
             <Carousel.Items>
               {track.albums.map((item, i) => (
-                <Carousel.Item key={i} className="w-max">
+                <Carousel.Item
+                  key={i}
+                  className="w-max"
+                  onClick={() => event('TRACK_album_click')}
+                >
                   <AlbumCard album={item} />
                 </Carousel.Item>
               ))}
@@ -342,8 +354,13 @@ const Track: NextPage<Props> = ({ track }) => {
             description={`People who listen a lot to ${track.name}`}
             toolbar={
               <div className="flex gap-1">
-                <SectionToolbarCarouselNavigationButton />
-                <SectionToolbarCarouselNavigationButton next />
+                <SectionToolbarCarouselNavigationButton
+                  callback={() => event('TRACK_listener_previous')}
+                />
+                <SectionToolbarCarouselNavigationButton
+                  next
+                  callback={() => event('TRACK_listener_next')}
+                />
                 <SectionToolbarInfoMenu
                   description="Learn more about what top listeners are and how they're calculated"
                   link={supportUrls.artist.top_listeners}
@@ -354,7 +371,10 @@ const Track: NextPage<Props> = ({ track }) => {
             <Carousel.Items>
               {topListeners.length > 0
                 ? topListeners.map((item, i) => (
-                    <Carousel.Item key={i}>
+                    <Carousel.Item
+                      key={i}
+                      onClick={() => event('TRACK_listener_click')}
+                    >
                       <TopListenerCard {...item} />
                     </Carousel.Item>
                   ))
