@@ -7,6 +7,7 @@ import type { GetServerSideProps, NextPage } from 'next';
 import { useEffect, useState } from 'react';
 import type { SSRProps } from '@/utils/ssrUtils';
 import { fetchUser } from '@/utils/ssrUtils';
+import { event } from 'nextjs-google-analytics';
 
 type PlatformType = {
   status: 'LOADING' | 'CONNECTED' | 'DISCONNECTED';
@@ -33,9 +34,12 @@ const useConnections = () => {
       connection: null as UserSocialMediaConnection | null,
       // TODO: optimistic updates for connecting
       connect: () => {
+        event('SETTINGS_connections_discord_connect');
         window.location.href = `${api.http.config.baseUrl}/me/connections/discord/redirect?authorization=${api.http.config.accessToken}&redirect_uri=${window.location.href}`;
       },
-      disconnect: () => {},
+      disconnect: () => {
+        event('SETTINGS_connections_discord_disconnect');
+      },
     },
   ];
 

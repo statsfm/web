@@ -30,6 +30,7 @@ import {
 } from 'react-icons/md';
 import type { SSRProps } from '@/utils/ssrUtils';
 import { fetchUser } from '@/utils/ssrUtils';
+import { event } from 'nextjs-google-analytics';
 
 type StatusOptions = 'SAVING' | 'SAVED' | 'ERROR' | 'DEFAULT' | 'DELETING';
 type UrlAvailableOptions = 'LOADING' | 'AVAILABLE' | 'UNAVAILABLE';
@@ -126,6 +127,7 @@ const StateContextProvider: FC<PropsWithChildren<{ user: UserPrivate }>> = ({
     }
 
     setStatus('SAVED');
+    event('SETTINGS_profile_saved');
     return true;
   };
 
@@ -295,6 +297,7 @@ const DeleteAccount: FC = () => {
       return;
     }
 
+    event('SETTINGS_delete_account');
     logout();
     router.push('/');
   }, []);

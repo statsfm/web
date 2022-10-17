@@ -12,6 +12,7 @@ import type { FC } from 'react';
 import { useCallback, useMemo, useState } from 'react';
 import type { SSRProps } from '@/utils/ssrUtils';
 import { fetchUser } from '@/utils/ssrUtils';
+import { event } from 'nextjs-google-analytics';
 
 type DisplayNamesType = {
   [key in keyof UserPrivacySettings | 'leaderboards']: {
@@ -101,6 +102,7 @@ const PrivacyList: FC<{ user: UserPrivate }> = () => {
     }
 
     setStatus('SAVED');
+    event('SETTINGS_profile_saved');
   }, [privacySettings]);
 
   return (
