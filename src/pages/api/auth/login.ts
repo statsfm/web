@@ -7,9 +7,6 @@ const handler = (req: NextApiRequest, res: NextApiResponse) => {
 
   res.setHeader('Set-Cookie', [
     'identityToken=; Path=/; Domain=.stats.fm; HttpOnly=false; Expires=Thu, 01 Jan 1970 00:00:00 GMT',
-  ]);
-
-  res.setHeader('Set-Cookie', [
     'identityToken=; Path=/; Domain=.stats.fm; HttpOnly=true; Expires=Thu, 01 Jan 1970 00:00:00 GMT',
   ]);
 
