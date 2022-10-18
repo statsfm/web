@@ -26,44 +26,8 @@ export const AuthProvider = (
   const router = useRouter();
 
   const login = (redirectUrl?: string) => {
-    const scope = [
-      // Images
-      'ugc-image-upload',
-      // Spotify Connect
-      'user-read-playback-state',
-      'user-modify-playback-state',
-      'user-read-currently-playing',
-      // Playback
-      'streaming',
-      'app-remote-control',
-      // Users
-      'user-read-email',
-      'user-read-private',
-      // 'user-read-birthdate',
-      // Playlists
-      'playlist-read-collaborative',
-      'playlist-modify-public',
-      'playlist-read-private',
-      'playlist-modify-private',
-      // Library
-      'user-library-modify',
-      'user-library-read',
-      // Listening History
-      'user-top-read',
-      'user-read-playback-position',
-      'user-read-recently-played',
-      // Follow
-      'user-follow-read',
-      'user-follow-modify',
-    ].join('%20');
-
     if (redirectUrl) Cookies.set('redirectUrl', redirectUrl);
-
-    // eslint-disable-next-line no-restricted-globals
-    location.replace(
-      // eslint-disable-next-line no-restricted-globals
-      `https://api.stats.fm/api/v1/auth/redirect/spotify?scope=${scope}&redirect_uri=${location.origin}/api/auth/callback`
-    );
+    router.push('/api/auth/login');
   };
 
   const tokenAge = () => {
@@ -89,11 +53,6 @@ export const AuthProvider = (
 
   const logout = () => {
     setUser(null);
-    Cookies.remove('identityToken', {
-      domain: '.stats.fm',
-      path: '/',
-      secure: true,
-    });
     Cookies.set('redirectUrl', router.asPath);
     router.push('/api/auth/logout');
   };

@@ -31,7 +31,6 @@ const Login: NextPage = () => {
         <div className="mt-8 flex flex-col gap-4">
           <Button
             onClick={() => {
-              auth.logout();
               auth.login();
             }}
             className="w-full bg-primary/80 text-black hover:bg-primary/60 active:bg-primary/50"

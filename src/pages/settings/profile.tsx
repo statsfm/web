@@ -346,7 +346,7 @@ const DeleteAccount: FC = () => {
           <Button
             onClick={() => {
               logout();
-              login(router.pathname);
+              login(router.asPath);
             }}
             className="mt-2"
           >
