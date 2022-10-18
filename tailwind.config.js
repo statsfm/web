@@ -26,8 +26,8 @@ module.exports = {
         'text-grey': '#727272',
       },
       fontFamily: {
-        body: 'Open Sans',
-        heading: 'Open Sans',
+        body: 'Statsfm Sans',
+        heading: 'Statsfm Sans',
       },
       keyframes: {
         fade: {
