@@ -121,7 +121,11 @@ const ConnectionsList = () => {
                     : platform.connect
                 }
               >
-                {platform.status === 'CONNECTED' ? 'Disconnect' : 'Connect'}
+                {(() => {
+                  if (platform.status === 'LOADING') return 'LOADING';
+                  if (platform.status === 'CONNECTED') return 'Disconnect';
+                  return 'Connect';
+                })()}
               </Button>
             </div>
           </li>
