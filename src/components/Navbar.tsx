@@ -5,6 +5,7 @@ import { MdAccountCircle, MdExitToApp, MdManageAccounts } from 'react-icons/md';
 import { Transition } from '@headlessui/react';
 import { event } from 'nextjs-google-analytics';
 import { useRouter } from 'next/router';
+import Cookies from 'js-cookie';
 import { Logo } from './Logo';
 import { Avatar } from './Avatar/Avatar';
 import { Menu } from './Menu';
@@ -14,6 +15,12 @@ import { Button } from './Button';
 export const NavBar = () => {
   const { user, logout, login } = useAuth();
   const router = useRouter();
+
+  const handleLogin = () => {
+    // if a redirect url is already set (which happens when you are auth guarded), dont set it again
+    const redirectUrl = Cookies.get('redirectUrl');
+    login(redirectUrl || router.asPath);
+  };
 
   const handleLogOutClick = () => {
     logout();
@@ -102,7 +109,7 @@ export const NavBar = () => {
             )}
           </Menu>
         ) : (
-          <Button onClick={() => login(router.asPath)} className="my-2">
+          <Button onClick={handleLogin} className="my-2">
             Log in
           </Button>
         )}
