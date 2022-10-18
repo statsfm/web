@@ -1,4 +1,3 @@
-import { useApi } from '@/hooks';
 import type { GetServerSideProps, NextPage } from 'next';
 import { Chip, ChipGroup } from '@/components/Chip';
 import { Container } from '@/components/Container';
@@ -9,6 +8,7 @@ import Link from 'next/link';
 import { Title } from '@/components/Title';
 import { useMedia } from 'react-use';
 import { useMemo } from 'react';
+import { getApiInstance } from '@/utils/ssrUtils';
 
 type Props = {
   tag: string;
@@ -16,8 +16,7 @@ type Props = {
 };
 
 export const getServerSideProps: GetServerSideProps<Props> = async (ctx) => {
-  // eslint-disable-next-line react-hooks/rules-of-hooks
-  const api = useApi();
+  const api = getApiInstance();
   const tag = ctx.params?.tag?.toString();
 
   if (!tag) {

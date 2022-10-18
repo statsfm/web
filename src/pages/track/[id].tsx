@@ -2,7 +2,7 @@ import type { GetServerSideProps, NextPage } from 'next';
 import type { FC } from 'react';
 import React, { useMemo, useEffect, useState } from 'react';
 
-import * as statsfm from '@statsfm/statsfm.js';
+import type * as statsfm from '@statsfm/statsfm.js';
 
 import { Image } from '@/components/Image';
 import { Section } from '@/components/Section';
@@ -34,6 +34,7 @@ import dayjs from '@/utils/dayjs';
 import { SpotifyIcon } from '@/components/Icons';
 import { useScrollPercentage } from '@/hooks/use-scroll-percentage';
 import { event } from 'nextjs-google-analytics';
+import { getApiInstance } from '@/utils/ssrUtils';
 
 const AudioFeaturesRadarChart = ({
   acousticness,
@@ -116,8 +117,7 @@ interface Props {
 }
 
 export const getServerSideProps: GetServerSideProps<Props> = async (ctx) => {
-  const api = new statsfm.Api();
-
+  const api = getApiInstance();
   const id = ctx.params?.id?.toString();
 
   if (!id) {

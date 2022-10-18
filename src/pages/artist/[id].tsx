@@ -28,6 +28,7 @@ import Head from 'next/head';
 import { StatsCard } from '@/components/StatsCard';
 import { useScrollPercentage } from '@/hooks/use-scroll-percentage';
 import { event } from 'nextjs-google-analytics';
+import { getApiInstance } from '@/utils/ssrUtils';
 
 const MoreTracks = ({
   artist,
@@ -135,8 +136,7 @@ interface Props {
 }
 
 export const getServerSideProps: GetServerSideProps<Props> = async (ctx) => {
-  // eslint-disable-next-line react-hooks/rules-of-hooks
-  const api = useApi();
+  const api = getApiInstance();
   const id = ctx.params?.id?.toString();
 
   if (!id) {

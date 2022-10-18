@@ -1,6 +1,6 @@
 import type { GetServerSideProps, NextPage } from 'next';
 import { useEffect, useMemo, useState } from 'react';
-import * as statsfm from '@statsfm/statsfm.js';
+import type * as statsfm from '@statsfm/statsfm.js';
 
 import Link from 'next/link';
 import { Image } from '@/components/Image';
@@ -22,6 +22,7 @@ import { SpotifyIcon } from '@/components/Icons';
 import { StatsCard } from '@/components/StatsCard';
 import { useScrollPercentage } from '@/hooks/use-scroll-percentage';
 import { event } from 'nextjs-google-analytics';
+import { getApiInstance } from '@/utils/ssrUtils';
 
 interface Props {
   album: statsfm.Album;
@@ -29,8 +30,7 @@ interface Props {
 }
 
 export const getServerSideProps: GetServerSideProps<Props> = async (ctx) => {
-  const api = new statsfm.Api();
-
+  const api = getApiInstance();
   const id = ctx.params?.id?.toString();
 
   if (!id) {

@@ -1,16 +1,20 @@
-import { useApi } from '@/hooks';
 import type { UserPrivate } from '@statsfm/statsfm.js';
+import * as statsfm from '@statsfm/statsfm.js';
 
 export type SSRProps<T = {}> = {
   user: UserPrivate | null;
 } & T;
 
-export const fetchUser = async (ctx: any): Promise<UserPrivate | null> => {
-  // eslint-disable-next-line react-hooks/rules-of-hooks
-  const api = useApi();
+export const getApiInstance = (accessToken?: string) => {
+  return new statsfm.Api({
+    baseUrl: 'https://beta-api.stats.fm/api/v1',
+    accessToken,
+  });
+};
 
+export const fetchUser = async (ctx: any): Promise<UserPrivate | null> => {
   const { identityToken } = ctx.req.cookies;
-  api.http.config.accessToken = identityToken;
+  const api = getApiInstance(identityToken);
 
   let user: UserPrivate | null;
 

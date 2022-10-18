@@ -28,7 +28,7 @@ import { CrownIcon } from '@/components/Icons';
 import { Button } from '@/components/Button';
 import clsx from 'clsx';
 import type { SSRProps } from '@/utils/ssrUtils';
-import { fetchUser } from '@/utils/ssrUtils';
+import { getApiInstance, fetchUser } from '@/utils/ssrUtils';
 import { FriendStatus } from '@statsfm/statsfm.js';
 import { event } from 'nextjs-google-analytics';
 import { useScrollPercentage } from '@/hooks/use-scroll-percentage';
@@ -91,8 +91,8 @@ type Props = SSRProps & {
 };
 
 export const getServerSideProps: GetServerSideProps<Props> = async (ctx) => {
-  // eslint-disable-next-line react-hooks/rules-of-hooks
-  const api = useApi();
+  const { identityToken } = ctx.req.cookies;
+  const api = getApiInstance(identityToken);
   const id = ctx.params?.id?.toString();
 
   if (!id) {

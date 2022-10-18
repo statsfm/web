@@ -2,7 +2,7 @@ import { Container } from '@/components/Container';
 import { Section } from '@/components/Section';
 import { Title } from '@/components/Title';
 import type { SSRProps } from '@/utils/ssrUtils';
-import { fetchUser } from '@/utils/ssrUtils';
+import { getApiInstance, fetchUser } from '@/utils/ssrUtils';
 import type { GetServerSideProps, NextPage } from 'next';
 import type * as statsfm from '@statsfm/statsfm.js';
 import { useApi } from '@/hooks';
@@ -16,8 +16,7 @@ import { MdChevronLeft } from 'react-icons/md';
 type Props = SSRProps<{ userProfile: statsfm.UserPublic; friendCount: number }>;
 
 export const getServerSideProps: GetServerSideProps<Props> = async (ctx) => {
-  // eslint-disable-next-line react-hooks/rules-of-hooks
-  const api = useApi();
+  const api = getApiInstance();
   const id = ctx.params?.id?.toString();
 
   if (!id) {
