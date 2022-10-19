@@ -34,7 +34,8 @@ import dayjs from '@/utils/dayjs';
 import { SpotifyIcon } from '@/components/Icons';
 import { useScrollPercentage } from '@/hooks/use-scroll-percentage';
 import { event } from 'nextjs-google-analytics';
-import { getApiInstance } from '@/utils/ssrUtils';
+import type { SSRProps } from '@/utils/ssrUtils';
+import { fetchUser, getApiInstance } from '@/utils/ssrUtils';
 
 const AudioFeaturesRadarChart = ({
   acousticness,
@@ -112,9 +113,9 @@ const AudioFeaturesRadarChart = ({
   return <Radar {...config} />;
 };
 
-interface Props {
+type Props = SSRProps & {
   track: statsfm.Track;
-}
+};
 
 export const getServerSideProps: GetServerSideProps<Props> = async (ctx) => {
   const api = getApiInstance();
@@ -125,10 +126,12 @@ export const getServerSideProps: GetServerSideProps<Props> = async (ctx) => {
   }
 
   const track = await api.tracks.get(parseInt(id, 10));
+  const user = await fetchUser(ctx);
 
   return {
     props: {
       track,
+      user,
     },
   };
 };
@@ -308,7 +311,7 @@ const Track: NextPage<Props> = ({ track }) => {
           <li>
             <StatsCard
               label="0-10 popularity"
-              value={(track.spotifyPopularity / 10).toLocaleString()}
+              value={(track.spotifyPopularity / 10).toLocaleString('eu')}
             />
           </li>
           <li>

@@ -254,7 +254,7 @@ const Artist: NextPage<Props> = ({ artist }) => {
           </li>
           <li>
             <StatsCard
-              value={(artist.spotifyPopularity / 10).toLocaleString()}
+              value={(artist.spotifyPopularity / 10).toLocaleString('eu')}
               label={'0-10 popularity'}
             />
           </li>
