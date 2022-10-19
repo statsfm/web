@@ -428,7 +428,7 @@ const User: NextPage<Props> = ({
     <>
       <Title>
         {`${user.displayName}'${
-          user.displayName.endsWith('s') || 's'
+          user.displayName.endsWith('s') ? '' : 's'
         } stats, streams and more`}
       </Title>
       <Head>
