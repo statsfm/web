@@ -60,9 +60,10 @@ const FriendsPage: NextPage<Props> = ({ userProfile, friendCount }) => {
                   back to {userProfile.displayName}
                 </a>
               </Link>
-              <h1 className="text-4xl font-extrabold capitalize sm:text-5xl md:text-left">
+              <h1 className="text-4xl font-extrabold sm:text-5xl md:text-left">
                 {userProfile.displayName}
-                <span className="text-white">&apos;s Friends</span>
+                {/* TODO: pluralisation */}
+                <span className="text-white">&apos;s friends</span>
               </h1>
             </div>
           </section>
