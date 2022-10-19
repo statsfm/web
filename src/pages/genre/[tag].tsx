@@ -8,9 +8,10 @@ import Link from 'next/link';
 import { Title } from '@/components/Title';
 import { useMedia } from 'react-use';
 import { useMemo } from 'react';
-import { getApiInstance } from '@/utils/ssrUtils';
+import type { SSRProps } from '@/utils/ssrUtils';
+import { fetchUser, getApiInstance } from '@/utils/ssrUtils';
 
-type Props = {
+type Props = SSRProps & {
   tag: string;
   genre: Omit<Genre, 'artists'> & { artists: Artist[] };
 };
@@ -27,10 +28,17 @@ export const getServerSideProps: GetServerSideProps<Props> = async (ctx) => {
     artists: Artist[];
   };
 
+  // this is the wackiest hack, genre should throw or be optional if it doesn't exist
+  if (genre.related.length === 0 && genre.sub.length === 0)
+    return { notFound: true };
+
+  const user = await fetchUser(ctx);
+
   return {
     props: {
       tag,
       genre,
+      user,
     },
   };
 };

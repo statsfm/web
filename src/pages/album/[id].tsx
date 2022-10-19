@@ -22,12 +22,13 @@ import { SpotifyIcon } from '@/components/Icons';
 import { StatsCard } from '@/components/StatsCard';
 import { useScrollPercentage } from '@/hooks/use-scroll-percentage';
 import { event } from 'nextjs-google-analytics';
-import { getApiInstance } from '@/utils/ssrUtils';
+import type { SSRProps } from '@/utils/ssrUtils';
+import { fetchUser, getApiInstance } from '@/utils/ssrUtils';
 
-interface Props {
+type Props = SSRProps & {
   album: statsfm.Album;
   tracks: statsfm.Track[];
-}
+};
 
 export const getServerSideProps: GetServerSideProps<Props> = async (ctx) => {
   const api = getApiInstance();
@@ -37,14 +38,23 @@ export const getServerSideProps: GetServerSideProps<Props> = async (ctx) => {
     throw new Error('no param id recieved');
   }
 
-  const album = await api.albums.get(parseInt(id, 10));
-  const tracks = await api.albums.tracks(parseInt(id, 10));
-  // const streams = await api.users.albumStreams('martijn', album.id);
+  let album;
+  let tracks;
+
+  try {
+    album = await api.albums.get(parseInt(id, 10));
+    tracks = await api.albums.tracks(parseInt(id, 10));
+  } catch (e) {
+    return { notFound: true };
+  }
+
+  const user = await fetchUser(ctx);
 
   return {
     props: {
       album,
       tracks,
+      user,
     },
   };
 };

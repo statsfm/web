@@ -125,7 +125,13 @@ export const getServerSideProps: GetServerSideProps<Props> = async (ctx) => {
     throw new Error('no param id recieved');
   }
 
-  const track = await api.tracks.get(parseInt(id, 10));
+  let track;
+  try {
+    track = await api.tracks.get(parseInt(id, 10));
+  } catch (e) {
+    return { notFound: true };
+  }
+
   const user = await fetchUser(ctx);
 
   return {

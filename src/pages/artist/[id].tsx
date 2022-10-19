@@ -28,7 +28,8 @@ import Head from 'next/head';
 import { StatsCard } from '@/components/StatsCard';
 import { useScrollPercentage } from '@/hooks/use-scroll-percentage';
 import { event } from 'nextjs-google-analytics';
-import { getApiInstance } from '@/utils/ssrUtils';
+import type { SSRProps } from '@/utils/ssrUtils';
+import { fetchUser, getApiInstance } from '@/utils/ssrUtils';
 
 const MoreTracks = ({
   artist,
@@ -131,9 +132,9 @@ const MoreTracks = ({
   );
 };
 
-interface Props {
+type Props = SSRProps & {
   artist: statsfm.Artist;
-}
+};
 
 export const getServerSideProps: GetServerSideProps<Props> = async (ctx) => {
   const api = getApiInstance();
@@ -144,11 +145,19 @@ export const getServerSideProps: GetServerSideProps<Props> = async (ctx) => {
   }
 
   // TODO: create some sort of parseId function
-  const artist = await api.artists.get(parseInt(id, 10));
+  let artist;
+  try {
+    artist = await api.artists.get(parseInt(id, 10));
+  } catch (e) {
+    return { notFound: true };
+  }
+
+  const user = await fetchUser(ctx);
 
   return {
     props: {
       artist,
+      user,
     },
   };
 };
