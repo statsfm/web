@@ -723,6 +723,11 @@ const User: NextPage<Props> = ({
                   streams={recentStreams}
                   onItemClick={() => event('USER_recent_track_click')}
                 />
+                <Link href={`/${user.customId || user.id}/streams`}>
+                  <a className="py-3 font-bold uppercase text-text-grey">
+                    show all
+                  </a>
+                </Link>
               </PrivacyScope>
             )}
           </Section>

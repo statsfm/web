@@ -3,50 +3,21 @@ import type { SSRProps } from '@/utils/ssrUtils';
 import { getApiInstance, fetchUser } from '@/utils/ssrUtils';
 import type { GetServerSideProps, NextPage } from 'next';
 import Link from 'next/link';
-import { MdChevronLeft, MdVisibilityOff } from 'react-icons/md';
+import { MdChevronLeft, MdDiscFull, MdVisibilityOff } from 'react-icons/md';
 import type * as statsfm from '@statsfm/statsfm.js';
 import { Title } from '@/components/Title';
-import { RecentStreams } from '@/components/RecentStreams';
 import { Section } from '@/components/Section';
-import { useApi, useAuth } from '@/hooks';
-import type { PropsWithChildren } from 'react';
-import { useRef, useEffect, useState, createContext, useContext } from 'react';
-import { useWindowScroll } from 'react-use';
+import { useApi } from '@/hooks';
+import { useState } from 'react';
+import InfiniteScroll from 'react-infinite-scroller';
+import { Spinner } from '@/components/Spinner';
+import { RecentStreams } from '@/components/RecentStreams';
 
-const UserContext = createContext<statsfm.UserPublic | null>(null);
-
-const useUserContext = (component: string) => {
-  const ctx = useContext(UserContext);
-
-  if (!ctx)
-    throw new Error(
-      `<${component} /> is missing a parent <UserContext.Provider /> component.`
-    );
-
-  return ctx;
-};
-
-const PrivacyScope = ({
-  scope,
-  children,
-}: PropsWithChildren<{
-  scope: keyof statsfm.UserPrivacySettings;
-}>) => {
-  const user = useUserContext('PrivacyScope');
-
-  if (user.privacySettings && user.privacySettings[scope]) {
-    return <>{children}</>;
-  }
-
-  return (
-    <div className="grid w-full place-items-center">
-      <MdVisibilityOff />
-
-      <p className="m-0 text-text-grey">
-        {user.displayName} doesn&apos;t share this
-      </p>
-    </div>
-  );
+const usePrivacyScope = (
+  scope: keyof statsfm.UserPrivacySettings,
+  user: statsfm.UserPublic
+) => {
+  return user.privacySettings && user.privacySettings[scope];
 };
 
 type Props = SSRProps & {
@@ -64,7 +35,6 @@ export const getServerSideProps: GetServerSideProps<Props> = async (ctx) => {
 
   const userProfile = await api.users.get(id).catch(() => {});
   if (!userProfile) return { notFound: true };
-
   const user = await fetchUser(ctx);
 
   return {
@@ -76,52 +46,25 @@ export const getServerSideProps: GetServerSideProps<Props> = async (ctx) => {
 };
 
 const StreamsPage: NextPage<Props> = ({ userProfile }) => {
-  const { user } = useAuth();
   const api = useApi();
-  const { y: offsetY } = useWindowScroll();
-  const contentRef = useRef<HTMLDivElement>(null);
-  const [loading, setLoading] = useState(false);
-  const callbackRef = useRef<any>();
+  const scopePrivate = usePrivacyScope('streams', userProfile);
 
   const [recentStreams, setRecentStreams] = useState<statsfm.Stream[]>([]);
+  const [loadMoar, setLoadMoar] = useState(true);
 
-  callbackRef.current = async () => {
-    console.log('halloo', loading);
+  const callbackRef = async () => {
     if (!userProfile.privacySettings?.recentlyPlayed) return;
-    if (loading) return;
-    setLoading(true);
-    console.log('bruh');
-    console.log(recentStreams.length);
-    const huts = recentStreams[recentStreams.length - 1]
+    const lastEndTime = recentStreams[recentStreams.length - 1]
       ?.endTime as any as string;
-    console.log(huts);
 
     const streams = await api.users.streams(userProfile.id, {
-      limit: 50,
-      before: new Date(huts).getTime() || new Date().getTime(),
+      limit: 200,
+      before: new Date(lastEndTime).getTime() || new Date().getTime(),
     });
 
-    setRecentStreams([...(recentStreams || []), ...streams]);
-    setLoading(false);
+    if (streams.length === 0) setLoadMoar(false);
+    setRecentStreams([...(recentStreams || []), ...streams.slice(1)]);
   };
-
-  useEffect(() => {
-    console.log(loading);
-    if (!contentRef.current) return;
-    const { clientHeight } = document.documentElement;
-    const { clientHeight: refH } = contentRef.current;
-
-    if (offsetY + clientHeight >= refH && !loading) {
-      callbackRef.current();
-    }
-  }, [offsetY]);
-
-  useEffect(() => {
-    callbackRef.current();
-  }, []);
-
-  if (!user) return null;
-  // const isCurrentUser = userProfile?.id === user.id;
 
   return (
     <>
@@ -136,24 +79,57 @@ const StreamsPage: NextPage<Props> = ({ userProfile }) => {
                   back to {userProfile.displayName}
                 </a>
               </Link>
-              <h1 className="text-4xl font-extrabold capitalize sm:text-5xl md:text-left">
+              <h1 className="text-4xl font-extrabold sm:text-5xl md:text-left">
                 {userProfile.displayName}
-                <span className="text-white">&apos;s Streaming History</span>
+                {/* TODO: pluralisation */}
+                <span className="text-white">&apos;s streaming history</span>
               </h1>
             </div>
           </section>
         </Container>
       </div>
-      <Container ref={contentRef}>
-        <UserContext.Provider value={userProfile}>
-          <Section headerStyle="!py-0">
+      <Container>
+        {scopePrivate ? (
+          <Section>
+            {/* TODO: add title on here */}
             {({ headerRef }) => (
-              <PrivacyScope scope="recentlyPlayed">
-                <RecentStreams headerRef={headerRef} streams={recentStreams} />
-              </PrivacyScope>
+              <>
+                <InfiniteScroll
+                  loadMore={callbackRef}
+                  hasMore={loadMoar}
+                  loader={
+                    <Spinner
+                      key="bigtimerush"
+                      className="!mx-auto my-10 fill-primary !text-foreground"
+                    />
+                  }
+                  threshold={2000}
+                  useWindow={true}
+                >
+                  <RecentStreams
+                    loading={false}
+                    headerRef={headerRef}
+                    streams={recentStreams}
+                  />
+                </InfiniteScroll>
+                {!loadMoar && (
+                  <div className="grid w-full place-items-center py-20">
+                    <MdDiscFull />
+                    <p className="m-0 text-text-grey">No streams to load!</p>
+                  </div>
+                )}
+              </>
             )}
           </Section>
-        </UserContext.Provider>
+        ) : (
+          <div className="grid w-full place-items-center py-20">
+            <MdVisibilityOff />
+
+            <p className="m-0 text-text-grey">
+              {userProfile.displayName} doesn&apos;t share this
+            </p>
+          </div>
+        )}
       </Container>
     </>
   );

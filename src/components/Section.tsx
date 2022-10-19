@@ -16,7 +16,7 @@ interface SectionRenderPropArg {
 }
 
 interface Props extends Omit<HTMLAttributes<HTMLElement>, 'children'> {
-  title: string;
+  title?: string;
   description?: string;
   toolbar?: JSX.Element;
   sticky?: boolean;

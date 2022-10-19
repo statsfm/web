@@ -57,6 +57,10 @@ module.exports = withBundleAnalyzer({
         destination: '/user/:id/friends',
       },
       {
+        source: '/:id/streams',
+        destination: '/user/:id/streams',
+      },
+      {
         source: '/artist/:id/:ignore',
         destination: '/artist/:id',
       },
