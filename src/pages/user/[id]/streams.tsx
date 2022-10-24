@@ -8,10 +8,13 @@ import type * as statsfm from '@statsfm/statsfm.js';
 import { Title } from '@/components/Title';
 import { Section } from '@/components/Section';
 import { useApi } from '@/hooks';
+import type { FC } from 'react';
 import { useState } from 'react';
 import InfiniteScroll from 'react-infinite-scroller';
 import { Spinner } from '@/components/Spinner';
 import { RecentStreams } from '@/components/RecentStreams';
+import clsx from 'clsx';
+import { useRouter } from 'next/router';
 
 const usePrivacyScope = (
   scope: keyof statsfm.UserPrivacySettings,
@@ -19,6 +22,22 @@ const usePrivacyScope = (
 ) => {
   return user.privacySettings && user.privacySettings[scope];
 };
+
+const Toolbar: FC<{ closeCallback: () => void }> = ({ closeCallback }) => (
+  <div>
+    <button
+      aria-label="go back"
+      className={clsx(
+        'mr-4 rounded-full bg-foreground p-2 ring-neutral-500 transition-all',
+        // moved from the global css file
+        'focus-within:ring-2 focus:outline-none focus:ring-2 hover:ring-2'
+      )}
+      onClick={() => closeCallback()}
+    >
+      <MdChevronLeft className="fill-white" />
+    </button>
+  </div>
+);
 
 type Props = SSRProps & {
   userProfile: statsfm.UserPublic;
@@ -48,6 +67,7 @@ export const getServerSideProps: GetServerSideProps<Props> = async (ctx) => {
 const StreamsPage: NextPage<Props> = ({ userProfile }) => {
   const api = useApi();
   const scopePrivate = usePrivacyScope('streams', userProfile);
+  const router = useRouter();
 
   const [recentStreams, setRecentStreams] = useState<statsfm.Stream[]>([]);
   const [loadMoar, setLoadMoar] = useState(true);
@@ -69,7 +89,7 @@ const StreamsPage: NextPage<Props> = ({ userProfile }) => {
   return (
     <>
       <Title>{`${userProfile.displayName}'s streams`}</Title>
-      <div className="bg-foreground pt-20">
+      <div className="relative z-[31] bg-foreground pt-20">
         <Container>
           <section className="flex flex-col items-center gap-5 pt-24 pb-10 md:flex-row md:items-start">
             <div className="flex w-full flex-col justify-end">
@@ -90,7 +110,17 @@ const StreamsPage: NextPage<Props> = ({ userProfile }) => {
       </div>
       <Container>
         {scopePrivate ? (
-          <Section>
+          <Section
+            headerStyle="!flex-row-reverse -mt-24 z-30 relative"
+            title={`back to ${userProfile.displayName}`}
+            toolbar={
+              <Toolbar
+                closeCallback={() =>
+                  router.push(`/${userProfile.customId || userProfile.id}`)
+                }
+              />
+            }
+          >
             {/* TODO: add title on here */}
             {({ headerRef }) => (
               <>
