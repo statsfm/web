@@ -528,11 +528,7 @@ const User: NextPage<Props> = ({
               <PrivacyScope scope="streamStats">
                 <ul className="grid w-full grid-cols-2 gap-4 md:w-4/6 md:grid-cols-4">
                   {stats.length > 0
-                    ? stats.map((item, i) => (
-                        <li key={i}>
-                          <StatsCard {...item} />
-                        </li>
-                      ))
+                    ? stats.map((item, i) => <StatsCard {...item} key={i} />)
                     : Array(6)
                         .fill(null)
                         .map((_n, i) => (

@@ -192,10 +192,10 @@ const Artist: NextPage<Props> = ({ artist }) => {
       setStreams(await api.users.artistStreams(user.id, artist.id));
       setStats(await api.users.artistStats(user.id, artist.id));
     })();
-  }, [user]);
+  }, [user, artist]);
 
   const statsResult = useMemo(() => {
-    if (!user || !stats) return { count: '-', duration: '-' };
+    if (!user || !stats) return null;
 
     const duration = `${Math.floor(stats.durationMs / 1000 / 60)}m`;
     const count = `${stats.count.toLocaleString()}x`;
@@ -241,32 +241,22 @@ const Artist: NextPage<Props> = ({ artist }) => {
 
       <Container className="mt-8">
         <ul className="grid grid-cols-2 gap-6 md:grid-cols-4">
-          <li>
-            <StatsCard
-              value={statsResult.count}
-              label={
-                statsResult.count
-                  ? 'total times streamed'
-                  : 'login to see your stats'
-              }
-            />
-          </li>
-          <li>
-            <StatsCard
-              value={statsResult.duration}
-              label={
-                statsResult.duration
-                  ? 'total minutes streamed'
-                  : 'login to see your stats'
-              }
-            />
-          </li>
-          <li>
-            <StatsCard
-              value={(artist.spotifyPopularity / 10).toLocaleString('eu')}
-              label={'0-10 popularity'}
-            />
-          </li>
+          <StatsCard
+            value={statsResult?.count}
+            label="total times streamed"
+            loading={!statsResult}
+            loginRequired
+          />
+          <StatsCard
+            value={statsResult?.duration}
+            label="total minutes streamed"
+            loading={!statsResult}
+            loginRequired
+          />
+          <StatsCard
+            value={(artist.spotifyPopularity / 10).toLocaleString('eu')}
+            label={'0-10 popularity'}
+          />
         </ul>
 
         <Section title="Genres">

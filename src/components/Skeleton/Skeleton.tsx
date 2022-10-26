@@ -30,15 +30,16 @@ export const Image = ({ animation = 'pulse', width, height }: ImageProps) => (
 
 export interface TextProps extends DefaultProps {
   width: string;
+  height?: string;
 }
 
-export const Text = ({ animation = 'pulse', width }: TextProps) => (
+export const Text = ({ animation = 'pulse', width, height }: TextProps) => (
   <span
     className={clsx(
       'h-4 rounded-full bg-foreground',
       animation && animations[animation]
     )}
-    style={{ width }}
+    style={{ height, width }}
   />
 );
 

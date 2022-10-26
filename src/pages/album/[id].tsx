@@ -91,7 +91,7 @@ const Album: NextPage<Props> = ({ album, tracks }) => {
   }, [album, user]);
 
   const statsResult = useMemo(() => {
-    if (!user || !stats) return { count: '-', duration: '-' };
+    if (!user || !stats) return null;
 
     const duration = `${Math.floor(stats.durationMs / 1000 / 60)}m`;
     const count = `${stats.count.toLocaleString()}x`;
@@ -151,38 +151,26 @@ const Album: NextPage<Props> = ({ album, tracks }) => {
 
       <Container className="mt-8">
         <ul className="grid grid-cols-2 gap-6 md:grid-cols-4">
-          <li>
-            <StatsCard
-              value={statsResult.count}
-              label={
-                statsResult.count
-                  ? 'total times streamed'
-                  : 'login to see your stats'
-              }
-            />
-          </li>
-          <li>
-            <StatsCard
-              value={statsResult.duration}
-              label={
-                statsResult.duration
-                  ? 'total minutes streamed'
-                  : 'login to see your stats'
-              }
-            />
-          </li>
-          <li>
-            <StatsCard
-              value={(album.spotifyPopularity / 10).toLocaleString('eu')}
-              label={'0-10 popularity'}
-            />
-          </li>
-          <li>
-            <StatsCard
-              value={album.totalTracks.toLocaleString()}
-              label={'Tracks'}
-            />
-          </li>
+          <StatsCard
+            value={statsResult?.count}
+            label="total times streamed"
+            loading={!statsResult}
+            loginRequired
+          />
+          <StatsCard
+            value={statsResult?.duration}
+            label="total minutes streamed"
+            loading={!statsResult}
+            loginRequired
+          />
+          <StatsCard
+            value={(album.spotifyPopularity / 10).toLocaleString('eu')}
+            label="0-10 popularity"
+          />
+          <StatsCard
+            value={album.totalTracks.toLocaleString()}
+            label="Tracks"
+          />
         </ul>
 
         <Section title="Album content" description="The tracks on this album">

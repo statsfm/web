@@ -209,11 +209,11 @@ const Track: NextPage<Props> = ({ track }) => {
   }, [audioFeatures]);
 
   const trackStatsResult = useMemo(() => {
-    if (!user || !trackStats) return ['-', '-'];
+    if (!user || !trackStats) return null;
 
     const duration = `${Math.floor(trackStats.durationMs / 1000 / 60)}m`;
     const count = `${trackStats.count.toLocaleString()}x`;
-    return [duration, count];
+    return { duration, count };
   }, [user, trackStats]);
 
   useEffect(() => {
@@ -300,36 +300,27 @@ const Track: NextPage<Props> = ({ track }) => {
       <Container className="mt-8">
         {/* TODO: make a reusable component out of this */}
         <ul className="grid grid-cols-2 gap-6 md:grid-cols-4">
-          <li>
-            <StatsCard
-              label={user ? 'total times streamed' : 'login to see your stats'}
-              value={trackStatsResult[1]!}
-            />
-          </li>
-          <li>
-            <StatsCard
-              label={
-                user ? 'total minutes streamed' : 'login to see your stats'
-              }
-              value={trackStatsResult[0]!}
-            />
-          </li>
-          <li>
-            <StatsCard
-              label="0-10 popularity"
-              value={
-                track.spotifyPopularity
-                  ? (track.spotifyPopularity / 10).toLocaleString('eu')
-                  : '-'
-              }
-            />
-          </li>
-          <li>
-            <StatsCard
-              label="track length"
-              value={dayjs.duration(track.durationMs).format('m:ss')}
-            />
-          </li>
+          <StatsCard
+            label="total times streamed"
+            value={trackStatsResult?.count}
+            loading={!trackStatsResult}
+            loginRequired
+          />
+
+          <StatsCard
+            label="total minutes streamed"
+            value={trackStatsResult?.duration}
+            loading={!trackStatsResult}
+            loginRequired
+          />
+          <StatsCard
+            label="0-10 popularity"
+            value={(track.spotifyPopularity / 10).toLocaleString('eu')}
+          />
+          <StatsCard
+            label="track length"
+            value={dayjs.duration(track.durationMs).format('m:ss')}
+          />
         </ul>
         <Carousel>
           <Section
