@@ -1,16 +1,14 @@
 import type * as statsfm from '@statsfm/statsfm.js';
-import dayjs from '@/utils/dayjs';
 
 // components
 import Link from 'next/link';
+import formatter from '@/utils/formatter';
 import { Avatar } from '../Avatar';
 
 interface Props extends statsfm.TopArtist {}
 
 export const ArtistCard = ({ playedMs, streams, artist, position }: Props) => {
-  const minutes = Math.floor(
-    dayjs.duration(playedMs!, 'ms').asMinutes()
-  ).toLocaleString();
+  const minutes = formatter.formatMinutes(playedMs!);
 
   return (
     <Link href={`/artist/${artist.id}`} passHref>

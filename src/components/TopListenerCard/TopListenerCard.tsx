@@ -1,7 +1,7 @@
 import type * as statsfm from '@statsfm/statsfm.js';
 import clsx from 'clsx';
-import dayjs from '@/utils/dayjs';
 import Link from 'next/link';
+import formatter from '@/utils/formatter';
 import { Avatar } from '../Avatar';
 
 interface Props extends statsfm.TopUser {}
@@ -32,12 +32,7 @@ const TopListenerCard = ({ user, position, playedMs, streams }: Props) => {
 
           <p className="m-0 line-clamp-2">
             {playedMs && (
-              <span>
-                {Math.round(
-                  dayjs.duration(playedMs, 'ms').asMinutes()
-                ).toLocaleString()}{' '}
-                minutes
-              </span>
+              <span>{formatter.formatMinutes(playedMs)} minutes</span>
             )}
 
             <br />

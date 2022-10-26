@@ -12,6 +12,7 @@ import Link from 'next/link';
 import { useMedia } from 'react-use';
 import { Skeleton } from '@/components/Skeleton';
 import { MdChevronLeft } from 'react-icons/md';
+import formatter from '@/utils/formatter';
 
 type Props = SSRProps<{ userProfile: statsfm.UserPublic; friendCount: number }>;
 
@@ -60,10 +61,11 @@ const FriendsPage: NextPage<Props> = ({ userProfile, friendCount }) => {
                   back to {userProfile.displayName}
                 </a>
               </Link>
-              <h1 className="text-4xl font-extrabold sm:text-5xl md:text-left">
-                {userProfile.displayName}
-                {/* TODO: pluralisation */}
-                <span className="text-white">&apos;s friends</span>
+              <h1 className="text-4xl text-white sm:text-5xl md:text-left">
+                {formatter.nounify(userProfile.displayName)}{' '}
+                <span className="text-white">
+                  {formatter.pluralise('friend', friendCount)}
+                </span>
               </h1>
             </div>
           </section>

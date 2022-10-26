@@ -36,7 +36,7 @@ export const getServerSideProps: GetServerSideProps<Props> = async (ctx) => {
 
 const Ban: NextPage<Props> = ({ reason, bannedAt }) => {
   const bannedAtFormatted = useMemo(() => {
-    return bannedAt ? new Date(bannedAt).toLocaleString() : 'Invalid Date';
+    return bannedAt ? new Date(bannedAt).toLocaleString('eu') : 'Invalid Date';
   }, []);
 
   return (

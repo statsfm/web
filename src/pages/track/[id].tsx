@@ -36,6 +36,7 @@ import { useScrollPercentage } from '@/hooks/use-scroll-percentage';
 import { event } from 'nextjs-google-analytics';
 import type { SSRProps } from '@/utils/ssrUtils';
 import { fetchUser, getApiInstance } from '@/utils/ssrUtils';
+import formatter from '@/utils/formatter';
 
 const AudioFeaturesRadarChart = ({
   acousticness,
@@ -211,8 +212,8 @@ const Track: NextPage<Props> = ({ track }) => {
   const trackStatsResult = useMemo(() => {
     if (!user || !trackStats) return null;
 
-    const duration = `${Math.floor(trackStats.durationMs / 1000 / 60)}m`;
-    const count = `${trackStats.count.toLocaleString()}x`;
+    const duration = `${formatter.formatMinutes(trackStats.durationMs)}m`;
+    const count = `${formatter.localiseNumber(trackStats.count)}x`;
     return { duration, count };
   }, [user, trackStats]);
 
@@ -315,7 +316,10 @@ const Track: NextPage<Props> = ({ track }) => {
           />
           <StatsCard
             label="0-10 popularity"
-            value={(track.spotifyPopularity / 10).toLocaleString('eu')}
+            value={formatter.localiseNumber(
+              track.spotifyPopularity / 10,
+              'en-US'
+            )}
           />
           <StatsCard
             label="track length"
@@ -437,7 +441,9 @@ const Track: NextPage<Props> = ({ track }) => {
                 feature="Time signature"
                 value={
                   audioFeatures?.time_signature
-                    ? `${audioFeatures?.time_signature.toLocaleString('en')}/4`
+                    ? `${formatter.localiseNumber(
+                        audioFeatures?.time_signature
+                      )}/4`
                     : '-'
                 }
               />

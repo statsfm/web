@@ -1,18 +1,13 @@
 import type * as statsfm from '@statsfm/statsfm.js';
-import dayjs from '@/utils/dayjs';
 import { Image } from '@/components/Image';
 import Link from 'next/link';
+import formatter from '@/utils/formatter';
 
 interface Props extends Partial<Omit<statsfm.TopTrack, 'track'>> {
   track: statsfm.Track;
 }
 
 export const TrackCard = ({ track, playedMs, streams, position }: Props) => {
-  // TODO: move to util function
-  const minutes = Math.floor(
-    dayjs.duration(playedMs!, 'ms').asMinutes()
-  ).toLocaleString();
-
   return (
     <div className="flex w-40 flex-col">
       <Link href={`/track/${track.id}`} passHref>
@@ -34,7 +29,9 @@ export const TrackCard = ({ track, playedMs, streams, position }: Props) => {
       </Link>
 
       <p className="m-0 line-clamp-2">
-        {playedMs && <span>{minutes} minutes • </span>}
+        {playedMs && (
+          <span>{formatter.formatMinutes(playedMs)} minutes • </span>
+        )}
         {streams && <span>{streams} streams • </span>}
         <span>
           {track.artists.map((artist, i) => (

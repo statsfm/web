@@ -1,11 +1,9 @@
 import { useApi, useStatAnimation } from '@/hooks';
+import formatter from '@/utils/formatter';
 import type { DatabaseSizeItem, DatabaseSize } from '@statsfm/statsfm.js';
 import type { FC } from 'react';
 import { useState, useEffect } from 'react';
 import { MdOutlineArrowRightAlt } from 'react-icons/md';
-
-const formatNumber = (count: number) =>
-  Math.round(count).toLocaleString('en-US');
 
 const TotalStatsItem: FC<{
   label: string;
@@ -19,7 +17,7 @@ const TotalStatsItem: FC<{
     <li className="-mb-5">
       <span>{props.label}</span>
       <h2 className="leading-9">
-        {formatNumber(count)}
+        {formatter.localiseNumber(count)}
         {props.liveIndicator && (
           <span className="relative aspect-square w-3">
             <span className="absolute aspect-square h-4 animate-ping rounded-full bg-primary/75 duration-[1000s]"></span>
@@ -30,7 +28,7 @@ const TotalStatsItem: FC<{
       <p className="mt-0 ml-[-12px] inline-flex scale-90 text-neutral-500">
         <MdOutlineArrowRightAlt className="-rotate-90" />
         <span className="mr-1 font-bold text-inherit">
-          {formatNumber(indicator)}
+          {formatter.localiseNumber(indicator)}
         </span>
         in the last hour
       </p>

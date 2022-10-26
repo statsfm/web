@@ -10,6 +10,7 @@ import { useMedia } from 'react-use';
 import { useMemo } from 'react';
 import type { SSRProps } from '@/utils/ssrUtils';
 import { fetchUser, getApiInstance } from '@/utils/ssrUtils';
+import formattter from '@/utils/formatter';
 
 type Props = SSRProps & {
   tag: string;
@@ -119,9 +120,7 @@ const GenrePage: NextPage<Props> = ({ tag, genre }) => {
                     />
                     <h4 className="mt-2 text-center">{artist.name}</h4>
                     <p className="my-0">
-                      {Intl.NumberFormat('en', { notation: 'compact' }).format(
-                        artist.followers
-                      )}{' '}
+                      {formattter.formatNumberCompact(artist.followers)}{' '}
                       Followers
                     </p>
                   </a>

@@ -24,6 +24,7 @@ import { useScrollPercentage } from '@/hooks/use-scroll-percentage';
 import { event } from 'nextjs-google-analytics';
 import type { SSRProps } from '@/utils/ssrUtils';
 import { fetchUser, getApiInstance } from '@/utils/ssrUtils';
+import formatter from '@/utils/formatter';
 
 type Props = SSRProps & {
   album: statsfm.Album;
@@ -93,8 +94,8 @@ const Album: NextPage<Props> = ({ album, tracks }) => {
   const statsResult = useMemo(() => {
     if (!user || !stats) return null;
 
-    const duration = `${Math.floor(stats.durationMs / 1000 / 60)}m`;
-    const count = `${stats.count.toLocaleString()}x`;
+    const duration = `${formatter.formatMinutes(stats.durationMs)}m`;
+    const count = `${formatter.localiseNumber(stats.count)}x`;
     return { count, duration };
   }, [user, stats]);
 
@@ -164,11 +165,14 @@ const Album: NextPage<Props> = ({ album, tracks }) => {
             loginRequired
           />
           <StatsCard
-            value={(album.spotifyPopularity / 10).toLocaleString('eu')}
+            value={formatter.localiseNumber(
+              album.spotifyPopularity / 10,
+              'en-US'
+            )}
             label="0-10 popularity"
           />
           <StatsCard
-            value={album.totalTracks.toLocaleString()}
+            value={formatter.localiseNumber(album.totalTracks)}
             label="Tracks"
           />
         </ul>

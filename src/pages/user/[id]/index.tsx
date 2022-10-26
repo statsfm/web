@@ -32,6 +32,7 @@ import { getApiInstance, fetchUser } from '@/utils/ssrUtils';
 import { FriendStatus } from '@statsfm/statsfm.js';
 import { event } from 'nextjs-google-analytics';
 import { useScrollPercentage } from '@/hooks/use-scroll-percentage';
+import formatter from '@/utils/formatter';
 
 // const ListeningClockChart = () => {
 //   const config = {
@@ -361,29 +362,27 @@ const User: NextPage<Props> = ({
         setStats([
           {
             label: 'streams',
-            value: stats.count.toLocaleString(),
+            value: formatter.localiseNumber(stats.count),
           },
           {
             label: 'minutes streamed',
-            value: Math.round(
-              dayjs.duration(stats.durationMs).asMinutes()
-            ).toLocaleString(),
+            value: formatter.formatMinutes(stats.durationMs),
           },
           {
             label: 'hours streamed',
-            value: Math.round(hours).toLocaleString(),
+            value: formatter.localiseNumber(Math.round(hours)),
           },
           {
             label: 'different tracks',
-            value: stats.cardinality.tracks.toLocaleString() ?? 0,
+            value: formatter.localiseNumber(stats.cardinality.tracks) ?? 0,
           },
           {
             label: 'different artists',
-            value: stats.cardinality.artists.toLocaleString() ?? 0,
+            value: formatter.localiseNumber(stats.cardinality.artists) ?? 0,
           },
           {
             label: 'different albums',
-            value: stats.cardinality.albums.toLocaleString() ?? 0,
+            value: formatter.localiseNumber(stats.cardinality.albums) ?? 0,
           },
           // {
           //   label: `You were listening to music {${
@@ -427,9 +426,7 @@ const User: NextPage<Props> = ({
   return (
     <>
       <Title>
-        {`${user.displayName}'${
-          user.displayName.endsWith('s') ? '' : 's'
-        } stats, streams and more`}
+        {`${formatter.nounify(user.displayName)} stats, streams and more`}
       </Title>
       <Head>
         <meta property="og:image" content={user.image} />
@@ -489,8 +486,8 @@ const User: NextPage<Props> = ({
                     )}
                     <Link href={`/${user.customId || user.id}/friends`}>
                       <a className="font-medium text-neutral-400">
-                        {/* TODO: pluralisation */}
-                        {friendCount} Friends
+                        {friendCount}{' '}
+                        {formatter.pluralise('Friend', friendCount)}
                       </a>
                     </Link>
                   </>

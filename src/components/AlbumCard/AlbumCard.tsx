@@ -1,8 +1,8 @@
 import type { PropsWithChildren } from 'react';
 import type * as statsfm from '@statsfm/statsfm.js';
-import dayjs from '@/utils/dayjs';
 
 import Link from 'next/link';
+import formatter from '@/utils/formatter';
 import { Image } from '../Image';
 
 interface Props extends Partial<statsfm.TopObject> {
@@ -34,10 +34,7 @@ export const AlbumCard = ({
             {position && `${position}.`} {album.name}
           </h4>
           <p className="m-0 truncate">
-            {playedMs &&
-              `${Math.floor(
-                dayjs.duration(playedMs, 'ms').asMinutes()
-              ).toLocaleString()} minutes`}
+            {playedMs && `${formatter.formatMinutes(playedMs)} minutes`}
             {streams && `• ${streams} streams`}
           </p>
         </div>
