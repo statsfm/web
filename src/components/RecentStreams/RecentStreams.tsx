@@ -7,7 +7,7 @@ import { TrackListRow, TrackListRowSkeleton } from '../TrackListRow';
 
 type Props<T extends statsfm.Stream | statsfm.RecentlyPlayedTrack> = {
   headerRef: RefObject<HTMLElement>;
-  loading?: boolean;
+  loading?: boolean | null; // loading can be null to opt out of loading behvaior and default error state
   onItemClick?: () => void;
 } & (T extends statsfm.Stream
   ? {
@@ -54,14 +54,15 @@ export const RecentStreams = <
     return headerRef.current?.clientHeight ?? 0;
   }, [headerRef.current]);
 
-  if (loading === false && streams.length === 0) {
-    <div className="grid w-full place-items-center">
-      <MdMusicOff />
-      <p className="m-0 text-text-grey">
-        Looks like you don&apos;t have any recent streams
-      </p>
-    </div>;
-  }
+  if (loading === false && streams.length === 0)
+    return (
+      <div className="grid w-full place-items-center py-20">
+        <MdMusicOff />
+        <p className="m-0 text-text-grey">
+          Looks like you don&apos;t have any recent streams
+        </p>
+      </div>
+    );
 
   return (
     <ul>

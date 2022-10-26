@@ -170,7 +170,7 @@ const Artist: NextPage<Props> = ({ artist }) => {
   const [topTracks, setTopTracks] = useState<statsfm.Track[]>([]);
   const [topListeners, setTopListeners] = useState<statsfm.TopUser[]>([]);
   const [related, setRelated] = useState<statsfm.Artist[]>([]);
-  const [streams, setStreams] = useState<statsfm.Stream[]>([]);
+  const [streams, setStreams] = useState<statsfm.Stream[] | null>(null);
   const [stats, setStats] = useState<statsfm.StreamStats | null>(null);
 
   useScrollPercentage(30, () => event('ARTIST_scroll_30'));
@@ -407,8 +407,8 @@ const Artist: NextPage<Props> = ({ artist }) => {
             </Carousel.Items>
           </Section>
         </Carousel>
-        {user && <MoreTracks artist={artist} tracks={topTracks} user={user} />}
 
+        {user && <MoreTracks artist={artist} tracks={topTracks} user={user} />}
         <Section
           title="Your streams"
           description={`Your streams featuring ${artist.name}`}
@@ -416,7 +416,8 @@ const Artist: NextPage<Props> = ({ artist }) => {
           {({ headerRef }) => (
             <RecentStreams
               headerRef={headerRef}
-              streams={streams}
+              streams={streams || []}
+              loading={streams == null}
               onItemClick={() => event('ARTIST_stream_click')}
             />
           )}

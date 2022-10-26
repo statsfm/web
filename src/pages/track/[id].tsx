@@ -466,6 +466,7 @@ const Track: NextPage<Props> = ({ track }) => {
             <RecentStreams
               headerRef={headerRef}
               streams={recentStreams || []}
+              loading={recentStreams === null}
               track={track}
             />
           )}

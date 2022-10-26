@@ -63,7 +63,7 @@ export const getServerSideProps: GetServerSideProps<Props> = async (ctx) => {
 const Album: NextPage<Props> = ({ album, tracks }) => {
   const api = useApi();
   const [topListeners, setTopListeners] = useState<statsfm.TopUser[]>([]);
-  const [streams, setStreams] = useState<statsfm.Stream[]>([]);
+  const [streams, setStreams] = useState<statsfm.Stream[] | null>(null);
   const [stats, setStats] = useState<statsfm.StreamStats | null>(null);
   const { user } = useAuth();
 
@@ -248,7 +248,8 @@ const Album: NextPage<Props> = ({ album, tracks }) => {
           {({ headerRef }) => (
             <RecentStreams
               headerRef={headerRef}
-              streams={streams}
+              streams={streams ?? []}
+              loading={streams === null}
               onItemClick={() => event('ALBUM_stream_track_click')}
             />
           )}

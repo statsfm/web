@@ -137,7 +137,7 @@ const StreamsPage: NextPage<Props> = ({ userProfile }) => {
                   useWindow={true}
                 >
                   <RecentStreams
-                    loading={false}
+                    loading={null}
                     headerRef={headerRef}
                     streams={recentStreams}
                   />
