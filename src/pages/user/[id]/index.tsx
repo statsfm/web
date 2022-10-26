@@ -717,7 +717,7 @@ const User: NextPage<Props> = ({
                   onItemClick={() => event('USER_recent_track_click')}
                 />
                 <Link href={`/${user.customId || user.id}/streams`}>
-                  <a className="py-3 font-bold uppercase text-text-grey">
+                  <a className="my-3 font-bold uppercase text-text-grey transition-colors hover:text-white">
                     show all
                   </a>
                 </Link>

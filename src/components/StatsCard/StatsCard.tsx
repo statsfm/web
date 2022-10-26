@@ -1,4 +1,5 @@
 import { useAuth } from '@/hooks';
+import { useRouter } from 'next/router';
 import type { ElementType, FC, PropsWithChildren } from 'react';
 import { Skeleton } from '../Skeleton';
 
@@ -18,6 +19,7 @@ export const StatsCard = ({
   loading,
 }: Props) => {
   const { user, login } = useAuth();
+  const router = useRouter();
 
   const Card: FC<PropsWithChildren<{}>> = (props) => (
     <Component>
@@ -29,7 +31,10 @@ export const StatsCard = ({
   if (loginRequired && !user)
     return (
       <Card>
-        <h3 className="truncate underline" onClick={() => login()}>
+        <h3
+          className="h-9 cursor-pointer truncate text-xl leading-8 hover:underline"
+          onClick={() => login(router.asPath)}
+        >
           Login to see
         </h3>
       </Card>
