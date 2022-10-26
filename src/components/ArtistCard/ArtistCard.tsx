@@ -8,7 +8,12 @@ import { Avatar } from '../Avatar';
 interface Props extends statsfm.TopArtist {}
 
 export const ArtistCard = ({ playedMs, streams, artist, position }: Props) => {
-  const minutes = formatter.formatMinutes(playedMs!);
+  const subtitle = [
+    playedMs && `${formatter.formatMinutes(playedMs)} minutes`,
+    streams && `${streams} streams`,
+  ]
+    .filter(Boolean)
+    .join(' • ');
 
   return (
     <Link href={`/artist/${artist.id}`} passHref>
@@ -19,11 +24,8 @@ export const ArtistCard = ({ playedMs, streams, artist, position }: Props) => {
           <h4 className="line-clamp-2">
             {position && `${position}.`} {artist.name}
           </h4>
-          <p className="m-0 leading-tight line-clamp-2">
-            <span>
-              {playedMs && <span>{minutes} minutes • </span>}
-              <span>{streams} streams</span>
-            </span>
+          <p className="m-0 leading-tight line-clamp-2" title={subtitle}>
+            {subtitle}
           </p>
         </div>
       </a>

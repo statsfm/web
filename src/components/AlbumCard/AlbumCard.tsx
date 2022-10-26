@@ -15,6 +15,13 @@ export const AlbumCard = ({
   streams,
   position,
 }: PropsWithChildren<Props>) => {
+  const subtitle = [
+    playedMs && `${formatter.formatMinutes(playedMs)} minutes`,
+    streams && `${streams} streams`,
+  ]
+    .filter(Boolean)
+    .join(' • ');
+
   return (
     <Link href={`/album/${album.id}`} passHref>
       <a className="block w-40">
@@ -33,9 +40,8 @@ export const AlbumCard = ({
           <h4 className="line-clamp-2">
             {position && `${position}.`} {album.name}
           </h4>
-          <p className="m-0 truncate">
-            {playedMs && `${formatter.formatMinutes(playedMs)} minutes`}
-            {streams && `• ${streams} streams`}
+          <p className="m-0 truncate" title={subtitle}>
+            {subtitle}
           </p>
         </div>
       </a>

@@ -8,6 +8,13 @@ interface Props extends Partial<Omit<statsfm.TopTrack, 'track'>> {
 }
 
 export const TrackCard = ({ track, playedMs, streams, position }: Props) => {
+  const subtitle = [
+    playedMs && `${formatter.formatMinutes(playedMs)} minutes`,
+    streams && `${streams} streams`,
+  ]
+    .filter(Boolean)
+    .join(' • ');
+
   return (
     <div className="flex w-40 flex-col">
       <Link href={`/track/${track.id}`} passHref>
@@ -28,11 +35,9 @@ export const TrackCard = ({ track, playedMs, streams, position }: Props) => {
         </a>
       </Link>
 
-      <p className="m-0 line-clamp-2">
-        {playedMs && (
-          <span>{formatter.formatMinutes(playedMs)} minutes • </span>
-        )}
-        {streams && <span>{streams} streams • </span>}
+      <p className="m-0 line-clamp-2" title={subtitle}>
+        {subtitle}
+        {subtitle && ' • '}
         <span>
           {track.artists.map((artist, i) => (
             <span key={artist.id + i}>
