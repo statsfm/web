@@ -16,7 +16,7 @@ export const TrackCard = ({ track, playedMs, streams, position }: Props) => {
     .join(' • ');
 
   return (
-    <div className="flex w-40 flex-col">
+    <div className="flex w-40 flex-col transition-transform duration-300 ease-in-out active:scale-95">
       <Link href={`/track/${track.id}`} passHref>
         <a>
           <div className="aspect-square w-full group-hover:opacity-90">

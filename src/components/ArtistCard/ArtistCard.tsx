@@ -17,7 +17,7 @@ export const ArtistCard = ({ playedMs, streams, artist, position }: Props) => {
 
   return (
     <Link href={`/artist/${artist.id}`} passHref>
-      <a className="flex w-40 flex-col items-center">
+      <a className="flex w-40 flex-col items-center transition-transform duration-300 ease-in-out active:scale-95">
         <Avatar src={artist.image} name={artist.name} size="3xl" />
 
         <div className="mt-2 text-center">

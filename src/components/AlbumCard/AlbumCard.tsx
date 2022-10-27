@@ -24,7 +24,7 @@ export const AlbumCard = ({
 
   return (
     <Link href={`/album/${album.id}`} passHref>
-      <a className="block w-40">
+      <a className="block w-40 transition-transform duration-300 ease-in-out active:scale-95">
         <div className="w-full group-hover:opacity-90">
           {album.image && (
             <Image
