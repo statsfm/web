@@ -1,6 +1,6 @@
 import dayjs from 'dayjs';
 
-const locale = 'eu';
+const locale = 'en-US';
 const numberFormatter = Intl.NumberFormat(locale, { notation: 'compact' });
 
 function nounify(text: string) {
@@ -25,7 +25,13 @@ function formatMinutes(ms: number) {
   return localiseNumber(mins);
 }
 
+function formatPopularity(rating: number) {
+  if (Number.isNaN(rating)) return '-';
+  return localiseNumber(rating / 10);
+}
+
 const exposed = {
+  formatPopularity,
   nounify,
   pluralise,
   localiseNumber,

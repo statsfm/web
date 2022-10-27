@@ -255,10 +255,7 @@ const Artist: NextPage<Props> = ({ artist }) => {
             loginRequired
           />
           <StatsCard
-            value={formatter.localiseNumber(
-              artist.spotifyPopularity / 10,
-              'en-US'
-            )}
+            value={formatter.formatPopularity(artist.spotifyPopularity)}
             label={'0-10 popularity'}
           />
         </ul>
