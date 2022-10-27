@@ -17,7 +17,7 @@ const TotalStatsItem: FC<{
     <li className="-mb-5">
       <span>{props.label}</span>
       <h2 className="leading-9">
-        {formatter.localiseNumber(count)}
+        {formatter.localiseNumber(Math.round(count))}
         {props.liveIndicator && (
           <span className="relative aspect-square w-3">
             <span className="absolute aspect-square h-4 animate-ping rounded-full bg-primary/75 duration-[1000s]"></span>
@@ -28,7 +28,7 @@ const TotalStatsItem: FC<{
       <p className="mt-0 ml-[-12px] inline-flex scale-90 text-neutral-500">
         <MdOutlineArrowRightAlt className="-rotate-90" />
         <span className="mr-1 font-bold text-inherit">
-          {formatter.localiseNumber(indicator)}
+          {formatter.localiseNumber(Math.round(indicator))}
         </span>
         in the last hour
       </p>
