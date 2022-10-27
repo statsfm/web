@@ -18,7 +18,7 @@ export const SectionToolbarInfoMenu = ({
         <>
           <Menu.Button
             aria-label="More options"
-            className="rounded-full bg-foreground p-2 active:scale-95"
+            className="rounded-full bg-foreground p-2 focus-within:ring-2 focus:outline-none focus:ring focus:ring-neutral-500 active:scale-95"
           >
             <MdMoreHoriz className="text-white" />
           </Menu.Button>
