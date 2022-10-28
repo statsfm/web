@@ -40,7 +40,7 @@ const RedeemCodePage: NextPage = () => {
   const redeemGiftCode = useCallback(async () => {
     const res = await api.http
       .post(`/me/plus/giftcodes/redeem`, {
-        body: JSON.stringify({ code }),
+        body: `{"code": "${code}"}`,
       })
       .catch((e) => {
         toaster.error(e.data.message);
