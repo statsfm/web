@@ -24,7 +24,10 @@ import { event } from 'nextjs-google-analytics';
 import type { SSRProps } from '@/utils/ssrUtils';
 import { fetchUser, getApiInstance } from '@/utils/ssrUtils';
 import formatter from '@/utils/formatter';
-import { SectionToolbarInfoMenu } from '@/components/Section';
+import {
+  SectionToolbarGridmode,
+  SectionToolbarInfoMenu,
+} from '@/components/Section';
 
 type Props = SSRProps & {
   album: statsfm.Album;
@@ -206,6 +209,7 @@ const Album: NextPage<Props> = ({ album, tracks }) => {
             description={`People who listen a lot to ${album.name}`}
             toolbar={
               <div className="flex gap-1">
+                <SectionToolbarGridmode />
                 <SectionToolbarCarouselNavigationButton
                   callback={() => event('ALBUM_listener_previous')}
                 />

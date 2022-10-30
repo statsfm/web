@@ -23,7 +23,10 @@ import { Container } from '@/components/Container';
 import Link from 'next/link';
 import { Title } from '@/components/Title';
 import { supportUrls } from '@/utils/supportUrls';
-import { SectionToolbarInfoMenu } from '@/components/Section';
+import {
+  SectionToolbarGridmode,
+  SectionToolbarInfoMenu,
+} from '@/components/Section';
 import Head from 'next/head';
 import { StatsCard } from '@/components/StatsCard';
 import { useScrollPercentage } from '@/hooks/use-scroll-percentage';
@@ -278,6 +281,7 @@ const Artist: NextPage<Props> = ({ artist }) => {
             description={`The most popular tracks by ${artist.name}`}
             toolbar={
               <div className="flex gap-1">
+                <SectionToolbarGridmode />
                 <SectionToolbarCarouselNavigationButton
                   callback={() => event('ARTIST_popular_track_previous')}
                 />
@@ -333,6 +337,7 @@ const Artist: NextPage<Props> = ({ artist }) => {
             description={`People who love ${artist.name}`}
             toolbar={
               <div className="flex gap-1">
+                <SectionToolbarGridmode />
                 <SectionToolbarCarouselNavigationButton
                   callback={() => event('ARTIST_listener_previous')}
                 />

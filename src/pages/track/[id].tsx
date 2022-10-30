@@ -1,23 +1,22 @@
 import type { GetServerSideProps, NextPage } from 'next';
 import type { FC } from 'react';
 import { useEffect, useMemo, useState } from 'react';
-
 import type * as statsfm from '@statsfm/statsfm.js';
-
 import { AlbumCard } from '@/components/AlbumCard';
 import { Carousel } from '@/components/Carousel';
 import { Image } from '@/components/Image';
 import { Section } from '@/components/Section/Section';
 import { TopListenerCardSkeleton } from '@/components/TopListenerCard';
 import TopListenerCard from '@/components/TopListenerCard/TopListenerCard';
-
 import { useApi, useAuth } from '@/hooks';
-
 import { ArtistList } from '@/components/ArtistList';
 import { Container } from '@/components/Container';
 import { SpotifyIcon } from '@/components/Icons';
 import { RecentStreams } from '@/components/RecentStreams';
-import { SectionToolbarInfoMenu } from '@/components/Section';
+import {
+  SectionToolbarGridmode,
+  SectionToolbarInfoMenu,
+} from '@/components/Section';
 import { SectionToolbarCarouselNavigationButton } from '@/components/Section/ToolbarCarouselNavigationButton';
 import { StatsCard } from '@/components/StatsCard';
 import { Title } from '@/components/Title';
@@ -359,6 +358,7 @@ const Track: NextPage<Props> = ({ track }) => {
             description={`People who listen a lot to ${track.name}`}
             toolbar={
               <div className="flex gap-1">
+                <SectionToolbarGridmode />
                 <SectionToolbarCarouselNavigationButton
                   callback={() => event('TRACK_listener_previous')}
                 />
