@@ -231,7 +231,9 @@ const Album: NextPage<Props> = ({ album, tracks }) => {
                       key={i}
                       onClick={() => event('ALBUM_listener_click')}
                     >
-                      <TopListenerCard {...item} />
+                      <div className="h-[270px]">
+                        <TopListenerCard {...item} />
+                      </div>
                     </Carousel.Item>
                   ))
                 : Array(10)

@@ -299,7 +299,9 @@ const Artist: NextPage<Props> = ({ artist }) => {
                       key={i}
                       onClick={() => event('ARTIST_popular_track_click')}
                     >
-                      <TrackCard track={item} />
+                      <div className="h-[276px]">
+                        <TrackCard track={item} />
+                      </div>
                     </Carousel.Item>
                   ))
                 : Array(10)
@@ -359,7 +361,9 @@ const Artist: NextPage<Props> = ({ artist }) => {
                       key={i}
                       onClick={() => event('ARTIST_listener_click')}
                     >
-                      <TopListenerCard {...item} />
+                      <div className="h-[270px]">
+                        <TopListenerCard {...item} />
+                      </div>
                     </Carousel.Item>
                   ))
                 : Array(10)

@@ -579,17 +579,17 @@ const User: NextPage<Props> = ({
             <Section
               title="Top tracks"
               description={`${
-                isCurrentUser ? 'Your' : `${user.displayName}'s`
+                isCurrentUser ? 'Your' : formatter.nounify(user.displayName)
               } top tracks ${ranges[range]}`}
               toolbar={
                 <div className="flex gap-1">
                   <SectionToolbarGridmode />
                   <SectionToolbarCarouselNavigationButton
-                    callback={() => event('USER_top_albums_previous')}
+                    callback={() => event('USER_top_tracks_previous')}
                   />
                   <SectionToolbarCarouselNavigationButton
                     next
-                    callback={() => event('USER_top_albums_next')}
+                    callback={() => event('USER_top_tracks_next')}
                   />
                 </div>
               }

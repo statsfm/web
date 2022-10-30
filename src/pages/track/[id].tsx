@@ -380,7 +380,9 @@ const Track: NextPage<Props> = ({ track }) => {
                       key={i}
                       onClick={() => event('TRACK_listener_click')}
                     >
-                      <TopListenerCard {...item} />
+                      <div className="h-[276px]">
+                        <TopListenerCard {...item} />
+                      </div>
                     </Carousel.Item>
                   ))
                 : Array(10)
