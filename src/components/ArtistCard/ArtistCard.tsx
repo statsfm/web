@@ -8,6 +8,11 @@ import { Avatar } from '../Avatar';
 interface Props extends statsfm.TopArtist {}
 
 export const ArtistCard = ({ playedMs, streams, artist, position }: Props) => {
+  if (!artist) {
+    // TODO figure out why some artist aren't fetched correctly
+    return null;
+  }
+
   const subtitle = [
     playedMs && `${formatter.formatMinutes(playedMs)} minutes`,
     streams && `${streams} streams`,
@@ -16,7 +21,7 @@ export const ArtistCard = ({ playedMs, streams, artist, position }: Props) => {
     .join(' • ');
 
   return (
-    <Link href={`/artist/${artist.id}`} passHref>
+    <Link href={`/artist/${artist.id}`}>
       <a className="flex w-40 flex-col items-center transition-transform duration-300 ease-in-out active:scale-95">
         <Avatar src={artist.image} name={artist.name} size="3xl" />
 
