@@ -583,6 +583,7 @@ const User: NextPage<Props> = ({
               } top tracks ${ranges[range]}`}
               toolbar={
                 <div className="flex gap-1">
+                  <SectionToolbarGridmode />
                   <SectionToolbarCarouselNavigationButton
                     callback={() => event('USER_top_albums_previous')}
                   />
@@ -603,7 +604,9 @@ const User: NextPage<Props> = ({
                           key={i}
                           onClick={() => event('USER_top_track_click')}
                         >
-                          <TrackCard {...item} />
+                          <div className="h-[276px]">
+                            <TrackCard {...item} />
+                          </div>
                         </Carousel.Item>
                       ))
                     : Array(10)
@@ -624,10 +627,11 @@ const User: NextPage<Props> = ({
               title="Top artists"
               // TODO: pluralization
               description={`${
-                isCurrentUser ? 'Your' : `${user.displayName}'s`
+                isCurrentUser ? 'Your' : formatter.nounify(user.displayName)
               } top artists ${ranges[range]}`}
               toolbar={
                 <div className="flex gap-1">
+                  <SectionToolbarGridmode />
                   <SectionToolbarCarouselNavigationButton
                     callback={() => event('USER_top_artist_previous')}
                   />
@@ -647,7 +651,9 @@ const User: NextPage<Props> = ({
                           key={i}
                           onClick={() => event('USER_top_artist_click')}
                         >
-                          <ArtistCard {...item} />
+                          <div className="h-[262px]">
+                            <ArtistCard {...item} />
+                          </div>
                         </Carousel.Item>
                       ))
                     : Array(10)
