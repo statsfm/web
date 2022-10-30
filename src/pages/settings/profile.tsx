@@ -5,7 +5,7 @@ import { Button } from '@/components/Button';
 import { Input } from '@/components/Input';
 import { Menu } from '@/components/Menu';
 import { Overlay } from '@/components/Overlay';
-import { Section } from '@/components/Section';
+import { Section } from '@/components/Section/Section';
 import { Textarea } from '@/components/Textarea';
 import { useApi, useAuth, useToaster } from '@/hooks';
 import type { UserPrivate } from '@statsfm/statsfm.js';

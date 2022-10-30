@@ -8,8 +8,8 @@ import type {
   FC,
   RefObject,
 } from 'react';
-import { ActionType } from './Carousel';
-import { CarouselContext } from './Carousel/context';
+import { ActionType } from '../Carousel';
+import { CarouselContext } from '../Carousel/context';
 
 interface SectionRenderPropArg {
   headerRef: RefObject<HTMLElement>;

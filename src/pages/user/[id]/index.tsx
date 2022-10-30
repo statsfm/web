@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useState } from 'react';
+import React, { createContext, useContext, useEffect, useState } from 'react';
 import type { PropsWithChildren, FC } from 'react';
 import dayjs from 'dayjs';
 import type { GetServerSideProps, NextPage } from 'next';
@@ -6,7 +6,7 @@ import * as statsfm from '@statsfm/statsfm.js';
 import Linkify from 'linkify-react';
 
 // components
-import { Section } from '@/components/Section';
+import { Section } from '@/components/Section/Section';
 import { Segment, SegmentedControls } from '@/components/SegmentedControls';
 import { StatsCard, StatsCardSkeleton } from '@/components/StatsCard';
 import { TrackCard, TrackCardSkeleton } from '@/components/TrackCard';
@@ -19,7 +19,10 @@ import { useAuth } from '@/hooks';
 import { AlbumCard, AlbumCardSkeleton } from '@/components/AlbumCard';
 import { ArtistCard, ArtistCardSkeleton } from '@/components/ArtistCard';
 import { RecentStreams } from '@/components/RecentStreams';
-import { SectionToolbarCarouselNavigationButton } from '@/components/SectionToolbarCarouselNavigationButton';
+import {
+  SectionToolbarCarouselNavigationButton,
+  SectionToolbarGridmode,
+} from '@/components/Section';
 import { Container } from '@/components/Container';
 import Link from 'next/link';
 import { Title } from '@/components/Title';
@@ -668,6 +671,7 @@ const User: NextPage<Props> = ({
               } top albums ${ranges[range]}`}
               toolbar={
                 <div className="flex gap-1">
+                  <SectionToolbarGridmode />
                   <SectionToolbarCarouselNavigationButton
                     callback={() => event('USER_top_albums_previous')}
                   />
@@ -687,7 +691,9 @@ const User: NextPage<Props> = ({
                           key={i}
                           onClick={() => event('USER_top_album_click')}
                         >
-                          <AlbumCard {...item} />
+                          <div className="h-[255px]">
+                            <AlbumCard {...item} />
+                          </div>
                         </Carousel.Item>
                       ))
                     : Array(10)

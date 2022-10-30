@@ -1,5 +1,5 @@
 import { Container } from '@/components/Container';
-import { Section } from '@/components/Section';
+import { Section } from '@/components/Section/Section';
 import { Title } from '@/components/Title';
 import type { SSRProps } from '@/utils/ssrUtils';
 import { getApiInstance, fetchUser } from '@/utils/ssrUtils';

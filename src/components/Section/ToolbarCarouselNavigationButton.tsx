@@ -1,7 +1,7 @@
 import clsx from 'clsx';
 import type { ButtonHTMLAttributes } from 'react';
 import { MdNavigateNext, MdNavigateBefore } from 'react-icons/md';
-import { useNavigate, Direction } from './Carousel';
+import { useNavigate, Direction } from '../Carousel';
 
 interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
   next?: boolean;

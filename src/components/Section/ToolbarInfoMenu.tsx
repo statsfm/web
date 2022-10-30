@@ -1,7 +1,7 @@
 import { Transition } from '@headlessui/react';
 import type { PropsWithChildren } from 'react';
 import { MdInfoOutline, MdMoreHoriz } from 'react-icons/md';
-import { Menu } from './Menu';
+import { Menu } from '../Menu';
 
 interface Props {
   description: string;

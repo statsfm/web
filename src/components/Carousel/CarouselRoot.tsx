@@ -27,10 +27,16 @@ export interface StateDefinition {
   isNextDisabled: boolean;
   isPreviousDisabled: boolean;
 
+  gridMode: boolean;
+  gridHeight: number;
+
+  itemWidth: number;
+  itemHeight: number;
+  transformX: number;
+  transformY: number;
+
   current: number;
-  transform: number;
   slide?: number;
-  width: number;
   rows: number;
   gap: number;
 }
@@ -40,9 +46,13 @@ export enum ActionType {
   Next,
   Register,
   Unregister,
-  SetWidth,
+  SetGridHeight,
+  SetTransformY,
+  SetItemWidth,
+  SetItemHeight,
   SetRows,
   SetGap,
+  SetGridMode,
 }
 
 export type Action =
@@ -50,19 +60,24 @@ export type Action =
   | { type: ActionType.Next; amount?: number }
   | { type: ActionType.Register; id: string; domRef: CarouselStateItemDomRef }
   | { type: ActionType.Unregister; id: string }
-  | { type: ActionType.SetWidth; value: number }
+  | { type: ActionType.SetItemWidth; value: number }
+  | { type: ActionType.SetItemHeight; value: number }
   | { type: ActionType.SetRows; value: number }
-  | { type: ActionType.SetGap; value: number };
+  | { type: ActionType.SetGap; value: number }
+  | { type: ActionType.SetGridMode; value: boolean }
+  | { type: ActionType.SetGridHeight; value: number }
+  | { type: ActionType.SetTransformY; value: number };
 
 const reducer = (state: StateDefinition, action: Action) => {
   switch (action.type) {
     case ActionType.Previous:
     case ActionType.Next: {
+      // main slidey bits
       const direction =
         action.type === ActionType.Next ? Direction.Next : Direction.Previous;
       const itemsWidth = state.itemsRef.current!.clientWidth;
       // TODO: only calculate in state.slide is not passed
-      const numberOfItemsVisible = Math.floor(itemsWidth / state.width);
+      const numberOfItemsVisible = Math.floor(itemsWidth / state.itemWidth);
       const numberOfItemsToSlide =
         action.amount ?? state.slide ?? numberOfItemsVisible;
 
@@ -74,19 +89,29 @@ const reducer = (state: StateDefinition, action: Action) => {
       const slideAmount = -1 * direction;
       const numberOfSlides = state.items.length / state.rows;
 
-      const newTransform =
-        state.transform +
+      const transformX =
+        state.transformX +
         Math.abs(slideAmount) *
           direction *
-          (state.width + state.gap) *
+          (state.itemWidth + state.gap) *
           numberOfItemsToSlide;
+
+      // grid stuff
+      const amountOfTopRowsSeen = slideTo / numberOfItemsToSlide + 1;
+      const transformY = amountOfTopRowsSeen * (state.itemHeight + state.gap);
+
+      const rowsOfItems = Math.ceil(state.items.length / numberOfItemsToSlide);
+      const gridHeight =
+        (state.itemHeight + state.gap) * rowsOfItems - transformY;
 
       return {
         ...state,
+        transformX,
+        transformY,
+        gridHeight,
         current: slideTo,
-        transform: newTransform,
         isPreviousDisabled: slideTo - numberOfItemsToSlide < 0,
-        isNextDisabled: slideTo >= numberOfSlides - 1,
+        isNextDisabled: slideTo + numberOfItemsToSlide >= numberOfSlides - 1,
       };
     }
     case ActionType.Register: {
@@ -107,8 +132,16 @@ const reducer = (state: StateDefinition, action: Action) => {
         items: adjustedItems,
       };
     }
-    case ActionType.SetWidth:
-      return { ...state, width: action.value };
+    case ActionType.SetTransformY:
+      return { ...state, transformY: action.value };
+    case ActionType.SetGridMode:
+      return { ...state, gridMode: action.value };
+    case ActionType.SetGridHeight:
+      return { ...state, gridHeight: action.value };
+    case ActionType.SetItemWidth:
+      return { ...state, itemWidth: action.value };
+    case ActionType.SetItemHeight:
+      return { ...state, itemHeight: action.value };
     case ActionType.SetRows:
       return { ...state, rows: action.value };
     case ActionType.SetGap:
@@ -140,21 +173,52 @@ export const CarouselRoot = ({
       isPreviousDisabled: true,
       isNextDisabled: true,
 
+      gridMode: false,
+      gridHeight: 0,
+
+      itemWidth: 0,
+      itemHeight: 0,
+      transformX: 0,
+      transformY: 0,
+
       current: 0,
-      transform: 0,
       slide: props.slide,
-      width: 0,
       rows,
       gap,
     }
   );
 
   useEffect(() => {
-    if (state.width === 0)
-      dispatch({
-        type: ActionType.SetWidth,
-        value: state.items[0]?.domRef.current?.clientWidth ?? 0,
-      });
+    const itemWidth = state.items[0]?.domRef.current?.clientWidth ?? 0;
+    const itemHeight = state.items[0]?.domRef.current?.clientHeight ?? 0;
+    const transformY = itemHeight + gap;
+
+    const numberOfItemsVisible = Math.floor(
+      (state.itemsRef.current?.clientWidth ?? 0) / itemWidth
+    );
+
+    const rowsOfItems = Math.ceil(state.items.length / numberOfItemsVisible);
+    const gridHeight = (itemHeight + state.gap) * rowsOfItems - transformY;
+
+    dispatch({
+      type: ActionType.SetGridHeight,
+      value: gridHeight,
+    });
+
+    dispatch({
+      type: ActionType.SetItemWidth,
+      value: itemWidth,
+    });
+
+    dispatch({
+      type: ActionType.SetItemHeight,
+      value: itemHeight,
+    });
+
+    dispatch({
+      type: ActionType.SetTransformY,
+      value: transformY,
+    });
   }, [state.items]);
 
   const [swipe, setSwipe] = useState(0);
@@ -177,7 +241,7 @@ export const CarouselRoot = ({
           : state.isPreviousDisabled;
 
       const swipeAmount = Math.abs(deltaX);
-      const numberOfSlidesToSwipe = Math.floor(swipeAmount / state.width);
+      const numberOfSlidesToSwipe = Math.floor(swipeAmount / state.itemWidth);
 
       if (!disabled)
         dispatch({

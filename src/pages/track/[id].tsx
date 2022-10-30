@@ -1,42 +1,42 @@
 import type { GetServerSideProps, NextPage } from 'next';
 import type { FC } from 'react';
-import React, { useMemo, useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 import type * as statsfm from '@statsfm/statsfm.js';
 
-import { Image } from '@/components/Image';
-import { Section } from '@/components/Section';
+import { AlbumCard } from '@/components/AlbumCard';
 import { Carousel } from '@/components/Carousel';
+import { Image } from '@/components/Image';
+import { Section } from '@/components/Section/Section';
 import { TopListenerCardSkeleton } from '@/components/TopListenerCard';
 import TopListenerCard from '@/components/TopListenerCard/TopListenerCard';
-import { AlbumCard } from '@/components/AlbumCard';
 
 import { useApi, useAuth } from '@/hooks';
 
-import { Radar } from 'react-chartjs-2';
-import {
-  Chart as ChartJS,
-  RadialLinearScale,
-  PointElement,
-  LineElement,
-  Filler,
-} from 'chart.js';
-import { RecentStreams } from '@/components/RecentStreams';
-import { SectionToolbarCarouselNavigationButton } from '@/components/SectionToolbarCarouselNavigationButton';
-import { Container } from '@/components/Container';
 import { ArtistList } from '@/components/ArtistList';
-import { Title } from '@/components/Title';
-import { SectionToolbarInfoMenu } from '@/components/SectionToolbarInfoMenu';
-import { supportUrls } from '@/utils/supportUrls';
-import Head from 'next/head';
-import { StatsCard } from '@/components/StatsCard';
-import dayjs from '@/utils/dayjs';
+import { Container } from '@/components/Container';
 import { SpotifyIcon } from '@/components/Icons';
+import { RecentStreams } from '@/components/RecentStreams';
+import { SectionToolbarInfoMenu } from '@/components/Section';
+import { SectionToolbarCarouselNavigationButton } from '@/components/Section/ToolbarCarouselNavigationButton';
+import { StatsCard } from '@/components/StatsCard';
+import { Title } from '@/components/Title';
 import { useScrollPercentage } from '@/hooks/use-scroll-percentage';
-import { event } from 'nextjs-google-analytics';
+import dayjs from '@/utils/dayjs';
+import formatter from '@/utils/formatter';
 import type { SSRProps } from '@/utils/ssrUtils';
 import { fetchUser, getApiInstance } from '@/utils/ssrUtils';
-import formatter from '@/utils/formatter';
+import { supportUrls } from '@/utils/supportUrls';
+import {
+  Chart as ChartJS,
+  Filler,
+  LineElement,
+  PointElement,
+  RadialLinearScale,
+} from 'chart.js';
+import Head from 'next/head';
+import { event } from 'nextjs-google-analytics';
+import { Radar } from 'react-chartjs-2';
 
 const AudioFeaturesRadarChart = ({
   acousticness,

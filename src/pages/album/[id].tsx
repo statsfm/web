@@ -4,18 +4,17 @@ import type * as statsfm from '@statsfm/statsfm.js';
 
 import Link from 'next/link';
 import { Image } from '@/components/Image';
-import { Section } from '@/components/Section';
+import { Section } from '@/components/Section/Section';
 import { Carousel } from '@/components/Carousel';
 import TopListenerCard from '@/components/TopListenerCard/TopListenerCard';
 import { TopListenerCardSkeleton } from '@/components/TopListenerCard';
 import { RecentStreams } from '@/components/RecentStreams';
 
 import { useApi, useAuth } from '@/hooks';
-import { SectionToolbarCarouselNavigationButton } from '@/components/SectionToolbarCarouselNavigationButton';
+import { SectionToolbarCarouselNavigationButton } from '@/components/Section/ToolbarCarouselNavigationButton';
 import { Container } from '@/components/Container';
 import { ArtistList } from '@/components/ArtistList';
 import { Title } from '@/components/Title';
-import { SectionToolbarInfoMenu } from '@/components/SectionToolbarInfoMenu';
 import { supportUrls } from '@/utils/supportUrls';
 import Head from 'next/head';
 import { SpotifyIcon } from '@/components/Icons';
@@ -25,6 +24,7 @@ import { event } from 'nextjs-google-analytics';
 import type { SSRProps } from '@/utils/ssrUtils';
 import { fetchUser, getApiInstance } from '@/utils/ssrUtils';
 import formatter from '@/utils/formatter';
+import { SectionToolbarInfoMenu } from '@/components/Section';
 
 type Props = SSRProps & {
   album: statsfm.Album;

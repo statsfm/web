@@ -6,7 +6,7 @@ import Link from 'next/link';
 import { MdChevronLeft, MdDiscFull, MdVisibilityOff } from 'react-icons/md';
 import type * as statsfm from '@statsfm/statsfm.js';
 import { Title } from '@/components/Title';
-import { Section } from '@/components/Section';
+import { Section } from '@/components/Section/Section';
 import { useApi } from '@/hooks';
 import type { FC } from 'react';
 import { useState } from 'react';
