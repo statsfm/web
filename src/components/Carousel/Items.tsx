@@ -19,9 +19,10 @@ export const Items = ({ children }: PropsWithChildren<ItemsProps>) => {
         ref={state.itemsRef}
       >
         <ul
-          className="z-[21] flex w-min justify-start bg-background transition-transform duration-300 ease-in-out"
+          className="z-[21] grid w-max grid-flow-col justify-start bg-background transition-transform duration-300 ease-in-out"
           style={{
             gap: `${state.gap}px`,
+            gridTemplateRows: `repeat(${state.rows}, minmax(0, 1fr))`,
             transform: `translateX(${state.transformX}px)`,
           }}
         >
