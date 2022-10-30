@@ -6,6 +6,16 @@ import { useCarouselContext } from '../Carousel/context';
 export const SectionToolbarGridmode = () => {
   const [state, dispatch] = useCarouselContext();
 
+  const clickHandler = () => {
+    if (state.gridMode) {
+      window.scrollTo({
+        top: (state.itemsRef.current?.offsetTop ?? 0) - 120,
+        behavior: 'smooth',
+      });
+    }
+    dispatch({ value: !state.gridMode, type: ActionType.SetGridMode });
+  };
+
   return (
     <button
       aria-label={'grid mode'}
@@ -14,9 +24,7 @@ export const SectionToolbarGridmode = () => {
 
         'focus-within:ring-2 focus:outline-none focus:ring focus:ring-neutral-500'
       )}
-      onClick={() => {
-        dispatch({ value: !state.gridMode, type: ActionType.SetGridMode });
-      }}
+      onClick={clickHandler}
     >
       {state.gridMode ? (
         <MdGridOff className="text-white opacity-80" />

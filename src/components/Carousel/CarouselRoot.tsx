@@ -132,10 +132,10 @@ const reducer = (state: StateDefinition, action: Action) => {
         items: adjustedItems,
       };
     }
-    case ActionType.SetTransformY:
-      return { ...state, transformY: action.value };
     case ActionType.SetGridMode:
       return { ...state, gridMode: action.value };
+    case ActionType.SetTransformY:
+      return { ...state, transformY: action.value };
     case ActionType.SetGridHeight:
       return { ...state, gridHeight: action.value };
     case ActionType.SetItemWidth:
