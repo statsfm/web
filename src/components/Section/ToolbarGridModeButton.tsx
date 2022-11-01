@@ -16,21 +16,25 @@ export const SectionToolbarGridmode = () => {
     dispatch({ value: !state.gridMode, type: ActionType.SetGridMode });
   };
 
-  return (
-    <button
-      aria-label={'grid mode'}
-      className={clsx(
-        'rounded-full bg-foreground p-2 transition-all',
+  if (state.items.length > 0) {
+    return (
+      <button
+        aria-label={'grid mode'}
+        className={clsx(
+          'rounded-full bg-foreground p-2 transition-all',
 
-        'focus-within:ring-2 focus:outline-none focus:ring focus:ring-neutral-500'
-      )}
-      onClick={clickHandler}
-    >
-      {state.gridMode ? (
-        <MdGridOff className="text-white opacity-80" />
-      ) : (
-        <MdGridOn className="text-white opacity-80" />
-      )}
-    </button>
-  );
+          'focus-within:ring-2 focus:outline-none focus:ring focus:ring-neutral-500'
+        )}
+        onClick={clickHandler}
+      >
+        {state.gridMode ? (
+          <MdGridOff className="text-white opacity-80" />
+        ) : (
+          <MdGridOn className="text-white opacity-80" />
+        )}
+      </button>
+    );
+  }
+
+  return <></>;
 };
