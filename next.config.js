@@ -44,6 +44,11 @@ module.exports = withBundleAnalyzer({
         destination: '/settings/profile',
         permanent: false,
       },
+      {
+        source: '/discord/',
+        destination: 'https://stats.fm/discord',
+        permanent: false,
+      },
     ];
   },
   async rewrites() {
