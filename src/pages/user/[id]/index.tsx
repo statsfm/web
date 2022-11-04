@@ -513,13 +513,12 @@ const User: NextPage<Props> = ({
                 <ul className="grid w-full grid-cols-2 gap-4 md:grid-cols-4">
                   {['minutes streamed', 'hours streamed', 'streams'].map(
                     (label, i) => (
-                      <li key={i}>
-                        <StatsCard
-                          // TODO: better way of implementing this
-                          label={label}
-                          value="?"
-                        />
-                      </li>
+                      <StatsCard
+                        key={i}
+                        // TODO: better way of implementing this
+                        label={label}
+                        value="?"
+                      />
                     )
                   )}
                 </ul>
@@ -728,11 +727,13 @@ const User: NextPage<Props> = ({
                   streams={recentStreams}
                   onItemClick={() => event('USER_recent_track_click')}
                 />
-                <Link href={`/${user.customId || user.id}/streams`}>
-                  <a className="my-3 font-bold uppercase text-text-grey transition-colors hover:text-white">
-                    show all
-                  </a>
-                </Link>
+                {user.hasImported && (
+                  <Link href={`/${user.customId || user.id}/streams`}>
+                    <a className="my-3 font-bold uppercase text-text-grey transition-colors hover:text-white">
+                      show all
+                    </a>
+                  </Link>
+                )}
               </PrivacyScope>
             )}
           </Section>

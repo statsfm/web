@@ -12,7 +12,7 @@ const ComparePage: NextPage = () => {
           Coming soon,
         </h1>
         <p className="mt-4 text-center text-lg sm:-mt-2">
-          We are hard at work to bring this functionality to the website.{' '}
+          We are hard at work to bring this functionality to the website.
           <br className="mb-1 sm:mb-0" />
           For now, you can use the app.
         </p>
