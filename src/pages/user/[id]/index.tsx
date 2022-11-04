@@ -446,7 +446,19 @@ const User: NextPage<Props> = ({
         <meta property="twitter:card" content="summary" />
       </Head>
       <UserContext.Provider value={user}>
-        <div className="bg-foreground pt-20">
+        <div
+          className="bg-foreground pt-20"
+          style={
+            user.customId === 'webdev'
+              ? {
+                  // lmao funny haha
+                  background:
+                    'linear-gradient(rgba(0,0,0,0.6),#111112),url(https://cdn.discordapp.com/attachments/1038115044535308319/1038120416478244925/unknown.png)',
+                  backgroundSize: 'contain',
+                }
+              : {}
+          }
+        >
           <Container>
             <section className="flex flex-col items-center gap-5 pt-24 pb-10 md:flex-row">
               <div className="relative rounded-full border-2 border-background">
@@ -668,51 +680,53 @@ const User: NextPage<Props> = ({
             </Section>
           </Carousel>
 
-          <Carousel>
-            <Section
-              title="Top albums"
-              description={`${
-                isCurrentUser ? 'Your' : `${user.displayName}'s`
-              } top albums ${ranges[range]}`}
-              toolbar={
-                <div className="flex gap-1">
-                  <SectionToolbarGridmode />
-                  <SectionToolbarCarouselNavigationButton
-                    callback={() => event('USER_top_albums_previous')}
-                  />
-                  <SectionToolbarCarouselNavigationButton
-                    next
-                    callback={() => event('USER_top_albums_next')}
-                  />
-                </div>
-              }
-            >
-              <PrivacyScope scope="topAlbums">
-                {/* <NotEnoughData data={topAlbums}> */}
-                <Carousel.Items>
-                  {topAlbums && topAlbums.length > 0
-                    ? topAlbums.map((item, i) => (
-                        <Carousel.Item
-                          key={i}
-                          onClick={() => event('USER_top_album_click')}
-                        >
-                          <div className="h-[255px]">
-                            <AlbumCard {...item} />
-                          </div>
-                        </Carousel.Item>
-                      ))
-                    : Array(10)
-                        .fill(null)
-                        .map((_n, i) => (
-                          <Carousel.Item key={i}>
-                            <AlbumCardSkeleton />
+          {user.isPlus && (
+            <Carousel>
+              <Section
+                title="Top albums"
+                description={`${
+                  isCurrentUser ? 'Your' : `${user.displayName}'s`
+                } top albums ${ranges[range]}`}
+                toolbar={
+                  <div className="flex gap-1">
+                    <SectionToolbarGridmode />
+                    <SectionToolbarCarouselNavigationButton
+                      callback={() => event('USER_top_albums_previous')}
+                    />
+                    <SectionToolbarCarouselNavigationButton
+                      next
+                      callback={() => event('USER_top_albums_next')}
+                    />
+                  </div>
+                }
+              >
+                <PrivacyScope scope="topAlbums">
+                  {/* <NotEnoughData data={topAlbums}> */}
+                  <Carousel.Items>
+                    {topAlbums && topAlbums.length > 0
+                      ? topAlbums.map((item, i) => (
+                          <Carousel.Item
+                            key={i}
+                            onClick={() => event('USER_top_album_click')}
+                          >
+                            <div className="h-[255px]">
+                              <AlbumCard {...item} />
+                            </div>
                           </Carousel.Item>
-                        ))}
-                </Carousel.Items>
-                {/* </NotEnoughData> */}
-              </PrivacyScope>
-            </Section>
-          </Carousel>
+                        ))
+                      : Array(10)
+                          .fill(null)
+                          .map((_n, i) => (
+                            <Carousel.Item key={i}>
+                              <AlbumCardSkeleton />
+                            </Carousel.Item>
+                          ))}
+                  </Carousel.Items>
+                  {/* </NotEnoughData> */}
+                </PrivacyScope>
+              </Section>
+            </Carousel>
+          )}
 
           <Section
             title="Recent streams"
