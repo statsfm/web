@@ -1,4 +1,10 @@
-import React, { createContext, useContext, useEffect, useState } from 'react';
+import React, {
+  createContext,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 import type { PropsWithChildren, FC } from 'react';
 import dayjs from 'dayjs';
 import type { GetServerSideProps, NextPage } from 'next';
@@ -36,6 +42,7 @@ import { FriendStatus } from '@statsfm/statsfm.js';
 import { event } from 'nextjs-google-analytics';
 import { useScrollPercentage } from '@/hooks/use-scroll-percentage';
 import formatter from '@/utils/formatter';
+import { useRouter } from 'next/router';
 
 // const ListeningClockChart = () => {
 //   const config = {
@@ -342,6 +349,20 @@ const User: NextPage<Props> = ({
     statsfm.RecentlyPlayedTrack[]
   >([]);
 
+  const router = useRouter();
+
+  const topTracksRef = useRef<HTMLElement>(null);
+
+  // TODO: rewrite this by using an hook
+  useEffect(() => {
+    // eslint-disable-next-line default-case
+    switch ((router.query.deeplink as string[]).join('/')) {
+      case 'top/tracks': {
+        topTracksRef.current?.scrollIntoView();
+      }
+    }
+  }, [topTracksRef]);
+
   const isCurrentUser = currentUser?.id === user.id;
 
   useEffect(() => {
@@ -577,6 +598,7 @@ const User: NextPage<Props> = ({
 
           <Carousel>
             <Section
+              ref={topTracksRef}
               title="Top tracks"
               description={`${
                 isCurrentUser ? 'Your' : formatter.nounify(user.displayName)
