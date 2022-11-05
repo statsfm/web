@@ -356,7 +356,7 @@ const User: NextPage<Props> = ({
   // TODO: rewrite this by using an hook
   useEffect(() => {
     // eslint-disable-next-line default-case
-    switch ((router.query.deeplink as string[]).join('/')) {
+    switch ((router.query.deeplink as string[])?.join('/')) {
       case 'top/tracks': {
         topTracksRef.current?.scrollIntoView();
       }
