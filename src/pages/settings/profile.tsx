@@ -373,10 +373,16 @@ const AccountPrivacyInfoForm: FC<{
     save,
   } = useContext(stateContext)!;
 
+  const statusMessage = useMemo(() => {
+    if (status === 'SAVING') return 'Saving...';
+    if (status === 'DELETING') return 'Deleting...';
+    return '';
+  }, [status]);
+
   return (
     <div className="relative w-full">
       <Overlay visible={['SAVING', 'DELETING'].includes(status)}>
-        {status === 'SAVING' ? 'saving...' : 'deleting...'}
+        {statusMessage}
       </Overlay>
       <SettingsHeader title="Profile">
         <Button
