@@ -35,6 +35,11 @@ module.exports = withBundleAnalyzer({
   async redirects() {
     return [
       {
+        source: '/:id/top',
+        destination: '/:id',
+        permanent: false,
+      },
+      {
         source: '/account/:path*',
         destination: '/settings/:path*',
         permanent: false,
@@ -68,6 +73,10 @@ module.exports = withBundleAnalyzer({
       {
         source: '/:id/compare',
         destination: '/user/:id/compare',
+      },
+      {
+        source: '/:id/top/:type',
+        destination: '/user/:id/top/:type',
       },
       {
         source: '/artist/:id/:ignore',
