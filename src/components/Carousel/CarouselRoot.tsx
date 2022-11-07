@@ -32,6 +32,8 @@ export interface StateDefinition {
 
   itemWidth: number;
   itemHeight: number;
+  fixedHeight: boolean;
+
   transformX: number;
   transformY: number;
 
@@ -182,6 +184,8 @@ export const CarouselRoot = ({
 
       itemWidth: 0,
       itemHeight: itemHeight ?? 0,
+      fixedHeight: itemHeight !== undefined,
+
       transformX: 0,
       transformY: 0,
 
@@ -220,7 +224,7 @@ export const CarouselRoot = ({
       value: transformY,
     });
 
-    if (state.itemHeight === 0) {
+    if (!state.fixedHeight) {
       dispatch({
         type: ActionType.SetItemHeight,
         value: newItemHeight,

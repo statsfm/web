@@ -29,7 +29,7 @@ export const Item = ({ children, ...props }: PropsWithChildren<ItemProps>) => {
       id={id}
       ref={internalRef}
       {...props}
-      style={{ height: `${state.itemHeight}px` }}
+      style={state.fixedHeight ? { height: `${state.itemHeight}px` } : {}}
     >
       {children}
     </li>
