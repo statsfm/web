@@ -646,7 +646,7 @@ const User: NextPage<Props> = ({
                     ))}
             </ChipGroup>
           </Section>
-          <Carousel gridMode={activeCarousel === 'tracks'}>
+          <Carousel gridMode={activeCarousel === 'tracks'} itemHeight={276}>
             <Section
               ref={topTracksRef}
               title="Top tracks"
@@ -680,9 +680,7 @@ const User: NextPage<Props> = ({
                           key={i}
                           onClick={() => event('USER_top_track_click')}
                         >
-                          <div className="h-[276px]">
-                            <TrackCard {...item} />
-                          </div>
+                          <TrackCard {...item} />
                         </Carousel.Item>
                       ))
                     : Array(10)
@@ -698,7 +696,7 @@ const User: NextPage<Props> = ({
             </Section>
           </Carousel>
 
-          <Carousel gridMode={activeCarousel === 'artists'}>
+          <Carousel gridMode={activeCarousel === 'artists'} itemHeight={262}>
             <Section
               title="Top artists"
               ref={topArtistsRef}
@@ -731,9 +729,7 @@ const User: NextPage<Props> = ({
                           key={i}
                           onClick={() => event('USER_top_artist_click')}
                         >
-                          <div className="h-[262px]">
-                            <ArtistCard {...item} />
-                          </div>
+                          <ArtistCard {...item} />
                         </Carousel.Item>
                       ))
                     : Array(10)
@@ -750,7 +746,7 @@ const User: NextPage<Props> = ({
           </Carousel>
 
           {user.isPlus && (
-            <Carousel gridMode={activeCarousel === 'albums'}>
+            <Carousel gridMode={activeCarousel === 'albums'} itemHeight={255}>
               <Section
                 title="Top albums"
                 ref={topAlbumsRef}
@@ -783,9 +779,7 @@ const User: NextPage<Props> = ({
                             key={i}
                             onClick={() => event('USER_top_album_click')}
                           >
-                            <div className="h-[255px]">
-                              <AlbumCard {...item} />
-                            </div>
+                            <AlbumCard {...item} />
                           </Carousel.Item>
                         ))
                       : Array(10)

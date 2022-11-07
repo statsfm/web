@@ -157,12 +157,14 @@ export interface CarouselRootProps extends HTMLAttributes<HTMLUListElement> {
   // the items to slide on navigation click
   slide?: number;
   gridMode?: boolean;
+  itemHeight?: number;
 }
 
 export const CarouselRoot = ({
   rows = 1,
   gap = 16,
   gridMode = false,
+  itemHeight,
   children,
   ...props
 }: PropsWithChildren<CarouselRootProps>) => {
@@ -179,7 +181,7 @@ export const CarouselRoot = ({
       gridHeight: 0,
 
       itemWidth: 0,
-      itemHeight: 0,
+      itemHeight: itemHeight ?? 0,
       transformX: 0,
       transformY: 0,
 
@@ -192,15 +194,16 @@ export const CarouselRoot = ({
 
   useEffect(() => {
     const itemWidth = state.items[0]?.domRef.current?.clientWidth ?? 0;
-    const itemHeight = state.items[0]?.domRef.current?.clientHeight ?? 0;
-    const transformY = itemHeight + gap;
+    const newItemHeight =
+      itemHeight ?? state.items[0]?.domRef.current?.clientHeight ?? 0;
+    const transformY = newItemHeight + gap;
 
     const numberOfItemsVisible = Math.floor(
       (state.itemsRef.current?.clientWidth ?? 0) / itemWidth
     );
 
     const rowsOfItems = Math.ceil(state.items.length / numberOfItemsVisible);
-    const gridHeight = (itemHeight + state.gap) * rowsOfItems - transformY;
+    const gridHeight = (newItemHeight + state.gap) * rowsOfItems - transformY;
 
     dispatch({
       type: ActionType.SetGridHeight,
@@ -213,14 +216,16 @@ export const CarouselRoot = ({
     });
 
     dispatch({
-      type: ActionType.SetItemHeight,
-      value: itemHeight,
-    });
-
-    dispatch({
       type: ActionType.SetTransformY,
       value: transformY,
     });
+
+    if (state.itemHeight === 0) {
+      dispatch({
+        type: ActionType.SetItemHeight,
+        value: newItemHeight,
+      });
+    }
   }, [state.items]);
 
   const [swipe, setSwipe] = useState(0);

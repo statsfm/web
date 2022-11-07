@@ -10,7 +10,7 @@ export const Item = ({ children, ...props }: PropsWithChildren<ItemProps>) => {
   const id = useId();
   const internalRef = useRef<HTMLLIElement | null>(null);
 
-  const [, dispatch] = useCarouselContext();
+  const [state, dispatch] = useCarouselContext();
   const { register } = useContext(RegisterContext);
 
   useEffect(() => {
@@ -25,7 +25,12 @@ export const Item = ({ children, ...props }: PropsWithChildren<ItemProps>) => {
   }, [register]);
 
   return (
-    <li id={id} ref={internalRef} {...props}>
+    <li
+      id={id}
+      ref={internalRef}
+      {...props}
+      style={{ height: `${state.itemHeight}px` }}
+    >
       {children}
     </li>
   );
