@@ -148,9 +148,9 @@ const ImportPage: NextPage<Props> = () => {
             <MdWarning className="fill-white" />
             <h4>Warning</h4>
           </span>
-          <span>
-            Due to heavy usage, it can take up to a few hours for your imported
-            files to be processed succesfully.
+          <span className="text-white">
+            Due to many people uploading their files, it can take up to a few
+            hours for your files to be processed succesfully.
           </span>
         </div>
       </div>
