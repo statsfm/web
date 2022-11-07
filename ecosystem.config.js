@@ -4,7 +4,8 @@ module.exports = {
       name: 'next',
       cwd: './',
       script: 'yarn',
-      args: 'start --port 8080',
+      args: 'start --port 80',
+      instances: 12,
     },
   ],
 };
