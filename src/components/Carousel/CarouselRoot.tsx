@@ -156,11 +156,13 @@ export interface CarouselRootProps extends HTMLAttributes<HTMLUListElement> {
   gap?: number;
   // the items to slide on navigation click
   slide?: number;
+  gridMode?: boolean;
 }
 
 export const CarouselRoot = ({
   rows = 1,
   gap = 16,
+  gridMode = false,
   children,
   ...props
 }: PropsWithChildren<CarouselRootProps>) => {
@@ -173,7 +175,7 @@ export const CarouselRoot = ({
       isPreviousDisabled: true,
       isNextDisabled: true,
 
-      gridMode: false,
+      gridMode,
       gridHeight: 0,
 
       itemWidth: 0,

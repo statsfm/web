@@ -1,9 +1,14 @@
 import clsx from 'clsx';
+import type { FC } from 'react';
 import { MdGridOff, MdGridOn } from 'react-icons/md';
 import { ActionType } from '../Carousel';
 import { useCarouselContext } from '../Carousel/context';
 
-export const SectionToolbarGridmode = () => {
+type Props = {
+  callback?: (gridMode: boolean) => boolean;
+};
+
+export const SectionToolbarGridmode: FC<Props> = (props) => {
   const [state, dispatch] = useCarouselContext();
 
   const clickHandler = () => {
@@ -13,7 +18,16 @@ export const SectionToolbarGridmode = () => {
         behavior: 'smooth',
       });
     }
-    dispatch({ value: !state.gridMode, type: ActionType.SetGridMode });
+
+    let callbackValue = null;
+    if (props.callback) {
+      callbackValue = props.callback(state.gridMode);
+    }
+
+    dispatch({
+      type: ActionType.SetGridMode,
+      value: callbackValue !== null ? callbackValue : !state.gridMode,
+    });
   };
 
   if (state.items.length > 0) {

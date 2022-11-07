@@ -5,7 +5,7 @@ import React, {
   useRef,
   useState,
 } from 'react';
-import type { PropsWithChildren, FC } from 'react';
+import type { PropsWithChildren, FC, RefObject } from 'react';
 import dayjs from 'dayjs';
 import type { GetServerSideProps, NextPage } from 'next';
 import * as statsfm from '@statsfm/statsfm.js';
@@ -42,7 +42,6 @@ import { FriendStatus } from '@statsfm/statsfm.js';
 import { event } from 'nextjs-google-analytics';
 import { useScrollPercentage } from '@/hooks/use-scroll-percentage';
 import formatter from '@/utils/formatter';
-import { useRouter } from 'next/router';
 
 // const ListeningClockChart = () => {
 //   const config = {
@@ -95,20 +94,41 @@ import { useRouter } from 'next/router';
 //   return <PolarArea {...config} />;
 // };
 
+type CarouselsWithGrid = 'tracks' | 'albums' | 'artists';
+
 type Props = SSRProps & {
   userProfile: statsfm.UserPublic;
   friendStatus: statsfm.FriendStatus;
   friendCount: number;
+  activeCarousel: CarouselsWithGrid | null;
 };
+
+function activeGridModeFromDeepLink(
+  deeplink: string | string[] | undefined
+): CarouselsWithGrid | null {
+  if (typeof deeplink !== 'object') return null;
+  if (deeplink.length !== 2) return null;
+
+  const [type, id] = deeplink;
+  if (type !== 'top') return null;
+
+  // TODO: this should rewrite or redirect
+  if (id !== 'tracks' && id !== 'albums' && id !== 'artists') return null;
+
+  return id;
+}
 
 export const getServerSideProps: GetServerSideProps<Props> = async (ctx) => {
   const { identityToken } = ctx.req.cookies;
-  const api = getApiInstance(identityToken);
-  const id = ctx.params?.id?.toString();
+  const { id, deeplink } = ctx.params!;
 
-  if (!id) {
+  const api = getApiInstance(identityToken);
+
+  if (typeof id !== 'string') {
     throw new Error('no param id recieved');
   }
+
+  const activeCarousel = activeGridModeFromDeepLink(deeplink);
 
   const userProfile = await api.users.get(id).catch(() => {});
   if (!userProfile) return { notFound: true };
@@ -133,6 +153,7 @@ export const getServerSideProps: GetServerSideProps<Props> = async (ctx) => {
 
   return {
     props: {
+      activeCarousel,
       userProfile,
       user,
       friendStatus,
@@ -333,6 +354,7 @@ const User: NextPage<Props> = ({
   userProfile: user,
   friendStatus,
   friendCount,
+  activeCarousel,
 }) => {
   const api = useApi();
   const { user: currentUser } = useAuth();
@@ -349,19 +371,9 @@ const User: NextPage<Props> = ({
     statsfm.RecentlyPlayedTrack[]
   >([]);
 
-  const router = useRouter();
-
   const topTracksRef = useRef<HTMLElement>(null);
-
-  // TODO: rewrite this by using an hook
-  useEffect(() => {
-    // eslint-disable-next-line default-case
-    switch ((router.query.deeplink as string[])?.join('/')) {
-      case 'top/tracks': {
-        topTracksRef.current?.scrollIntoView();
-      }
-    }
-  }, [topTracksRef]);
+  const topAlbumsRef = useRef<HTMLElement>(null);
+  const topArtistsRef = useRef<HTMLElement>(null);
 
   const isCurrentUser = currentUser?.id === user.id;
 
@@ -440,12 +452,40 @@ const User: NextPage<Props> = ({
     load();
   }, [user]);
 
-  useScrollPercentage(30, () => event('USER_scroll_30'));
+  useEffect(() => {
+    const refs: Record<CarouselsWithGrid, RefObject<HTMLElement>> = {
+      tracks: topTracksRef,
+      albums: topAlbumsRef,
+      artists: topArtistsRef,
+    };
+
+    if (activeCarousel) refs[activeCarousel].current?.scrollIntoView();
+  }, []);
+
+  const handleGridModeCallback = (
+    gridMode: boolean,
+    url: CarouselsWithGrid
+  ) => {
+    let newUrl = `/${user.customId ?? user.id}`;
+    if (!gridMode) newUrl += `/top/${url}`;
+
+    // this is some next router weirdness
+    // https://github.com/vercel/next.js/discussions/18072#discussioncomment-109059
+    window.history.replaceState(
+      { ...window.history.state, as: newUrl, url: newUrl },
+      '',
+      newUrl
+    );
+
+    return !gridMode;
+  };
 
   const handleSegmentSelect = (value: string) => {
     event(`USER_switch_time_${value}`);
     setRange(statsfm.Range[value.toUpperCase() as keyof typeof statsfm.Range]);
   };
+
+  useScrollPercentage(30, () => event('USER_scroll_30'));
 
   return (
     <>
@@ -606,8 +646,7 @@ const User: NextPage<Props> = ({
                     ))}
             </ChipGroup>
           </Section>
-
-          <Carousel>
+          <Carousel gridMode={activeCarousel === 'tracks'}>
             <Section
               ref={topTracksRef}
               title="Top tracks"
@@ -616,7 +655,11 @@ const User: NextPage<Props> = ({
               } top tracks ${ranges[range]}`}
               toolbar={
                 <div className="flex gap-1">
-                  <SectionToolbarGridmode />
+                  <SectionToolbarGridmode
+                    callback={(gridMode) =>
+                      handleGridModeCallback(gridMode, 'tracks')
+                    }
+                  />
                   <SectionToolbarCarouselNavigationButton
                     callback={() => event('USER_top_tracks_previous')}
                   />
@@ -655,16 +698,20 @@ const User: NextPage<Props> = ({
             </Section>
           </Carousel>
 
-          <Carousel>
+          <Carousel gridMode={activeCarousel === 'artists'}>
             <Section
               title="Top artists"
-              // TODO: pluralization
+              ref={topArtistsRef}
               description={`${
                 isCurrentUser ? 'Your' : formatter.nounify(user.displayName)
               } top artists ${ranges[range]}`}
               toolbar={
                 <div className="flex gap-1">
-                  <SectionToolbarGridmode />
+                  <SectionToolbarGridmode
+                    callback={(gridMode) =>
+                      handleGridModeCallback(gridMode, 'artists')
+                    }
+                  />
                   <SectionToolbarCarouselNavigationButton
                     callback={() => event('USER_top_artist_previous')}
                   />
@@ -703,15 +750,20 @@ const User: NextPage<Props> = ({
           </Carousel>
 
           {user.isPlus && (
-            <Carousel>
+            <Carousel gridMode={activeCarousel === 'albums'}>
               <Section
                 title="Top albums"
+                ref={topAlbumsRef}
                 description={`${
                   isCurrentUser ? 'Your' : `${user.displayName}'s`
                 } top albums ${ranges[range]}`}
                 toolbar={
                   <div className="flex gap-1">
-                    <SectionToolbarGridmode />
+                    <SectionToolbarGridmode
+                      callback={(gridMode) =>
+                        handleGridModeCallback(gridMode, 'albums')
+                      }
+                    />
                     <SectionToolbarCarouselNavigationButton
                       callback={() => event('USER_top_albums_previous')}
                     />
@@ -764,7 +816,7 @@ const User: NextPage<Props> = ({
                   onItemClick={() => event('USER_recent_track_click')}
                 />
                 {user.hasImported && (
-                  <Link href={`/${user.customId || user.id}/streams`}>
+                  <Link href={`/${user.customId ?? user.id}/streams`}>
                     <a className="my-3 font-bold uppercase text-text-grey transition-colors hover:text-white">
                       show all
                     </a>
