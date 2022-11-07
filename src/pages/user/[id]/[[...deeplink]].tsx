@@ -42,6 +42,7 @@ import { FriendStatus } from '@statsfm/statsfm.js';
 import { event } from 'nextjs-google-analytics';
 import { useScrollPercentage } from '@/hooks/use-scroll-percentage';
 import formatter from '@/utils/formatter';
+import { AppleMusicLink, SpotifyLink } from '@/components/SocialLink';
 
 // const ListeningClockChart = () => {
 //   const config = {
@@ -555,6 +556,10 @@ const User: NextPage<Props> = ({
                       </a>
                     </Link>
                   </>
+                </div>
+                <div className="mt-2 flex flex-row items-center gap-2">
+                  <SpotifyLink path={`/user/${user.id}`} />
+                  <AppleMusicLink />
                 </div>
               </div>
             </section>

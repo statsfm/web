@@ -34,6 +34,7 @@ import { event } from 'nextjs-google-analytics';
 import type { SSRProps } from '@/utils/ssrUtils';
 import { fetchUser, getApiInstance } from '@/utils/ssrUtils';
 import formatter from '@/utils/formatter';
+import { SpotifyLink, AppleMusicLink } from '@/components/SocialLink';
 
 const MoreTracks = ({
   artist,
@@ -238,6 +239,13 @@ const Artist: NextPage<Props> = ({ artist }) => {
               <span className="text-center text-lg md:text-left">
                 {formatter.localiseNumber(artist.followers)} followers
               </span>
+
+              <div className="mt-2 flex flex-row items-center gap-2">
+                <SpotifyLink
+                  path={`/artist/${artist.externalIds.spotify![0]}`}
+                />
+                <AppleMusicLink />
+              </div>
             </div>
           </section>
         </Container>

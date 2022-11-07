@@ -11,7 +11,6 @@ import TopListenerCard from '@/components/TopListenerCard/TopListenerCard';
 import { useApi, useAuth } from '@/hooks';
 import { ArtistList } from '@/components/ArtistList';
 import { Container } from '@/components/Container';
-import { SpotifyIcon } from '@/components/Icons';
 import { RecentStreams } from '@/components/RecentStreams';
 import {
   SectionToolbarGridmode,
@@ -36,6 +35,7 @@ import {
 import Head from 'next/head';
 import { event } from 'nextjs-google-analytics';
 import { Radar } from 'react-chartjs-2';
+import { AppleMusicLink, SpotifyLink } from '@/components/SocialLink';
 
 const AudioFeaturesRadarChart = ({
   acousticness,
@@ -281,16 +281,9 @@ const Track: NextPage<Props> = ({ track }) => {
               >
                 {track.name}
               </h1>
-              <div className="mt-2 flex flex-row">
-                <a
-                  href={`https://open.spotify.com/track/${
-                    track.externalIds.spotify![0]
-                  }`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <SpotifyIcon className="h-7 w-7" />
-                </a>
+              <div className="mt-2 flex flex-row items-center gap-2">
+                <SpotifyLink path={`/track/${track.externalIds.spotify![0]}`} />
+                <AppleMusicLink />
               </div>
             </div>
           </section>

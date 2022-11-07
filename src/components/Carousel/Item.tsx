@@ -29,6 +29,7 @@ export const Item = ({ children, ...props }: PropsWithChildren<ItemProps>) => {
       id={id}
       ref={internalRef}
       {...props}
+      // set the height to fixedHeight if needed
       style={state.fixedHeight ? { height: `${state.itemHeight}px` } : {}}
     >
       {children}

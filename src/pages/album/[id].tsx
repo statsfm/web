@@ -17,7 +17,6 @@ import { ArtistList } from '@/components/ArtistList';
 import { Title } from '@/components/Title';
 import { supportUrls } from '@/utils/supportUrls';
 import Head from 'next/head';
-import { SpotifyIcon } from '@/components/Icons';
 import { StatsCard } from '@/components/StatsCard';
 import { useScrollPercentage } from '@/hooks/use-scroll-percentage';
 import { event } from 'nextjs-google-analytics';
@@ -28,6 +27,7 @@ import {
   SectionToolbarGridmode,
   SectionToolbarInfoMenu,
 } from '@/components/Section';
+import { AppleMusicLink, SpotifyLink } from '@/components/SocialLink';
 
 type Props = SSRProps & {
   album: statsfm.Album;
@@ -137,16 +137,9 @@ const Album: NextPage<Props> = ({ album, tracks }) => {
               <h1 className="text-center font-extrabold md:text-left">
                 {album.name}
               </h1>
-              <div className="mt-2 flex flex-row">
-                <a
-                  href={`https://open.spotify.com/track/${
-                    album.externalIds.spotify![0]
-                  }`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <SpotifyIcon className="h-7 w-7" />
-                </a>
+              <div className="mt-2 flex flex-row items-center gap-2">
+                <SpotifyLink path={`/album/${album.externalIds.spotify![0]}`} />
+                <AppleMusicLink />
               </div>
             </div>
           </section>
