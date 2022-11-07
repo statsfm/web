@@ -8,6 +8,7 @@ import type { NextPage } from 'next';
 import { event } from 'nextjs-google-analytics';
 import type { ChangeEvent, FC } from 'react';
 import { useCallback, useEffect, useState } from 'react';
+import { MdWarning } from 'react-icons/md';
 
 const ImportList: FC<{ refetchCounter: number }> = ({ refetchCounter }) => {
   const api = useApi();
@@ -141,6 +142,19 @@ const ImportPage: NextPage<Props> = () => {
   return (
     <Container className="pt-20">
       <Title>Import</Title>
+      <div className="my-8 w-full flex-row rounded-md border-l-4 border-l-yellow-400/80 bg-yellow-400/20 p-4">
+        <div className="flex w-full flex-col">
+          <span className="flex items-center gap-1">
+            <MdWarning className="fill-white" />
+            <h4>Warning</h4>
+          </span>
+          <span>
+            Due to heavy usage, it can take up to a few hours for your imported
+            files to be processed succesfully.
+          </span>
+        </div>
+      </div>
+
       <h2>Imports</h2>
       <p>
         Check more about importing your lifetime streaming history{' '}
