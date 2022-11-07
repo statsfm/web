@@ -507,19 +507,7 @@ const User: NextPage<Props> = ({
         <meta property="twitter:card" content="summary" />
       </Head>
       <UserContext.Provider value={user}>
-        <div
-          className="bg-foreground pt-20"
-          style={
-            user.customId === 'webdev'
-              ? {
-                  // lmao funny haha
-                  background:
-                    'linear-gradient(rgba(0,0,0,0.6),#111112),url(https://cdn.discordapp.com/attachments/1038115044535308319/1038120416478244925/unknown.png)',
-                  backgroundSize: 'contain',
-                }
-              : {}
-          }
-        >
+        <div className="bg-foreground pt-20">
           <Container>
             <section className="flex flex-col items-center gap-5 pt-24 pb-10 md:flex-row">
               <div className="relative rounded-full border-2 border-background">
