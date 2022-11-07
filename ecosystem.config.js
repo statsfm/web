@@ -5,6 +5,7 @@ module.exports = {
       cwd: './',
       script: 'yarn',
       args: 'start --port 8080',
+      instances: 12,
     },
   ],
 };
