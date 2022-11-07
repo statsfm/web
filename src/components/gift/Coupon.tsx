@@ -24,9 +24,15 @@ export const Coupon: FC<{ giftcode: GiftCode }> = ({ giftcode }) => {
       {giftcode.claimedAt ? (
         <p className="mt-3 text-center">
           Claimed {dayjs(giftcode.claimedAt).fromNow()} by{' '}
-          <Link href={`/user/${giftcode.claimedBy.id}`}>
+          <Link
+            href={`/user/${
+              giftcode.claimedBy ? giftcode.claimedBy.id : giftcode.claimedById
+            }`}
+          >
             <a className="font-bold text-white hover:opacity-70">
-              {giftcode.claimedBy.displayName}
+              {giftcode.claimedBy
+                ? giftcode.claimedBy.displayName
+                : giftcode.claimedById}
             </a>
           </Link>
         </p>
