@@ -7,7 +7,7 @@ export const ArtistList: FC<{ artists: ArtistSimple[] }> = ({ artists }) => {
     <>
       {artists.map((artist, index) => (
         <span key={artist.id + index}>
-          <Link href={`/artist/${artist.id}`}>
+          <Link legacyBehavior href={`/artist/${artist.id}`}>
             <a className="transition-colors hover:text-white">{artist.name}</a>
           </Link>
           {index < artists.length - 1 && ', '}

@@ -63,7 +63,7 @@ export const Footer = () => {
             <ul className="grid gap-2">
               {cat.links.map((link, i) => (
                 <li key={i}>
-                  <Link href={link.href} className="text-[1rem]">
+                  <Link legacyBehavior href={link.href} className="text-[1rem]">
                     <a
                       onClick={
                         cat.label === 'Socials'

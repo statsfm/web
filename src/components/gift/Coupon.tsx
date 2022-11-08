@@ -25,6 +25,7 @@ export const Coupon: FC<{ giftcode: GiftCode }> = ({ giftcode }) => {
         <p className="mt-3 text-center">
           Claimed {dayjs(giftcode.claimedAt).fromNow()} by{' '}
           <Link
+            legacyBehavior
             href={`/user/${
               giftcode.claimedBy ? giftcode.claimedBy.id : giftcode.claimedById
             }`}

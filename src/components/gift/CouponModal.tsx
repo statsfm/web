@@ -70,7 +70,7 @@ export const CouponModal: FC<{
           </div>
           <div className="flex justify-between gap-5">
             <span>Bought by</span>
-            <Link href={`/user/${giftCode.boughtBy.id}`}>
+            <Link legacyBehavior href={`/user/${giftCode.boughtBy.id}`}>
               <a className="font-bold text-primary">
                 {giftCode.boughtBy.displayName}
               </a>
@@ -79,7 +79,7 @@ export const CouponModal: FC<{
           <div className="flex justify-between gap-5">
             <span>Claimed by</span>
             {giftCode.claimedBy ? (
-              <Link href={`/user/${giftCode.claimedBy.id}`}>
+              <Link legacyBehavior href={`/user/${giftCode.claimedBy.id}`}>
                 <a className="font-bold text-primary">
                   {giftCode.claimedBy.displayName}
                 </a>

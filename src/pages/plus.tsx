@@ -356,7 +356,7 @@ const PlusScrollAnimation: FC = () => {
 
         <Snackbar ref={snackbarRef}>
           <p>Get these and even more perks available with plus.</p>
-          <Link href="/gift">
+          <Link legacyBehavior href="/gift">
             <a className="block shrink-0 rounded-lg bg-plus px-3 py-1.5 text-center font-medium text-black transition-colors hover:bg-plus/90 active:bg-plus/75">
               Get stats.fm plus!
             </a>
@@ -513,7 +513,7 @@ const PlusPage: NextPage = () => {
             your favorite music app today!
           </p>
 
-          <Link href="/gift">
+          <Link legacyBehavior href="/gift">
             <a className="mt-12 block w-fit rounded-2xl bg-plus px-5 py-3 font-bold text-black hover:bg-plus/90 active:bg-plus/75">
               Get stats.fm plus!
             </a>
@@ -565,7 +565,7 @@ const PlusPage: NextPage = () => {
               <TierItem perk="Custom timeframes" />
               <TierItem perk="And much more..." />
             </ul>
-            <Link href="/gift">
+            <Link legacyBehavior href="/gift">
               <a className="mt-12 block w-full rounded-lg bg-plus py-1 text-center font-medium text-black hover:bg-plus/90 active:bg-plus/75">
                 Get stats.fm plus!
               </a>

@@ -174,7 +174,7 @@ const Album: NextPage<Props> = ({ album, tracks }) => {
           <ul className="grid grid-cols-1 gap-y-3 md:grid-cols-2 lg:grid-cols-3">
             {tracks.map((track, i) => (
               <li key={i}>
-                <Link href={`/track/${track.id}`} passHref>
+                <Link legacyBehavior href={`/track/${track.id}`} passHref>
                   <a
                     className="flex max-w-fit overflow-hidden text-ellipsis"
                     onClick={() => event('ALBUM_content_track_click')}

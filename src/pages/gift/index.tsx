@@ -207,11 +207,17 @@ const GiftPage: NextPage<Props> = ({ plans }) => {
             </li>
             <li>
               If you want to claim the Plus yourself, you can enter it yourself
-              at <Link href="/redeem">stats.fm/redeem</Link>
+              at{' '}
+              <Link legacyBehavior href="/redeem">
+                stats.fm/redeem
+              </Link>
             </li>
             <li>
               You can send the other coupons to your friends so they can redeem
-              them at <Link href="/redeem">stats.fm/redeem</Link>
+              them at{' '}
+              <Link legacyBehavior href="/redeem">
+                stats.fm/redeem
+              </Link>
             </li>
           </ol>
         </article>

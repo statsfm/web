@@ -14,7 +14,7 @@ const positions: Record<number, string> = {
 
 const TopListenerCard = ({ user, position, playedMs, streams }: Props) => {
   return (
-    <Link href={`/user/${user.id}`} passHref>
+    <Link legacyBehavior href={`/user/${user.id}`} passHref>
       <a className="flex w-40 flex-col items-center transition-transform duration-300 ease-in-out active:scale-95">
         <Avatar src={user.image} name={user.displayName} size="3xl">
           <span

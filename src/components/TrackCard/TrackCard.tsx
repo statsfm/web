@@ -17,7 +17,7 @@ export const TrackCard = ({ track, playedMs, streams, position }: Props) => {
 
   return (
     <div className="flex w-40 flex-col transition-transform duration-300 ease-in-out active:scale-95">
-      <Link href={`/track/${track.id}`} passHref>
+      <Link legacyBehavior href={`/track/${track.id}`} passHref>
         <a>
           <div className="aspect-square w-full group-hover:opacity-90">
             {track.albums[0]?.image && (
@@ -41,7 +41,7 @@ export const TrackCard = ({ track, playedMs, streams, position }: Props) => {
         <span>
           {track.artists.map((artist, i) => (
             <span key={artist.id + i}>
-              <Link href={`/artist/${artist.id}`}>
+              <Link legacyBehavior href={`/artist/${artist.id}`}>
                 <a className="transition-colors hover:text-white">
                   {artist.name}
                 </a>

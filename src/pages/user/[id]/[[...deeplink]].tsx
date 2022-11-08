@@ -549,7 +549,10 @@ const User: NextPage<Props> = ({
                         </span>
                       </>
                     )}
-                    <Link href={`/${user.customId || user.id}/friends`}>
+                    <Link
+                      legacyBehavior
+                      href={`/${user.customId || user.id}/friends`}
+                    >
                       <a className="font-medium text-neutral-400">
                         {friendCount}{' '}
                         {formatter.pluralise('Friend', friendCount)}
@@ -620,7 +623,7 @@ const User: NextPage<Props> = ({
               {topGenres.length > 0
                 ? topGenres.map((genre, i) => (
                     <Chip key={i}>
-                      <Link href={`/genre/${genre.genre.tag}`}>
+                      <Link legacyBehavior href={`/genre/${genre.genre.tag}`}>
                         <a onClick={() => event('USER_top_genre_click')}>
                           {genre.genre.tag}
                         </a>
@@ -803,7 +806,10 @@ const User: NextPage<Props> = ({
                   onItemClick={() => event('USER_recent_track_click')}
                 />
                 {user.hasImported && (
-                  <Link href={`/${user.customId ?? user.id}/streams`}>
+                  <Link
+                    legacyBehavior
+                    href={`/${user.customId ?? user.id}/streams`}
+                  >
                     <a className="my-3 font-bold uppercase text-text-grey transition-colors hover:text-white">
                       show all
                     </a>

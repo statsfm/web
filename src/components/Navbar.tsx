@@ -29,7 +29,7 @@ export const NavBar = () => {
   return (
     <nav className="absolute z-40 flex w-full">
       <Container className="flex w-full items-center justify-between bg-inherit py-3">
-        <Link href="/" passHref>
+        <Link legacyBehavior href="/" passHref>
           <a className="flex gap-3" onClick={() => event('NAV_home')}>
             <Logo className="h-[1.7rem] w-[1.7rem] cursor-pointer" />
             <h3 className="mt-[-3px]">stats.fm</h3>
@@ -60,7 +60,10 @@ export const NavBar = () => {
                       className="!p-0 focus:!bg-transparent"
                       onClick={() => event('NAV_profile')}
                     >
-                      <Link href={`/${user.customId ?? user.id}`}>
+                      <Link
+                        legacyBehavior
+                        href={`/${user.customId ?? user.id}`}
+                      >
                         <a className="flex gap-2 px-4 py-2">
                           <Avatar
                             size="md"
@@ -78,7 +81,10 @@ export const NavBar = () => {
                       className="!p-0"
                       onClick={() => event('NAV_profile')}
                     >
-                      <Link href={`/${user.customId ?? user.id}`}>
+                      <Link
+                        legacyBehavior
+                        href={`/${user.customId ?? user.id}`}
+                      >
                         <a className="flex h-full w-full flex-row gap-2 px-4 py-2">
                           <MdAccountCircle className="text-white" /> My page
                         </a>
@@ -88,7 +94,7 @@ export const NavBar = () => {
                       className="!p-0"
                       onClick={() => event('NAV_settings')}
                     >
-                      <Link href="/settings/profile">
+                      <Link legacyBehavior href="/settings/profile">
                         <a className="flex h-full w-full flex-row gap-2 px-4 py-2">
                           <MdManageAccounts className="text-white" /> Settings
                         </a>

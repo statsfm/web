@@ -107,7 +107,7 @@ const RedeemCodePage: NextPage = () => {
               )}
               <span>
                 Gifted By{' '}
-                <Link href={`/user/${giftCode?.boughtById}`}>
+                <Link legacyBehavior href={`/user/${giftCode?.boughtById}`}>
                   <a
                     className="font-bold text-primary hover:opacity-80"
                     onClick={(e) => e.stopPropagation()}

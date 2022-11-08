@@ -12,15 +12,15 @@ const SideNavItem: FC<
   const { pathname } = useRouter();
 
   return (
-    <Link href={props.disabled ? '' : props.href}>
+    <Link legacyBehavior href={props.disabled ? '' : props.href}>
       <a
         className={clsx(
           pathname === props.href
             ? 'bg-foreground text-primary'
             : 'bg-transparent text-neutral-500',
           props.disabled
-            ? 'opacity-40 hover:cursor-not-allowed hover:bg-transparent focus:bg-transparent'
-            : 'hover:bg-foreground hover:opacity-90 focus:bg-foreground',
+            ? 'opacity-40 focus:bg-transparent hover:cursor-not-allowed hover:bg-transparent'
+            : 'focus:bg-foreground hover:bg-foreground hover:opacity-90',
           ' -ml-4 flex items-center rounded-lg px-4 py-1.5 font-medium'
         )}
       >

@@ -93,7 +93,10 @@ const StreamsPage: NextPage<Props> = ({ userProfile }) => {
         <Container>
           <section className="flex flex-col items-center gap-5 pt-24 pb-10 md:flex-row md:items-start">
             <div className="flex w-full flex-col justify-end">
-              <Link href={`/${userProfile.customId || userProfile.id}`}>
+              <Link
+                legacyBehavior
+                href={`/${userProfile.customId || userProfile.id}`}
+              >
                 <a className="-mb-3 flex items-center text-lg text-white">
                   <MdChevronLeft className="-mr-1 block h-12 w-6 text-white" />
                   back to {userProfile.displayName}

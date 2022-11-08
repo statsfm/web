@@ -21,7 +21,7 @@ export const ArtistCard = ({ playedMs, streams, artist, position }: Props) => {
     .join(' • ');
 
   return (
-    <Link href={`/artist/${artist.id}`}>
+    <Link legacyBehavior href={`/artist/${artist.id}`}>
       <a className="flex w-40 flex-col items-center transition-transform duration-300 ease-in-out active:scale-95">
         <Avatar src={artist.image} name={artist.name} size="3xl" />
 

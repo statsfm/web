@@ -15,7 +15,7 @@ export const ChevronLink: ChevronLinkProps = (props) => {
 
   if (props.local)
     return (
-      <Link href={props.href}>
+      <Link legacyBehavior href={props.href}>
         <a
           className="flex flex-row items-center font-bold text-primary hover:underline hover:opacity-90"
           onClick={props.onClick}

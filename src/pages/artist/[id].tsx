@@ -274,7 +274,7 @@ const Artist: NextPage<Props> = ({ artist }) => {
           <ChipGroup>
             {artist.genres.map((genre, i) => (
               <Chip key={i}>
-                <Link href={`/genre/${genre}`}>
+                <Link legacyBehavior href={`/genre/${genre}`}>
                   <a onClick={() => event('ARTIST_genre_click')}>{genre}</a>
                 </Link>
               </Chip>

@@ -12,7 +12,7 @@ const NotFound: NextPage = () => {
           Whoops...
         </h1>
         <p className="-mt-2 text-center text-xl">This page doesnt exist</p>
-        <Link href="/">
+        <Link legacyBehavior href="/">
           <a className="mx-auto mt-8 w-fit rounded-xl bg-primaryLighter px-4 py-3 text-primary">
             Go back home
           </a>

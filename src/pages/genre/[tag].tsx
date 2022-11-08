@@ -83,7 +83,9 @@ const GenrePage: NextPage<Props> = ({ tag, genre }) => {
               {genre &&
                 genre.sub.map((genre, i) => (
                   <Chip key={i}>
-                    <Link href={`/genre/${genre.tag}`}>{genre.tag}</Link>
+                    <Link legacyBehavior href={`/genre/${genre.tag}`}>
+                      {genre.tag}
+                    </Link>
                   </Chip>
                 ))}
             </ChipGroup>
@@ -100,7 +102,9 @@ const GenrePage: NextPage<Props> = ({ tag, genre }) => {
                   )
                   .map((genre, i) => (
                     <Chip key={i}>
-                      <Link href={`/genre/${genre.tag}`}>{genre.tag}</Link>
+                      <Link legacyBehavior href={`/genre/${genre.tag}`}>
+                        {genre.tag}
+                      </Link>
                     </Chip>
                   ))}
             </ChipGroup>
@@ -111,7 +115,7 @@ const GenrePage: NextPage<Props> = ({ tag, genre }) => {
           <ul className="grid grid-cols-2 gap-4 gap-y-12 md:grid-cols-3 lg:grid-cols-5 ">
             {artists.map((artist) => (
               <li key={artist.name}>
-                <Link href={`/artist/${artist.id}`}>
+                <Link legacyBehavior href={`/artist/${artist.id}`}>
                   <a className="flex flex-col items-center">
                     <Avatar
                       name={artist.name}
@@ -128,7 +132,7 @@ const GenrePage: NextPage<Props> = ({ tag, genre }) => {
                 <p className="mt-1 text-center text-sm font-medium line-clamp-1">
                   {artist.genres.map((genre, i) => (
                     <span key={genre + artist}>
-                      <Link href={`/genre/${genre}`}>
+                      <Link legacyBehavior href={`/genre/${genre}`}>
                         <a className="transition-colors hover:text-white">
                           {genre}
                         </a>

@@ -158,7 +158,7 @@ const Home: NextPage = () => {
               </FeatureItem>
               <p>
                 *{' '}
-                <Link href="import">
+                <Link legacyBehavior href="import">
                   <a
                     className="text-white hover:opacity-80"
                     onClick={() => {
