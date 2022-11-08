@@ -117,8 +117,8 @@ const reducer = (state: StateDefinition, action: Action) => {
       };
     }
     case ActionType.Register: {
-      const itemsVisible =
-        state.itemsRef.current!.clientWidth / state.itemWidth;
+      // move this hardcoded value to a itemWidth prop
+      const itemsVisible = state.itemsRef.current!.clientWidth / 160;
 
       return {
         ...state,
