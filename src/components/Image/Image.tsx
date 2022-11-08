@@ -20,9 +20,13 @@ export const Image = ({ rounded = false, className, ...props }: Props) => {
           rounded ? 'rounded-full' : 'rounded-lg',
           className
         )}
-        objectFit="cover"
         placeholder="blur"
         blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAQSURBVHgBAQUA+v8ANTU1/wLhAZ/HkyyzAAAAAElFTkSuQmCC"
+        style={{
+          maxWidth: '100%',
+          height: 'auto',
+          objectFit: 'cover',
+        }}
         {...props}
       />
     </div>
