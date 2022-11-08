@@ -12,7 +12,7 @@ export const SectionToolbarGridmode: FC<Props> = (props) => {
   const [state, dispatch] = useCarouselContext();
 
   const clickHandler = () => {
-    if (state.gridMode) {
+    if (state.gridMode && window.scrollY > state.itemsRef.current!.offsetTop) {
       window.scrollTo({
         top: (state.itemsRef.current?.offsetTop ?? 0) - 120,
         behavior: 'smooth',
