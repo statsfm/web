@@ -47,7 +47,7 @@ export const AppleMusicLink: FC<Props> = () => {
       className="cursor-not-allowed"
     >
       {/* TODO: switch this hover prop when apple music is alive */}
-      <AppleMusicIcon className="h-[25px] w-[25px]" hover={false} />
+      <AppleMusicIcon className="h-[24px] w-[24px]" hover={false} />
     </a>
   );
 };
