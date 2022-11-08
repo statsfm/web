@@ -150,7 +150,8 @@ const ImportPage: NextPage<Props> = () => {
           </span>
           <span className="text-white">
             Due to many people uploading their files, it can take up to a few
-            hours for your files to be processed succesfully.
+            hours for your files to be processed succesfully. <br /> <br /> You
+            can close this page if your files are in the queue.
           </span>
         </div>
       </div>
