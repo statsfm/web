@@ -91,9 +91,8 @@ const MoreTracks = ({
       description={`More tracks by ${artist.name}`}
       toolbar={
         <Menu>
-          <Menu.Button>
-            <MdSort />
-            Sort
+          <Menu.Button className="rounded-full bg-foreground p-2 transition-all focus-within:ring-2 focus:outline-none focus:ring focus:ring-neutral-500">
+            <MdSort className="text-white" />
           </Menu.Button>
 
           <Menu.Items>
