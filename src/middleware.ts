@@ -14,7 +14,7 @@ export const middleware = (request: NextRequest) => {
 
   let exp;
   try {
-    exp = decodeJwt(identityToken).exp;
+    exp = decodeJwt(identityToken.value).exp;
   } catch (error) {
     return NextResponse.redirect(redirectUrl);
   }
