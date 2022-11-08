@@ -117,10 +117,13 @@ const reducer = (state: StateDefinition, action: Action) => {
       };
     }
     case ActionType.Register: {
+      const itemsVisible =
+        state.itemsRef.current!.clientWidth / state.itemWidth;
+
       return {
         ...state,
         items: [...state.items, { id: action.id, domRef: action.domRef }],
-        isNextDisabled: false,
+        isNextDisabled: state.items.length + 1 < itemsVisible,
       };
     }
     case ActionType.Unregister: {
