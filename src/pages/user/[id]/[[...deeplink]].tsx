@@ -28,6 +28,7 @@ import { RecentStreams } from '@/components/RecentStreams';
 import {
   SectionToolbarCarouselNavigationButton,
   SectionToolbarGridmode,
+  SectionToolbarInfoMenu,
 } from '@/components/Section';
 import { Container } from '@/components/Container';
 import Link from 'next/link';
@@ -43,6 +44,7 @@ import { event } from 'nextjs-google-analytics';
 import { useScrollPercentage } from '@/hooks/use-scroll-percentage';
 import formatter from '@/utils/formatter';
 import { AppleMusicLink, SpotifyLink } from '@/components/SocialLink';
+import { ShareMenuItem } from '@/components/ShareMenuItem';
 
 // const ListeningClockChart = () => {
 //   const config = {
@@ -663,6 +665,11 @@ const User: NextPage<Props> = ({
                     next
                     callback={() => event('USER_top_tracks_next')}
                   />
+                  <SectionToolbarInfoMenu>
+                    <ShareMenuItem
+                      path={`/${user.customId ?? user.id}/top/tracks`}
+                    />
+                  </SectionToolbarInfoMenu>
                 </div>
               }
             >
@@ -713,6 +720,11 @@ const User: NextPage<Props> = ({
                     next
                     callback={() => event('USER_top_artist_next')}
                   />
+                  <SectionToolbarInfoMenu>
+                    <ShareMenuItem
+                      path={`/${user.customId ?? user.id}/top/artists`}
+                    />
+                  </SectionToolbarInfoMenu>
                 </div>
               }
             >
@@ -763,6 +775,11 @@ const User: NextPage<Props> = ({
                       next
                       callback={() => event('USER_top_albums_next')}
                     />
+                    <SectionToolbarInfoMenu>
+                      <ShareMenuItem
+                        path={`/${user.customId ?? user.id}/top/albums`}
+                      />
+                    </SectionToolbarInfoMenu>
                   </div>
                 }
               >

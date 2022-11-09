@@ -4,13 +4,14 @@ import { MdInfoOutline, MdMoreHoriz } from 'react-icons/md';
 import { Menu } from '../Menu';
 
 interface Props {
-  description: string;
-  link: string;
+  description?: string;
+  link?: string;
 }
 
 export const SectionToolbarInfoMenu = ({
   description,
   link,
+  children,
 }: PropsWithChildren<Props>) => {
   return (
     <Menu>
@@ -34,16 +35,21 @@ export const SectionToolbarInfoMenu = ({
             leaveTo="transform opacity-0 scale-95"
           >
             <Menu.Items className="w-96">
-              <Menu.Item>
-                <a
-                  className="flex gap-2 [&>svg]:shrink-0"
-                  target="blank"
-                  href={link}
-                >
-                  <MdInfoOutline className="text-white" />
-                  {description}
-                </a>
-              </Menu.Item>
+              {children}
+
+              {/* extract info menu item to seperate component */}
+              {description && link && (
+                <Menu.Item>
+                  <a
+                    className="flex gap-2 [&>svg]:shrink-0"
+                    target="blank"
+                    href={link}
+                  >
+                    <MdInfoOutline className="text-white" />
+                    {description}
+                  </a>
+                </Menu.Item>
+              )}
             </Menu.Items>
           </Transition>
         </>
