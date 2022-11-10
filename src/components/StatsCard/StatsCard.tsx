@@ -51,7 +51,7 @@ export const StatsCard = ({
 
   return (
     <Card>
-      <h3 className="truncate">{value}</h3>
+      <h3 className="truncate capitalize">{value}</h3>
     </Card>
   );
 };
