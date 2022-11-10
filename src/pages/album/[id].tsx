@@ -28,6 +28,7 @@ import {
   SectionToolbarInfoMenu,
 } from '@/components/Section';
 import { AppleMusicLink, SpotifyLink } from '@/components/SocialLink';
+import dayjs from 'dayjs';
 
 type Props = SSRProps & {
   album: statsfm.Album;
@@ -68,6 +69,7 @@ const Album: NextPage<Props> = ({ album, tracks }) => {
   const [topListeners, setTopListeners] = useState<statsfm.TopUser[]>([]);
   const [streams, setStreams] = useState<statsfm.Stream[] | null>(null);
   const [stats, setStats] = useState<statsfm.StreamStats | null>(null);
+  const [firstStream, setFirstStream] = useState<statsfm.Stream | null>(null);
   const { user } = useAuth();
 
   useScrollPercentage(30, () => event('ALBUM_scroll_30'));
@@ -91,16 +93,31 @@ const Album: NextPage<Props> = ({ album, tracks }) => {
       api.users
         .albumStats(user.customId, album.id)
         .then((res) => setStats(res));
+
+      api.http
+        .get<statsfm.Stream[]>(
+          `/users/${user.customId}/streams/albums/${album.id}`,
+          {
+            query: {
+              limit: 1,
+              order: 'asc',
+            },
+          }
+        )
+        .then((res) => setFirstStream(res.data.items[0] ?? null));
     }
   }, [album, user]);
 
   const statsResult = useMemo(() => {
-    if (!user || !stats) return null;
+    if (!user || !stats || !streams) return null;
 
     const duration = `${formatter.formatMinutes(stats.durationMs)}m`;
     const count = `${formatter.localiseNumber(stats.count)}x`;
-    return { count, duration };
-  }, [user, stats]);
+
+    const lastStream = streams[0]?.endTime;
+
+    return { count, duration, firstStream: firstStream?.endTime, lastStream };
+  }, [user, stats, streams]);
 
   return (
     <>
@@ -161,12 +178,37 @@ const Album: NextPage<Props> = ({ album, tracks }) => {
             loginRequired
           />
           <StatsCard
-            value={formatter.formatPopularity(album.spotifyPopularity)}
-            label="0-10 popularity"
+            value={dayjs(statsResult?.firstStream).format('LL')}
+            label={`first streamed ${
+              statsResult
+                ? `at ${dayjs(statsResult.firstStream).format('LT')}`
+                : ''
+            }`}
+            loading={!statsResult}
+            loginRequired
+          />
+          <StatsCard
+            value={dayjs(statsResult?.lastStream).format('LL')}
+            label={`last streamed ${
+              statsResult
+                ? `at ${dayjs(statsResult.lastStream).format('LT')}`
+                : ''
+            }`}
+            loading={!statsResult}
+            loginRequired
           />
           <StatsCard
             value={formatter.localiseNumber(album.totalTracks)}
-            label="Tracks"
+            label="tracks"
+          />
+          <StatsCard
+            value={formatter.formatPopularity(album.spotifyPopularity)}
+            label="0-10 popularity"
+          />
+          <StatsCard value={album.type} label="type of album" />
+          <StatsCard
+            value={dayjs(album.releaseDate).format('L')}
+            label="release date"
           />
         </ul>
 
