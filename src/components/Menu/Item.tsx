@@ -97,7 +97,7 @@ export const Item = ({
       id={id}
       ref={internalRef}
       className={clsx(
-        'flex select-none gap-2 px-4 py-2 font-semibold focus:bg-background/80 focus:outline-none',
+        'flex w-full max-w-md select-none flex-wrap gap-2 px-4 py-2 font-semibold focus:bg-background/80 focus:outline-none',
         // TOOD: change color
         disabled
           ? 'text-text-grey'
