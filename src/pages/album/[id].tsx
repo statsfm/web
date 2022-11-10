@@ -94,17 +94,12 @@ const Album: NextPage<Props> = ({ album, tracks }) => {
         .albumStats(user.customId, album.id)
         .then((res) => setStats(res));
 
-      api.http
-        .get<statsfm.Stream[]>(
-          `/users/${user.customId}/streams/albums/${album.id}`,
-          {
-            query: {
-              limit: 1,
-              order: 'asc',
-            },
-          }
-        )
-        .then((res) => setFirstStream(res.data.items[0] ?? null));
+      api.users
+        .albumStreams(user.customId, album.id, {
+          limit: 1,
+          order: 'asc',
+        })
+        .then((res) => setFirstStream(res[0] ?? null));
     }
   }, [album, user]);
 
