@@ -67,7 +67,7 @@ const MoreTracks = ({
       compare: (a, b) => b.spotifyPopularity - a.spotifyPopularity,
     },
     {
-      label: 'Streams',
+      label: 'Your streams',
       value: 'streams',
       compare: (a, b) => streams(b.id) - streams(a.id),
     },
