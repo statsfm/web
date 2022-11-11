@@ -35,6 +35,7 @@ import type { SSRProps } from '@/utils/ssrUtils';
 import { fetchUser, getApiInstance } from '@/utils/ssrUtils';
 import formatter from '@/utils/formatter';
 import { SpotifyLink, AppleMusicLink } from '@/components/SocialLink';
+import dayjs from 'dayjs';
 
 const MoreTracks = ({
   artist,
@@ -174,7 +175,13 @@ const Artist: NextPage<Props> = ({ artist }) => {
   const [topListeners, setTopListeners] = useState<statsfm.TopUser[]>([]);
   const [related, setRelated] = useState<statsfm.Artist[]>([]);
   const [streams, setStreams] = useState<statsfm.Stream[] | null>(null);
-  const [stats, setStats] = useState<statsfm.StreamStats | null>(null);
+  const [stats, setStats] = useState<
+    | (statsfm.StreamStats & {
+        firstStream?: statsfm.Stream;
+        lastStream?: statsfm.Stream;
+      })
+    | null
+  >(null);
 
   useScrollPercentage(30, () => event('ARTIST_scroll_30'));
 
@@ -194,7 +201,20 @@ const Artist: NextPage<Props> = ({ artist }) => {
     if (!user) return;
     (async () => {
       setStreams(await api.users.artistStreams(user.id, artist.id));
-      setStats(await api.users.artistStats(user.id, artist.id));
+      const stats = await api.users.artistStats(user.id, artist.id);
+      const firstStreams = await api.users.artistStreams(
+        user.customId,
+        artist.id,
+        {
+          limit: 1,
+          order: 'asc',
+        }
+      );
+
+      setStats({
+        ...stats,
+        firstStream: firstStreams[0],
+      });
     })();
   }, [user, artist]);
 
@@ -203,7 +223,13 @@ const Artist: NextPage<Props> = ({ artist }) => {
 
     const duration = `${formatter.formatMinutes(stats.durationMs)}m`;
     const count = `${formatter.localiseNumber(stats.count)}x`;
-    return { count, duration };
+
+    return {
+      count,
+      duration,
+      firstStream: stats.firstStream?.endTime,
+      lastStream: streams![0]?.endTime,
+    };
   }, [user, stats]);
 
   return (
@@ -264,6 +290,30 @@ const Artist: NextPage<Props> = ({ artist }) => {
             loading={!statsResult}
             loginRequired
           />
+          {statsResult?.firstStream && (
+            <StatsCard
+              value={dayjs(statsResult?.firstStream).format('LL')}
+              label={`first streamed ${
+                statsResult
+                  ? `at ${dayjs(statsResult.firstStream).format('LT')}`
+                  : ''
+              }`}
+              loading={!statsResult}
+              loginRequired
+            />
+          )}
+          {statsResult?.lastStream && (
+            <StatsCard
+              value={dayjs(statsResult?.lastStream).format('LL')}
+              label={`last streamed ${
+                statsResult
+                  ? `at ${dayjs(statsResult.lastStream).format('LT')}`
+                  : ''
+              }`}
+              loading={!statsResult}
+              loginRequired
+            />
+          )}
           <StatsCard
             value={formatter.formatPopularity(artist.spotifyPopularity)}
             label={'0-10 popularity'}
