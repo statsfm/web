@@ -110,6 +110,7 @@ const PrivacyList: FC<{ user: UserPrivate }> = () => {
   }, [privacySettings]);
 
   const displaySettings = useMemo(() => {
+    // cast the privacy settings from the api to a [string, boolean][] array
     const entries = Object.entries<boolean>(
       privacySettings as unknown as {
         [key in keyof UserPrivacySettings]: boolean;
