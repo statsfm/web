@@ -15,7 +15,7 @@ import { fetchUser } from '@/utils/ssrUtils';
 import { event } from 'nextjs-google-analytics';
 
 type DisplayNamesType = {
-  [key in keyof UserPrivacySettings | 'leaderboards']: {
+  [key in keyof UserPrivacySettings | 'leaderboards' | 'connections']: {
     title: string;
     description: string;
   };
@@ -70,6 +70,10 @@ const displayNames: DisplayNamesType = {
     description:
       'Show your profile in global leaderboards (for example top listeners of a specific artist)',
   },
+  connections: {
+    title: 'Connections',
+    description: 'Your connections to other services.',
+  },
 };
 
 type StatusOptions = 'SAVING' | 'SAVED' | 'ERROR' | 'DEFAULT';
@@ -105,6 +109,17 @@ const PrivacyList: FC<{ user: UserPrivate }> = () => {
     event('SETTINGS_profile_saved');
   }, [privacySettings]);
 
+  const displaySettings = useMemo(() => {
+    const entries = Object.entries<boolean>(
+      privacySettings as unknown as {
+        [key in keyof UserPrivacySettings]: boolean;
+      }
+    ) as [keyof UserPrivacySettings, boolean][];
+
+    const displayKeys = Object.keys(displayNames);
+    return entries.filter(([key]) => displayKeys.includes(key));
+  }, [privacySettings]);
+
   return (
     <div className="relative w-full">
       <Overlay visible={status === 'SAVING'}>saving...</Overlay>
@@ -123,13 +138,7 @@ const PrivacyList: FC<{ user: UserPrivate }> = () => {
 
       <ul>
         {privacySettings &&
-          (
-            Object.entries<boolean>(
-              privacySettings as unknown as {
-                [key in keyof UserPrivacySettings]: boolean;
-              }
-            ) as [keyof UserPrivacySettings, boolean][]
-          ).map(([setting, value]) => (
+          displaySettings.map(([setting, value]) => (
             <li key={setting}>
               <Divider />
               <div className="flex items-center justify-between gap-4">
