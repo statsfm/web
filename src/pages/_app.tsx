@@ -1,7 +1,6 @@
 import '../styles/globals.css';
 
 import { AuthProvider } from '@/context/auth';
-
 import { Footer } from '@/components/Footer';
 import { NavBar } from '@/components/Navbar';
 import { Title } from '@/components/Title';
@@ -11,6 +10,44 @@ import { ToasterContainer } from '@/context/toaster';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import type { UserPrivate } from '@statsfm/statsfm.js';
+import localFont from '@next/font/local';
+import clsx from 'clsx';
+
+const StatsfmSans = localFont({
+  variable: '--font-statsfm-sans',
+  src: [
+    { path: './fonts/StatsfmSans-Thin.ttf', weight: '100' },
+    { path: './fonts/StatsfmSans-Light.ttf', weight: '300' },
+    { path: './fonts/StatsfmSans-Regular.ttf', weight: '400' },
+    { path: './fonts/StatsfmSans-Medium.ttf', weight: '500' },
+    { path: './fonts/StatsfmSans-Bold.ttf', weight: '700' },
+    // {
+    //   path: './fonts/StatsfmSans-ThinItalic.ttf',
+    //   weight: '100',
+    //   style: 'italic',
+    // },
+    // {
+    //   path: './fonts/StatsfmSans-LightItalic.ttf',
+    //   weight: '300',
+    //   style: 'italic',
+    // },
+    // {
+    //   path: './fonts/StatsfmSans-MediumItalic.ttf',
+    //   weight: '500',
+    //   style: 'italic',
+    // },
+    // {
+    //   path: './fonts/StatsfmSans-BoldItalic.ttf',
+    //   weight: '700',
+    //   style: 'italic',
+    // },
+    // {
+    //   path: './fonts/StatsfmSans-BlackItalic.ttf',
+    //   weight: '800',
+    //   style: 'italic',
+    // },
+  ],
+});
 
 const Ogp = () => (
   <>
@@ -46,7 +83,7 @@ const App = ({ Component, pageProps }: AppProps<{ user?: UserPrivate }>) => {
   ].includes(router.pathname);
 
   return (
-    <>
+    <main className={clsx(StatsfmSans.className, StatsfmSans.variable)}>
       <AuthProvider user={pageProps.user}>
         <Head>
           <title>stats.fm</title>
@@ -65,7 +102,7 @@ const App = ({ Component, pageProps }: AppProps<{ user?: UserPrivate }>) => {
           <Footer />
         </ToasterContainer>
       </AuthProvider>
-    </>
+    </main>
   );
 };
 export default App;
