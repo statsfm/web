@@ -11,7 +11,6 @@ import Head from 'next/head';
 import { useRouter } from 'next/router';
 import type { UserPrivate } from '@statsfm/statsfm.js';
 import localFont from '@next/font/local';
-import clsx from 'clsx';
 
 const StatsfmSans = localFont({
   variable: '--font-statsfm-sans',
@@ -83,7 +82,7 @@ const App = ({ Component, pageProps }: AppProps<{ user?: UserPrivate }>) => {
   ].includes(router.pathname);
 
   return (
-    <main className={clsx(StatsfmSans.className, StatsfmSans.variable)}>
+    <main className={StatsfmSans.className}>
       <AuthProvider user={pageProps.user}>
         <Head>
           <title>stats.fm</title>
