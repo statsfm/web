@@ -101,9 +101,7 @@ const RedeemCodePage: NextPage = () => {
               {giftCode?.message ? (
                 <p className="text-xl text-white">{giftCode.message}</p>
               ) : (
-                <p className="text-xl font-normal italic text-white">
-                  No message
-                </p>
+                <p className="text-xl font-normal text-white">No message</p>
               )}
               <span>
                 Gifted By{' '}
