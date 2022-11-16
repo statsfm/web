@@ -11,6 +11,20 @@ import Head from 'next/head';
 import { useRouter } from 'next/router';
 import type { UserPrivate } from '@statsfm/statsfm.js';
 import localFont from '@next/font/local';
+import clsx from 'clsx';
+
+// TODO: this is the stupidest solution to the worst issue ever, works for now
+// https://github.com/tailwindlabs/headlessui/discussions/666#discussioncomment-1891380
+if (typeof window !== 'undefined') {
+  const elementById = Document.prototype.getElementById;
+  // eslint-disable-next-line func-names
+  Document.prototype.getElementById = function (elementId: string) {
+    if (elementId === 'headlessui-portal-root') {
+      return document.getElementById('PortalRoot');
+    }
+    return elementById.call(this, elementId);
+  };
+}
 
 const StatsfmSans = localFont({
   variable: '--font-statsfm-sans',
@@ -20,31 +34,6 @@ const StatsfmSans = localFont({
     { path: './fonts/StatsfmSans-Regular.ttf', weight: '400' },
     { path: './fonts/StatsfmSans-Medium.ttf', weight: '500' },
     { path: './fonts/StatsfmSans-Bold.ttf', weight: '700' },
-    // {
-    //   path: './fonts/StatsfmSans-ThinItalic.ttf',
-    //   weight: '100',
-    //   style: 'italic',
-    // },
-    // {
-    //   path: './fonts/StatsfmSans-LightItalic.ttf',
-    //   weight: '300',
-    //   style: 'italic',
-    // },
-    // {
-    //   path: './fonts/StatsfmSans-MediumItalic.ttf',
-    //   weight: '500',
-    //   style: 'italic',
-    // },
-    // {
-    //   path: './fonts/StatsfmSans-BoldItalic.ttf',
-    //   weight: '700',
-    //   style: 'italic',
-    // },
-    // {
-    //   path: './fonts/StatsfmSans-BlackItalic.ttf',
-    //   weight: '800',
-    //   style: 'italic',
-    // },
   ],
 });
 
@@ -82,7 +71,7 @@ const App = ({ Component, pageProps }: AppProps<{ user?: UserPrivate }>) => {
   ].includes(router.pathname);
 
   return (
-    <main className={StatsfmSans.className}>
+    <main className={clsx(StatsfmSans.className, StatsfmSans.variable)}>
       <AuthProvider user={pageProps.user}>
         <Head>
           <title>stats.fm</title>
@@ -101,6 +90,7 @@ const App = ({ Component, pageProps }: AppProps<{ user?: UserPrivate }>) => {
           <Footer />
         </ToasterContainer>
       </AuthProvider>
+      <section id="PortalRoot" />
     </main>
   );
 };
