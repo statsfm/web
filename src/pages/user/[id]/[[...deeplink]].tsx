@@ -1,10 +1,4 @@
-import React, {
-  createContext,
-  useContext,
-  useEffect,
-  useRef,
-  useState,
-} from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import type { PropsWithChildren, FC, RefObject } from 'react';
 import dayjs from 'dayjs';
 import type { GetServerSideProps, NextPage } from 'next';
@@ -14,11 +8,9 @@ import Linkify from 'linkify-react';
 // components
 import { Section } from '@/components/Section/Section';
 import { Segment, SegmentedControls } from '@/components/SegmentedControls';
-import { StatsCard, StatsCardSkeleton } from '@/components/StatsCard';
 import { TrackCard, TrackCardSkeleton } from '@/components/TrackCard';
 import { Carousel } from '@/components/Carousel';
 import { Avatar } from '@/components/Avatar';
-import { MdVisibilityOff } from 'react-icons/md';
 import { useApi } from '@/hooks/use-api';
 import { Chip, ChipGroup } from '@/components/Chip';
 import { useAuth } from '@/hooks';
@@ -45,6 +37,10 @@ import { useScrollPercentage } from '@/hooks/use-scroll-percentage';
 import formatter from '@/utils/formatter';
 import { AppleMusicLink, SpotifyLink } from '@/components/SocialLink';
 import { ShareMenuItem } from '@/components/ShareMenuItem';
+import { StatsCard, StatsCardSkeleton } from '@/components/StatsCard';
+import { MdVisibilityOff } from 'react-icons/md';
+import type { ScopeProps } from '@/components/PrivacyScope';
+import Scope, { useScopeContext } from '@/components/PrivacyScope';
 
 // const ListeningClockChart = () => {
 //   const config = {
@@ -175,90 +171,6 @@ const PlusBadge = () => (
   </span>
 );
 
-const UserContext = createContext<statsfm.UserPublic | null>(null);
-
-const useUserContext = (component: string) => {
-  const ctx = useContext(UserContext);
-
-  if (!ctx)
-    throw new Error(
-      `<${component} /> is missing a parent <UserContext.Provider /> component.`
-    );
-
-  return ctx;
-};
-
-const PrivacyScope = ({
-  scope,
-  children,
-}: PropsWithChildren<{
-  scope: keyof statsfm.UserPrivacySettings;
-}>) => {
-  const user = useUserContext('PrivacyScope');
-
-  if (user.privacySettings && user.privacySettings[scope]) {
-    return <>{children}</>;
-  }
-
-  return (
-    <div className="grid w-full place-items-center">
-      <MdVisibilityOff />
-
-      <p className="m-0 text-text-grey">
-        {user.displayName} doesn&apos;t share this
-      </p>
-    </div>
-  );
-};
-
-const ImportRequiredScope = ({
-  placeholder,
-  children,
-}: PropsWithChildren<{ placeholder?: JSX.Element }>) => {
-  const user = useUserContext('ImportRequiredScope');
-  // the currently logged in user
-  const { user: currentUser } = useAuth();
-
-  if (user.hasImported) {
-    return <>{children}</>;
-  }
-
-  // TODO: look for a better way to implement getting the user context
-  if (user.id === currentUser?.id || user.id === 'me') {
-    return (
-      <div className="relative w-full">
-        <div className="blur-sm">{placeholder}</div>
-
-        <div className="absolute inset-0 grid place-items-center">
-          <p className="m-0">
-            This feature requires{' '}
-            {/* TODO: replace the link with a router link */}
-            <a className="underline" href="https://stats.fm/import">
-              import of streams
-            </a>
-          </p>
-        </div>
-      </div>
-    );
-  }
-
-  return (
-    <div className="relative w-full">
-      <div className="blur-sm">{placeholder}</div>
-
-      <div className="absolute inset-0 grid place-items-center">
-        <p className="m-0 text-text-grey">
-          Ask {user.displayName} to{' '}
-          <a className="underline" href="https://stats.fm/import">
-            import their streaming history
-          </a>{' '}
-          to view this
-        </p>
-      </div>
-    </div>
-  );
-};
-
 // const NotEnoughData = ({
 //   data,
 //   children,
@@ -278,7 +190,51 @@ const ImportRequiredScope = ({
 //   return <>{children}</>;
 // };
 
-const ButtonFrame: FC<
+const ImportRequiredScope: FC<ScopeProps> = ({ children, value }) => {
+  const { target, as: viewer } = useScopeContext();
+
+  if (target.hasImported) {
+    return <Scope value={value}>{children}</Scope>;
+  }
+
+  let Content = (
+    <>
+      Ask {target.displayName} to{' '}
+      <a className="underline" href="https://stats.fm/import">
+        import their streaming history
+      </a>{' '}
+      to view this
+    </>
+  );
+
+  if (viewer !== null && target.id === viewer.id)
+    Content = (
+      <>
+        This feature requires
+        <Link className="underline" href="/import">
+          import of streams
+        </Link>
+      </>
+    );
+
+  return (
+    <div className="relative w-full">
+      <div className="blur-sm">
+        <ul className="grid w-full grid-cols-2 gap-4 md:grid-cols-4">
+          {['minutes streamed', 'hours streamed', 'streams'].map((label, i) => (
+            <StatsCard key={i} label={label} value="?" />
+          ))}
+        </ul>
+      </div>
+
+      <div className="absolute inset-0 grid place-items-center">
+        <p className="m-0 text-text-grey">{Content}</p>
+      </div>
+    </div>
+  );
+};
+
+const FriendsButtonFrame: FC<
   PropsWithChildren<{ red?: boolean; handler: () => void }>
 > = ({ red, children, handler }) => (
   <Button
@@ -323,23 +279,27 @@ const FriendsButton: FC<{
   switch (friendStatus) {
     case FriendStatus.FRIENDS:
       return (
-        <ButtonFrame red handler={handleRemove}>
+        <FriendsButtonFrame red handler={handleRemove}>
           Remove friend
-        </ButtonFrame>
+        </FriendsButtonFrame>
       );
     case FriendStatus.REQUEST_INCOMING:
       return (
-        <ButtonFrame handler={handleAccept}>Accept friend request</ButtonFrame>
+        <FriendsButtonFrame handler={handleAccept}>
+          Accept friend request
+        </FriendsButtonFrame>
       );
     case FriendStatus.REQUEST_OUTGOING:
       return (
-        <ButtonFrame red handler={handleCancel}>
+        <FriendsButtonFrame red handler={handleCancel}>
           Cancel friend request
-        </ButtonFrame>
+        </FriendsButtonFrame>
       );
     default:
       return (
-        <ButtonFrame handler={handleSend}>Send friend request</ButtonFrame>
+        <FriendsButtonFrame handler={handleSend}>
+          Send friend request
+        </FriendsButtonFrame>
       );
   }
 };
@@ -388,14 +348,7 @@ const User: NextPage<Props> = ({
     setTopAlbums([]);
 
     const load = async () => {
-      if (user.privacySettings?.streamStats) {
-        const stats = await api.users.stats(user.id, { range });
-
-        // const timeframe: Record<Partial<statsfm.Range>, number> = {
-        //   weeks: 4 * (24 * 7),
-        //   months: 8766 / 2,
-        // };
-
+      api.users.stats(user.id, { range }).then((stats) => {
         const hours = dayjs.duration(stats.durationMs).asHours();
 
         setStats([
@@ -430,16 +383,12 @@ const User: NextPage<Props> = ({
           //   value: `${Math.round((hours / timeframe[range]) * 100 * 10) / 10}%`,
           // },
         ]);
-      }
+      });
 
-      if (user.privacySettings?.topGenres)
-        setTopGenres(await api.users.topGenres(user.id, { range }));
-      if (user.privacySettings?.topTracks)
-        setTopTracks(await api.users.topTracks(user.id, { range }));
-      if (user.privacySettings?.topArtists)
-        setTopArtists(await api.users.topArtists(user.id, { range }));
-      if (user.privacySettings?.topAlbums)
-        setTopAlbums(await api.users.topAlbums(user.id, { range }));
+      api.users.topGenres(user.id, { range }).then(setTopGenres);
+      api.users.topTracks(user.id, { range }).then(setTopTracks);
+      api.users.topArtists(user.id, { range }).then(setTopArtists);
+      api.users.topAlbums(user.id, { range }).then(setTopAlbums);
     };
 
     load();
@@ -447,12 +396,7 @@ const User: NextPage<Props> = ({
 
   // TODO: improvements
   useEffect(() => {
-    const load = async () => {
-      if (user.privacySettings?.recentlyPlayed)
-        setRecentStreams(await api.users.recentlyStreamed(user.id));
-    };
-
-    load();
+    api.users.recentlyStreamed(user.id).then(setRecentStreams);
   }, [user]);
 
   useEffect(() => {
@@ -509,7 +453,18 @@ const User: NextPage<Props> = ({
         />
         <meta property="twitter:card" content="summary" />
       </Head>
-      <UserContext.Provider value={user}>
+      <Scope.Context
+        as={currentUser}
+        target={user}
+        fallback={
+          <div className="grid w-full place-items-center">
+            <MdVisibilityOff />
+            <p className="m-0 text-text-grey">
+              {user.displayName} doesn&apos;t share this
+            </p>
+          </div>
+        }
+      >
         <div className="bg-foreground pt-20">
           <Container>
             <section className="flex flex-col items-center gap-5 pt-24 pb-10 md:flex-row">
@@ -578,36 +533,18 @@ const User: NextPage<Props> = ({
               <Segment value={statsfm.Range.MONTHS}>6 months</Segment>
               <Segment value={statsfm.Range.LIFETIME}>lifetime</Segment>
             </SegmentedControls>
-
-            <ImportRequiredScope
-              placeholder={
-                <ul className="grid w-full grid-cols-2 gap-4 md:grid-cols-4">
-                  {['minutes streamed', 'hours streamed', 'streams'].map(
-                    (label, i) => (
-                      <StatsCard
-                        key={i}
-                        // TODO: better way of implementing this
-                        label={label}
-                        value="?"
-                      />
-                    )
-                  )}
-                </ul>
-              }
-            >
-              <PrivacyScope scope="streamStats">
-                <ul className="grid w-full grid-cols-2 gap-4 md:w-4/6 md:grid-cols-4">
-                  {stats.length > 0
-                    ? stats.map((item, i) => <StatsCard {...item} key={i} />)
-                    : Array(6)
-                        .fill(null)
-                        .map((_n, i) => (
-                          <li key={i}>
-                            <StatsCardSkeleton />
-                          </li>
-                        ))}
-                </ul>
-              </PrivacyScope>
+            <ImportRequiredScope value="streamStats">
+              <ul className="grid w-full grid-cols-2 gap-4 md:w-4/6 md:grid-cols-4">
+                {stats.length > 0
+                  ? stats.map((item, i) => <StatsCard {...item} key={i} />)
+                  : Array(6)
+                      .fill(null)
+                      .map((_n, i) => (
+                        <li key={i}>
+                          <StatsCardSkeleton />
+                        </li>
+                      ))}
+              </ul>
             </ImportRequiredScope>
           </section>
 
@@ -619,30 +556,32 @@ const User: NextPage<Props> = ({
               isCurrentUser ? 'Your' : `${user.displayName}'s`
             } top genres ${ranges[range]}`}
           >
-            <ChipGroup
-              className={clsx(topGenres.length === 0 && '!overflow-x-hidden')}
-            >
-              {topGenres.length > 0
-                ? topGenres.map((genre, i) => (
-                    <Chip key={i}>
-                      <Link legacyBehavior href={`/genre/${genre.genre.tag}`}>
-                        <a onClick={() => event('USER_top_genre_click')}>
-                          {genre.genre.tag}
-                        </a>
-                      </Link>
-                    </Chip>
-                  ))
-                : Array(8)
-                    .fill(null)
-                    .map((_v, i) => (
-                      <Chip
-                        className="shrink-0 animate-pulse text-transparent"
-                        key={i}
-                      >
-                        {i.toString().repeat(i + (10 % 17))}
+            <Scope value="topGenres">
+              <ChipGroup
+                className={clsx(topGenres.length === 0 && '!overflow-x-hidden')}
+              >
+                {topGenres.length > 0
+                  ? topGenres.map((genre, i) => (
+                      <Chip key={i}>
+                        <Link legacyBehavior href={`/genre/${genre.genre.tag}`}>
+                          <a onClick={() => event('USER_top_genre_click')}>
+                            {genre.genre.tag}
+                          </a>
+                        </Link>
                       </Chip>
-                    ))}
-            </ChipGroup>
+                    ))
+                  : Array(8)
+                      .fill(null)
+                      .map((_v, i) => (
+                        <Chip
+                          className="shrink-0 animate-pulse text-transparent"
+                          key={i}
+                        >
+                          {i.toString().repeat(i + (10 % 17))}
+                        </Chip>
+                      ))}
+              </ChipGroup>
+            </Scope>
           </Section>
           <Carousel gridMode={activeCarousel === 'tracks'} itemHeight={276}>
             <Section
@@ -673,7 +612,7 @@ const User: NextPage<Props> = ({
                 </div>
               }
             >
-              <PrivacyScope scope="topTracks">
+              <Scope value="topTracks">
                 {/* <NotEnoughData data={topTracks}> */}
 
                 <Carousel.Items>
@@ -695,7 +634,7 @@ const User: NextPage<Props> = ({
                         ))}
                 </Carousel.Items>
                 {/* </NotEnoughData> */}
-              </PrivacyScope>
+              </Scope>
             </Section>
           </Carousel>
 
@@ -728,7 +667,7 @@ const User: NextPage<Props> = ({
                 </div>
               }
             >
-              <PrivacyScope scope="topArtists">
+              <Scope value="topArtists">
                 {/* <NotEnoughData data={topArtists}> */}
                 <Carousel.Items>
                   {topArtists.length > 0
@@ -749,7 +688,7 @@ const User: NextPage<Props> = ({
                         ))}
                 </Carousel.Items>
                 {/* </NotEnoughData> */}
-              </PrivacyScope>
+              </Scope>
             </Section>
           </Carousel>
 
@@ -783,7 +722,7 @@ const User: NextPage<Props> = ({
                   </div>
                 }
               >
-                <PrivacyScope scope="topAlbums">
+                <Scope value="topAlbums">
                   {/* <NotEnoughData data={topAlbums}> */}
                   <Carousel.Items>
                     {topAlbums && topAlbums.length > 0
@@ -804,7 +743,7 @@ const User: NextPage<Props> = ({
                           ))}
                   </Carousel.Items>
                   {/* </NotEnoughData> */}
-                </PrivacyScope>
+                </Scope>
               </Section>
             </Carousel>
           )}
@@ -816,7 +755,7 @@ const User: NextPage<Props> = ({
             } recently played tracks`}
           >
             {({ headerRef }) => (
-              <PrivacyScope scope="recentlyPlayed">
+              <Scope value="recentlyPlayed">
                 <RecentStreams
                   headerRef={headerRef}
                   streams={recentStreams}
@@ -832,11 +771,11 @@ const User: NextPage<Props> = ({
                     </a>
                   </Link>
                 )}
-              </PrivacyScope>
+              </Scope>
             )}
           </Section>
         </Container>
-      </UserContext.Provider>
+      </Scope.Context>
     </>
   );
 };
