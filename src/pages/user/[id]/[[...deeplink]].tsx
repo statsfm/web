@@ -191,7 +191,10 @@ const PlusBadge = () => (
 // };
 
 const ImportRequiredScope: FC<ScopeProps> = ({ children, value }) => {
-  const { target, as: viewer } = useScopeContext();
+  const scopeContext = useScopeContext();
+
+  if (!scopeContext) throw new Error('ScopeContext not found');
+  const { target, as: viewer } = scopeContext;
 
   if (target.hasImported) {
     return <Scope value={value}>{children}</Scope>;
@@ -555,6 +558,7 @@ const User: NextPage<Props> = ({
             description={`${
               isCurrentUser ? 'Your' : `${user.displayName}'s`
             } top genres ${ranges[range]}`}
+            scope="topGenres"
           >
             <Scope value="topGenres">
               <ChipGroup
@@ -590,6 +594,7 @@ const User: NextPage<Props> = ({
               description={`${
                 isCurrentUser ? 'Your' : formatter.nounify(user.displayName)
               } top tracks ${ranges[range]}`}
+              scope="topTracks"
               toolbar={
                 <div className="flex gap-1">
                   <SectionToolbarGridmode
@@ -645,6 +650,7 @@ const User: NextPage<Props> = ({
               description={`${
                 isCurrentUser ? 'Your' : formatter.nounify(user.displayName)
               } top artists ${ranges[range]}`}
+              scope="topArtists"
               toolbar={
                 <div className="flex gap-1">
                   <SectionToolbarGridmode
@@ -700,6 +706,7 @@ const User: NextPage<Props> = ({
                 description={`${
                   isCurrentUser ? 'Your' : `${user.displayName}'s`
                 } top albums ${ranges[range]}`}
+                scope="topAlbums"
                 toolbar={
                   <div className="flex gap-1">
                     <SectionToolbarGridmode
@@ -753,6 +760,7 @@ const User: NextPage<Props> = ({
             description={`${
               isCurrentUser ? 'Your' : `${user.displayName}'s`
             } recently played tracks`}
+            scope="recentlyPlayed"
           >
             {({ headerRef }) => (
               <Scope value="recentlyPlayed">

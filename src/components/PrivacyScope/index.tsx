@@ -25,14 +25,21 @@ const ScopeContextProvider: FC<PropsWithChildren<ScopeContextType>> = ({
 
 const useScopeContext = () => {
   const context = useContext(ScopeContext);
-  if (!context) throw new Error('ScopeContext not found');
-  return context;
+  // if (!context) throw new Error('ScopeContext not found');
+  return context ?? null;
 };
 
-const usePrivacyScope = (value: keyof statsfm.UserPrivacySettings) => {
-  const { target, as: viewer } = useScopeContext();
+const usePrivacyScope = (
+  value: keyof statsfm.UserPrivacySettings,
+  asViewer = true
+) => {
+  const scopeContext = useScopeContext();
 
-  if (viewer !== null && viewer.id === target.id) return true;
+  if (!scopeContext) return null;
+
+  const { target, as: viewer } = scopeContext;
+
+  if (asViewer && viewer !== null && viewer.id === target.id) return true;
   if (target.privacySettings && target.privacySettings[value]) return true;
 
   return false;
@@ -45,7 +52,10 @@ type ScopeProps = PropsWithChildren<{
 
 const PrivacyScope: FC<ScopeProps> = ({ children, value, fallback }) => {
   const scopeValid = usePrivacyScope(value);
-  const { fallback: contextFallback } = useScopeContext();
+  const scopeContext = useScopeContext();
+
+  if (!scopeContext) throw new Error('ScopeContext not found');
+  const { fallback: contextFallback } = scopeContext;
 
   if (scopeValid) return <>{children}</>;
   if (fallback) return <>{fallback}</>;
