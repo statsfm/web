@@ -71,7 +71,7 @@ const App = ({ Component, pageProps }: AppProps<{ user?: UserPrivate }>) => {
   ].includes(router.pathname);
 
   return (
-    <main className={clsx(StatsfmSans.className, StatsfmSans.variable)}>
+    <main className={clsx(StatsfmSans.variable, 'font-body')}>
       <AuthProvider user={pageProps.user}>
         <Head>
           <title>stats.fm</title>
