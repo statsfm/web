@@ -213,7 +213,7 @@ const ImportRequiredScope: FC<ScopeProps> = ({ children, value }) => {
   if (viewer !== null && target.id === viewer.id)
     Content = (
       <>
-        This feature requires
+        This feature requires{' '}
         <Link className="underline" href="/import">
           import of streams
         </Link>
