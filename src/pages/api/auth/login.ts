@@ -1,14 +1,26 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 
 const handler = (req: NextApiRequest, res: NextApiResponse) => {
-  const protocol = req.headers['x-forwarded-proto'] || 'https';
+  let protocol = req.headers['x-forwarded-proto'] || 'https';
+  if (process.env.NODE_ENV === 'development') protocol = 'http';
+
   const { host } = req.headers;
   const origin = `${protocol}://${host}`;
 
-  res.setHeader('Set-Cookie', [
+  const cookies = [
     'identityToken=; Path=/; Domain=.stats.fm; HttpOnly=false; Expires=Thu, 01 Jan 1970 00:00:00 GMT',
     'identityToken=; Path=/; Domain=.stats.fm; HttpOnly=true; Expires=Thu, 01 Jan 1970 00:00:00 GMT',
-  ]);
+  ];
+
+  if (process.env.NODE_ENV === 'development') {
+    const { host } = req.headers;
+    const domain = host?.split(':')[0];
+    cookies.push(
+      `identityToken=; Path=/; Domain=${domain}; Expires=Thu, 01 Jan 1970 00:00:00 GMT`
+    );
+  }
+
+  res.setHeader('Set-Cookie', cookies);
 
   const scope = [
     // Images
