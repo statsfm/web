@@ -106,11 +106,11 @@ function activeGridModeFromDeepLink(
   deeplink: string | string[] | undefined
 ): CarouselsWithGrid | null {
   if (typeof deeplink !== 'object') return null;
-  if (deeplink.length !== 2) return null;
+  if (deeplink.length !== 1) return null;
 
-  const [type, id] = deeplink;
-  if (type !== 'top') return null;
+  console.log('aa');
 
+  const [id] = deeplink;
   // TODO: this should rewrite or redirect
   if (id !== 'tracks' && id !== 'albums' && id !== 'artists') return null;
 
@@ -417,7 +417,7 @@ const User: NextPage<Props> = ({
     url: CarouselsWithGrid
   ) => {
     let newUrl = `/${user.customId ?? user.id}`;
-    if (!gridMode) newUrl += `/top/${url}`;
+    if (!gridMode) newUrl += `/${url}`;
 
     // this is some next router weirdness
     // https://github.com/vercel/next.js/discussions/18072#discussioncomment-109059
@@ -611,7 +611,7 @@ const User: NextPage<Props> = ({
                   />
                   <SectionToolbarInfoMenu>
                     <ShareMenuItem
-                      path={`/${user.customId ?? user.id}/top/tracks`}
+                      path={`/${user.customId ?? user.id}/tracks`}
                     />
                   </SectionToolbarInfoMenu>
                 </div>
@@ -667,7 +667,7 @@ const User: NextPage<Props> = ({
                   />
                   <SectionToolbarInfoMenu>
                     <ShareMenuItem
-                      path={`/${user.customId ?? user.id}/top/artists`}
+                      path={`/${user.customId ?? user.id}/artists`}
                     />
                   </SectionToolbarInfoMenu>
                 </div>
@@ -723,7 +723,7 @@ const User: NextPage<Props> = ({
                     />
                     <SectionToolbarInfoMenu>
                       <ShareMenuItem
-                        path={`/${user.customId ?? user.id}/top/albums`}
+                        path={`/${user.customId ?? user.id}/albums`}
                       />
                     </SectionToolbarInfoMenu>
                   </div>
