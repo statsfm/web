@@ -108,8 +108,6 @@ function activeGridModeFromDeepLink(
   if (typeof deeplink !== 'object') return null;
   if (deeplink.length !== 1) return null;
 
-  console.log('aa');
-
   const [id] = deeplink;
   // TODO: this should rewrite or redirect
   if (id !== 'tracks' && id !== 'albums' && id !== 'artists') return null;
