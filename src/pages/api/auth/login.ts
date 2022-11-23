@@ -7,9 +7,10 @@ const handler = (req: NextApiRequest, res: NextApiResponse) => {
   const { host } = req.headers;
   const origin = `${protocol}://${host}`;
 
+  // remove the extra httpOnly cookie which is no longer in use
   const cookies = [
     'identityToken=; Path=/; Domain=.stats.fm; HttpOnly=false; Expires=Thu, 01 Jan 1970 00:00:00 GMT',
-    'identityToken=; Path=/; Domain=.stats.fm; HttpOnly=true; Expires=Thu, 01 Jan 1970 00:00:00 GMT',
+    'identityToken=; Path=/; Domain=.stats.fm; HttpOnly=true; Expires=Thu, 01 Jan 1970 00:00:00 GMT', // legacy cookie
   ];
 
   if (process.env.NODE_ENV === 'development') {

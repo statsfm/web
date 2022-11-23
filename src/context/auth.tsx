@@ -53,6 +53,15 @@ export const AuthProvider = (
 
   const logout = () => {
     setUser(null);
+
+    // this removes the identity token living on stats.fm preemptively for safari and other webkit browsers.
+    // safari and other webkit browsers misbehave when removing the cookie from the server.
+    // not a very elegant solution, but it works.
+    Cookies.remove('identityToken', {
+      path: '/',
+      domain: 'stats.fm',
+    });
+
     Cookies.set('redirectUrl', router.asPath);
     router.push('/api/auth/logout');
   };
@@ -63,6 +72,7 @@ export const AuthProvider = (
 
     // set token
     const token = Cookies.get('identityToken');
+
     if (!token) return;
     api.http.config.accessToken = token;
 

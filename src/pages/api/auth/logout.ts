@@ -5,8 +5,8 @@ const handler = (req: NextApiRequest, res: NextApiResponse) => {
 
   // remove the extra httpOnly cookie which is no longer in use
   const cookies = [
-    'identityToken=; Path=/; Domain=.stats.fm; HttpOnly=true; Expires=Thu, 01 Jan 1970 00:00:00 GMT',
     'identityToken=; Path=/; Domain=.stats.fm; HttpOnly=false; Expires=Thu, 01 Jan 1970 00:00:00 GMT',
+    'identityToken=; Path=/; Domain=.stats.fm; HttpOnly=true; Expires=Thu, 01 Jan 1970 00:00:00 GMT', // legacy cookie
     'redirectUrl=; Path=/; Expires=Thu, 01 Jan 1970 00:00:00 GMT',
   ];
 
