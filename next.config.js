@@ -53,10 +53,10 @@ module.exports = withBundleAnalyzer({
   },
   async rewrites() {
     return [
-      {
-        source: '/:id',
-        destination: '/user/:id',
-      },
+      // {
+      //   source: '/:id',
+      //   destination: '/user/:id',
+      // },
       {
         source: '/:id/friends',
         destination: '/user/:id/friends',
@@ -82,8 +82,16 @@ module.exports = withBundleAnalyzer({
         destination: '/album/:id',
       },
       {
-        source: '/:id/:type',
-        destination: '/user/:id/:type',
+        source: '/:id/artists',
+        destination: '/user/:id/artists',
+      },
+      {
+        source: '/:id/albums',
+        destination: '/user/:id/albums',
+      },
+      {
+        source: '/:id/tracks',
+        destination: '/user/:id/tracks',
       },
     ];
   },
