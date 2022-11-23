@@ -6,6 +6,7 @@ module.exports = {
       script: 'yarn',
       args: 'start --port 80',
       instances: 12,
+      time: true,
     },
   ],
 };
