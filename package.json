@@ -8,8 +8,7 @@
     "start": "next start",
     "lint": "next lint",
     "clean": "rimraf .next out",
-    "check-types": "tsc --noEmit --pretty",
-    "prepare": "husky install"
+    "check-types": "tsc --noEmit --pretty"
   },
   "dependencies": {
     "@floating-ui/react-dom": "^1.0.0",
@@ -66,7 +65,6 @@
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-tailwindcss": "^3.6.0",
     "eslint-plugin-unused-imports": "^2.0.0",
-    "husky": "^8.0.1",
     "postcss": "^8.4.14",
     "prettier": "^2.7.1",
     "tailwindcss": "^3.1.5",
