@@ -53,10 +53,10 @@ module.exports = withBundleAnalyzer({
   },
   async rewrites() {
     return [
-      // {
-      //   source: '/:id',
-      //   destination: '/user/:id',
-      // },
+      {
+        source: '/:id',
+        destination: '/user/:id',
+      },
       {
         source: '/:id/friends',
         destination: '/user/:id/friends',
