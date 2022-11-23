@@ -70,10 +70,6 @@ module.exports = withBundleAnalyzer({
         destination: '/user/:id/compare',
       },
       {
-        source: '/:id/:type',
-        destination: '/user/:id/:type',
-      },
-      {
         source: '/artist/:id/:ignore',
         destination: '/artist/:id',
       },
@@ -84,6 +80,10 @@ module.exports = withBundleAnalyzer({
       {
         source: '/album/:id/:ignore',
         destination: '/album/:id',
+      },
+      {
+        source: '/:id/:type',
+        destination: '/user/:id/:type',
       },
     ];
   },
