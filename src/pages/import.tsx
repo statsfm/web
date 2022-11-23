@@ -2,6 +2,7 @@ import { Container } from '@/components/Container';
 import { Divider } from '@/components/Divider';
 import { Title } from '@/components/Title';
 import { useApi, useAuth, useToaster } from '@/hooks';
+import { useRemoteValue } from '@/hooks/use-remote-config';
 import type { UserImport } from '@statsfm/statsfm.js';
 import dayjs from 'dayjs';
 import type { NextPage } from 'next';
@@ -68,7 +69,12 @@ const ImportPage: NextPage<Props> = () => {
   const { user } = useAuth();
   const api = useApi();
   const toaster = useToaster();
+
   const [refetchCounter, setRefetchCounter] = useState(0);
+
+  const importWarningMessage = useRemoteValue('import_warning_message');
+  const importWarning = useRemoteValue('import_warning_visible');
+
   if (!user) return <></>;
 
   // TODO: this function is a direct port of the vue one, it can do with some improvments and refactoring
@@ -142,19 +148,19 @@ const ImportPage: NextPage<Props> = () => {
   return (
     <Container className="pt-20">
       <Title>Import</Title>
-      <div className="my-8 w-full flex-row rounded-md border-l-4 border-l-yellow-400/80 bg-yellow-400/20 p-4">
-        <div className="flex w-full flex-col">
-          <span className="flex items-center gap-1">
-            <MdWarning className="fill-white" />
-            <h4>Warning</h4>
-          </span>
-          <span className="text-white">
-            Due to many people uploading their files, it can take up to a few
-            hours for your files to be processed succesfully. <br /> <br /> You
-            can close this page if your files are in the queue.
-          </span>
+      {importWarning && (
+        <div className="my-8 w-full flex-row rounded-md border-l-4 border-l-yellow-400/80 bg-yellow-400/20 p-4">
+          <div className="flex w-full flex-col">
+            <span className="flex items-center gap-1">
+              <MdWarning className="fill-white" />
+              <h4>Warning</h4>
+            </span>
+            <span className="whitespace-pre-wrap text-white">
+              {importWarningMessage?.asString()}
+            </span>
+          </div>
         </div>
-      </div>
+      )}
 
       <h2>Imports</h2>
       <p>

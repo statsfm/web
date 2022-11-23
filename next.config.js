@@ -35,11 +35,6 @@ module.exports = withBundleAnalyzer({
   async redirects() {
     return [
       {
-        source: '/:id/top',
-        destination: '/:id',
-        permanent: false,
-      },
-      {
         source: '/account/:path*',
         destination: '/settings/:path*',
         permanent: false,
@@ -75,10 +70,6 @@ module.exports = withBundleAnalyzer({
         destination: '/user/:id/compare',
       },
       {
-        source: '/:id/top/:type',
-        destination: '/user/:id/top/:type',
-      },
-      {
         source: '/artist/:id/:ignore',
         destination: '/artist/:id',
       },
@@ -89,6 +80,10 @@ module.exports = withBundleAnalyzer({
       {
         source: '/album/:id/:ignore',
         destination: '/album/:id',
+      },
+      {
+        source: '/:id/:type',
+        destination: '/user/:id/:type',
       },
     ];
   },
