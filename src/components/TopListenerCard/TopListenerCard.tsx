@@ -14,34 +14,33 @@ const positions: Record<number, string> = {
 
 const TopListenerCard = ({ user, position, playedMs, streams }: Props) => {
   return (
-    <Link legacyBehavior href={`/user/${user.id}`} passHref>
-      <a className="flex w-40 flex-col items-center transition-transform duration-300 ease-in-out active:scale-95">
-        <Avatar src={user.image} name={user.displayName} size="3xl">
-          <span
-            className={clsx(
-              'rounded-lg bg-foreground px-2 py-1.5 text-lg drop-shadow-lg',
-              positions[position]
-            )}
-          >
-            #{position}
-          </span>
-        </Avatar>
+    <Link
+      href={`/${user.id}`}
+      className="flex w-40 flex-col items-center transition-transform duration-300 ease-in-out active:scale-95"
+    >
+      <Avatar src={user.image} name={user.displayName} size="3xl">
+        <span
+          className={clsx(
+            'rounded-lg bg-foreground px-2 py-1.5 text-lg drop-shadow-lg',
+            positions[position]
+          )}
+        >
+          #{position}
+        </span>
+      </Avatar>
 
-        <div className="mt-2 w-full text-center">
-          <h4 className="!block text-ellipsis line-clamp-2">
-            {user.displayName}
-          </h4>
+      <div className="mt-2 w-full text-center">
+        <h4 className="!block text-ellipsis line-clamp-2">
+          {user.displayName}
+        </h4>
 
-          <p className="m-0 line-clamp-2">
-            {playedMs && (
-              <span>{formatter.formatMinutes(playedMs)} minutes</span>
-            )}
+        <p className="m-0 line-clamp-2">
+          {playedMs && <span>{formatter.formatMinutes(playedMs)} minutes</span>}
 
-            <br />
-            <span>{streams} streams</span>
-          </p>
-        </div>
-      </a>
+          <br />
+          <span>{streams} streams</span>
+        </p>
+      </div>
     </Link>
   );
 };

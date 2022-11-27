@@ -133,13 +133,13 @@ export const getServerSideProps: GetServerSideProps<Props> = async (ctx) => {
   const user = await fetchUser(ctx);
 
   let friendStatus = FriendStatus.NONE;
+  let friendCount = 0;
   try {
+    friendCount = await api.users.friendCount(userProfile.id);
     friendStatus = await api.me.friendStatus(userProfile.id);
   } catch (e) {
     friendStatus = FriendStatus.NONE;
   }
-
-  const friendCount = await api.users.friendCount(userProfile.id);
 
   // TODO: extract this to a util function
   const oembedUrl = encodeURIComponent(`https://stats.fm${ctx.resolvedUrl}`);
@@ -494,34 +494,40 @@ const User: NextPage<Props> = ({
                     </Linkify>
                   </pre>
                 )}
-                <div className="mt-2 flex items-center">
-                  <>
-                    {currentUser && currentUser.id !== user.id && (
-                      <>
-                        <FriendsButton
-                          friendUser={user}
-                          initialFriendStatus={friendStatus}
-                        />
-                        <span className="mx-2">
-                          <Square />
-                        </span>
-                      </>
-                    )}
-                    <Link
-                      legacyBehavior
-                      href={`/${user.customId || user.id}/friends`}
-                    >
-                      <a className="font-medium text-neutral-400">
-                        {friendCount}{' '}
-                        {formatter.pluralise('Friend', friendCount)}
-                      </a>
-                    </Link>
-                  </>
-                </div>
-                <div className="mt-2 flex flex-row items-center gap-2">
-                  <SpotifyLink path={`/user/${user.id}`} />
-                  <AppleMusicLink />
-                </div>
+                <Scope value="friends" fallback={<></>}>
+                  <div className="mt-2 flex items-center">
+                    <>
+                      {currentUser && currentUser.id !== user.id && (
+                        <>
+                          <FriendsButton
+                            friendUser={user}
+                            initialFriendStatus={friendStatus}
+                          />
+                          <span className="mx-2">
+                            <Square />
+                          </span>
+                        </>
+                      )}
+
+                      <Link
+                        legacyBehavior
+                        href={`/${user.customId || user.id}/friends`}
+                      >
+                        <a className="font-medium text-neutral-400">
+                          {friendCount}{' '}
+                          {formatter.pluralise('Friend', friendCount)}
+                        </a>
+                      </Link>
+                    </>
+                  </div>
+                </Scope>
+
+                <Scope value="connections" fallback={<></>}>
+                  <div className="mt-2 flex flex-row items-center gap-2">
+                    <SpotifyLink path={`/user/${user.id}`} />
+                    <AppleMusicLink />
+                  </div>
+                </Scope>
               </div>
             </section>
           </Container>
