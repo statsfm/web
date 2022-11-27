@@ -100,10 +100,11 @@ const StateContextProvider: FC<PropsWithChildren<{ user: UserPrivate }>> = ({
   const save = async () => {
     setStatus('SAVING');
     try {
-      const actualPronouns: string | null | undefined =
-        pronouns === 'none' ? null : pronouns;
-
-      await api.me.updateProfile({ bio, pronouns: actualPronouns });
+      await api.me.updateProfile({
+        bio,
+        pronouns,
+        theme: user.profile?.theme || 'green',
+      });
       await api.me.updateMe({
         ...user,
         displayName,
@@ -117,7 +118,7 @@ const StateContextProvider: FC<PropsWithChildren<{ user: UserPrivate }>> = ({
         displayName,
         customId,
         image: url ?? user.image,
-        profile: { bio, pronouns: pronouns || undefined },
+        profile: { bio, pronouns, theme: user.profile?.theme || 'green' },
       });
     } catch (e) {
       setStatus('ERROR');
@@ -150,7 +151,9 @@ const StateContextProvider: FC<PropsWithChildren<{ user: UserPrivate }>> = ({
   );
 };
 
-const AvatarInput: FC<{ defaultSrc: string }> = ({ defaultSrc }) => {
+const AvatarInput: FC<{ defaultSrc: string | undefined }> = ({
+  defaultSrc,
+}) => {
   const {
     displayName: [displayName],
     avatarFiles: [files, setFiles],
