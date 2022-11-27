@@ -15,7 +15,7 @@ import { fetchUser } from '@/utils/ssrUtils';
 import { event } from 'nextjs-google-analytics';
 
 type DisplayNamesType = {
-  [key in keyof UserPrivacySettings | 'leaderboards' | 'connections']: {
+  [key in keyof UserPrivacySettings]: {
     title: string;
     description: string;
   };
