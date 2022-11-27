@@ -853,10 +853,10 @@
   resolved "https://registry.yarnpkg.com/@rushstack/eslint-patch/-/eslint-patch-1.1.4.tgz#0c8b74c50f29ee44f423f7416829c0bf8bb5eb27"
   integrity sha512-LwzQKA4vzIct1zNZzBmRKI9QuNpLgTQMEjsQLf3BXuGYb3QPTP4Yjf6mkdX+X1mYttZ808QpOwAzZjv28kq7DA==
 
-"@statsfm/statsfm.js@^1.16.5":
-  version "1.16.5"
-  resolved "https://registry.yarnpkg.com/@statsfm/statsfm.js/-/statsfm.js-1.16.5.tgz#c8f314e554cceef29b6012aba82a05200ca9a423"
-  integrity sha512-eXhL6sSHvW96/FsGA8aA4AZO+a9PQPQjw2JQKtLImcE+fvVl52XpsSRh6UceKevV4B6t6SBQUTyrr6TmDLat7Q==
+"@statsfm/statsfm.js@^1.16.7":
+  version "1.16.7"
+  resolved "https://registry.yarnpkg.com/@statsfm/statsfm.js/-/statsfm.js-1.16.7.tgz#50a162bd78b530f23ce19905e59fd0c15ffa977c"
+  integrity sha512-aT8pIBx97lIlix3hiowHt8c7qwsZguIs6l4N9JAvuxnoTmB+LmTMjx8E3rwGiDxr48QDXvOLR0Wid0zG9lqNvA==
   dependencies:
     isomorphic-unfetch "^3.1.0"
 
@@ -2638,11 +2638,6 @@ human-signals@^2.1.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/human-signals/-/human-signals-2.1.0.tgz#dc91fcba42e4d06e4abaed33b3e7a3c02f514ea0"
   integrity sha512-B4FFZ6q/T2jhhksgkbEW3HBvWIfDW85snkQgawt07S7J5QXTk6BkNV+0yAeZrM5QpMAdYlocGoljn0sJ/WQkFw==
-
-husky@^8.0.1:
-  version "8.0.1"
-  resolved "https://registry.yarnpkg.com/husky/-/husky-8.0.1.tgz#511cb3e57de3e3190514ae49ed50f6bc3f50b3e9"
-  integrity sha512-xs7/chUH/CKdOCs7Zy0Aev9e/dKOMZf3K1Az1nar3tzlv0jfqnYtu235bstsWTmXOR0EfINrPa97yy4Lz6RiKw==
 
 hyphenate-style-name@^1.0.2:
   version "1.0.4"
