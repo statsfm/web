@@ -9,7 +9,7 @@ module.exports = withBundleAnalyzer({
     dirs: ['.'],
   },
   poweredByHeader: false,
-  trailingSlash: true,
+  trailingSlash: false,
   basePath: '',
   reactStrictMode: true,
   images: {
@@ -45,7 +45,7 @@ module.exports = withBundleAnalyzer({
         permanent: false,
       },
       {
-        source: '/discord/',
+        source: '/discord',
         destination: 'https://stats.fm/discord',
         permanent: false,
       },
