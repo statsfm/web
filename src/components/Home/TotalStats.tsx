@@ -55,20 +55,24 @@ export const TotalStats: FC = () => {
     });
   }, []);
 
+  // THE RETURNED VALUE FROM THE API IS "null" INSTEAD OF null
+  if (!snapshots || typeof snapshots !== 'object')
+    return (
+      <div className="flex h-72 w-full items-center justify-center text-neutral-400">
+        Total stats currently unavailable
+      </div>
+    );
+
   return (
     <ul className="mt-5 grid grid-cols-2 gap-x-4 gap-y-6">
-      {snapshots ? (
-        Object.entries(snapshots).map(([key, snapshot]) => (
-          <TotalStatsItem
-            key={key}
-            label={totalStatsLabels[key as keyof DatabaseSize]}
-            snapshot={snapshot}
-            liveIndicator={key === 'streams'}
-          />
-        ))
-      ) : (
-        <>Loading...</>
-      )}
+      {Object.entries(snapshots).map(([key, snapshot]) => (
+        <TotalStatsItem
+          key={key}
+          label={totalStatsLabels[key as keyof DatabaseSize]}
+          snapshot={snapshot}
+          liveIndicator={key === 'streams'}
+        />
+      ))}
     </ul>
   );
 };
