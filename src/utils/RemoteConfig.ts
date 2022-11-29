@@ -1,5 +1,5 @@
 import { initializeApp } from 'firebase/app';
-import { getRemoteConfig } from 'firebase/remote-config';
+import { fetchAndActivate, getRemoteConfig } from 'firebase/remote-config';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyCphdFU5r_Vhe69W9QobLMVPEdK1oXljro',
@@ -26,7 +26,7 @@ const initRemoteConfig = async () => {
   remoteConfig.settings.minimumFetchIntervalMillis = 3600000;
   remoteConfig.defaultConfig = defaultConfig;
 
-  // await fetchAndActivate(remoteConfig);
+  await fetchAndActivate(remoteConfig);
   return remoteConfig;
 };
 
