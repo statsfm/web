@@ -6,10 +6,8 @@ import { TotalStats } from '@/components/Home/TotalStats';
 import { StoreBadge } from '@/components/StoreBadges';
 import { Title } from '@/components/Title';
 import { useScrollPercentage } from '@/hooks/use-scroll-percentage';
-import type { SSRProps } from '@/utils/ssrUtils';
-import { fetchUser } from '@/utils/ssrUtils';
 import clsx from 'clsx';
-import type { GetServerSideProps, NextPage } from 'next';
+import type { NextPage } from 'next';
 import Link from 'next/link';
 import { event } from 'nextjs-google-analytics';
 import type { FC, PropsWithChildren } from 'react';
@@ -60,15 +58,19 @@ const PhoneAppDisplay: FC = () => (
   />
 );
 
-export const getServerSideProps: GetServerSideProps<SSRProps> = async (ctx) => {
-  const user = await fetchUser(ctx);
+// TODO: fix easylist blocking this
+// https://github.dev/easylist/easylist/blob/d91346100f3faa32c25b194a1a8afbc9eff12049/easyprivacy/easyprivacy_general.txt#L5412
+// ssr works but client side props get blocked by this filter
 
-  return {
-    props: {
-      user,
-    },
-  };
-};
+// export const getServerSideProps: GetServerSideProps<SSRProps> = async (ctx) => {
+//   const user = await fetchUser(ctx);
+
+//   return {
+//     props: {
+//       user,
+//     },
+//   };
+// };
 
 const Home: NextPage = () => {
   useScrollPercentage(30, () => event('HOME_scroll_30'));
