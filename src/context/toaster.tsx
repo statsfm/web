@@ -27,7 +27,7 @@ const Toaster: FC<{
     <li onClick={() => removeToast(toast.id)} className="hover:cursor-pointer">
       <div
         className={clsx(
-          toast.variant === 'error' ? 'bg-red-500' : 'bg-primary text-black',
+          toast.variant === 'error' ? '!bg-red-500' : '!bg-primary text-black',
           toast.hidden ? 'opacity-0' : 'opacity-100',
           'max-h-max w-full animate-fade rounded-2xl bg-foreground p-5 text-center font-bold shadow-2xl transition-opacity'
         )}

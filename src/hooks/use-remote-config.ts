@@ -10,7 +10,8 @@ export const useRemoteConfig = () => {
   const [remoteConfig, setRemoteConfig] = useState<RemoteConfig | null>(null);
 
   if (remoteConfigCache) setRemoteConfig(remoteConfigCache);
-  if (!remoteConfig) initRemoteConfig().then(setRemoteConfig);
+  if (!remoteConfig && typeof window !== 'undefined')
+    initRemoteConfig().then(setRemoteConfig);
 
   return remoteConfig;
 };

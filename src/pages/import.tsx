@@ -132,7 +132,7 @@ const ImportPage: NextPage<Props> = () => {
         setRefetchCounter((c) => c + 1);
       } catch (e) {
         // @ts-expect-error
-        toaster(JSON.stringify(e?.data ?? e).toString());
+        toaster.error(JSON.stringify(e?.data ?? e).toString());
       }
       api.http.config.baseUrl = oldUrl;
     } else if (file?.name.match(/StreamingHistory[0-9][0-9]?.json/g)) {
