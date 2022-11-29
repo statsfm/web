@@ -21,7 +21,7 @@ const ServerError: NextPage = () => {
           !
         </p>
         <Link legacyBehavior href="/">
-          <a className="mx-auto mt-8 w-fit rounded-xl bg-primaryLighter px-4 py-3 text-primary">
+          <a className="mx-auto mt-8 w-fit rounded-xl bg-primaryLighter px-4 py-3 font-bold text-primary">
             Go back home
           </a>
         </Link>

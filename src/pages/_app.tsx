@@ -12,6 +12,7 @@ import { useRouter } from 'next/router';
 import type { UserPrivate } from '@statsfm/statsfm.js';
 import localFont from '@next/font/local';
 import clsx from 'clsx';
+import ErrorBoundary from '@/components/ErrorBoundary';
 
 // TODO: this is the stupidest solution to the worst issue ever, works for now
 // https://github.com/tailwindlabs/headlessui/discussions/666#discussioncomment-1891380
@@ -86,7 +87,9 @@ const App = ({ Component, pageProps }: AppProps<{ user?: UserPrivate }>) => {
           <GoogleAnalytics trackPageViews gaMeasurementId="G-GD9GE041CW" />
           <Title />
           <NavBar />
-          <Component {...pageProps} />
+          <ErrorBoundary>
+            <Component {...pageProps} />
+          </ErrorBoundary>
           <Footer />
         </ToasterContainer>
       </AuthProvider>
