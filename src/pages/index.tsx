@@ -1,6 +1,7 @@
 import { ChevronLink } from '@/components/ChevronLink';
 import { Container } from '@/components/Container';
 import { Divider } from '@/components/Divider';
+import ErrorBoundary from '@/components/ErrorBoundary';
 import { TotalStats } from '@/components/Home/TotalStats';
 import { StoreBadge } from '@/components/StoreBadges';
 import { Title } from '@/components/Title';
@@ -184,7 +185,15 @@ const Home: NextPage = () => {
               </p>
             </div>
             <Divider invert className="border-neutral-600" />
-            <TotalStats />
+            <ErrorBoundary
+              fallback={
+                <div className="flex h-72 w-full items-center justify-center text-neutral-400">
+                  Total stats currently unavailable
+                </div>
+              }
+            >
+              <TotalStats />
+            </ErrorBoundary>
           </div>
         </Container>
       </section>

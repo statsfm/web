@@ -3,7 +3,7 @@ import React from 'react';
 import { Container } from './Container';
 import { Title } from './Title';
 
-type Props = PropsWithChildren<{}>;
+type Props = PropsWithChildren<{ fallback?: React.ReactNode }>;
 
 class ErrorBoundary extends React.Component<Props, { error: Error | null }> {
   constructor(props: Props) {
@@ -24,6 +24,8 @@ class ErrorBoundary extends React.Component<Props, { error: Error | null }> {
   render() {
     if (this.state.error) {
       const errorMessage = `${this.state.error.name}, ${this.state.error.message}\n\n${this.state.error.stack}`;
+
+      if (this.props.fallback) return this.props.fallback;
 
       return (
         <Container className="flex min-h-screen items-center pt-32">
