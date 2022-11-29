@@ -27,7 +27,7 @@ class ErrorBoundary extends React.Component<Props, { error: Error | null }> {
 
       return (
         <Container className="flex min-h-screen items-center pt-32">
-          <Title>Internal Server Error!</Title>
+          <Title>Client Side Error!</Title>
           <div className="flex w-full flex-col justify-center">
             <p className="-mt-2 text-center text-xl">
               An error occured while doing something. <br />
