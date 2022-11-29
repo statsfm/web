@@ -5,8 +5,10 @@ import { TotalStats } from '@/components/Home/TotalStats';
 import { StoreBadge } from '@/components/StoreBadges';
 import { Title } from '@/components/Title';
 import { useScrollPercentage } from '@/hooks/use-scroll-percentage';
+import type { SSRProps } from '@/utils/ssrUtils';
+import { fetchUser } from '@/utils/ssrUtils';
 import clsx from 'clsx';
-import type { NextPage } from 'next';
+import type { GetServerSideProps, NextPage } from 'next';
 import Link from 'next/link';
 import { event } from 'nextjs-google-analytics';
 import type { FC, PropsWithChildren } from 'react';
@@ -56,6 +58,16 @@ const PhoneAppDisplay: FC = () => (
     alt="phone app"
   />
 );
+
+export const getServerSideProps: GetServerSideProps<SSRProps> = async (ctx) => {
+  const user = await fetchUser(ctx);
+
+  return {
+    props: {
+      user,
+    },
+  };
+};
 
 const Home: NextPage = () => {
   useScrollPercentage(30, () => event('HOME_scroll_30'));
