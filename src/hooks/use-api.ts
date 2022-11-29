@@ -1,8 +1,13 @@
 import * as statsfm from '@statsfm/statsfm.js';
 import Cookies from 'js-cookie';
 
+let baseUrl = 'https://api.stats.fm/api/v1';
+
+if (process.env.NODE_ENV === 'development')
+  baseUrl = 'https://beta-api.stats.fm/api/v1';
+
 const ref = new statsfm.Api({
-  baseUrl: 'https://beta-api.stats.fm/api/v1',
+  baseUrl,
 });
 
 // TODO: maybe memoize the api based on a provided acces token or a piece of state which encloses the accestoken
