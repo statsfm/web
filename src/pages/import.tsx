@@ -74,6 +74,7 @@ const ImportPage: NextPage<Props> = () => {
 
   const importWarningMessage = useRemoteValue('import_warning_message');
   const importWarning = useRemoteValue('import_warning_visible');
+  const importAvailable = useRemoteValue('import_available');
 
   if (!user) return <></>;
 
@@ -148,7 +149,7 @@ const ImportPage: NextPage<Props> = () => {
   return (
     <Container className="pt-20">
       <Title>Import</Title>
-      {importWarning && (
+      {importWarning?.asBoolean() && (
         <div className="my-8 w-full flex-row rounded-md border-l-4 border-l-yellow-400/80 bg-yellow-400/20 p-4">
           <div className="flex w-full flex-col">
             <span className="flex items-center gap-1">
@@ -161,7 +162,6 @@ const ImportPage: NextPage<Props> = () => {
           </div>
         </div>
       )}
-
       <h2>Imports</h2>
       <p>
         Check more about importing your lifetime streaming history{' '}
@@ -179,18 +179,24 @@ const ImportPage: NextPage<Props> = () => {
         <>
           <ImportList refetchCounter={refetchCounter} />
           <Divider className="my-5 border-neutral-600" />
-          <label
-            onClick={() => event('IMPORT_select_files')}
-            className="mt-2 block w-full cursor-pointer rounded-2xl border-0 bg-primary/10 py-3 px-5 text-center font-bold text-primary transition-colors duration-300 hover:bg-primary/20 active:bg-primary/5"
-          >
-            <input
-              type="file"
-              accept="application/json"
-              className="hidden"
-              onChange={onFileChange}
-            />
-            Import a new file (only the endsong.json files)
-          </label>
+          {importAvailable?.asBoolean() ? (
+            <label
+              onClick={() => event('IMPORT_select_files')}
+              className="mt-2 block w-full cursor-pointer rounded-2xl border-0 bg-primary/10 py-3 px-5 text-center font-bold text-primary transition-colors duration-300 hover:bg-primary/20 active:bg-primary/5"
+            >
+              <input
+                type="file"
+                accept="application/json"
+                className="hidden"
+                onChange={onFileChange}
+              />
+              Import a new file (only the endsong.json files)
+            </label>
+          ) : (
+            <h4 className="my-10 text-center text-neutral-400">
+              Importing is currently disabled
+            </h4>
+          )}
         </>
       ) : (
         <h4 className="my-10 text-white">

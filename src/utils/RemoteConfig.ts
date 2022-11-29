@@ -1,5 +1,5 @@
 import { initializeApp } from 'firebase/app';
-import { fetchAndActivate, getRemoteConfig } from 'firebase/remote-config';
+import { getRemoteConfig } from 'firebase/remote-config';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyCphdFU5r_Vhe69W9QobLMVPEdK1oXljro',
@@ -13,7 +13,8 @@ const firebaseConfig = {
 const defaultConfig = {
   import_warning_message:
     'Due to many people uploading their files, it can take up to a few\nhours for your files to be processed succesfully.\n\nYou can close this page if your files are in the queue.',
-  import_warning_visible: 'true',
+  import_warning_visible: true,
+  import_available: false,
 };
 
 type DefaultConfigType = typeof defaultConfig;
@@ -25,7 +26,7 @@ const initRemoteConfig = async () => {
   remoteConfig.settings.minimumFetchIntervalMillis = 3600000;
   remoteConfig.defaultConfig = defaultConfig;
 
-  await fetchAndActivate(remoteConfig);
+  // await fetchAndActivate(remoteConfig);
   return remoteConfig;
 };
 
