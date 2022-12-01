@@ -172,30 +172,37 @@ const Album: NextPage<Props> = ({ album, tracks }) => {
             loading={!statsResult}
             loginRequired
           />
-          {statsResult?.firstStream && (
-            <StatsCard
-              value={dayjs(statsResult?.firstStream).format('LL')}
-              label={`first streamed ${
-                statsResult
-                  ? `at ${dayjs(statsResult.firstStream).format('LT')}`
-                  : ''
-              }`}
-              loading={!statsResult}
-              loginRequired
-            />
-          )}
-          {statsResult?.lastStream && (
-            <StatsCard
-              value={dayjs(statsResult?.lastStream).format('LL')}
-              label={`last streamed ${
-                statsResult
-                  ? `at ${dayjs(statsResult.lastStream).format('LT')}`
-                  : ''
-              }`}
-              loading={!statsResult}
-              loginRequired
-            />
-          )}
+
+          <StatsCard
+            value={
+              statsResult?.firstStream
+                ? dayjs(statsResult?.firstStream).format('LL')
+                : '-'
+            }
+            label={`first streamed ${
+              statsResult?.firstStream
+                ? `at ${dayjs(statsResult.firstStream).format('LT')}`
+                : ''
+            }`}
+            loading={!statsResult}
+            loginRequired
+          />
+
+          <StatsCard
+            value={
+              statsResult?.lastStream
+                ? dayjs(statsResult?.lastStream).format('LL')
+                : '-'
+            }
+            label={`last streamed ${
+              statsResult?.lastStream
+                ? `at ${dayjs(statsResult.lastStream).format('LT')}`
+                : ''
+            }`}
+            loading={!statsResult}
+            loginRequired
+          />
+
           <StatsCard
             value={formatter.localiseNumber(album.totalTracks)}
             label="tracks"
