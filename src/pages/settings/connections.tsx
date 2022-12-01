@@ -30,7 +30,7 @@ const useConnections = () => {
       name: 'Discord',
       icon: 'https://cdn.stats.fm/file/statsfm/images/brands/discord/color.svg',
       description:
-        'Connect your Discord account to get access to personalized commands with the Spotistats Discord bot',
+        'Connect your Discord account to get access to personalized commands with the stats.fm Discord bot',
       connection: null as UserSocialMediaConnection | null,
       // TODO: optimistic updates for connecting
       connect: () => {

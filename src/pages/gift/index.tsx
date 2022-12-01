@@ -58,7 +58,7 @@ const formatPlans = (data: any[]): Plan[] => {
         id: price.id,
         name: `${
           price.transform_quantity?.divide_by ?? 1
-        }x lifetime Spotistats Plus`,
+        }x lifetime stats.fm Plus`,
         quantity: price.transform_quantity?.divide_by ?? 1,
         price: {
           amount: price.unit_amount,
