@@ -291,9 +291,13 @@ const Artist: NextPage<Props> = ({ artist }) => {
             loginRequired
           />
           <StatsCard
-            value={dayjs(statsResult?.firstStream).format('LL')}
+            value={
+              statsResult?.firstStream
+                ? dayjs(statsResult?.firstStream).format('LL')
+                : '-'
+            }
             label={`first streamed ${
-              statsResult
+              statsResult?.firstStream
                 ? `at ${dayjs(statsResult.firstStream).format('LT')}`
                 : ''
             }`}
@@ -302,9 +306,13 @@ const Artist: NextPage<Props> = ({ artist }) => {
           />
 
           <StatsCard
-            value={dayjs(statsResult?.lastStream).format('LL')}
+            value={
+              statsResult?.lastStream
+                ? dayjs(statsResult?.lastStream).format('LL')
+                : '-'
+            }
             label={`last streamed ${
-              statsResult
+              statsResult?.lastStream
                 ? `at ${dayjs(statsResult.lastStream).format('LT')}`
                 : ''
             }`}
