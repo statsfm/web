@@ -3,9 +3,8 @@ import type {
   MutableRefObject,
   PropsWithChildren,
   Reducer,
-  TouchEventHandler,
 } from 'react';
-import React, { useState, useEffect, createRef, useReducer } from 'react';
+import React, { useEffect, createRef, useReducer } from 'react';
 import { CarouselContext } from './context';
 
 export enum Direction {
@@ -235,44 +234,9 @@ export const CarouselRoot = ({
     }
   }, [state.items]);
 
-  const [swipe, setSwipe] = useState(0);
-
-  const handleTouchStart: TouchEventHandler = (e) => {
-    const touch = e.changedTouches[0];
-    setSwipe(touch?.pageX ?? 0);
-  };
-
-  const handleTouchEnd: TouchEventHandler = (e) => {
-    const touch = e.changedTouches[0];
-
-    if (touch) {
-      const deltaX = touch.pageX - swipe;
-      const swipeDirection = deltaX > 0 ? Direction.Previous : Direction.Next;
-
-      const disabled =
-        swipeDirection === Direction.Next
-          ? state.isNextDisabled
-          : state.isPreviousDisabled;
-
-      const swipeAmount = Math.abs(deltaX);
-      const numberOfSlidesToSwipe = Math.floor(swipeAmount / state.itemWidth);
-
-      if (!disabled)
-        dispatch({
-          type:
-            swipeDirection === Direction.Next
-              ? ActionType.Next
-              : ActionType.Previous,
-          amount: numberOfSlidesToSwipe === 0 ? 1 : numberOfSlidesToSwipe,
-        });
-    }
-  };
-
   return (
     <CarouselContext.Provider value={[state, dispatch]}>
-      <div onTouchStart={handleTouchStart} onTouchEnd={handleTouchEnd}>
-        {children}
-      </div>
+      <div>{children}</div>
     </CarouselContext.Provider>
   );
 };
