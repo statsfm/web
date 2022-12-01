@@ -26,7 +26,7 @@ function formatMinutes(ms: number) {
 }
 
 function formatPopularity(rating: number) {
-  if (Number.isNaN(rating)) return '-';
+  if (Number.isNaN(rating) || !rating) return '-';
   return localiseNumber(rating / 10);
 }
 
