@@ -200,8 +200,8 @@ const ImportPage: NextPage<Props> = () => {
         </>
       ) : (
         <h4 className="my-10 text-white">
-          It looks like you don&apos;t have Spotistats Plus. In order to import
-          you need Spotistats Plus to cover all the extra server costs (from
+          It looks like you don&apos;t have stats.fm Plus. In order to import
+          you need stats.fm Plus to cover all the extra server costs (from
           storing all the streams etc)
         </h4>
       )}
