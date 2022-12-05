@@ -2,7 +2,7 @@ import { Container } from '@/components/Container';
 import { CrownIcon } from '@/components/Icons';
 import { Image } from '@/components/Image';
 import { Title } from '@/components/Title';
-import { useApi, useAuth } from '@/hooks';
+import { useApi, useAuth, useToaster } from '@/hooks';
 import { Range } from '@statsfm/statsfm.js';
 import type { TopArtist } from '@statsfm/statsfm.js';
 import clsx from 'clsx';
@@ -12,6 +12,7 @@ import type { GetServerSideProps, NextPage } from 'next';
 import Link from 'next/link';
 import type { FC, PropsWithChildren } from 'react';
 import {
+  useCallback,
   useMemo,
   useId,
   forwardRef,
@@ -339,16 +340,16 @@ const PlusScrollAnimation: FC = () => {
             </div>
             <div
               id="ps"
-              className="-mt-4 mb-4 flex h-0 shrink-0 flex-col gap-4 self-center text-center text-lg opacity-0 sm:my-0 sm:h-full sm:text-left"
+              className="-mt-4 mb-4 flex h-0 shrink-0 flex-col gap-4 self-center text-center text-lg opacity-0 sm:my-0 sm:h-full sm:text-left lg:text-2xl"
             >
               <p className="m-0" id="p1">
-                view your total minutes listened
+                • view your total minutes listened
               </p>
               <p className="m-0" id="p2">
-                view 10,000 top tracks, artists and albums
+                • view 10,000 top tracks, artists and albums
               </p>
               <p className="m-0" id="p3">
-                view advanced charts
+                • view advanced charts
               </p>
             </div>
           </div>
@@ -356,6 +357,7 @@ const PlusScrollAnimation: FC = () => {
 
         <Snackbar ref={snackbarRef}>
           <p>Get these and even more perks available with plus.</p>
+          {/* TODO: wouter */}
           <Link legacyBehavior href="/gift">
             <a className="block shrink-0 rounded-lg bg-plus px-3 py-1.5 text-center font-medium text-black transition-colors hover:bg-plus/90 active:bg-plus/75">
               Get stats.fm plus!
@@ -484,8 +486,9 @@ export const getServerSideProps: GetServerSideProps<SSRProps> = async (ctx) => {
 
 const PlusPage: NextPage = () => {
   const api = useApi();
+  const toaster = useToaster();
   const [topArtists, setTopArtists] = useState<TopArtist[]>([]);
-  const { user } = useAuth();
+  const { user, login } = useAuth();
 
   useEffect(() => {
     if (user) {
@@ -497,6 +500,25 @@ const PlusPage: NextPage = () => {
         setTopArtists(res);
       });
     }
+  }, [user]);
+
+  const startCheckout = useCallback(async () => {
+    if (!user) {
+      login();
+      return;
+    }
+
+    // if (user.isPlus) {
+    //   toaster.error('You already have Plus! Thanks :)');
+    //   return;
+    // }
+
+    const { data, success } = await api.http.get<{ url: string }>(
+      `/stripe/products/spotistats_plus/prices/default/session`
+    );
+
+    if (success) window.location.href = data.item.url;
+    else toaster.error('Something went wrong');
   }, [user]);
 
   return (
@@ -513,11 +535,11 @@ const PlusPage: NextPage = () => {
             your favorite music app today!
           </p>
 
-          <Link legacyBehavior href="/gift">
+          <button onClick={startCheckout} className="m-0 p-0">
             <a className="mt-12 block w-fit rounded-2xl bg-plus px-5 py-3 font-bold text-black hover:bg-plus/90 active:bg-plus/75">
-              Get stats.fm plus!
+              Get stats.fm Plus!
             </a>
-          </Link>
+          </button>
         </div>
         <div className="absolute z-0 ml-auto flex items-center after:absolute after:h-full after:w-full after:bg-gradient-to-tr after:from-background after:to-background/40 lg:relative lg:after:hidden">
           <HeaderBubbles topArtists={topArtists} />
@@ -565,11 +587,11 @@ const PlusPage: NextPage = () => {
               <TierItem perk="Custom timeframes" />
               <TierItem perk="And much more..." />
             </ul>
-            <Link legacyBehavior href="/gift">
+            <button onClick={startCheckout} className="m-0 w-full p-0">
               <a className="mt-12 block w-full rounded-lg bg-plus py-1 text-center font-medium text-black hover:bg-plus/90 active:bg-plus/75">
-                Get stats.fm plus!
+                Get stats.fm Plus!
               </a>
-            </Link>
+            </button>
           </div>
         </div>
       </Container>
