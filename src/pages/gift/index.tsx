@@ -78,7 +78,7 @@ export const getStaticProps: GetStaticProps<Props> = async () => {
   const api = useApi();
 
   const { data } = await api.http.get(
-    `/stripe/products/spotistats_plus/prices`
+    `/stripe/products/spotistats_plus_coupon/prices`
   );
   const plans = formatPlans((data as any).items.data);
 
@@ -130,7 +130,7 @@ const GiftPage: NextPage<Props> = ({ plans }) => {
       }
 
       const { data, success } = await api.http.get<{ url: string }>(
-        `/stripe/products/spotistats_plus/prices/${id}/session`
+        `/stripe/products/spotistats_plus_coupon/prices/${id}/session`
       );
 
       if (success) window.location.href = data.item.url;
