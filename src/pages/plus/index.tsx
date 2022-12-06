@@ -1,15 +1,15 @@
-import { Container } from "@/components/Container";
-import { CrownIcon } from "@/components/Icons";
-import { Image } from "@/components/Image";
-import { Title } from "@/components/Title";
-import { useApi, useAuth, useToaster } from "@/hooks";
-import { Range } from "@statsfm/statsfm.js";
-import type { TopArtist } from "@statsfm/statsfm.js";
-import clsx from "clsx";
-import { gsap, Power0, Power1 } from "gsap";
-import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
-import type { GetServerSideProps, NextPage } from "next";
-import type { FC, PropsWithChildren } from "react";
+import { Container } from '@/components/Container';
+import { CrownIcon } from '@/components/Icons';
+import { Image } from '@/components/Image';
+import { Title } from '@/components/Title';
+import { useApi, useAuth, useToaster } from '@/hooks';
+import { Range } from '@statsfm/statsfm.js';
+import type { TopArtist } from '@statsfm/statsfm.js';
+import clsx from 'clsx';
+import { gsap, Power0, Power1 } from 'gsap';
+import { ScrollTrigger } from 'gsap/dist/ScrollTrigger';
+import type { GetServerSideProps, NextPage } from 'next';
+import type { FC, PropsWithChildren } from 'react';
 import {
   useCallback,
   useMemo,
@@ -19,16 +19,16 @@ import {
   useLayoutEffect,
   useRef,
   useState,
-} from "react";
+} from 'react';
 import {
   MdCancel,
   MdCheckCircle,
   MdDoNotDisturbAlt,
   MdOutlineDoDisturbAlt,
-} from "react-icons/md";
-import type { SSRProps } from "@/utils/ssrUtils";
-import { fetchUser } from "@/utils/ssrUtils";
-import { useMedia } from "react-use";
+} from 'react-icons/md';
+import type { SSRProps } from '@/utils/ssrUtils';
+import { fetchUser } from '@/utils/ssrUtils';
+import { useMedia } from 'react-use';
 
 // eslint-disable-next-line react/display-name
 const AdsBackground = forwardRef<HTMLDivElement>((_, ref) => {
@@ -74,7 +74,7 @@ const Snackbar = forwardRef<
       ref={ref}
       className={clsx(
         className,
-        "absolute left-1/2 bottom-10 z-50 flex h-min w-11/12 -translate-x-1/2 flex-row items-center justify-between rounded-xl bg-background p-2 px-4 shadow-2xl shadow-black sm:w-1/2"
+        'absolute left-1/2 bottom-10 z-50 flex h-min w-11/12 -translate-x-1/2 flex-row items-center justify-between rounded-xl bg-background p-2 px-4 shadow-2xl shadow-black sm:w-1/2'
       )}
     >
       {children}
@@ -91,15 +91,15 @@ const Heading: FC<{
   return (
     <div
       className={clsx(
-        visible ? "opacity-100" : "opacity-0",
-        "absolute inset-x-0 opacity-0"
+        visible ? 'opacity-100' : 'opacity-0',
+        'absolute inset-x-0 opacity-0'
       )}
       id={id}
     >
       <h2
         className={clsx(
-          sub ? "" : "sm:mt-8",
-          "mb-2 bg-gradient-to-br from-white to-slate-300 bg-clip-text text-3xl text-transparent sm:text-5xl"
+          sub ? '' : 'sm:mt-8',
+          'mb-2 bg-gradient-to-br from-white to-slate-300 bg-clip-text text-3xl text-transparent sm:text-5xl'
         )}
       >
         {title}
@@ -118,7 +118,7 @@ const PhoneScreen: FC<{ src: string; id: number; alt?: string }> = ({
     <img
       id={`screen${id}`}
       src={src}
-      alt={alt || "phone screen"}
+      alt={alt || 'phone screen'}
       style={{ zIndex: id }}
       className="absolute inset-x-4 top-4 z-[34] h-[calc(100%-32px)] w-[calc(100%-32px)]"
     />
@@ -132,9 +132,9 @@ const SoulmateBackgroundCol: FC<{ amount: number; className?: string }> = ({
   const rowKey = useId();
 
   return (
-    <div className={clsx(className, "flex flex-col gap-8")}>
+    <div className={clsx(className, 'flex flex-col gap-8')}>
       {Array(amount)
-        .fill("")
+        .fill('')
         .map((_, i) => (
           // eslint-disable-next-line jsx-a11y/alt-text
           <img key={rowKey + i} src="/images/app_1.webp" className="w-40" />
@@ -153,7 +153,7 @@ const PlusScrollAnimation: FC<{ startCheckout: () => {} }> = ({
   const adsBegoneBackgroundRef = useRef<HTMLDivElement>(null);
 
   const q = gsap.utils.selector(boxRef);
-  const mobile = useMedia("(max-width: 640px)");
+  const mobile = useMedia('(max-width: 640px)');
 
   useLayoutEffect(() => {
     const phoneOffset =
@@ -164,8 +164,8 @@ const PlusScrollAnimation: FC<{ startCheckout: () => {} }> = ({
     const tl = gsap.timeline({
       paused: true,
       scrollTrigger: {
-        start: "top top",
-        end: "6000px",
+        start: 'top top',
+        end: '6000px',
         trigger: boxRef.current,
         scrub: 1,
         pin: true,
@@ -183,69 +183,69 @@ const PlusScrollAnimation: FC<{ startCheckout: () => {} }> = ({
       )
       .fromTo(
         snackbarRef.current,
-        { y: "100px" },
-        { y: "10px", ease: Power1.easeInOut },
-        "<"
+        { y: '100px' },
+        { y: '10px', ease: Power1.easeInOut },
+        '<'
       );
 
     const endTl = gsap
       .timeline()
       .fromTo(
         snackbarRef.current,
-        { y: "10px" },
-        { y: "200px", ease: Power1.easeInOut },
-        "<"
+        { y: '10px' },
+        { y: '200px', ease: Power1.easeInOut },
+        '<'
       );
 
     if (mobile || typeof window === undefined) {
       const psTl = gsap
         .timeline()
-        .fromTo(q("#ps"), { opacity: 1 }, { opacity: 1 })
+        .fromTo(q('#ps'), { opacity: 1 }, { opacity: 1 })
         // .fromTo(q('#p1'), { opacity: 0 }, { opacity: 1 }, '<')
-        .to(q("#p1"), { color: "#ffd700", duration: 2 }, "<")
-        .to(q("#p1"), { color: "#a3a3a3", duration: 1 })
-        .fromTo(q("#p1"), { opacity: 1 }, { opacity: 0 }, "<")
+        .to(q('#p1'), { color: '#ffd700', duration: 2 }, '<')
+        .to(q('#p1'), { color: '#a3a3a3', duration: 1 })
+        .fromTo(q('#p1'), { opacity: 1 }, { opacity: 0 }, '<')
         .fromTo(
-          q("#p2"),
+          q('#p2'),
           { opacity: 0, y: 0 },
-          { opacity: 1, y: "-= 100%" },
-          "<"
+          { opacity: 1, y: '-= 100%' },
+          '<'
         )
-        .to(q("#p2"), { color: "#ffd700", duration: 2 }, "<")
-        .fromTo(q("#screen2"), { x: "100%" }, { x: "0%", duration: 2 }, "<")
-        .to(q("#p2"), { color: "#a3a3a3", duration: 1 })
-        .fromTo(q("#p2"), { opacity: 1 }, { opacity: 0 }, "<")
+        .to(q('#p2'), { color: '#ffd700', duration: 2 }, '<')
+        .fromTo(q('#screen2'), { x: '100%' }, { x: '0%', duration: 2 }, '<')
+        .to(q('#p2'), { color: '#a3a3a3', duration: 1 })
+        .fromTo(q('#p2'), { opacity: 1 }, { opacity: 0 }, '<')
         .fromTo(
-          q("#p3"),
+          q('#p3'),
           { opacity: 0, y: 0 },
-          { opacity: 1, y: "-= 430%" },
-          "<"
+          { opacity: 1, y: '-= 430%' },
+          '<'
         )
-        .to(q("#p3"), { color: "#ffd700", duration: 2 }, "<")
-        .fromTo(q("#screen3"), { x: "100%" }, { x: "0%", duration: 2 }, "<")
-        .to(q("#p3"), { color: "#a3a3a3", duration: 1 })
-        .fromTo(q("#ps"), { opacity: 1 }, { opacity: 0 })
+        .to(q('#p3'), { color: '#ffd700', duration: 2 }, '<')
+        .fromTo(q('#screen3'), { x: '100%' }, { x: '0%', duration: 2 }, '<')
+        .to(q('#p3'), { color: '#a3a3a3', duration: 1 })
+        .fromTo(q('#ps'), { opacity: 1 }, { opacity: 0 })
         .fromTo(
           phoneRef.current,
           { x: `0px`, duration: 2 },
           {
             x: `${phoneOffset}px`,
           },
-          "<"
+          '<'
         )
-        .to(q("#hd1"), { opacity: 0 })
-        .fromTo(q("#hd2"), { opacity: 0 }, { opacity: 1 }, "<")
-        .fromTo(q("#screen4"), { x: "100%" }, { x: "0%" }, "<")
+        .to(q('#hd1'), { opacity: 0 })
+        .fromTo(q('#hd2'), { opacity: 0 }, { opacity: 1 }, '<')
+        .fromTo(q('#screen4'), { x: '100%' }, { x: '0%' }, '<')
         .fromTo(null, {}, { duration: 2 })
         .fromTo(null, {}, {})
-        .fromTo(q("#screen5"), { opacity: 0 }, { opacity: 1, duration: 6 })
-        .to(q("#hd2"), { opacity: 0 }, "<")
-        .fromTo(q("#hd3"), { opacity: 0 }, { opacity: 1 }, "<")
+        .fromTo(q('#screen5'), { opacity: 0 }, { opacity: 1, duration: 6 })
+        .to(q('#hd2'), { opacity: 0 }, '<')
+        .fromTo(q('#hd3'), { opacity: 0 }, { opacity: 1 }, '<')
         .fromTo(
-          q("#adsOverlay"),
+          q('#adsOverlay'),
           { opacity: 0 },
           { opacity: 1, duration: 2 },
-          "<"
+          '<'
         );
 
       tl.add(startTl);
@@ -254,66 +254,66 @@ const PlusScrollAnimation: FC<{ startCheckout: () => {} }> = ({
     } else {
       const psTl = gsap
         .timeline()
-        .fromTo(q("#ps"), { opacity: 0 }, { opacity: 1 }, "<")
-        .to(q("#p1"), { color: "#ffd700", duration: 2 })
-        .to(q("#p1"), { color: "#a3a3a3", duration: 1 })
-        .fromTo(q("#screen2"), { x: "100%" }, { x: "0%", duration: 2 }, "<")
-        .to(q("#p2"), { color: "#ffd700", duration: 2 })
-        .to(q("#p2"), { color: "#a3a3a3", duration: 1 })
-        .fromTo(q("#screen3"), { x: "100%" }, { x: "0%", duration: 2 }, "<")
-        .to(q("#p3"), { color: "#ffd700", duration: 2 })
-        .to(q("#p3"), { color: "#a3a3a3", duration: 1 })
-        .fromTo(q("#ps"), { opacity: 1 }, { opacity: 0 })
+        .fromTo(q('#ps'), { opacity: 0 }, { opacity: 1 }, '<')
+        .to(q('#p1'), { color: '#ffd700', duration: 2 })
+        .to(q('#p1'), { color: '#a3a3a3', duration: 1 })
+        .fromTo(q('#screen2'), { x: '100%' }, { x: '0%', duration: 2 }, '<')
+        .to(q('#p2'), { color: '#ffd700', duration: 2 })
+        .to(q('#p2'), { color: '#a3a3a3', duration: 1 })
+        .fromTo(q('#screen3'), { x: '100%' }, { x: '0%', duration: 2 }, '<')
+        .to(q('#p3'), { color: '#ffd700', duration: 2 })
+        .to(q('#p3'), { color: '#a3a3a3', duration: 1 })
+        .fromTo(q('#ps'), { opacity: 1 }, { opacity: 0 })
         .fromTo(
           phoneRef.current,
           { x: `0px`, duration: 2 },
           {
             x: `${phoneOffset}px`,
           },
-          "<"
+          '<'
         )
-        .to(q("#hd1"), { opacity: 0 })
-        .fromTo(q("#hd2"), { opacity: 0 }, { opacity: 1 }, "<")
-        .fromTo(q("#screen4"), { x: "100%" }, { x: "0%", duration: 2 }, "<")
-        .to(q("#soulmatesBg"), {
-          y: "-=60rem",
+        .to(q('#hd1'), { opacity: 0 })
+        .fromTo(q('#hd2'), { opacity: 0 }, { opacity: 1 }, '<')
+        .fromTo(q('#screen4'), { x: '100%' }, { x: '0%', duration: 2 }, '<')
+        .to(q('#soulmatesBg'), {
+          y: '-=60rem',
           duration: 4,
           ease: Power0.easeNone,
         })
         .fromTo(
-          q("#soulmatesBg"),
+          q('#soulmatesBg'),
           { opacity: 0, duration: 2 },
           { opacity: 0.5 },
-          "<"
+          '<'
         )
         .fromTo(
-          q("#soulmatesBg"),
+          q('#soulmatesBg'),
           { opacity: 0.5, duration: 4 },
           { opacity: 0 }
         )
-        .fromTo(q("#screen5"), { opacity: 0 }, { opacity: 1, duration: 2 }, "<")
-        .to(q("#hd2"), { opacity: 0 }, "<")
-        .fromTo(q("#hd3"), { opacity: 0 }, { opacity: 1 }, "<")
+        .fromTo(q('#screen5'), { opacity: 0 }, { opacity: 1, duration: 2 }, '<')
+        .to(q('#hd2'), { opacity: 0 }, '<')
+        .fromTo(q('#hd3'), { opacity: 0 }, { opacity: 1 }, '<')
         .fromTo(
-          q("#adsOverlay"),
+          q('#adsOverlay'),
           { opacity: 0 },
           { opacity: 1, duration: 2 },
-          "<"
+          '<'
         )
         .to(
           adsBegoneBackgroundRef.current,
           {
-            y: "-=16rem",
+            y: '-=16rem',
             duration: 4,
             ease: Power0.easeNone,
           },
-          "<"
+          '<'
         )
         .fromTo(
           adsBegoneBackgroundRef.current,
           { opacity: 0, duration: 2 },
           { opacity: 0.5 },
-          "<"
+          '<'
         )
         .fromTo(
           adsBegoneBackgroundRef.current,
@@ -336,10 +336,10 @@ const PlusScrollAnimation: FC<{ startCheckout: () => {} }> = ({
       ref={boxRef}
       className="overflow-hidden bg-foreground"
       style={{
-        backgroundImage: "radial-gradient(transparent, rgba(17, 17, 18, 0.8)",
+        backgroundImage: 'radial-gradient(transparent, rgba(17, 17, 18, 0.8)',
       }}
     >
-      <Container className="relative min-h-[100vh] py-12">
+      <Container className="relative min-h-screen py-12">
         <div
           id="phoneBox"
           className="absolute inset-y-32 left-1/2 z-30 -translate-x-1/2 sm:top-48"
@@ -419,7 +419,7 @@ const PlusScrollAnimation: FC<{ startCheckout: () => {} }> = ({
         <div className="absolute inset-y-0 right-0 h-full w-1/2 bg-gradient-to-l from-black/50 to-transparent" />
         <div className="absolute inset-y-0 left-0 h-full w-1/2 bg-gradient-to-r from-black/50 to-transparent" />
         <div
-          className={clsx(mobile ? "hidden" : "block", "flex flex-row gap-8")}
+          className={clsx(mobile ? 'hidden' : 'block', 'flex flex-row gap-8')}
         >
           <SoulmateBackgroundCol amount={6} className="-mt-4" />
           <SoulmateBackgroundCol amount={7} className="-mt-48" />
@@ -428,8 +428,8 @@ const PlusScrollAnimation: FC<{ startCheckout: () => {} }> = ({
         </div>
         <div
           className={clsx(
-            mobile ? "block" : "hidden",
-            "absolute top-0 left-0 h-full w-full flex-row gap-8"
+            mobile ? 'block' : 'hidden',
+            'absolute top-0 left-0 h-full w-full flex-row gap-8'
           )}
         >
           <SoulmateBackgroundCol amount={7} className="-mt-48" />
@@ -443,7 +443,7 @@ const PlusScrollAnimation: FC<{ startCheckout: () => {} }> = ({
 const TierItem: FC<{
   perk: string;
   unchecked?: boolean;
-  color?: "Yellow" | "Gray";
+  color?: 'Yellow' | 'Gray';
 }> = ({ perk, color, unchecked }) => {
   return (
     <li className="mt-2 flex items-center">
@@ -452,8 +452,8 @@ const TierItem: FC<{
       ) : (
         <MdCheckCircle
           className={clsx(
-            "mr-2",
-            color === "Yellow" || color === undefined ? "text-plus" : ""
+            'mr-2',
+            color === 'Yellow' || color === undefined ? 'text-plus' : ''
           )}
         />
       )}
@@ -467,7 +467,7 @@ const HeaderBubbles: FC<{ topArtists: TopArtist[] }> = ({ topArtists }) => {
     return topArtists.filter((artist) => artist.artist.image);
   }, [topArtists]);
 
-  const bubbles: Array<Record<"top" | "left" | "s", number>> = [
+  const bubbles: Array<Record<'top' | 'left' | 's', number>> = [
     { top: 104, left: 0, s: 164 },
     { top: 23, left: 176, s: 135 },
     { top: 233, left: 285, s: 110 },
@@ -497,7 +497,7 @@ const HeaderBubbles: FC<{ topArtists: TopArtist[] }> = ({ topArtists }) => {
             <Image
               alt="Top artist"
               className="!rounded-full !bg-gray-600"
-              src={topArtists[i]?.artist.image ?? ""}
+              src={topArtists[i]?.artist.image ?? ''}
               width={bubble.s}
               height={bubble.s}
             />
@@ -538,12 +538,12 @@ const PlusPage: NextPage = () => {
 
   const startCheckout = useCallback(async () => {
     if (!user) {
-      login("/plus");
+      login('/plus');
       return;
     }
 
     if (user.isPlus) {
-      toaster.error("You already have Plus! Thanks :)");
+      toaster.error('You already have Plus! Thanks :)');
       return;
     }
 
@@ -552,7 +552,7 @@ const PlusPage: NextPage = () => {
     );
 
     if (success) window.location.href = data.item.url;
-    else toaster.error("Something went wrong");
+    else toaster.error('Something went wrong');
   }, [user]);
 
   return (
