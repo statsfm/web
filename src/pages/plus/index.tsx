@@ -9,7 +9,6 @@ import clsx from 'clsx';
 import { gsap, Power0, Power1 } from 'gsap';
 import { ScrollTrigger } from 'gsap/dist/ScrollTrigger';
 import type { GetServerSideProps, NextPage } from 'next';
-import Link from 'next/link';
 import type { FC, PropsWithChildren } from 'react';
 import {
   useCallback,
@@ -75,7 +74,7 @@ const Snackbar = forwardRef<
       ref={ref}
       className={clsx(
         className,
-        'absolute left-1/2 bottom-10 z-50 flex h-min w-11/12 -translate-x-1/2 flex-row items-center justify-between rounded-xl bg-background p-2 px-4 sm:w-1/2'
+        'absolute left-1/2 bottom-10 z-50 flex h-min w-11/12 -translate-x-1/2 flex-row items-center justify-between rounded-xl bg-background p-2 px-4 shadow-2xl shadow-black sm:w-1/2'
       )}
     >
       {children}
@@ -144,7 +143,9 @@ const SoulmateBackgroundCol: FC<{ amount: number; className?: string }> = ({
   );
 };
 
-const PlusScrollAnimation: FC = () => {
+const PlusScrollAnimation: FC<{ startCheckout: () => {} }> = ({
+  startCheckout,
+}) => {
   const boxRef = useRef<HTMLDivElement>(null);
   const phoneWrapperRef = useRef<HTMLDivElement>(null);
   const phoneRef = useRef<HTMLDivElement>(null);
@@ -164,7 +165,7 @@ const PlusScrollAnimation: FC = () => {
       paused: true,
       scrollTrigger: {
         start: 'top top',
-        end: '8000px',
+        end: '6000px',
         trigger: boxRef.current,
         scrub: 1,
         pin: true,
@@ -189,59 +190,6 @@ const PlusScrollAnimation: FC = () => {
 
     const endTl = gsap
       .timeline()
-      .fromTo(q('#ps'), { opacity: 1 }, { opacity: 0 })
-      .fromTo(
-        phoneRef.current,
-        { x: `0px`, duration: 2 },
-        {
-          x: `${phoneOffset}px`,
-        },
-        '<'
-      )
-      .to(q('#hd1'), { opacity: 0 })
-      .fromTo(q('#hd2'), { opacity: 0 }, { opacity: 1 }, '<')
-      .fromTo(q('#screen4'), { x: '100%' }, { x: '0%', duration: 2 }, '<')
-      .to(q('#soulmatesBg'), {
-        y: '-=60rem',
-        duration: 4,
-        ease: Power0.easeNone,
-      })
-      .fromTo(
-        q('#soulmatesBg'),
-        { opacity: 0, duration: 2 },
-        { opacity: 0.5 },
-        '<'
-      )
-      .fromTo(q('#soulmatesBg'), { opacity: 0.5, duration: 4 }, { opacity: 0 })
-      .fromTo(q('#screen5'), { opacity: 0 }, { opacity: 1, duration: 2 }, '<')
-      .to(q('#hd2'), { opacity: 0 }, '<')
-      .fromTo(q('#hd3'), { opacity: 0 }, { opacity: 1 }, '<')
-      .fromTo(
-        q('#adsOverlay'),
-        { opacity: 0 },
-        { opacity: 1, duration: 2 },
-        '<'
-      )
-      .to(
-        adsBegoneBackgroundRef.current,
-        {
-          y: '-=16rem',
-          duration: 4,
-          ease: Power0.easeNone,
-        },
-        '<'
-      )
-      .fromTo(
-        adsBegoneBackgroundRef.current,
-        { opacity: 0, duration: 2 },
-        { opacity: 0.5 },
-        '<'
-      )
-      .fromTo(
-        adsBegoneBackgroundRef.current,
-        { opacity: 0.5, duration: 4 },
-        { opacity: 0 }
-      )
       .fromTo(
         snackbarRef.current,
         { y: '10px' },
@@ -275,7 +223,30 @@ const PlusScrollAnimation: FC = () => {
         )
         .to(q('#p3'), { color: '#ffd700', duration: 2 }, '<')
         .fromTo(q('#screen3'), { x: '100%' }, { x: '0%', duration: 2 }, '<')
-        .to(q('#p3'), { color: '#a3a3a3', duration: 1 });
+        .to(q('#p3'), { color: '#a3a3a3', duration: 1 })
+        .fromTo(q('#ps'), { opacity: 1 }, { opacity: 0 })
+        .fromTo(
+          phoneRef.current,
+          { x: `0px`, duration: 2 },
+          {
+            x: `${phoneOffset}px`,
+          },
+          '<'
+        )
+        .to(q('#hd1'), { opacity: 0 })
+        .fromTo(q('#hd2'), { opacity: 0 }, { opacity: 1 }, '<')
+        .fromTo(q('#screen4'), { x: '100%' }, { x: '0%' }, '<')
+        .fromTo(null, {}, { duration: 2 })
+        .fromTo(null, {}, {})
+        .fromTo(q('#screen5'), { opacity: 0 }, { opacity: 1, duration: 6 })
+        .to(q('#hd2'), { opacity: 0 }, '<')
+        .fromTo(q('#hd3'), { opacity: 0 }, { opacity: 1 }, '<')
+        .fromTo(
+          q('#adsOverlay'),
+          { opacity: 0 },
+          { opacity: 1, duration: 2 },
+          '<'
+        );
 
       tl.add(startTl);
       tl.add(psTl);
@@ -291,7 +262,64 @@ const PlusScrollAnimation: FC = () => {
         .to(q('#p2'), { color: '#a3a3a3', duration: 1 })
         .fromTo(q('#screen3'), { x: '100%' }, { x: '0%', duration: 2 }, '<')
         .to(q('#p3'), { color: '#ffd700', duration: 2 })
-        .to(q('#p3'), { color: '#a3a3a3', duration: 1 });
+        .to(q('#p3'), { color: '#a3a3a3', duration: 1 })
+        .fromTo(q('#ps'), { opacity: 1 }, { opacity: 0 })
+        .fromTo(
+          phoneRef.current,
+          { x: `0px`, duration: 2 },
+          {
+            x: `${phoneOffset}px`,
+          },
+          '<'
+        )
+        .to(q('#hd1'), { opacity: 0 })
+        .fromTo(q('#hd2'), { opacity: 0 }, { opacity: 1 }, '<')
+        .fromTo(q('#screen4'), { x: '100%' }, { x: '0%', duration: 2 }, '<')
+        .to(q('#soulmatesBg'), {
+          y: '-=60rem',
+          duration: 4,
+          ease: Power0.easeNone,
+        })
+        .fromTo(
+          q('#soulmatesBg'),
+          { opacity: 0, duration: 2 },
+          { opacity: 0.5 },
+          '<'
+        )
+        .fromTo(
+          q('#soulmatesBg'),
+          { opacity: 0.5, duration: 4 },
+          { opacity: 0 }
+        )
+        .fromTo(q('#screen5'), { opacity: 0 }, { opacity: 1, duration: 2 }, '<')
+        .to(q('#hd2'), { opacity: 0 }, '<')
+        .fromTo(q('#hd3'), { opacity: 0 }, { opacity: 1 }, '<')
+        .fromTo(
+          q('#adsOverlay'),
+          { opacity: 0 },
+          { opacity: 1, duration: 2 },
+          '<'
+        )
+        .to(
+          adsBegoneBackgroundRef.current,
+          {
+            y: '-=16rem',
+            duration: 4,
+            ease: Power0.easeNone,
+          },
+          '<'
+        )
+        .fromTo(
+          adsBegoneBackgroundRef.current,
+          { opacity: 0, duration: 2 },
+          { opacity: 0.5 },
+          '<'
+        )
+        .fromTo(
+          adsBegoneBackgroundRef.current,
+          { opacity: 0.5, duration: 4 },
+          { opacity: 0 }
+        );
 
       tl.add(startTl);
       tl.add(psTl);
@@ -304,8 +332,14 @@ const PlusScrollAnimation: FC = () => {
   }, []);
 
   return (
-    <section ref={boxRef} className="overflow-hidden bg-foreground">
-      <Container className="relative min-h-screen py-12">
+    <section
+      ref={boxRef}
+      className="overflow-hidden bg-foreground"
+      style={{
+        backgroundImage: 'radial-gradient(transparent, rgba(17, 17, 18, 0.8)',
+      }}
+    >
+      <Container className="relative min-h-[100dvh] py-12">
         <div
           id="phoneBox"
           className="absolute inset-y-32 left-1/2 z-30 -translate-x-1/2 sm:top-48"
@@ -340,7 +374,7 @@ const PlusScrollAnimation: FC = () => {
             </div>
             <div
               id="ps"
-              className="-mt-4 mb-4 flex h-0 shrink-0 flex-col gap-4 self-center text-center text-lg opacity-0 sm:my-0 sm:h-full sm:text-left lg:text-2xl"
+              className="-mt-4 mb-8 flex h-0 shrink-0 flex-col gap-4 self-center text-center text-lg opacity-0 sm:my-0 sm:h-full sm:text-left lg:text-2xl"
             >
               <p className="m-0" id="p1">
                 • view your total minutes listened
@@ -357,12 +391,12 @@ const PlusScrollAnimation: FC = () => {
 
         <Snackbar ref={snackbarRef}>
           <p>Get these and even more perks available with plus.</p>
-          {/* TODO: wouter */}
-          <Link legacyBehavior href="/gift">
-            <a className="block shrink-0 rounded-lg bg-plus px-3 py-1.5 text-center font-medium text-black transition-colors hover:bg-plus/90 active:bg-plus/75">
+
+          <button onClick={startCheckout}>
+            <p className="block shrink-0 rounded-lg bg-plus px-3 py-1.5 text-center font-medium text-black transition-colors hover:bg-plus/90 active:bg-plus/75">
               Get Plus now!
-            </a>
-          </Link>
+            </p>
+          </button>
         </Snackbar>
 
         <div className="relative inset-0 z-20 w-full text-center">
@@ -504,7 +538,7 @@ const PlusPage: NextPage = () => {
 
   const startCheckout = useCallback(async () => {
     if (!user) {
-      login();
+      login('/plus');
       return;
     }
 
@@ -544,7 +578,7 @@ const PlusPage: NextPage = () => {
           <HeaderBubbles topArtists={topArtists} />
         </div>
       </Container>
-      <PlusScrollAnimation />
+      <PlusScrollAnimation startCheckout={startCheckout} />
       <Container className="py-28">
         <h2 className="mb-24 w-full text-center text-4xl">Pick your tier</h2>
         <div className="flex h-min flex-row justify-center gap-10">
@@ -587,9 +621,9 @@ const PlusPage: NextPage = () => {
               <TierItem perk="And much more..." />
             </ul>
             <button onClick={startCheckout} className="m-0 w-full p-0">
-              <a className="mt-12 block w-full rounded-lg bg-plus py-1 text-center font-medium text-black hover:bg-plus/90 active:bg-plus/75">
+              <p className="mt-12 block w-full rounded-lg bg-plus py-1 text-center font-medium text-black hover:bg-plus/90 active:bg-plus/75">
                 Get Plus now!
-              </a>
+              </p>
             </button>
           </div>
         </div>
