@@ -508,10 +508,10 @@ const PlusPage: NextPage = () => {
       return;
     }
 
-    // if (user.isPlus) {
-    //   toaster.error('You already have Plus! Thanks :)');
-    //   return;
-    // }
+    if (user.isPlus) {
+      toaster.error('You already have Plus! Thanks :)');
+      return;
+    }
 
     const { data, success } = await api.http.get<{ url: string }>(
       `/stripe/products/spotistats_plus/prices/default/session`
