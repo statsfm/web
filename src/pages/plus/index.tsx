@@ -491,7 +491,7 @@ const HeaderBubbles: FC<{ topArtists: TopArtist[] }> = ({ topArtists }) => {
             width: bubble.s,
             animationDelay: `${i % 6}s`,
           }}
-          className="absolute animate-floating rounded-full bg-gray-600 bg-cover bg-center"
+          className="absolute aspect-square animate-floating overflow-hidden rounded-full bg-gray-600 bg-cover bg-center"
         >
           {validTopArtists[i] && (
             <Image
