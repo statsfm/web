@@ -360,7 +360,7 @@ const PlusScrollAnimation: FC = () => {
           {/* TODO: wouter */}
           <Link legacyBehavior href="/gift">
             <a className="block shrink-0 rounded-lg bg-plus px-3 py-1.5 text-center font-medium text-black transition-colors hover:bg-plus/90 active:bg-plus/75">
-              Get stats.fm plus!
+              Get Plus now!
             </a>
           </Link>
         </Snackbar>
@@ -527,8 +527,7 @@ const PlusPage: NextPage = () => {
       <Container className="relative flex flex-col justify-between gap-5 overflow-hidden pt-20 lg:flex-row">
         <div className="z-10 my-12 w-full pt-32 pb-10 sm:pb-0 md:pt-10 lg:my-28 lg:w-4/12">
           <h1 className="flex items-center text-4xl leading-none sm:text-5xl">
-            stats.fm Plus{' '}
-            <CrownIcon className="ml-3 inline-block h-auto w-12" />
+            Plus <CrownIcon className="ml-3 inline-block h-auto w-12" />
           </h1>
           <p className="mt-4 font-medium">
             Get full insight in your past and get the most accurate stats for
@@ -537,7 +536,7 @@ const PlusPage: NextPage = () => {
 
           <button onClick={startCheckout} className="m-0 p-0">
             <a className="mt-12 block w-fit rounded-2xl bg-plus px-5 py-3 font-bold text-black hover:bg-plus/90 active:bg-plus/75">
-              Get stats.fm Plus!
+              Get Plus!
             </a>
           </button>
         </div>
@@ -563,7 +562,7 @@ const PlusPage: NextPage = () => {
             </ul>
 
             <div className="mt-auto block w-full rounded-lg bg-background py-1 text-center text-white ">
-              You already have free tier.
+              You already have the free tier
             </div>
           </div>
           <div className="w-[22rem] rounded-2xl bg-black py-7 px-8">
@@ -589,7 +588,7 @@ const PlusPage: NextPage = () => {
             </ul>
             <button onClick={startCheckout} className="m-0 w-full p-0">
               <a className="mt-12 block w-full rounded-lg bg-plus py-1 text-center font-medium text-black hover:bg-plus/90 active:bg-plus/75">
-                Get stats.fm Plus!
+                Get Plus now!
               </a>
             </button>
           </div>
