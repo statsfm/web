@@ -120,7 +120,7 @@ const PhoneScreen: FC<{ src: string; id: number; alt?: string }> = ({
       src={src}
       alt={alt || 'phone screen'}
       style={{ zIndex: id }}
-      className="absolute inset-x-4 top-4 z-[34] h-[calc(100%-32px)] w-[calc(100%-32px)]"
+      className="absolute inset-x-4 top-3 z-[34] h-[calc(100%-22px)] w-[calc(100%-22px)]"
     />
   );
 };
@@ -137,7 +137,11 @@ const SoulmateBackgroundCol: FC<{ amount: number; className?: string }> = ({
         .fill('')
         .map((_, i) => (
           // eslint-disable-next-line jsx-a11y/alt-text
-          <img key={rowKey + i} src="/images/app_1.webp" className="w-40" />
+          <img
+            key={rowKey + i}
+            src="/images/screen1_framed.png"
+            className="w-40"
+          />
         ))}
     </div>
   );
@@ -352,22 +356,22 @@ const PlusScrollAnimation: FC<{ startCheckout: () => {} }> = ({
               ref={phoneRef}
               className="relative z-40 -mt-8 flex shrink-0 scale-90 justify-center sm:mt-0 sm:scale-100"
             >
-              <div className="relative h-min w-80 overflow-hidden rounded-[52px]">
-                <PhoneScreen id={5} src="/images/screen1.png" />
-                <PhoneScreen id={4} src="/images/screen3.png" />
-                <PhoneScreen id={3} src="/images/screen3.png" />
-                <PhoneScreen id={2} src="/images/screen2.png" />
+              <div className="relative h-min w-80 overflow-hidden rounded-[48px]">
+                <PhoneScreen id={5} src="/images/screen2.png" />
+                <PhoneScreen id={4} src="/images/screen5.png" />
+                <PhoneScreen id={3} src="/images/screen4.png" />
+                <PhoneScreen id={2} src="/images/screen3.png" />
                 <PhoneScreen id={1} src="/images/screen1.png" />
 
                 <img
                   src="/images/phone_frame.png"
                   alt="bruh"
-                  className="relative left-[2px] z-40"
+                  className="relative left-[2.5px] z-40 w-[calc(100%)]"
                 />
               </div>
               <div
                 id="adsOverlay"
-                className="absolute top-0 left-0 z-50 flex h-full w-full rounded-[56px] bg-black/50 opacity-0"
+                className="absolute left-[4px] z-50 flex h-full w-[calc(100%-2.5px)] rounded-[48px] bg-black/50 opacity-0"
               >
                 <MdDoNotDisturbAlt className="mx-auto h-min w-32 self-center text-red-600" />
               </div>
