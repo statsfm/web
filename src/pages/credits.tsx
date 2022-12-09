@@ -1,9 +1,9 @@
 import { Container } from '@/components/Container';
 import { Title } from '@/components/Title';
 import dayjs from '@/utils/dayjs';
-import type { NextPage } from 'next';
+import type { InferGetStaticPropsType, NextPage } from 'next';
 
-const credits = [
+const credits = () => [
   {
     name: 'Mobile app',
     members: [
@@ -17,7 +17,7 @@ const credits = [
           'https://crowdin-static.downloads.crowdin.com/avatar/14677468/small/1995a2b0b07c1da8a3759e98e9434aff.jpeg',
       },
       {
-        id: 1,
+        id: 2,
         name: 'Elias Deuss',
         nickname: 'deuss',
         joined: '2022-10-01 00:00:00',
@@ -31,7 +31,7 @@ const credits = [
     name: 'Website',
     members: [
       {
-        id: 1,
+        id: 3,
         name: 'Wouter de Bruijn',
         nickname: 'wouter',
         joined: '2022-09-01 00:00:00',
@@ -40,7 +40,7 @@ const credits = [
           'https://stats.fm/_next/image?url=https%3A%2F%2Fcdn.stats.fm%2Ffile%2Fstatsfm%2Fimages%2Fusers%2F89nvsw93neqc2nbs69u71vmzs%2F9e5665900f607733b6939ecbfbf12560.webp&w=384&q=75',
       },
       {
-        id: 1,
+        id: 4,
         name: 'Martijn Faber',
         nickname: 'martijn',
         joined: '2022-06-01 00:00:00',
@@ -54,7 +54,7 @@ const credits = [
     name: 'Backend & infrastructure',
     members: [
       {
-        id: 1,
+        id: 5,
         name: 'Sjoerd Bolten',
         nickname: 'netlob',
         joined: '2020-08-03 00:00:00',
@@ -68,7 +68,7 @@ const credits = [
     name: 'Community & Support',
     members: [
       {
-        id: 1,
+        id: 6,
         name: 'Stijn van der Kolk',
         nickname: 'stijnvdkolk',
         joined: '2021-03-01 00:00:00',
@@ -2978,22 +2978,35 @@ const credits = [
         id: x.id,
         joined: x.joined,
         role: x.role,
-        image: x.name
-          .split('<img src="')[1]
-          ?.split('" class="items-js-image">')[0],
-        nickname: x.name
-          .split('class="items-js-image">')[1]
-          ?.split(' <span class="muted">(')[1]
-          ?.split(')</span>')[0],
-        name: x.name
-          .split('" class="items-js-image">')[1]
-          ?.split(' <span class="muted">')[0],
+        image:
+          x.name
+            .split('<img src="')[1]
+            ?.split('" class="items-js-image">')[0] ?? null,
+        nickname:
+          x.name
+            .split('class="items-js-image">')[1]
+            ?.split(' <span class="muted">(')[1]
+            ?.split(')</span>')[0] ?? null,
+        name:
+          x.name
+            .split('" class="items-js-image">')[1]
+            ?.split(' <span class="muted">')[0] ?? null,
       };
     }),
   },
 ];
 
-const CreditsPage: NextPage = () => {
+export const getStaticProps = async () => {
+  return {
+    props: {
+      credits: credits(),
+    },
+  };
+};
+
+const CreditsPage: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
+  credits,
+}) => {
   return (
     <>
       <Title>Credits & translators</Title>
@@ -3027,17 +3040,17 @@ const CreditsPage: NextPage = () => {
                       <div className="flex min-w-0 flex-1 items-center">
                         <div className="shrink-0">
                           <img
-                            className="h-10 w-10 rounded-full"
-                            src={member.image}
+                            className="h-10 w-10 rounded-full object-cover"
+                            src={member.image ?? ''}
                             alt=""
                           />
                         </div>
                         <div className="min-w-0 flex-1 px-4 pt-1 md:grid md:grid-cols-2 md:gap-4">
                           <div>
                             <p className="truncate text-lg font-bold text-white">
-                              {member.name}
+                              {member.name ?? ''}
                               <span className="ml-2 text-gray-500">
-                                {member.nickname}
+                                {member.nickname ?? ''}
                               </span>
                             </p>
                           </div>
