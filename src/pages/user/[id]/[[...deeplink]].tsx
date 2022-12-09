@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import type { PropsWithChildren, FC, RefObject } from 'react';
+import type { FC, RefObject, PropsWithChildren } from 'react';
 import dayjs from 'dayjs';
 import type { GetServerSideProps, NextPage } from 'next';
 import * as statsfm from '@statsfm/statsfm.js';
@@ -161,12 +161,13 @@ export const getServerSideProps: GetServerSideProps<Props> = async (ctx) => {
 
 const Square = () => <div className="block h-1 w-1 bg-neutral-400" />;
 
-// TODO: Link to /plus
 const PlusBadge = () => (
-  <span className="mx-auto flex w-fit items-center rounded-md bg-background px-1.5 py-0.5 text-base text-plus md:mx-0">
-    <CrownIcon className="mr-1 w-4" />
-    Plus
-  </span>
+  <Link href="/plus">
+    <span className="mx-auto flex w-fit items-center rounded-md bg-background px-1.5 py-0.5 text-base text-plus md:mx-0">
+      <CrownIcon className="mr-1 w-4" />
+      Plus
+    </span>
+  </Link>
 );
 
 // const NotEnoughData = ({
