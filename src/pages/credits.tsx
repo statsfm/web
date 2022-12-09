@@ -65,14 +65,14 @@ const credits = [
     ],
   },
   {
-    name: 'Community & support',
+    name: 'Community & Support',
     members: [
       {
         id: 1,
         name: 'Stijn van der Kolk',
-        nickname: 'kolkies',
-        joined: '2022-11-01 00:00:00',
-        role: 'Community & support lead',
+        nickname: 'stijnvdkolk',
+        joined: '2021-03-01 00:00:00',
+        role: 'Community & Support Lead',
         image:
           'https://stats.fm/_next/image?url=https%3A%2F%2Fcdn.stats.fm%2Ffile%2Fstatsfm%2Fimages%2Fusers%2Fr5o97f218wqvcpacb1bohyo6f%2F2cc961119ac6fab9573071838e88746a.webp&w=384&q=75',
       },
