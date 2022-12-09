@@ -30,6 +30,10 @@ module.exports = withBundleAnalyzer({
         protocol: 'https',
         hostname: '**.fbsbx.com',
       },
+      {
+        protocol: 'https',
+        hostname: 'crowdin-static.downloads.crowdin.com',
+      },
     ],
   },
   async redirects() {
