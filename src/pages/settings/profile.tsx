@@ -313,6 +313,10 @@ const DeleteAccount: FC = () => {
           Before you can delete your data you must login with your Spotify
           account to confirm it&apos;s you. After logging in you have 60 seconds
           to delete your account; after that you have to login again to proceed.
+          <br />
+          <br />
+          Please note that deleting your account also deletes all giftcodes
+          (claimed or unclaimed).
         </p>
         {timeLeft > 0 ? (
           <>
