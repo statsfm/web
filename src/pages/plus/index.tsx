@@ -99,7 +99,7 @@ const Heading: FC<{
       <h2
         className={clsx(
           sub ? '' : 'sm:mt-8',
-          'mb-2 bg-gradient-to-br from-white to-slate-300 bg-clip-text text-3xl text-transparent sm:text-5xl'
+          'mb-2 bg-gradient-to-br from-white to-slate-300 bg-clip-text text-2xl text-transparent sm:text-5xl'
         )}
       >
         {title}
