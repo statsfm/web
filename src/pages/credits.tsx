@@ -1,6 +1,7 @@
 import { Container } from '@/components/Container';
 import { Title } from '@/components/Title';
 import dayjs from '@/utils/dayjs';
+import { GetStaticProps } from 'next';
 import type { InferGetStaticPropsType, NextPage } from 'next';
 
 const credits = () => [
@@ -2996,13 +2997,13 @@ const credits = () => [
   },
 ];
 
-export const getStaticProps = async () => {
+export const getStaticProps = (async () => {
   return {
     props: {
       credits: credits(),
     },
   };
-};
+}) satisfies GetStaticProps;
 
 const CreditsPage: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
   credits,
