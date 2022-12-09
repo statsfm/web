@@ -63,8 +63,11 @@ export const Footer = () => {
             <ul className="grid gap-2">
               {cat.links.map((link, i) => (
                 <li key={i}>
-                  <Link legacyBehavior href={link.href} className="text-[1rem]">
+                  {link.href.startsWith('https://') ? (
                     <a
+                      href={link.href}
+                      rel="noopener noreferrer"
+                      target="_blank"
                       onClick={
                         cat.label === 'Socials'
                           ? () =>
@@ -74,7 +77,26 @@ export const Footer = () => {
                     >
                       {link.label}
                     </a>
-                  </Link>
+                  ) : (
+                    <Link
+                      legacyBehavior
+                      href={link.href}
+                      className="text-[1rem]"
+                    >
+                      <a
+                        onClick={
+                          cat.label === 'Socials'
+                            ? () =>
+                                event(
+                                  `FOOTER_${link.label.toLowerCase()}_click`
+                                )
+                            : undefined
+                        }
+                      >
+                        {link.label}
+                      </a>
+                    </Link>
+                  )}
                 </li>
               ))}
             </ul>
