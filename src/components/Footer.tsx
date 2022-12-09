@@ -19,6 +19,10 @@ const links: { label: string; links: { label: string; href: string }[] }[] = [
         label: 'Beta program',
         href: '/beta',
       },
+      {
+        label: 'Credits',
+        href: '/credits',
+      },
     ],
   },
   {
