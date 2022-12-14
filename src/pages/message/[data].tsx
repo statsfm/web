@@ -31,7 +31,7 @@ const unparseData = (unparsedData: string): Props => {
   );
   // Insert default vars
   return {
-    code: data.code ?? 200,
+    code: data.code ?? 400,
     title: data.title ?? 'Error',
     message: data.message ?? 'Something went wrong',
     action: data.action ?? null,
