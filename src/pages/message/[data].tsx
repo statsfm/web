@@ -3,13 +3,20 @@ import { Title } from '@/components/Title';
 import type { GetServerSideProps, NextPage } from 'next';
 import Link from 'next/link';
 
-type Props = {
+type BaseProps = {
   code: number;
   title: string;
   message: string;
-  action: string;
-  url: string;
+  action?: undefined;
+  url?: undefined;
 };
+
+type Props =
+  | BaseProps
+  | (BaseProps & {
+      action: string;
+      url: string;
+    });
 
 export const getServerSideProps: GetServerSideProps<Props> = async (ctx) => {
   // parse base64 to string text
@@ -42,11 +49,13 @@ const MessagePage: NextPage<Props> = (data) => {
           {data.title}
         </h1>
         <p className="-mt-2 text-center text-xl">{data.message}</p>
-        <Link legacyBehavior href={data.url}>
-          <a className="mx-auto mt-8 w-fit rounded-xl bg-primaryLighter px-4 py-3 text-primary">
-            {data.action}
-          </a>
-        </Link>
+        {data.action && data.url && (
+          <Link legacyBehavior href={data.url}>
+            <a className="mx-auto mt-8 w-fit rounded-xl bg-primaryLighter px-4 py-3 text-primary">
+              {data.action}
+            </a>
+          </Link>
+        )}
       </div>
     </Container>
   );
