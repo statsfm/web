@@ -8,7 +8,7 @@ const NotFound: NextPage = () => {
     <Container className="flex min-h-screen items-center">
       <Title>Page not found!</Title>
       <div className="flex w-full flex-col justify-center">
-        <h1 className="mb-0 text-center text-[4rem] font-extrabold">
+        <h1 className="mb-0 text-center text-[3rem] font-extrabold">
           Whoops...
         </h1>
         <p className="-mt-2 text-center text-xl">This page doesnt exist</p>
