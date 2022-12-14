@@ -8,7 +8,7 @@ const ServerError: NextPage = () => {
     <Container className="flex min-h-screen items-center">
       <Title>Internal Server Error!</Title>
       <div className="flex w-full flex-col justify-center">
-        <h1 className="mb-0 text-center text-[5rem] font-extrabold"></h1>
+        <h1 className="mb-0 text-center text-[4rem] font-extrabold"></h1>
         <p className="-mt-2 text-center text-xl">
           An error occured while doing something. <br />
           Please report any bug in our{' '}

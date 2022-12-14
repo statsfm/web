@@ -59,7 +59,7 @@ const MessagePage: NextPage<Props> = (data) => {
     <Container className="flex min-h-screen items-center">
       <Title>{data.title}</Title>
       <div className="flex w-full flex-col justify-center">
-        <h1 className="mb-0 text-center text-[5rem] font-extrabold">
+        <h1 className="mb-0 text-center text-[4rem] font-extrabold">
           {data.title}
         </h1>
         <p className="-mt-2 text-center text-xl">{data.message}</p>
