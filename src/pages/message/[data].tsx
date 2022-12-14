@@ -7,16 +7,37 @@ type BaseProps = {
   code: number;
   title: string;
   message: string;
-  action?: undefined;
-  url?: undefined;
+  action?: string | null;
+  url?: string | null;
 };
 
-type Props =
-  | BaseProps
-  | (BaseProps & {
-      action: string;
-      url: string;
-    });
+type Props = BaseProps | Required<BaseProps>;
+
+const unparseData = (unparsedData: string): Props => {
+  const vars = unparsedData.split(';');
+
+  const mappedVars = vars
+    .map<{ [K in keyof Props]: Props[K] }>((v) => {
+      const [key, value] = v.split('=');
+      if (key === 'code' && value) return { code: parseInt(value, 10) };
+      if (key && value) return { [key]: value };
+      return null as any;
+    })
+    .filter((v) => v);
+
+  const data = mappedVars.reduce(
+    (acc, curr) => ({ ...acc, ...curr }),
+    {} as Props
+  );
+  // Insert default vars
+  return {
+    code: data.code ?? 200,
+    title: data.title ?? 'Error',
+    message: data.message ?? 'Something went wrong',
+    action: data.action ?? null,
+    url: data.url ?? null,
+  };
+};
 
 export const getServerSideProps: GetServerSideProps<Props> = async (ctx) => {
   // parse base64 to string text
@@ -25,14 +46,7 @@ export const getServerSideProps: GetServerSideProps<Props> = async (ctx) => {
     'base64'
   ).toString();
 
-  // TODO: remove temp data and make it work with real data
-  const data = {
-    code: 403,
-    title: 'Forbidden error',
-    message: 'Please login first',
-    action: 'Login',
-    url: 'https://stats.fm/login',
-  };
+  const data = unparseData(parsedData);
 
   ctx.res.statusCode = data.code;
   return {
