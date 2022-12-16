@@ -20,7 +20,7 @@ const unparseData = (unparsedData: string): Props => {
     .map<{ [K in keyof Props]: Props[K] }>((v) => {
       const [key, value] = v.split('=');
       if (key === 'code' && value) return { code: parseInt(value, 10) };
-      if (key && value) return { [key]: value };
+      if (key && value) return { [key]: decodeURIComponent(value) };
       return null as any;
     })
     .filter((v) => v);
