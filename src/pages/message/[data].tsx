@@ -59,16 +59,14 @@ const MessagePage: NextPage<Props> = (data) => {
     <Container className="flex min-h-screen items-center">
       <Title>{data.title}</Title>
       <div className="flex w-full flex-col justify-center">
-        <h1 className="mb-0 text-center text-[3rem] font-medium text-gray-500">
-          {data.code}
-          <span className="bold ml-2 font-extrabold text-white">
-            {data.title}
-          </span>
-        </h1>
+        <h2 className="mb-0 text-center text-3xl font-bold lg:text-[3rem]">
+          <span className="mr-2 text-gray-500">{data.code}</span>
+          {data.title}
+        </h2>
         <p className="-mt-2 text-center text-xl">{data.message}</p>
         {data.action && data.url && (
           <Link legacyBehavior href={data.url}>
-            <a className="mx-auto mt-8 w-fit rounded-xl bg-primaryLighter px-4 py-3 text-primary">
+            <a className="mx-auto mt-8 w-fit rounded-xl bg-primaryLighter px-5 py-2 font-bold text-primary">
               {data.action}
             </a>
           </Link>
