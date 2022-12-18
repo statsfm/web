@@ -11,6 +11,7 @@ import { Avatar } from './Avatar/Avatar';
 import { Menu } from './Menu';
 import { Container } from './Container';
 import { Button } from './Button';
+import { CrownIcon } from './Icons';
 
 export const NavBar = () => {
   const { user, logout, login } = useAuth();
@@ -28,13 +29,24 @@ export const NavBar = () => {
 
   return (
     <nav className="absolute z-40 flex w-full">
-      <Container className="flex w-full items-center justify-between bg-inherit py-3">
-        <Link legacyBehavior href="/" passHref>
-          <a className="flex gap-3" onClick={() => event('NAV_home')}>
-            <Logo className="h-[1.7rem] w-[1.7rem] cursor-pointer" />
-            <h3 className="mt-[-3px]">stats.fm</h3>
-          </a>
+      <Container className="flex w-full items-center bg-inherit py-3">
+        <Link
+          href="/"
+          className="mr-auto flex gap-3"
+          onClick={() => event('NAV_home')}
+        >
+          <Logo className="h-[1.7rem] w-[1.7rem] cursor-pointer" />
+          <h3 className="mt-[-3px]">stats.fm</h3>
         </Link>
+
+        {user && !user.isPlus && (
+          <Link
+            className="mr-3 flex flex-row gap-1 px-4 py-2 font-medium text-plus"
+            href="/plus"
+          >
+            <CrownIcon className="m-[2px] h-[20px] w-[20px]" /> Plus
+          </Link>
+        )}
 
         {/* TODO: move animation to Menu component itself? */}
         {user ? (
@@ -61,20 +73,18 @@ export const NavBar = () => {
                       onClick={() => event('NAV_profile')}
                     >
                       <Link
-                        legacyBehavior
+                        className="flex gap-2 px-4 py-2"
                         href={`/${user.customId ?? user.id}`}
                       >
-                        <a className="flex gap-2 px-4 py-2">
-                          <Avatar
-                            size="md"
-                            name={user.displayName}
-                            src={user.image}
-                          />
-                          <div>
-                            <h5>{user.displayName}</h5>
-                            <p className="m-0">{user.email}</p>
-                          </div>
-                        </a>
+                        <Avatar
+                          size="md"
+                          name={user.displayName}
+                          src={user.image}
+                        />
+                        <div>
+                          <h5>{user.displayName}</h5>
+                          <p className="m-0">{user.email}</p>
+                        </div>
                       </Link>
                     </Menu.Item>
                     <Menu.Item
@@ -82,24 +92,39 @@ export const NavBar = () => {
                       onClick={() => event('NAV_profile')}
                     >
                       <Link
-                        legacyBehavior
+                        className="flex h-full w-full flex-row gap-2 px-4 py-2"
                         href={`/${user.customId ?? user.id}`}
                       >
-                        <a className="flex h-full w-full flex-row gap-2 px-4 py-2">
-                          <MdAccountCircle className="text-white" /> My page
-                        </a>
+                        <MdAccountCircle className="text-white" /> My page
                       </Link>
                     </Menu.Item>
                     <Menu.Item
                       className="!p-0"
                       onClick={() => event('NAV_settings')}
                     >
-                      <Link legacyBehavior href="/settings/profile">
-                        <a className="flex h-full w-full flex-row gap-2 px-4 py-2">
-                          <MdManageAccounts className="text-white" /> Settings
-                        </a>
+                      <Link
+                        className="flex h-full w-full flex-row gap-2 px-4 py-2"
+                        href="/settings/profile"
+                      >
+                        <MdManageAccounts className="text-white" /> Settings
                       </Link>
                     </Menu.Item>
+
+                    {!user.isPlus && (
+                      <Menu.Item
+                        className="!p-0"
+                        onClick={() => event('NAV_plus')}
+                      >
+                        <Link
+                          className="flex h-full w-full flex-row gap-2 px-4 py-2 text-plus"
+                          href="/plus"
+                        >
+                          <CrownIcon className="m-[2px] h-[20px] w-[20px]" />{' '}
+                          Plus
+                        </Link>
+                      </Menu.Item>
+                    )}
+                    <hr className="my-1 mx-3 border-t-2 border-neutral-400/10" />
                     <Menu.Item
                       icon={<MdExitToApp />}
                       onClick={() => {

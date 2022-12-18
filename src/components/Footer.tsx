@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { event } from 'nextjs-google-analytics';
+import { useAuth } from '@/hooks';
 import { Container } from './Container';
 import { StoreBadge } from './StoreBadges';
 
@@ -23,6 +24,10 @@ const links: { label: string; links: { label: string; href: string }[] }[] = [
         label: 'Credits',
         href: '/credits',
       },
+      // {
+      //   label: 'Plus',
+      //   // href: '/plus',
+      // },
     ],
   },
   {
@@ -58,11 +63,13 @@ const links: { label: string; links: { label: string; href: string }[] }[] = [
 ];
 
 export const Footer = () => {
+  const { user } = useAuth();
+
   return (
     <Container as="footer" className="py-14">
-      <div className="grid grid-cols-2 place-items-start gap-4 md:grid-cols-4">
+      <div className="flex flex-row justify-between">
         {links.map((cat, i) => (
-          <div key={i} className="grid place-items-start">
+          <div key={i} className="flex flex-col">
             <h4 className="mb-2 text-text-grey">{cat.label}</h4>
             <ul className="grid gap-2">
               {cat.links.map((link, i) => (
@@ -108,7 +115,7 @@ export const Footer = () => {
         ))}
 
         <div>
-          <h4 className="text-neutral-400">Download</h4>
+          <h4 className="text-text-grey">Download</h4>
           <div className="mt-4"></div>
           <StoreBadge
             store="apple"
@@ -122,6 +129,25 @@ export const Footer = () => {
             onClick={() => event('FOOTER_playstore')}
           />
         </div>
+        {user && !user.isPlus ? (
+          <div className="-mt-3 w-96">
+            <div className="block rounded-xl bg-foreground p-4 py-3">
+              <h4 className="text-text-grey">Plus</h4>
+              <p className="mb-4">
+                Get full insight in your past and get the most accurate stats
+                for your favorite music app today!
+              </p>
+              <Link
+                href="/plus"
+                className="mt-2 block w-fit rounded-lg bg-plus p-2 px-3 font-medium text-black"
+              >
+                Get Plus
+              </Link>
+            </div>
+          </div>
+        ) : (
+          <div className=""></div>
+        )}
       </div>
 
       <br />
