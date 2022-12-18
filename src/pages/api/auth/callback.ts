@@ -1,8 +1,9 @@
+import { getApiInstance } from '@/utils/ssrUtils';
 import type { NextApiRequest, NextApiResponse } from 'next';
 
 const env = process.env.NODE_ENV;
 
-const handler = (req: NextApiRequest, res: NextApiResponse) => {
+const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const { identityToken, redirectUrl } = req.cookies;
 
   if (!identityToken && env === 'production')
@@ -24,9 +25,12 @@ const handler = (req: NextApiRequest, res: NextApiResponse) => {
   }
 
   res.setHeader('Set-Cookie', cookies);
+  if (!redirectUrl) return res.redirect('/');
+  if (redirectUrl !== '/') return res.redirect(redirectUrl);
 
-  if (redirectUrl) return res.redirect(redirectUrl);
-  return res.redirect('/');
+  const api = getApiInstance(identityToken);
+  const { customId } = await api.users.get('me');
+  return res.redirect(`/${customId}` ?? '/');
 };
 
 export default handler;
