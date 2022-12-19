@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { event } from 'nextjs-google-analytics';
 import { useAuth } from '@/hooks';
+import { useRouter } from 'next/router';
 import { Container } from './Container';
 import { StoreBadge } from './StoreBadges';
 
@@ -64,12 +65,13 @@ const links: { label: string; links: { label: string; href: string }[] }[] = [
 
 export const Footer = () => {
   const { user } = useAuth();
+  const { pathname } = useRouter();
 
   return (
     <Container as="footer" className="py-14">
-      <div className="flex flex-row justify-between">
+      <div className="grid grid-cols-2 gap-y-4 lg:flex lg:flex-row lg:justify-between">
         {links.map((cat, i) => (
-          <div key={i} className="flex flex-col">
+          <div key={i} className="ml-4 flex flex-col lg:ml-0">
             <h4 className="mb-2 text-text-grey">{cat.label}</h4>
             <ul className="grid gap-2">
               {cat.links.map((link, i) => (
@@ -114,7 +116,7 @@ export const Footer = () => {
           </div>
         ))}
 
-        <div>
+        <div className="ml-4 h-48 lg:ml-0">
           <h4 className="text-text-grey">Download</h4>
           <div className="mt-4"></div>
           <StoreBadge
@@ -129,17 +131,17 @@ export const Footer = () => {
             onClick={() => event('FOOTER_playstore')}
           />
         </div>
-        {user && !user.isPlus ? (
-          <div className="-mt-3 w-96">
+        {user && !user.isPlus && pathname !== '/plus' ? (
+          <div className="col-span-2 row-start-1 -mt-3 w-full lg:mx-0 lg:w-96">
             <div className="block rounded-xl bg-foreground p-4 py-3">
-              <h4 className="text-text-grey">Plus</h4>
-              <p className="mb-4">
+              <h4 className="text-neutral-400">Plus</h4>
+              <p className="mb-4 text-base">
                 Get full insight in your past and get the most accurate stats
                 for your favorite music app today!
               </p>
               <Link
                 href="/plus"
-                className="mt-2 block w-fit rounded-lg bg-plus p-2 px-3 font-medium text-black"
+                className="mt-2 block w-fit rounded-lg bg-plus p-2 px-3 text-base font-medium text-black"
               >
                 Get Plus
               </Link>
