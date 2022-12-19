@@ -3,22 +3,24 @@ import { CrownIcon } from '@/components/Icons';
 import { Image } from '@/components/Image';
 import { Title } from '@/components/Title';
 import { useApi, useAuth, useToaster } from '@/hooks';
-import { Range } from '@statsfm/statsfm.js';
 import type { TopArtist } from '@statsfm/statsfm.js';
+import { Range } from '@statsfm/statsfm.js';
 import clsx from 'clsx';
 import { gsap, Power0, Power1 } from 'gsap';
 import { ScrollTrigger } from 'gsap/dist/ScrollTrigger';
-import type { GetServerSideProps, NextPage } from 'next';
+import type {
+  GetServerSideProps,
+  InferGetServerSidePropsType,
+  NextPage,
+} from 'next';
 import type { FC, PropsWithChildren } from 'react';
 import {
   useCallback,
   useMemo,
   useId,
   forwardRef,
-  useEffect,
   useLayoutEffect,
   useRef,
-  useState,
 } from 'react';
 import {
   MdCancel,
@@ -27,7 +29,7 @@ import {
   MdOutlineDoDisturbAlt,
 } from 'react-icons/md';
 import type { SSRProps } from '@/utils/ssrUtils';
-import { fetchUser } from '@/utils/ssrUtils';
+import { fetchUser, getApiInstance } from '@/utils/ssrUtils';
 import { useMedia } from 'react-use';
 
 // eslint-disable-next-line react/display-name
@@ -512,33 +514,35 @@ const HeaderBubbles: FC<{ topArtists: TopArtist[] }> = ({ topArtists }) => {
   );
 };
 
-export const getServerSideProps: GetServerSideProps<SSRProps> = async (ctx) => {
+export const getServerSideProps: GetServerSideProps<
+  SSRProps<{ topArtists: TopArtist[] }>
+> = async (ctx) => {
+  const { identityToken } = ctx.req.cookies;
+
+  const api = getApiInstance(identityToken);
   const user = await fetchUser(ctx);
+
+  let topArtists = null;
+  if (user)
+    topArtists = await api.users.topArtists(user.id, { range: Range.WEEKS });
+
+  if (!topArtists || topArtists.length === 0)
+    topArtists = await api.charts.topArtists({ range: Range.WEEKS });
 
   return {
     props: {
       user,
+      topArtists,
     },
   };
 };
 
-const PlusPage: NextPage = () => {
+const PlusPage: NextPage<
+  InferGetServerSidePropsType<typeof getServerSideProps>
+> = ({ topArtists }) => {
   const api = useApi();
   const toaster = useToaster();
-  const [topArtists, setTopArtists] = useState<TopArtist[]>([]);
   const { user, login } = useAuth();
-
-  useEffect(() => {
-    if (user) {
-      api.users.topArtists(user.id, { range: Range.WEEKS }).then((res) => {
-        setTopArtists(res);
-      });
-    } else {
-      api.charts.topArtists({ range: Range.WEEKS }).then((res) => {
-        setTopArtists(res);
-      });
-    }
-  }, [user]);
 
   const startCheckout = useCallback(async () => {
     if (!user) {
