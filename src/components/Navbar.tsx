@@ -39,12 +39,13 @@ export const NavBar = () => {
           <h3 className="mt-[-3px]">stats.fm</h3>
         </Link>
 
-        {user && !user.isPlus && (
+        {user && !user.isPlus && router.pathname !== '/plus' && (
           <Link
-            className="mr-3 flex flex-row gap-1 px-4 py-2 font-medium text-plus"
+            className="mr-0 flex flex-row gap-1 px-4 py-2 font-bold text-plus lg:mr-2 lg:font-medium"
             href="/plus"
           >
-            <CrownIcon className="m-[2px] h-[20px] w-[20px]" /> Plus
+            <CrownIcon className="m-[2px] mt-0 h-[20px] w-[20px] lg:mt-[2px]" />
+            Get Plus
           </Link>
         )}
 
@@ -110,7 +111,7 @@ export const NavBar = () => {
                       </Link>
                     </Menu.Item>
 
-                    {!user.isPlus && (
+                    {!user.isPlus && router.pathname !== '/plus' && (
                       <Menu.Item
                         className="!p-0"
                         onClick={() => event('NAV_plus')}
@@ -120,7 +121,7 @@ export const NavBar = () => {
                           href="/plus"
                         >
                           <CrownIcon className="m-[2px] h-[20px] w-[20px]" />{' '}
-                          Plus
+                          Get Plus
                         </Link>
                       </Menu.Item>
                     )}
