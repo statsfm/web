@@ -45,7 +45,7 @@ export const NavBar = () => {
             href="/plus"
           >
             <CrownIcon className="m-[2px] mt-0 h-[20px] w-[20px] lg:mt-[2px]" />
-            Get Plus
+            Unlock Plus
           </Link>
         )}
 
@@ -121,7 +121,7 @@ export const NavBar = () => {
                           href="/plus"
                         >
                           <CrownIcon className="m-[2px] h-[20px] w-[20px]" />{' '}
-                          Get Plus
+                          Unlock Plus
                         </Link>
                       </Menu.Item>
                     )}

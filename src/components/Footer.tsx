@@ -143,7 +143,7 @@ export const Footer = () => {
                 href="/plus"
                 className="mt-2 block w-fit rounded-lg bg-plus p-2 px-3 text-base font-medium text-black"
               >
-                Get Plus
+                Unlock Plus
               </Link>
             </div>
           </div>

@@ -400,7 +400,7 @@ const PlusScrollAnimation: FC<{ startCheckout: () => {} }> = ({
 
           <button onClick={startCheckout}>
             <p className="block shrink-0 rounded-lg bg-plus px-3 py-1.5 text-center font-medium text-black transition-colors hover:bg-plus/90 active:bg-plus/75">
-              Get Plus now!
+              Unlock Plus now!
             </p>
           </button>
         </Snackbar>
@@ -578,7 +578,7 @@ const PlusPage: NextPage<
 
           <button onClick={startCheckout} className="m-0 p-0">
             <a className="mt-12 block w-fit rounded-2xl bg-plus px-5 py-3 font-bold text-black hover:bg-plus/90 active:bg-plus/75">
-              Get Plus!
+              Unlock Plus!
             </a>
           </button>
         </div>
@@ -630,7 +630,7 @@ const PlusPage: NextPage<
             </ul>
             <button onClick={startCheckout} className="m-0 w-full p-0">
               <p className="mt-12 block w-full rounded-lg bg-plus py-1 text-center font-medium text-black hover:bg-plus/90 active:bg-plus/75">
-                Get Plus now!
+                Unlock Plus now!
               </p>
             </button>
           </div>
