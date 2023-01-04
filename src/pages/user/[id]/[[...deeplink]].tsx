@@ -522,7 +522,7 @@ const User: NextPage<Props> = ({
                         </a>
                       </Link>
 
-                      {currentUser && currentUser.id == user.id && (
+                      {currentUser && currentUser.id === user.id && (
                         <>
                           <span className="mx-2">
                             <Square />
