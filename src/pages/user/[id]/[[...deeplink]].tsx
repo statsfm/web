@@ -41,6 +41,7 @@ import { StatsCard, StatsCardSkeleton } from '@/components/StatsCard';
 import { MdVisibilityOff } from 'react-icons/md';
 import type { ScopeProps } from '@/components/PrivacyScope';
 import Scope, { useScopeContext } from '@/components/PrivacyScope';
+import { useRouter } from 'next/router';
 
 // const ListeningClockChart = () => {
 //   const config = {
@@ -322,6 +323,7 @@ const User: NextPage<Props> = ({
   activeCarousel,
 }) => {
   const api = useApi();
+  const router = useRouter();
   const { user: currentUser } = useAuth();
   const [range, setRange] = useState<statsfm.Range>(statsfm.Range.WEEKS);
 
@@ -519,6 +521,22 @@ const User: NextPage<Props> = ({
                           {formatter.pluralise('Friend', friendCount)}
                         </a>
                       </Link>
+
+                      {currentUser && currentUser.id == user.id && (
+                        <>
+                          <span className="mx-2">
+                            <Square />
+                          </span>
+                          <Button
+                            className={clsx(
+                              'mx-0 w-min !bg-transparent !p-0 transition-opacity hover:opacity-80'
+                            )}
+                            onClick={() => router.push('/settings/profile')}
+                          >
+                            Edit profile
+                          </Button>
+                        </>
+                      )}
                     </>
                   </div>
                 </Scope>
