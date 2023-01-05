@@ -46,6 +46,10 @@ const links: { label: string; links: { label: string; href: string }[] }[] = [
         label: 'Instagram',
         href: 'https://www.instagram.com/statsfm/',
       },
+      {
+        label: 'GitHub',
+        href: 'https://github.com/statsfm/',
+      },
     ],
   },
   {
