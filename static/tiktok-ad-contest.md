@@ -19,7 +19,7 @@ By submitting an entry as instructed through any of the above methods ("***Submi
 
 4. **Submission Guidelines and Restrictions**
 
-a. Your Submission must not supply untruthful, incomplete, inaccurate, or misleading information.
+a. Your Submission must not supply untruthful, incomplete, inaccurate, or misleading information, this also includes adding credits to yourself in your Submission.
 
 b. Your Submission must be your original creation and you must have the full rights to grant the license and other rights that you grant to stats.fm in Section 8 below.
 
