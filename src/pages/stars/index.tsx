@@ -76,7 +76,7 @@ const Stars: NextPage = () => {
   return (
     <>
       <Title reverse noDivider>
-        (Formerly Spotistats for Spotify)
+        (Revolutionary music distrubition)
       </Title>
       <div className="pt-[6rem]">
         {/* TODO die padding hierboven */}
@@ -137,70 +137,70 @@ const Stars: NextPage = () => {
                 <div className="mt-6 grid grid-cols-2 gap-8 md:grid-cols-6 lg:grid-cols-5">
                   <div className="col-span-1 flex justify-center px-2 md:col-span-2 lg:col-span-1">
                     <img
-                      className="streaming-service-icon h-10 w-auto object-contain"
+                      className="streaming-service-icon h-8 w-auto object-contain"
                       src="https://media.discordapp.net/attachments/858019685119295488/1063216967156252702/spotify.png"
                       alt="todo"
                     />
                   </div>
                   <div className="col-span-1 flex justify-center px-2 md:col-span-2 lg:col-span-1">
                     <img
-                      className="streaming-service-icon h-10 w-auto object-contain"
+                      className="streaming-service-icon h-8 w-auto object-contain"
                       src="https://media.discordapp.net/attachments/858019685119295488/1063216964786471022/apple.png"
                       alt="todo"
                     />
                   </div>
                   <div className="col-span-1 flex justify-center px-2 md:col-span-2 lg:col-span-1">
                     <img
-                      className="streaming-service-icon h-10 w-auto object-contain"
+                      className="streaming-service-icon h-8 w-auto object-contain"
                       src="https://media.discordapp.net/attachments/858019685119295488/1063216968125136947/tiktok.png"
                       alt="todo"
                     />
                   </div>
                   <div className="col-span-1 flex justify-center px-2 md:col-span-2 lg:col-span-1">
                     <img
-                      className="streaming-service-icon h-10 w-auto object-contain"
+                      className="streaming-service-icon h-8 w-auto object-contain"
                       src="https://media.discordapp.net/attachments/858019685119295488/1063216968586514462/youtube.png"
                       alt="todo"
                     />
                   </div>
                   <div className="col-span-1 flex justify-center px-2 md:col-span-2 lg:col-span-1">
                     <img
-                      className="streaming-service-icon h-10 w-auto object-contain"
+                      className="streaming-service-icon h-8 w-auto object-contain"
                       src="https://media.discordapp.net/attachments/858019685119295488/1063216964224438456/amazon.png"
                       alt="todo"
                     />
                   </div>
                   <div className="col-span-1 flex justify-center px-2 md:col-span-2 lg:col-span-1">
                     <img
-                      className="streaming-service-icon h-10 w-auto object-contain"
+                      className="streaming-service-icon h-8 w-auto object-contain"
                       src="https://media.discordapp.net/attachments/858019685119295488/1063216966103486565/instagram.png"
                       alt="todo"
                     />
                   </div>
                   <div className="col-span-1 flex justify-center px-2 md:col-span-2 lg:col-span-1">
                     <img
-                      className="streaming-service-icon h-10 w-auto object-contain"
+                      className="streaming-service-icon h-8 w-auto object-contain"
                       src="https://media.discordapp.net/attachments/858019685119295488/1063216965679845537/facebook.png"
                       alt="todo"
                     />
                   </div>
                   <div className="col-span-1 flex justify-center px-2 md:col-span-2 lg:col-span-1">
                     <img
-                      className="streaming-service-icon h-10 w-auto object-contain"
+                      className="streaming-service-icon h-8 w-auto object-contain"
                       src="https://media.discordapp.net/attachments/858019685119295488/1063216966610980914/soundcloud.png"
                       alt="todo"
                     />
                   </div>
                   <div className="col-span-1 flex justify-center px-2 md:col-span-2 lg:col-span-1">
                     <img
-                      className="streaming-service-icon h-10 w-auto object-contain"
+                      className="streaming-service-icon h-8 w-auto object-contain"
                       src="https://media.discordapp.net/attachments/858019685119295488/1063216967621808188/tidal.png"
                       alt="todo"
                     />
                   </div>
                   <div className="col-span-1 flex justify-center px-2 md:col-span-2 lg:col-span-1">
                     <img
-                      className="streaming-service-icon h-10 w-auto object-contain"
+                      className="streaming-service-icon h-8 w-auto object-contain"
                       src="https://media.discordapp.net/attachments/858019685119295488/1063216965323346011/deezer.png"
                       alt="todo"
                     />
@@ -413,7 +413,7 @@ const Stars: NextPage = () => {
               <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                 <div className="mx-auto max-w-4xl text-center">
                   <h2 className="text-3xl font-extrabold text-white sm:text-4xl">
-                    Get free promotion to a huge audience
+                    {/* Get free promotion to a huge audience */}A fair share
                   </h2>
                   <p className="mt-3 text-xl text-gray-500 sm:mt-4">
                     Lorem ipsum dolor, sit amet consectetur adipisicing elit.
@@ -426,8 +426,32 @@ const Stars: NextPage = () => {
                   <div className="absolute inset-0 h-1/2" />
                   <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                     <div className="mx-auto max-w-4xl">
-                      <dl className="rounded-2xl bg-foreground shadow-lg sm:grid sm:grid-cols-3">
-                        <div className="flex flex-col border-b border-background p-6 text-center sm:border-0 sm:border-r">
+                      <dl className="grid-cols-6 rounded-2xl bg-foreground shadow-lg sm:grid">
+                        <div className="col-span-4 flex flex-col border-b border-background p-6 text-center sm:border-0 sm:border-r">
+                          <dt className="order-2 mb-2 text-lg font-medium leading-6 text-gray-400">
+                            for you
+                          </dt>
+                          <dd className="order-1 text-5xl font-extrabold text-primary">
+                            80%
+                          </dd>
+                        </div>
+                        <div className="flex flex-col border-t border-background p-6 text-center sm:border-0 sm:border-x">
+                          <dt className="order-2 mb-2 text-lg font-medium leading-6 text-gray-400">
+                            management
+                          </dt>
+                          <dd className="order-1 text-5xl font-extrabold text-white">
+                            10%
+                          </dd>
+                        </div>
+                        <div className="flex flex-col border-t border-background p-6 text-center sm:border-0 sm:border-l">
+                          <dt className="order-2 mb-2 text-lg font-medium leading-6 text-gray-400">
+                            marketing
+                          </dt>
+                          <dd className="order-1 text-5xl font-extrabold text-white">
+                            10%
+                          </dd>
+                        </div>
+                        {/* <div className="flex flex-col border-b border-background p-6 text-center sm:border-0 sm:border-r">
                           <dt className="order-2 mb-2 text-lg font-medium leading-6 text-gray-400">
                             app users
                           </dt>
@@ -450,7 +474,7 @@ const Stars: NextPage = () => {
                           <dd className="order-1 text-5xl font-extrabold text-primary">
                             6,000+
                           </dd>
-                        </div>
+                        </div> */}
                       </dl>
                     </div>
                   </div>
@@ -699,7 +723,7 @@ const Stars: NextPage = () => {
                 <div className="lg:pr-8">
                   <div className="mx-auto max-w-md sm:max-w-lg lg:mx-0">
                     <h2 className="text-3xl font-extrabold tracking-tight sm:text-4xl">
-                      Let's work together
+                      Let&apos;s work together
                     </h2>
                     <p className="mt-4 text-lg text-gray-500 sm:mt-3">
                       Lorem ipsum dolor sit amet consectetur adipisicing elit.
