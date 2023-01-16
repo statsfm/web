@@ -71,3 +71,9 @@
     scrollbar-width: none;
   }
 }
+
+
+.streaming-service-icon {
+  filter: invert(100%) grayscale(100%);
+  opacity: .85;
+}
