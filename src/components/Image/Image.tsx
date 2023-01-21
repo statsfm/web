@@ -8,16 +8,11 @@ interface Props extends NextImageProps {
 
 export const Image = ({ rounded = false, className, ...props }: Props) => {
   return (
-    <div
-      className={clsx(
-        'overflow-hidden',
-        rounded ? 'rounded-full' : 'rounded-lg'
-      )}
-    >
+    <div className={clsx('overflow-hidden', rounded && 'rounded-full')}>
       <NextImage
         className={clsx(
           'bg-foreground before:grid before:h-full before:place-items-center before:p-2 before:text-center',
-          rounded ? 'rounded-full' : 'rounded-lg',
+          rounded && 'rounded-full',
           className
         )}
         placeholder="blur"
