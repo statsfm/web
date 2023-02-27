@@ -19,11 +19,14 @@ export const getServerSideProps: GetServerSideProps<Props> = async ({
 
   // @ts-expect-error error because of atob
   const { userId } = JSON.parse(atob((code as string).split('.')[1]) as string);
+  const redirectUrl = atob(state as string);
 
   return {
     redirect: {
       permanent: true,
-      destination: `${state}?cf_uivd=${userId + userId}`,
+      destination: `${redirectUrl}${
+        redirectUrl?.indexOf('?') === -1 ? '?' : '&'
+      }cf_uivd=${userId + userId}`,
     },
   };
 };

@@ -17,7 +17,9 @@ export const getServerSideProps: GetServerSideProps<Props> = async ({
     };
   }
 
-  const authUrl = `https://api.stats.fm/api/v1/auth/redirect/spotify?scope=user-read-email&redirect_uri=https://stats.fm/plus/offer/callback&state=${url}`;
+  const authUrl = `https://api.stats.fm/api/v1/auth/redirect/spotify?scope=user-read-email&redirect_uri=https://stats.fm/plus/offer/callback&state=${btoa(
+    url
+  )}`;
 
   return {
     redirect: {
