@@ -1,6 +1,8 @@
 appbroda.com, 735, DIRECT
 google.com, pub-8049894195330131, DIRECT, f08c47fec0942fa0
 
+google.com, pub-9007140528834498, DIRECT, f08c47fec0942fa0
+
 
 google.com, pub-7839649756834603, DIRECT, f08c47fec0942fa0
 
