@@ -1,4 +1,5 @@
 import { Container } from '@/components/Container';
+import { getApiInstance } from '@/utils/ssrUtils';
 import type { GetServerSideProps, NextPage } from 'next';
 
 type Props = {};
@@ -17,8 +18,9 @@ export const getServerSideProps: GetServerSideProps<Props> = async ({
     };
   }
 
-  // @ts-expect-error error because of atob
-  const { userId } = JSON.parse(atob((code as string).split('.')[1]) as string);
+  const api = getApiInstance(code);
+  const me = await api.me.get();
+
   const redirectUrl = atob(state as string);
 
   return {
@@ -26,7 +28,9 @@ export const getServerSideProps: GetServerSideProps<Props> = async ({
       permanent: true,
       destination: `${redirectUrl}${
         redirectUrl?.indexOf('?') === -1 ? '?' : '&'
-      }cf_uivd=${userId}`,
+      }cf_uivd=${me.id}&email=${me.email ?? ''}&image=${encodeURIComponent(
+        me.image ?? ''
+      )}`,
     },
   };
 };
