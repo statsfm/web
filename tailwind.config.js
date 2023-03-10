@@ -23,6 +23,7 @@ module.exports = {
         foreground: '#18181c',
         icon: '#727272',
         plus: '#ffd700',
+        swipefy: '#DBFF00',
         'text-grey': '#727272',
       },
       fontFamily: {
