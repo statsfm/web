@@ -134,8 +134,8 @@
   overflow:hidden;
   opacity: .3;
 }
-img,
-span {
+#background img,
+#background span {
   position: absolute;
 }
 #blue-circle-container {
