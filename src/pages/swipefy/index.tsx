@@ -37,7 +37,7 @@ const SwipefyLanding: NextPage = () => {
           <h1 className="mb-0 text-center text-[5rem] font-extrabold italic text-swipefy md:text-[10rem] lg:text-[12rem] xl:text-[15rem]">
             Swipefy
           </h1>
-          <p className="-mt-2 text-center text-[2rem] font-bold text-stone-500 md:-mt-10 md:text-[3rem] lg:text-[4rem] xl:text-[5rem]">
+          <p className="-mt-2 text-center text-[2rem] font-bold text-white md:-mt-10 md:text-[3rem] lg:text-[4rem] xl:text-[5rem]">
             by stats.fm
           </p>
           <p className="z-[1000] mt-[20vh] text-center text-4xl font-bold text-white md:mt-[20vh] md:text-6xl lg:mt-[30vh]">
@@ -52,6 +52,14 @@ const SwipefyLanding: NextPage = () => {
             </a>{' '}
             to join the waitlist
           </p>
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
         </div>
       </Container>
     </div>
