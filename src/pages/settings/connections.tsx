@@ -9,14 +9,22 @@ import type { SSRProps } from '@/utils/ssrUtils';
 import { fetchUser } from '@/utils/ssrUtils';
 import { event } from 'nextjs-google-analytics';
 
+const PlatformStatus = {
+  LOADING: 'LOADING',
+  CONNECTED: 'CONNECTED',
+  DISCONNECTED: 'DISCONNECTED',
+} as const;
+
 type PlatformType = {
-  status: 'LOADING' | 'CONNECTED' | 'DISCONNECTED';
+  status: keyof typeof PlatformStatus;
   key: string;
   name: string;
   icon: string;
+  can_refresh?: boolean;
   description: string;
   connection: UserSocialMediaConnection | null;
   connect: () => void;
+  update?: () => void;
   disconnect: () => void;
 };
 
@@ -25,16 +33,21 @@ const useConnections = () => {
 
   const initialPlatforms: PlatformType[] = [
     {
-      status: 'LOADING',
+      status: PlatformStatus.LOADING,
       key: 'discord',
       name: 'Discord',
       icon: 'https://cdn.stats.fm/file/statsfm/images/brands/discord/color.svg',
       description:
         'Connect your Discord account to get access to personalized commands with the stats.fm Discord bot',
       connection: null as UserSocialMediaConnection | null,
+      can_refresh: true,
       // TODO: optimistic updates for connecting
       connect: () => {
         event('SETTINGS_connections_discord_connect');
+        window.location.href = `${api.http.config.baseUrl}/me/connections/discord/redirect?authorization=${api.http.config.accessToken}&redirect_uri=${window.location.href}`;
+      },
+      update: () => {
+        event('SETTINGS_connections_discord_update');
         window.location.href = `${api.http.config.baseUrl}/me/connections/discord/redirect?authorization=${api.http.config.accessToken}&redirect_uri=${window.location.href}`;
       },
       disconnect: () => {
@@ -55,22 +68,23 @@ const useConnections = () => {
       if (!connection)
         return {
           ...platform,
-          status: 'DISCONNECTED',
+          status: PlatformStatus.DISCONNECTED,
         };
 
       return {
         ...platform,
-        status: 'CONNECTED',
+        status: PlatformStatus.CONNECTED,
         connection,
         disconnect: async () => {
           await api.me.removeSocialMediaConnection(connection.id);
 
           const optimisticPlatforms = platforms.map<PlatformType>((platform) =>
             platform.name === connection.platform.name
-              ? { ...platform, status: 'DISCONNECTED' }
+              ? { ...platform, status: PlatformStatus.DISCONNECTED }
               : platform
           );
           setPlatforms(optimisticPlatforms);
+          platform.disconnect();
         },
       };
     });
@@ -105,25 +119,47 @@ const ConnectionsList = () => {
             </h2>
 
             <p className="-mt-1 text-sm text-neutral-500 sm:-mt-2">
-              {platform.status === 'CONNECTED' && platform.connection
+              {platform.status === PlatformStatus.CONNECTED &&
+              platform.connection
                 ? `Connected as: ${platform.connection.platformUsername}`
                 : 'Not Connected'}
             </p>
 
             <div className="flex flex-col lg:flex-row">
               <p className="">{platform.description}</p>
+            </div>
+            <div className="flex flex-col gap-2 lg:flex-row">
+              {platform.status === PlatformStatus.CONNECTED &&
+                platform.can_refresh &&
+                'update' in platform && (
+                  <Button
+                    className="mt-auto h-min rounded-xl px-4 py-2"
+                    disabled={!platform.can_refresh}
+                    onClick={
+                      platform.status === PlatformStatus.CONNECTED &&
+                      platform.can_refresh &&
+                      'update' in platform
+                        ? platform.update
+                        : () => {}
+                    }
+                  >
+                    Refresh
+                  </Button>
+                )}
               <Button
                 className="mt-auto h-min rounded-xl px-4 py-2"
-                disabled={platform.status === 'LOADING'}
+                disabled={platform.status === PlatformStatus.LOADING}
                 onClick={
-                  platform.status === 'CONNECTED'
+                  platform.status === PlatformStatus.CONNECTED
                     ? platform.disconnect
                     : platform.connect
                 }
               >
                 {(() => {
-                  if (platform.status === 'LOADING') return 'LOADING';
-                  if (platform.status === 'CONNECTED') return 'Disconnect';
+                  if (platform.status === PlatformStatus.LOADING)
+                    return 'LOADING';
+                  if (platform.status === PlatformStatus.CONNECTED)
+                    return 'Disconnect';
                   return 'Connect';
                 })()}
               </Button>
