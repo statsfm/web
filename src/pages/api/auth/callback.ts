@@ -29,7 +29,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   if (redirectUrl !== '/') return res.redirect(redirectUrl);
 
   const api = getApiInstance(identityToken);
-  const { customId, id } = await api.users.get('me');
+  const { customId, id } = await api.me.get();
   return res.redirect(`/${customId ?? id}`);
 };
 
