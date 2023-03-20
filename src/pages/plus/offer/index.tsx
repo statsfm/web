@@ -8,7 +8,11 @@ export const getServerSideProps: GetServerSideProps<Props> = async ({
 }) => {
   const { url } = query;
 
-  if (typeof url !== 'string' || !url.startsWith('https://plus.stats.fm')) {
+  if (
+    typeof url !== 'string' ||
+    (!url.startsWith('https://plus.stats.fm') &&
+      !url.startsWith('https://digitalmarketerhk-app.clickfunnels.com/'))
+  ) {
     return {
       redirect: {
         permanent: true,
