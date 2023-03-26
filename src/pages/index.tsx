@@ -261,8 +261,8 @@ const Home: NextPage = () => {
                 to share with others.
                 <br />
                 <br />
-                Want me to delete all your data? No problem, you can do that
-                anytime in your privacy settings.
+                Want us to delete all your data? No problem, you can do that
+                anytime in your account settings.
               </p>
             </div>
           </Card>

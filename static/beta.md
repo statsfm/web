@@ -1,6 +1,6 @@
 # Beta program
 
-To get access to the latest features and bug fixes you can join the beta. Please note that these features and fixes are in beta for a reason and can be a bit buggy/unfinished. If you have any feedback please contact me on [Discord](https://stats.fm/discord) or send me an email at [beta@stats.fm](mailto:beta@stats.fm)
+To get access to the latest features and bug fixes you can join the beta. Please note that these features and fixes are in beta for a reason and can be a bit buggy/unfinished. If you have any feedback please contact us on [Discord](https://stats.fm/discord) or send us an email at [beta@stats.fm](mailto:beta@stats.fm)
 
 ## Android
 
