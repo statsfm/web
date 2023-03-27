@@ -80,7 +80,11 @@ export const getStaticProps: GetStaticProps<Props> = async () => {
   const { data } = await api.http.get(
     `/stripe/products/spotistats_plus_coupon/prices`
   );
-  const plans = formatPlans((data as any).items.data);
+  const plans = formatPlans(
+    (data as any).items.data.filter(
+      (x: { product: string }) => x.product === 'prod_Mveep2aVG09MSl'
+    )
+  );
 
   return {
     props: {
