@@ -3,7 +3,7 @@ import { CrownIcon } from '@/components/Icons';
 import { Image } from '@/components/Image';
 import { Title } from '@/components/Title';
 import { useApi, useAuth, useToaster } from '@/hooks';
-import type { TopArtist, TopArtist } from '@statsfm/statsfm.js';
+import type { TopArtist } from '@statsfm/statsfm.js';
 import clsx from 'clsx';
 import { gsap, Power0, Power1 } from 'gsap';
 import { ScrollTrigger } from 'gsap/dist/ScrollTrigger';
