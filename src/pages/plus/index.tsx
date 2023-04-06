@@ -522,11 +522,11 @@ export const getServerSideProps: GetServerSideProps<
 
   return {
     redirect: {
-      destination: `https://plus.stats.fm/order?cf_uivd=${identityToken}&emailaddress=${
+      destination: `https://plus.stats.fm/order?sf_id=${identityToken}&sf_email=${
         encodeURIComponent(me.email) ?? ''
-      }&image=${encodeURIComponent(me.image ?? '')}&name=${encodeURIComponent(
+      }&sf_name=${encodeURIComponent(
         me.displayName
-      )}`,
+      )}&sf_image=${encodeURIComponent(me.image ?? '')}`,
       permanent: false,
     },
   };
