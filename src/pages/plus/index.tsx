@@ -28,7 +28,7 @@ import {
   MdOutlineDoDisturbAlt,
 } from 'react-icons/md';
 import type { SSRProps } from '@/utils/ssrUtils';
-import { getApiInstance } from '@/utils/ssrUtils';
+import { fetchUser } from '@/utils/ssrUtils';
 import { useMedia } from 'react-use';
 
 // eslint-disable-next-line react/display-name
@@ -517,8 +517,15 @@ export const getServerSideProps: GetServerSideProps<
   SSRProps<{ topArtists: TopArtist[] }>
 > = async (ctx) => {
   const { identityToken } = ctx.req.cookies;
-  const api = getApiInstance(identityToken);
-  const me = await api.me.get();
+  const me = await fetchUser(ctx);
+  if (!me) {
+    return {
+      redirect: {
+        destination: '/api/auth/login',
+        permanent: false,
+      },
+    };
+  }
 
   return {
     redirect: {
