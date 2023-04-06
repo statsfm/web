@@ -3,8 +3,7 @@ import { CrownIcon } from '@/components/Icons';
 import { Image } from '@/components/Image';
 import { Title } from '@/components/Title';
 import { useApi, useAuth, useToaster } from '@/hooks';
-import type { TopArtist } from '@statsfm/statsfm.js';
-import { Range } from '@statsfm/statsfm.js';
+import type { TopArtist, TopArtist } from '@statsfm/statsfm.js';
 import clsx from 'clsx';
 import { gsap, Power0, Power1 } from 'gsap';
 import { ScrollTrigger } from 'gsap/dist/ScrollTrigger';
@@ -29,7 +28,7 @@ import {
   MdOutlineDoDisturbAlt,
 } from 'react-icons/md';
 import type { SSRProps } from '@/utils/ssrUtils';
-import { fetchUser, getApiInstance } from '@/utils/ssrUtils';
+import { getApiInstance } from '@/utils/ssrUtils';
 import { useMedia } from 'react-use';
 
 // eslint-disable-next-line react/display-name
@@ -518,23 +517,36 @@ export const getServerSideProps: GetServerSideProps<
   SSRProps<{ topArtists: TopArtist[] }>
 > = async (ctx) => {
   const { identityToken } = ctx.req.cookies;
-
   const api = getApiInstance(identityToken);
-  const user = await fetchUser(ctx);
-
-  let topArtists = null;
-  if (user)
-    topArtists = await api.users.topArtists(user.id, { range: Range.WEEKS });
-
-  if (!topArtists || topArtists.length === 0)
-    topArtists = await api.charts.topArtists({ range: Range.WEEKS });
+  const me = await api.me.get();
 
   return {
-    props: {
-      user,
-      topArtists,
+    redirect: {
+      destination: `https://plus.stats.fm/order?cf_uivd=${identityToken}&emailaddress=${
+        encodeURIComponent(me.email) ?? ''
+      }&image=${encodeURIComponent(me.image ?? '')}&name=${encodeURIComponent(
+        me.displayName
+      )}`,
+      permanent: false,
     },
   };
+
+  // const api = getApiInstance(identityToken);
+  // const user = await fetchUser(ctx);
+
+  // let topArtists = null;
+  // if (user)
+  //   topArtists = await api.users.topArtists(user.id, { range: Range.WEEKS });
+
+  // if (!topArtists || topArtists.length === 0)
+  //   topArtists = await api.charts.topArtists({ range: Range.WEEKS });
+
+  // return {
+  //   props: {
+  //     user,
+  //     topArtists,
+  //   },
+  // };
 };
 
 const PlusPage: NextPage<
