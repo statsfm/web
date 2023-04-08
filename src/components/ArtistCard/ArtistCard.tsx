@@ -15,7 +15,7 @@ export const ArtistCard = ({ playedMs, streams, artist, position }: Props) => {
 
   const subtitle = [
     playedMs && `${formatter.formatMinutes(playedMs)} minutes`,
-    streams && `${streams} streams`,
+    streams && `${formatter.localiseNumber(streams)} streams`,
   ]
     .filter(Boolean)
     .join(' • ');

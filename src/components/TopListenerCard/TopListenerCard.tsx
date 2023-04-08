@@ -38,7 +38,7 @@ const TopListenerCard = ({ user, position, playedMs, streams }: Props) => {
           {playedMs && <span>{formatter.formatMinutes(playedMs)} minutes</span>}
 
           <br />
-          <span>{streams} streams</span>
+          <span>{formatter.localiseNumber(streams)} streams</span>
         </p>
       </div>
     </Link>
