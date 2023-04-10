@@ -10,7 +10,7 @@ interface Props extends Partial<Omit<statsfm.TopTrack, 'track'>> {
 export const TrackCard = ({ track, playedMs, streams, position }: Props) => {
   const subtitle = [
     playedMs && `${formatter.formatMinutes(playedMs)} minutes`,
-    streams && `${streams} streams`,
+    streams && `${formatter.localiseNumber(streams)} streams`,
   ]
     .filter(Boolean)
     .join(' • ');

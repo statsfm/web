@@ -17,7 +17,7 @@ export const AlbumCard = ({
 }: PropsWithChildren<Props>) => {
   const subtitle = [
     playedMs && `${formatter.formatMinutes(playedMs)} minutes`,
-    streams && `${streams} streams`,
+    streams && `${formatter.localiseNumber(streams)} streams`,
   ]
     .filter(Boolean)
     .join(' • ');
