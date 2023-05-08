@@ -14,7 +14,7 @@ Made in nextjs.
 
 ## Development
 
-To start the development server you run ```yarn dev```.
+To start the development server, run ```yarn dev```.
 The dev server will start on [localhost:3000](http://localhost:3000).
 <br /><br /> 
 
@@ -26,7 +26,7 @@ To run a production build you have to run ```yarn build``` and then ```yarn star
 ## Contributing
 
 To contribute to this project you can fork the repository and make a pull request.
-Please reach out to us on discord if you have any questions. [here is the link](https://stats.fm/discord) (checkout the #development channel).
+Please reach out to us on our Discord if you have any questions. [This is the link](https://stats.fm/discord) (check out the #development channel).
 <br /><br /> 
 
 ## Learn More
