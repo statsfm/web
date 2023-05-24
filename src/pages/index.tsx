@@ -167,7 +167,7 @@ const Home: NextPage = () => {
                 title="Import your lifetime history*"
               >
                 Follow the unique import process to import your lifetime
-                streaminghistory and unlock the full potential of the platform
+                streaming history and unlock the full potential of the platform
                 by getting access to lots of cool features. It&apos;s really
                 cool, I promise : )
               </FeatureItem>
