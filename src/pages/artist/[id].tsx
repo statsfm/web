@@ -192,6 +192,7 @@ const Artist: NextPage<Props> = ({ artist }) => {
         await api.http
           .get<statsfm.TopUser[]>(`/artists/${artist.id}/top/listeners`)
           .then((res) => res.data.items)
+          .catch(() => [])
       );
       setRelated(
         await api.artists.related(artist.id).then((r) => r.filter((a) => a.id))
