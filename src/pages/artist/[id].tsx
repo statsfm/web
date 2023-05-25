@@ -451,7 +451,7 @@ const Artist: NextPage<Props> = ({ artist }) => {
                 <div className="absolute inset-0 grid place-items-center">
                   <p className="m-0 text-lg text-text-grey">
                     <a
-                      className="cursor-pointer truncate text-xl leading-8 hover:underline"
+                      className="cursor-pointer truncate leading-8 hover:underline"
                       onClick={() => login(router.asPath)}
                     >
                       Login
