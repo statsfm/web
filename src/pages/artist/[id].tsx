@@ -478,19 +478,21 @@ const Artist: NextPage<Props> = ({ artist }) => {
         </Carousel>
 
         {user && <MoreTracks artist={artist} tracks={topTracks} user={user} />}
-        <Section
-          title="Your streams"
-          description={`Your streams featuring ${artist.name}`}
-        >
-          {({ headerRef }) => (
-            <RecentStreams
-              headerRef={headerRef}
-              streams={streams || []}
-              loading={streams == null}
-              onItemClick={() => event('ARTIST_stream_click')}
-            />
-          )}
-        </Section>
+        {user && (
+          <Section
+            title="Your streams"
+            description={`Your streams featuring ${artist.name}`}
+          >
+            {({ headerRef }) => (
+              <RecentStreams
+                headerRef={headerRef}
+                streams={streams || []}
+                loading={streams == null}
+                onItemClick={() => event('ARTIST_stream_click')}
+              />
+            )}
+          </Section>
+        )}
       </Container>
     </>
   );
