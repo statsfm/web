@@ -36,6 +36,7 @@ import { fetchUser, getApiInstance } from '@/utils/ssrUtils';
 import formatter from '@/utils/formatter';
 import { SpotifyLink, AppleMusicLink } from '@/components/SocialLink';
 import dayjs from 'dayjs';
+import { useRouter } from 'next/router';
 
 const MoreTracks = ({
   artist,
@@ -169,7 +170,8 @@ export const getServerSideProps: GetServerSideProps<Props> = async (ctx) => {
 
 const Artist: NextPage<Props> = ({ artist }) => {
   const api = useApi();
-  const { user } = useAuth();
+  const { user, login } = useAuth();
+  const router = useRouter();
 
   const [topTracks, setTopTracks] = useState<statsfm.Track[]>([]);
   const [topListeners, setTopListeners] = useState<statsfm.TopUser[]>([]);
@@ -420,26 +422,45 @@ const Artist: NextPage<Props> = ({ artist }) => {
               </div>
             }
           >
-            <Carousel.Items>
-              {topListeners.length > 0
-                ? topListeners.map((item, i) => (
-                    <Carousel.Item
-                      key={i}
-                      onClick={() => event('ARTIST_listener_click')}
-                    >
-                      <div className="h-[270px]">
-                        <TopListenerCard {...item} />
-                      </div>
-                    </Carousel.Item>
-                  ))
-                : Array(10)
-                    .fill(null)
-                    .map((_n, i) => (
-                      <Carousel.Item key={i}>
-                        <TopListenerCardSkeleton />
+            <div className="relative">
+              <Carousel.Items
+                className={`${
+                  !user && topListeners.length === 0 ? 'blur-sm' : ''
+                }`}
+              >
+                {topListeners.length > 0
+                  ? topListeners.map((item, i) => (
+                      <Carousel.Item
+                        key={i}
+                        onClick={() => event('ARTIST_listener_click')}
+                      >
+                        <div className="h-[270px]">
+                          <TopListenerCard {...item} />
+                        </div>
                       </Carousel.Item>
-                    ))}
-            </Carousel.Items>
+                    ))
+                  : Array(10)
+                      .fill(null)
+                      .map((_n, i) => (
+                        <Carousel.Item key={i}>
+                          <TopListenerCardSkeleton />
+                        </Carousel.Item>
+                      ))}
+              </Carousel.Items>
+              {!user && topListeners.length === 0 && (
+                <div className="absolute inset-0 grid place-items-center">
+                  <p className="m-0 text-lg text-text-grey">
+                    <a
+                      className="cursor-pointer truncate text-xl leading-8 hover:underline"
+                      onClick={() => login(router.asPath)}
+                    >
+                      Login
+                    </a>{' '}
+                    to be able to see top listeners!
+                  </p>
+                </div>
+              )}
+            </div>
           </Section>
         </Carousel>
 
