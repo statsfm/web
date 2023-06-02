@@ -13,8 +13,6 @@ import {
   RelatedArtistCardSkeleton,
 } from '@/components/RelatedArtistCard';
 import { TrackListRow, TrackListRowSkeleton } from '@/components/TrackListRow';
-import TopListenerCard from '@/components/TopListenerCard/TopListenerCard';
-import { TopListenerCardSkeleton } from '@/components/TopListenerCard';
 import { RecentStreams } from '@/components/RecentStreams';
 import { Menu } from '@/components/Menu';
 import { MdSort } from 'react-icons/md';
@@ -22,11 +20,7 @@ import { SectionToolbarCarouselNavigationButton } from '@/components/Section/Too
 import { Container } from '@/components/Container';
 import Link from 'next/link';
 import { Title } from '@/components/Title';
-import { supportUrls } from '@/utils/supportUrls';
-import {
-  SectionToolbarGridmode,
-  SectionToolbarInfoMenu,
-} from '@/components/Section';
+import { SectionToolbarGridmode } from '@/components/Section';
 import Head from 'next/head';
 import { StatsCard } from '@/components/StatsCard';
 import { useScrollPercentage } from '@/hooks/use-scroll-percentage';
@@ -36,6 +30,7 @@ import { fetchUser, getApiInstance } from '@/utils/ssrUtils';
 import formatter from '@/utils/formatter';
 import { SpotifyLink, AppleMusicLink } from '@/components/SocialLink';
 import dayjs from 'dayjs';
+import { TopListeners } from '@/components/TopListeners';
 
 const MoreTracks = ({
   artist,
@@ -54,7 +49,8 @@ const MoreTracks = ({
   useEffect(() => {
     api.users
       .topTracksFromArtist(user.id, artist.id)
-      .then((res) => setCurrentUserTop(res));
+      .then((res) => setCurrentUserTop(res))
+      .catch(() => setCurrentUserTop([]));
   }, []);
 
   // find the stream count of the signed in user
@@ -172,7 +168,6 @@ const Artist: NextPage<Props> = ({ artist }) => {
   const { user } = useAuth();
 
   const [topTracks, setTopTracks] = useState<statsfm.Track[]>([]);
-  const [topListeners, setTopListeners] = useState<statsfm.TopUser[]>([]);
   const [related, setRelated] = useState<statsfm.Artist[]>([]);
   const [streams, setStreams] = useState<statsfm.Stream[] | null>(null);
   const [stats, setStats] = useState<
@@ -188,12 +183,9 @@ const Artist: NextPage<Props> = ({ artist }) => {
   useEffect(() => {
     (async () => {
       setTopTracks(await api.artists.tracks(artist.id));
-      setTopListeners(
-        await api.http
-          .get<statsfm.TopUser[]>(`/artists/${artist.id}/top/listeners`)
-          .then((res) => res.data.items)
+      setRelated(
+        await api.artists.related(artist.id).then((r) => r.filter((a) => a.id))
       );
-      setRelated(await api.artists.related(artist.id));
     })();
   }, [artist]);
 
@@ -396,49 +388,7 @@ const Artist: NextPage<Props> = ({ artist }) => {
         </Carousel>
       </Section> */}
 
-        <Carousel>
-          <Section
-            title="Top listeners"
-            description={`People who love ${artist.name}`}
-            toolbar={
-              <div className="flex gap-1">
-                <SectionToolbarGridmode />
-                <SectionToolbarCarouselNavigationButton
-                  callback={() => event('ARTIST_listener_previous')}
-                />
-                <SectionToolbarCarouselNavigationButton
-                  next
-                  callback={() => event('ARTIST_listener_next')}
-                />
-                <SectionToolbarInfoMenu
-                  description="Learn more about what top listeners are and how they're calculated"
-                  link={supportUrls.artist.top_listeners}
-                />
-              </div>
-            }
-          >
-            <Carousel.Items>
-              {topListeners.length > 0
-                ? topListeners.map((item, i) => (
-                    <Carousel.Item
-                      key={i}
-                      onClick={() => event('ARTIST_listener_click')}
-                    >
-                      <div className="h-[270px]">
-                        <TopListenerCard {...item} />
-                      </div>
-                    </Carousel.Item>
-                  ))
-                : Array(10)
-                    .fill(null)
-                    .map((_n, i) => (
-                      <Carousel.Item key={i}>
-                        <TopListenerCardSkeleton />
-                      </Carousel.Item>
-                    ))}
-            </Carousel.Items>
-          </Section>
-        </Carousel>
+        <TopListeners type="ARTIST" data={artist} />
 
         <Carousel slide={1} rows={3}>
           <Section
@@ -478,19 +428,21 @@ const Artist: NextPage<Props> = ({ artist }) => {
         </Carousel>
 
         {user && <MoreTracks artist={artist} tracks={topTracks} user={user} />}
-        <Section
-          title="Your streams"
-          description={`Your streams featuring ${artist.name}`}
-        >
-          {({ headerRef }) => (
-            <RecentStreams
-              headerRef={headerRef}
-              streams={streams || []}
-              loading={streams == null}
-              onItemClick={() => event('ARTIST_stream_click')}
-            />
-          )}
-        </Section>
+        {user && (
+          <Section
+            title="Your streams"
+            description={`Your streams featuring ${artist.name}`}
+          >
+            {({ headerRef }) => (
+              <RecentStreams
+                headerRef={headerRef}
+                streams={streams ?? []}
+                loading={streams == null}
+                onItemClick={() => event('ARTIST_stream_click')}
+              />
+            )}
+          </Section>
+        )}
       </Container>
     </>
   );

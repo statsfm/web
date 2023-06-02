@@ -5,7 +5,7 @@ import { useState, createContext } from 'react';
 
 type ToasterVariant = 'success' | 'error' | 'info';
 type ToasterType = {
-  id: number;
+  id: string;
   message: string;
   variant?: ToasterVariant;
   timeout?: number;
@@ -20,7 +20,7 @@ const toasterContext = createContext<ToasterContextType | null>(null);
 export default toasterContext;
 
 const Toaster: FC<{
-  removeToast: (id: number) => void;
+  removeToast: (id: string) => void;
   toast: ToasterType;
 }> = ({ removeToast, toast }) => {
   return (
@@ -41,7 +41,7 @@ const Toaster: FC<{
 export const ToasterContainer: FC<PropsWithChildren> = ({ children }) => {
   const [toasts, setToasts] = useState<ToasterType[]>([]);
 
-  const removeToast = (id: number) => {
+  const removeToast = (id: string) => {
     // set hidden on toasts to true and remove them after a timeout
     setToasts((toasts) =>
       toasts.map((t) => {

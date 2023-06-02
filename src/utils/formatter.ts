@@ -13,7 +13,7 @@ function pluralise(text: string, amount: number) {
 }
 
 function localiseNumber(num: number, localeOverwrite?: string) {
-  return num.toLocaleString(localeOverwrite || locale);
+  return num.toLocaleString(localeOverwrite ?? locale);
 }
 
 function formatNumberCompact(num: number) {

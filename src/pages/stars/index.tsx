@@ -117,7 +117,7 @@ const Stars: NextPage = () => {
                         </a>
                         <a
                           href="#"
-                          className="flex items-center justify-center rounded-xl border border-transparent bg-green-600 bg-opacity-60 px-4 py-3 text-base font-medium text-white shadow-sm hover:bg-opacity-70 sm:px-8"
+                          className="flex items-center justify-center rounded-xl border border-transparent bg-green-600/60 px-4 py-3 text-base font-medium text-white shadow-sm hover:bg-green-600/70 sm:px-8"
                         >
                           Learn more
                         </a>
@@ -1033,7 +1033,7 @@ const Stars: NextPage = () => {
                 <div className="mt-6 space-y-4 sm:flex sm:space-y-0 sm:space-x-5">
                   <a
                     href="#"
-                    className="flex items-center justify-center rounded-xl border border-transparent bg-green-600 px-4 py-3 text-base font-medium text-white shadow-sm hover:bg-opacity-70 sm:px-8"
+                    className="flex items-center justify-center rounded-xl border border-transparent bg-green-600 px-4 py-3 text-base font-medium text-white shadow-sm hover:bg-green-600/70 sm:px-8"
                   >
                     Contact us
                   </a>
