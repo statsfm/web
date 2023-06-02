@@ -82,7 +82,8 @@ export const getStaticProps: GetStaticProps<Props> = async () => {
   );
   const plans = formatPlans(
     (data as any).items.data.filter(
-      (x: { product: string }) => x.product === 'prod_Mveep2aVG09MSl'
+      (x: { product: string; active: boolean }) =>
+        x.product === 'prod_Mveep2aVG09MSl' && x.active === true
     )
   );
 
