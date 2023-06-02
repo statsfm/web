@@ -12,7 +12,7 @@ type Props = {
 
 export const getServerSideProps: GetServerSideProps<Props> = async (ctx) => {
   const reason = ctx.query.reason?.toString();
-  const bannedAt = ctx.query.bannedAt?.toString() || null;
+  const bannedAt = ctx.query.bannedAt?.toString() ?? null;
 
   if (!reason) {
     return {
@@ -58,7 +58,7 @@ const Ban: NextPage<Props> = ({ reason, bannedAt }) => {
         <h3>Banned at</h3>
         <span className="text-base">{bannedAtFormatted}</span>
         <h3 className="mt-3">Reason</h3>
-        <span className="text-base">{reason || 'No Reason Available'}</span>
+        <span className="text-base">{reason ?? 'No Reason Available'}</span>
         <br />
         <br />
         <ChevronLink href="https://support.stats.fm/docs/banned">

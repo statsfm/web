@@ -120,7 +120,7 @@ const PhoneScreen: FC<{ src: string; id: number; alt?: string }> = ({
     <img
       id={`screen${id}`}
       src={src}
-      alt={alt || 'phone screen'}
+      alt={alt ?? 'phone screen'}
       style={{ zIndex: id }}
       className="absolute inset-x-4 top-3 z-[34] h-[calc(100%-22px)] w-[calc(100%-22px)]"
     />

@@ -1,5 +1,6 @@
 import type { OlHTMLAttributes, PropsWithChildren } from 'react';
 import { createContext } from 'react';
+import clsx from 'clsx';
 import { useCarouselContext } from './context';
 
 export const RegisterContext = createContext<{ register: boolean }>({
@@ -8,11 +9,14 @@ export const RegisterContext = createContext<{ register: boolean }>({
 
 export interface ItemsProps extends OlHTMLAttributes<HTMLUListElement> {}
 
-export const Items = ({ children }: PropsWithChildren<ItemsProps>) => {
+export const Items = ({
+  children,
+  className,
+}: PropsWithChildren<ItemsProps>) => {
   const [state] = useCarouselContext();
 
   return (
-    <div className="overflow-hidden">
+    <div className={clsx('overflow-hidden', className)}>
       <ul
         className="flex w-full flex-col"
         style={{ gap: `${state.gap}px` }}

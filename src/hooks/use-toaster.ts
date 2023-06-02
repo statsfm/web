@@ -4,7 +4,7 @@ import { useContext } from 'react';
 export const useToaster = () => {
   const { createToast } = useContext(toasterContext)!;
   const randomId = () => {
-    return Math.floor(Math.random() * 2000);
+    return Date.now() + Math.random().toString(36).substring(2, 9);
   };
 
   return {

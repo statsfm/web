@@ -103,7 +103,7 @@ const StateContextProvider: FC<PropsWithChildren<{ user: UserPrivate }>> = ({
       await api.me.updateProfile({
         bio,
         pronouns,
-        theme: user.profile?.theme || 'green',
+        theme: user.profile?.theme ?? 'green',
       });
       await api.me.updateMe({
         ...user,
@@ -118,7 +118,7 @@ const StateContextProvider: FC<PropsWithChildren<{ user: UserPrivate }>> = ({
         displayName,
         customId,
         image: url ?? user.image,
-        profile: { bio, pronouns, theme: user.profile?.theme || 'green' },
+        profile: { bio, pronouns, theme: user.profile?.theme ?? 'green' },
       });
     } catch (e) {
       setStatus('ERROR');
@@ -182,8 +182,8 @@ const AvatarInput: FC<{ defaultSrc: string | undefined }> = ({
         onMouseLeave={() => setHovering(false)}
       >
         <Avatar
-          src={previewUrl || defaultSrc}
-          name={displayName || ''}
+          src={previewUrl ?? defaultSrc}
+          name={displayName ?? ''}
           size="3xl"
         />
 

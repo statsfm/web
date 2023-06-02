@@ -2,11 +2,11 @@ name: Continuous Integration
 
 on:
   push:
-    branches:
-      - next # Needs to be changed later!
+    branches-ignore:
+      - main
   pull_request:
-    branches:
-      - next # Needs to be changed later!
+    branches-ignore:
+      - main
     types: [opened, synchronize, reopened]
 
 jobs:

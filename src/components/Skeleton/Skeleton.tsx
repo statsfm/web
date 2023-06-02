@@ -6,7 +6,7 @@ import { sizes } from '../Avatar';
 type Animation = 'pulse';
 
 interface DefaultProps extends HTMLAttributes<HTMLElement> {
-  animation?: Animation;
+  animation?: Animation | null;
 }
 
 const animations: Record<Animation, string> = {
