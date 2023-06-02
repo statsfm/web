@@ -1,7 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 
 const handler = (req: NextApiRequest, res: NextApiResponse) => {
-  let protocol = req.headers['x-forwarded-proto'] || 'https';
+  let protocol = req.headers['x-forwarded-proto'] ?? 'https';
   if (process.env.NODE_ENV === 'development') protocol = 'http';
 
   const { host } = req.headers;

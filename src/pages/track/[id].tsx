@@ -172,7 +172,7 @@ const keyToNote = (key: number): string => {
     'A#',
     'B',
   ];
-  return notes[key] || '-';
+  return notes[key] ?? '-';
 };
 
 const FeatureCard: FC<{ feature: string; value: string }> = ({
@@ -363,7 +363,7 @@ const Track: NextPage<Props> = ({ track }) => {
               />
               <FeatureCard
                 feature="Key"
-                value={keyToNote(audioFeatures?.key || -1)}
+                value={keyToNote(audioFeatures?.key ?? -1)}
               />
 
               <FeatureCard
