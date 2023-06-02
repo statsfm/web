@@ -231,27 +231,18 @@ const Album: NextPage<Props> = ({ album, tracks }) => {
 
         <TopListeners type="ALBUM" data={album} />
 
-        <Section title="Your streams">
-          {({ headerRef }) => (
-            <RecentStreams
-              headerRef={headerRef}
-              streams={streams ?? []}
-              loading={streams === null}
-              onItemClick={() => event('ALBUM_stream_track_click')}
-            />
-          )}
-          {/* {streams ? ( */}
-          {/* ) : (
-            <div className="grid w-full place-items-center">
-              <MdMusicOff />
-
-              <p className="m-0 text-text-grey">
-                Looks like you haven&apos;t listened to any track of{' '}
-                {album.name} yet
-              </p>
-            </div>
-          )} */}
-        </Section>
+        {user && (
+          <Section title="Your streams">
+            {({ headerRef }) => (
+              <RecentStreams
+                headerRef={headerRef}
+                streams={streams ?? []}
+                loading={streams === null}
+                onItemClick={() => event('ALBUM_stream_track_click')}
+              />
+            )}
+          </Section>
+        )}
       </Container>
     </>
   );

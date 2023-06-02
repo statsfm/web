@@ -398,19 +398,21 @@ const Track: NextPage<Props> = ({ track }) => {
           </div>
         </Section>
 
-        <Section
-          title="Recent streams"
-          description="Your recently played tracks"
-        >
-          {({ headerRef }) => (
-            <RecentStreams
-              headerRef={headerRef}
-              streams={recentStreams || []}
-              loading={recentStreams === null}
-              track={track}
-            />
-          )}
-        </Section>
+        {user && (
+          <Section
+            title="Recent streams"
+            description="Your recently played tracks"
+          >
+            {({ headerRef }) => (
+              <RecentStreams
+                headerRef={headerRef}
+                streams={recentStreams ?? []}
+                loading={recentStreams === null}
+                track={track}
+              />
+            )}
+          </Section>
+        )}
       </Container>
     </>
   );

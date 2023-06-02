@@ -436,7 +436,7 @@ const Artist: NextPage<Props> = ({ artist }) => {
             {({ headerRef }) => (
               <RecentStreams
                 headerRef={headerRef}
-                streams={streams || []}
+                streams={streams ?? []}
                 loading={streams == null}
                 onItemClick={() => event('ARTIST_stream_click')}
               />
