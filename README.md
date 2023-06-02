@@ -26,7 +26,7 @@ To run a production build you have to run ```yarn build``` and then ```yarn star
 ## Contributing
 
 To contribute to this project you can fork the repository and make a pull request.
-Please reach out to us on our Discord if you have any questions. [This is the link](https://stats.fm/discord) (check out the #development channel).
+Please reach out to us on [our Discord](https://stats.fm/discord) if you have any questions, check out the [#development](https://discord.com/channels/763775648819970068/767581729883422770) channel.
 <br /><br /> 
 
 ## Learn More
