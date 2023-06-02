@@ -5,17 +5,12 @@ import type * as statsfm from '@statsfm/statsfm.js';
 import Link from 'next/link';
 import { Image } from '@/components/Image';
 import { Section } from '@/components/Section/Section';
-import { Carousel } from '@/components/Carousel';
-import TopListenerCard from '@/components/TopListenerCard/TopListenerCard';
-import { TopListenerCardSkeleton } from '@/components/TopListenerCard';
 import { RecentStreams } from '@/components/RecentStreams';
 
 import { useApi, useAuth } from '@/hooks';
-import { SectionToolbarCarouselNavigationButton } from '@/components/Section/ToolbarCarouselNavigationButton';
 import { Container } from '@/components/Container';
 import { ArtistList } from '@/components/ArtistList';
 import { Title } from '@/components/Title';
-import { supportUrls } from '@/utils/supportUrls';
 import Head from 'next/head';
 import { StatsCard } from '@/components/StatsCard';
 import { useScrollPercentage } from '@/hooks/use-scroll-percentage';
@@ -23,12 +18,10 @@ import { event } from 'nextjs-google-analytics';
 import type { SSRProps } from '@/utils/ssrUtils';
 import { fetchUser, getApiInstance } from '@/utils/ssrUtils';
 import formatter from '@/utils/formatter';
-import {
-  SectionToolbarGridmode,
-  SectionToolbarInfoMenu,
-} from '@/components/Section';
+
 import { AppleMusicLink, SpotifyLink } from '@/components/SocialLink';
 import dayjs from 'dayjs';
+import { TopListeners } from '@/components/TopListeners';
 
 type Props = SSRProps & {
   album: statsfm.Album;
@@ -66,7 +59,6 @@ export const getServerSideProps: GetServerSideProps<Props> = async (ctx) => {
 
 const Album: NextPage<Props> = ({ album, tracks }) => {
   const api = useApi();
-  const [topListeners, setTopListeners] = useState<statsfm.TopUser[]>([]);
   const [streams, setStreams] = useState<statsfm.Stream[] | null>(null);
   const [stats, setStats] = useState<statsfm.StreamStats | null>(null);
   const [firstStream, setFirstStream] = useState<statsfm.Stream | null>(null);
@@ -75,31 +67,24 @@ const Album: NextPage<Props> = ({ album, tracks }) => {
   useScrollPercentage(30, () => event('ALBUM_scroll_30'));
 
   useEffect(() => {
-    (async () => {
-      setTopListeners(
-        await api.http
-          .get<statsfm.TopUser[]>(`/albums/${album.id}/top/listeners`)
-          .then((res) => res.data.items)
-      );
-    })();
-  }, [album]);
-
-  useEffect(() => {
     if (user) {
       api.users
         .albumStreams(user.customId, album.id)
-        .then((res) => setStreams(res));
+        .then((res) => setStreams(res))
+        .catch(() => setStreams([]));
 
       api.users
         .albumStats(user.customId, album.id)
-        .then((res) => setStats(res));
+        .then((res) => setStats(res))
+        .catch(() => setStats(null));
 
       api.users
         .albumStreams(user.customId, album.id, {
           limit: 1,
           order: 'asc',
         })
-        .then((res) => setFirstStream(res[0] ?? null));
+        .then((res) => setFirstStream(res[0] ?? null))
+        .catch(() => setFirstStream(null));
     }
   }, [album, user]);
 
@@ -244,49 +229,7 @@ const Album: NextPage<Props> = ({ album, tracks }) => {
           </ul>
         </Section>
 
-        <Carousel>
-          <Section
-            title="Top listeners"
-            description={`People who listen a lot to ${album.name}`}
-            toolbar={
-              <div className="flex gap-1">
-                <SectionToolbarGridmode />
-                <SectionToolbarCarouselNavigationButton
-                  callback={() => event('ALBUM_listener_previous')}
-                />
-                <SectionToolbarCarouselNavigationButton
-                  next
-                  callback={() => event('ALBUM_listener_next')}
-                />
-                <SectionToolbarInfoMenu
-                  description="Learn more about what top listeners are and how they're calculated"
-                  link={supportUrls.artist.top_listeners}
-                />
-              </div>
-            }
-          >
-            <Carousel.Items>
-              {topListeners.length > 0
-                ? topListeners.map((item, i) => (
-                    <Carousel.Item
-                      key={i}
-                      onClick={() => event('ALBUM_listener_click')}
-                    >
-                      <div className="h-[270px]">
-                        <TopListenerCard {...item} />
-                      </div>
-                    </Carousel.Item>
-                  ))
-                : Array(10)
-                    .fill(null)
-                    .map((_n, i) => (
-                      <Carousel.Item key={i}>
-                        <TopListenerCardSkeleton />
-                      </Carousel.Item>
-                    ))}
-            </Carousel.Items>
-          </Section>
-        </Carousel>
+        <TopListeners type="ALBUM" data={album} />
 
         <Section title="Your streams">
           {({ headerRef }) => (
