@@ -3,7 +3,7 @@ import type * as statsfm from '@statsfm/statsfm.js';
 // components
 import Link from 'next/link';
 import formatter from '@/utils/formatter';
-import { Avatar } from '../Avatar';
+import { Avatar } from '@/components/Avatar';
 
 interface Props extends statsfm.TopArtist {}
 

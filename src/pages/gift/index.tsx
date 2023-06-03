@@ -5,7 +5,7 @@ import { useCallback, useMemo, useEffect, useState } from 'react';
 import { useApi, useAuth, useToaster } from '@/hooks';
 import { Button } from '@/components/Button';
 import type { GiftCode, Plan } from '@/types/gift';
-import { Coupon } from '@/components/gift/Coupon';
+import { Coupon } from '@/components/Gift/Coupon';
 import { Title } from '@/components/Title';
 import Link from 'next/link';
 

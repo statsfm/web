@@ -1,4 +1,4 @@
-import { Skeleton } from '../Skeleton';
+import { Skeleton } from '@/components/Skeleton';
 
 export const StatsCardSkeleton = () => (
   <div className="flex flex-col gap-2">

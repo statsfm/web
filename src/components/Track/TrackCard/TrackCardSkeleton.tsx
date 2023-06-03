@@ -1,6 +1,6 @@
-import { Skeleton } from '../Skeleton';
+import { Skeleton } from '@/components/Skeleton';
 
-export const AlbumCardSkeleton = () => (
+export const TrackCardSkeleton = () => (
   <>
     <Skeleton.Image width="10rem" height="10rem" />
     <div className="mt-2 flex flex-col gap-2">

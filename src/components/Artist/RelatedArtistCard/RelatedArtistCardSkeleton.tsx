@@ -1,4 +1,4 @@
-import { Skeleton } from '../Skeleton';
+import { Skeleton } from '@/components/Skeleton';
 
 export const RelatedArtistCardSkeleton = () => (
   <div className="flex w-60 items-center gap-2">

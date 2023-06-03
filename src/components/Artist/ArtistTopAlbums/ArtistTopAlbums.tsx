@@ -8,14 +8,14 @@ import {
 import { useApi, useAuth } from '@/hooks';
 import clsx from 'clsx';
 import { event } from 'nextjs-google-analytics';
-import { Carousel } from '../Carousel';
+import { Carousel } from '@/components/Carousel';
+import { AlbumCard, AlbumCardSkeleton } from '@/components/Album/AlbumCard';
 import {
   Section,
   SectionToolbarCarouselNavigation,
   SectionToolbarGridMode,
   SectionToolbarUserMode,
-} from '../Section';
-import { AlbumCard, AlbumCardSkeleton } from '../AlbumCard';
+} from '@/components/Section';
 
 type Props = {
   artist: Artist;

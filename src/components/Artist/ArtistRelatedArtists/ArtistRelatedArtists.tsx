@@ -2,12 +2,15 @@ import { useState, type FC, useEffect } from 'react';
 import { type Artist } from '@statsfm/statsfm.js';
 import { useApi } from '@/hooks';
 import { event } from 'nextjs-google-analytics';
-import { Carousel } from '../Carousel';
-import { Section, SectionToolbarCarouselNavigation } from '../Section';
+import {
+  Section,
+  SectionToolbarCarouselNavigation,
+} from '@/components/Section';
 import {
   RelatedArtistCard,
   RelatedArtistCardSkeleton,
-} from '../RelatedArtistCard';
+} from '@/components/Artist/RelatedArtistCard';
+import { Carousel } from '@/components/Carousel';
 
 type Props = {
   artist: Artist;

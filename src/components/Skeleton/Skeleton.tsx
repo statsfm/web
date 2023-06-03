@@ -1,7 +1,6 @@
 import clsx from 'clsx';
 import type { HTMLAttributes } from 'react';
-import type { AvatarSize } from '../Avatar';
-import { sizes } from '../Avatar';
+import { type AvatarSize, sizes } from '@/components/Avatar';
 
 type Animation = 'pulse';
 

@@ -2,7 +2,7 @@ import type * as statsfm from '@statsfm/statsfm.js';
 import clsx from 'clsx';
 import Link from 'next/link';
 import formatter from '@/utils/formatter';
-import { Avatar } from '../Avatar';
+import { Avatar } from '@/components/Avatar';
 
 interface Props extends statsfm.TopUser {}
 
@@ -12,7 +12,12 @@ const positions: Record<number, string> = {
   3: 'bg-yellow-700/30 text-yellow-700',
 };
 
-const TopListenerCard = ({ user, position, playedMs, streams }: Props) => {
+export const TopListenerCard = ({
+  user,
+  position,
+  playedMs,
+  streams,
+}: Props) => {
   return (
     <Link
       href={`/${user.id}`}
@@ -44,5 +49,3 @@ const TopListenerCard = ({ user, position, playedMs, streams }: Props) => {
     </Link>
   );
 };
-
-export default TopListenerCard;

@@ -20,10 +20,10 @@ import { fetchUser, getApiInstance } from '@/utils/ssrUtils';
 import formatter from '@/utils/formatter';
 import { SpotifyLink, AppleMusicLink } from '@/components/SocialLink';
 import dayjs from 'dayjs';
-import { ArtistTopTracks } from '@/components/ArtistTopTracks';
-import { ArtistTopAlbums } from '@/components/ArtistTopAlbums';
+import { ArtistTopTracks } from '@/components/Artist/ArtistTopTracks';
+import { ArtistTopAlbums } from '@/components/Artist/ArtistTopAlbums';
 import { TopListeners } from '@/components/TopListeners';
-import { ArtistRelatedArtists } from '@/components/ArtistRelatedArtists';
+import { ArtistRelatedArtists } from '@/components/Artist/ArtistRelatedArtists';
 
 const Genres: FC<Pick<statsfm.Artist, 'genres'>> = ({ genres }) => (
   <Section title="Genres">

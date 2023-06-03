@@ -4,5 +4,5 @@ import { Item } from './Item';
 
 export * from './CarouselRoot';
 export * from './hooks';
-
+export * from './context';
 export const Carousel = Object.assign(CarouselRoot, { Items, Item });

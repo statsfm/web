@@ -3,7 +3,7 @@ import dayjs from 'dayjs';
 import type { RefObject } from 'react';
 import { useState, useEffect, useMemo } from 'react';
 import { MdMusicOff } from 'react-icons/md';
-import { TrackListRow, TrackListRowSkeleton } from '../TrackListRow';
+import { TrackListRow, TrackListRowSkeleton } from '@/components/Track';
 
 type Props<T extends statsfm.Stream | statsfm.RecentlyPlayedTrack> = {
   headerRef: RefObject<HTMLElement>;

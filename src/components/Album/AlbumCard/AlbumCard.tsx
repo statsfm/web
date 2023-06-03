@@ -3,7 +3,7 @@ import type * as statsfm from '@statsfm/statsfm.js';
 
 import Link from 'next/link';
 import formatter from '@/utils/formatter';
-import { Image } from '../Image';
+import { Image } from '@/components/Image';
 
 interface Props extends Partial<statsfm.TopObject> {
   album: statsfm.Album | statsfm.AlbumSimple;

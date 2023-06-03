@@ -1,5 +1,5 @@
 import type { FC, PropsWithChildren } from 'react';
-import { Container } from '../Container';
+import { Container } from '@/components/Container';
 import { SideNav } from './Nav';
 
 // TODO: when the layouts rfc is implmented move this to a layout in /account

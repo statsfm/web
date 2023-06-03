@@ -1,7 +1,7 @@
 import { useAuth } from '@/hooks';
 import { useRouter } from 'next/router';
 import type { ElementType, FC, PropsWithChildren } from 'react';
-import { Skeleton } from '../Skeleton';
+import { Skeleton } from '@/components/Skeleton';
 
 interface Props {
   label: string;

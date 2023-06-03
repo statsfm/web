@@ -5,16 +5,16 @@ import { useApi, useAuth } from '@/hooks';
 import { supportUrls } from '@/utils/supportUrls';
 import router from 'next/router';
 import clsx from 'clsx';
-import { Carousel } from '../Carousel';
+import { Carousel } from '@/components/Carousel';
 import {
   Section,
   SectionToolbarFriendMode,
   SectionToolbarCarouselNavigation,
   SectionToolbarGridMode,
   SectionToolbarInfoMenu,
-} from '../Section';
-import { TopListenerCardSkeleton } from '../TopListenerCard';
-import TopListenerCard from '../TopListenerCard/TopListenerCard';
+} from '@/components/Section';
+import { TopListenerCardSkeleton } from './TopListenerCardSkeleton';
+import { TopListenerCard } from './TopListenerCard';
 
 type Props = {
   type: 'TRACK' | 'ALBUM' | 'ARTIST';

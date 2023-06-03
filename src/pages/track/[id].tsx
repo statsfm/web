@@ -2,23 +2,23 @@ import type { GetServerSideProps, NextPage } from 'next';
 import type { FC } from 'react';
 import { useEffect, useMemo, useState } from 'react';
 import type * as statsfm from '@statsfm/statsfm.js';
-import { AlbumCard } from '@/components/AlbumCard';
+import { AlbumCard } from '@/components/Album';
 import { Carousel } from '@/components/Carousel';
 import { Image } from '@/components/Image';
-import { Section } from '@/components/Section/Section';
 import { useApi, useAuth } from '@/hooks';
-import { ArtistList } from '@/components/ArtistList';
+import { ArtistList } from '@/components/Artist';
 import { Container } from '@/components/Container';
 import { RecentStreams } from '@/components/RecentStreams';
-
-import { SectionToolbarCarouselNavigation } from '@/components/Section/ToolbarCarouselNavigationButton';
+import {
+  SectionToolbarCarouselNavigation,
+  Section,
+} from '@/components/Section';
 import { StatsCard } from '@/components/StatsCard';
 import { Title } from '@/components/Title';
 import { useScrollPercentage } from '@/hooks/use-scroll-percentage';
 import dayjs from '@/utils/dayjs';
 import formatter from '@/utils/formatter';
-import type { SSRProps } from '@/utils/ssrUtils';
-import { fetchUser, getApiInstance } from '@/utils/ssrUtils';
+import { fetchUser, getApiInstance, type SSRProps } from '@/utils/ssrUtils';
 import {
   Chart as ChartJS,
   Filler,

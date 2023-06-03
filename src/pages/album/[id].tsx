@@ -9,7 +9,7 @@ import { RecentStreams } from '@/components/RecentStreams';
 
 import { useApi, useAuth } from '@/hooks';
 import { Container } from '@/components/Container';
-import { ArtistList } from '@/components/ArtistList';
+import { ArtistList } from '@/components/Artist/ArtistList';
 import { Title } from '@/components/Title';
 import Head from 'next/head';
 import { StatsCard } from '@/components/StatsCard';

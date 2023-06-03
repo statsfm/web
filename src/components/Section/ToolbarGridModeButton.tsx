@@ -1,8 +1,7 @@
 import clsx from 'clsx';
 import type { FC } from 'react';
 import { MdGridOff, MdGridOn } from 'react-icons/md';
-import { ActionType } from '../Carousel';
-import { useCarouselContext } from '../Carousel/context';
+import { ActionType, useCarouselContext } from '@/components/Carousel';
 
 type Props = {
   callback?: (gridMode: boolean) => boolean;

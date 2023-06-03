@@ -1,4 +1,4 @@
-import '../styles/globals.css';
+import '@/styles/globals.css';
 
 import { AuthProvider } from '@/context/auth';
 import { Footer } from '@/components/Footer';

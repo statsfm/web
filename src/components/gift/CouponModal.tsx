@@ -5,10 +5,10 @@ import dayjs from 'dayjs';
 import Link from 'next/link';
 import type { FC } from 'react';
 import { useCallback, useState } from 'react';
-import { Button } from '../Button';
-import { Divider } from '../Divider';
-import { Overlay } from '../Overlay';
-import { Textarea } from '../Textarea';
+import { Button } from '@/components/Button';
+import { Divider } from '@/components/Divider';
+import { Overlay } from '@/components/Overlay';
+import { Textarea } from '@/components/Textarea';
 
 export const CouponModal: FC<{
   giftCode: GiftCode;

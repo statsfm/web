@@ -12,9 +12,8 @@ import { MdVisibilityOff } from 'react-icons/md';
 import { Popover, Transition } from '@headlessui/react';
 import Link from 'next/link';
 import { offset, useFloating } from '@floating-ui/react-dom';
-import { ActionType } from '../Carousel';
-import { CarouselContext } from '../Carousel/context';
-import { usePrivacyScope, useScopeContext } from '../PrivacyScope';
+import { ActionType, CarouselContext } from '@/components/Carousel';
+import { usePrivacyScope, useScopeContext } from '@/components/PrivacyScope';
 
 const ToolbarPrivacySettingsInfoPopover = ({
   scope,

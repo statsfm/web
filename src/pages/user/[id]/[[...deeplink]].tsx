@@ -8,14 +8,14 @@ import Linkify from 'linkify-react';
 // components
 import { Section } from '@/components/Section/Section';
 import { Segment, SegmentedControls } from '@/components/SegmentedControls';
-import { TrackCard, TrackCardSkeleton } from '@/components/TrackCard';
+import { TrackCard, TrackCardSkeleton } from '@/components/Track';
 import { Carousel } from '@/components/Carousel';
 import { Avatar } from '@/components/Avatar';
 import { useApi } from '@/hooks/use-api';
 import { Chip, ChipGroup } from '@/components/Chip';
 import { useAuth } from '@/hooks';
-import { AlbumCard, AlbumCardSkeleton } from '@/components/AlbumCard';
-import { ArtistCard, ArtistCardSkeleton } from '@/components/ArtistCard';
+import { AlbumCard, AlbumCardSkeleton } from '@/components/Album';
+import { ArtistCard, ArtistCardSkeleton } from '@/components/Artist/ArtistCard';
 import { RecentStreams } from '@/components/RecentStreams';
 import {
   SectionToolbarCarouselNavigation,

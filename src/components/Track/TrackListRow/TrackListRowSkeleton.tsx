@@ -1,5 +1,5 @@
-import { Divider } from '../Divider';
-import { Skeleton } from '../Skeleton';
+import { Divider } from '@/components/Divider';
+import { Skeleton } from '@/components/Skeleton';
 
 export const TrackListRowSkeleton = () => (
   <>

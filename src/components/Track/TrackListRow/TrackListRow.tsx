@@ -2,7 +2,7 @@ import Link from 'next/link';
 import type * as statsfm from '@statsfm/statsfm.js';
 import { Image } from '@/components/Image';
 import dayjs from '@/utils/dayjs';
-import { Divider } from '../Divider';
+import { Divider } from '@/components/Divider';
 
 interface Props {
   track?: statsfm.Track;

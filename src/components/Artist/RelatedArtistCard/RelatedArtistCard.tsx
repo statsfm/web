@@ -2,7 +2,7 @@ import type * as statsfm from '@statsfm/statsfm.js';
 
 // components
 import Link from 'next/link';
-import { Avatar } from '../Avatar';
+import { Avatar } from '@/components/Avatar';
 
 interface Props extends statsfm.Artist {}
 
