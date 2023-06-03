@@ -24,25 +24,25 @@ const Coupons: FC<{ giftCodes: GiftCode[] }> = ({ giftCodes }) => {
       <div className="my-2">
         <h3 className="mb-3 text-lg">Unclaimed Coupons</h3>
 
-        {unClaimedCodes ? (
+        {unClaimedCodes.length > 0 ? (
           <ul className="flex flex-nowrap gap-3 overflow-x-auto pb-5 md:flex-wrap">
             {unClaimedCodes.map((gc) => (
               <Coupon key={gc.id} giftcode={gc} />
             ))}
           </ul>
         ) : (
-          <p>You have no unclaimed coupons</p>
+          <p>You have no unclaimed coupons or they might still be loading</p>
         )}
 
         <h3 className="mb-3 text-lg">Claimed Coupons</h3>
-        {claimedCodes ? (
+        {claimedCodes.length > 0 ? (
           <ul className="flex flex-nowrap gap-3 overflow-x-auto pb-5 md:flex-wrap">
             {claimedCodes.map((gc) => (
               <Coupon key={gc.id} giftcode={gc} />
             ))}
           </ul>
         ) : (
-          <p>You have no claimed coupons</p>
+          <p>You have no claimed coupons or they might still be loading</p>
         )}
       </div>
     </section>
@@ -103,10 +103,12 @@ const GiftPage: NextPage<Props> = ({ plans }) => {
   useEffect(() => {
     if (!user) return;
     (async () => {
-      const { data, success } = await api.http.get(`/me/plus/giftcodes`);
+      const { data, success } = await api.http.get<GiftCode[]>(
+        `/me/plus/giftcodes`
+      );
 
       if (!success) return;
-      setGiftCodes((data as any).items as GiftCode[]);
+      setGiftCodes(data.items);
     })();
   }, [user]);
 
