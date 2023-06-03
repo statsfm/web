@@ -21,7 +21,7 @@ export const getServerSideProps: GetServerSideProps<Props> = async ({
   const api = getApiInstance(code);
   const me = await api.me.get();
 
-  const redirectUrl = atob(state as string);
+  const redirectUrl = Buffer.from(state as string, 'base64').toString('utf-8');
 
   return {
     redirect: {

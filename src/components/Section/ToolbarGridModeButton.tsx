@@ -8,7 +8,7 @@ type Props = {
   callback?: (gridMode: boolean) => boolean;
 };
 
-export const SectionToolbarGridmode: FC<Props> = (props) => {
+export const SectionToolbarGridMode: FC<Props> = (props) => {
   const [state, dispatch] = useCarouselContext();
 
   const clickHandler = () => {

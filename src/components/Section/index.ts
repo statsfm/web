@@ -1,5 +1,6 @@
 export { Section } from './Section';
-export { SectionToolbarCarouselNavigationButton } from './ToolbarCarouselNavigationButton';
+export { SectionToolbarCarouselNavigation } from './ToolbarCarouselNavigationButton';
 export { SectionToolbarInfoMenu } from './ToolbarInfoMenu';
-export { SectionToolbarGridmode } from './ToolbarGridModeButton';
-export { SectionFriendModeButton } from './SectionFriendModeButton';
+export { SectionToolbarGridMode } from './ToolbarGridModeButton';
+export { SectionToolbarFriendMode } from './ToolbarFriendModeButton';
+export { SectionToolbarUserMode } from './ToolbarUserModeButton';

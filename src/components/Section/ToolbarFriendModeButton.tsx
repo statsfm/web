@@ -2,10 +2,10 @@ import { useState, type FC } from 'react';
 import { MdGroup, MdGroupOff } from 'react-icons/md';
 
 type Props = {
-  callback: (friendMode: boolean) => any;
+  callback: (state: boolean) => any;
 };
 
-export const SectionFriendModeButton: FC<Props> = (props) => {
+export const SectionToolbarFriendMode: FC<Props> = (props) => {
   const [friendMode, setFriendMode] = useState(false);
   const clickHandler = () => {
     props.callback(!friendMode);

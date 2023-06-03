@@ -8,9 +8,9 @@ import clsx from 'clsx';
 import { Carousel } from '../Carousel';
 import {
   Section,
-  SectionFriendModeButton,
-  SectionToolbarCarouselNavigationButton,
-  SectionToolbarGridmode,
+  SectionToolbarFriendMode,
+  SectionToolbarCarouselNavigation,
+  SectionToolbarGridMode,
   SectionToolbarInfoMenu,
 } from '../Section';
 import { TopListenerCardSkeleton } from '../TopListenerCard';
@@ -25,6 +25,7 @@ export const TopListeners: FC<Props> = (props) => {
   const [topListeners, setTopListeners] = useState<statsfm.TopUser[]>([]);
   const [topListenersFriends, setTopListenersFriends] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [gridMode, setGridMode] = useState(false);
   const api = useApi();
   const { user, login } = useAuth();
 
@@ -61,21 +62,33 @@ export const TopListeners: FC<Props> = (props) => {
             )}
           >
             {user && (
-              <SectionFriendModeButton
+              <SectionToolbarFriendMode
                 callback={(data) => {
                   setLoading(true);
                   setTopListenersFriends(data);
                 }}
               />
             )}
-            <SectionToolbarGridmode />
-            <SectionToolbarCarouselNavigationButton
-              callback={() => event(`${props.type}_listener_previous`)}
+            <SectionToolbarGridMode
+              callback={(gridmode) => {
+                event(`${props.type}_top_listener_grid`, {
+                  gridmodeOn: !gridmode,
+                });
+                setGridMode(!gridmode);
+                return !gridmode;
+              }}
             />
-            <SectionToolbarCarouselNavigationButton
-              next
-              callback={() => event(`${props.type}_listener_next`)}
-            />
+            <div
+              className={clsx(gridMode ? 'pointer-events-none opacity-30' : '')}
+            >
+              <SectionToolbarCarouselNavigation
+                callback={() => event(`${props.type}_top_listener_previous`)}
+              />
+              <SectionToolbarCarouselNavigation
+                next
+                callback={() => event(`${props.type}_top_listener_next`)}
+              />
+            </div>
             <SectionToolbarInfoMenu
               description="Learn more about what top listeners are and how they're calculated"
               link={supportUrls.top_listeners}
@@ -88,10 +101,10 @@ export const TopListeners: FC<Props> = (props) => {
             className={`${!user && topListeners.length === 0 ? 'blur-sm' : ''}`}
           >
             {!loading && topListeners.length > 0
-              ? topListeners.map((item, i) => (
+              ? topListeners.map((item) => (
                   <Carousel.Item
-                    key={i}
-                    onClick={() => event(`${props.type}_listener_click`)}
+                    key={(Math.random() + 1).toString(36).substring(7)}
+                    onClick={() => event(`${props.type}_top_listener_click`)}
                   >
                     <div className="h-[270px]">
                       <TopListenerCard {...item} />
@@ -100,8 +113,10 @@ export const TopListeners: FC<Props> = (props) => {
                 ))
               : Array(10)
                   .fill(null)
-                  .map((_n, i) => (
-                    <Carousel.Item key={i}>
+                  .map(() => (
+                    <Carousel.Item
+                      key={(Math.random() + 1).toString(36).substring(7)}
+                    >
                       <TopListenerCardSkeleton />
                     </Carousel.Item>
                   ))}

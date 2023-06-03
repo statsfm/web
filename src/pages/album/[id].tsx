@@ -135,8 +135,14 @@ const Album: NextPage<Props> = ({ album, tracks }) => {
                 {album.name}
               </h1>
               <div className="mt-2 flex flex-row items-center gap-2">
-                <SpotifyLink path={`/album/${album.externalIds.spotify![0]}`} />
-                <AppleMusicLink />
+                {(album.externalIds.spotify ?? []).length > 0 && (
+                  <SpotifyLink
+                    path={`/album/${album.externalIds.spotify![0]}`}
+                  />
+                )}
+                {(album.externalIds.appleMusic ?? []).length > 0 && (
+                  <AppleMusicLink />
+                )}
               </div>
             </div>
           </section>

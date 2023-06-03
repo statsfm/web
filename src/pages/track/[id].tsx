@@ -11,7 +11,7 @@ import { ArtistList } from '@/components/ArtistList';
 import { Container } from '@/components/Container';
 import { RecentStreams } from '@/components/RecentStreams';
 
-import { SectionToolbarCarouselNavigationButton } from '@/components/Section/ToolbarCarouselNavigationButton';
+import { SectionToolbarCarouselNavigation } from '@/components/Section/ToolbarCarouselNavigationButton';
 import { StatsCard } from '@/components/StatsCard';
 import { Title } from '@/components/Title';
 import { useScrollPercentage } from '@/hooks/use-scroll-percentage';
@@ -272,8 +272,14 @@ const Track: NextPage<Props> = ({ track }) => {
                 {track.name}
               </h1>
               <div className="mt-2 flex flex-row items-center gap-2">
-                <SpotifyLink path={`/track/${track.externalIds.spotify![0]}`} />
-                <AppleMusicLink />
+                {(track.externalIds.spotify ?? []).length > 0 && (
+                  <SpotifyLink
+                    path={`/track/${track.externalIds.spotify![0]}`}
+                  />
+                )}
+                {(track.externalIds.appleMusic ?? []).length > 0 && (
+                  <AppleMusicLink />
+                )}
               </div>
             </div>
           </section>
@@ -311,10 +317,10 @@ const Track: NextPage<Props> = ({ track }) => {
             description={`Albums featuring ${track.name}`}
             toolbar={
               <div className="flex gap-1">
-                <SectionToolbarCarouselNavigationButton
+                <SectionToolbarCarouselNavigation
                   callback={() => event('TRACK_album_previous')}
                 />
-                <SectionToolbarCarouselNavigationButton
+                <SectionToolbarCarouselNavigation
                   next
                   callback={() => event('TRACK_album_next')}
                 />

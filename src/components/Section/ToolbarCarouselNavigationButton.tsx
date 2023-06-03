@@ -8,7 +8,7 @@ interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
   callback?: () => void;
 }
 
-export const SectionToolbarCarouselNavigationButton = ({
+export const SectionToolbarCarouselNavigation = ({
   next,
   callback,
   ...props

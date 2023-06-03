@@ -1,26 +1,16 @@
 import type * as statsfm from '@statsfm/statsfm.js';
-import type { SortOptions } from '@/hooks';
-import { useAuth, useLessOrAll, useApi, useSort } from '@/hooks';
+import { useAuth, useApi } from '@/hooks';
 import type { GetServerSideProps, NextPage } from 'next';
+import type { FC } from 'react';
 import { Avatar } from '@/components/Avatar';
 import { Chip, ChipGroup } from '@/components/Chip';
 import { Section } from '@/components/Section/Section';
-import { Carousel } from '@/components/Carousel';
 import { useEffect, useMemo, useState } from 'react';
-import { TrackCard, TrackCardSkeleton } from '@/components/TrackCard';
-import {
-  RelatedArtistCard,
-  RelatedArtistCardSkeleton,
-} from '@/components/RelatedArtistCard';
-import { TrackListRow, TrackListRowSkeleton } from '@/components/TrackListRow';
+
 import { RecentStreams } from '@/components/RecentStreams';
-import { Menu } from '@/components/Menu';
-import { MdSort } from 'react-icons/md';
-import { SectionToolbarCarouselNavigationButton } from '@/components/Section/ToolbarCarouselNavigationButton';
 import { Container } from '@/components/Container';
 import Link from 'next/link';
 import { Title } from '@/components/Title';
-import { SectionToolbarGridmode } from '@/components/Section';
 import Head from 'next/head';
 import { StatsCard } from '@/components/StatsCard';
 import { useScrollPercentage } from '@/hooks/use-scroll-percentage';
@@ -30,108 +20,24 @@ import { fetchUser, getApiInstance } from '@/utils/ssrUtils';
 import formatter from '@/utils/formatter';
 import { SpotifyLink, AppleMusicLink } from '@/components/SocialLink';
 import dayjs from 'dayjs';
+import { ArtistTopTracks } from '@/components/ArtistTopTracks';
+import { ArtistTopAlbums } from '@/components/ArtistTopAlbums';
 import { TopListeners } from '@/components/TopListeners';
+import { ArtistRelatedArtists } from '@/components/ArtistRelatedArtists';
 
-const MoreTracks = ({
-  artist,
-  tracks,
-  user,
-}: {
-  artist: statsfm.Artist;
-  tracks: statsfm.Track[];
-  user: statsfm.UserPrivate;
-}) => {
-  const api = useApi();
-  const [currentUserTop, setCurrentUserTop] = useState<statsfm.TopTrack[]>([]);
-
-  const limit = 8;
-
-  useEffect(() => {
-    api.users
-      .topTracksFromArtist(user.id, artist.id)
-      .then((res) => setCurrentUserTop(res))
-      .catch(() => setCurrentUserTop([]));
-  }, []);
-
-  // find the stream count of the signed in user
-  const streams = (id: number) =>
-    currentUserTop.find((stream) => stream.track.id === id)?.streams ?? 0;
-
-  const sortOptions: SortOptions<statsfm.Track>[] = [
-    {
-      label: 'Popularity',
-      value: 'popularity',
-      compare: (a, b) => b.spotifyPopularity - a.spotifyPopularity,
-    },
-    {
-      label: 'Your streams',
-      value: 'streams',
-      compare: (a, b) => streams(b.id) - streams(a.id),
-    },
-    {
-      label: 'Duration',
-      value: 'duration',
-      compare: (a, b) => b.durationMs - a.durationMs,
-    },
-  ];
-
-  const { sorted, setSortKey } = useSort(tracks, sortOptions);
-  const { data, toggle, showAll } = useLessOrAll(sorted, limit);
-
-  const handleSortChange = (value: string) => {
-    setSortKey(value);
-  };
-
-  return (
-    <Section
-      title="More tracks"
-      description={`More tracks by ${artist.name}`}
-      toolbar={
-        <Menu>
-          <Menu.Button className="rounded-full bg-foreground p-2 transition-all focus-within:ring-2 focus:outline-none focus:ring focus:ring-neutral-500">
-            <MdSort className="text-white" />
-          </Menu.Button>
-
-          <Menu.Items>
-            {sortOptions.map((option, i) => (
-              <Menu.Item onClick={handleSortChange} key={i}>
-                {option.label}
-              </Menu.Item>
-            ))}
-          </Menu.Items>
-        </Menu>
-      }
-    >
-      <ul>
-        {tracks.length > 0
-          ? data.map((item, i) => (
-              <li key={i} onClick={() => event('ARTIST_more_track_click')}>
-                <TrackListRow streams={streams(item.id)} track={item} />
-              </li>
-            ))
-          : Array(8)
-              .fill(null)
-              .map((_n, i) => (
-                <li key={i}>
-                  <TrackListRowSkeleton />
-                </li>
-              ))}
-      </ul>
-
-      {tracks.length > limit && (
-        <button
-          className="py-3 font-bold uppercase text-text-grey"
-          onClick={() => {
-            toggle();
-            event('ARTIST_more_track_show_all');
-          }}
-        >
-          {showAll ? 'show less' : 'show all'}
-        </button>
-      )}
-    </Section>
-  );
-};
+const Genres: FC<Pick<statsfm.Artist, 'genres'>> = ({ genres }) => (
+  <Section title="Genres">
+    <ChipGroup>
+      {genres.map((genre, i) => (
+        <Chip key={`${genre}-${i}`}>
+          <Link legacyBehavior href={`/genre/${genre}`}>
+            <a onClick={() => event('ARTIST_genre_click')}>{genre}</a>
+          </Link>
+        </Chip>
+      ))}
+    </ChipGroup>
+  </Section>
+);
 
 type Props = SSRProps & {
   artist: statsfm.Artist;
@@ -167,8 +73,6 @@ const Artist: NextPage<Props> = ({ artist }) => {
   const api = useApi();
   const { user } = useAuth();
 
-  const [topTracks, setTopTracks] = useState<statsfm.Track[]>([]);
-  const [related, setRelated] = useState<statsfm.Artist[]>([]);
   const [streams, setStreams] = useState<statsfm.Stream[] | null>(null);
   const [stats, setStats] = useState<
     | (statsfm.StreamStats & {
@@ -179,15 +83,6 @@ const Artist: NextPage<Props> = ({ artist }) => {
   >(null);
 
   useScrollPercentage(30, () => event('ARTIST_scroll_30'));
-
-  useEffect(() => {
-    (async () => {
-      setTopTracks(await api.artists.tracks(artist.id));
-      setRelated(
-        await api.artists.related(artist.id).then((r) => r.filter((a) => a.id))
-      );
-    })();
-  }, [artist]);
 
   useEffect(() => {
     if (!user) return;
@@ -258,10 +153,14 @@ const Artist: NextPage<Props> = ({ artist }) => {
               </span>
 
               <div className="mt-2 flex flex-row items-center gap-2">
-                <SpotifyLink
-                  path={`/artist/${artist.externalIds.spotify![0]}`}
-                />
-                <AppleMusicLink />
+                {(artist.externalIds.spotify ?? []).length > 0 && (
+                  <SpotifyLink
+                    path={`/artist/${artist.externalIds.spotify![0]}`}
+                  />
+                )}
+                {(artist.externalIds.appleMusic ?? []).length > 0 && (
+                  <AppleMusicLink />
+                )}
               </div>
             </div>
           </section>
@@ -318,116 +217,16 @@ const Artist: NextPage<Props> = ({ artist }) => {
           />
         </ul>
 
-        <Section title="Genres">
-          <ChipGroup>
-            {artist.genres.map((genre, i) => (
-              <Chip key={i}>
-                <Link legacyBehavior href={`/genre/${genre}`}>
-                  <a onClick={() => event('ARTIST_genre_click')}>{genre}</a>
-                </Link>
-              </Chip>
-            ))}
-          </ChipGroup>
-        </Section>
+        <Genres genres={artist.genres} />
 
-        <Carousel>
-          <Section
-            title="Popular tracks"
-            description={`The most popular tracks by ${artist.name}`}
-            toolbar={
-              <div className="flex gap-1">
-                <SectionToolbarGridmode />
-                <SectionToolbarCarouselNavigationButton
-                  callback={() => event('ARTIST_popular_track_previous')}
-                />
-                <SectionToolbarCarouselNavigationButton
-                  next
-                  callback={() => event('ARTIST_popular_track_next')}
-                />
-              </div>
-            }
-          >
-            <Carousel.Items>
-              {topTracks.length > 0
-                ? topTracks.map((item, i) => (
-                    <Carousel.Item
-                      key={i}
-                      onClick={() => event('ARTIST_popular_track_click')}
-                    >
-                      <div className="h-[276px]">
-                        <TrackCard track={item} />
-                      </div>
-                    </Carousel.Item>
-                  ))
-                : Array(10)
-                    .fill(null)
-                    .map((_n, i) => (
-                      <Carousel.Item key={i}>
-                        <TrackCardSkeleton />
-                      </Carousel.Item>
-                    ))}
-            </Carousel.Items>
-          </Section>
-        </Carousel>
+        <ArtistTopTracks artist={artist} />
 
-        {/* <Section title="Albums" description={`Albums featuring ${artist.name}`}>
-        <Carousel gap={16} rows={1}>
-          {albums.length > 0
-            ? albums.map((album, i) => (
-                <li key={i}>
-                  <AlbumCard album={album} />
-                </li>
-              ))
-            : Array(10)
-                .fill(null)
-                .map((_n, i) => (
-                  <li key={i}>
-                    <AlbumCardSkeleton />
-                  </li>
-                ))}
-        </Carousel>
-      </Section> */}
+        <ArtistTopAlbums artist={artist} />
 
         <TopListeners type="ARTIST" data={artist} />
 
-        <Carousel slide={1} rows={3}>
-          <Section
-            title="Related artists"
-            description="Artists that fans might also like"
-            toolbar={
-              <div className="flex gap-1">
-                <SectionToolbarCarouselNavigationButton
-                  callback={() => event('ARTIST_related_artist_previous')}
-                />
-                <SectionToolbarCarouselNavigationButton
-                  next
-                  callback={() => event('ARTIST_related_artist_next')}
-                />
-              </div>
-            }
-          >
-            <Carousel.Items>
-              {related.length > 0
-                ? related.map((item, i) => (
-                    <Carousel.Item
-                      key={i}
-                      onClick={() => event('ARTIST_related_artist_click')}
-                    >
-                      <RelatedArtistCard {...item} />
-                    </Carousel.Item>
-                  ))
-                : Array(20)
-                    .fill(null)
-                    .map((_n, i) => (
-                      <Carousel.Item key={i}>
-                        <RelatedArtistCardSkeleton />
-                      </Carousel.Item>
-                    ))}
-            </Carousel.Items>
-          </Section>
-        </Carousel>
+        <ArtistRelatedArtists artist={artist} />
 
-        {user && <MoreTracks artist={artist} tracks={topTracks} user={user} />}
         {user && (
           <Section
             title="Your streams"

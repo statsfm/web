@@ -18,8 +18,8 @@ import { AlbumCard, AlbumCardSkeleton } from '@/components/AlbumCard';
 import { ArtistCard, ArtistCardSkeleton } from '@/components/ArtistCard';
 import { RecentStreams } from '@/components/RecentStreams';
 import {
-  SectionToolbarCarouselNavigationButton,
-  SectionToolbarGridmode,
+  SectionToolbarCarouselNavigation,
+  SectionToolbarGridMode,
   SectionToolbarInfoMenu,
 } from '@/components/Section';
 import { Container } from '@/components/Container';
@@ -620,15 +620,15 @@ const User: NextPage<Props> = ({
               scope="topTracks"
               toolbar={
                 <div className="flex gap-1">
-                  <SectionToolbarGridmode
+                  <SectionToolbarGridMode
                     callback={(gridMode) =>
                       handleGridModeCallback(gridMode, 'tracks')
                     }
                   />
-                  <SectionToolbarCarouselNavigationButton
+                  <SectionToolbarCarouselNavigation
                     callback={() => event('USER_top_tracks_previous')}
                   />
-                  <SectionToolbarCarouselNavigationButton
+                  <SectionToolbarCarouselNavigation
                     next
                     callback={() => event('USER_top_tracks_next')}
                   />
@@ -676,15 +676,15 @@ const User: NextPage<Props> = ({
               scope="topArtists"
               toolbar={
                 <div className="flex gap-1">
-                  <SectionToolbarGridmode
+                  <SectionToolbarGridMode
                     callback={(gridMode) =>
                       handleGridModeCallback(gridMode, 'artists')
                     }
                   />
-                  <SectionToolbarCarouselNavigationButton
+                  <SectionToolbarCarouselNavigation
                     callback={() => event('USER_top_artist_previous')}
                   />
-                  <SectionToolbarCarouselNavigationButton
+                  <SectionToolbarCarouselNavigation
                     next
                     callback={() => event('USER_top_artist_next')}
                   />
@@ -732,15 +732,15 @@ const User: NextPage<Props> = ({
                 scope="topAlbums"
                 toolbar={
                   <div className="flex gap-1">
-                    <SectionToolbarGridmode
+                    <SectionToolbarGridMode
                       callback={(gridMode) =>
                         handleGridModeCallback(gridMode, 'albums')
                       }
                     />
-                    <SectionToolbarCarouselNavigationButton
+                    <SectionToolbarCarouselNavigation
                       callback={() => event('USER_top_albums_previous')}
                     />
-                    <SectionToolbarCarouselNavigationButton
+                    <SectionToolbarCarouselNavigation
                       next
                       callback={() => event('USER_top_albums_next')}
                     />
