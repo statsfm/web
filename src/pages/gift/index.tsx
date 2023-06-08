@@ -9,7 +9,23 @@ import { Coupon } from '@/components/Gift/Coupon';
 import { Title } from '@/components/Title';
 import Link from 'next/link';
 
-const Coupons: FC<{ giftCodes: GiftCode[] }> = ({ giftCodes }) => {
+const Coupons: FC = () => {
+  const [giftCodes, setGiftCodes] = useState<GiftCode[]>([]);
+  const [loading, setLoading] = useState(true);
+  const api = useApi();
+
+  useEffect(() => {
+    (async () => {
+      const { data, success } = await api.http.get<GiftCode[]>(
+        `/me/plus/giftcodes`
+      );
+
+      if (!success) return;
+      setGiftCodes(data.items);
+      setLoading(false);
+    })();
+  });
+
   const [unClaimedCodes, claimedCodes] = useMemo(
     () => [
       giftCodes.filter((gc) => !gc.claimedBy),
@@ -17,6 +33,9 @@ const Coupons: FC<{ giftCodes: GiftCode[] }> = ({ giftCodes }) => {
     ],
     [giftCodes]
   );
+
+  const loadingCheck = (type: string) =>
+    !loading ? <p>You have no {type} coupons</p> : <p>Loading...</p>;
 
   return (
     <section className="mt-10">
@@ -31,7 +50,7 @@ const Coupons: FC<{ giftCodes: GiftCode[] }> = ({ giftCodes }) => {
             ))}
           </ul>
         ) : (
-          <p>You have no unclaimed coupons or they might still be loading</p>
+          loadingCheck('unclaimed')
         )}
 
         <h3 className="mb-3 text-lg">Claimed Coupons</h3>
@@ -42,7 +61,7 @@ const Coupons: FC<{ giftCodes: GiftCode[] }> = ({ giftCodes }) => {
             ))}
           </ul>
         ) : (
-          <p>You have no claimed coupons or they might still be loading</p>
+          loadingCheck('claimed')
         )}
       </div>
     </section>
@@ -96,21 +115,8 @@ export const getStaticProps: GetStaticProps<Props> = async () => {
 
 const GiftPage: NextPage<Props> = ({ plans }) => {
   const toaster = useToaster();
-  const [giftCodes, setGiftCodes] = useState<GiftCode[]>([]);
   const api = useApi();
   const { user, login } = useAuth();
-
-  useEffect(() => {
-    if (!user) return;
-    (async () => {
-      const { data, success } = await api.http.get<GiftCode[]>(
-        `/me/plus/giftcodes`
-      );
-
-      if (!success) return;
-      setGiftCodes(data.items);
-    })();
-  }, [user]);
 
   const calculateSavePercentage = useCallback(
     (plan: Plan, defaultPlan: Plan): number => {
@@ -229,7 +235,7 @@ const GiftPage: NextPage<Props> = ({ plans }) => {
           </ol>
         </article>
       </section>
-      {user && giftCodes && <Coupons giftCodes={giftCodes} />}
+      {user && <Coupons />}
     </Container>
   );
 };
