@@ -94,7 +94,11 @@ const ImportPage: NextPage<Props> = () => {
 
     const file = files.item(0)!;
 
-    if (file && file.name.match(/^endsong(?:_[0-9]+)?\.json/i)) {
+    if (file && file.name.match(/StreamingHistory[0-9][0-9]?.json/g)) {
+      event('IMPORT_selected_wrong_files');
+      window.location.href =
+        'https://support.stats.fm/docs/import/faq/no-endsong';
+    } else if (file && file.name.match(/\.json/i)) {
       // THESE 2 LINES SHOULD NEVER BE JOINED INTO 1, FOR SOME FUCKING REASON IT BREAKS NEXT
       const z = await file.text();
       let streams = JSON.parse(z);
@@ -135,13 +139,9 @@ const ImportPage: NextPage<Props> = () => {
         toaster.error(JSON.stringify(e?.data ?? e).toString());
       }
       api.http.config.baseUrl = oldUrl;
-    } else if (file?.name.match(/StreamingHistory[0-9][0-9]?.json/g)) {
-      event('IMPORT_selected_wrong_files');
-      window.location.href =
-        'https://support.stats.fm/docs/import/faq/no-endsong';
     } else {
       toaster.error(
-        'You just need to upload the "endsong_X.json" files, not the ap_endsong or any other files :)'
+        'Something must have gone wrong here, are you sure you are uploading the right file?'
       );
     }
   };
@@ -190,7 +190,7 @@ const ImportPage: NextPage<Props> = () => {
                 className="hidden"
                 onChange={onFileChange}
               />
-              Import a new file (only the endsong.json files)
+              Import a new file
             </label>
           ) : (
             <h4 className="my-10 text-center text-neutral-400">
