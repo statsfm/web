@@ -82,11 +82,20 @@ const Home: NextPage = () => {
       <Container className="flex flex-col justify-between gap-5 pt-20 lg:flex-row">
         <div className="my-12 w-full pt-10 lg:my-28 lg:w-5/12">
           <h1 className="text-5xl leading-none">
-            Your music,
+            <span className="font-extrabold text-white hover:text-primary hover:opacity-100">
+              Your
+            </span>{' '}
+            music,
             <br />
-            <span className="font-extrabold opacity-30">your</span> stats,
+            <span className="font-extrabold opacity-30 hover:text-primary hover:opacity-100">
+              your
+            </span>{' '}
+            stats,
             <br />
-            <span className="font-extrabold opacity-30">your</span> story.
+            <span className="font-extrabold opacity-30 hover:text-primary hover:opacity-100">
+              your
+            </span>{' '}
+            story.
           </h1>
           <p className="mb-5">
             Enter a new dimension of music by getting unique insights into your
