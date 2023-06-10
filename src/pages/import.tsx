@@ -186,11 +186,11 @@ const ImportPage: NextPage<Props> = () => {
             >
               <input
                 type="file"
-                accept="application/json"
+                accept="application/json,.json"
                 className="hidden"
                 onChange={onFileChange}
               />
-              Import a new file
+              Import a new file (the .json files, not the zip file)
             </label>
           ) : (
             <h4 className="my-10 text-center text-neutral-400">
