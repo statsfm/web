@@ -190,7 +190,7 @@ const ImportPage: NextPage<Props> = () => {
                 className="hidden"
                 onChange={onFileChange}
               />
-              Import a new file (the .json files, not the zip file)
+              Import a new file (all the .json files, not the zip file)
             </label>
           ) : (
             <h4 className="my-10 text-center text-neutral-400">
