@@ -39,9 +39,12 @@ export const NavBar = () => {
           <h3 className="mt-[-3px]">stats.fm</h3>
         </Link>
 
-        <form className="relative ml-auto pt-2 md:mr-10" action="/search">
+        <form
+          className="relative ml-auto hidden pt-2 md:mr-10 md:block"
+          action="/search"
+        >
           <input
-            className="h-10 rounded-xl border-2 border-transparent bg-black px-4 pr-20 text-white focus:border-neutral-700 focus:outline-none"
+            className="h-10 rounded-xl border-2 border-transparent bg-black px-4 text-white focus:border-neutral-700 focus:outline-none"
             type="search"
             name="query"
             placeholder="Search"
