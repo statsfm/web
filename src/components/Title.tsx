@@ -6,7 +6,13 @@ export const Title: FC<
 > = ({ noDivider, children, reverse }) => {
   const divider = children && !noDivider ? '|' : '';
 
-  let titleGroups = [children?.toString(), divider, 'stats.fm'];
+  let convertedChildren = children?.toString();
+
+  if (Array.isArray(children)) {
+    convertedChildren = children.join(' ');
+  }
+
+  let titleGroups = [convertedChildren, divider, 'stats.fm'];
   if (reverse) titleGroups = titleGroups.reverse();
 
   const title = titleGroups.join(' ').trim();
