@@ -1,67 +1,14 @@
 import { Container } from '@/components/Container';
 import { Divider } from '@/components/Divider';
+import { ImportList } from '@/components/Import/ImportList';
 import { Title } from '@/components/Title';
 import { useApi, useAuth, useToaster } from '@/hooks';
 import { useRemoteValue } from '@/hooks/use-remote-config';
-import type { UserImport } from '@statsfm/statsfm.js';
-import dayjs from 'dayjs';
 import type { NextPage } from 'next';
 import { event } from 'nextjs-google-analytics';
-import type { ChangeEvent, FC } from 'react';
-import { useCallback, useEffect, useState } from 'react';
+import type { ChangeEvent } from 'react';
+import { useState } from 'react';
 import { MdWarning } from 'react-icons/md';
-
-const ImportList: FC<{ refetchCounter: number }> = ({ refetchCounter }) => {
-  const api = useApi();
-  const [imports, setImports] = useState<UserImport[] | null>(null);
-
-  useEffect(() => {
-    (async () => {
-      setImports(await api.me.imports());
-    })();
-  }, [refetchCounter]);
-
-  const getStatus = useCallback((status: number) => {
-    return {
-      '-1': 'Errored!',
-      '0': 'Queued (waiting to be processed)',
-      '1': 'Processing',
-      '2': 'Successfully processed',
-    }[status.toString()];
-  }, []);
-
-  if (!imports || imports.length === 0) {
-    return (
-      <h4 className="my-5 text-neutral-400">
-        It looks like you don&apos;t have any imports yet!
-      </h4>
-    );
-  }
-
-  return (
-    <ul className="flex flex-col gap-2">
-      {imports &&
-        imports.map((imported) => (
-          <li
-            key={imported.name}
-            className="relative flex items-center justify-between overflow-hidden py-2"
-          >
-            <div className="w-full text-neutral-400">
-              <h4 className="text-white"> {imported.name}</h4>
-              <span>
-                Imported on{' '}
-                {dayjs(imported.createdAt).format('DD/M/YYYY hh:mm')}
-              </span>
-              <br />
-              <span>{imported.count} streams</span>
-              <br />
-              <span>{getStatus(imported.status)}</span>
-            </div>
-          </li>
-        ))}
-    </ul>
-  );
-};
 
 type Props = {};
 
@@ -173,12 +120,10 @@ const ImportPage: NextPage<Props> = () => {
         >
           here in the support docs
         </a>
-        . Scroll down to import a new file.
+        .
       </p>
       {user.isPlus ? (
         <>
-          <ImportList refetchCounter={refetchCounter} />
-          <Divider className="my-5 border-neutral-600" />
           {importAvailable?.asBoolean() ? (
             <label
               onClick={() => event('IMPORT_select_files')}
@@ -190,13 +135,16 @@ const ImportPage: NextPage<Props> = () => {
                 className="hidden"
                 onChange={onFileChange}
               />
-              Import a new file (no zip files)
+              Import a new file (unzip the zip file from Spotify first, upload
+              the json files one by one)
             </label>
           ) : (
             <h4 className="my-10 text-center text-neutral-400">
               Importing is currently disabled
             </h4>
           )}
+          <Divider className="my-5 border-neutral-600" />
+          <ImportList refetchCounter={refetchCounter} />
         </>
       ) : (
         <h4 className="my-10 text-white">
