@@ -74,12 +74,17 @@ export const AuthProvider = (
     const token = Cookies.get('identityToken');
 
     if (!token) return;
-    api.http.config.accessToken = token;
+    api.http.setToken(token);
 
     // hydrate the user on the frontend if not provided by gssp
     if (user) return;
     (async () => {
-      setUser(await api.me.get());
+      try {
+        setUser(await api.me.get());
+      } catch (err) {
+        // eslint-disable-next-line no-console
+        console.log(err);
+      }
     })();
   }, []);
 

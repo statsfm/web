@@ -80,15 +80,7 @@ const StateContextProvider: FC<PropsWithChildren<{ user: UserPrivate }>> = ({
 
   const uploadAvatar = useCallback(async () => {
     if (files && files.length > 0 && files[0]) {
-      const formData = new FormData();
-      formData.append('file', files[0]);
-
-      const res = await api.http.post('/me/image', {
-        body: formData,
-        headers: { 'Content-Type': null! },
-      });
-
-      const { image } = res.data as unknown as { image: string };
+      const { image } = await api.me.uploadAvatar(files[0]);
 
       setFiles(null);
       return image;
@@ -293,16 +285,15 @@ const DeleteAccount: FC = () => {
     if (!confirmed) return;
     setStatus('DELETING');
 
-    const res = await api.me.deleteAccount();
-    if (res.status !== 202) {
-      error(`Account could not be deleted: ${res.status}`);
+    try {
+      await api.me.deleteAccount();
+      event('SETTINGS_delete_account');
+      logout();
+      router.push('/');
+    } catch (e) {
+      error(`Account could not be deleted: ${e}`);
       setStatus('DEFAULT');
-      return;
     }
-
-    event('SETTINGS_delete_account');
-    logout();
-    router.push('/');
   }, []);
 
   return (

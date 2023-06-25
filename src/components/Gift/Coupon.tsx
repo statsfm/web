@@ -1,4 +1,4 @@
-import type { GiftCode } from '@/types/gift';
+import type { GiftCode } from '@statsfm/statsfm.js';
 import dayjs from '@/utils/dayjs';
 import Link from 'next/link';
 import type { FC } from 'react';
