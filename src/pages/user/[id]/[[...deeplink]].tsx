@@ -137,7 +137,7 @@ export const getServerSideProps: GetServerSideProps<Props> = async (ctx) => {
   let friendCount = 0;
   try {
     friendCount = await api.users.friendCount(userProfile.id);
-    friendStatus = await api.me.friendStatus(userProfile.id);
+    friendStatus = await api.friends.status(userProfile.id);
   } catch (e) {
     friendStatus = FriendStatus.NONE;
   }
@@ -260,22 +260,22 @@ const FriendsButton: FC<{
     useState<statsfm.FriendStatus>(initialFriendStatus);
 
   const handleAccept = () => {
-    api.me.acceptFriendRequest(friendUser.id);
+    api.friends.acceptRequest(friendUser.id);
     setFriendStatus(FriendStatus.FRIENDS);
   };
 
   const handleRemove = () => {
-    api.me.removeFriend(friendUser.id);
+    api.friends.remove(friendUser.id);
     setFriendStatus(FriendStatus.NONE);
   };
 
   const handleCancel = () => {
-    api.me.cancelFriendRequest(friendUser.id);
+    api.friends.cancelRequest(friendUser.id);
     setFriendStatus(FriendStatus.NONE);
   };
 
   const handleSend = () => {
-    api.me.sendFriendRequest(friendUser.id);
+    api.friends.sendRequest(friendUser.id);
     setFriendStatus(FriendStatus.REQUEST_OUTGOING);
   };
 
