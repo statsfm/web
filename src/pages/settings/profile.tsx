@@ -97,18 +97,19 @@ const StateContextProvider: FC<PropsWithChildren<{ user: UserPrivate }>> = ({
         pronouns,
         theme: user.profile?.theme ?? 'green',
       });
-      await api.me.updateMe({
+
+      const newUser = {
         ...user,
+        ...(!user.isPlus ? { syncEnabled: false, hasImported: false } : {}),
         displayName,
         customId,
-      });
+      };
+      await api.me.updateMe(newUser);
 
       const url = await uploadAvatar();
 
       updateUser({
-        ...user,
-        displayName,
-        customId,
+        ...newUser,
         image: url ?? user.image,
         profile: { bio, pronouns, theme: user.profile?.theme ?? 'green' },
       });
