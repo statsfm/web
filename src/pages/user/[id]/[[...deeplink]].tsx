@@ -10,7 +10,6 @@ import { Section } from '@/components/Section/Section';
 import { Segment, SegmentedControls } from '@/components/SegmentedControls';
 import { Avatar } from '@/components/Avatar';
 import { useApi } from '@/hooks/use-api';
-import { Chip, ChipGroup } from '@/components/Chip';
 import { useAuth } from '@/hooks';
 import { RecentStreams } from '@/components/RecentStreams';
 
@@ -38,6 +37,7 @@ import {
   FriendsButton,
   TopAlbums,
   TopArtists,
+  TopGenres,
   TopTracks,
 } from '@/components/User';
 
@@ -233,15 +233,6 @@ const ImportRequiredScope: FC<ScopeProps> = ({ children, value }) => {
   );
 };
 
-// TODO: use i18n strings instead
-const ranges: Record<statsfm.Range, string | null> = {
-  weeks: 'from the past 4 weeks',
-  months: 'from the past 6 months',
-  lifetime: '',
-  days: null,
-  today: null,
-};
-
 const User: NextPage<Props> = ({
   userProfile: user,
   friendStatus,
@@ -256,7 +247,6 @@ const User: NextPage<Props> = ({
   const [stats, setStats] = useState<
     { label: string; value: string | number }[]
   >([]);
-  const [topGenres, setTopGenres] = useState<statsfm.TopGenre[]>([]);
   const [recentStreams, setRecentStreams] = useState<
     statsfm.RecentlyPlayedTrack[]
   >([]);
@@ -269,50 +259,42 @@ const User: NextPage<Props> = ({
 
   useEffect(() => {
     setStats([]);
-    setTopGenres([]);
+    api.users.stats(user.id, { range }).then((stats) => {
+      const hours = dayjs.duration(stats.durationMs).asHours();
 
-    const load = async () => {
-      api.users.stats(user.id, { range }).then((stats) => {
-        const hours = dayjs.duration(stats.durationMs).asHours();
-
-        setStats([
-          {
-            label: 'streams',
-            value: formatter.localiseNumber(stats.count),
-          },
-          {
-            label: 'minutes streamed',
-            value: formatter.formatMinutes(stats.durationMs),
-          },
-          {
-            label: 'hours streamed',
-            value: formatter.localiseNumber(Math.round(hours)),
-          },
-          {
-            label: 'different tracks',
-            value: formatter.localiseNumber(stats.cardinality.tracks) ?? 0,
-          },
-          {
-            label: 'different artists',
-            value: formatter.localiseNumber(stats.cardinality.artists) ?? 0,
-          },
-          {
-            label: 'different albums',
-            value: formatter.localiseNumber(stats.cardinality.albums) ?? 0,
-          },
-          // {
-          //   label: `You were listening to music {${
-          //     Math.round((hours / timeframe[range]) * 100 * 10) / 10
-          //   }%} ${ranges[range]}`,
-          //   value: `${Math.round((hours / timeframe[range]) * 100 * 10) / 10}%`,
-          // },
-        ]);
-      });
-
-      api.users.topGenres(user.id, { range }).then(setTopGenres);
-    };
-
-    load();
+      setStats([
+        {
+          label: 'streams',
+          value: formatter.localiseNumber(stats.count),
+        },
+        {
+          label: 'minutes streamed',
+          value: formatter.formatMinutes(stats.durationMs),
+        },
+        {
+          label: 'hours streamed',
+          value: formatter.localiseNumber(Math.round(hours)),
+        },
+        {
+          label: 'different tracks',
+          value: formatter.localiseNumber(stats.cardinality.tracks) ?? 0,
+        },
+        {
+          label: 'different artists',
+          value: formatter.localiseNumber(stats.cardinality.artists) ?? 0,
+        },
+        {
+          label: 'different albums',
+          value: formatter.localiseNumber(stats.cardinality.albums) ?? 0,
+        },
+        // {
+        //   label: `You were listening to music {${
+        //     Math.round((hours / timeframe[range]) * 100 * 10) / 10
+        //   }%} ${ranges[range]}`,
+        //   value: `${Math.round((hours / timeframe[range]) * 100 * 10) / 10}%`,
+        // },
+      ]);
+    });
   }, [range, user]);
 
   // TODO: improvements
@@ -475,40 +457,7 @@ const User: NextPage<Props> = ({
 
           {/* <ListeningClockChart /> */}
 
-          <Section
-            title="Top genres"
-            description={`${
-              isCurrentUser ? 'Your' : `${user.displayName}'s`
-            } top genres ${ranges[range]}`}
-            scope="topGenres"
-          >
-            <Scope value="topGenres">
-              <ChipGroup
-                className={clsx(topGenres.length === 0 && '!overflow-x-hidden')}
-              >
-                {topGenres.length > 0
-                  ? topGenres.map((genre, i) => (
-                      <Chip key={i}>
-                        <Link legacyBehavior href={`/genre/${genre.genre.tag}`}>
-                          <a onClick={() => event('USER_top_genre_click')}>
-                            {genre.genre.tag}
-                          </a>
-                        </Link>
-                      </Chip>
-                    ))
-                  : Array(8)
-                      .fill(null)
-                      .map((_v, i) => (
-                        <Chip
-                          className="shrink-0 animate-pulse text-transparent"
-                          key={i}
-                        >
-                          {i.toString().repeat(i + (10 % 17))}
-                        </Chip>
-                      ))}
-              </ChipGroup>
-            </Scope>
-          </Section>
+          <TopGenres range={range} userProfile={user} />
 
           <TopTracks range={range} userProfile={user} trackRef={topTracksRef} />
 
