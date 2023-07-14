@@ -145,7 +145,7 @@ const GiftPage: NextPage<Props> = ({ plans }) => {
       try {
         const { item } = await api.http.get<ItemResponse<{ url: string }>>(
           `/stripe/products/spotistats_plus_coupon/prices/${id}/session`,
-          { auth: true }
+          { authRequired: true }
         );
         window.location.href = item.url;
       } catch (e) {
