@@ -6,7 +6,7 @@ import { decodeJwt } from 'jose';
 import Cookies from 'js-cookie';
 import { useRouter } from 'next/router';
 import type { PropsWithChildren } from 'react';
-import { createContext, useEffect, useState } from 'react';
+import { createContext, useEffect, useMemo, useState } from 'react';
 
 export const AuthContext = createContext<{
   user: statsfm.UserPrivate | null;
@@ -88,13 +88,10 @@ export const AuthProvider = (
     })();
   }, []);
 
-  const exposed = {
-    tokenAge,
-    user,
-    updateUser,
-    login,
-    logout,
-  };
+  const exposed = useMemo(
+    () => ({ user, updateUser, tokenAge, login, logout }),
+    [user]
+  );
 
   return (
     <AuthContext.Provider value={exposed}>

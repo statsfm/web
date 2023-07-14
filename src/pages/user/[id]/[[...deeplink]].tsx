@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import type { FC, RefObject, PropsWithChildren } from 'react';
+import type { FC, RefObject } from 'react';
 import dayjs from 'dayjs';
 import type { GetServerSideProps, NextPage } from 'next';
 import * as statsfm from '@statsfm/statsfm.js';
@@ -8,20 +8,12 @@ import Linkify from 'linkify-react';
 // components
 import { Section } from '@/components/Section/Section';
 import { Segment, SegmentedControls } from '@/components/SegmentedControls';
-import { TrackCard, TrackCardSkeleton } from '@/components/Track';
-import { Carousel } from '@/components/Carousel';
 import { Avatar } from '@/components/Avatar';
 import { useApi } from '@/hooks/use-api';
 import { Chip, ChipGroup } from '@/components/Chip';
 import { useAuth } from '@/hooks';
-import { AlbumCard, AlbumCardSkeleton } from '@/components/Album';
-import { ArtistCard, ArtistCardSkeleton } from '@/components/Artist/ArtistCard';
 import { RecentStreams } from '@/components/RecentStreams';
-import {
-  SectionToolbarCarouselNavigation,
-  SectionToolbarGridMode,
-  SectionToolbarInfoMenu,
-} from '@/components/Section';
+
 import { Container } from '@/components/Container';
 import Link from 'next/link';
 import { Title } from '@/components/Title';
@@ -36,12 +28,18 @@ import { event } from 'nextjs-google-analytics';
 import { useScrollPercentage } from '@/hooks/use-scroll-percentage';
 import formatter from '@/utils/formatter';
 import { AppleMusicLink, SpotifyLink } from '@/components/SocialLink';
-import { ShareMenuItem } from '@/components/ShareMenuItem';
 import { StatsCard, StatsCardSkeleton } from '@/components/StatsCard';
 import { MdVisibilityOff } from 'react-icons/md';
 import type { ScopeProps } from '@/components/PrivacyScope';
 import Scope, { useScopeContext } from '@/components/PrivacyScope';
 import { useRouter } from 'next/router';
+import { Square } from '@/components/Square';
+import {
+  FriendsButton,
+  TopAlbums,
+  TopArtists,
+  TopTracks,
+} from '@/components/User';
 
 // const ListeningClockChart = () => {
 //   const config = {
@@ -160,8 +158,6 @@ export const getServerSideProps: GetServerSideProps<Props> = async (ctx) => {
   };
 };
 
-const Square = () => <div className="block h-1 w-1 bg-neutral-400" />;
-
 const PlusBadge = () => (
   <Link href="/plus">
     <span className="mx-auto flex w-fit items-center rounded-md bg-background px-1.5 py-0.5 text-base text-plus md:mx-0">
@@ -237,76 +233,6 @@ const ImportRequiredScope: FC<ScopeProps> = ({ children, value }) => {
   );
 };
 
-const FriendsButtonFrame: FC<
-  PropsWithChildren<{ red?: boolean; handler: () => void }>
-> = ({ red, children, handler }) => (
-  <Button
-    className={clsx(
-      red ? 'text-red-500' : '',
-      'mx-0 w-min !bg-transparent !p-0 transition-opacity hover:opacity-80'
-    )}
-    onClick={handler}
-  >
-    {children}
-  </Button>
-);
-
-const FriendsButton: FC<{
-  friendUser: statsfm.UserPublic;
-  initialFriendStatus: statsfm.FriendStatus;
-}> = ({ friendUser, initialFriendStatus }) => {
-  const api = useApi();
-  const [friendStatus, setFriendStatus] =
-    useState<statsfm.FriendStatus>(initialFriendStatus);
-
-  const handleAccept = () => {
-    api.friends.acceptRequest(friendUser.id);
-    setFriendStatus(FriendStatus.FRIENDS);
-  };
-
-  const handleRemove = () => {
-    api.friends.remove(friendUser.id);
-    setFriendStatus(FriendStatus.NONE);
-  };
-
-  const handleCancel = () => {
-    api.friends.cancelRequest(friendUser.id);
-    setFriendStatus(FriendStatus.NONE);
-  };
-
-  const handleSend = () => {
-    api.friends.sendRequest(friendUser.id);
-    setFriendStatus(FriendStatus.REQUEST_OUTGOING);
-  };
-
-  switch (friendStatus) {
-    case FriendStatus.FRIENDS:
-      return (
-        <FriendsButtonFrame red handler={handleRemove}>
-          Remove friend
-        </FriendsButtonFrame>
-      );
-    case FriendStatus.REQUEST_INCOMING:
-      return (
-        <FriendsButtonFrame handler={handleAccept}>
-          Accept friend request
-        </FriendsButtonFrame>
-      );
-    case FriendStatus.REQUEST_OUTGOING:
-      return (
-        <FriendsButtonFrame red handler={handleCancel}>
-          Cancel friend request
-        </FriendsButtonFrame>
-      );
-    default:
-      return (
-        <FriendsButtonFrame handler={handleSend}>
-          Send friend request
-        </FriendsButtonFrame>
-      );
-  }
-};
-
 // TODO: use i18n strings instead
 const ranges: Record<statsfm.Range, string | null> = {
   weeks: 'from the past 4 weeks',
@@ -331,9 +257,6 @@ const User: NextPage<Props> = ({
     { label: string; value: string | number }[]
   >([]);
   const [topGenres, setTopGenres] = useState<statsfm.TopGenre[]>([]);
-  const [topTracks, setTopTracks] = useState<statsfm.TopTrack[]>([]);
-  const [topArtists, setTopArtists] = useState<statsfm.TopArtist[]>([]);
-  const [topAlbums, setTopAlbums] = useState<statsfm.TopAlbum[]>([]);
   const [recentStreams, setRecentStreams] = useState<
     statsfm.RecentlyPlayedTrack[]
   >([]);
@@ -347,9 +270,6 @@ const User: NextPage<Props> = ({
   useEffect(() => {
     setStats([]);
     setTopGenres([]);
-    setTopTracks([]);
-    setTopArtists([]);
-    setTopAlbums([]);
 
     const load = async () => {
       api.users.stats(user.id, { range }).then((stats) => {
@@ -390,9 +310,6 @@ const User: NextPage<Props> = ({
       });
 
       api.users.topGenres(user.id, { range }).then(setTopGenres);
-      api.users.topTracks(user.id, { range }).then(setTopTracks);
-      api.users.topArtists(user.id, { range }).then(setTopArtists);
-      api.users.topAlbums(user.id, { range }).then(setTopAlbums);
     };
 
     load();
@@ -412,24 +329,6 @@ const User: NextPage<Props> = ({
 
     if (activeCarousel) refs[activeCarousel].current?.scrollIntoView();
   }, []);
-
-  const handleGridModeCallback = (
-    gridMode: boolean,
-    url: CarouselsWithGrid
-  ) => {
-    let newUrl = `/${user.customId ?? user.id}`;
-    if (!gridMode) newUrl += `/${url}`;
-
-    // this is some next router weirdness
-    // https://github.com/vercel/next.js/discussions/18072#discussioncomment-109059
-    window.history.replaceState(
-      { ...window.history.state, as: newUrl, url: newUrl },
-      '',
-      newUrl
-    );
-
-    return !gridMode;
-  };
 
   const handleSegmentSelect = (value: string) => {
     event(`USER_switch_time_${value}`);
@@ -610,172 +509,21 @@ const User: NextPage<Props> = ({
               </ChipGroup>
             </Scope>
           </Section>
-          <Carousel gridMode={activeCarousel === 'tracks'} itemHeight={276}>
-            <Section
-              ref={topTracksRef}
-              title="Top tracks"
-              description={`${
-                isCurrentUser ? 'Your' : formatter.nounify(user.displayName)
-              } top tracks ${ranges[range]}`}
-              scope="topTracks"
-              toolbar={
-                <div className="flex gap-1">
-                  <SectionToolbarGridMode
-                    callback={(gridMode) =>
-                      handleGridModeCallback(gridMode, 'tracks')
-                    }
-                  />
-                  <SectionToolbarCarouselNavigation
-                    callback={() => event('USER_top_tracks_previous')}
-                  />
-                  <SectionToolbarCarouselNavigation
-                    next
-                    callback={() => event('USER_top_tracks_next')}
-                  />
-                  <SectionToolbarInfoMenu>
-                    <ShareMenuItem
-                      path={`/${user.customId ?? user.id}/tracks`}
-                    />
-                  </SectionToolbarInfoMenu>
-                </div>
-              }
-            >
-              <Scope value="topTracks">
-                {/* <NotEnoughData data={topTracks}> */}
 
-                <Carousel.Items>
-                  {topTracks.length > 0
-                    ? topTracks.map((item, i) => (
-                        <Carousel.Item
-                          key={i}
-                          onClick={() => event('USER_top_track_click')}
-                        >
-                          <TrackCard {...item} />
-                        </Carousel.Item>
-                      ))
-                    : Array(10)
-                        .fill(null)
-                        .map((_n, i) => (
-                          <Carousel.Item key={i}>
-                            <TrackCardSkeleton />
-                          </Carousel.Item>
-                        ))}
-                </Carousel.Items>
-                {/* </NotEnoughData> */}
-              </Scope>
-            </Section>
-          </Carousel>
+          <TopTracks range={range} userProfile={user} trackRef={topTracksRef} />
 
-          <Carousel gridMode={activeCarousel === 'artists'} itemHeight={262}>
-            <Section
-              title="Top artists"
-              ref={topArtistsRef}
-              description={`${
-                isCurrentUser ? 'Your' : formatter.nounify(user.displayName)
-              } top artists ${ranges[range]}`}
-              scope="topArtists"
-              toolbar={
-                <div className="flex gap-1">
-                  <SectionToolbarGridMode
-                    callback={(gridMode) =>
-                      handleGridModeCallback(gridMode, 'artists')
-                    }
-                  />
-                  <SectionToolbarCarouselNavigation
-                    callback={() => event('USER_top_artist_previous')}
-                  />
-                  <SectionToolbarCarouselNavigation
-                    next
-                    callback={() => event('USER_top_artist_next')}
-                  />
-                  <SectionToolbarInfoMenu>
-                    <ShareMenuItem
-                      path={`/${user.customId ?? user.id}/artists`}
-                    />
-                  </SectionToolbarInfoMenu>
-                </div>
-              }
-            >
-              <Scope value="topArtists">
-                {/* <NotEnoughData data={topArtists}> */}
-                <Carousel.Items>
-                  {topArtists.length > 0
-                    ? topArtists.map((item, i) => (
-                        <Carousel.Item
-                          key={i}
-                          onClick={() => event('USER_top_artist_click')}
-                        >
-                          <ArtistCard {...item} />
-                        </Carousel.Item>
-                      ))
-                    : Array(10)
-                        .fill(null)
-                        .map((_n, i) => (
-                          <Carousel.Item key={i}>
-                            <ArtistCardSkeleton />
-                          </Carousel.Item>
-                        ))}
-                </Carousel.Items>
-                {/* </NotEnoughData> */}
-              </Scope>
-            </Section>
-          </Carousel>
+          <TopArtists
+            range={range}
+            userProfile={user}
+            artistRef={topArtistsRef}
+          />
 
           {user.isPlus && (
-            <Carousel gridMode={activeCarousel === 'albums'} itemHeight={255}>
-              <Section
-                title="Top albums"
-                ref={topAlbumsRef}
-                description={`${
-                  isCurrentUser ? 'Your' : `${user.displayName}'s`
-                } top albums ${ranges[range]}`}
-                scope="topAlbums"
-                toolbar={
-                  <div className="flex gap-1">
-                    <SectionToolbarGridMode
-                      callback={(gridMode) =>
-                        handleGridModeCallback(gridMode, 'albums')
-                      }
-                    />
-                    <SectionToolbarCarouselNavigation
-                      callback={() => event('USER_top_albums_previous')}
-                    />
-                    <SectionToolbarCarouselNavigation
-                      next
-                      callback={() => event('USER_top_albums_next')}
-                    />
-                    <SectionToolbarInfoMenu>
-                      <ShareMenuItem
-                        path={`/${user.customId ?? user.id}/albums`}
-                      />
-                    </SectionToolbarInfoMenu>
-                  </div>
-                }
-              >
-                <Scope value="topAlbums">
-                  {/* <NotEnoughData data={topAlbums}> */}
-                  <Carousel.Items>
-                    {topAlbums && topAlbums.length > 0
-                      ? topAlbums.map((item, i) => (
-                          <Carousel.Item
-                            key={i}
-                            onClick={() => event('USER_top_album_click')}
-                          >
-                            <AlbumCard {...item} />
-                          </Carousel.Item>
-                        ))
-                      : Array(10)
-                          .fill(null)
-                          .map((_n, i) => (
-                            <Carousel.Item key={i}>
-                              <AlbumCardSkeleton />
-                            </Carousel.Item>
-                          ))}
-                  </Carousel.Items>
-                  {/* </NotEnoughData> */}
-                </Scope>
-              </Section>
-            </Carousel>
+            <TopAlbums
+              range={range}
+              userProfile={user}
+              albumRef={topAlbumsRef}
+            />
           )}
 
           <Section
