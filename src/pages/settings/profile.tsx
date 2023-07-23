@@ -324,7 +324,7 @@ const DeleteAccount: FC = () => {
                 I acknowledge that this action is irreversable and this will
                 delete all my data such as:
                 <br />
-                - Any purchases I&apos;ve made (for example for Spotistats Plus)
+                - Any purchases I&apos;ve made (for example for Stats.fm Plus)
                 <br />
                 - Any automatically syncing playlists I&apos;ve made
                 <br />
