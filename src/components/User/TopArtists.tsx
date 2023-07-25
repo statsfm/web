@@ -53,7 +53,7 @@ export const TopArtists: FC<{
             />
             <SectionToolbarInfoMenu>
               <ShareMenuItem
-                path={`/${userProfile.customId ?? userProfile.id}/arttists`}
+                path={`/${userProfile.customId ?? userProfile.id}/artists`}
               />
             </SectionToolbarInfoMenu>
           </div>
