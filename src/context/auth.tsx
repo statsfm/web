@@ -9,7 +9,13 @@ import type { PropsWithChildren } from 'react';
 import { createContext, useEffect, useState } from 'react';
 
 export const AuthContext = createContext<{
-  user: statsfm.UserPrivate | null;
+  user:
+    | (statsfm.UserPrivate & {
+        connectedServices?: {
+          [key: string]: { connected: boolean; hasImported: boolean };
+        };
+      })
+    | null;
   updateUser: (user: statsfm.UserPrivate) => void;
   tokenAge: () => number | null;
   login: (redirectUrl?: string) => void;
@@ -17,11 +23,22 @@ export const AuthContext = createContext<{
 } | null>(null);
 
 export const AuthProvider = (
-  props: PropsWithChildren<{ user?: statsfm.UserPrivate }>
+  props: PropsWithChildren<{
+    user?: statsfm.UserPrivate & {
+      connectedServices?: {
+        [key: string]: { connected: boolean; hasImported: boolean };
+      };
+    };
+  }>
 ) => {
-  const [user, setUser] = useState<statsfm.UserPrivate | null>(
-    props.user ?? null
-  );
+  const [user, setUser] = useState<
+    | (statsfm.UserPrivate & {
+        connectedServices?: {
+          [key: string]: { connected: boolean; hasImported: boolean };
+        };
+      })
+    | null
+  >(props.user ?? null);
   const api = useApi();
   const router = useRouter();
 
@@ -47,7 +64,13 @@ export const AuthProvider = (
     }
   };
 
-  const updateUser = (user: statsfm.UserPrivate) => {
+  const updateUser = (
+    user: statsfm.UserPrivate & {
+      connectedServices?: {
+        [key: string]: { connected: boolean; hasImported: boolean };
+      };
+    }
+  ) => {
     setUser(user);
   };
 
