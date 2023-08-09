@@ -9,6 +9,7 @@ import { event } from 'nextjs-google-analytics';
 import type { ChangeEvent } from 'react';
 import { useState } from 'react';
 import { MdWarning } from 'react-icons/md';
+import { ProgressBar } from '@/components/ProgressBar/ProgressBar';
 
 type Props = {};
 
@@ -18,6 +19,10 @@ const ImportPage: NextPage<Props> = () => {
   const toaster = useToaster();
 
   const [refetchCounter, setRefetchCounter] = useState(0);
+  const [loadingProgress, setLoadingProgress] = useState({
+    progress: 0,
+    description: 'Uploading',
+  });
 
   const importWarningMessage = useRemoteValue('import_warning_message');
   const importWarning = useRemoteValue('import_warning_visible');
@@ -51,14 +56,29 @@ const ImportPage: NextPage<Props> = () => {
       const head = z[0];
       let idx = 0;
       const oldUrl = api.http.config.baseUrl;
+      const totalChunks = Math.round(z.length / 10000);
+      const progressSize = 100 / totalChunks;
+      if (totalChunks > 1)
+        setLoadingProgress({
+          progress: 0,
+          description: 'Splitting file on chunks',
+        });
       while (z.length) {
-        const csvData = z.splice(0, 10000);
+        const progressPercent = Math.round((idx > 0 ? idx : 1) * progressSize);
+        if (totalChunks <= 1)
+          setLoadingProgress({ progress: 53, description: 'Uploading' });
+        else
+          setLoadingProgress({
+            progress: progressPercent,
+            description: `Splitting file on chunks and uploading.`,
+          });
+        const csvData = totalChunks > 1 ? z.splice(0, 10000) : z.splice(0);
         if (idx > 0) csvData.unshift(head || '');
         const formData = new FormData();
         const blob = new Blob([csvData.join('\n')], { type: 'text/csv' });
         const newFile = new File(
           [blob],
-          file.name.replace('.csv', `_${idx}.csv`)
+          totalChunks > 1 ? file.name.replace('.csv', `_${idx}.csv`) : file.name
         );
         formData.append('files', newFile);
         try {
@@ -73,6 +93,8 @@ const ImportPage: NextPage<Props> = () => {
 
           event('IMPORT_upload_files');
           setRefetchCounter((c) => c + 1);
+          if (z.length === 0)
+            setLoadingProgress({ progress: 100, description: 'Uploaded' });
         } catch (e) {
           // @ts-expect-error
           toaster.error(JSON.stringify(e?.data ?? e).toString());
@@ -137,6 +159,9 @@ const ImportPage: NextPage<Props> = () => {
             <h4 className="my-10 text-center text-neutral-400">
               Importing is currently disabled
             </h4>
+          )}
+          {!!(loadingProgress && loadingProgress.progress) && (
+            <ProgressBar progress={loadingProgress} />
           )}
           <Divider className="my-5 border-neutral-600" />
           <ImportList refetchCounter={refetchCounter} />
