@@ -19,6 +19,7 @@ module.exports = {
       colors: {
         primary: '#1ed760',
         primaryLighter: 'rgba(30, 215, 96, 0.1)',
+        applemusic: 'rgb(251, 35, 60)',
         background: '#111112',
         foreground: '#18181c',
         icon: '#727272',
