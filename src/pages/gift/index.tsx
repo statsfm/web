@@ -39,7 +39,7 @@ const Coupons: FC = () => {
 
   return (
     <section className="mt-10">
-      <h2>Your Coupons</h2>
+      <h2 id="your-coupons">Your Coupons</h2>
       <div className="my-2">
         <h3 className="mb-3 text-lg">Unclaimed Coupons</h3>
 
