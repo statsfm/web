@@ -47,10 +47,6 @@ export const AuthProvider = (
     }
   };
 
-  const updateUser = (user: statsfm.UserPrivate) => {
-    setUser(user);
-  };
-
   const logout = () => {
     setUser(null);
 
@@ -64,6 +60,12 @@ export const AuthProvider = (
 
     Cookies.set('redirectUrl', router.asPath);
     router.push('/api/auth/logout');
+  };
+
+  const updateUser = (user: statsfm.UserPrivate) => {
+    if (user.disabled || user.userBan?.active) {
+      logout();
+    } else setUser(user);
   };
 
   useEffect(() => {
