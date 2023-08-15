@@ -82,7 +82,7 @@ export const AuthProvider = (
     if (user) return;
     (async () => {
       try {
-        setUser(await api.me.get());
+        updateUser(await api.me.get());
       } catch (err) {
         // eslint-disable-next-line no-console
         console.log(err);
