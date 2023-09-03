@@ -641,4 +641,4 @@ pubmatic.com, 161136, RESELLER, 5d62403b186f2ace
 smartadserver.com, 4322, RESELLER
 appnexus.com, 11450, RESELLER
 pubmatic.com, 163078, RESELLER, 5d62403b186f2ace
-ironsrc.com, 354526 , Direct
+ironsrc.com, 354526, Direct
