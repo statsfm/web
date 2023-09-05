@@ -1,6 +1,5 @@
 import { Container } from '@/components/Container';
 import { Divider } from '@/components/Divider';
-import { ImportList } from '@/components/Import/ImportList';
 import { Title } from '@/components/Title';
 import { useApi, useAuth, useToaster } from '@/hooks';
 import { useRemoteValue } from '@/hooks/use-remote-config';
@@ -10,6 +9,7 @@ import type { ChangeEvent } from 'react';
 import { useState } from 'react';
 import { MdWarning } from 'react-icons/md';
 import { ProgressBar } from '@/components/ProgressBar/ProgressBar';
+import { ImportGroupedList } from '@/components/Import/ImportGroupedList';
 
 type Props = {};
 
@@ -56,7 +56,7 @@ const ImportPage: NextPage<Props> = () => {
       const head = z[0];
       let idx = 0;
       const oldUrl = api.http.config.baseUrl;
-      const totalChunks = Math.round(z.length / 10000);
+      const totalChunks = Math.round(z.length / 3000);
       const progressSize = 100 / totalChunks;
       if (totalChunks > 1)
         setLoadingProgress({
@@ -72,7 +72,7 @@ const ImportPage: NextPage<Props> = () => {
             progress: progressPercent,
             description: `Splitting file on chunks and uploading.`,
           });
-        const csvData = totalChunks > 1 ? z.splice(0, 10000) : z.splice(0);
+        const csvData = totalChunks > 1 ? z.splice(0, 3000) : z.splice(0);
         if (idx > 0) csvData.unshift(head || '');
         const formData = new FormData();
         const blob = new Blob([csvData.join('\n')], { type: 'text/csv' });
@@ -164,7 +164,7 @@ const ImportPage: NextPage<Props> = () => {
             <ProgressBar progress={loadingProgress} />
           )}
           <Divider className="my-5 border-neutral-600" />
-          <ImportList refetchCounter={refetchCounter} />
+          <ImportGroupedList refetchCounter={refetchCounter} />
         </>
       ) : (
         <h4 className="my-10 text-white">
