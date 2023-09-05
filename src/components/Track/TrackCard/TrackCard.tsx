@@ -20,7 +20,7 @@ export const TrackCard = ({ track, playedMs, streams, position }: Props) => {
       <Link legacyBehavior href={`/track/${track.id}`} passHref>
         <a>
           <div className="aspect-square w-full group-hover:opacity-90">
-            {track.albums[0]?.image && (
+            {track?.albums?.length && track.albums[0]?.image && (
               <Image
                 src={track.albums[0].image}
                 alt={track.name}
@@ -39,17 +39,18 @@ export const TrackCard = ({ track, playedMs, streams, position }: Props) => {
         {subtitle}
         {subtitle && ' • '}
         <span>
-          {track.artists.map((artist, i) => (
-            <span key={artist.id + i}>
-              <Link legacyBehavior href={`/artist/${artist.id}`}>
-                <a className="transition-colors hover:text-white">
-                  {artist.name}
-                </a>
-              </Link>
+          {track?.artists?.length &&
+            track.artists.map((artist, i) => (
+              <span key={artist.id + i}>
+                <Link legacyBehavior href={`/artist/${artist.id}`}>
+                  <a className="transition-colors hover:text-white">
+                    {artist.name}
+                  </a>
+                </Link>
 
-              {i !== track.artists.length - 1 && ', '}
-            </span>
-          ))}
+                {i !== track.artists.length - 1 && ', '}
+              </span>
+            ))}
         </span>
       </p>
     </div>
