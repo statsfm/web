@@ -9,6 +9,7 @@ type Props<T extends statsfm.Stream | statsfm.RecentlyPlayedTrack> = {
   headerRef: RefObject<HTMLElement>;
   loading?: boolean | null; // loading can be null to opt out of loading behvaior and default error state
   onItemClick?: () => void;
+  allowToChangeMatch?: boolean;
 } & (T extends statsfm.Stream
   ? {
       streams: T[];
@@ -27,6 +28,7 @@ export const RecentStreams = <
   headerRef,
   loading,
   onItemClick,
+  allowToChangeMatch,
 }: Props<T>) => {
   const [streamsByDate, setStreamsByData] = useState<[string, T[]][]>([]);
 
@@ -63,7 +65,6 @@ export const RecentStreams = <
         </p>
       </div>
     );
-
   return (
     <ul>
       {(loading === undefined || loading) && streamsByDate.length < 1
@@ -74,30 +75,35 @@ export const RecentStreams = <
                 <TrackListRowSkeleton />
               </li>
             ))
-        : streamsByDate.map((streams, i) => (
-            <div key={`recentStreams-${i}`}>
-              <p
-                className="sticky z-[29] bg-background py-2"
-                style={{ top: `${ribbonOffset - 1}px` }}
-              >
-                {dayjs(streams[1][0]!.endTime).format('LL')}
-              </p>
+        : streamsByDate.map((streams, i) => {
+            return (
+              <div key={`recentStreams-${i}`}>
+                <p
+                  className="sticky z-[29] bg-background py-2"
+                  style={{ top: `${ribbonOffset - 1}px` }}
+                >
+                  {dayjs(streams[1][0]!.endTime).format('LL')}
+                </p>
 
-              <li key={i}>
-                <ul key={i}>
-                  {streams[1].map((stream, i) => (
-                    <li key={i} onClick={onItemClick}>
-                      {/* TODO: fix type */}
-                      <TrackListRow
-                        track={(stream as any).track ?? track}
-                        {...stream}
-                      />
-                    </li>
-                  ))}
-                </ul>
-              </li>
-            </div>
-          ))}
+                <li key={i}>
+                  <ul key={i}>
+                    {streams[1].map((stream, i) => {
+                      return (
+                        <li key={i} onClick={onItemClick}>
+                          {/* TODO: fix type */}
+                          <TrackListRow
+                            allowToChangeMatch={allowToChangeMatch}
+                            track={(stream as any).tracks ?? track}
+                            {...stream}
+                          />
+                        </li>
+                      );
+                    })}
+                  </ul>
+                </li>
+              </div>
+            );
+          })}
     </ul>
   );
 };

@@ -64,10 +64,15 @@ export const getServerSideProps: GetServerSideProps<Props> = async (ctx) => {
   };
 };
 
-const StreamsPage: NextPage<Props> = ({ userProfile }) => {
+const StreamsPage: NextPage<Props> = ({ user, userProfile }) => {
   const api = useApi();
   const scopePrivate = usePrivacyScope('streams', userProfile);
   const router = useRouter();
+  const allowToChangeMatch = !!(
+    userProfile?.id &&
+    user?.id &&
+    user.id === userProfile.id
+  );
 
   const [recentStreams, setRecentStreams] = useState<statsfm.Stream[]>([]);
   const [loadMoar, setLoadMoar] = useState(true);
@@ -76,14 +81,13 @@ const StreamsPage: NextPage<Props> = ({ userProfile }) => {
     if (!userProfile.privacySettings?.recentlyPlayed) return;
     const lastEndTime = recentStreams[recentStreams.length - 1]
       ?.endTime as any as string;
-
     const streams = await api.users.streams(userProfile.id, {
       limit: 200,
       before: new Date(lastEndTime).getTime() || new Date().getTime(),
     });
 
     if (streams.length === 0) setLoadMoar(false);
-    setRecentStreams([...(recentStreams || []), ...streams.slice(1)]);
+    setRecentStreams([...(recentStreams || []), ...streams]);
   };
 
   return (
@@ -143,6 +147,7 @@ const StreamsPage: NextPage<Props> = ({ userProfile }) => {
                     loading={null}
                     headerRef={headerRef}
                     streams={recentStreams}
+                    allowToChangeMatch={allowToChangeMatch}
                   />
                 </InfiniteScroll>
                 {!loadMoar && (
