@@ -236,7 +236,9 @@ const Track: NextPage<Props> = ({ track }) => {
     <>
       <Title>{`${track.name}, artists, stats and more`}</Title>
       <Head>
-        <meta property="og:image" content={track.albums[0]?.image} />
+        {track?.albums?.length && track.albums[0]?.image && (
+          <meta property="og:image" content={track.albums[0]?.image} />
+        )}
         <meta property="og:image:alt" content={`${track.name}'s album cover`} />
         <meta property="og:image:width" content="240" />
         <meta property="og:image:height" content="240" />
@@ -251,7 +253,7 @@ const Track: NextPage<Props> = ({ track }) => {
         <Container>
           <section className="flex flex-col items-center gap-5 pt-24 pb-10 md:flex-row">
             <div className="shrink-0">
-              {track.albums[0]?.image && (
+              {track?.albums?.length && track.albums[0]?.image && (
                 <Image
                   src={track.albums[0].image}
                   alt={track.name}
