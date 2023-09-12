@@ -126,7 +126,7 @@ export const getServerSideProps: GetServerSideProps<Props> = async (ctx) => {
 
   const activeCarousel = activeGridModeFromDeepLink(deeplink);
 
-  const userProfile = await api.users.get(id).catch(() => { });
+  const userProfile = await api.users.get(id).catch(() => {});
   if (!userProfile) return { notFound: true };
 
   const user = await fetchUser(ctx);
@@ -354,7 +354,11 @@ const User: NextPage<Props> = ({
           <Container>
             <section className="flex flex-col items-center gap-5 pt-24 pb-10 md:flex-row">
               <div className="relative rounded-full border-2 border-background">
-                <Avatar src={user.image} name={user.displayName} size="4xl" />
+                <Avatar
+                  src={user.userBan?.active != true ? user.image : undefined}
+                  name={user.displayName}
+                  size="4xl"
+                />
                 <div className="absolute right-0 bottom-2 text-center text-lg font-medium md:text-left">
                   {user.isPlus && <PlusBadge />}
                 </div>
@@ -363,21 +367,28 @@ const User: NextPage<Props> = ({
               <div className="flex flex-col items-center justify-end md:items-start">
                 <span className="flex">
                   <h1 className="text-center font-extrabold md:text-left">
-                    {user.displayName}
+                    {user.userBan?.active != true
+                      ? user.displayName
+                      : 'Banned User'}
                   </h1>
                   <span className="ml-2 mt-2 self-center text-center text-lg font-medium md:text-left">
                     {user.privacySettings?.profile && user.profile?.pronouns}
                   </span>
                 </span>
-                {user.privacySettings?.profile && user.profile?.bio && (
-                  <pre className="whitespace-pre-wrap  font-body  text-lg line-clamp-3 md:text-left [&>a]:font-semibold [&>a]:text-primary">
-                    <Linkify
-                      options={{ target: '_blank', rel: 'noopener noreferrer' }}
-                    >
-                      {user.profile.bio.replaceAll('\n', ' ')}
-                    </Linkify>
-                  </pre>
-                )}
+                {user.privacySettings?.profile &&
+                  user.profile?.bio &&
+                  user.userBan?.active != true && (
+                    <pre className="whitespace-pre-wrap  font-body  text-lg line-clamp-3 md:text-left [&>a]:font-semibold [&>a]:text-primary">
+                      <Linkify
+                        options={{
+                          target: '_blank',
+                          rel: 'noopener noreferrer',
+                        }}
+                      >
+                        {user.profile.bio.replaceAll('\n', ' ')}
+                      </Linkify>
+                    </pre>
+                  )}
                 <Scope value="friends" fallback={<></>}>
                   <div className="mt-2 flex items-center">
                     <>
@@ -422,97 +433,124 @@ const User: NextPage<Props> = ({
                   </div>
                 </Scope>
 
-                <Scope value="connections" fallback={<></>}>
-                  <div className="mt-2 flex flex-row items-center gap-2">
-                    <SpotifyLink path={`/user/${user.id}`} />
-                  </div>
-                </Scope>
+                {user.userBan?.active != true && (
+                  <Scope value="connections" fallback={<></>}>
+                    <div className="mt-2 flex flex-row items-center gap-2">
+                      <SpotifyLink path={`/user/${user.id}`} />
+                    </div>
+                  </Scope>
+                )}
               </div>
             </section>
           </Container>
         </div>
 
-        <Container className="mt-8">
-          {
-            user.quarantined && (
-              <section className='pb-10'>
+        {/* Active user page */}
+        {user.userBan?.active != true && (
+          <Container className="mt-8">
+            {user.quarantined && (
+              <section className="pb-10">
                 <div className="flex">
                   <MdWarning className="text-white opacity-60 mr-2 mt-1.5" />
                   <p>This account's streams have been quarantined</p>
                   {/* TODO: Add info button with link to a support article or a popup message */}
                 </div>
               </section>
-            )
-          }
+            )}
 
-          <section className="flex flex-col justify-between gap-5 md:flex-row-reverse">
-            <SegmentedControls onChange={handleSegmentSelect}>
-              <Segment value={statsfm.Range.WEEKS}>4 weeks</Segment>
-              <Segment value={statsfm.Range.MONTHS}>6 months</Segment>
-              <Segment value={statsfm.Range.LIFETIME}>lifetime</Segment>
-            </SegmentedControls>
-            <ImportRequiredScope value="streamStats">
-              <ul className="grid w-full grid-cols-2 gap-4 md:w-4/6 md:grid-cols-4">
-                {stats.length > 0
-                  ? stats.map((item, i) => <StatsCard {...item} key={i} />)
-                  : Array(6)
-                    .fill(null)
-                    .map((_n, i) => (
-                      <li key={i}>
-                        <StatsCardSkeleton />
-                      </li>
-                    ))}
-              </ul>
-            </ImportRequiredScope>
-          </section>
+            <section className="flex flex-col justify-between gap-5 md:flex-row-reverse">
+              <SegmentedControls onChange={handleSegmentSelect}>
+                <Segment value={statsfm.Range.WEEKS}>4 weeks</Segment>
+                <Segment value={statsfm.Range.MONTHS}>6 months</Segment>
+                <Segment value={statsfm.Range.LIFETIME}>lifetime</Segment>
+              </SegmentedControls>
+              <ImportRequiredScope value="streamStats">
+                <ul className="grid w-full grid-cols-2 gap-4 md:w-4/6 md:grid-cols-4">
+                  {stats.length > 0
+                    ? stats.map((item, i) => <StatsCard {...item} key={i} />)
+                    : Array(6)
+                        .fill(null)
+                        .map((_n, i) => (
+                          <li key={i}>
+                            <StatsCardSkeleton />
+                          </li>
+                        ))}
+                </ul>
+              </ImportRequiredScope>
+            </section>
 
-          {/* <ListeningClockChart /> */}
+            {/* <ListeningClockChart /> */}
 
-          <TopGenres range={range} userProfile={user} />
+            <TopGenres range={range} userProfile={user} />
 
-          <TopTracks range={range} userProfile={user} trackRef={topTracksRef} />
-
-          <TopArtists
-            range={range}
-            userProfile={user}
-            artistRef={topArtistsRef}
-          />
-
-          {user.isPlus && (
-            <TopAlbums
+            <TopTracks
               range={range}
               userProfile={user}
-              albumRef={topAlbumsRef}
+              trackRef={topTracksRef}
             />
-          )}
 
-          <Section
-            title="Recent streams"
-            description={`${isCurrentUser ? 'Your' : `${user.displayName}'s`
-              } recently played tracks`}
-            scope="recentlyPlayed"
-          >
-            {({ headerRef }) => (
-              <Scope value="recentlyPlayed">
-                <RecentStreams
-                  headerRef={headerRef}
-                  streams={recentStreams}
-                  onItemClick={() => event('USER_recent_track_click')}
-                />
-                {user.hasImported && (
-                  <Link
-                    legacyBehavior
-                    href={`/${user.customId ?? user.id}/streams`}
-                  >
-                    <a className="my-3 font-bold uppercase text-text-grey transition-colors hover:text-white">
-                      show all
-                    </a>
-                  </Link>
-                )}
-              </Scope>
+            <TopArtists
+              range={range}
+              userProfile={user}
+              artistRef={topArtistsRef}
+            />
+
+            {user.isPlus && (
+              <TopAlbums
+                range={range}
+                userProfile={user}
+                albumRef={topAlbumsRef}
+              />
             )}
-          </Section>
-        </Container>
+
+            <Section
+              title="Recent streams"
+              description={`${
+                isCurrentUser ? 'Your' : `${user.displayName}'s`
+              } recently played tracks`}
+              scope="recentlyPlayed"
+            >
+              {({ headerRef }) => (
+                <Scope value="recentlyPlayed">
+                  <RecentStreams
+                    headerRef={headerRef}
+                    streams={recentStreams}
+                    onItemClick={() => event('USER_recent_track_click')}
+                  />
+                  {user.hasImported && (
+                    <Link
+                      legacyBehavior
+                      href={`/${user.customId ?? user.id}/streams`}
+                    >
+                      <a className="my-3 font-bold uppercase text-text-grey transition-colors hover:text-white">
+                        show all
+                      </a>
+                    </Link>
+                  )}
+                </Scope>
+              )}
+            </Section>
+          </Container>
+        )}
+
+        {/* User banned page */}
+        {user.userBan?.active == true && (
+          <Container className="mt-8">
+            <h3>Account banned</h3>
+            <p className="[&>a]:text-primary">
+              The account you are viewing has been banned from the platform.
+            </p>
+            <p className="[&>a]:text-primary">
+              You can view more info about banned accounts here{' '}
+              <Linkify
+                options={{ target: '_blank', rel: 'noopener noreferrer' }}
+              >
+                https://support.stats.fm/docs/banned
+              </Linkify>
+              .
+            </p>
+          </Container>
+        )}
       </Scope.Context>
     </>
   );
