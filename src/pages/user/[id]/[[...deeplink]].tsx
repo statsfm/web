@@ -28,7 +28,7 @@ import { useScrollPercentage } from '@/hooks/use-scroll-percentage';
 import formatter from '@/utils/formatter';
 import { SpotifyLink } from '@/components/SocialLink';
 import { StatsCard, StatsCardSkeleton } from '@/components/StatsCard';
-import { MdVisibilityOff } from 'react-icons/md';
+import { MdVisibilityOff, MdWarning } from 'react-icons/md';
 import type { ScopeProps } from '@/components/PrivacyScope';
 import Scope, { useScopeContext } from '@/components/PrivacyScope';
 import { useRouter } from 'next/router';
@@ -126,7 +126,7 @@ export const getServerSideProps: GetServerSideProps<Props> = async (ctx) => {
 
   const activeCarousel = activeGridModeFromDeepLink(deeplink);
 
-  const userProfile = await api.users.get(id).catch(() => {});
+  const userProfile = await api.users.get(id).catch(() => { });
   if (!userProfile) return { notFound: true };
 
   const user = await fetchUser(ctx);
@@ -433,6 +433,18 @@ const User: NextPage<Props> = ({
         </div>
 
         <Container className="mt-8">
+          {
+            user.quarantined && (
+              <section className='pb-10'>
+                <div className="flex">
+                  <MdWarning className="text-white opacity-60 mr-2 mt-1.5" />
+                  <p>This account's streams have been quarantined</p>
+                  {/* TODO: Add info button with link to a support article or a popup message */}
+                </div>
+              </section>
+            )
+          }
+
           <section className="flex flex-col justify-between gap-5 md:flex-row-reverse">
             <SegmentedControls onChange={handleSegmentSelect}>
               <Segment value={statsfm.Range.WEEKS}>4 weeks</Segment>
@@ -444,12 +456,12 @@ const User: NextPage<Props> = ({
                 {stats.length > 0
                   ? stats.map((item, i) => <StatsCard {...item} key={i} />)
                   : Array(6)
-                      .fill(null)
-                      .map((_n, i) => (
-                        <li key={i}>
-                          <StatsCardSkeleton />
-                        </li>
-                      ))}
+                    .fill(null)
+                    .map((_n, i) => (
+                      <li key={i}>
+                        <StatsCardSkeleton />
+                      </li>
+                    ))}
               </ul>
             </ImportRequiredScope>
           </section>
@@ -476,9 +488,8 @@ const User: NextPage<Props> = ({
 
           <Section
             title="Recent streams"
-            description={`${
-              isCurrentUser ? 'Your' : `${user.displayName}'s`
-            } recently played tracks`}
+            description={`${isCurrentUser ? 'Your' : `${user.displayName}'s`
+              } recently played tracks`}
             scope="recentlyPlayed"
           >
             {({ headerRef }) => (
