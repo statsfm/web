@@ -26,7 +26,7 @@ import { FriendStatus } from '@statsfm/statsfm.js';
 import { event } from 'nextjs-google-analytics';
 import { useScrollPercentage } from '@/hooks/use-scroll-percentage';
 import formatter from '@/utils/formatter';
-import { AppleMusicLink, SpotifyLink } from '@/components/SocialLink';
+import { SpotifyLink } from '@/components/SocialLink';
 import { StatsCard, StatsCardSkeleton } from '@/components/StatsCard';
 import { MdVisibilityOff } from 'react-icons/md';
 import type { ScopeProps } from '@/components/PrivacyScope';
