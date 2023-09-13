@@ -133,12 +133,14 @@ export const getServerSideProps: GetServerSideProps<Props> = async (ctx) => {
 
   let friendStatus = FriendStatus.NONE;
   let friendCount = 0;
-  try {
-    friendCount = await api.users.friendCount(userProfile.id);
-    friendStatus = await api.friends.status(userProfile.id);
-  } catch (e) {
-    friendStatus = FriendStatus.NONE;
-  }
+
+  if (user)
+    try {
+      friendCount = await api.users.friendCount(userProfile.id);
+      friendStatus = await api.friends.status(userProfile.id);
+    } catch (e) {
+      friendStatus = FriendStatus.NONE;
+    }
 
   // TODO: extract this to a util function
   const oembedUrl = encodeURIComponent(`https://stats.fm${ctx.resolvedUrl}`);
@@ -392,27 +394,31 @@ const User: NextPage<Props> = ({
                 <Scope value="friends" fallback={<></>}>
                   <div className="mt-2 flex items-center">
                     <>
-                      {currentUser && currentUser.id !== user.id && (
+                      {!user.userBan?.active && (
                         <>
-                          <FriendsButton
-                            friendUser={user}
-                            initialFriendStatus={friendStatus}
-                          />
-                          <span className="mx-2">
-                            <Square />
-                          </span>
+                          {currentUser && currentUser.id !== user.id && (
+                            <>
+                              <FriendsButton
+                                friendUser={user}
+                                initialFriendStatus={friendStatus}
+                              />
+                              <span className="mx-2">
+                                <Square />
+                              </span>
+                            </>
+                          )}
+
+                          <Link
+                            legacyBehavior
+                            href={`/${user.customId || user.id}/friends`}
+                          >
+                            <a className="font-medium text-neutral-400">
+                              {friendCount}{' '}
+                              {formatter.pluralise('Friend', friendCount)}
+                            </a>
+                          </Link>
                         </>
                       )}
-
-                      <Link
-                        legacyBehavior
-                        href={`/${user.customId || user.id}/friends`}
-                      >
-                        <a className="font-medium text-neutral-400">
-                          {friendCount}{' '}
-                          {formatter.pluralise('Friend', friendCount)}
-                        </a>
-                      </Link>
 
                       {currentUser && currentUser.id === user.id && (
                         <>
@@ -451,7 +457,7 @@ const User: NextPage<Props> = ({
             {user.quarantined && (
               <section className="pb-10">
                 <div className="flex">
-                  <MdWarning className="text-white opacity-60 mr-2 mt-1.5" />
+                  <MdWarning className="mr-2 mt-1.5 text-white opacity-60" />
                   <p>This account&apos;s streams have been quarantined</p>
                   {/* TODO: Add info button with link to a support article or a popup message */}
                 </div>
