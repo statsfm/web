@@ -52,9 +52,6 @@ const NavBody: FC = () => (
         <SideNavItem href="/settings/profile">Profile</SideNavItem>
         <SideNavItem href="/settings/privacy">Privacy</SideNavItem>
         <SideNavItem href="/settings/connections">Connections</SideNavItem>
-        <SideNavItem disabled href="/settings/devices">
-          Devices
-        </SideNavItem>
       </NavGroup>
 
       <NavGroup title="Stats">
