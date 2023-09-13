@@ -61,9 +61,9 @@ const NavBody: FC = () => (
         <SideNavItem external href="/import">
           Import
         </SideNavItem>
-        <SideNavItem disabled href="/settings/algorithms">
+        {/* <SideNavItem disabled href="/settings/algorithms">
           Algorithms
-        </SideNavItem>
+        </SideNavItem> */}
         {/* <SideNavItem href="/account/algorithms">Stats & Algorithms</SideNavItem> */}
         {/* <SideNavItem href="/account/lang">Language & Theme</SideNavItem> */}
       </NavGroup>
