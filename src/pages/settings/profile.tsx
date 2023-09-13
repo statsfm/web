@@ -324,12 +324,17 @@ const DeleteAccount: FC = () => {
                 I acknowledge that this action is irreversable and this will
                 delete all my data such as:
                 <br />
-                - Any purchases I&apos;ve made (for example for stats.fm Plus)
+                - Any purchases I&apos;ve made (for example for stats.fm Plus or
+                Swipefy Pro)
                 <br />
                 - Any automatically syncing playlists I&apos;ve made
                 <br />
                 - Any streams I&apos;ve imported / synced
-                <br />- Any friend (requests)
+                <br />
+                - Any friend (requests)
+                <br />
+                - Swipefy collections
+                <br />- Swipefy swipes
               </label>
             </div>
 
