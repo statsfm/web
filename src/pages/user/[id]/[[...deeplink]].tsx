@@ -355,7 +355,7 @@ const User: NextPage<Props> = ({
             <section className="flex flex-col items-center gap-5 pt-24 pb-10 md:flex-row">
               <div className="relative rounded-full border-2 border-background">
                 <Avatar
-                  src={user.userBan?.active != true ? user.image : undefined}
+                  src={user.userBan?.active !== true ? user.image : undefined}
                   name={user.displayName}
                   size="4xl"
                 />
@@ -367,7 +367,7 @@ const User: NextPage<Props> = ({
               <div className="flex flex-col items-center justify-end md:items-start">
                 <span className="flex">
                   <h1 className="text-center font-extrabold md:text-left">
-                    {user.userBan?.active != true
+                    {user.userBan?.active !== true
                       ? user.displayName
                       : 'Banned User'}
                   </h1>
@@ -377,7 +377,7 @@ const User: NextPage<Props> = ({
                 </span>
                 {user.privacySettings?.profile &&
                   user.profile?.bio &&
-                  user.userBan?.active != true && (
+                  user.userBan?.active !== true && (
                     <pre className="whitespace-pre-wrap  font-body  text-lg line-clamp-3 md:text-left [&>a]:font-semibold [&>a]:text-primary">
                       <Linkify
                         options={{
@@ -433,7 +433,7 @@ const User: NextPage<Props> = ({
                   </div>
                 </Scope>
 
-                {user.userBan?.active != true && (
+                {user.userBan?.active !== true && (
                   <Scope value="connections" fallback={<></>}>
                     <div className="mt-2 flex flex-row items-center gap-2">
                       <SpotifyLink path={`/user/${user.id}`} />
@@ -446,13 +446,13 @@ const User: NextPage<Props> = ({
         </div>
 
         {/* Active user page */}
-        {user.userBan?.active != true && (
+        {user.userBan?.active !== true && (
           <Container className="mt-8">
             {user.quarantined && (
               <section className="pb-10">
                 <div className="flex">
                   <MdWarning className="text-white opacity-60 mr-2 mt-1.5" />
-                  <p>This account's streams have been quarantined</p>
+                  <p>This account&apos;s streams have been quarantined</p>
                   {/* TODO: Add info button with link to a support article or a popup message */}
                 </div>
               </section>
@@ -534,7 +534,7 @@ const User: NextPage<Props> = ({
         )}
 
         {/* User banned page */}
-        {user.userBan?.active == true && (
+        {user.userBan?.active === true && (
           <Container className="mt-8">
             <h3>Account banned</h3>
             <p className="[&>a]:text-primary">
