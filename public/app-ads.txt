@@ -347,7 +347,7 @@ pubmatic.com, 160888, RESELLER, 5d62403b186f2ace
 synacor.com, 82377, RESELLER, e108f11b2cdf7d5b
 
 # fb
-facebook.com, 515637786404696, RESELLER, c3e20eee3f780d68
+facebook.com, 515637786404696, DIRECT, c3e20eee3f780d68
 
 # applovin
 applovin.com, ea6e994dcb0680c43a91af17724be413, DIRECT
