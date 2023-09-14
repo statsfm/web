@@ -84,9 +84,12 @@ const ImportPage: NextPage<Props> = () => {
         try {
           // api.http.config.baseUrl = 'https://import.stats.fm/api/v1';
           // eslint-disable-next-line no-await-in-loop
-          await api.me.import({
+          await fetch(`${api.http.config.baseUrl}/me/import-apple-music`, {
+            method: 'POST',
             headers: {
-              'Content-Type': null!,
+              ...(api?.http?.config?.accessToken
+                ? { Authorization: api.http.config.accessToken }
+                : {}),
             },
             body: formData,
           });
