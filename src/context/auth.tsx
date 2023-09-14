@@ -44,7 +44,7 @@ export const AuthProvider = (
 
   const login = (redirectUrl?: string) => {
     if (redirectUrl) Cookies.set('redirectUrl', redirectUrl);
-    router.push('/api/auth/login');
+    router.push(`/api/auth/login${user?.id ? `?userId=${user.id}` : ''}`);
   };
 
   const tokenAge = () => {
