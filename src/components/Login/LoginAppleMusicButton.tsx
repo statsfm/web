@@ -6,9 +6,14 @@ import { useToaster } from '@/hooks';
 interface Props {
   userId: string;
   redirect: boolean;
+  accessToken?: string;
 }
 
-export const LoginAppleMusicButton = ({ userId, redirect }: Props) => {
+export const LoginAppleMusicButton = ({
+  userId,
+  redirect,
+  accessToken,
+}: Props) => {
   const toaster = useToaster();
   const appleMusicKitHandle = async () => {
     if (userId) {
@@ -16,10 +21,15 @@ export const LoginAppleMusicButton = ({ userId, redirect }: Props) => {
       const music = MusicKit.getInstance();
       const MUT = await music.authorize();
       const added = await fetch(
-        `https://apple-music-beta-api.stats.fm/api/v1/auth/appleMusic/add-mut?userId=${userId}&mut=${MUT}`
+        `${process.env.API_URL}auth/appleMusic/add-mut?userId=${userId}&mut=${MUT}`,
+        {
+          headers: {
+            ...(accessToken ? { Authorization: accessToken } : {}),
+          },
+        }
       );
-      if (added)
-        window.location.href = `https://apple-music-beta.stats.fm/${userId}`;
+      if (!userId) window.location.href = `https://stats.fm`;
+      if (added) window.location.href = `https://stats.fm/${userId}`;
       else toaster.error('You not logged in Apple Music');
     } else {
       toaster.error('You not logged in Apple');

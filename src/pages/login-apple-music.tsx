@@ -1,5 +1,5 @@
 import type { NextPage } from 'next';
-import { useAuth, useToaster } from '@/hooks';
+import { useApi, useAuth, useToaster } from '@/hooks';
 import { Container } from '@/components/Container';
 import { useEffect } from 'react';
 import { useRouter } from 'next/router';
@@ -8,6 +8,7 @@ import { LoginAppleMusicButton } from '@/components/Login/LoginAppleMusicButton'
 
 const Login: NextPage = () => {
   const auth = useAuth();
+  const api = useApi();
   const router = useRouter();
   const toaster = useToaster();
 
@@ -30,6 +31,7 @@ const Login: NextPage = () => {
         <LoginAppleMusicButton
           userId={(auth && auth.user && auth.user.id) || ''}
           redirect={true}
+          accessToken={api.http.config.accessToken}
         />
       </div>
     </Container>
