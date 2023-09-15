@@ -41,52 +41,8 @@ import {
   TopTracks,
 } from '@/components/User';
 import type { UserPageCarouselsWithGrid } from '@/utils';
+import { CurrentlyPlaying } from '@/components/User/CurrentlyPlaying';
 
-// const ListeningClockChart = () => {
-//   const config = {
-//     data: {
-//       labels: [
-//         'Acoustic',
-//         'Danceable',
-//         'Energetic',
-//         'Instrumental',
-//         'Lively',
-//         'Speechful',
-//         'Valence',
-//       ],
-//       datasets: [
-//         {
-//           label: '',
-//           data: [
-//             11, 16, 7, 3, 14, 20, 12, 6, 9, 10, 5, 8, 21, 5, 4, 2, 13, 18, 16,
-//             19, 5, 2, 1, 0,
-//           ],
-//           fill: true,
-//           backgroundColor: 'rgb(30, 215, 96)',
-//           borderColor: 'rgb(30, 215, 96)',
-//         },
-//       ],
-//     },
-//     options: {
-//       angleLines: {
-//         display: true,
-//       },
-//       cutoutPercentage: 20,
-//       scales: {
-//         r: {
-//           grid: {
-//             color: 'rgb(23, 26, 32)',
-//           },
-//           angleLines: {
-//             color: 'rgb(23, 26, 32)',
-//           },
-//           ticks: {
-//             display: false,
-//           },
-//         },
-//       },
-//     },
-//   };
 
 //   ChartJS.register(RadialLinearScale, ArcElement);
 
@@ -461,6 +417,10 @@ const User: NextPage<Props> = ({
                   {/* TODO: Add info button with link to a support article or a popup message */}
                 </div>
               </section>
+            )}
+
+            {user.privacySettings?.currentlyPlaying && (
+              <CurrentlyPlaying user={user} />
             )}
 
             <section className="flex flex-col justify-between gap-5 md:flex-row-reverse">
