@@ -40,6 +40,7 @@ import {
   TopGenres,
   TopTracks,
 } from '@/components/User';
+import type { UserPageCarouselsWithGrid } from '@/utils';
 
 // const ListeningClockChart = () => {
 //   const config = {
@@ -92,18 +93,16 @@ import {
 //   return <PolarArea {...config} />;
 // };
 
-type CarouselsWithGrid = 'tracks' | 'albums' | 'artists';
-
 type Props = SSRProps & {
   userProfile: statsfm.UserPublic;
   friendStatus: statsfm.FriendStatus;
   friendCount: number;
-  activeCarousel: CarouselsWithGrid | null;
+  activeCarousel: UserPageCarouselsWithGrid | null;
 };
 
 function activeGridModeFromDeepLink(
   deeplink: string | string[] | undefined
-): CarouselsWithGrid | null {
+): UserPageCarouselsWithGrid | null {
   if (typeof deeplink !== 'object') return null;
   if (deeplink.length !== 1) return null;
 
@@ -305,7 +304,7 @@ const User: NextPage<Props> = ({
   }, [user]);
 
   useEffect(() => {
-    const refs: Record<CarouselsWithGrid, RefObject<HTMLElement>> = {
+    const refs: Record<UserPageCarouselsWithGrid, RefObject<HTMLElement>> = {
       tracks: topTracksRef,
       albums: topAlbumsRef,
       artists: topArtistsRef,
@@ -493,12 +492,14 @@ const User: NextPage<Props> = ({
               range={range}
               userProfile={user}
               trackRef={topTracksRef}
+              activeCarousel={activeCarousel}
             />
 
             <TopArtists
               range={range}
               userProfile={user}
               artistRef={topArtistsRef}
+              activeCarousel={activeCarousel}
             />
 
             {user.isPlus && (
@@ -506,6 +507,7 @@ const User: NextPage<Props> = ({
                 range={range}
                 userProfile={user}
                 albumRef={topAlbumsRef}
+                activeCarousel={activeCarousel}
               />
             )}
 

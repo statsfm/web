@@ -4,6 +4,7 @@ import type { Range, TopArtist, UserPublic } from '@statsfm/statsfm.js';
 import type { RefObject } from 'react';
 import { useState, type FC, useEffect } from 'react';
 import { event } from 'nextjs-google-analytics';
+import type { UserPageCarouselsWithGrid } from '@/utils';
 import { Carousel } from '../Carousel';
 import Scope from '../PrivacyScope';
 import {
@@ -20,7 +21,8 @@ export const TopArtists: FC<{
   range: Range;
   artistRef: RefObject<HTMLElement>;
   userProfile: UserPublic;
-}> = ({ artistRef, userProfile, range }) => {
+  activeCarousel: UserPageCarouselsWithGrid | null;
+}> = ({ artistRef, userProfile, range, activeCarousel }) => {
   const api = useApi();
   const { user: currentUser } = useAuth();
   const [topArtists, setTopArtists] = useState<TopArtist[]>([]);
@@ -30,10 +32,25 @@ export const TopArtists: FC<{
     api.users.topArtists(userProfile.id, { range }).then(setTopArtists);
   }, [range, userProfile]);
 
+  const gridModeCallback = (gridMode: boolean) => {
+    let newUrl = `/${userProfile.customId ?? userProfile.id}`;
+    if (!gridMode) newUrl += `/artists`;
+
+    // this is some next router weirdness
+    // https://github.com/vercel/next.js/discussions/18072#discussioncomment-109059
+    window.history.replaceState(
+      { ...window.history.state, as: newUrl, url: newUrl },
+      '',
+      newUrl
+    );
+
+    return !gridMode;
+  };
+
   const isCurrentUser = currentUser?.id === userProfile.id;
 
   return (
-    <Carousel itemHeight={262}>
+    <Carousel gridMode={activeCarousel === 'artists'} itemHeight={262}>
       <Section
         ref={artistRef}
         title="Top artists"
@@ -43,7 +60,7 @@ export const TopArtists: FC<{
         scope="topArtists"
         toolbar={
           <div className="flex gap-1">
-            <SectionToolbarGridMode />
+            <SectionToolbarGridMode callback={gridModeCallback} />
             <SectionToolbarCarouselNavigation
               callback={() => event('USER_top_artists_previous')}
             />
