@@ -86,7 +86,7 @@ const StreamsPage: NextPage<Props> = ({ user, userProfile }) => {
       before: new Date(lastEndTime).getTime() || new Date().getTime(),
     });
 
-    if (streams.length === 0) setLoadMoar(false);
+    if (streams.length < 200) setLoadMoar(false);
     setRecentStreams([...(recentStreams || []), ...streams]);
   };
 
