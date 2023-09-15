@@ -28,7 +28,6 @@ export const LoginAppleMusicButton = ({
           },
         }
       );
-      if (!userId) window.location.href = `https://stats.fm`;
       if (added) window.location.href = `https://stats.fm/${userId}`;
       else toaster.error('You not logged in Apple Music');
     } else {

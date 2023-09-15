@@ -1,12 +1,24 @@
-import type { NextPage } from 'next';
+import type { NextPage, GetServerSideProps } from 'next';
 import { useApi, useAuth, useToaster } from '@/hooks';
 import { Container } from '@/components/Container';
 import { useEffect } from 'react';
 import { useRouter } from 'next/router';
 import Cookies from 'js-cookie';
 import { LoginAppleMusicButton } from '@/components/Login/LoginAppleMusicButton';
+import type { SSRProps } from '@/utils/ssrUtils';
+import { fetchUser } from '@/utils/ssrUtils';
 
-const Login: NextPage = () => {
+export const getServerSideProps: GetServerSideProps<SSRProps> = async (ctx) => {
+  const user = await fetchUser(ctx);
+
+  return {
+    props: {
+      user,
+    },
+  };
+};
+
+const Login: NextPage<SSRProps> = ({ user }) => {
   const auth = useAuth();
   const api = useApi();
   const router = useRouter();
@@ -18,6 +30,7 @@ const Login: NextPage = () => {
       toaster.error('Something went wrong trying to login. Please try again.');
     }
 
+    if (!user?.id) router.push('/login');
     if (!redirect) return;
     Cookies.set('redirectUrl', redirect.toString());
   }, [router]);
