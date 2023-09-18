@@ -7,7 +7,7 @@ export type SSRProps<T = {}> = {
 
 export const getApiInstance = (accessToken?: string) => {
   return new statsfm.Api({
-    baseUrl: 'https://beta-api.stats.fm/api/v1',
+    baseUrl: process.env.API_URL,
     accessToken,
   });
 };
