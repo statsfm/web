@@ -32,14 +32,17 @@ export const ImportItem: FC<UserImport> = ({
         </div>
       </div>
       <div className="mt-1 flex items-center gap-x-2 text-sm leading-5 text-gray-500">
-        <p className="whitespace-nowrap">
-          Imported on the {createdAt.getDate()}
-          {getOrdinal(createdAt.getDate())} of{' '}
-          {getMonthName(createdAt.getMonth())} {createdAt.getFullYear()} at{' '}
-          {createdAt.toLocaleTimeString(navigator.language, {
-            timeStyle: 'short',
-          })}
-        </p>
+        {createdAt && (
+          <p className="whitespace-nowrap">
+            Imported on the {new Date(createdAt).getDate()}
+            {getOrdinal(new Date(createdAt).getDate())} of{' '}
+            {getMonthName(new Date(createdAt).getMonth())}{' '}
+            {new Date(createdAt).getFullYear()} at{' '}
+            {new Date(createdAt).toLocaleTimeString(navigator.language, {
+              timeStyle: 'short',
+            })}
+          </p>
+        )}
         <svg viewBox="0 0 2 2" className="h-0.5 w-0.5 fill-current">
           <circle cx={1} cy={1} r={1} />
         </svg>
