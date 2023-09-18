@@ -29,16 +29,16 @@ export const TopListeners: FC<Props> = (props) => {
   const api = useApi();
   const { user, login } = useAuth();
 
-  const type = `${props.type.toLowerCase()}s`;
+  const type = `${props.type.toLowerCase()}s` as
+    | 'tracks'
+    | 'albums'
+    | 'artists';
 
   useEffect(() => {
     (async () => {
       setTopListeners(
-        await api.http
-          .get<statsfm.TopUser[]>(`/${type}/${props.data.id}/top/listeners`, {
-            query: { friends: topListenersFriends },
-          })
-          .then((res) => res.data.items)
+        await api[type]
+          .topListeners(props.data.id, topListenersFriends)
           .catch(() => [])
       );
       setLoading(false);

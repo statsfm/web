@@ -27,28 +27,20 @@ const links: { label: string; links: { label: string; href: string }[] }[] = [
       },
       // {
       //   label: 'Plus',
-      //   // href: '/plus',
+      //   href: '/plus',
       // },
     ],
   },
   {
-    label: 'Socials',
+    label: 'Company',
     links: [
       {
-        label: 'Discord',
-        href: 'https://stats.fm/discord',
+        label: 'Contact',
+        href: '/contact',
       },
       {
-        label: 'Twitter',
-        href: 'https://twitter.com/spotistats',
-      },
-      {
-        label: 'Instagram',
-        href: 'https://www.instagram.com/statsfm/',
-      },
-      {
-        label: 'GitHub',
-        href: 'https://github.com/statsfm/',
+        label: 'Jobs',
+        href: '/careers',
       },
     ],
   },
@@ -67,6 +59,29 @@ const links: { label: string; links: { label: string; href: string }[] }[] = [
   },
 ];
 
+const socials = [
+  {
+    icon: 'discord',
+    href: 'https://stats.fm/discord',
+  },
+  {
+    icon: 'twitter',
+    href: 'https://twitter.com/spotistats',
+  },
+  {
+    icon: 'instagram',
+    href: 'https://www.instagram.com/statsfm',
+  },
+  {
+    icon: 'github',
+    href: 'https://github.com/statsfm',
+  },
+  {
+    icon: 'reddit',
+    href: 'https://www.reddit.com/r/statsfm',
+  },
+];
+
 export const Footer = () => {
   const { user } = useAuth();
   const { pathname } = useRouter();
@@ -74,8 +89,8 @@ export const Footer = () => {
   return (
     <Container as="footer" className="py-14">
       <div className="grid grid-cols-2 gap-y-4 lg:flex lg:flex-row lg:justify-between">
-        {links.map((cat, i) => (
-          <div key={i} className="ml-4 flex flex-col lg:ml-0">
+        {links.map((cat) => (
+          <div key={cat.label} className="ml-4 flex flex-col lg:ml-0">
             <h4 className="mb-2 text-text-grey">{cat.label}</h4>
             <ul className="grid gap-2">
               {cat.links.map((link, i) => (
@@ -154,6 +169,24 @@ export const Footer = () => {
         ) : (
           <div className=""></div>
         )}
+      </div>
+      <div className="flex flex-row">
+        {socials.map((social) => (
+          <div key={social.icon} className="mx-4 flex flex-col lg:ml-0">
+            <a
+              href={social.href}
+              rel="noopener noreferrer"
+              target="_blank"
+              onClick={() => event(`FOOTER_${social.icon.toLowerCase()}`)}
+            >
+              <img
+                className="h-10 w-10"
+                src={`/icons/social/${social.icon}.svg`}
+                alt={social.icon}
+              />
+            </a>
+          </div>
+        ))}
       </div>
 
       <br />

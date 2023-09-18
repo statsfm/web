@@ -55,7 +55,7 @@ const handler = (req: NextApiRequest, res: NextApiResponse) => {
 
   const redirectUrl = `${
     process.env.API_URL
-  }/auth/redirect/spotify?scope=${scope}&redirect_uri=${origin}/api/auth/callback${
+  }/v1/auth/redirect/spotify?scope=${scope}&redirect_uri=${origin}/api/auth/callback${
     req?.query?.userId ? `&userId=${req.query.userId}` : ''
   }`;
   return res.redirect(redirectUrl);

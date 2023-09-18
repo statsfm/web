@@ -53,6 +53,11 @@ module.exports = withBundleAnalyzer({
         destination: 'https://stats.fm/discord',
         permanent: false,
       },
+      {
+        source: '/jobs',
+        destination: '/careers',
+        permanent: false,
+      },
     ];
   },
   async rewrites() {

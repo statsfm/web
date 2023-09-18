@@ -24,13 +24,22 @@ const credits = () => [
         joined: '2022-10-01 00:00:00',
         role: 'Developer',
         image:
-          'https://crowdin-static.downloads.crowdin.com/avatar/15256774/small/4c4130c8397dc4470d4bb37fee7ce509.jpeg',
+          'https://stats.fm/_next/image?url=https%3A%2F%2Fcdn.stats.fm%2Ffile%2Fstatsfm%2Fimages%2Fusers%2Feliasdeuss%2Fb44dc2155a4407777223815fa9f04a2e.webp&w=384&q=75',
       },
     ],
   },
   {
     name: 'Website',
     members: [
+      {
+        id: 6,
+        name: 'Stijn van der Kolk',
+        nickname: 'stijnvdkolk',
+        joined: '2021-03-01 00:00:00',
+        role: 'Developer',
+        image:
+          'https://stats.fm/_next/image?url=https%3A%2F%2Fcdn.stats.fm%2Ffile%2Fstatsfm%2Fimages%2Fusers%2Fr5o97f218wqvcpacb1bohyo6f%2F2cc961119ac6fab9573071838e88746a.webp&w=384&q=75',
+      },
       {
         id: 3,
         name: 'Wouter de Bruijn',
@@ -58,6 +67,15 @@ const credits = () => [
         id: 5,
         name: 'Sjoerd Bolten',
         nickname: 'netlob',
+        joined: '2020-08-03 00:00:00',
+        role: 'Lead Developer',
+        image:
+          'https://crowdin-static.downloads.crowdin.com/avatar/14677468/small/1995a2b0b07c1da8a3759e98e9434aff.jpeg',
+      },
+      {
+        id: 5,
+        name: 'Veaceslav',
+        nickname: 'slava',
         joined: '2020-08-03 00:00:00',
         role: 'Developer',
         image:

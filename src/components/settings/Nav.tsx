@@ -52,21 +52,23 @@ const NavBody: FC = () => (
         <SideNavItem href="/settings/profile">Profile</SideNavItem>
         <SideNavItem href="/settings/privacy">Privacy</SideNavItem>
         <SideNavItem href="/settings/connections">Connections</SideNavItem>
-        <SideNavItem disabled href="/settings/devices">
-          Devices
-        </SideNavItem>
       </NavGroup>
 
-      <NavGroup title="Stats">
+      <NavGroup title="Import">
         <SideNavItem external href="/import">
-          Import
+          Spotify
         </SideNavItem>
-        <SideNavItem disabled href="/settings/algorithms">
-          Algorithms
+        <SideNavItem external href="/import-apple-music">
+          Apple Music
         </SideNavItem>
-        {/* <SideNavItem href="/account/algorithms">Stats & Algorithms</SideNavItem> */}
-        {/* <SideNavItem href="/account/lang">Language & Theme</SideNavItem> */}
       </NavGroup>
+      {/* <NavGroup title="Other"> */}
+      {/* <SideNavItem disabled href="/settings/algorithms">
+          Algorithms
+        </SideNavItem> */}
+      {/* <SideNavItem href="/account/algorithms">Stats & Algorithms</SideNavItem> */}
+      {/* <SideNavItem href="/account/lang">Language & Theme</SideNavItem> */}
+      {/* </NavGroup> */}
     </aside>
   </nav>
 );

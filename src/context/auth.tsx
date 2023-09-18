@@ -6,7 +6,7 @@ import { decodeJwt } from 'jose';
 import Cookies from 'js-cookie';
 import { useRouter } from 'next/router';
 import type { PropsWithChildren } from 'react';
-import { createContext, useEffect, useState } from 'react';
+import { createContext, useEffect, useMemo, useState } from 'react';
 
 export const AuthContext = createContext<{
   user:
@@ -64,16 +64,6 @@ export const AuthProvider = (
     }
   };
 
-  const updateUser = (
-    user: statsfm.UserPrivate & {
-      connectedServices?: {
-        [key: string]: { connected: boolean; hasImported: boolean };
-      };
-    }
-  ) => {
-    setUser(user);
-  };
-
   const logout = () => {
     setUser(null);
 
@@ -89,6 +79,18 @@ export const AuthProvider = (
     router.push('/api/auth/logout');
   };
 
+  const updateUser = (
+    user: statsfm.UserPrivate & {
+      connectedServices?: {
+        [key: string]: { connected: boolean; hasImported: boolean };
+      };
+    }
+  ) => {
+    if (user.disabled || user.userBan?.active) {
+      logout();
+    } else setUser(user);
+  };
+
   useEffect(() => {
     // remove deprecated token from localstorage;
     localStorage.removeItem('token');
@@ -97,22 +99,24 @@ export const AuthProvider = (
     const token = Cookies.get('identityToken');
 
     if (!token) return;
-    api.http.config.accessToken = token;
+    api.http.setToken(token);
 
     // hydrate the user on the frontend if not provided by gssp
     if (user) return;
     (async () => {
-      setUser(await api.me.get());
+      try {
+        updateUser(await api.me.get());
+      } catch (err) {
+        // eslint-disable-next-line no-console
+        console.log(err);
+      }
     })();
   }, []);
 
-  const exposed = {
-    tokenAge,
-    user,
-    updateUser,
-    login,
-    logout,
-  };
+  const exposed = useMemo(
+    () => ({ user, updateUser, tokenAge, login, logout }),
+    [user]
+  );
 
   return (
     <AuthContext.Provider value={exposed}>

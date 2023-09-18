@@ -25,7 +25,7 @@ interface Props {
 }
 const reqNewMatch = async (streamId: string, trackId: string) => {
   await fetch(
-    `${process.env.API_URL}/imports/am/set-new-match/${streamId}/${trackId}`
+    `${process.env.API_URL}/v1/imports/am/set-new-match/${streamId}/${trackId}`
   );
 };
 export const TrackListRow = ({
@@ -76,7 +76,7 @@ export const TrackListRow = ({
 
   const fetchData = async () => {
     const req = await fetch(
-      `${process.env.API_URL}/imports/am/change-match/${id}`
+      `${process.env.API_URL}/v1/imports/am/change-match/${id}`
     );
     const newData = await req.json();
 

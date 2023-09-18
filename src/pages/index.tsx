@@ -1,3 +1,4 @@
+import { Card } from '@/components/Card';
 import { ChevronLink } from '@/components/ChevronLink';
 import { Container } from '@/components/Container';
 import { Divider } from '@/components/Divider';
@@ -6,7 +7,6 @@ import { TotalStats } from '@/components/Home/TotalStats';
 import { StoreBadge } from '@/components/StoreBadges';
 import { Title } from '@/components/Title';
 import { useScrollPercentage } from '@/hooks/use-scroll-percentage';
-import clsx from 'clsx';
 import type { NextPage } from 'next';
 import Link from 'next/link';
 import { event } from 'nextjs-google-analytics';
@@ -18,19 +18,6 @@ import {
   MdLock,
   MdShowChart,
 } from 'react-icons/md';
-
-const Card: FC<PropsWithChildren<{ className?: string }>> = (props) => {
-  return (
-    <div
-      className={clsx(
-        'max-h-max w-full rounded-2xl bg-foreground p-5',
-        props.className
-      )}
-    >
-      {props.children}
-    </div>
-  );
-};
 
 const FeatureItem: FC<PropsWithChildren<{ title: string; Icon: IconType }>> = ({
   title,

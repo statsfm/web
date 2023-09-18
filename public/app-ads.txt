@@ -346,13 +346,13 @@ chocolateplatform.com, 16273, DIRECT, 49a66ce31a704197
 pubmatic.com, 160888, RESELLER, 5d62403b186f2ace
 synacor.com, 82377, RESELLER, e108f11b2cdf7d5b
 
-#fb
-facebook.com, 789650762075575, DIRECT, c3e20eee3f780d68
+# fb
+facebook.com, 515637786404696, DIRECT, c3e20eee3f780d68
 
-#applovin
+# applovin
 applovin.com, ea6e994dcb0680c43a91af17724be413, DIRECT
 
-#unity
+# unity
 adcolony.com, 0a0f72cd66122f31, RESELLER, 1ad675c9de6b5176
 adcolony.com, 801e49d1be83b5f9, RESELLER, 1ad675c9de6b5176
 adelement.com, 30167, RESELLER
@@ -456,7 +456,7 @@ yandex.com, 40427798, RESELLER
 yandex.com, 97539269, RESELLER
 yeahmobi.com, 5135195, RESELLER
 
-#inmobi
+# inmobi
 inmobi.com, 994e19bd867543b4a8c0006a0f2d5cb8, DIRECT, 83e75a7ae333ca9d
 engagebdr.com, 16, RESELLER
 gitberry.com, 31mbg, RESELLER
@@ -641,3 +641,4 @@ pubmatic.com, 161136, RESELLER, 5d62403b186f2ace
 smartadserver.com, 4322, RESELLER
 appnexus.com, 11450, RESELLER
 pubmatic.com, 163078, RESELLER, 5d62403b186f2ace
+ironsrc.com, 354526, Direct

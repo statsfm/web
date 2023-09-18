@@ -4,7 +4,8 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 const env = process.env.NODE_ENV;
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
-  const { identityToken, redirectUrl } = req.cookies;
+  const { redirectUrl } = req.cookies;
+  let { identityToken } = req.cookies;
 
   if (!identityToken && env === 'production')
     return res.redirect('/login?failed=1');
@@ -22,6 +23,8 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     cookies.push(
       `identityToken=${code}; Path=/; Domain=${domain}; Expires=Tue, 01 Jan 2030 00:00:00 GMT`
     );
+
+    identityToken = code as string;
   }
 
   res.setHeader('Set-Cookie', cookies);

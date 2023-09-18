@@ -50,11 +50,7 @@ export const ImportList: FC<{ refetchCounter: number }> = ({
         {loading
           ? Array(10)
               .fill(null)
-              .map((_n, i) => (
-                <li key={i}>
-                  <ImportItemSkeleton />
-                </li>
-              ))
+              .map((_n, i) => <ImportItemSkeleton key={i} />)
           : imports.map((importItem) => (
               <ImportItem {...importItem} key={importItem.hash} />
             ))}

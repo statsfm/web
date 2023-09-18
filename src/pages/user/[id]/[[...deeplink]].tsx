@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import type { FC, RefObject, PropsWithChildren } from 'react';
+import type { FC, RefObject } from 'react';
 import dayjs from 'dayjs';
 import type { GetServerSideProps, NextPage } from 'next';
 import * as statsfm from '@statsfm/statsfm.js';
@@ -8,20 +8,11 @@ import Linkify from 'linkify-react';
 // components
 import { Section } from '@/components/Section/Section';
 import { Segment, SegmentedControls } from '@/components/SegmentedControls';
-import { TrackCard, TrackCardSkeleton } from '@/components/Track';
-import { Carousel } from '@/components/Carousel';
 import { Avatar } from '@/components/Avatar';
 import { useApi } from '@/hooks/use-api';
-import { Chip, ChipGroup } from '@/components/Chip';
 import { useAuth } from '@/hooks';
-import { AlbumCard, AlbumCardSkeleton } from '@/components/Album';
-import { ArtistCard, ArtistCardSkeleton } from '@/components/Artist/ArtistCard';
 import { RecentStreams } from '@/components/RecentStreams';
-import {
-  SectionToolbarCarouselNavigation,
-  SectionToolbarGridMode,
-  SectionToolbarInfoMenu,
-} from '@/components/Section';
+
 import { Container } from '@/components/Container';
 import Link from 'next/link';
 import { Title } from '@/components/Title';
@@ -35,13 +26,21 @@ import { FriendStatus } from '@statsfm/statsfm.js';
 import { event } from 'nextjs-google-analytics';
 import { useScrollPercentage } from '@/hooks/use-scroll-percentage';
 import formatter from '@/utils/formatter';
-import { AppleMusicLink, SpotifyLink } from '@/components/SocialLink';
-import { ShareMenuItem } from '@/components/ShareMenuItem';
+import { SpotifyLink } from '@/components/SocialLink';
 import { StatsCard, StatsCardSkeleton } from '@/components/StatsCard';
-import { MdVisibilityOff } from 'react-icons/md';
+import { MdVisibilityOff, MdWarning } from 'react-icons/md';
 import type { ScopeProps } from '@/components/PrivacyScope';
 import Scope, { useScopeContext } from '@/components/PrivacyScope';
 import { useRouter } from 'next/router';
+import { Square } from '@/components/Square';
+import {
+  FriendsButton,
+  TopAlbums,
+  TopArtists,
+  TopGenres,
+  TopTracks,
+} from '@/components/User';
+import type { UserPageCarouselsWithGrid } from '@/utils';
 
 // const ListeningClockChart = () => {
 //   const config = {
@@ -94,18 +93,16 @@ import { useRouter } from 'next/router';
 //   return <PolarArea {...config} />;
 // };
 
-type CarouselsWithGrid = 'tracks' | 'albums' | 'artists';
-
 type Props = SSRProps & {
   userProfile: statsfm.UserPublic;
   friendStatus: statsfm.FriendStatus;
   friendCount: number;
-  activeCarousel: CarouselsWithGrid | null;
+  activeCarousel: UserPageCarouselsWithGrid | null;
 };
 
 function activeGridModeFromDeepLink(
   deeplink: string | string[] | undefined
-): CarouselsWithGrid | null {
+): UserPageCarouselsWithGrid | null {
   if (typeof deeplink !== 'object') return null;
   if (deeplink.length !== 1) return null;
 
@@ -135,12 +132,14 @@ export const getServerSideProps: GetServerSideProps<Props> = async (ctx) => {
 
   let friendStatus = FriendStatus.NONE;
   let friendCount = 0;
-  try {
-    friendCount = await api.users.friendCount(userProfile.id);
-    friendStatus = await api.me.friendStatus(userProfile.id);
-  } catch (e) {
-    friendStatus = FriendStatus.NONE;
-  }
+
+  if (user)
+    try {
+      friendCount = await api.users.friendCount(userProfile.id);
+      friendStatus = await api.friends.status(userProfile.id);
+    } catch (e) {
+      friendStatus = FriendStatus.NONE;
+    }
 
   // TODO: extract this to a util function
   const oembedUrl = encodeURIComponent(`https://stats.fm${ctx.resolvedUrl}`);
@@ -159,8 +158,6 @@ export const getServerSideProps: GetServerSideProps<Props> = async (ctx) => {
     },
   };
 };
-
-const Square = () => <div className="block h-1 w-1 bg-neutral-400" />;
 
 const PlusBadge = () => (
   <Link href="/plus">
@@ -237,85 +234,6 @@ const ImportRequiredScope: FC<ScopeProps> = ({ children, value }) => {
   );
 };
 
-const FriendsButtonFrame: FC<
-  PropsWithChildren<{ red?: boolean; handler: () => void }>
-> = ({ red, children, handler }) => (
-  <Button
-    className={clsx(
-      red ? 'text-red-500' : '',
-      'mx-0 w-min !bg-transparent !p-0 transition-opacity hover:opacity-80'
-    )}
-    onClick={handler}
-  >
-    {children}
-  </Button>
-);
-
-const FriendsButton: FC<{
-  friendUser: statsfm.UserPublic;
-  initialFriendStatus: statsfm.FriendStatus;
-}> = ({ friendUser, initialFriendStatus }) => {
-  const api = useApi();
-  const [friendStatus, setFriendStatus] =
-    useState<statsfm.FriendStatus>(initialFriendStatus);
-
-  const handleAccept = () => {
-    api.me.acceptFriendRequest(friendUser.id);
-    setFriendStatus(FriendStatus.FRIENDS);
-  };
-
-  const handleRemove = () => {
-    api.me.removeFriend(friendUser.id);
-    setFriendStatus(FriendStatus.NONE);
-  };
-
-  const handleCancel = () => {
-    api.me.cancelFriendRequest(friendUser.id);
-    setFriendStatus(FriendStatus.NONE);
-  };
-
-  const handleSend = () => {
-    api.me.sendFriendRequest(friendUser.id);
-    setFriendStatus(FriendStatus.REQUEST_OUTGOING);
-  };
-
-  switch (friendStatus) {
-    case FriendStatus.FRIENDS:
-      return (
-        <FriendsButtonFrame red handler={handleRemove}>
-          Remove friend
-        </FriendsButtonFrame>
-      );
-    case FriendStatus.REQUEST_INCOMING:
-      return (
-        <FriendsButtonFrame handler={handleAccept}>
-          Accept friend request
-        </FriendsButtonFrame>
-      );
-    case FriendStatus.REQUEST_OUTGOING:
-      return (
-        <FriendsButtonFrame red handler={handleCancel}>
-          Cancel friend request
-        </FriendsButtonFrame>
-      );
-    default:
-      return (
-        <FriendsButtonFrame handler={handleSend}>
-          Send friend request
-        </FriendsButtonFrame>
-      );
-  }
-};
-
-// TODO: use i18n strings instead
-const ranges: Record<statsfm.Range, string | null> = {
-  weeks: 'from the past 4 weeks',
-  months: 'from the past 6 months',
-  lifetime: '',
-  days: null,
-  today: null,
-};
-
 const User: NextPage<Props> = ({
   userProfile: user,
   friendStatus,
@@ -330,10 +248,6 @@ const User: NextPage<Props> = ({
   const [stats, setStats] = useState<
     { label: string; value: string | number }[]
   >([]);
-  const [topGenres, setTopGenres] = useState<statsfm.TopGenre[]>([]);
-  const [topTracks, setTopTracks] = useState<statsfm.TopTrack[]>([]);
-  const [topArtists, setTopArtists] = useState<statsfm.TopArtist[]>([]);
-  const [topAlbums, setTopAlbums] = useState<statsfm.TopAlbum[]>([]);
   const [recentStreams, setRecentStreams] = useState<
     statsfm.RecentlyPlayedTrack[]
   >([]);
@@ -346,56 +260,42 @@ const User: NextPage<Props> = ({
 
   useEffect(() => {
     setStats([]);
-    setTopGenres([]);
-    setTopTracks([]);
-    setTopArtists([]);
-    setTopAlbums([]);
+    api.users.stats(user.id, { range }).then((stats) => {
+      const hours = dayjs.duration(stats.durationMs).asHours();
 
-    const load = async () => {
-      api.users.stats(user.id, { range }).then((stats) => {
-        const hours = dayjs.duration(stats.durationMs).asHours();
-
-        setStats([
-          {
-            label: 'streams',
-            value: formatter.localiseNumber(stats.count),
-          },
-          {
-            label: 'minutes streamed',
-            value: formatter.formatMinutes(stats.durationMs),
-          },
-          {
-            label: 'hours streamed',
-            value: formatter.localiseNumber(Math.round(hours)),
-          },
-          {
-            label: 'different tracks',
-            value: formatter.localiseNumber(stats.cardinality.tracks) ?? 0,
-          },
-          {
-            label: 'different artists',
-            value: formatter.localiseNumber(stats.cardinality.artists) ?? 0,
-          },
-          {
-            label: 'different albums',
-            value: formatter.localiseNumber(stats.cardinality.albums) ?? 0,
-          },
-          // {
-          //   label: `You were listening to music {${
-          //     Math.round((hours / timeframe[range]) * 100 * 10) / 10
-          //   }%} ${ranges[range]}`,
-          //   value: `${Math.round((hours / timeframe[range]) * 100 * 10) / 10}%`,
-          // },
-        ]);
-      });
-
-      api.users.topGenres(user.id, { range }).then(setTopGenres);
-      api.users.topTracks(user.id, { range }).then(setTopTracks);
-      api.users.topArtists(user.id, { range }).then(setTopArtists);
-      api.users.topAlbums(user.id, { range }).then(setTopAlbums);
-    };
-
-    load();
+      setStats([
+        {
+          label: 'streams',
+          value: formatter.localiseNumber(stats.count),
+        },
+        {
+          label: 'minutes streamed',
+          value: formatter.formatMinutes(stats.durationMs),
+        },
+        {
+          label: 'hours streamed',
+          value: formatter.localiseNumber(Math.round(hours)),
+        },
+        {
+          label: 'different tracks',
+          value: formatter.localiseNumber(stats.cardinality.tracks) ?? 0,
+        },
+        {
+          label: 'different artists',
+          value: formatter.localiseNumber(stats.cardinality.artists) ?? 0,
+        },
+        {
+          label: 'different albums',
+          value: formatter.localiseNumber(stats.cardinality.albums) ?? 0,
+        },
+        // {
+        //   label: `You were listening to music {${
+        //     Math.round((hours / timeframe[range]) * 100 * 10) / 10
+        //   }%} ${ranges[range]}`,
+        //   value: `${Math.round((hours / timeframe[range]) * 100 * 10) / 10}%`,
+        // },
+      ]);
+    });
   }, [range, user]);
 
   // TODO: improvements
@@ -404,7 +304,7 @@ const User: NextPage<Props> = ({
   }, [user]);
 
   useEffect(() => {
-    const refs: Record<CarouselsWithGrid, RefObject<HTMLElement>> = {
+    const refs: Record<UserPageCarouselsWithGrid, RefObject<HTMLElement>> = {
       tracks: topTracksRef,
       albums: topAlbumsRef,
       artists: topArtistsRef,
@@ -412,24 +312,6 @@ const User: NextPage<Props> = ({
 
     if (activeCarousel) refs[activeCarousel].current?.scrollIntoView();
   }, []);
-
-  const handleGridModeCallback = (
-    gridMode: boolean,
-    url: CarouselsWithGrid
-  ) => {
-    let newUrl = `/${user.customId ?? user.id}`;
-    if (!gridMode) newUrl += `/${url}`;
-
-    // this is some next router weirdness
-    // https://github.com/vercel/next.js/discussions/18072#discussioncomment-109059
-    window.history.replaceState(
-      { ...window.history.state, as: newUrl, url: newUrl },
-      '',
-      newUrl
-    );
-
-    return !gridMode;
-  };
 
   const handleSegmentSelect = (value: string) => {
     event(`USER_switch_time_${value}`);
@@ -473,7 +355,11 @@ const User: NextPage<Props> = ({
           <Container>
             <section className="flex flex-col items-center gap-5 pt-24 pb-10 md:flex-row">
               <div className="relative rounded-full border-2 border-background">
-                <Avatar src={user.image} name={user.displayName} size="4xl" />
+                <Avatar
+                  src={user.userBan?.active !== true ? user.image : undefined}
+                  name={user.displayName}
+                  size="4xl"
+                />
                 <div className="absolute right-0 bottom-2 text-center text-lg font-medium md:text-left">
                   {user.isPlus && <PlusBadge />}
                 </div>
@@ -482,45 +368,56 @@ const User: NextPage<Props> = ({
               <div className="flex flex-col items-center justify-end md:items-start">
                 <span className="flex">
                   <h1 className="text-center font-extrabold md:text-left">
-                    {user.displayName}
+                    {user.userBan?.active !== true
+                      ? user.displayName
+                      : 'Banned User'}
                   </h1>
                   <span className="ml-2 mt-2 self-center text-center text-lg font-medium md:text-left">
                     {user.privacySettings?.profile && user.profile?.pronouns}
                   </span>
                 </span>
-                {user.privacySettings?.profile && user.profile?.bio && (
-                  <pre className="whitespace-pre-wrap  font-body  text-lg line-clamp-3 md:text-left [&>a]:font-semibold [&>a]:text-primary">
-                    <Linkify
-                      options={{ target: '_blank', rel: 'noopener noreferrer' }}
-                    >
-                      {user.profile.bio.replaceAll('\n', ' ')}
-                    </Linkify>
-                  </pre>
-                )}
+                {user.privacySettings?.profile &&
+                  user.profile?.bio &&
+                  user.userBan?.active !== true && (
+                    <pre className="whitespace-pre-wrap  font-body  text-lg line-clamp-3 md:text-left [&>a]:font-semibold [&>a]:text-primary">
+                      <Linkify
+                        options={{
+                          target: '_blank',
+                          rel: 'noopener noreferrer',
+                        }}
+                      >
+                        {user.profile.bio.replaceAll('\n', ' ')}
+                      </Linkify>
+                    </pre>
+                  )}
                 <Scope value="friends" fallback={<></>}>
                   <div className="mt-2 flex items-center">
                     <>
-                      {currentUser && currentUser.id !== user.id && (
+                      {!user.userBan?.active && (
                         <>
-                          <FriendsButton
-                            friendUser={user}
-                            initialFriendStatus={friendStatus}
-                          />
-                          <span className="mx-2">
-                            <Square />
-                          </span>
+                          {currentUser && currentUser.id !== user.id && (
+                            <>
+                              <FriendsButton
+                                friendUser={user}
+                                initialFriendStatus={friendStatus}
+                              />
+                              <span className="mx-2">
+                                <Square />
+                              </span>
+                            </>
+                          )}
+
+                          <Link
+                            legacyBehavior
+                            href={`/${user.customId || user.id}/friends`}
+                          >
+                            <a className="font-medium text-neutral-400">
+                              {friendCount}{' '}
+                              {formatter.pluralise('Friend', friendCount)}
+                            </a>
+                          </Link>
                         </>
                       )}
-
-                      <Link
-                        legacyBehavior
-                        href={`/${user.customId || user.id}/friends`}
-                      >
-                        <a className="font-medium text-neutral-400">
-                          {friendCount}{' '}
-                          {formatter.pluralise('Friend', friendCount)}
-                        </a>
-                      </Link>
 
                       {currentUser && currentUser.id === user.id && (
                         <>
@@ -541,271 +438,127 @@ const User: NextPage<Props> = ({
                   </div>
                 </Scope>
 
-                <Scope value="connections" fallback={<></>}>
-                  <div className="mt-2 flex flex-row items-center gap-2">
-                    <SpotifyLink path={`/user/${user.id}`} />
-                    <AppleMusicLink />
-                  </div>
-                </Scope>
+                {user.userBan?.active !== true && (
+                  <Scope value="connections" fallback={<></>}>
+                    <div className="mt-2 flex flex-row items-center gap-2">
+                      <SpotifyLink path={`/user/${user.id}`} />
+                    </div>
+                  </Scope>
+                )}
               </div>
             </section>
           </Container>
         </div>
 
-        <Container className="mt-8">
-          <section className="flex flex-col justify-between gap-5 md:flex-row-reverse">
-            <SegmentedControls onChange={handleSegmentSelect}>
-              <Segment value={statsfm.Range.WEEKS}>4 weeks</Segment>
-              <Segment value={statsfm.Range.MONTHS}>6 months</Segment>
-              <Segment value={statsfm.Range.LIFETIME}>lifetime</Segment>
-            </SegmentedControls>
-            <ImportRequiredScope value="streamStats">
-              <ul className="grid w-full grid-cols-2 gap-4 md:w-4/6 md:grid-cols-4">
-                {stats.length > 0
-                  ? stats.map((item, i) => <StatsCard {...item} key={i} />)
-                  : Array(6)
-                      .fill(null)
-                      .map((_n, i) => (
-                        <li key={i}>
-                          <StatsCardSkeleton />
-                        </li>
-                      ))}
-              </ul>
-            </ImportRequiredScope>
-          </section>
-
-          {/* <ListeningClockChart /> */}
-
-          <Section
-            title="Top genres"
-            description={`${
-              isCurrentUser ? 'Your' : `${user.displayName}'s`
-            } top genres ${ranges[range]}`}
-            scope="topGenres"
-          >
-            <Scope value="topGenres">
-              <ChipGroup
-                className={clsx(topGenres.length === 0 && '!overflow-x-hidden')}
-              >
-                {topGenres.length > 0
-                  ? topGenres.map((genre, i) => (
-                      <Chip key={i}>
-                        <Link legacyBehavior href={`/genre/${genre.genre.tag}`}>
-                          <a onClick={() => event('USER_top_genre_click')}>
-                            {genre.genre.tag}
-                          </a>
-                        </Link>
-                      </Chip>
-                    ))
-                  : Array(8)
-                      .fill(null)
-                      .map((_v, i) => (
-                        <Chip
-                          className="shrink-0 animate-pulse text-transparent"
-                          key={i}
-                        >
-                          {i.toString().repeat(i + (10 % 17))}
-                        </Chip>
-                      ))}
-              </ChipGroup>
-            </Scope>
-          </Section>
-          <Carousel gridMode={activeCarousel === 'tracks'} itemHeight={276}>
-            <Section
-              ref={topTracksRef}
-              title="Top tracks"
-              description={`${
-                isCurrentUser ? 'Your' : formatter.nounify(user.displayName)
-              } top tracks ${ranges[range]}`}
-              scope="topTracks"
-              toolbar={
-                <div className="flex gap-1">
-                  <SectionToolbarGridMode
-                    callback={(gridMode) =>
-                      handleGridModeCallback(gridMode, 'tracks')
-                    }
-                  />
-                  <SectionToolbarCarouselNavigation
-                    callback={() => event('USER_top_tracks_previous')}
-                  />
-                  <SectionToolbarCarouselNavigation
-                    next
-                    callback={() => event('USER_top_tracks_next')}
-                  />
-                  <SectionToolbarInfoMenu>
-                    <ShareMenuItem
-                      path={`/${user.customId ?? user.id}/tracks`}
-                    />
-                  </SectionToolbarInfoMenu>
+        {/* Active user page */}
+        {user.userBan?.active !== true && (
+          <Container className="mt-8">
+            {user.quarantined && (
+              <section className="pb-10">
+                <div className="flex">
+                  <MdWarning className="mr-2 mt-1.5 text-white opacity-60" />
+                  <p>This account&apos;s streams have been quarantined</p>
+                  {/* TODO: Add info button with link to a support article or a popup message */}
                 </div>
-              }
-            >
-              <Scope value="topTracks">
-                {/* <NotEnoughData data={topTracks}> */}
-
-                <Carousel.Items>
-                  {topTracks.length > 0
-                    ? topTracks.map((item, i) => (
-                        <Carousel.Item
-                          key={i}
-                          onClick={() => event('USER_top_track_click')}
-                        >
-                          <TrackCard {...item} />
-                        </Carousel.Item>
-                      ))
-                    : Array(10)
-                        .fill(null)
-                        .map((_n, i) => (
-                          <Carousel.Item key={i}>
-                            <TrackCardSkeleton />
-                          </Carousel.Item>
-                        ))}
-                </Carousel.Items>
-                {/* </NotEnoughData> */}
-              </Scope>
-            </Section>
-          </Carousel>
-
-          <Carousel gridMode={activeCarousel === 'artists'} itemHeight={262}>
-            <Section
-              title="Top artists"
-              ref={topArtistsRef}
-              description={`${
-                isCurrentUser ? 'Your' : formatter.nounify(user.displayName)
-              } top artists ${ranges[range]}`}
-              scope="topArtists"
-              toolbar={
-                <div className="flex gap-1">
-                  <SectionToolbarGridMode
-                    callback={(gridMode) =>
-                      handleGridModeCallback(gridMode, 'artists')
-                    }
-                  />
-                  <SectionToolbarCarouselNavigation
-                    callback={() => event('USER_top_artist_previous')}
-                  />
-                  <SectionToolbarCarouselNavigation
-                    next
-                    callback={() => event('USER_top_artist_next')}
-                  />
-                  <SectionToolbarInfoMenu>
-                    <ShareMenuItem
-                      path={`/${user.customId ?? user.id}/artists`}
-                    />
-                  </SectionToolbarInfoMenu>
-                </div>
-              }
-            >
-              <Scope value="topArtists">
-                {/* <NotEnoughData data={topArtists}> */}
-                <Carousel.Items>
-                  {topArtists.length > 0
-                    ? topArtists.map((item, i) => (
-                        <Carousel.Item
-                          key={i}
-                          onClick={() => event('USER_top_artist_click')}
-                        >
-                          <ArtistCard {...item} />
-                        </Carousel.Item>
-                      ))
-                    : Array(10)
-                        .fill(null)
-                        .map((_n, i) => (
-                          <Carousel.Item key={i}>
-                            <ArtistCardSkeleton />
-                          </Carousel.Item>
-                        ))}
-                </Carousel.Items>
-                {/* </NotEnoughData> */}
-              </Scope>
-            </Section>
-          </Carousel>
-
-          {user.isPlus && (
-            <Carousel gridMode={activeCarousel === 'albums'} itemHeight={255}>
-              <Section
-                title="Top albums"
-                ref={topAlbumsRef}
-                description={`${
-                  isCurrentUser ? 'Your' : `${user.displayName}'s`
-                } top albums ${ranges[range]}`}
-                scope="topAlbums"
-                toolbar={
-                  <div className="flex gap-1">
-                    <SectionToolbarGridMode
-                      callback={(gridMode) =>
-                        handleGridModeCallback(gridMode, 'albums')
-                      }
-                    />
-                    <SectionToolbarCarouselNavigation
-                      callback={() => event('USER_top_albums_previous')}
-                    />
-                    <SectionToolbarCarouselNavigation
-                      next
-                      callback={() => event('USER_top_albums_next')}
-                    />
-                    <SectionToolbarInfoMenu>
-                      <ShareMenuItem
-                        path={`/${user.customId ?? user.id}/albums`}
-                      />
-                    </SectionToolbarInfoMenu>
-                  </div>
-                }
-              >
-                <Scope value="topAlbums">
-                  {/* <NotEnoughData data={topAlbums}> */}
-                  <Carousel.Items>
-                    {topAlbums && topAlbums.length > 0
-                      ? topAlbums.map((item, i) => (
-                          <Carousel.Item
-                            key={i}
-                            onClick={() => event('USER_top_album_click')}
-                          >
-                            <AlbumCard {...item} />
-                          </Carousel.Item>
-                        ))
-                      : Array(10)
-                          .fill(null)
-                          .map((_n, i) => (
-                            <Carousel.Item key={i}>
-                              <AlbumCardSkeleton />
-                            </Carousel.Item>
-                          ))}
-                  </Carousel.Items>
-                  {/* </NotEnoughData> */}
-                </Scope>
-              </Section>
-            </Carousel>
-          )}
-
-          <Section
-            title="Recent streams"
-            description={`${
-              isCurrentUser ? 'Your' : `${user.displayName}'s`
-            } recently played tracks`}
-            scope="recentlyPlayed"
-          >
-            {({ headerRef }) => (
-              <Scope value="recentlyPlayed">
-                <RecentStreams
-                  headerRef={headerRef}
-                  streams={recentStreams}
-                  onItemClick={() => event('USER_recent_track_click')}
-                />
-                {user.hasImported && (
-                  <Link
-                    legacyBehavior
-                    href={`/${user.customId ?? user.id}/streams`}
-                  >
-                    <a className="my-3 font-bold uppercase text-text-grey transition-colors hover:text-white">
-                      show all
-                    </a>
-                  </Link>
-                )}
-              </Scope>
+              </section>
             )}
-          </Section>
-        </Container>
+
+            <section className="flex flex-col justify-between gap-5 md:flex-row-reverse">
+              <SegmentedControls onChange={handleSegmentSelect}>
+                <Segment value={statsfm.Range.WEEKS}>4 weeks</Segment>
+                <Segment value={statsfm.Range.MONTHS}>6 months</Segment>
+                <Segment value={statsfm.Range.LIFETIME}>lifetime</Segment>
+              </SegmentedControls>
+              <ImportRequiredScope value="streamStats">
+                <ul className="grid w-full grid-cols-2 gap-4 md:w-4/6 md:grid-cols-4">
+                  {stats.length > 0
+                    ? stats.map((item, i) => <StatsCard {...item} key={i} />)
+                    : Array(6)
+                        .fill(null)
+                        .map((_n, i) => (
+                          <li key={i}>
+                            <StatsCardSkeleton />
+                          </li>
+                        ))}
+                </ul>
+              </ImportRequiredScope>
+            </section>
+
+            {/* <ListeningClockChart /> */}
+
+            <TopGenres range={range} userProfile={user} />
+
+            <TopTracks
+              range={range}
+              userProfile={user}
+              trackRef={topTracksRef}
+              activeCarousel={activeCarousel}
+            />
+
+            <TopArtists
+              range={range}
+              userProfile={user}
+              artistRef={topArtistsRef}
+              activeCarousel={activeCarousel}
+            />
+
+            {user.isPlus && (
+              <TopAlbums
+                range={range}
+                userProfile={user}
+                albumRef={topAlbumsRef}
+                activeCarousel={activeCarousel}
+              />
+            )}
+
+            <Section
+              title="Recent streams"
+              description={`${
+                isCurrentUser ? 'Your' : `${user.displayName}'s`
+              } recently played tracks`}
+              scope="recentlyPlayed"
+            >
+              {({ headerRef }) => (
+                <Scope value="recentlyPlayed">
+                  <RecentStreams
+                    headerRef={headerRef}
+                    streams={recentStreams}
+                    onItemClick={() => event('USER_recent_track_click')}
+                  />
+                  {user.hasImported && (
+                    <Link
+                      legacyBehavior
+                      href={`/${user.customId ?? user.id}/streams`}
+                    >
+                      <a className="my-3 font-bold uppercase text-text-grey transition-colors hover:text-white">
+                        show all
+                      </a>
+                    </Link>
+                  )}
+                </Scope>
+              )}
+            </Section>
+          </Container>
+        )}
+
+        {/* User banned page */}
+        {user.userBan?.active === true && (
+          <Container className="mt-8">
+            <h3>Account banned</h3>
+            <p className="[&>a]:text-primary">
+              The account you are viewing has been banned from the platform.
+            </p>
+            <p className="[&>a]:text-primary">
+              You can view more info about banned accounts here{' '}
+              <Linkify
+                options={{ target: '_blank', rel: 'noopener noreferrer' }}
+              >
+                https://support.stats.fm/docs/banned
+              </Linkify>
+              .
+            </p>
+          </Container>
+        )}
       </Scope.Context>
     </>
   );

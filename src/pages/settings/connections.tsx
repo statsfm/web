@@ -44,11 +44,25 @@ const useConnections = () => {
       // TODO: optimistic updates for connecting
       connect: () => {
         event('SETTINGS_connections_discord_connect');
-        window.location.href = `${api.http.config.baseUrl}/me/connections/discord/redirect?authorization=${api.http.config.accessToken}&redirect_uri=${window.location.href}`;
+        window.location.href = api.http.resolveUrl(
+          '/me/connections/discord/redirect',
+          true,
+          new URLSearchParams({
+            redirect_uri: window.location.href,
+            authorization: api.http.accessToken!,
+          }).toString()
+        );
       },
       update: () => {
         event('SETTINGS_connections_discord_update');
-        window.location.href = `${api.http.config.baseUrl}/me/connections/discord/redirect?authorization=${api.http.config.accessToken}&redirect_uri=${window.location.href}`;
+        window.location.href = api.http.resolveUrl(
+          '/me/connections/discord/redirect',
+          true,
+          new URLSearchParams({
+            redirect_uri: window.location.href,
+            authorization: api.http.accessToken!,
+          }).toString()
+        );
       },
       disconnect: () => {
         event('SETTINGS_connections_discord_disconnect');

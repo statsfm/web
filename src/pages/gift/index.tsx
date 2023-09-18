@@ -4,10 +4,15 @@ import type { FC } from 'react';
 import { useCallback, useMemo, useEffect, useState } from 'react';
 import { useApi, useAuth, useToaster } from '@/hooks';
 import { Button } from '@/components/Button';
-import type { GiftCode, Plan } from '@/types/gift';
+import type { Plan } from '@/types/gift';
 import { Coupon } from '@/components/Gift/Coupon';
 import { Title } from '@/components/Title';
 import Link from 'next/link';
+import type {
+  ItemResponse,
+  ItemsResponse,
+  GiftCode,
+} from '@statsfm/statsfm.js';
 
 const Coupons: FC = () => {
   const [giftCodes, setGiftCodes] = useState<GiftCode[]>([]);
@@ -16,15 +21,10 @@ const Coupons: FC = () => {
 
   useEffect(() => {
     (async () => {
-      const { data, success } = await api.http.get<GiftCode[]>(
-        `/me/plus/giftcodes`
-      );
-
-      if (!success) return;
-      setGiftCodes(data.items);
+      setGiftCodes(await api.me.getGiftCodes());
       setLoading(false);
     })();
-  });
+  }, []);
 
   const [unClaimedCodes, claimedCodes] = useMemo(
     () => [
@@ -39,7 +39,7 @@ const Coupons: FC = () => {
 
   return (
     <section className="mt-10">
-      <h2>Your Coupons</h2>
+      <h2 id="your-coupons">Your Coupons</h2>
       <div className="my-2">
         <h3 className="mb-3 text-lg">Unclaimed Coupons</h3>
 
@@ -96,11 +96,11 @@ export const getStaticProps: GetStaticProps<Props> = async () => {
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const api = useApi();
 
-  const { data } = await api.http.get(
+  const { items } = await api.http.get<ItemsResponse<any>>(
     `/stripe/products/spotistats_plus_coupon/prices`
   );
   const plans = formatPlans(
-    (data as any).items.data.filter(
+    items.data.filter(
       (x: { product: string; active: boolean }) =>
         x.product === 'prod_Mveep2aVG09MSl' && x.active === true
     )
@@ -142,12 +142,15 @@ const GiftPage: NextPage<Props> = ({ plans }) => {
         return;
       }
 
-      const { data, success } = await api.http.get<{ url: string }>(
-        `/stripe/products/spotistats_plus_coupon/prices/${id}/session`
-      );
-
-      if (success) window.location.href = data.item.url;
-      else toaster.error('Something went wrong');
+      try {
+        const { item } = await api.http.get<ItemResponse<{ url: string }>>(
+          `/stripe/products/spotistats_plus_coupon/prices/${id}/session`,
+          { authRequired: true }
+        );
+        window.location.href = item.url;
+      } catch (e) {
+        toaster.error('Something went wrong');
+      }
     },
     [user]
   );

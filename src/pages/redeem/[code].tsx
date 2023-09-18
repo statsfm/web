@@ -1,7 +1,7 @@
 import { Button } from '@/components/Button';
 import { Container } from '@/components/Container';
 import { useApi, useAuth, useToaster } from '@/hooks';
-import type { GiftCode } from '@/types/gift';
+import type { GiftCode } from '@statsfm/statsfm.js';
 import JSConfetti from 'js-confetti';
 import type { NextPage } from 'next';
 import Link from 'next/link';
@@ -22,33 +22,27 @@ const RedeemCodePage: NextPage = () => {
   useEffect(() => {
     if (!code) return;
     (async () => {
-      const res = await api.http.get<GiftCode>(`/me/plus/giftcodes/${code}`, {
-        query: {
-          type: 'code',
-        },
-      });
-
-      if (!res.success) {
+      let giftCode: GiftCode;
+      try {
+        giftCode = await api.me.getGiftCode(code);
+      } catch (e: any) {
         router.push('/redeem');
         return;
       }
 
-      setGiftCode(res.data.item);
+      setGiftCode(giftCode);
     })();
   }, [code]);
 
   const redeemGiftCode = useCallback(async () => {
-    const res = await api.http
-      .post(`/me/plus/giftcodes/redeem`, {
-        body: `{"code": "${code}"}`,
-      })
-      .catch((e) => {
-        toaster.error(e.data.message);
-      });
-
-    if (res?.success) {
-      toaster.message('Succesfully redeemed gift code!');
+    try {
+      await api.me.redeemGiftCode(code);
+    } catch (e: any) {
+      toaster.error(e.message);
+      return;
     }
+
+    toaster.message('Succesfully redeemed gift code!');
   }, [code]);
 
   const redeemCallback = useCallback(async () => {
@@ -110,7 +104,7 @@ const RedeemCodePage: NextPage = () => {
                     className="font-bold text-primary hover:opacity-80"
                     onClick={(e) => e.stopPropagation()}
                   >
-                    {giftCode?.boughtBy.displayName}
+                    {giftCode?.boughtBy?.displayName}
                   </a>
                 </Link>
               </span>

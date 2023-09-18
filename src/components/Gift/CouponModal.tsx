@@ -1,5 +1,5 @@
 import { useApi, useToaster } from '@/hooks';
-import type { GiftCode } from '@/types/gift';
+import type { GiftCode } from '@statsfm/statsfm.js';
 import { Dialog } from '@headlessui/react';
 import dayjs from 'dayjs';
 import Link from 'next/link';
@@ -32,18 +32,11 @@ export const CouponModal: FC<{
 
   const save = useCallback(async () => {
     setSaving(true);
-    const { success } = await api.http.put(
-      `/me/plus/giftcodes/${giftCode.id}`,
-      {
-        body: JSON.stringify({
-          message,
-        }),
-      }
-    );
-    setSaving(false);
-
-    if (!success) {
-      toaster.error('something went wrong trying to save!');
+    try {
+      await api.me.updateGiftCode(giftCode.id, message);
+      setSaving(false);
+    } catch (e: any) {
+      toaster.error('Something went wrong trying to save!');
       return;
     }
 
@@ -107,7 +100,7 @@ export const CouponModal: FC<{
               placeholder="Enter message"
               className="!bg-background !p-2"
               maxLength={512}
-              value={message}
+              value={message ?? ''}
               onChange={(e) => setMessage(e.target.value)}
             />
           </div>

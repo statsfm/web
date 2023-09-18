@@ -1,33 +1,28 @@
 import Script from 'next/script';
 import { Button } from '@/components/Button';
 import { AppleMusicIcon } from '@/components/Icons';
-import { useToaster } from '@/hooks';
+import { useApi, useToaster } from '@/hooks';
 
 interface Props {
   userId: string;
   redirect: boolean;
-  accessToken?: string;
 }
 
-export const LoginAppleMusicButton = ({
-  userId,
-  redirect,
-  accessToken,
-}: Props) => {
+export const LoginAppleMusicButton = ({ userId, redirect }: Props) => {
+  const api = useApi();
   const toaster = useToaster();
   const appleMusicKitHandle = async () => {
     if (userId) {
       // @ts-ignore
       const music = MusicKit.getInstance();
       const MUT = await music.authorize();
-      const added = await fetch(
-        `${process.env.API_URL}auth/appleMusic/add-mut?userId=${userId}&mut=${MUT}`,
-        {
-          headers: {
-            ...(accessToken ? { Authorization: accessToken } : {}),
-          },
-        }
-      );
+      const added = await api.http.get('/auth/appleMusic/add-mut', {
+        query: {
+          userId,
+          mut: MUT,
+        },
+        authRequired: true,
+      });
       if (added) window.location.href = `https://stats.fm/${userId}`;
       else toaster.error('You not logged in Apple Music');
     } else {

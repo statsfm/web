@@ -1,5 +1,5 @@
 import type { NextPage, GetServerSideProps } from 'next';
-import { useApi, useAuth, useToaster } from '@/hooks';
+import { useAuth, useToaster } from '@/hooks';
 import { Container } from '@/components/Container';
 import { useEffect } from 'react';
 import { useRouter } from 'next/router';
@@ -20,7 +20,6 @@ export const getServerSideProps: GetServerSideProps<SSRProps> = async (ctx) => {
 
 const Login: NextPage<SSRProps> = ({ user }) => {
   const auth = useAuth();
-  const api = useApi();
   const router = useRouter();
   const toaster = useToaster();
 
@@ -42,9 +41,8 @@ const Login: NextPage<SSRProps> = ({ user }) => {
           Login to Apple Music
         </h1>
         <LoginAppleMusicButton
-          userId={(auth && auth.user && auth.user.id) || ''}
+          userId={(auth?.user && auth?.user.id) || ''}
           redirect={true}
-          accessToken={api.http.config.accessToken}
         />
       </div>
     </Container>

@@ -62,30 +62,23 @@ const ImportPage: NextPage<Props> = () => {
         .filter((x: any) => x.ts && x.ms && x.tn && x.ti);
       streams = null;
 
-      const a = JSON.stringify(validStreams);
-      const formData = new FormData();
-      const blob = new Blob([a], { type: 'application/json' });
-      const newFile = new File([blob], file.name);
-      formData.append('files', newFile);
-
-      const oldUrl = api.http.config.baseUrl;
+      const oldUrl = api.options.http.apiUrl;
       try {
-        api.http.config.baseUrl = 'https://import.stats.fm/api/v1';
+        api.options.http.apiUrl = 'https://import.stats.fm/api';
         await api.me.import({
-          headers: {
-            'Content-Type': null!,
-          },
-          body: formData,
+          name: file.name,
+          contentType: 'application/json',
+          data: JSON.stringify(validStreams),
+          key: 'files',
         });
 
         event('IMPORT_upload_files');
         toaster.message(`succesfully uploaded.. ${file.name}`);
         setRefetchCounter((c) => c + 1);
-      } catch (e) {
-        // @ts-expect-error
-        toaster.error(JSON.stringify(e?.data ?? e).toString());
+      } catch (e: any) {
+        toaster.error(e.message);
       }
-      api.http.config.baseUrl = oldUrl;
+      api.options.http.apiUrl = oldUrl;
     } else {
       toaster.error(
         'Something must have gone wrong here, are you sure you are uploading the right file?'

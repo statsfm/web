@@ -55,7 +55,7 @@ const ImportPage: NextPage<Props> = () => {
       const z = (await file.text()).split('\n');
       const head = z[0];
       let idx = 0;
-      const oldUrl = api.http.config.baseUrl;
+      const oldUrl = api.options.http.apiUrl;
       const totalChunks = Math.round(z.length / 3000);
       const progressSize = 100 / totalChunks;
       if (totalChunks > 1)
@@ -84,13 +84,8 @@ const ImportPage: NextPage<Props> = () => {
         try {
           // api.http.config.baseUrl = 'https://import.stats.fm/api/v1';
           // eslint-disable-next-line no-await-in-loop
-          await fetch(`${api.http.config.baseUrl}/me/import-apple-music`, {
-            method: 'POST',
-            headers: {
-              ...(api?.http?.config?.accessToken
-                ? { Authorization: api.http.config.accessToken }
-                : {}),
-            },
+          await api.http.post('/me/import-apple-music', {
+            authRequired: true,
             body: formData,
           });
 
@@ -104,7 +99,7 @@ const ImportPage: NextPage<Props> = () => {
         }
         idx += 1;
       }
-      api.http.config.baseUrl = oldUrl;
+      api.options.http.apiUrl = oldUrl;
       toaster.message(`succesfully uploaded.. ${file.name}`);
     } else {
       toaster.error(

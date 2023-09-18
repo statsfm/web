@@ -4,7 +4,7 @@ import { Image } from '@/components/Image';
 import { Title } from '@/components/Title';
 import { useApi, useAuth, useToaster } from '@/hooks';
 import { Range } from '@statsfm/statsfm.js';
-import type { TopArtist } from '@statsfm/statsfm.js';
+import type { TopArtist, ItemResponse } from '@statsfm/statsfm.js';
 import clsx from 'clsx';
 import { gsap, Power0, Power1 } from 'gsap';
 import { ScrollTrigger } from 'gsap/dist/ScrollTrigger';
@@ -575,12 +575,15 @@ const PlusPage: NextPage<
       return;
     }
 
-    const { data, success } = await api.http.get<{ url: string }>(
-      `/stripe/products/spotistats_plus/prices/default/session`
-    );
-
-    if (success) window.location.href = data.item.url;
-    else toaster.error('Something went wrong');
+    try {
+      const { item } = await api.http.get<ItemResponse<{ url: string }>>(
+        `/stripe/products/spotistats_plus/prices/default/session`,
+        { authRequired: true }
+      );
+      window.location.href = item.url;
+    } catch (e) {
+      toaster.error('Something went wrong');
+    }
   }, [user]);
 
   return (
