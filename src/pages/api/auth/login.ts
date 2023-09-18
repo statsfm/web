@@ -53,7 +53,9 @@ const handler = (req: NextApiRequest, res: NextApiResponse) => {
     'user-follow-modify',
   ].join('%20');
 
-  const redirectUrl = `https://api.stats.fm/api/v1/auth/redirect/spotify?scope=${scope}&redirect_uri=${origin}/api/auth/callback${
+  const redirectUrl = `${
+    process.env.API_URL
+  }/auth/redirect/spotify?scope=${scope}&redirect_uri=${origin}/api/auth/callback${
     req?.query?.userId ? `&userId=${req.query.userId}` : ''
   }`;
   return res.redirect(redirectUrl);
