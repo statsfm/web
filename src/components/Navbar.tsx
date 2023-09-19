@@ -5,7 +5,6 @@ import { MdAccountCircle, MdExitToApp, MdManageAccounts } from 'react-icons/md';
 import { Transition } from '@headlessui/react';
 import { event } from 'nextjs-google-analytics';
 import { useRouter } from 'next/router';
-import Cookies from 'js-cookie';
 import { Logo } from './Logo';
 import { Avatar } from './Avatar/Avatar';
 import { Menu } from './Menu';
@@ -14,7 +13,7 @@ import { Button } from './Button';
 import { CrownIcon } from './Icons';
 
 export const NavBar = () => {
-  const { user, logout, login } = useAuth();
+  const { user, logout } = useAuth();
   const router = useRouter();
 
   const handleLogin = () => {
