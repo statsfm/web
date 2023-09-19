@@ -642,3 +642,19 @@ smartadserver.com, 4322, RESELLER
 appnexus.com, 11450, RESELLER
 pubmatic.com, 163078, RESELLER, 5d62403b186f2ace
 ironsrc.com, 354526, Direct
+greedygame.com, 3002922949831012, DIRECT
+google.com, pub-1067374679252537, RESELLER, f08c47fec0942fa0
+google.com, pub-2749054827332983, RESELLER, f08c47fec0942fa0
+pubmatic.com, 161480, RESELLER, 5d62403b186f2ace
+pubmatic.com, 162539, RESELLER, 5d62403b186f2ace
+insticator.com, Ccdf5164b-9e58-424a-ae57-ce178b69b6b5, DIRECT, b3511ffcafb23a32 #Insticator_Version_676
+oko.uk, cdf5164b-9e58-424a-ae57-ce178b69b6b5, DIRECT, b3511ffcafb23a32 #OKO_Version_385
+google.com,pub-2697679518515886,RESELLER,f08c47fec0942fa0
+onetag.com,5649f68000b2f63,DIRECT
+onetag.com,5649f68000b2f63-OB,DIRECT
+pubmatic.com,157129,RESELLER,5d62403b186f2ace
+rubiconproject.com,17976,RESELLER,0bfd66d529a55807
+sharethrough.com,RQxJB46P,RESELLER,d53b998a7bd4ecd2
+sonobi.com,79ec5b176f,RESELLER,d1a215d9eb5aee9e
+triplelift.com,6998-EB,DIRECT,6c33edb13117fd86
+smartadserver.com,4179-OB,RESELLER,060d053dcf45cbf3
