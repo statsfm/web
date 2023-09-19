@@ -19,8 +19,9 @@ export const NavBar = () => {
 
   const handleLogin = () => {
     // if a redirect url is already set (which happens when you are auth guarded), dont set it again
-    const redirectUrl = Cookies.get('redirectUrl');
-    login(redirectUrl ?? router.asPath);
+    // const redirectUrl = Cookies.get('redirectUrl');
+    // login(redirectUrl ?? router.asPath);
+    window.location.href = '/login';
   };
 
   const handleLogOutClick = () => {
