@@ -51,12 +51,13 @@ const ImportPage: NextPage<Props> = () => {
         /(?:Play|play|History|history).*(?:Activity|activity|Daily|daily)*.\.csv/i
       )
     ) {
+      const chunkSize = 500;
       // THESE 2 LINES SHOULD NEVER BE JOINED INTO 1, FOR SOME FUCKING REASON IT BREAKS NEXT
       const z = (await file.text()).split('\n');
       const head = z[0];
       let idx = 0;
       const oldUrl = api.options.http.apiUrl;
-      const totalChunks = Math.round(z.length / 3000);
+      const totalChunks = Math.round(z.length / chunkSize);
       const progressSize = 100 / totalChunks;
       if (totalChunks > 1)
         setLoadingProgress({
@@ -72,21 +73,24 @@ const ImportPage: NextPage<Props> = () => {
             progress: progressPercent,
             description: `Splitting file on chunks and uploading.`,
           });
-        const csvData = totalChunks > 1 ? z.splice(0, 3000) : z.splice(0);
+        const csvData = totalChunks > 1 ? z.splice(0, chunkSize) : z.splice(0);
         if (idx > 0) csvData.unshift(head || '');
-        const formData = new FormData();
-        const blob = new Blob([csvData.join('\n')], { type: 'text/csv' });
-        const newFile = new File(
-          [blob],
-          totalChunks > 1 ? file.name.replace('.csv', `_${idx}.csv`) : file.name
-        );
-        formData.append('files', newFile);
         try {
-          // api.http.config.baseUrl = 'https://import.stats.fm/api/v1';
+          // api.options.http.apiUrl = 'https://import.stats.fm/api';
           // eslint-disable-next-line no-await-in-loop
           await api.http.post('/me/import-apple-music', {
             authRequired: true,
-            body: formData,
+            files: [
+              {
+                key: 'files',
+                data: csvData.join('\n'),
+                contentType: 'text/csv',
+                name:
+                  totalChunks > 1
+                    ? file.name.replace('.csv', `_${idx}.csv`)
+                    : file.name,
+              },
+            ],
           });
 
           event('IMPORT_upload_files');
