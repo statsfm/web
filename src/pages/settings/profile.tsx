@@ -31,6 +31,7 @@ import {
 import type { SSRProps } from '@/utils/ssrUtils';
 import { fetchUser } from '@/utils/ssrUtils';
 import { event } from 'nextjs-google-analytics';
+import Cookies from 'js-cookie';
 
 type StatusOptions = 'SAVING' | 'SAVED' | 'ERROR' | 'DEFAULT' | 'DELETING';
 type UrlAvailableOptions = 'LOADING' | 'AVAILABLE' | 'UNAVAILABLE';
@@ -252,7 +253,7 @@ const AvailibilityIndicator: FC<{ user: UserPrivate }> = ({ user }) => {
 
 const DeleteAccount: FC = () => {
   const { error } = useToaster();
-  const { login, logout, tokenAge } = useAuth();
+  const { logout, tokenAge } = useAuth();
   const { status } = useContext(stateContext)!;
   const router = useRouter();
   const api = useApi();
@@ -350,7 +351,8 @@ const DeleteAccount: FC = () => {
           <Button
             onClick={() => {
               logout();
-              login(router.asPath);
+              Cookies.set('redirect', router.asPath);
+              router.push('/login');
             }}
             className="mt-2"
           >
