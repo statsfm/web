@@ -78,19 +78,14 @@ const ImportPage: NextPage<Props> = () => {
         try {
           // api.options.http.apiUrl = 'https://import.stats.fm/api';
           // eslint-disable-next-line no-await-in-loop
-          await api.http.post('/me/import-apple-music', {
-            authRequired: true,
-            files: [
-              {
-                key: 'files',
-                data: csvData.join('\n'),
-                contentType: 'text/csv',
-                name:
-                  totalChunks > 1
-                    ? file.name.replace('.csv', `_${idx}.csv`)
-                    : file.name,
-              },
-            ],
+          await api.me.importAppleMusic({
+            key: 'files',
+            data: csvData.join('\n'),
+            contentType: 'text/csv',
+            name:
+              totalChunks > 1
+                ? file.name.replace('.csv', `_${idx}.csv`)
+                : file.name,
           });
 
           event('IMPORT_upload_files');
