@@ -135,7 +135,7 @@ const Home: NextPage = () => {
             </p>
             <div className="mt-5 mb-8 flex flex-col gap-3">
               <FeatureItem Icon={MdLock} title="Safe & secure">
-                Privacy is key, and I&apos;ve build the platform keeping
+                Privacy is key, and I&apos;ve built the platform keeping
                 security and privacy at the highest priority. As far as
                 possible, all data is saved anonymously, and is stored and
                 transferred fully encrypted. Unless you import your streaming
