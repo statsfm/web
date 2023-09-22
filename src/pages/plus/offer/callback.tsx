@@ -29,7 +29,7 @@ export const getServerSideProps: GetServerSideProps<Props> = async ({
       destination: `${redirectUrl}${
         redirectUrl?.indexOf('?') === -1 ? '?' : '&'
       }cf_uivd=${encodeURIComponent(code)}&emailaddress=${
-        encodeURIComponent(me.email) ?? ''
+        me?.email ? encodeURIComponent(me.email) : ''
       }&image=${encodeURIComponent(me.image ?? '')}&name=${encodeURIComponent(
         me.displayName
       )}`,
