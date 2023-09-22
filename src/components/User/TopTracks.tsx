@@ -81,14 +81,16 @@ export const TopTracks: FC<{
 
           <Carousel.Items>
             {topTracks.length > 0
-              ? topTracks.map((item) => (
-                  <Carousel.Item
-                    key={item.track.id}
-                    onClick={() => event('USER_top_track_click')}
-                  >
-                    <TrackCard {...item} />
-                  </Carousel.Item>
-                ))
+              ? topTracks
+                  .filter((topTrack) => topTrack?.track?.id)
+                  .map((item) => (
+                    <Carousel.Item
+                      key={item.track.id}
+                      onClick={() => event('USER_top_track_click')}
+                    >
+                      <TrackCard {...item} />
+                    </Carousel.Item>
+                  ))
               : Array(10)
                   .fill(null)
                   .map((_n, i) => (
