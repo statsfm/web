@@ -81,14 +81,16 @@ export const TopAlbums: FC<{
 
           <Carousel.Items>
             {topAlbums.length > 0
-              ? topAlbums.map((item) => (
-                  <Carousel.Item
-                    key={item.album.id}
-                    onClick={() => event('USER_top_album_click')}
-                  >
-                    <AlbumCard {...item} />
-                  </Carousel.Item>
-                ))
+              ? topAlbums
+                  .filter((topAlbum) => topAlbum.album?.id)
+                  .map((item) => (
+                    <Carousel.Item
+                      key={item.album.id}
+                      onClick={() => event('USER_top_album_click')}
+                    >
+                      <AlbumCard {...item} />
+                    </Carousel.Item>
+                  ))
               : Array(10)
                   .fill(null)
                   .map((_n, i) => (
