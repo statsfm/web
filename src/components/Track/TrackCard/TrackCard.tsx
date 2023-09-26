@@ -17,20 +17,20 @@ export const TrackCard = ({ track, playedMs, streams, position }: Props) => {
 
   return (
     <div className="flex w-40 flex-col transition-transform duration-300 ease-in-out active:scale-95">
-      <Link legacyBehavior href={`/track/${track.id}`} passHref>
+      <Link legacyBehavior href={`/track/${track?.id}`} passHref>
         <a>
           <div className="aspect-square w-full group-hover:opacity-90">
             {track?.albums?.length && track.albums[0]?.image && (
               <Image
                 src={track.albums[0].image}
-                alt={track.name}
+                alt={track?.name}
                 width={160}
                 height={160}
               />
             )}
           </div>
           <h4 className="mt-2 line-clamp-2">
-            {position && `${position}.`} {track.name}
+            {position && `${position}.`} {track?.name}
           </h4>
         </a>
       </Link>

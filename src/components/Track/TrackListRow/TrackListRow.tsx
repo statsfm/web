@@ -107,7 +107,7 @@ export const TrackListRow = ({
     <>
       <Link
         legacyBehavior
-        href={`/track/${track ? track.id : trackId}`}
+        href={`/track/${track?.id ? track.id : trackId}`}
         className="flex max-w-full items-center justify-between"
         passHref
       >
