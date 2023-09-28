@@ -243,7 +243,7 @@ const User: NextPage<Props> = ({
   const api = useApi();
   const router = useRouter();
   const { user: currentUser } = useAuth();
-  const [range, setRange] = useState<statsfm.Range>(statsfm.Range.WEEKS);
+  const [range, setRange] = useState<statsfm.Range>(statsfm.Range.TODAY);
 
   const [stats, setStats] = useState<
     { label: string; value: string | number }[]
