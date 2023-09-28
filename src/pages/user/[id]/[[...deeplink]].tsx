@@ -465,12 +465,15 @@ const User: NextPage<Props> = ({
 
             <section className="flex flex-col justify-between gap-5 md:flex-row-reverse">
               <SegmentedControls onChange={handleSegmentSelect}>
+                {user.isPlus && (
+                  <Segment value={statsfm.Range.TODAY}>today</Segment>
+                )}
                 <Segment value={statsfm.Range.WEEKS}>4 weeks</Segment>
                 <Segment value={statsfm.Range.MONTHS}>6 months</Segment>
                 <Segment value={statsfm.Range.LIFETIME}>lifetime</Segment>
               </SegmentedControls>
               <ImportRequiredScope value="streamStats">
-                <ul className="grid w-full grid-cols-2 gap-4 md:w-4/6 md:grid-cols-4">
+                <ul className="grid w-full grid-cols-2 gap-4 md:w-7/12 md:grid-cols-4">
                   {stats.length > 0
                     ? stats.map((item, i) => <StatsCard {...item} key={i} />)
                     : Array(6)
