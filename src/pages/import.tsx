@@ -8,7 +8,7 @@ import type { NextPage } from 'next';
 import { event } from 'nextjs-google-analytics';
 import type { ChangeEvent } from 'react';
 import { useState } from 'react';
-import { MdWarning } from 'react-icons/md';
+import { MdInfo, MdWarning } from 'react-icons/md';
 
 type Props = {};
 
@@ -102,6 +102,22 @@ const ImportPage: NextPage<Props> = () => {
           </div>
         </div>
       )}
+      <div className="my-8 w-full flex-row rounded-md border-l-4 border-l-green-400/80 bg-primaryLighter p-4">
+        <div className="flex w-full flex-col">
+          <span className="flex items-center gap-1">
+            <MdInfo className="fill-white" />
+            <h4>Apple Music Import</h4>
+          </span>
+          <span className="whitespace-pre-wrap text-white mt-2">
+            You can import your Apple Music files by going to{' '}
+            <a href="/apple-music-import" className="text-primary">
+              this page
+            </a>
+            ! We are revamping the import experience on the website to make this
+            process easier in the near future.
+          </span>
+        </div>
+      </div>
       <h2>Imports</h2>
       <p>
         Check more about importing your lifetime streaming history{' '}
