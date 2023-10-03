@@ -4,6 +4,7 @@ import { createContext, useContext } from 'react';
 export type Segment = {
   id: string;
   value: string;
+  disabled?: boolean;
   ref: RefObject<HTMLLIElement>;
 };
 

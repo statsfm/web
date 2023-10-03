@@ -30,7 +30,8 @@ const ToolbarPrivacySettingsInfoPopover = ({
 
   if (
     !scopeValid &&
-    (scopeContext?.as?.id || null) === scopeContext?.target.id
+    (scopeContext?.as?.id || null) === scopeContext?.target.id &&
+    scope !== undefined
   ) {
     return (
       <Popover>

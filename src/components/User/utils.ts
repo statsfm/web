@@ -5,5 +5,5 @@ export const ranges: Record<Range, string | null> = {
   months: 'from the past 6 months',
   lifetime: '',
   days: null,
-  today: null,
+  today: 'from today',
 };
