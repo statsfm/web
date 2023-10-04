@@ -29,7 +29,10 @@ export const TopArtists: FC<{
 
   useEffect(() => {
     setTopArtists([]);
-    api.users.topArtists(userProfile.id, { range }).then(setTopArtists);
+    api.users
+      .topArtists(userProfile.id, { range })
+      .then(setTopArtists)
+      .catch(() => []);
   }, [range, userProfile]);
 
   const gridModeCallback = (gridMode: boolean) => {
@@ -80,7 +83,7 @@ export const TopArtists: FC<{
           {/* <NotEnoughData data={topArtists}> */}
 
           <Carousel.Items>
-            {topArtists.length > 0
+            {topArtists?.length > 0
               ? topArtists
                   .filter((topArtist) => topArtist.artist?.id)
                   .map((item) => (

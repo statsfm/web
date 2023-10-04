@@ -29,7 +29,10 @@ export const TopTracks: FC<{
 
   useEffect(() => {
     setTopTracks([]);
-    api.users.topTracks(userProfile.id, { range }).then(setTopTracks);
+    api.users
+      .topTracks(userProfile.id, { range })
+      .then(setTopTracks)
+      .catch(() => []);
   }, [range, userProfile]);
 
   const gridModeCallback = (gridMode: boolean) => {
@@ -80,9 +83,9 @@ export const TopTracks: FC<{
           {/* <NotEnoughData data={topTracks}> */}
 
           <Carousel.Items>
-            {topTracks.length > 0
+            {topTracks?.length > 0
               ? topTracks
-                  .filter((topTrack) => topTrack?.track?.id)
+                  .filter((topTrack) => topTrack.track?.id)
                   .map((item) => (
                     <Carousel.Item
                       key={item.track.id}

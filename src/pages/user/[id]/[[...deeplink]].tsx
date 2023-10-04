@@ -131,11 +131,12 @@ export const getServerSideProps: GetServerSideProps<Props> = async (ctx) => {
   const user = await fetchUser(ctx);
 
   let friendStatus = FriendStatus.NONE;
-  let friendCount = 0;
+  const friendCount = userProfile.privacySettings?.friends
+    ? await api.users.friendCount(userProfile.id).catch(() => 0)
+    : 0;
 
   if (user)
     try {
-      friendCount = await api.users.friendCount(userProfile.id);
       friendStatus = await api.friends.status(userProfile.id);
     } catch (e) {
       friendStatus = FriendStatus.NONE;
@@ -260,48 +261,46 @@ const User: NextPage<Props> = ({
 
   useEffect(() => {
     setStats([]);
-    api.users.stats(user.id, { range }).then((stats) => {
-      const hours = dayjs.duration(stats.durationMs).asHours();
+    api.users
+      .stats(user.id, { range })
+      .then((stats) => {
+        const hours = dayjs.duration(stats.durationMs).asHours();
 
-      setStats([
-        {
-          label: 'streams',
-          value: formatter.localiseNumber(stats.count),
-        },
-        {
-          label: 'minutes streamed',
-          value: formatter.formatMinutes(stats.durationMs),
-        },
-        {
-          label: 'hours streamed',
-          value: formatter.localiseNumber(Math.round(hours)),
-        },
-        {
-          label: 'different tracks',
-          value: formatter.localiseNumber(stats.cardinality.tracks) ?? 0,
-        },
-        {
-          label: 'different artists',
-          value: formatter.localiseNumber(stats.cardinality.artists) ?? 0,
-        },
-        {
-          label: 'different albums',
-          value: formatter.localiseNumber(stats.cardinality.albums) ?? 0,
-        },
-        // {
-        //   label: `You were listening to music {${
-        //     Math.round((hours / timeframe[range]) * 100 * 10) / 10
-        //   }%} ${ranges[range]}`,
-        //   value: `${Math.round((hours / timeframe[range]) * 100 * 10) / 10}%`,
-        // },
-      ]);
-    });
+        setStats([
+          {
+            label: 'streams',
+            value: formatter.localiseNumber(stats.count),
+          },
+          {
+            label: 'minutes streamed',
+            value: formatter.formatMinutes(stats.durationMs),
+          },
+          {
+            label: 'hours streamed',
+            value: formatter.localiseNumber(Math.round(hours)),
+          },
+          {
+            label: 'different tracks',
+            value: formatter.localiseNumber(stats.cardinality.tracks) ?? 0,
+          },
+          {
+            label: 'different artists',
+            value: formatter.localiseNumber(stats.cardinality.artists) ?? 0,
+          },
+          {
+            label: 'different albums',
+            value: formatter.localiseNumber(stats.cardinality.albums) ?? 0,
+          },
+          // {
+          //   label: `You were listening to music {${
+          //     Math.round((hours / timeframe[range]) * 100 * 10) / 10
+          //   }%} ${ranges[range]}`,
+          //   value: `${Math.round((hours / timeframe[range]) * 100 * 10) / 10}%`,
+          // },
+        ]);
+      })
+      .catch(() => {});
   }, [range, user]);
-
-  // TODO: improvements
-  useEffect(() => {
-    api.users.recentlyStreamed(user.id).then(setRecentStreams);
-  }, [user]);
 
   useEffect(() => {
     const refs: Record<UserPageCarouselsWithGrid, RefObject<HTMLElement>> = {
@@ -312,6 +311,11 @@ const User: NextPage<Props> = ({
 
     if (activeCarousel) refs[activeCarousel].current?.scrollIntoView();
   }, []);
+
+  // TODO: improvements
+  useEffect(() => {
+    api.users.recentlyStreamed(user.id).then(setRecentStreams);
+  }, [user]);
 
   const handleSegmentSelect = (value: string) => {
     event(`USER_switch_time_${value}`);
