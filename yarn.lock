@@ -861,6 +861,13 @@
     file-type "16"
     isomorphic-unfetch "^3.1.0"
 
+"@statsfm/statsfm.js@https://github.com/statsfm/statsfm.js#apple-music-build":
+  version "2.1.8"
+  resolved "https://github.com/statsfm/statsfm.js#1c3ce4d492d18bb910a2befbc1d9fa2c01d9ec72"
+  dependencies:
+    file-type "16"
+    isomorphic-unfetch "^3.1.0"
+
 "@swc/helpers@0.4.11":
   version "0.4.11"
   resolved "https://registry.yarnpkg.com/@swc/helpers/-/helpers-0.4.11.tgz#db23a376761b3d31c26502122f349a21b592c8de"

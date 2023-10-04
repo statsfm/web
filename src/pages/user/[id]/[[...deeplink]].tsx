@@ -445,7 +445,11 @@ const User: NextPage<Props> = ({
                 {user.userBan?.active !== true && (
                   <Scope value="connections" fallback={<></>}>
                     <div className="mt-2 flex flex-row items-center gap-2">
-                      <SpotifyLink path={`/user/${user.id}`} />
+                      {user.spotifyAuth && (
+                        <SpotifyLink
+                          path={`/user/${user.spotifyAuth.platformUserId}`}
+                        />
+                      )}
                     </div>
                   </Scope>
                 )}
