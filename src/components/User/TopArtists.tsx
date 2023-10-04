@@ -81,14 +81,16 @@ export const TopArtists: FC<{
 
           <Carousel.Items>
             {topArtists.length > 0
-              ? topArtists.map((item) => (
-                  <Carousel.Item
-                    key={item.artist.id}
-                    onClick={() => event('USER_top_artist_click')}
-                  >
-                    <ArtistCard {...item} />
-                  </Carousel.Item>
-                ))
+              ? topArtists
+                  .filter((topArtist) => topArtist.artist?.id)
+                  .map((item) => (
+                    <Carousel.Item
+                      key={item.artist.id}
+                      onClick={() => event('USER_top_artist_click')}
+                    >
+                      <ArtistCard {...item} />
+                    </Carousel.Item>
+                  ))
               : Array(10)
                   .fill(null)
                   .map((_n, i) => (
