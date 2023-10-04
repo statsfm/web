@@ -29,7 +29,10 @@ export const TopAlbums: FC<{
 
   useEffect(() => {
     setTopAlbums([]);
-    api.users.topAlbums(userProfile.id, { range }).then(setTopAlbums);
+    api.users
+      .topAlbums(userProfile.id, { range })
+      .then(setTopAlbums)
+      .catch(() => []);
   }, [range, userProfile]);
 
   const gridModeCallback = (gridMode: boolean) => {

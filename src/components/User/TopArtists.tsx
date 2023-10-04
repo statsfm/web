@@ -29,7 +29,10 @@ export const TopArtists: FC<{
 
   useEffect(() => {
     setTopArtists([]);
-    api.users.topArtists(userProfile.id, { range }).then(setTopArtists);
+    api.users
+      .topArtists(userProfile.id, { range })
+      .then(setTopArtists)
+      .catch(() => []);
   }, [range, userProfile]);
 
   const gridModeCallback = (gridMode: boolean) => {

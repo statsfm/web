@@ -19,7 +19,10 @@ export const TopGenres: FC<{
 
   useEffect(() => {
     setTopGenres([]);
-    api.users.topGenres(userProfile.id, { range }).then(setTopGenres);
+    api.users
+      .topGenres(userProfile.id, { range })
+      .then(setTopGenres)
+      .catch(() => []);
   }, [range, userProfile]);
 
   const isCurrentUser = currentUser?.id === userProfile.id;

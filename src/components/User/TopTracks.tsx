@@ -29,7 +29,10 @@ export const TopTracks: FC<{
 
   useEffect(() => {
     setTopTracks([]);
-    api.users.topTracks(userProfile.id, { range }).then(setTopTracks);
+    api.users
+      .topTracks(userProfile.id, { range })
+      .then(setTopTracks)
+      .catch(() => []);
   }, [range, userProfile]);
 
   const gridModeCallback = (gridMode: boolean) => {
