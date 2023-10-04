@@ -83,7 +83,7 @@ export const TopArtists: FC<{
           {/* <NotEnoughData data={topArtists}> */}
 
           <Carousel.Items>
-            {topArtists.length > 0
+            {topArtists?.length > 0
               ? topArtists
                   .filter((topArtist) => topArtist.artist?.id)
                   .map((item) => (

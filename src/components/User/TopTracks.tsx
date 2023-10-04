@@ -83,7 +83,7 @@ export const TopTracks: FC<{
           {/* <NotEnoughData data={topTracks}> */}
 
           <Carousel.Items>
-            {topTracks.length > 0
+            {topTracks?.length > 0
               ? topTracks
                   .filter((topTrack) => topTrack.track?.id)
                   .map((item) => (

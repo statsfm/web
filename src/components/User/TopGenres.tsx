@@ -39,7 +39,7 @@ export const TopGenres: FC<{
         <ChipGroup
           className={clsx(topGenres.length === 0 && '!overflow-x-hidden')}
         >
-          {topGenres.length > 0
+          {topGenres?.length > 0
             ? topGenres.map((genre, i) => (
                 <Chip key={i}>
                   <Link legacyBehavior href={`/genre/${genre.genre.tag}`}>
