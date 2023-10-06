@@ -303,7 +303,7 @@ const DeleteAccount: FC = () => {
       <div className="w-full rounded-xl border border-red-500 p-5">
         <h3>Delete Account</h3>
         <p>
-          Before you can delete your data you must login with your Spotify
+          Before you can delete your data you must login again with your stats.fm
           account to confirm it&apos;s you. After logging in you have 60 seconds
           to delete your account; after that you have to login again to proceed.
           <br />
