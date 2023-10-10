@@ -12,7 +12,8 @@ import { Container } from '@/components/Container';
 import Link from 'next/link';
 import { Title } from '@/components/Title';
 import Head from 'next/head';
-import { StatsCard } from '@/components/StatsCard';
+// import { StatsCard } from '@/components/StatsCard';
+import { StatsCardContainer } from '@/components/Stats';
 import { useScrollPercentage } from '@/hooks/use-scroll-percentage';
 import { event } from 'nextjs-google-analytics';
 import type { SSRProps } from '@/utils/ssrUtils';
@@ -119,6 +120,55 @@ const Artist: NextPage<Props> = ({ artist }) => {
     };
   }, [user, stats]);
 
+  const statsCards = useMemo(() => {
+    return [
+      {
+        value: statsResult?.count ?? '-',
+        label: "total times streamed",
+        loading: !statsResult,
+        loginRequired: true
+      },
+      {
+        value: statsResult?.duration ?? '-',
+        label: "total minutes streamed",
+        loading: !statsResult,
+        loginRequired: true
+      },
+      {
+        value: statsResult?.firstStream
+          ? dayjs(statsResult?.firstStream).format('LL')
+          : '-',
+        label: `first streamed ${
+          statsResult?.firstStream
+            ? `at ${dayjs(statsResult.firstStream).format('LT')}`
+            : ''
+        }`,
+        loading: !statsResult,
+        loginRequired: true
+      },
+      {
+        value: statsResult?.lastStream
+          ? dayjs(statsResult?.lastStream).format('LL')
+          : '-',
+        label: `last streamed ${
+          statsResult?.lastStream
+            ? `at ${dayjs(statsResult.lastStream).format('LT')}`
+            : ''
+        }`,
+        loading: !statsResult,
+        loginRequired: true
+      },
+      {
+        value: formatter.formatPopularity(artist.spotifyPopularity),
+        label: '0-10 popularity',
+        loading: false // assuming this data is always present and doesn't need loading state
+      }
+      // Add more stats as needed...
+    ];
+  }, [statsResult, artist]); // Adding artist in the dependencies because of artist.spotifyPopularity
+  
+
+
   return (
     <>
       <Title>{`${artist.name} music, stats and more`}</Title>
@@ -168,7 +218,7 @@ const Artist: NextPage<Props> = ({ artist }) => {
       </div>
 
       <Container className="mt-8">
-        <ul className="grid grid-cols-2 gap-6 md:grid-cols-4">
+        {/* <ul className="grid grid-cols-2 gap-6 md:grid-cols-4">
           <StatsCard
             value={statsResult?.count}
             label="total times streamed"
@@ -215,7 +265,8 @@ const Artist: NextPage<Props> = ({ artist }) => {
             value={formatter.formatPopularity(artist.spotifyPopularity)}
             label={'0-10 popularity'}
           />
-        </ul>
+        </ul> */}
+      <StatsCardContainer stats={statsCards} />
 
         <Genres genres={artist.genres} />
 

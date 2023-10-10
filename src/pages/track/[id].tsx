@@ -13,7 +13,9 @@ import {
   SectionToolbarCarouselNavigation,
   Section,
 } from '@/components/Section';
-import { StatsCard } from '@/components/StatsCard';
+// import { StatsCard } from '@/components/StatsCard';
+import { StatsCardContainer } from '@/components/Stats';
+
 import { Title } from '@/components/Title';
 import { useScrollPercentage } from '@/hooks/use-scroll-percentage';
 import dayjs from '@/utils/dayjs';
@@ -232,6 +234,32 @@ const Track: NextPage<Props> = ({ track }) => {
     }
   }, [track, user]);
 
+  const trackStatsCards = useMemo(() => {
+    return [
+      {
+        label: "total times streamed",
+        value: trackStatsResult?.count ?? '-',
+        loading: !trackStatsResult,
+        loginRequired: true
+      },
+      {
+        label: "total minutes streamed",
+        value: trackStatsResult?.duration ?? '-',
+        loading: !trackStatsResult,
+        loginRequired: true
+      },
+      {
+        label: "0-10 popularity",
+        value: formatter.formatPopularity(track.spotifyPopularity)
+      },
+      {
+        label: "track length",
+        value: dayjs.duration(track.durationMs).format('m:ss')
+      }
+    ];
+  }, [trackStatsResult, track]);
+
+  
   return (
     <>
       <Title>{`${track.name}, artists, stats and more`}</Title>
@@ -288,7 +316,7 @@ const Track: NextPage<Props> = ({ track }) => {
 
       <Container className="mt-8">
         {/* TODO: make a reusable component out of this */}
-        <ul className="grid grid-cols-2 gap-6 md:grid-cols-4">
+        {/* <ul className="grid grid-cols-2 gap-6 md:grid-cols-4">
           <StatsCard
             label="total times streamed"
             value={trackStatsResult?.count}
@@ -310,7 +338,8 @@ const Track: NextPage<Props> = ({ track }) => {
             label="track length"
             value={dayjs.duration(track.durationMs).format('m:ss')}
           />
-        </ul>
+        </ul> */}
+        <StatsCardContainer stats={trackStatsCards} />
         <Carousel>
           <Section
             title="Appears on"
