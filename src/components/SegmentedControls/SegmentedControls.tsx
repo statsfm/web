@@ -1,6 +1,6 @@
 import clsx from 'clsx';
 import type { PropsWithChildren } from 'react';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import type { Segment } from './context';
 import { SegmentedControlsContext } from './context';
 
@@ -94,18 +94,28 @@ const SegmentedControls = ({
     if (firstSegmentMounted) {
       set(segments[0]?.id ?? '', true);
     }
+
+    if (segments.find((segment) => segment.defaultSelected)) {
+      const defaultSelectedSegment = segments.find(
+        (segment) => segment.defaultSelected
+      );
+      set(defaultSelectedSegment!.id, true);
+    }
   }, [segments]);
 
+  const values = useMemo(
+    () => ({
+      register,
+      unregister,
+      highlight,
+      set,
+      active,
+    }),
+    [active, highlight, register, set, unregister]
+  );
+
   return (
-    <SegmentedControlsContext.Provider
-      value={{
-        register,
-        unregister,
-        highlight,
-        set,
-        active,
-      }}
-    >
+    <SegmentedControlsContext.Provider value={values}>
       <ul
         className={clsx(
           'grid h-max auto-cols-[1fr] grid-flow-col rounded-2xl bg-foreground p-1.5',

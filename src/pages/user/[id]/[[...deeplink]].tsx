@@ -244,7 +244,7 @@ const User: NextPage<Props> = ({
   const api = useApi();
   const router = useRouter();
   const { user: currentUser } = useAuth();
-  const [range, setRange] = useState<statsfm.Range>(statsfm.Range.TODAY);
+  const [range, setRange] = useState<statsfm.Range>(statsfm.Range.WEEKS);
 
   const [stats, setStats] = useState<
     { label: string; value: string | number }[]
@@ -468,11 +468,16 @@ const User: NextPage<Props> = ({
             )}
 
             <section className="flex flex-col justify-between gap-5 md:flex-row-reverse">
-              <SegmentedControls onChange={handleSegmentSelect}>
+              <SegmentedControls
+                onChange={handleSegmentSelect}
+                defaultIndex={user.isPlus ? 1 : 0}
+              >
                 {user.isPlus && (
                   <Segment value={statsfm.Range.TODAY}>today</Segment>
                 )}
-                <Segment value={statsfm.Range.WEEKS}>4 weeks</Segment>
+                <Segment selected value={statsfm.Range.WEEKS}>
+                  4 weeks
+                </Segment>
                 <Segment value={statsfm.Range.MONTHS}>6 months</Segment>
                 <Segment value={statsfm.Range.LIFETIME}>lifetime</Segment>
               </SegmentedControls>
