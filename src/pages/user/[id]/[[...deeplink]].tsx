@@ -361,7 +361,7 @@ const User: NextPage<Props> = ({
               <div className="relative rounded-full border-2 border-background">
                 <Avatar
                   src={user.userBan?.active !== true ? user.image : undefined}
-                  name={user.displayName}
+                  name={user.userBan?.active ? 'Banned User' : user.displayName}
                   size="4xl"
                 />
                 <div className="absolute right-0 bottom-2 text-center text-lg font-medium md:text-left">
@@ -394,53 +394,54 @@ const User: NextPage<Props> = ({
                       </Linkify>
                     </pre>
                   )}
-                <Scope value="friends" fallback={<></>}>
-                  <div className="mt-2 flex items-center">
-                    <>
-                      {!user.userBan?.active && (
-                        <>
-                          {currentUser && currentUser.id !== user.id && (
-                            <>
-                              <FriendsButton
-                                friendUser={user}
-                                initialFriendStatus={friendStatus}
-                              />
-                              <span className="mx-2">
-                                <Square />
-                              </span>
-                            </>
+                <div className="mt-2 flex items-center">
+                  <>
+                    {currentUser && currentUser.id !== user.id && (
+                      <>
+                        <FriendsButton
+                          friendUser={user}
+                          initialFriendStatus={friendStatus}
+                        />
+                        {user.userBan?.active !== true &&
+                          user.privacySettings?.friends === true && (
+                            <span className="mx-2">
+                              <Square />
+                            </span>
                           )}
+                      </>
+                    )}
 
-                          <Link
-                            legacyBehavior
-                            href={`/${user.customId || user.id}/friends`}
-                          >
-                            <a className="font-medium text-neutral-400">
-                              {friendCount}{' '}
-                              {formatter.pluralise('Friend', friendCount)}
-                            </a>
-                          </Link>
-                        </>
+                    <Scope value="friends" fallback={<></>}>
+                      {user.userBan?.active !== true && (
+                        <Link
+                          legacyBehavior
+                          href={`/${user.customId || user.id}/friends`}
+                        >
+                          <a className="font-medium text-neutral-400">
+                            {friendCount}{' '}
+                            {formatter.pluralise('Friend', friendCount)}
+                          </a>
+                        </Link>
                       )}
+                    </Scope>
 
-                      {currentUser && currentUser.id === user.id && (
-                        <>
-                          <span className="mx-2">
-                            <Square />
-                          </span>
-                          <Button
-                            className={clsx(
-                              'mx-0 w-min !bg-transparent !p-0 transition-opacity hover:opacity-80'
-                            )}
-                            onClick={() => router.push('/settings/profile')}
-                          >
-                            Edit profile
-                          </Button>
-                        </>
-                      )}
-                    </>
-                  </div>
-                </Scope>
+                    {currentUser && currentUser.id === user.id && (
+                      <>
+                        <span className="mx-2">
+                          <Square />
+                        </span>
+                        <Button
+                          className={clsx(
+                            'mx-0 w-min !bg-transparent !p-0 transition-opacity hover:opacity-80'
+                          )}
+                          onClick={() => router.push('/settings/profile')}
+                        >
+                          Edit profile
+                        </Button>
+                      </>
+                    )}
+                  </>
+                </div>
 
                 {user.userBan?.active !== true && (
                   <Scope value="connections" fallback={<></>}>
