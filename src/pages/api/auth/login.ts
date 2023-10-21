@@ -4,7 +4,12 @@ const handler = (req: NextApiRequest, res: NextApiResponse) => {
   let protocol = req.headers['x-forwarded-proto'] ?? 'https';
   if (process.env.NODE_ENV === 'development') protocol = 'http';
 
-  const { host } = req.headers;
+  let { host } = req.headers;
+
+  if (host?.includes('spotistats.app')) {
+    host = host.replace('spotistats.app', 'stats.fm');
+  }
+
   const origin = `${protocol}://${host}`;
 
   // remove the extra httpOnly cookie which is no longer in use
