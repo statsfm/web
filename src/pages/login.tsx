@@ -48,7 +48,7 @@ const Login: NextPage = () => {
     window.location.href = `https://appleid.apple.com/auth/authorize?${generateQueryString(
       {
         response_type: 'code',
-        response_mode: 'query',
+        response_mode: 'form_post',
         client_id: process.env.APPLE_CLIENT_ID,
         redirect_uri: encodeURIComponent(process.env.APPLE_REDIRECT_URI || ''),
         scope: 'email name',
