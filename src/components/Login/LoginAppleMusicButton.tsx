@@ -26,6 +26,10 @@ export const LoginAppleMusicButton = () => {
     // @ts-ignore
     const music = MusicKit.getInstance();
     const MUT = await music.authorize();
+    // eslint-disable-next-line no-console
+    console.log(await music.api.album(1025210938));
+    // eslint-disable-next-line no-alert
+    alert('adsjdsuas');
     await api.http.put('/auth/appleMusic', {
       body: JSON.stringify({
         userToken: MUT,
