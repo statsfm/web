@@ -1,12 +1,11 @@
 import Script from 'next/script';
 import { Button } from '@/components/Button';
 import { AppleMusicIcon } from '@/components/Icons';
-import { useApi, useAuth, useToaster } from '@/hooks';
+import { useApi, useToaster } from '@/hooks';
 import { useRouter } from 'next/router';
 
 export const LoginAppleMusicButton = () => {
   const api = useApi();
-  const auth = useAuth();
   const toaster = useToaster();
   const router = useRouter();
 
