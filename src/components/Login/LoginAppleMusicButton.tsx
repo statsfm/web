@@ -26,10 +26,11 @@ export const LoginAppleMusicButton = () => {
     // @ts-ignore
     const music = MusicKit.getInstance();
     const MUT = await music.authorize();
-    await api.http.put('/auth/appleMusic/mut', {
+    await api.http.put('/auth/appleMusic', {
       body: JSON.stringify({
-        mut: MUT,
-        id_token,
+        userToken: MUT,
+        idToken: id_token,
+        storefront: 'n/a',
       }),
       authRequired: true,
     });
