@@ -30,7 +30,6 @@ export const LoginAppleMusicButton = () => {
       body: JSON.stringify({
         userToken: MUT,
         idToken: id_token,
-        storefront: 'n/a',
       }),
       authRequired: true,
     });
