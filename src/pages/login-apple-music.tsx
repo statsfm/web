@@ -1,5 +1,5 @@
 import type { NextPage, GetServerSideProps } from 'next';
-import { useAuth, useToaster } from '@/hooks';
+import { useToaster } from '@/hooks';
 import { Container } from '@/components/Container';
 import { useEffect } from 'react';
 import { useRouter } from 'next/router';
@@ -19,7 +19,6 @@ export const getServerSideProps: GetServerSideProps<SSRProps> = async (ctx) => {
 };
 
 const Login: NextPage<SSRProps> = ({ user }) => {
-  const auth = useAuth();
   const router = useRouter();
   const toaster = useToaster();
 
