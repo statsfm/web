@@ -76,7 +76,7 @@ const Login: NextPage = () => {
         auth.user &&
         auth.user.id &&
         auth.user?.connectedServices?.apple?.connected ? (
-          <LoginAppleMusicButton userId={auth.user.id} redirect={false} />
+          <LoginAppleMusicButton />
         ) : (
           <div className="mt-8 flex flex-col gap-4">
             <Button
