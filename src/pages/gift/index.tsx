@@ -13,6 +13,8 @@ import type {
   ItemsResponse,
   GiftCode,
 } from '@statsfm/statsfm.js';
+import { useRemoteValue } from '@/hooks/use-remote-config';
+import { MdInfo } from 'react-icons/md';
 
 const Coupons: FC = () => {
   const [giftCodes, setGiftCodes] = useState<GiftCode[]>([]);
@@ -115,6 +117,10 @@ export const getStaticProps: GetStaticProps<Props> = async () => {
 
 const GiftPage: NextPage<Props> = ({ plans }) => {
   const toaster = useToaster();
+
+  const giftNoticeText = useRemoteValue('gift_notice_text');
+  const giftNoticeShow = useRemoteValue('gift_show_notice');
+
   const api = useApi();
   const { user, login } = useAuth();
 
@@ -158,6 +164,19 @@ const GiftPage: NextPage<Props> = ({ plans }) => {
   return (
     <Container className="pt-32">
       <Title>Gift</Title>
+      {giftNoticeShow?.asBoolean() && (
+        <div className="my-8 w-full flex-row rounded-md border-l-4 border-l-yellow-400/80 bg-yellow-400/20 p-4">
+          <div className="flex w-full flex-col">
+            <span className="flex items-center gap-1">
+              <MdInfo className="fill-white" />
+              <h4>Warning</h4>
+            </span>
+            <span className="whitespace-pre-wrap text-white">
+              {giftNoticeText?.asString()}
+            </span>
+          </div>
+        </div>
+      )}
       <section className="mb-5 mt-2 flex flex-col gap-3">
         <div v-if="plans" className="flex w-full flex-col justify-between">
           {plans.length > 0 ? (

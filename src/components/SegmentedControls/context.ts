@@ -5,6 +5,7 @@ export type Segment = {
   id: string;
   value: string;
   disabled?: boolean;
+  defaultSelected?: boolean;
   ref: RefObject<HTMLLIElement>;
 };
 
