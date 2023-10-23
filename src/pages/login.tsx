@@ -50,7 +50,9 @@ const Login: NextPage = () => {
         response_type: 'code',
         response_mode: 'form_post',
         client_id: process.env.APPLE_CLIENT_ID,
-        redirect_uri: encodeURIComponent(process.env.APPLE_REDIRECT_URI || ''),
+        redirect_uri: encodeURIComponent(
+          `${process.env.APPLE_REDIRECT_URI}/web` || ''
+        ),
         scope: 'email name',
       }
     )}`;
