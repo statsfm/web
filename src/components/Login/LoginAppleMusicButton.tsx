@@ -1,35 +1,45 @@
 import Script from 'next/script';
 import { Button } from '@/components/Button';
 import { AppleMusicIcon } from '@/components/Icons';
-import { useApi, useToaster } from '@/hooks';
+import { useApi, useAuth, useToaster } from '@/hooks';
+import { useRouter } from 'next/router';
 
-interface Props {
-  userId: string;
-  redirect: boolean;
-}
-
-export const LoginAppleMusicButton = ({ userId, redirect }: Props) => {
+export const LoginAppleMusicButton = () => {
   const api = useApi();
+  const auth = useAuth();
   const toaster = useToaster();
-  const appleMusicKitHandle = async () => {
-    if (userId) {
-      // @ts-ignore
-      const music = MusicKit.getInstance();
-      const MUT = await music.authorize();
-      const added = await api.http.get('/auth/appleMusic/add-mut', {
-        query: {
-          userId,
-          mut: MUT,
-        },
-        authRequired: true,
-      });
-      if (added) window.location.href = `https://stats.fm/${userId}`;
-      else toaster.error('You not logged in Apple Music');
-    } else {
-      toaster.error('You not logged in Apple');
-    }
+  const router = useRouter();
+
+  const redirectToLogin = () => {
+    toaster.error("You're not logged in with Apple");
+    router.push('/login');
   };
-  let initialized = false;
+
+  const appleMusicKitHandle = async () => {
+    // eslint-disable-next-line @typescript-eslint/naming-convention
+    const { id_token } = router.query;
+    if (!id_token) {
+      redirectToLogin();
+      return;
+    }
+
+    // @ts-ignore
+    const music = MusicKit.getInstance();
+    const MUT = await music.authorize();
+    await api.http.put('/auth/appleMusic/mut', {
+      body: JSON.stringify({
+        mut: MUT,
+        id_token,
+      }),
+      authRequired: true,
+    });
+
+    // if (added) {
+    router.push(`/${auth.user?.id}`);
+    // } else {
+    //   redirectToLogin();
+    // }
+  };
 
   const initializeMusicKit = async () => {
     // @ts-ignore
@@ -40,12 +50,8 @@ export const LoginAppleMusicButton = ({ userId, redirect }: Props) => {
         build: process.env.APPLE_APP_BUILD || '1978.4.1',
       },
     });
-    initialized = true;
   };
 
-  if (redirect && userId && initialized) {
-    appleMusicKitHandle();
-  }
   return (
     <>
       <Script

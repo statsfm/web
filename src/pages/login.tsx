@@ -51,9 +51,7 @@ const Login: NextPage = () => {
         response_mode: 'query',
         client_id: process.env.APPLE_CLIENT_ID,
         redirect_uri: encodeURIComponent(process.env.APPLE_REDIRECT_URI || ''),
-        state: (auth && auth.user && auth.user.id) || null,
-        nonce: '',
-        scope: '',
+        scope: 'email name',
       }
     )}`;
   };

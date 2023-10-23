@@ -40,10 +40,7 @@ const Login: NextPage<SSRProps> = ({ user }) => {
         <h1 className="w-full text-center text-4xl text-white">
           Login to Apple Music
         </h1>
-        <LoginAppleMusicButton
-          userId={(auth?.user && auth?.user.id) || ''}
-          redirect={true}
-        />
+        <LoginAppleMusicButton />
       </div>
     </Container>
   );
