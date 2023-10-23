@@ -6,6 +6,7 @@ import { useSegmentedControlsContext } from './context';
 interface Props {
   value: string;
   disabled?: boolean;
+  selected?: boolean;
 }
 
 type NativeAttrs = Omit<React.HTMLAttributes<HTMLLIElement>, keyof Props>;
@@ -13,6 +14,7 @@ export type SegmentProps = Props & NativeAttrs;
 
 const Segment = ({
   value,
+  selected = false,
   disabled = false,
   children,
   ...props
@@ -24,7 +26,13 @@ const Segment = ({
   const internalRef = useRef<HTMLLIElement>(null);
 
   useEffect(() => {
-    register({ id, value, ref: internalRef, disabled });
+    register({
+      id,
+      value,
+      ref: internalRef,
+      disabled,
+      defaultSelected: selected,
+    });
 
     return () => {
       unregister(id);
