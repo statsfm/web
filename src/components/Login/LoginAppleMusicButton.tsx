@@ -29,7 +29,7 @@ export const LoginAppleMusicButton = () => {
     // eslint-disable-next-line no-console
     console.log(await music.api.album(1025210938));
     // eslint-disable-next-line no-alert
-    alert('adsjdsuas');
+    alert('please dismiss this test popup');
     await api.http.put('/auth/appleMusic', {
       body: JSON.stringify({
         userToken: MUT,
@@ -37,6 +37,8 @@ export const LoginAppleMusicButton = () => {
       }),
       authRequired: true,
     });
+    // eslint-disable-next-line no-alert
+    alert('token sent 👍');
 
     // if (added) {
     router.push(`/${auth.user?.id}`);
