@@ -36,7 +36,7 @@ const credits = () => [
         name: 'Stijn van der Kolk',
         nickname: 'stijnvdkolk',
         joined: '2021-03-01 00:00:00',
-        role: 'Developer',
+        role: 'Full Stack Developer',
         image:
           'https://stats.fm/_next/image?url=https%3A%2F%2Fcdn.stats.fm%2Ffile%2Fstatsfm%2Fimages%2Fusers%2Fr5o97f218wqvcpacb1bohyo6f%2F2cc961119ac6fab9573071838e88746a.webp&w=384&q=75',
       },
@@ -45,7 +45,8 @@ const credits = () => [
         name: 'Wouter de Bruijn',
         nickname: 'wouter',
         joined: '2022-09-01 00:00:00',
-        role: 'Developer',
+        role: 'Web Developer',
+        current: false,
         image:
           'https://stats.fm/_next/image?url=https%3A%2F%2Fcdn.stats.fm%2Ffile%2Fstatsfm%2Fimages%2Fusers%2F89nvsw93neqc2nbs69u71vmzs%2F9e5665900f607733b6939ecbfbf12560.webp&w=384&q=75',
       },
@@ -54,7 +55,8 @@ const credits = () => [
         name: 'Martijn Faber',
         nickname: 'martijn',
         joined: '2022-06-01 00:00:00',
-        role: 'Developer',
+        role: 'Web Developer',
+        current: false,
         image:
           'https://stats.fm/_next/image?url=https%3A%2F%2Fcdn.stats.fm%2Ffile%2Fstatsfm%2Fimages%2Fusers%2Fmartijnfaber10%2F1b351eb83cfe23dd3241e9d66a64051c.webp&w=384&q=75',
       },
@@ -73,7 +75,16 @@ const credits = () => [
           'https://crowdin-static.downloads.crowdin.com/avatar/14677468/small/1995a2b0b07c1da8a3759e98e9434aff.jpeg',
       },
       {
-        id: 5,
+        id: 6,
+        name: 'Stijn van der Kolk',
+        nickname: 'stijnvdkolk',
+        joined: '2021-03-01 00:00:00',
+        role: 'Full Stack Developer',
+        image:
+          'https://stats.fm/_next/image?url=https%3A%2F%2Fcdn.stats.fm%2Ffile%2Fstatsfm%2Fimages%2Fusers%2Fr5o97f218wqvcpacb1bohyo6f%2F2cc961119ac6fab9573071838e88746a.webp&w=384&q=75',
+      },
+      {
+        id: 7,
         name: 'Veaceslav',
         nickname: 'slava',
         joined: '2020-08-03 00:00:00',
@@ -94,6 +105,15 @@ const credits = () => [
         role: 'Community & Support Lead',
         image:
           'https://stats.fm/_next/image?url=https%3A%2F%2Fcdn.stats.fm%2Ffile%2Fstatsfm%2Fimages%2Fusers%2Fr5o97f218wqvcpacb1bohyo6f%2F2cc961119ac6fab9573071838e88746a.webp&w=384&q=75',
+      },
+      {
+        id: 7,
+        name: 'May',
+        nickname: 'mayyther',
+        joined: '2023-05-11 00:00:00',
+        role: 'User Support',
+        image:
+          'https://stats.fm/_next/image?url=https%3A%2F%2Fcdn.stats.fm%2Ffile%2Fstatsfm%2Fimages%2Fusers%2Fmj72qelg0anq9s4kqq9a0m41h%2F798476a4e0d7ca1124fd1b820f426506.webp&w=384&q=75',
       },
     ],
   },
@@ -2996,6 +3016,7 @@ const credits = () => [
       return {
         id: x.id,
         joined: x.joined,
+        current: true,
         role: x.role,
         image:
           x.name
@@ -3076,7 +3097,9 @@ const CreditsPage: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
                           <div className="float-right hidden md:block">
                             <div className="flex shrink-0 justify-end">
                               <p className="mt-3 text-sm text-gray-500">
-                                Joined{' '}
+                                {member.current ?? true
+                                  ? 'Joined'
+                                  : 'Previously joined'}{' '}
                                 <time dateTime={member.joined}>
                                   {dayjs(member.joined).fromNow()}
                                 </time>
