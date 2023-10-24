@@ -45,23 +45,25 @@ export const LoginAppleMusicButton = () => {
     // }
   };
 
-  const initializeMusicKit = async () => {
-    // @ts-ignore
-    await MusicKit.configure({
-      developerToken: process.env.APPLE_DEVELOPER_TOKEN,
-      app: {
-        name: process.env.APPLE_APP_NAME || 'testing',
-        build: process.env.APPLE_APP_BUILD || '1978.4.1',
-      },
-    });
+  const initializeMusicKit = () => {
+    (async () => {
+      // @ts-ignore
+      await MusicKit.configure({
+        developerToken: process.env.APPLE_DEVELOPER_TOKEN,
+        app: {
+          name: process.env.APPLE_APP_NAME || 'testing',
+          build: process.env.APPLE_APP_BUILD || '1978.4.1',
+        },
+      });
+    })();
   };
 
   return (
     <>
       <Script
-        src="https://js-cdn.music.apple.com/musickit/v3/musickit.js"
+        src="https://js-cdn.music.apple.com/musickit/v1/musickit.js"
         async
-        onLoad={initializeMusicKit}
+        onReady={initializeMusicKit}
       />
       <div className="mt-8 flex flex-col gap-4">
         <Button
