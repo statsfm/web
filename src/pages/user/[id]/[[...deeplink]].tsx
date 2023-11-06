@@ -395,52 +395,50 @@ const User: NextPage<Props> = ({
                     </pre>
                   )}
                 <div className="mt-2 flex items-center">
-                  <>
-                    {currentUser && currentUser.id !== user.id && (
-                      <>
-                        <FriendsButton
-                          friendUser={user}
-                          initialFriendStatus={friendStatus}
-                        />
-                        {user.userBan?.active !== true &&
-                          user.privacySettings?.friends === true && (
-                            <span className="mx-2">
-                              <Square />
-                            </span>
-                          )}
-                      </>
-                    )}
+                  {currentUser && currentUser.id !== user.id && (
+                    <>
+                      <FriendsButton
+                        friendUser={user}
+                        initialFriendStatus={friendStatus}
+                      />
+                      {user.userBan?.active !== true &&
+                        user.privacySettings?.friends === true && (
+                          <span className="mx-2">
+                            <Square />
+                          </span>
+                        )}
+                    </>
+                  )}
 
-                    <Scope value="friends" fallback={<></>}>
-                      {user.userBan?.active !== true && (
-                        <Link
-                          legacyBehavior
-                          href={`/${user.customId || user.id}/friends`}
-                        >
-                          <a className="font-medium text-neutral-400">
-                            {friendCount}{' '}
-                            {formatter.pluralise('Friend', friendCount)}
-                          </a>
-                        </Link>
-                      )}
-                    </Scope>
-
-                    {currentUser && currentUser.id === user.id && (
-                      <>
-                        <span className="mx-2">
-                          <Square />
-                        </span>
-                        <Button
-                          className={clsx(
-                            'mx-0 w-min !bg-transparent !p-0 transition-opacity hover:opacity-80'
-                          )}
-                          onClick={() => router.push('/settings/profile')}
-                        >
-                          Edit profile
-                        </Button>
-                      </>
+                  <Scope value="friends" fallback={<></>}>
+                    {user.userBan?.active !== true && (
+                      <Link
+                        legacyBehavior
+                        href={`/${user.customId || user.id}/friends`}
+                      >
+                        <a className="font-medium text-neutral-400">
+                          {friendCount}{' '}
+                          {formatter.pluralise('Friend', friendCount)}
+                        </a>
+                      </Link>
                     )}
-                  </>
+                  </Scope>
+
+                  {currentUser && currentUser.id === user.id && (
+                    <>
+                      <span className="mx-2">
+                        <Square />
+                      </span>
+                      <Button
+                        className={clsx(
+                          'mx-0 w-min !bg-transparent !p-0 transition-opacity hover:opacity-80'
+                        )}
+                        onClick={() => router.push('/settings/profile')}
+                      >
+                        Edit profile
+                      </Button>
+                    </>
+                  )}
                 </div>
 
                 {user.userBan?.active !== true && (
@@ -471,9 +469,9 @@ const User: NextPage<Props> = ({
             <section className="flex flex-col justify-between gap-5 md:flex-row-reverse">
               <SegmentedControls
                 onChange={handleSegmentSelect}
-                defaultIndex={user.isPlus ? 1 : 0}
+                defaultIndex={user.isPlus && user.hasImported ? 1 : 0}
               >
-                {user.isPlus && (
+                {user.isPlus && user.hasImported && (
                   <Segment value={statsfm.Range.TODAY}>today</Segment>
                 )}
                 <Segment selected value={statsfm.Range.WEEKS}>
