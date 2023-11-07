@@ -36,7 +36,7 @@ export const MONTHS = [
   'July',
   'August',
   'September',
-  'Octorber',
+  'October',
   'November',
   'December',
 ] as const;
