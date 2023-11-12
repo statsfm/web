@@ -1,5 +1,7 @@
 import { Container } from '@/components/Container';
 import { Title } from '@/components/Title';
+import type { SSRProps } from '@/utils/ssrUtils';
+import { fetchUser } from '@/utils/ssrUtils';
 import type { GetServerSideProps, NextPage } from 'next';
 import Link from 'next/link';
 
@@ -47,7 +49,9 @@ const unparseData = (unparsedData: string): Props => {
   };
 };
 
-export const getServerSideProps: GetServerSideProps<Props> = async (ctx) => {
+export const getServerSideProps: GetServerSideProps<SSRProps<Props>> = async (
+  ctx
+) => {
   // parse base64 to string text
   const parsedData = Buffer.from(
     ctx.params?.data?.toString() ?? '',
@@ -55,10 +59,14 @@ export const getServerSideProps: GetServerSideProps<Props> = async (ctx) => {
   ).toString();
 
   const data = unparseData(parsedData);
+  const user = await fetchUser(ctx);
 
   ctx.res.statusCode = data.code;
   return {
-    props: data,
+    props: {
+      ...data,
+      user,
+    },
   };
 };
 

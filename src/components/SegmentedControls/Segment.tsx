@@ -54,7 +54,7 @@ const Segment = ({
       className={clsx(
         'relative flex cursor-pointer select-none items-center justify-center whitespace-nowrap rounded-lg px-4 py-1 font-semibold transition duration-200 first-of-type:col-[1] first-of-type:row-[1] hover:text-primary',
         active === id ? 'text-primary' : 'text-white',
-        disabled && 'text-gray-400 cursor-not-allowed hover:text-gray-400'
+        disabled && 'cursor-not-allowed text-gray-400 hover:text-gray-400'
       )}
       onClick={handleChange}
       {...props}

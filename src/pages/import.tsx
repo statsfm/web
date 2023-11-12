@@ -4,13 +4,25 @@ import { ImportList } from '@/components/Import/ImportList';
 import { Title } from '@/components/Title';
 import { useApi, useAuth, useToaster } from '@/hooks';
 import { useRemoteValue } from '@/hooks/use-remote-config';
-import type { NextPage } from 'next';
+import type { SSRProps } from '@/utils/ssrUtils';
+import { fetchUser } from '@/utils/ssrUtils';
+import type { GetServerSideProps, NextPage } from 'next';
 import { event } from 'nextjs-google-analytics';
 import type { ChangeEvent } from 'react';
 import { useState } from 'react';
 import { MdWarning } from 'react-icons/md';
 
 type Props = {};
+
+export const getServerSideProps: GetServerSideProps<SSRProps> = async (ctx) => {
+  const user = await fetchUser(ctx);
+
+  return {
+    props: {
+      user,
+    },
+  };
+};
 
 const ImportPage: NextPage<Props> = () => {
   const { user } = useAuth();

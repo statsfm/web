@@ -1,12 +1,24 @@
 import { Button } from '@/components/Button';
 import { Container } from '@/components/Container';
 import { useApi, useAuth, useToaster } from '@/hooks';
+import type { SSRProps } from '@/utils/ssrUtils';
+import { fetchUser } from '@/utils/ssrUtils';
 import type { GiftCode } from '@statsfm/statsfm.js';
 import JSConfetti from 'js-confetti';
-import type { NextPage } from 'next';
+import type { GetServerSideProps, NextPage } from 'next';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useCallback, useEffect, useState } from 'react';
+
+export const getServerSideProps: GetServerSideProps<SSRProps> = async (ctx) => {
+  const user = await fetchUser(ctx);
+
+  return {
+    props: {
+      user,
+    },
+  };
+};
 
 const RedeemCodePage: NextPage = () => {
   const router = useRouter();

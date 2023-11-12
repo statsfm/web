@@ -518,26 +518,6 @@ export const getServerSideProps: GetServerSideProps<
   SSRProps<{ topArtists: TopArtist[] }>
 > = async (ctx) => {
   const { identityToken } = ctx.req.cookies;
-  // const me = await fetchUser(ctx);
-  // if (!me) {
-  //   return {
-  //     redirect: {
-  //       destination: '/api/auth/login',
-  //       permanent: false,
-  //     },
-  //   };
-  // }
-
-  // return {
-  //   redirect: {
-  //     destination: `https://plus.stats.fm/order?sf_id=${identityToken}&sf_email=${
-  //       encodeURIComponent(me.email) ?? ''
-  //     }&sf_name=${encodeURIComponent(
-  //       me.displayName
-  //     )}&sf_image=${encodeURIComponent(me.image ?? '')}`,
-  //     permanent: false,
-  //   },
-  // };
 
   const api = getApiInstance(identityToken);
   const user = await fetchUser(ctx);

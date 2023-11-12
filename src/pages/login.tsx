@@ -1,4 +1,4 @@
-import type { NextPage } from 'next';
+import type { GetServerSideProps, NextPage } from 'next';
 import { useAuth, useToaster } from '@/hooks';
 import { Container } from '@/components/Container';
 import { Button } from '@/components/Button';
@@ -6,6 +6,18 @@ import { SpotifyIcon } from '@/components/Icons';
 import { useEffect } from 'react';
 import { useRouter } from 'next/router';
 import Cookies from 'js-cookie';
+import type { SSRProps } from '@/utils/ssrUtils';
+import { fetchUser } from '@/utils/ssrUtils';
+
+export const getServerSideProps: GetServerSideProps<SSRProps> = async (ctx) => {
+  const user = await fetchUser(ctx);
+
+  return {
+    props: {
+      user,
+    },
+  };
+};
 
 const Login: NextPage = () => {
   const auth = useAuth();

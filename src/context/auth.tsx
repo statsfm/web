@@ -17,7 +17,7 @@ export const AuthContext = createContext<{
 } | null>(null);
 
 export const AuthProvider = (
-  props: PropsWithChildren<{ user?: statsfm.UserPrivate }>
+  props: PropsWithChildren<{ user?: statsfm.UserPrivate | null }>
 ) => {
   const [user, setUser] = useState<statsfm.UserPrivate | null>(
     props.user ?? null

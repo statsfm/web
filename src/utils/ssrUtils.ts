@@ -2,7 +2,7 @@ import type { UserPrivate } from '@statsfm/statsfm.js';
 import * as statsfm from '@statsfm/statsfm.js';
 
 export type SSRProps<T = {}> = {
-  user: UserPrivate | null;
+  user?: UserPrivate | null | undefined;
 } & T;
 
 export const getApiInstance = (accessToken?: string) => {

@@ -1,4 +1,4 @@
-import type { GetStaticProps, NextPage } from 'next';
+import type { GetServerSideProps, NextPage } from 'next';
 import { Container } from '@/components/Container';
 import type { FC } from 'react';
 import { useCallback, useMemo, useEffect, useState } from 'react';
@@ -15,6 +15,8 @@ import type {
 } from '@statsfm/statsfm.js';
 import { useRemoteValue } from '@/hooks/use-remote-config';
 import { MdInfo } from 'react-icons/md';
+import type { SSRProps } from '@/utils/ssrUtils';
+import { fetchUser } from '@/utils/ssrUtils';
 
 const Coupons: FC = () => {
   const [giftCodes, setGiftCodes] = useState<GiftCode[]>([]);
@@ -94,10 +96,11 @@ type Props = {
   plans: Plan[];
 };
 
-export const getStaticProps: GetStaticProps<Props> = async () => {
+export const getServerSideProps: GetServerSideProps<SSRProps<Props>> = async (
+  ctx
+) => {
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const api = useApi();
-
   const { items } = await api.http.get<ItemsResponse<any>>(
     `/stripe/products/spotistats_plus_coupon/prices`
   );
@@ -107,10 +110,12 @@ export const getStaticProps: GetStaticProps<Props> = async () => {
         x.product === 'prod_Mveep2aVG09MSl' && x.active === true
     )
   );
+  const user = await fetchUser(ctx);
 
   return {
     props: {
       plans,
+      user,
     },
   };
 };

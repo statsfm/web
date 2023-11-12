@@ -1,6 +1,8 @@
 /* eslint-disable no-nested-ternary */
 import { Title } from '@/components/Title';
-import type { NextPage } from 'next';
+import type { SSRProps } from '@/utils/ssrUtils';
+import { fetchUser } from '@/utils/ssrUtils';
+import type { GetServerSideProps, NextPage } from 'next';
 import type { FC, PropsWithChildren } from 'react';
 import type { IconType } from 'react-icons';
 import {
@@ -59,6 +61,16 @@ const FeatureItem: FC<PropsWithChildren<{ title: string; Icon: IconType }>> = ({
       </div>
     </div>
   );
+};
+
+export const getServerSideProps: GetServerSideProps<SSRProps> = async (ctx) => {
+  const user = await fetchUser(ctx);
+
+  return {
+    props: {
+      user,
+    },
+  };
 };
 
 const firstStats = [

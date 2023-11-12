@@ -62,7 +62,10 @@ const Ogp = () => (
 );
 
 // TODO: we'll probably rewrite the auth logic to use a state management store instead of context, but we implemented this temporary for development
-const App = ({ Component, pageProps }: AppProps<{ user?: UserPrivate }>) => {
+const App = ({
+  Component,
+  pageProps,
+}: AppProps<{ user?: UserPrivate | null }>) => {
   const router = useRouter();
   // only show default ogp tags for routes who don't define their own
   const showOgp = ![
@@ -72,7 +75,20 @@ const App = ({ Component, pageProps }: AppProps<{ user?: UserPrivate }>) => {
     '/album/[id]',
   ].includes(router.pathname);
 
-  const showAds = !pageProps.user ? true : !pageProps.user.isPlus;
+  const noAds = [
+    '/terms',
+    '/privacy',
+    '/tiktik-ad-contest',
+    '/404',
+    '/500',
+    '/auth/ban',
+    '/beta',
+    '/careers',
+    '/credits',
+  ].includes(router.pathname);
+
+  let showAds = !pageProps.user ? true : !pageProps.user.isPlus;
+  if (noAds === true) showAds = false;
 
   return (
     <main className={clsx(StatsfmSans.variable, 'font-body')}>
