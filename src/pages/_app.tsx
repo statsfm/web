@@ -13,7 +13,6 @@ import type { UserPrivate } from '@statsfm/statsfm.js';
 import localFont from '@next/font/local';
 import clsx from 'clsx';
 import ErrorBoundary from '@/components/ErrorBoundary';
-import Script from 'next/script';
 
 // TODO: this is the stupidest solution to the worst issue ever, works for now
 // https://github.com/tailwindlabs/headlessui/discussions/666#discussioncomment-1891380
@@ -75,21 +74,6 @@ const App = ({
     '/album/[id]',
   ].includes(router.pathname);
 
-  const noAds = [
-    '/terms',
-    '/privacy',
-    '/tiktik-ad-contest',
-    '/404',
-    '/500',
-    '/auth/ban',
-    '/beta',
-    '/careers',
-    '/credits',
-  ].includes(router.pathname);
-
-  let showAds = !pageProps.user ? true : !pageProps.user.isPlus;
-  if (noAds === true) showAds = false;
-
   return (
     <main className={clsx(StatsfmSans.variable, 'font-body')}>
       <AuthProvider user={pageProps.user}>
@@ -113,13 +97,6 @@ const App = ({
         </ToasterContainer>
       </AuthProvider>
       <section id="PortalRoot" />
-      {showAds && (
-        <Script
-          async
-          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6037791262117379"
-          crossOrigin="anonymous"
-        />
-      )}
     </main>
   );
 };
