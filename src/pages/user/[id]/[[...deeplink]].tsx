@@ -314,7 +314,10 @@ const User: NextPage<Props> = ({
 
   // TODO: improvements
   useEffect(() => {
-    api.users.recentlyStreamed(user.id).then(setRecentStreams);
+    api.users
+      .recentlyStreamed(user.id)
+      .then(setRecentStreams)
+      .catch(() => {});
   }, [user]);
 
   const handleSegmentSelect = (value: string) => {
