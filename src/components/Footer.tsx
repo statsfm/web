@@ -22,13 +22,9 @@ const links: { label: string; links: { label: string; href: string }[] }[] = [
         href: '/beta',
       },
       {
-        label: 'Credits',
-        href: '/credits',
+        label: 'stats.fm Plus',
+        href: '/plus',
       },
-      // {
-      //   label: 'Plus',
-      //   href: '/plus',
-      // },
     ],
   },
   {
@@ -41,6 +37,10 @@ const links: { label: string; links: { label: string; href: string }[] }[] = [
       {
         label: 'Jobs',
         href: '/careers',
+      },
+      {
+        label: 'Credits',
+        href: '/credits',
       },
     ],
   },

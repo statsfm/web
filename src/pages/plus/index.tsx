@@ -31,6 +31,7 @@ import {
 import type { SSRProps } from '@/utils/ssrUtils';
 import { getApiInstance, fetchUser } from '@/utils/ssrUtils';
 import { useMedia } from 'react-use';
+import { useRouter } from 'next/router';
 
 // eslint-disable-next-line react/display-name
 const AdsBackground = forwardRef<HTMLDivElement>((_, ref) => {
@@ -157,6 +158,7 @@ const PlusScrollAnimation: FC<{ startCheckout: () => {} }> = ({
   const phoneRef = useRef<HTMLDivElement>(null);
   const snackbarRef = useRef<HTMLDivElement>(null);
   const adsBegoneBackgroundRef = useRef<HTMLDivElement>(null);
+  const { user } = useAuth();
 
   const q = gsap.utils.selector(boxRef);
   const mobile = useMedia('(max-width: 640px)');
@@ -396,11 +398,11 @@ const PlusScrollAnimation: FC<{ startCheckout: () => {} }> = ({
         </div>
 
         <Snackbar ref={snackbarRef}>
-          <p>Get these and even more perks available with plus.</p>
+          <p>Get these and even more perks available with stats.fm Plus.</p>
 
           <button onClick={startCheckout}>
             <p className="block shrink-0 rounded-lg bg-plus px-3 py-1.5 text-center font-medium text-black transition-colors hover:bg-plus/90 active:bg-plus/75">
-              Unlock Plus now!
+              {user?.isPlus ? 'Gift Plus now!' : 'Unlock Plus now!'}
             </p>
           </button>
         </Snackbar>
@@ -543,6 +545,7 @@ const PlusPage: NextPage<
   const api = useApi();
   const toaster = useToaster();
   const { user, login } = useAuth();
+  const router = useRouter();
 
   const startCheckout = useCallback(async () => {
     if (!user) {
@@ -551,7 +554,6 @@ const PlusPage: NextPage<
     }
 
     if (user.isPlus) {
-      toaster.error('You already have Plus! Thanks :)');
       return;
     }
 
@@ -606,8 +608,8 @@ const PlusPage: NextPage<
               <TierItem unchecked perk="No Import history" />
             </ul>
 
-            <div className="mt-auto block w-full rounded-lg bg-background py-1 text-center text-white ">
-              You already have the free tier
+            <div className="mt-auto block w-full rounded-lg bg-background p-1 text-center text-white">
+              You already have the free tier!
             </div>
           </div>
           <div className="w-[22rem] rounded-2xl bg-black py-7 px-8">
@@ -631,11 +633,37 @@ const PlusPage: NextPage<
               <TierItem perk="Custom timeframes" />
               <TierItem perk="And much more..." />
             </ul>
-            <button onClick={startCheckout} className="m-0 w-full p-0">
-              <p className="mt-12 block w-full rounded-lg bg-plus py-1 text-center font-medium text-black hover:bg-plus/90 active:bg-plus/75">
-                Unlock Plus now!
+            <button
+              onClick={
+                user?.isPlus
+                  ? () => {
+                      toaster.message('You already have Plus!');
+                    }
+                  : startCheckout
+              }
+              className="m-0 w-full p-0"
+            >
+              <p
+                className={clsx(
+                  'mt-12 block w-full rounded-lg p-1 text-center font-medium',
+                  user?.isPlus
+                    ? 'bg-foreground text-white'
+                    : 'bg-plus text-black hover:bg-plus/90 active:bg-plus/75'
+                )}
+              >
+                {!user?.isPlus ? 'Unlock Plus now!' : 'You already have Plus!'}
               </p>
             </button>
+            {user?.isPlus && (
+              <button
+                onClick={() => router.push('/gift')}
+                className="m-0 w-full p-0"
+              >
+                <p className="block w-full rounded-lg bg-plus p-1 text-center font-medium text-black hover:bg-plus/90 active:bg-plus/75">
+                  Gift Plus now!
+                </p>
+              </button>
+            )}
           </div>
         </div>
       </Container>
