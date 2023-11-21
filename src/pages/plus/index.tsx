@@ -581,9 +581,12 @@ const PlusPage: NextPage<
             your favorite music app today!
           </p>
 
-          <button onClick={startCheckout} className="m-0 p-0">
+          <button
+            onClick={user?.isPlus ? () => router.push('/gift') : startCheckout}
+            className="m-0 p-0"
+          >
             <a className="mt-12 block w-fit rounded-2xl bg-plus px-5 py-3 font-bold text-black hover:bg-plus/90 active:bg-plus/75">
-              Unlock Plus!
+              {user?.isPlus ? 'Gift Plus!' : 'Unlock Plus!'}
             </a>
           </button>
         </div>
