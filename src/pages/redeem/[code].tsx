@@ -23,7 +23,7 @@ export const getServerSideProps: GetServerSideProps<SSRProps> = async (ctx) => {
 const RedeemCodePage: NextPage = () => {
   const router = useRouter();
   const api = useApi();
-  const { user } = useAuth();
+  const { user, login } = useAuth();
 
   const { code } = router.query as { code: string };
 
@@ -38,6 +38,7 @@ const RedeemCodePage: NextPage = () => {
       try {
         giftCode = await api.me.getGiftCode(code);
       } catch (e: any) {
+        if (!user) return;
         router.push('/redeem');
         return;
       }
@@ -110,7 +111,7 @@ const RedeemCodePage: NextPage = () => {
                 <p className="text-xl font-normal text-white">No message</p>
               )}
               <span>
-                Gifted By{' '}
+                Gifted by{' '}
                 <Link legacyBehavior href={`/user/${giftCode?.boughtById}`}>
                   <a
                     className="font-bold text-primary hover:opacity-80"
@@ -130,7 +131,7 @@ const RedeemCodePage: NextPage = () => {
         ) : (
           <Button
             className="w-full max-w-xl"
-            onClick={() => router.push('/login')}
+            onClick={() => login(`/redeem/${code}`)}
           >
             Login
           </Button>
