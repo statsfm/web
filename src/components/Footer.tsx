@@ -14,6 +14,19 @@ const links: { label: string; links: { label: string; href: string }[] }[] = [
         href: '/',
       },
       {
+        label: 'Status',
+        href: 'https://status.stats.fm',
+      },
+      {
+        label: 'Feedback',
+        href: 'https://feedback.stats.fm',
+      },
+    ],
+  },
+  {
+    label: 'Resources',
+    links: [
+      {
         label: 'Support',
         href: 'https://support.stats.fm/',
       },
@@ -115,18 +128,7 @@ export const Footer = () => {
                       href={link.href}
                       className="text-[1rem]"
                     >
-                      <a
-                        onClick={
-                          cat.label === 'Socials'
-                            ? () =>
-                                event(
-                                  `FOOTER_${link.label.toLowerCase()}_click`
-                                )
-                            : undefined
-                        }
-                      >
-                        {link.label}
-                      </a>
+                      <a>{link.label}</a>
                     </Link>
                   )}
                 </li>
