@@ -42,7 +42,8 @@ import {
 } from '@/components/User';
 import { clockProps, type UserPageCarouselsWithGrid } from '@/utils';
 import dynamic from 'next/dynamic';
-import { ranges } from '@/components/User/utils';
+import type { TimeframeSelection } from '@/components/User/utils';
+import { getTimeframeOptions, getTimeframeText } from '@/components/User/utils';
 
 const Chart = dynamic(() => import('react-apexcharts'), { ssr: false });
 
@@ -173,25 +174,6 @@ const PlusBadge = () => (
   </Link>
 );
 
-// const NotEnoughData = ({
-//   data,
-//   children,
-// }: PropsWithChildren<{ data: any[] }>) => {
-//   if (data && data.length === 0) {
-//     return (
-//       <div className="grid w-full place-items-center">
-//         <MdCloudOff />
-
-//         <p className="m-0 text-text-grey">
-//           not enough data to calculate advanced stats
-//         </p>
-//       </div>
-//     );
-//   }
-
-//   return <>{children}</>;
-// };
-
 const ImportRequiredScope: FC<ScopeProps> = ({ children, value }) => {
   const scopeContext = useScopeContext();
 
@@ -248,7 +230,9 @@ const User: NextPage<Props> = ({
   const api = useApi();
   const router = useRouter();
   const { user: currentUser } = useAuth();
-  const [range, setRange] = useState<statsfm.Range>(statsfm.Range.WEEKS);
+  const [timeframe, setTimeframe] = useState<TimeframeSelection>({
+    range: statsfm.Range.WEEKS,
+  });
 
   const [stats, setStats] = useState<
     { label: string; value: string | number }[]
@@ -269,7 +253,7 @@ const User: NextPage<Props> = ({
   useEffect(() => {
     setStats([]);
     api.users
-      .stats(user.id, { range })
+      .stats(user.id, getTimeframeOptions(timeframe))
       .then((stats) => {
         const hours = dayjs.duration(stats.durationMs).asHours();
 
@@ -307,7 +291,7 @@ const User: NextPage<Props> = ({
         ]);
       })
       .catch(() => {});
-  }, [range, user]);
+  }, [timeframe, user]);
 
   useEffect(() => {
     const refs: Record<UserPageCarouselsWithGrid, RefObject<HTMLElement>> = {
@@ -330,7 +314,7 @@ const User: NextPage<Props> = ({
   useEffect(() => {
     api.users
       .dateStats(user.id, {
-        range,
+        ...getTimeframeOptions(timeframe),
         timeZone:
           user.timezone ??
           currentUser?.timezone ??
@@ -344,11 +328,20 @@ const User: NextPage<Props> = ({
         setDateStats(tempStats);
       })
       .catch(() => {});
-  }, [range]);
+  }, [timeframe]);
 
-  const handleSegmentSelect = (value: string) => {
+  const handleSegmentSelect = (value: statsfm.Range) => {
     event(`USER_switch_time_${value}`);
-    setRange(statsfm.Range[value.toUpperCase() as keyof typeof statsfm.Range]);
+    if (value === statsfm.Range.TODAY) {
+      setTimeframe({
+        range: value,
+        custom: {
+          start: dayjs().startOf('day').toDate(),
+          end: dayjs().add(1, 'day').startOf('day').toDate(),
+        },
+        selected: 'CUSTOM',
+      });
+    } else setTimeframe({ range: value as statsfm.Range, selected: 'RANGE' });
   };
 
   useScrollPercentage(30, () => event('USER_scroll_30'));
@@ -497,7 +490,7 @@ const User: NextPage<Props> = ({
 
             <section className="flex flex-col justify-between gap-5 md:flex-row-reverse">
               <SegmentedControls
-                onChange={handleSegmentSelect}
+                onChange={handleSegmentSelect as (value: string) => void}
                 defaultIndex={user.isPlus && user.hasImported ? 1 : 0}
               >
                 {user.isPlus && user.hasImported && (
@@ -524,19 +517,17 @@ const User: NextPage<Props> = ({
               </ImportRequiredScope>
             </section>
 
-            {/* <ListeningClockChart /> */}
-
-            <TopGenres range={range} userProfile={user} />
+            <TopGenres timeframe={timeframe} userProfile={user} />
 
             <TopTracks
-              range={range}
+              timeframe={timeframe}
               userProfile={user}
               trackRef={topTracksRef}
               activeCarousel={activeCarousel}
             />
 
             <TopArtists
-              range={range}
+              timeframe={timeframe}
               userProfile={user}
               artistRef={topArtistsRef}
               activeCarousel={activeCarousel}
@@ -544,7 +535,7 @@ const User: NextPage<Props> = ({
 
             {user.isPlus && (
               <TopAlbums
-                range={range}
+                timeframe={timeframe}
                 userProfile={user}
                 albumRef={topAlbumsRef}
                 activeCarousel={activeCarousel}
@@ -559,7 +550,9 @@ const User: NextPage<Props> = ({
                   scope="streamStats"
                   description={`${
                     isCurrentUser ? 'Your' : `${user.displayName}'s`
-                  } listening habits throughout the day ${ranges[range]} `}
+                  } listening habits throughout the day ${getTimeframeText(
+                    timeframe
+                  )} `}
                 >
                   <Scope value="streamStats">
                     <div className="flex-1 content-center text-center">

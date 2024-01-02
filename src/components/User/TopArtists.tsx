@@ -1,6 +1,6 @@
 import { useApi, useAuth } from '@/hooks';
 import formatter from '@/utils/formatter';
-import type { Range, TopArtist, UserPublic } from '@statsfm/statsfm.js';
+import type { TopArtist, UserPublic } from '@statsfm/statsfm.js';
 import type { RefObject } from 'react';
 import { useState, type FC, useEffect } from 'react';
 import { event } from 'nextjs-google-analytics';
@@ -15,25 +15,32 @@ import {
 } from '../Section';
 import { ShareMenuItem } from '../ShareMenuItem';
 import { ArtistCard, ArtistCardSkeleton } from '../Artist';
-import { ranges } from './utils';
+import {
+  getTimeframeOptions,
+  getTimeframeText,
+  type TimeframeSelection,
+} from './utils';
+import { NotEnoughData } from './NotEnoughData';
 
 export const TopArtists: FC<{
-  range: Range;
+  timeframe: TimeframeSelection;
   artistRef: RefObject<HTMLElement>;
   userProfile: UserPublic;
   activeCarousel: UserPageCarouselsWithGrid | null;
-}> = ({ artistRef, userProfile, range, activeCarousel }) => {
+}> = ({ artistRef, userProfile, timeframe, activeCarousel }) => {
   const api = useApi();
   const { user: currentUser } = useAuth();
   const [topArtists, setTopArtists] = useState<TopArtist[]>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     setTopArtists([]);
     api.users
-      .topArtists(userProfile.id, { range })
+      .topArtists(userProfile.id, getTimeframeOptions(timeframe))
       .then(setTopArtists)
-      .catch(() => []);
-  }, [range, userProfile]);
+      .catch(() => [])
+      .finally(() => setLoading(false));
+  }, [timeframe, userProfile]);
 
   const gridModeCallback = (gridMode: boolean) => {
     let newUrl = `/${userProfile.customId ?? userProfile.id}`;
@@ -59,18 +66,23 @@ export const TopArtists: FC<{
         title="Top artists"
         description={`${
           isCurrentUser ? 'Your' : formatter.nounify(userProfile.displayName)
-        } top artists ${ranges[range]}`}
+        } top artists ${getTimeframeText(timeframe)}`}
         scope="topArtists"
         toolbar={
           <div className="flex gap-1">
-            <SectionToolbarGridMode callback={gridModeCallback} />
-            <SectionToolbarCarouselNavigation
-              callback={() => event('USER_top_artists_previous')}
-            />
-            <SectionToolbarCarouselNavigation
-              next
-              callback={() => event('USER_top_artists_next')}
-            />
+            {topArtists?.length > 0 && (
+              <>
+                {' '}
+                <SectionToolbarGridMode callback={gridModeCallback} />
+                <SectionToolbarCarouselNavigation
+                  callback={() => event('USER_top_artists_previous')}
+                />
+                <SectionToolbarCarouselNavigation
+                  next
+                  callback={() => event('USER_top_artists_next')}
+                />
+              </>
+            )}
             <SectionToolbarInfoMenu>
               <ShareMenuItem
                 path={`/${userProfile.customId ?? userProfile.id}/artists`}
@@ -80,29 +92,28 @@ export const TopArtists: FC<{
         }
       >
         <Scope value="topArtists">
-          {/* <NotEnoughData data={topArtists}> */}
-
-          <Carousel.Items>
-            {topArtists?.length > 0
-              ? topArtists
-                  .filter((topArtist) => topArtist.artist?.id)
-                  .map((item) => (
-                    <Carousel.Item
-                      key={item.artist.id}
-                      onClick={() => event('USER_top_artist_click')}
-                    >
-                      <ArtistCard {...item} />
-                    </Carousel.Item>
-                  ))
-              : Array(10)
-                  .fill(null)
-                  .map((_n, i) => (
-                    <Carousel.Item key={i}>
-                      <ArtistCardSkeleton />
-                    </Carousel.Item>
-                  ))}
-          </Carousel.Items>
-          {/* </NotEnoughData> */}
+          <NotEnoughData data={topArtists} loading={loading}>
+            <Carousel.Items>
+              {topArtists?.length > 0
+                ? topArtists
+                    .filter((topArtist) => topArtist.artist?.id)
+                    .map((item) => (
+                      <Carousel.Item
+                        key={item.artist.id}
+                        onClick={() => event('USER_top_artist_click')}
+                      >
+                        <ArtistCard {...item} />
+                      </Carousel.Item>
+                    ))
+                : Array(10)
+                    .fill(null)
+                    .map((_n, i) => (
+                      <Carousel.Item key={i}>
+                        <ArtistCardSkeleton />
+                      </Carousel.Item>
+                    ))}
+            </Carousel.Items>
+          </NotEnoughData>
         </Scope>
       </Section>
     </Carousel>
