@@ -40,7 +40,11 @@ import {
   TopGenres,
   TopTracks,
 } from '@/components/User';
-import type { UserPageCarouselsWithGrid } from '@/utils';
+import { clockProps, type UserPageCarouselsWithGrid } from '@/utils';
+import dynamic from 'next/dynamic';
+import { ranges } from '@/components/User/utils';
+
+const Chart = dynamic(() => import('react-apexcharts'), { ssr: false });
 
 // const ListeningClockChart = () => {
 //   const config = {
@@ -252,6 +256,9 @@ const User: NextPage<Props> = ({
   const [recentStreams, setRecentStreams] = useState<
     statsfm.RecentlyPlayedTrack[]
   >([]);
+  const [dateStats, setDateStats] = useState<
+    Record<number, statsfm.StreamStats>
+  >({});
 
   const topTracksRef = useRef<HTMLElement>(null);
   const topAlbumsRef = useRef<HTMLElement>(null);
@@ -319,6 +326,25 @@ const User: NextPage<Props> = ({
       .then(setRecentStreams)
       .catch(() => {});
   }, [user]);
+
+  useEffect(() => {
+    api.users
+      .dateStats(user.id, {
+        range,
+        timeZone:
+          user.timezone ??
+          currentUser?.timezone ??
+          Intl.DateTimeFormat().resolvedOptions().timeZone,
+      })
+      .then((dateStats) => {
+        const tempStats: Record<number, statsfm.StreamStats> = {};
+        for (let i = 0; i < 24; i += 1) {
+          tempStats[i] = dateStats.hours[i] ?? { count: 0, durationMs: 0 };
+        }
+        setDateStats(tempStats);
+      })
+      .catch(() => {});
+  }, [range]);
 
   const handleSegmentSelect = (value: string) => {
     event(`USER_switch_time_${value}`);
@@ -524,6 +550,29 @@ const User: NextPage<Props> = ({
                 activeCarousel={activeCarousel}
               />
             )}
+
+            {user.isPlus &&
+              user.orderBy !== statsfm.OrderBySetting.PLATFORM && (
+                <Section
+                  title="Listening clocks"
+                  className="flex w-full flex-col gap-2 md:flex-row"
+                  scope="streamStats"
+                  description={`${
+                    isCurrentUser ? 'Your' : `${user.displayName}'s`
+                  } listening habits throughout the day ${ranges[range]} `}
+                >
+                  <Scope value="streamStats">
+                    <div className="flex-1 content-center text-center">
+                      <Chart {...clockProps(dateStats, 'streams')} />
+                      <p>streams</p>
+                    </div>
+                    <div className="flex-1 content-center text-center">
+                      <Chart {...clockProps(dateStats, 'minutes')} />
+                      <p>minutes streamed</p>
+                    </div>
+                  </Scope>
+                </Section>
+              )}
 
             <Section
               title="Recent streams"
