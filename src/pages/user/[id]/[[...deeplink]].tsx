@@ -47,57 +47,6 @@ import { getTimeframeOptions, getTimeframeText } from '@/components/User/utils';
 
 const Chart = dynamic(() => import('react-apexcharts'), { ssr: false });
 
-// const ListeningClockChart = () => {
-//   const config = {
-//     data: {
-//       labels: [
-//         'Acoustic',
-//         'Danceable',
-//         'Energetic',
-//         'Instrumental',
-//         'Lively',
-//         'Speechful',
-//         'Valence',
-//       ],
-//       datasets: [
-//         {
-//           label: '',
-//           data: [
-//             11, 16, 7, 3, 14, 20, 12, 6, 9, 10, 5, 8, 21, 5, 4, 2, 13, 18, 16,
-//             19, 5, 2, 1, 0,
-//           ],
-//           fill: true,
-//           backgroundColor: 'rgb(30, 215, 96)',
-//           borderColor: 'rgb(30, 215, 96)',
-//         },
-//       ],
-//     },
-//     options: {
-//       angleLines: {
-//         display: true,
-//       },
-//       cutoutPercentage: 20,
-//       scales: {
-//         r: {
-//           grid: {
-//             color: 'rgb(23, 26, 32)',
-//           },
-//           angleLines: {
-//             color: 'rgb(23, 26, 32)',
-//           },
-//           ticks: {
-//             display: false,
-//           },
-//         },
-//       },
-//     },
-//   };
-
-//   ChartJS.register(RadialLinearScale, ArcElement);
-
-//   return <PolarArea {...config} />;
-// };
-
 type Props = SSRProps & {
   userProfile: statsfm.UserPublic;
   friendStatus: statsfm.FriendStatus;
