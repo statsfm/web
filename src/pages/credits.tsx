@@ -121,34 +121,34 @@ const credits = () => [
     name: 'Translators',
     members: [
       {
+        id: 13471269,
+        name: '<img src="https://crowdin-static.downloads.crowdin.com/avatar/13471269/small/10a3e9e6023e0d630a7fd8949be9fdad.png" class="items-js-image">Quinten <span class="muted">(QkeleQ10)</span>',
+        joined: '2021-03-29 18:05:28',
+        role: 'Localisation Manager',
+      },
+      {
         id: 14677468,
         name: '<img src="https://crowdin-static.downloads.crowdin.com/avatar/14677468/small/1995a2b0b07c1da8a3759e98e9434aff.jpeg" class="items-js-image">Sjoerd Bolten <span class="muted">(netlob)</span>',
         joined: '2021-03-29 02:14:34',
-        role: 'Owner',
+        role: 'Crowdin Manager',
       },
       {
         id: 13257146,
         name: '<img src="https://crowdin-static.downloads.crowdin.com/avatar/13257146/small/04a1dcec960fbaad3d5bf7fa9e839698.png" class="items-js-image">Stijn van der Kolk <span class="muted">(stijnvdkolk)</span>',
         joined: '2021-03-30 08:15:43',
-        role: 'Manager',
-      },
-      {
-        id: 13471269,
-        name: '<img src="https://crowdin-static.downloads.crowdin.com/avatar/13471269/small/10a3e9e6023e0d630a7fd8949be9fdad.png" class="items-js-image">QkeleQ10',
-        joined: '2021-03-29 18:05:28',
-        role: 'Manager',
+        role: 'Crowdin Manager',
       },
       {
         id: 14700212,
         name: '<img src="https://crowdin-static.downloads.crowdin.com/avatar/14700212/small/4166d91e0ed15669312fde2ae79e00ae.png" class="items-js-image">Martijn <span class="muted">(MartijnDev)</span>',
         joined: '2021-05-02 14:33:31',
-        role: 'Manager',
+        role: 'Crowdin Manager',
       },
       {
         id: 15351528,
         name: '<img src="https://crowdin-static.downloads.crowdin.com/avatar/15351528/small/ea5b68695e947974115db28ae48359a3_default.png" class="items-js-image">Liath',
         joined: '2022-07-11 15:46:12',
-        role: 'Manager',
+        role: 'Crowdin Manager',
       },
       {
         id: 14135737,
