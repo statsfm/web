@@ -206,8 +206,8 @@ export const Footer = () => {
         no way affiliated with Spotify AB.
       </p>
       <p className="min-w-full text-center md:mt-0">
-        © 2020-2023 StatsFM B.V. (formerly Spotistats for Spotify). All rights
-        reserved. Made with ❤️ in the Netherlands.
+        © 2020-{new Date().getFullYear()} StatsFM B.V. (formerly Spotistats for
+        Spotify). All rights reserved. Made with ❤️ in the Netherlands.
       </p>
     </Container>
   );
