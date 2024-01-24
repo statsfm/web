@@ -29,6 +29,15 @@ export const NavBar = () => {
 
   return (
     <nav className="absolute z-40 flex w-full">
+      <div className="fixed bottom-0 left-0 z-50 w-screen border-t-[1px] border-neutral-700 bg-background py-1 text-center">
+        <span className="text-sm font-semibold text-primary">
+          This site is still a work in progress.
+        </span>
+        <span className="pl-1 text-sm font-semibold text-neutral-100">
+          We are working on adding features that are in the app to the website.
+          If you want to enjoy the full experience, please use our app.
+        </span>
+      </div>
       <Container className="flex w-full items-center bg-inherit py-3">
         <Link
           href="/"
