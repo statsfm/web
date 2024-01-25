@@ -14,6 +14,8 @@ import localFont from '@next/font/local';
 import clsx from 'clsx';
 import ErrorBoundary from '@/components/ErrorBoundary';
 
+import Script from 'next/script';
+
 // TODO: this is the stupidest solution to the worst issue ever, works for now
 // https://github.com/tailwindlabs/headlessui/discussions/666#discussioncomment-1891380
 if (typeof window !== 'undefined') {
@@ -60,6 +62,21 @@ const Ogp = () => (
   </>
 );
 
+const Smartlook = () => {
+  return (
+    <>
+      <Script id="smartlook-tag">
+        {` window.smartlook || (function(d) {
+              var o=smartlook=function(){ o.api.push(arguments)},h=d.getElementsByTagName('head')[0];
+              var c=d.createElement('script');o.api=new Array();c.async=true;c.type='text/javascript';
+              c.charset='utf-8';c.src='https://web-sdk.smartlook.com/recorder.js';h.appendChild(c);
+              })(document);
+              smartlook('init', '6262fc1ab5badfb59df569ba2daf04f562017bfd', { region: 'eu' });`}
+      </Script>
+    </>
+  );
+};
+
 // TODO: we'll probably rewrite the auth logic to use a state management store instead of context, but we implemented this temporary for development
 const App = ({
   Component,
@@ -84,6 +101,7 @@ const App = ({
           <meta property="og:type" content="website" />
           <meta property="twitter:site" content="@spotistats" />
           <meta property="twitter:creator" content="@spotistats" />
+          <Smartlook />
           {showOgp && <Ogp />}
         </Head>
         <ToasterContainer>
