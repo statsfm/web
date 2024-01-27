@@ -91,6 +91,8 @@ const App = ({
     '/album/[id]',
   ].includes(router.pathname);
 
+  const isProd = process.env.NODE_ENV === 'production';
+
   return (
     <main className={clsx(StatsfmSans.variable, 'font-body')}>
       <AuthProvider user={pageProps.user}>
@@ -101,7 +103,7 @@ const App = ({
           <meta property="og:type" content="website" />
           <meta property="twitter:site" content="@spotistats" />
           <meta property="twitter:creator" content="@spotistats" />
-          <Smartlook />
+          {isProd && <Smartlook />}
           {showOgp && <Ogp />}
         </Head>
         <ToasterContainer>
