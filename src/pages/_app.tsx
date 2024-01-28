@@ -60,22 +60,22 @@ const Ogp = () => (
   </>
 );
 
-const Smartlook = () => {
-  return (
-    <script
-      dangerouslySetInnerHTML={{
-        __html: `
-          window.smartlook||(function(d) {
-          var o=smartlook=function(){ o.api.push(arguments)},h=d.getElementsByTagName('head')[0];
-          var c=d.createElement('script');o.api=new Array();c.async=true;c.type='text/javascript';
-          c.charset='utf-8';c.src='https://web-sdk.smartlook.com/recorder.js';h.appendChild(c);
-          })(document);
-          smartlook('init', '6262fc1ab5badfb59df569ba2daf04f562017bfd', { region: 'eu' });
-          `,
-      }}
-    />
-  );
-};
+// const Smartlook = () => {
+//   return (
+//     <script
+//       dangerouslySetInnerHTML={{
+//         __html: `
+//           window.smartlook||(function(d) {
+//           var o=smartlook=function(){ o.api.push(arguments)},h=d.getElementsByTagName('head')[0];
+//           var c=d.createElement('script');o.api=new Array();c.async=true;c.type='text/javascript';
+//           c.charset='utf-8';c.src='https://web-sdk.smartlook.com/recorder.js';h.appendChild(c);
+//           })(document);
+//           smartlook('init', '6262fc1ab5badfb59df569ba2daf04f562017bfd', { region: 'eu' });
+//           `,
+//       }}
+//     />
+//   );
+// };
 
 // TODO: we'll probably rewrite the auth logic to use a state management store instead of context, but we implemented this temporary for development
 const App = ({
@@ -91,7 +91,7 @@ const App = ({
     '/album/[id]',
   ].includes(router.pathname);
 
-  const isProd = process.env.NODE_ENV === 'production';
+  // const isProd = process.env.NODE_ENV === 'production';
 
   return (
     <main className={clsx(StatsfmSans.variable, 'font-body')}>
@@ -103,7 +103,7 @@ const App = ({
           <meta property="og:type" content="website" />
           <meta property="twitter:site" content="@spotistats" />
           <meta property="twitter:creator" content="@spotistats" />
-          {isProd && <Smartlook />}
+          {/* {isProd && <Smartlook />} */}
           {showOgp && <Ogp />}
         </Head>
         <ToasterContainer>
