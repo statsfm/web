@@ -14,7 +14,10 @@ export const ImportList: FC<{
   const api = useApi();
   const [imports, setImports] = useState<UserImport[]>([]);
   const [loading, setLoading] = useState(true);
-  const [allowRefetch, setAllowRefetch] = useState(true);
+  const [allowRefetch, setAllowRefetch] = useState(false);
+  const [allowRefetchTimeout, setAllowRefetchTimeout] = useState<
+    NodeJS.Timeout | undefined
+  >();
 
   useEffect(() => {
     (async () => {
@@ -29,6 +32,11 @@ export const ImportList: FC<{
           }))
           .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime())
       );
+      if (
+        imports.map((i) => i.status).some((s) => [0, 1].includes(s)) &&
+        !allowRefetchTimeout
+      )
+        setAllowRefetch(true);
       setLoading(false);
     })();
   }, [refetchCounter]);
@@ -51,26 +59,48 @@ export const ImportList: FC<{
     <div>
       <div className="flex items-center justify-between">
         <h2>Your imports</h2>
-        <Button
-          onClick={() => {
-            setAllowRefetch(false);
-            triggerRefetch();
-            setTimeout(() => {
-              setAllowRefetch(true);
-            }, 30000);
-          }}
-          disabled={!allowRefetch}
-        >
-          Refresh
-        </Button>
+        {allowRefetch && (
+          <Button
+            onClick={() => {
+              setAllowRefetch(false);
+              triggerRefetch();
+              setAllowRefetchTimeout(
+                setTimeout(() => {
+                  setAllowRefetch(true);
+                }, 30000)
+              );
+            }}
+          >
+            Refresh
+          </Button>
+        )}
       </div>
-      <ul role="list" className="divide-y divide-foreground pt-3">
+      <ul role="list" className="mt-3 divide-y divide-foreground">
         {loading
           ? Array(10)
               .fill(null)
               .map((_n, i) => <ImportItemSkeleton key={i} />)
           : imports.map((importItem) => (
-              <ImportItem {...importItem} key={importItem.hash} />
+              <ImportItem
+                {...importItem}
+                key={importItem.hash}
+                deleteItem={async (id) => {
+                  const importItem = imports.find((i) => i.id === id)!;
+                  setImports(imports.filter((i) => i.id !== id));
+                  await api.me.removeImport(id).catch(() => {
+                    // Add import back in the right place
+                    setImports(
+                      imports
+                        .filter((i) => i.id !== id)
+                        .concat(importItem)
+                        .sort(
+                          (a, b) =>
+                            b.createdAt.getTime() - a.createdAt.getTime()
+                        )
+                    );
+                  });
+                }}
+              />
             ))}
       </ul>
     </div>
