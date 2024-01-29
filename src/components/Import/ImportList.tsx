@@ -4,17 +4,21 @@ import { useState, type FC, useEffect } from 'react';
 import { MdWarning } from 'react-icons/md';
 import { ImportItemSkeleton } from './ImportItemSkeleton';
 import { ImportItem } from './ImportItem';
+import { Button } from '../Button';
 
-export const ImportList: FC<{ refetchCounter: number }> = ({
-  refetchCounter,
-}) => {
+export const ImportList: FC<{
+  refetchCounter: Date;
+  triggerRefetch: () => void;
+}> = ({ refetchCounter, triggerRefetch }) => {
   const { user } = useAuth();
   const api = useApi();
   const [imports, setImports] = useState<UserImport[]>([]);
   const [loading, setLoading] = useState(true);
+  const [allowRefetch, setAllowRefetch] = useState(true);
 
   useEffect(() => {
     (async () => {
+      setLoading(true);
       const imports = await api.me.imports();
       setImports(
         imports
@@ -37,7 +41,7 @@ export const ImportList: FC<{ refetchCounter: number }> = ({
         <MdWarning className="text-5xl text-yellow-600" />
         <p className="mt-4 text-lg text-gray-500">
           It looks like you don&apos;t have any imports yet! Get started by
-          using the <span className="font-semibold">Import</span> button above.
+          uploading your data above!
         </p>
       </div>
     );
@@ -45,7 +49,21 @@ export const ImportList: FC<{ refetchCounter: number }> = ({
 
   return (
     <div>
-      <h2>Imported files</h2>
+      <div className="flex items-center justify-between">
+        <h2>Your imports</h2>
+        <Button
+          onClick={() => {
+            setAllowRefetch(false);
+            triggerRefetch();
+            setTimeout(() => {
+              setAllowRefetch(true);
+            }, 30000);
+          }}
+          disabled={!allowRefetch}
+        >
+          Refresh
+        </Button>
+      </div>
       <ul role="list" className="divide-y divide-foreground pt-3">
         {loading
           ? Array(10)
