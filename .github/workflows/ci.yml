@@ -25,10 +25,10 @@ jobs:
             ${{ github.workspace }}/.next/cache
           key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
 
-      - name: Setup Node 16.x
+      - name: Setup Node 20.x
         uses: actions/setup-node@v3
         with:
-          node-version: 16
+          node-version: 20
     
       - name: Install dependencies
         run: yarn install
