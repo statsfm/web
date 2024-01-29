@@ -1,3 +1,5 @@
+'use client';
+
 /* eslint-disable no-continue */
 import { Container } from '@/components/Container';
 import { Divider } from '@/components/Divider';
@@ -185,6 +187,9 @@ const ImportPage: NextPage<Props> = () => {
 
     setRefetchCounter(new Date());
     setIsUploading(false);
+    setUploadedFiles((oldList) =>
+      oldList.filter((x) => x.status !== UploadedFilesStatus.Uploaded)
+    );
   };
 
   const [importService, setImportService] = useState<ImportService>(
