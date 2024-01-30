@@ -54,7 +54,7 @@ export const ImportItem: FC<
         >
           Delete
         </Button>
-        <Menu as="div" className="relative flex-none md:hidden">
+        <Menu as="div" className="relative flex-none sm:hidden">
           <Menu.Button className="-m-2.5 block p-2.5 text-gray-500 hover:text-gray-900">
             <span className="sr-only">Open options</span>
             <MdMoreVert className="h-5 w-5" aria-hidden="true" />
