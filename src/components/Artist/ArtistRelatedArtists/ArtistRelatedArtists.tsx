@@ -1,5 +1,5 @@
 import { useState, type FC, useEffect } from 'react';
-import { type Artist } from '@statsfm/statsfm.js';
+import { type Artist } from '@/utils/statsfm';
 import { useApi } from '@/hooks';
 import { event } from 'nextjs-google-analytics';
 import {

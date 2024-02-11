@@ -3,7 +3,7 @@ import { Container } from '@/components/Container';
 import { useApi, useAuth, useToaster } from '@/hooks';
 import type { SSRProps } from '@/utils/ssrUtils';
 import { fetchUser } from '@/utils/ssrUtils';
-import type { GiftCode } from '@statsfm/statsfm.js';
+import type { GiftCode } from '@/utils/statsfm';
 import JSConfetti from 'js-confetti';
 import type { GetServerSideProps, NextPage } from 'next';
 import Link from 'next/link';

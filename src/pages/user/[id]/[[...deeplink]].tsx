@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import type { FC, PropsWithChildren, RefObject } from 'react';
 import dayjs from 'dayjs';
 import type { GetServerSideProps, NextPage } from 'next';
-import * as statsfm from '@statsfm/statsfm.js';
+import * as statsfm from '@/utils/statsfm';
 import Linkify from 'linkify-react';
 
 // components
@@ -22,7 +22,7 @@ import { Button } from '@/components/Button';
 import clsx from 'clsx';
 import type { SSRProps } from '@/utils/ssrUtils';
 import { getApiInstance, fetchUser } from '@/utils/ssrUtils';
-import { FriendStatus } from '@statsfm/statsfm.js';
+import { FriendStatus } from '@/utils/statsfm';
 import { event } from 'nextjs-google-analytics';
 import { useScrollPercentage } from '@/hooks/use-scroll-percentage';
 import formatter from '@/utils/formatter';

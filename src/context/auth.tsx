@@ -1,7 +1,7 @@
 // TODO: fix dependency cycle
 // eslint-disable-next-line import/no-cycle
 import { useApi } from '@/hooks';
-import type * as statsfm from '@statsfm/statsfm.js';
+import type * as statsfm from '@/utils/statsfm';
 import { decodeJwt } from 'jose';
 import Cookies from 'js-cookie';
 import { useRouter } from 'next/router';

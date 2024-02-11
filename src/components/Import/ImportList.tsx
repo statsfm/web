@@ -1,5 +1,5 @@
 import { useApi, useAuth } from '@/hooks';
-import type { UserImport } from '@statsfm/statsfm.js';
+import type { UserImport } from '@/utils/statsfm';
 import { useState, type FC, useEffect } from 'react';
 import { MdWarning } from 'react-icons/md';
 import { ImportItemSkeleton } from './ImportItemSkeleton';

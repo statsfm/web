@@ -1,5 +1,5 @@
 import { Fragment, type FC } from 'react';
-import type { UserImport } from '@statsfm/statsfm.js';
+import type { UserImport } from '@/utils/statsfm';
 import clsx from 'clsx';
 import {
   IMPORT_STATUS,

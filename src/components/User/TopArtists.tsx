@@ -1,6 +1,6 @@
 import { useApi, useAuth } from '@/hooks';
 import formatter from '@/utils/formatter';
-import type { TopArtist, UserPublic } from '@statsfm/statsfm.js';
+import type { TopArtist, UserPublic } from '@/utils/statsfm';
 import type { RefObject } from 'react';
 import { useState, type FC, useEffect } from 'react';
 import { event } from 'nextjs-google-analytics';

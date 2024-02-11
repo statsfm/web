@@ -1,4 +1,4 @@
-import type { ArtistSimple } from '@statsfm/statsfm.js';
+import type { ArtistSimple } from '@/utils/statsfm';
 import Link from 'next/link';
 import type { FC } from 'react';
 

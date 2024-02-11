@@ -4,7 +4,7 @@ import { getApiInstance, fetchUser } from '@/utils/ssrUtils';
 import type { GetServerSideProps, NextPage } from 'next';
 import Link from 'next/link';
 import { MdChevronLeft, MdDiscFull, MdVisibilityOff } from 'react-icons/md';
-import type * as statsfm from '@statsfm/statsfm.js';
+import type * as statsfm from '@/utils/statsfm';
 import { Title } from '@/components/Title';
 import { Section } from '@/components/Section/Section';
 import { useApi } from '@/hooks';
