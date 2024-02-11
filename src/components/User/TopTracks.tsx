@@ -1,10 +1,8 @@
 import { useApi, useAuth } from '@/hooks';
 import formatter from '@/utils/formatter';
 import type { TopTrack, UserPublic } from '@statsfm/statsfm.js';
-import type { RefObject } from 'react';
-import { useState, type FC, useEffect } from 'react';
+import { useState, type FC, useEffect, type RefObject } from 'react';
 import { event } from 'nextjs-google-analytics';
-import type { UserPageCarouselsWithGrid } from '@/utils';
 import { Carousel } from '../Carousel';
 import Scope from '../PrivacyScope';
 import {
@@ -26,7 +24,7 @@ export const TopTracks: FC<{
   timeframe: TimeframeSelection;
   trackRef: RefObject<HTMLElement>;
   userProfile: UserPublic;
-  activeCarousel: UserPageCarouselsWithGrid | null;
+  activeCarousel: boolean;
 }> = ({ trackRef, userProfile, timeframe, activeCarousel }) => {
   const api = useApi();
   const { user: currentUser } = useAuth();
@@ -60,7 +58,7 @@ export const TopTracks: FC<{
   const isCurrentUser = currentUser?.id === userProfile.id;
 
   return (
-    <Carousel gridMode={activeCarousel === 'tracks'} itemHeight={276}>
+    <Carousel gridMode={activeCarousel} itemHeight={276}>
       <Section
         ref={trackRef}
         title="Top tracks"

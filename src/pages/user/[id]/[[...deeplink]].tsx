@@ -40,7 +40,7 @@ import {
   TopGenres,
   TopTracks,
 } from '@/components/User';
-import { clockProps, type UserPageCarouselsWithGrid } from '@/utils';
+import { clockProps, type UserScrollIntoView } from '@/utils';
 import dynamic from 'next/dynamic';
 import type { TimeframeSelection } from '@/components/User/utils';
 import { getTimeframeOptions, getTimeframeText } from '@/components/User/utils';
@@ -51,18 +51,25 @@ type Props = SSRProps & {
   userProfile: statsfm.UserPublic;
   friendStatus: statsfm.FriendStatus;
   friendCount: number;
-  activeCarousel: UserPageCarouselsWithGrid | null;
+  scrollIntoView: UserScrollIntoView | null;
 };
 
-function activeGridModeFromDeepLink(
+function activeScrollIntoViewFromDeepLink(
   deeplink: string | string[] | undefined
-): UserPageCarouselsWithGrid | null {
+): UserScrollIntoView | null {
   if (typeof deeplink !== 'object') return null;
   if (deeplink.length !== 1) return null;
 
   const [id] = deeplink;
-  // TODO: this should rewrite or redirect
-  if (id !== 'tracks' && id !== 'albums' && id !== 'artists') return null;
+  if (
+    id !== 'genres' &&
+    id !== 'tracks' &&
+    id !== 'albums' &&
+    id !== 'artists' &&
+    id !== 'listeningClocks' &&
+    id !== 'recentStreams'
+  )
+    return null;
 
   return id;
 }
@@ -77,10 +84,13 @@ export const getServerSideProps: GetServerSideProps<Props> = async (ctx) => {
     throw new Error('no param id recieved');
   }
 
-  const activeCarousel = activeGridModeFromDeepLink(deeplink);
+  const scrollIntoView = activeScrollIntoViewFromDeepLink(deeplink);
 
   const userProfile = await api.users.get(id).catch(() => {});
-  if (!userProfile) return { notFound: true };
+  if (!userProfile)
+    return {
+      notFound: true,
+    };
 
   const user = await fetchUser(ctx);
 
@@ -105,11 +115,11 @@ export const getServerSideProps: GetServerSideProps<Props> = async (ctx) => {
 
   return {
     props: {
-      activeCarousel,
       userProfile,
       user,
       friendStatus,
       friendCount,
+      scrollIntoView,
     },
   };
 };
@@ -199,7 +209,7 @@ const User: NextPage<Props> = ({
   userProfile: user,
   friendStatus,
   friendCount,
-  activeCarousel,
+  scrollIntoView,
 }) => {
   const api = useApi();
   const router = useRouter();
@@ -221,6 +231,9 @@ const User: NextPage<Props> = ({
   const topTracksRef = useRef<HTMLElement>(null);
   const topAlbumsRef = useRef<HTMLElement>(null);
   const topArtistsRef = useRef<HTMLElement>(null);
+  const topGenresRef = useRef<HTMLElement>(null);
+  const listeningClocksRef = useRef<HTMLElement>(null);
+  const recentStreamsRef = useRef<HTMLElement>(null);
 
   const isCurrentUser = currentUser?.id === user.id;
 
@@ -268,13 +281,16 @@ const User: NextPage<Props> = ({
   }, [timeframe, user]);
 
   useEffect(() => {
-    const refs: Record<UserPageCarouselsWithGrid, RefObject<HTMLElement>> = {
+    const refs: Record<UserScrollIntoView, RefObject<HTMLElement>> = {
       tracks: topTracksRef,
       albums: topAlbumsRef,
       artists: topArtistsRef,
+      genres: topGenresRef,
+      listeningClocks: listeningClocksRef,
+      recentStreams: recentStreamsRef,
     };
 
-    if (activeCarousel) refs[activeCarousel].current?.scrollIntoView();
+    if (scrollIntoView) refs[scrollIntoView].current?.scrollIntoView();
   }, []);
 
   // TODO: improvements
@@ -499,20 +515,24 @@ const User: NextPage<Props> = ({
               )}
             </section>
 
-            <TopGenres timeframe={timeframe} userProfile={user} />
+            <TopGenres
+              timeframe={timeframe}
+              userProfile={user}
+              topGenresRef={topGenresRef}
+            />
 
             <TopTracks
               timeframe={timeframe}
               userProfile={user}
               trackRef={topTracksRef}
-              activeCarousel={activeCarousel}
+              activeCarousel={scrollIntoView === 'tracks'}
             />
 
             <TopArtists
               timeframe={timeframe}
               userProfile={user}
               artistRef={topArtistsRef}
-              activeCarousel={activeCarousel}
+              activeCarousel={scrollIntoView === 'artists'}
             />
 
             {user.isPlus && (
@@ -520,7 +540,7 @@ const User: NextPage<Props> = ({
                 timeframe={timeframe}
                 userProfile={user}
                 albumRef={topAlbumsRef}
-                activeCarousel={activeCarousel}
+                activeCarousel={scrollIntoView === 'albums'}
               />
             )}
 
@@ -535,6 +555,7 @@ const User: NextPage<Props> = ({
                   } listening habits throughout the day ${getTimeframeText(
                     timeframe
                   )} `}
+                  ref={listeningClocksRef}
                 >
                   <Scope value="streamStats">
                     <div className="flex-1 content-center text-center">
@@ -555,6 +576,7 @@ const User: NextPage<Props> = ({
                 isCurrentUser ? 'Your' : `${user.displayName}'s`
               } recently played tracks`}
               scope="recentlyPlayed"
+              ref={recentStreamsRef}
             >
               {({ headerRef }) => (
                 <Scope value="recentlyPlayed">
