@@ -102,6 +102,18 @@ module.exports = withBundleAnalyzer({
         source: '/:id/tracks',
         destination: '/user/:id/tracks',
       },
+      {
+        source: '/:id/listeningClocks',
+        destination: '/user/:id/listeningClocks',
+      },
+      {
+        source: '/:id/genres',
+        destination: '/user/:id/genres',
+      },
+      {
+        source: '/:id/recentStreams',
+        destination: '/user/:id/recentStreams',
+      },
     ];
   },
   generateBuildId: () => nextBuildId({ dir: __dirname }),

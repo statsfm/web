@@ -3,4 +3,10 @@ export * from './AppConfig';
 export * from './dayjs';
 export * from './clocks';
 
-export type UserPageCarouselsWithGrid = 'tracks' | 'albums' | 'artists';
+export type UserScrollIntoView =
+  | 'genres'
+  | 'tracks'
+  | 'albums'
+  | 'artists'
+  | 'listeningClocks'
+  | 'recentStreams';

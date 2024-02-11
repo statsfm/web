@@ -14,7 +14,8 @@ import { NotEnoughData } from './NotEnoughData';
 export const TopGenres: FC<{
   timeframe: TimeframeSelection;
   userProfile: UserPublic;
-}> = ({ userProfile, timeframe }) => {
+  topGenresRef: React.RefObject<HTMLElement>;
+}> = ({ userProfile, timeframe, topGenresRef: ref }) => {
   const api = useApi();
   const { user: currentUser } = useAuth();
   const [topGenres, setTopGenres] = useState<TopGenre[]>([]);
@@ -38,6 +39,7 @@ export const TopGenres: FC<{
         isCurrentUser ? 'Your' : `${userProfile.displayName}'s`
       } top genres ${getTimeframeText(timeframe)}`}
       scope="topGenres"
+      ref={ref}
     >
       <Scope value="topGenres">
         <ChipGroup

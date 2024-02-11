@@ -4,7 +4,6 @@ import type { TopAlbum, UserPublic } from '@/utils/statsfm';
 import type { RefObject } from 'react';
 import { useState, type FC, useEffect } from 'react';
 import { event } from 'nextjs-google-analytics';
-import type { UserPageCarouselsWithGrid } from '@/utils';
 import { Carousel } from '../Carousel';
 import Scope from '../PrivacyScope';
 import {
@@ -26,7 +25,7 @@ export const TopAlbums: FC<{
   timeframe: TimeframeSelection;
   albumRef: RefObject<HTMLElement>;
   userProfile: UserPublic;
-  activeCarousel: UserPageCarouselsWithGrid | null;
+  activeCarousel: boolean;
 }> = ({ albumRef, userProfile, timeframe, activeCarousel }) => {
   const api = useApi();
   const { user: currentUser } = useAuth();
@@ -60,7 +59,7 @@ export const TopAlbums: FC<{
   const isCurrentUser = currentUser?.id === userProfile.id;
 
   return (
-    <Carousel gridMode={activeCarousel === 'albums'} itemHeight={255}>
+    <Carousel gridMode={activeCarousel} itemHeight={255}>
       <Section
         ref={albumRef}
         title="Top albums"
