@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import type { FC, RefObject } from 'react';
+import type { FC, PropsWithChildren, RefObject } from 'react';
 import dayjs from 'dayjs';
 import type { GetServerSideProps, NextPage } from 'next';
 import * as statsfm from '@statsfm/statsfm.js';
@@ -170,6 +170,31 @@ const ImportRequiredScope: FC<ScopeProps> = ({ children, value }) => {
   );
 };
 
+const UserBanScope: FC<PropsWithChildren<{ user: statsfm.UserPublic }>> = ({
+  children,
+  user,
+}) => {
+  if (user.userBan?.active === true) {
+    return (
+      <Container className="mt-8">
+        <h3>Account banned</h3>
+        <p className="[&>a]:text-primary">
+          The account you are viewing has been banned from the platform.
+        </p>
+        <p className="[&>a]:text-primary">
+          You can view more info about banned accounts here{' '}
+          <Linkify options={{ target: '_blank', rel: 'noopener noreferrer' }}>
+            https://support.stats.fm/docs/banned
+          </Linkify>
+          .
+        </p>
+      </Container>
+    );
+  }
+
+  return <>{children}</>;
+};
+
 const User: NextPage<Props> = ({
   userProfile: user,
   friendStatus,
@@ -295,6 +320,16 @@ const User: NextPage<Props> = ({
 
   useScrollPercentage(30, () => event('USER_scroll_30'));
 
+  if (user.userBan?.active === true) {
+    // eslint-disable-next-line no-param-reassign
+    user = {
+      ...user,
+      displayName: 'Banned User',
+      image: undefined,
+      isPlus: false,
+    };
+  }
+
   return (
     <>
       <Title>
@@ -330,11 +365,7 @@ const User: NextPage<Props> = ({
           <Container>
             <section className="flex flex-col items-center gap-5 pt-24 pb-10 md:flex-row">
               <div className="relative rounded-full border-2 border-background">
-                <Avatar
-                  src={user.userBan?.active !== true ? user.image : undefined}
-                  name={user.userBan?.active ? 'Banned User' : user.displayName}
-                  size="4xl"
-                />
+                <Avatar src={user.image} name={user.displayName} size="4xl" />
                 <div className="absolute right-0 bottom-2 text-center text-lg font-medium md:text-left">
                   {user.isPlus && <PlusBadge />}
                 </div>
@@ -343,12 +374,12 @@ const User: NextPage<Props> = ({
               <div className="flex flex-col items-center justify-end md:items-start">
                 <span className="flex">
                   <h1 className="text-center font-extrabold md:text-left">
-                    {user.userBan?.active !== true
-                      ? user.displayName
-                      : 'Banned User'}
+                    {user.displayName}
                   </h1>
                   <span className="ml-2 mt-2 self-center text-center text-lg font-medium md:text-left">
-                    {user.privacySettings?.profile && user.profile?.pronouns}
+                    {user.privacySettings?.profile &&
+                      user.userBan?.active !== true &&
+                      user.profile?.pronouns}
                   </span>
                 </span>
                 {user.privacySettings?.profile &&
@@ -425,7 +456,7 @@ const User: NextPage<Props> = ({
         </div>
 
         {/* Active user page */}
-        {user.userBan?.active !== true && (
+        <UserBanScope user={user}>
           <Container className="mt-8">
             {user.quarantined && (
               <section className="pb-10">
@@ -546,26 +577,7 @@ const User: NextPage<Props> = ({
               )}
             </Section>
           </Container>
-        )}
-
-        {/* User banned page */}
-        {user.userBan?.active === true && (
-          <Container className="mt-8">
-            <h3>Account banned</h3>
-            <p className="[&>a]:text-primary">
-              The account you are viewing has been banned from the platform.
-            </p>
-            <p className="[&>a]:text-primary">
-              You can view more info about banned accounts here{' '}
-              <Linkify
-                options={{ target: '_blank', rel: 'noopener noreferrer' }}
-              >
-                https://support.stats.fm/docs/banned
-              </Linkify>
-              .
-            </p>
-          </Container>
-        )}
+        </UserBanScope>
       </Scope.Context>
     </>
   );
