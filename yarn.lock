@@ -853,17 +853,9 @@
   resolved "https://registry.yarnpkg.com/@rushstack/eslint-patch/-/eslint-patch-1.1.4.tgz#0c8b74c50f29ee44f423f7416829c0bf8bb5eb27"
   integrity sha512-LwzQKA4vzIct1zNZzBmRKI9QuNpLgTQMEjsQLf3BXuGYb3QPTP4Yjf6mkdX+X1mYttZ808QpOwAzZjv28kq7DA==
 
-"@statsfm/statsfm.js@^2.1.8":
-  version "2.1.8"
-  resolved "https://registry.yarnpkg.com/@statsfm/statsfm.js/-/statsfm.js-2.1.8.tgz#ab5f5bdd8aba45f0c78081e3061ac9a9f0735938"
-  integrity sha512-eyBj5ZL9/yaLsaYiTE0LaUKzon/wcOWC5pqL6e3MOr6VkhcLTCteAOYrFvWCW1/vRsBx9pFag+gP6zLPWNqpaQ==
-  dependencies:
-    file-type "16"
-    isomorphic-unfetch "^3.1.0"
-
 "@statsfm/statsfm.js@https://github.com/statsfm/statsfm.js#apple-music-build":
   version "2.1.8"
-  resolved "https://github.com/statsfm/statsfm.js#8222b2a564dfa147bf76f4db66a9103fba51feb4"
+  resolved "https://github.com/statsfm/statsfm.js#538f0e7291f04cd2fe0921a85ef5c86a916dfce8"
   dependencies:
     file-type "16"
     isomorphic-unfetch "^3.1.0"
