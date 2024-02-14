@@ -1,5 +1,5 @@
 import { type Props } from 'react-apexcharts';
-import type * as statsfm from '@statsfm/statsfm.js';
+import type * as statsfm from '@/utils/statsfm';
 
 export const listeningClockTimes = [
   '00:00 - 01:00',

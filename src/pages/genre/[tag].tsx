@@ -1,7 +1,7 @@
 import type { GetServerSideProps, NextPage } from 'next';
 import { Chip, ChipGroup } from '@/components/Chip';
 import { Container } from '@/components/Container';
-import type { Artist, Genre } from '@statsfm/statsfm.js';
+import type { Artist, Genre } from '@/utils/statsfm';
 import { Section } from '@/components/Section/Section';
 import { Avatar } from '@/components/Avatar';
 import Link from 'next/link';

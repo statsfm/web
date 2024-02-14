@@ -4,7 +4,7 @@ import { Title } from '@/components/Title';
 import type { SSRProps } from '@/utils/ssrUtils';
 import { getApiInstance, fetchUser } from '@/utils/ssrUtils';
 import type { GetServerSideProps, NextPage } from 'next';
-import type * as statsfm from '@statsfm/statsfm.js';
+import type * as statsfm from '@/utils/statsfm';
 import { useApi, useAuth } from '@/hooks';
 import { useEffect, useState } from 'react';
 import { Avatar } from '@/components/Avatar';

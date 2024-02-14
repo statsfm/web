@@ -2,7 +2,7 @@ import {
   Range,
   type QueryWithDates,
   type QueryWithRange,
-} from '@statsfm/statsfm.js';
+} from '@/utils/statsfm';
 
 export const ranges: Record<Range, string | null> = {
   weeks: 'from the past 4 weeks',

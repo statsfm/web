@@ -2,6 +2,7 @@ import { useApi, useAuth } from '@/hooks';
 import formatter from '@/utils/formatter';
 import type { TopArtist, UserPublic } from '@statsfm/statsfm.js';
 import { useState, type FC, useEffect, type RefObject } from 'react';
+import type { RefObject } from 'react';
 import { event } from 'nextjs-google-analytics';
 import { Carousel } from '../Carousel';
 import Scope from '../PrivacyScope';

@@ -1,5 +1,5 @@
-import type { UserPrivate } from '@statsfm/statsfm.js';
-import * as statsfm from '@statsfm/statsfm.js';
+import type { UserPrivate } from '@/utils/statsfm';
+import * as statsfm from '@/utils/statsfm';
 
 export type SSRProps<T = {}> = {
   user?: UserPrivate | null | undefined;

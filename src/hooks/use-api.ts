@@ -1,4 +1,4 @@
-import * as statsfm from '@statsfm/statsfm.js';
+import * as statsfm from '@/utils/statsfm';
 import Cookies from 'js-cookie';
 
 let apiUrl = 'https://beta-api.stats.fm/api';

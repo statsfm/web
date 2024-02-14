@@ -1,4 +1,4 @@
-import type * as statsfm from '@statsfm/statsfm.js';
+import type * as statsfm from '@/utils/statsfm';
 import dayjs from 'dayjs';
 import type { RefObject } from 'react';
 import { useState, useEffect, useMemo } from 'react';

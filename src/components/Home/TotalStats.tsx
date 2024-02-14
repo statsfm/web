@@ -1,6 +1,6 @@
 import { useApi, useStatAnimation } from '@/hooks';
 import formatter from '@/utils/formatter';
-import type { DatabaseSizeItem, DatabaseSize } from '@statsfm/statsfm.js';
+import type { DatabaseSizeItem, DatabaseSize } from '@/utils/statsfm';
 import type { FC } from 'react';
 import { useState, useEffect } from 'react';
 import { MdOutlineArrowRightAlt } from 'react-icons/md';

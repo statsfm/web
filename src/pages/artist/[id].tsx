@@ -1,4 +1,4 @@
-import type * as statsfm from '@statsfm/statsfm.js';
+import type * as statsfm from '@/utils/statsfm';
 import { useAuth, useApi } from '@/hooks';
 import type { GetServerSideProps, NextPage } from 'next';
 import type { FC } from 'react';

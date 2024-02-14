@@ -1,4 +1,4 @@
-import type { DatabaseSizeItem } from '@statsfm/statsfm.js';
+import type { DatabaseSizeItem } from '@/utils/statsfm';
 import { useState, useEffect } from 'react';
 
 // rerender time in ms

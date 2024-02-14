@@ -2,7 +2,7 @@ import { AccountLayout } from '@/components/settings/Layout';
 import { SettingsHeader } from '@/components/settings/SettingsHeader';
 import { Button } from '@/components/Button';
 import { useApi, useAuth } from '@/hooks';
-import type { UserSocialMediaConnection } from '@statsfm/statsfm.js';
+import type { UserSocialMediaConnection } from '@/utils/statsfm';
 import type { GetServerSideProps, NextPage } from 'next';
 import { useEffect, useState } from 'react';
 import type { SSRProps } from '@/utils/ssrUtils';

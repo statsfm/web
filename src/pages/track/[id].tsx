@@ -1,7 +1,7 @@
 import type { GetServerSideProps, NextPage } from 'next';
 import type { FC } from 'react';
 import { useEffect, useMemo, useState } from 'react';
-import type * as statsfm from '@statsfm/statsfm.js';
+import type * as statsfm from '@/utils/statsfm';
 import { AlbumCard } from '@/components/Album';
 import { Carousel } from '@/components/Carousel';
 import { Image } from '@/components/Image';

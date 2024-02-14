@@ -8,7 +8,7 @@ import { Overlay } from '@/components/Overlay';
 import { Section } from '@/components/Section/Section';
 import { Textarea } from '@/components/Textarea';
 import { useApi, useAuth, useToaster } from '@/hooks';
-import type { UserPrivate } from '@statsfm/statsfm.js';
+import type { UserPrivate } from '@/utils/statsfm';
 import clsx from 'clsx';
 import type { GetServerSideProps, NextPage } from 'next';
 import { useRouter } from 'next/router';
