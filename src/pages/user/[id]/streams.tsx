@@ -70,7 +70,7 @@ const StreamsPage: NextPage<Props> = ({ userProfile }) => {
   const router = useRouter();
 
   const [recentStreams, setRecentStreams] = useState<statsfm.Stream[]>([]);
-  const [loadMoar, setLoadMoar] = useState(true);
+  const [loadMore, setLoadMore] = useState(true);
 
   const callbackRef = async () => {
     if (!userProfile.privacySettings?.recentlyPlayed) return;
@@ -82,7 +82,7 @@ const StreamsPage: NextPage<Props> = ({ userProfile }) => {
       before: new Date(lastEndTime).getTime() || new Date().getTime(),
     });
 
-    if (streams.length === 0) setLoadMoar(false);
+    if (streams.length === 0) setLoadMore(false);
     setRecentStreams([...(recentStreams || []), ...streams.slice(1)]);
   };
 
@@ -129,7 +129,7 @@ const StreamsPage: NextPage<Props> = ({ userProfile }) => {
               <>
                 <InfiniteScroll
                   loadMore={callbackRef}
-                  hasMore={loadMoar}
+                  hasMore={loadMore}
                   loader={
                     <Spinner
                       key="bigtimerush"
@@ -145,7 +145,7 @@ const StreamsPage: NextPage<Props> = ({ userProfile }) => {
                     streams={recentStreams}
                   />
                 </InfiniteScroll>
-                {!loadMoar && (
+                {!loadMore && (
                   <div className="grid w-full place-items-center py-20">
                     <MdDiscFull />
                     <p className="m-0 text-text-grey">No streams to load!</p>
