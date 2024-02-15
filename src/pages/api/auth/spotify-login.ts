@@ -60,7 +60,7 @@ const handler = (req: NextApiRequest, res: NextApiResponse) => {
   ].join('%20');
 
   const redirectUrl = `${
-    process.env.API_URL ?? 'https://api.stats.fm/api'
+    process.env.NEXT_PUBLIC_API_URL ?? 'https://api.stats.fm/api'
   }/v1/auth/redirect/spotify?scope=${scope}&redirect_uri=${origin}/api/auth/callback`;
   return res.redirect(redirectUrl);
 };
