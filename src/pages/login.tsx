@@ -44,7 +44,7 @@ const Login: NextPage = () => {
           value !== null &&
           value.toString().trim() !== ''
       )
-      .map(([key, value]) => `${key}=${encodeURIComponent(value)}`)
+      .map(([key, value]) => `${key}=${value}`)
       .join('&');
   };
 
@@ -54,9 +54,11 @@ const Login: NextPage = () => {
         response_type: 'code',
         response_mode: 'form_post',
         client_id: process.env.NEXT_PUBLIC_APPLE_CLIENT_ID,
-        redirect_uri: process.env.NEXT_PUBLIC_APPLE_REDIRECT_URI
-          ? `${process.env.NEXT_PUBLIC_APPLE_REDIRECT_URI}/web`
-          : '',
+        redirect_uri: encodeURIComponent(
+          process.env.NEXT_PUBLIC_APPLE_REDIRECT_URI
+            ? `${process.env.NEXT_PUBLIC_APPLE_REDIRECT_URI}/web`
+            : ''
+        ),
         scope: 'email name',
       }
     )}`;
