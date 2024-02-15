@@ -120,7 +120,7 @@ export const NavBar = () => {
                         />
                         <div>
                           <h5>{user.displayName}</h5>
-                          <p className="m-0">{user.email}</p>
+                          <p className="m-0">{user.email ?? 'Unknown email'}</p>
                         </div>
                       </Link>
                     </Menu.Item>
