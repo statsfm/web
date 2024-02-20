@@ -854,8 +854,8 @@
   integrity sha512-LwzQKA4vzIct1zNZzBmRKI9QuNpLgTQMEjsQLf3BXuGYb3QPTP4Yjf6mkdX+X1mYttZ808QpOwAzZjv28kq7DA==
 
 "@statsfm/statsfm.js@https://github.com/statsfm/statsfm.js#apple-music-build":
-  version "2.1.8"
-  resolved "https://github.com/statsfm/statsfm.js#538f0e7291f04cd2fe0921a85ef5c86a916dfce8"
+  version "2.1.11"
+  resolved "https://github.com/statsfm/statsfm.js#176b64d2b2f1f3d5a8cdc567342f4bd41cbfe0d6"
   dependencies:
     file-type "16"
     isomorphic-unfetch "^3.1.0"

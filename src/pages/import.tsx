@@ -22,6 +22,7 @@ import Dropzone from 'react-dropzone';
 import { MdFileUpload, MdWarning } from 'react-icons/md';
 import { BlobReader, TextWriter, ZipReader } from '@zip.js/zip.js';
 import { Button } from '@/components/Button';
+import { Platform } from '@/utils/statsfm';
 
 type Props = {};
 
@@ -36,7 +37,7 @@ export const getServerSideProps: GetServerSideProps<SSRProps> = async (ctx) => {
 };
 
 interface ImportService {
-  id: string;
+  id: Platform;
   name: string;
   enabled: boolean;
   acceptFiles: Accept;
@@ -58,7 +59,7 @@ const ImportPage: NextPage<Props> = () => {
 
   const services: ImportService[] = [
     {
-      id: 'spotify',
+      id: Platform.SPOTIFY,
       name: 'Spotify',
       enabled: true,
       acceptFiles: {
@@ -137,15 +138,32 @@ const ImportPage: NextPage<Props> = () => {
         }
       },
     },
-    // {
-    //   id: 'applemusic',
-    //   name: 'Apple Music',
-    //   enabled: false,
-    //   acceptFiles: {
-    //     'text/csv': ['.csv'],
-    //   },
-    //   handleFileUpload: async () => {},
-    // },
+    {
+      id: Platform.APPLEMUSIC,
+      name: 'Apple Music',
+      enabled: true,
+      acceptFiles: {
+        'text/csv': ['.csv'],
+      },
+      handleFileUpload: async (files) => {
+        toaster.message('Processing files...');
+        // eslint-disable-next-line no-restricted-syntax
+        for await (const file of files) {
+          const content = await file.text();
+          setUploadedFiles((oldList) => [
+            ...oldList,
+            {
+              name: file.name,
+              addedAt: new Date(),
+              contentType: file.type,
+              status: UploadedFilesStatus.Ready,
+              data: content,
+              service: Platform.APPLEMUSIC,
+            },
+          ]);
+        }
+      },
+    },
   ];
 
   const uploadFiles = async () => {
@@ -167,16 +185,25 @@ const ImportPage: NextPage<Props> = () => {
       uploadedFile.status = UploadedFilesStatus.Uploading;
       const oldUrl = api.options.http.apiUrl;
       try {
-        api.options.http.apiUrl = 'https://import.stats.fm/api';
+        api.options.http.apiUrl =
+          process.env.NEXT_PUBLIC_API_URL_IMPORT ??
+          'https://import.stats.fm/api';
         // eslint-disable-next-line no-await-in-loop
-        await api.me.import({
-          name: uploadedFile.name,
-          contentType: 'application/json',
-          data: JSON.stringify(uploadedFile.data),
-          key: 'files',
-        });
+        await api.me.import(
+          {
+            name: uploadedFile.name,
+            contentType: uploadedFile.contentType,
+            data:
+              uploadedFile.service === Platform.SPOTIFY
+                ? JSON.stringify(uploadedFile.data)
+                : uploadedFile.data,
+            key: 'files',
+          },
+          // eslint-disable-next-line @typescript-eslint/no-use-before-define
+          importService.id
+        );
 
-        event('IMPORT_upload_file');
+        event(`IMPORT_${uploadedFile.service}_upload_file`);
         uploadedFile.status = UploadedFilesStatus.Uploaded;
       } catch (e: any) {
         uploadedFile.status = UploadedFilesStatus.Failed;
