@@ -1,6 +1,7 @@
 import { z } from 'zod';
 import type { event } from 'nextjs-google-analytics';
 import type { SetStateAction } from 'react';
+import { Platform } from '@statsfm/statsfm.js';
 
 export const IMPORT_STATUS = {
   '-1': 'Errored!',
@@ -108,15 +109,17 @@ export function isJSONParsable(input: string) {
   }
 }
 
-export type UploadedImportFile<T extends any[] = any[]> = {
+export type UploadedImportFile = {
   name: string;
   addedAt: Date;
   status: UploadedFilesStatus;
+  service: Platform;
 } & (
   | { status: UploadedFilesStatus.Error; error: string }
   | {
       status: Exclude<UploadedFilesStatus, UploadedFilesStatus.Error>;
-      data: T;
+      data: any;
+      contentType: string;
     }
 );
 
@@ -132,7 +135,7 @@ export const SpotifyImport = {
       file.name.match(/StreamingHistory_music_[0-9][0-9]?.json/g) ||
       file.name.match(/StreamingHistory[0-9][0-9]?.json/g)
     ) {
-      utils.event('IMPORT_selected_spotify_account_data');
+      utils.event('IMPORT_SPOTIFY_selected_spotify_account_data');
       utils.setUploadedFiles((oldList) => [
         ...oldList,
         {
@@ -142,12 +145,13 @@ export const SpotifyImport = {
           status: UploadedFilesStatus.Error,
           error:
             'You are trying to upload the streaming history files from the "Account data" package, we do not support these files.',
+          service: Platform.SPOTIFY,
         },
       ]);
     } else {
       const fileText = file.content;
       if (!isJSONParsable(fileText)) {
-        utils.event('IMPORT_selected_invalid_file');
+        utils.event('IMPORT_SPOTIFY_selected_invalid_file');
         utils.setUploadedFiles((oldList) => [
           ...oldList,
           {
@@ -156,6 +160,7 @@ export const SpotifyImport = {
             uploaded: false,
             status: UploadedFilesStatus.Error,
             error: 'The file you selected is not a valid json file.',
+            service: Platform.SPOTIFY,
           },
         ]);
         return;
@@ -165,7 +170,7 @@ export const SpotifyImport = {
       try {
         spotifyStreams = await spotifyImportFileSchema.parseAsync(jsonStreams);
       } catch (e: any) {
-        utils.event('IMPORT_selected_invalid_file');
+        utils.event('IMPORT_SPOTIFY_selected_invalid_file');
         utils.setUploadedFiles((oldList) => [
           ...oldList,
           {
@@ -174,6 +179,7 @@ export const SpotifyImport = {
             uploaded: false,
             status: UploadedFilesStatus.Error,
             error: 'The file you selected does not contain valid data.',
+            service: Platform.SPOTIFY,
           },
         ]);
         return;
@@ -201,6 +207,8 @@ export const SpotifyImport = {
           uploaded: false,
           status: UploadedFilesStatus.Ready,
           data: validStreams,
+          service: Platform.SPOTIFY,
+          contentType: 'application/json',
         },
       ]);
     }
