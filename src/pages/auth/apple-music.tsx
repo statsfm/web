@@ -36,7 +36,10 @@ const Login: NextPage<SSRProps> = () => {
       const music = MusicKit.getInstance();
       const MUT = await music.authorize();
 
-      router.push(
+      // // eslint-disable-next-line no-promise-executor-return
+      // await new Promise((resolve) => setTimeout(resolve, 500));
+
+      window.location.replace(
         api.http.resolveUrl(
           '/auth/APPLEMUSIC/callback/music',
           true,
