@@ -3,14 +3,13 @@ import { useApi, useToaster } from '@/hooks';
 import { Container } from '@/components/Container';
 import { useRouter } from 'next/router';
 import type { SSRProps } from '@/utils/ssrUtils';
-import { Button } from '@/components/Button';
-import { AppleMusicIcon } from '@/components/Icons';
 import Script from 'next/script';
 
 const Login: NextPage<SSRProps> = () => {
   const router = useRouter();
   const toaster = useToaster();
   const api = useApi();
+  // const [musicKitLoaded, setMusicKitLoaded] = useState(false);
   let inProgress = false;
 
   const redirectToLogin = () => {
@@ -19,8 +18,12 @@ const Login: NextPage<SSRProps> = () => {
   };
 
   const appleMusicKitHandle = async () => {
-    // eslint-disable-next-line @typescript-eslint/naming-convention
-    const { state } = router.query;
+    // for some reason, the query from router is always empty
+    // const { state } = router.query;
+
+    const query = new URLSearchParams(window.location.search);
+    const state = query.get('state');
+
     if (!state) {
       redirectToLogin();
       return;
@@ -35,9 +38,9 @@ const Login: NextPage<SSRProps> = () => {
 
       router.push(
         api.http.resolveUrl(
-          '/auth/APPLEMUSIC/redirect',
+          '/auth/APPLEMUSIC/callback/music',
           true,
-          `?mut=${MUT}&state=${state}`
+          `mut=${encodeURIComponent(MUT)}&state=${state}`
         )
       );
     } catch (e) {
@@ -57,13 +60,17 @@ const Login: NextPage<SSRProps> = () => {
       await MusicKit.configure({
         developerToken,
         app: {
-          name: process.env.NEXT_PUBLIC_APPLE_APP_NAME ?? 'testing',
+          name: process.env.NEXT_PUBLIC_APPLE_APP_NAME ?? 'stats.fm',
           build: process.env.NEXT_PUBLIC_APPLE_APP_BUILD ?? '1978.4.1',
         },
       });
       await appleMusicKitHandle();
     })();
   };
+
+  // useEffect(() => {
+  //   initializeMusicKit();
+  // }, [router.isReady, musicKitLoaded, router.query]);
 
   return (
     <>
@@ -75,16 +82,17 @@ const Login: NextPage<SSRProps> = () => {
       <Container className="flex min-h-[90vh] pt-24">
         <div className="mx-auto mt-48 flex w-96 flex-col px-4">
           <h1 className="w-full text-center text-4xl text-white">
-            Login to Apple Music
+            Authorize Apple Music
           </h1>
           <div className="mt-8 flex flex-col gap-4">
-            <Button
+            An Apple Music popup should appear soon...
+            {/* <Button
               onClick={appleMusicKitHandle}
               className="w-full bg-applemusic/80 text-white hover:bg-applemusic/60 active:bg-applemusic/50"
             >
               <AppleMusicIcon className="mr-2 !fill-white" hover={false} />
-              Continue with Apple Music
-            </Button>
+              Authorize
+            </Button> */}
           </div>
         </div>
       </Container>
