@@ -104,7 +104,11 @@ module.exports = withBundleAnalyzer({
       },
       {
         source: '/:id/listeningClocks',
-        destination: '/user/:id/listeningClocks',
+        destination: '/user/:id/listening-clocks',
+      },
+      {
+        source: '/:id/listening-clocks',
+        destination: '/user/:id/listening-locks',
       },
       {
         source: '/:id/genres',
@@ -112,7 +116,11 @@ module.exports = withBundleAnalyzer({
       },
       {
         source: '/:id/recentStreams',
-        destination: '/user/:id/recentStreams',
+        destination: '/user/:id/recent-streams',
+      },
+      {
+        source: '/:id/recent-streams',
+        destination: '/user/:id/recent-streams',
       },
     ];
   },

@@ -66,8 +66,8 @@ function activeScrollIntoViewFromDeepLink(
     id !== 'tracks' &&
     id !== 'albums' &&
     id !== 'artists' &&
-    id !== 'listeningClocks' &&
-    id !== 'recentStreams'
+    id !== 'listening-clocks' &&
+    id !== 'recent-streams'
   )
     return null;
 
@@ -286,8 +286,8 @@ const User: NextPage<Props> = ({
       albums: topAlbumsRef,
       artists: topArtistsRef,
       genres: topGenresRef,
-      listeningClocks: listeningClocksRef,
-      recentStreams: recentStreamsRef,
+      'listening-clocks': listeningClocksRef,
+      'recent-streams': recentStreamsRef,
     };
 
     if (scrollIntoView) refs[scrollIntoView].current?.scrollIntoView();

@@ -8,5 +8,5 @@ export type UserScrollIntoView =
   | 'tracks'
   | 'albums'
   | 'artists'
-  | 'listeningClocks'
-  | 'recentStreams';
+  | 'listening-clocks'
+  | 'recent-streams';
