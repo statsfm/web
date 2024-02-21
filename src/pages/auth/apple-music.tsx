@@ -88,7 +88,10 @@ const Login: NextPage<SSRProps> = () => {
             Authorize Apple Music
           </h1>
           <div className="mt-8 flex flex-col gap-4">
-            An Apple Music popup should appear soon...
+            <p className="text-center">
+              An Apple Music popup should appear soon...
+            </p>
+            {/* TODO: show the button below after 3 seconds or so in case the automatic popup didnt open @stijnvdkolk */}
             {/* <Button
               onClick={appleMusicKitHandle}
               className="w-full bg-applemusic/80 text-white hover:bg-applemusic/60 active:bg-applemusic/50"
