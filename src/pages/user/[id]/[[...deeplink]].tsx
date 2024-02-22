@@ -110,7 +110,7 @@ export const getServerSideProps: GetServerSideProps<Props> = async (ctx) => {
   const oembedUrl = encodeURIComponent(`https://stats.fm${ctx.resolvedUrl}`);
   ctx.res.setHeader(
     'Link',
-    `<https://beta-api.stats.fm/api/v1/oembed?url=${oembedUrl}&format=json>; rel="alternate"; type="application/json+oembed"; title=""`
+    `<https://api.stats.fm/api/v1/oembed?url=${oembedUrl}&format=json>; rel="alternate"; type="application/json+oembed"; title=""`
   );
 
   return {

@@ -1,7 +1,7 @@
 import * as statsfm from '@statsfm/statsfm.js';
 import Cookies from 'js-cookie';
 
-let apiUrl = 'https://beta-api.stats.fm/api';
+let apiUrl = 'https://api.stats.fm/api';
 
 if (process.env.NODE_ENV === 'development')
   apiUrl = 'https://beta-api.stats.fm/api';

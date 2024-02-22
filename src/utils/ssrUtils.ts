@@ -11,7 +11,7 @@ export const getApiInstance = (accessToken?: string) => {
       accessToken,
     },
     http: {
-      apiUrl: 'https://beta-api.stats.fm/api',
+      apiUrl: 'https://api.stats.fm/api',
     },
   });
 };
