@@ -1,4 +1,5 @@
 import { Fragment, type FC } from 'react';
+import { Platform } from '@/utils/statsfm';
 import type { UserImport } from '@/utils/statsfm';
 import clsx from 'clsx';
 import {
@@ -13,7 +14,7 @@ import { Button } from '../Button';
 
 export const ImportItem: FC<
   UserImport & { deleteItem: (id: number) => Promise<void> }
-> = ({ name, status, count, createdAt, id, deleteItem }) => {
+> = ({ name, status, count, createdAt, id, deleteItem, service }) => {
   return (
     <li className="flex items-center justify-between gap-x-6 py-5">
       <div className="min-w-0">
@@ -41,10 +42,16 @@ export const ImportItem: FC<
               timeStyle: 'short',
             })}
           </p>
-          <svg viewBox="0 0 2 2" className="h-0.5 w-0.5 fill-current">
-            <circle cx={1} cy={1} r={1} />
-          </svg>
-          <p className="truncate">{count.toLocaleString()} streams</p>
+
+          {(service === Platform.SPOTIFY ||
+            (service === Platform.APPLEMUSIC && [1, 2].includes(status))) && (
+            <>
+              <svg viewBox="0 0 2 2" className="h-0.5 w-0.5 fill-current">
+                <circle cx={1} cy={1} r={1} />
+              </svg>
+              <p className="truncate">{count.toLocaleString()} streams</p>
+            </>
+          )}
         </div>
       </div>
       <div className="flex flex-none items-center gap-x-4">
