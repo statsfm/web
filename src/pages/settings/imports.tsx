@@ -23,6 +23,7 @@ import { BlobReader, TextWriter, ZipReader } from '@zip.js/zip.js';
 import { Button } from '@/components/Button';
 import { Platform } from '@/utils/statsfm';
 import { AccountLayout } from '@/components/settings/Layout';
+import { SettingsHeader } from '@/components/settings/SettingsHeader';
 
 export const getServerSideProps: GetServerSideProps<SSRProps> = async (ctx) => {
   const user = await fetchUser(ctx);
@@ -226,6 +227,20 @@ const Imports = () => {
   return (
     <div className="relative w-full">
       <Title>Imports</Title>
+      <SettingsHeader title="Imports" />
+
+      <p>
+        Check more about importing your lifetime streaming history{' '}
+        <a
+          className="text-primary hover:opacity-90"
+          href="https://support.stats.fm/docs/import"
+          target="blank"
+          onClick={() => event('IMPORT_guide_click')}
+        >
+          in the support documentation
+        </a>
+        .
+      </p>
       {importWarning?.asBoolean() && (
         <div className="my-8 w-full flex-row rounded-md border-l-4 border-l-yellow-400/80 bg-yellow-400/20 p-4">
           <div className="flex w-full flex-col">
@@ -239,19 +254,6 @@ const Imports = () => {
           </div>
         </div>
       )}
-      <h2>Imports</h2>
-      <p>
-        Check more about importing your lifetime streaming history{' '}
-        <a
-          className="text-primary hover:opacity-90"
-          href="https://support.stats.fm/docs/import"
-          target="blank"
-          onClick={() => event('IMPORT_guide_click')}
-        >
-          in the support documentation
-        </a>
-        .
-      </p>
       {user.isPlus ? (
         <>
           {importAvailable?.asBoolean() ? (

@@ -55,7 +55,7 @@ const NavBody: FC = () => (
       </NavGroup>
 
       <NavGroup title="Stats">
-        <SideNavItem href="/settings/imports">Import</SideNavItem>
+        <SideNavItem href="/settings/imports">Imports</SideNavItem>
       </NavGroup>
     </aside>
   </nav>
