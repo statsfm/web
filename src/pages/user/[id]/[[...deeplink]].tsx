@@ -66,8 +66,8 @@ function activeScrollIntoViewFromDeepLink(
     id !== 'tracks' &&
     id !== 'albums' &&
     id !== 'artists' &&
-    id !== 'listeningClocks' &&
-    id !== 'recentStreams'
+    id !== 'listening-clocks' &&
+    id !== 'recent-streams'
   )
     return null;
 
@@ -110,7 +110,7 @@ export const getServerSideProps: GetServerSideProps<Props> = async (ctx) => {
   const oembedUrl = encodeURIComponent(`https://stats.fm${ctx.resolvedUrl}`);
   ctx.res.setHeader(
     'Link',
-    `<https://beta-api.stats.fm/api/v1/oembed?url=${oembedUrl}&format=json>; rel="alternate"; type="application/json+oembed"; title=""`
+    `<https://api.stats.fm/api/v1/oembed?url=${oembedUrl}&format=json>; rel="alternate"; type="application/json+oembed"; title=""`
   );
 
   return {
@@ -286,8 +286,8 @@ const User: NextPage<Props> = ({
       albums: topAlbumsRef,
       artists: topArtistsRef,
       genres: topGenresRef,
-      listeningClocks: listeningClocksRef,
-      recentStreams: recentStreamsRef,
+      'listening-clocks': listeningClocksRef,
+      'recent-streams': recentStreamsRef,
     };
 
     if (scrollIntoView) refs[scrollIntoView].current?.scrollIntoView();
