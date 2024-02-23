@@ -1,16 +1,22 @@
+'use client';
+
 import type { NextPage } from 'next';
 import { useApi, useToaster } from '@/hooks';
 import { Container } from '@/components/Container';
 import { useRouter } from 'next/router';
 import type { SSRProps } from '@/utils/ssrUtils';
 import Script from 'next/script';
+import { useEffect, useState } from 'react';
+import { AppleMusicIcon } from '@/components/Icons';
+import { Button } from '@/components/Button';
 
 const Login: NextPage<SSRProps> = () => {
   const router = useRouter();
   const toaster = useToaster();
   const api = useApi();
   // const [musicKitLoaded, setMusicKitLoaded] = useState(false);
-  let inProgress = false;
+  const [inProgress, setInProgress] = useState(false);
+  const [showButton, setShowButton] = useState(false);
 
   const redirectToLogin = () => {
     toaster.error('Sign in with Apple first');
@@ -30,14 +36,11 @@ const Login: NextPage<SSRProps> = () => {
     }
 
     if (inProgress) return;
-    inProgress = true;
+    setInProgress(true);
 
     try {
       const music = MusicKit.getInstance();
       const MUT = await music.authorize();
-
-      // // eslint-disable-next-line no-promise-executor-return
-      // await new Promise((resolve) => setTimeout(resolve, 500));
 
       window.location.replace(
         api.http.resolveUrl(
@@ -51,7 +54,7 @@ const Login: NextPage<SSRProps> = () => {
       console.error(e);
       toaster.error('Something went wrong trying to login. Please try again.');
     }
-    inProgress = false;
+    setInProgress(false);
   };
 
   const initializeMusicKit = () => {
@@ -71,9 +74,13 @@ const Login: NextPage<SSRProps> = () => {
     })();
   };
 
-  // useEffect(() => {
-  //   initializeMusicKit();
-  // }, [router.isReady, musicKitLoaded, router.query]);
+  useEffect(() => {
+    // 3 second timeout to show the button
+    const timeout = setTimeout(() => {
+      setShowButton(true);
+    }, 3000);
+    return () => clearTimeout(timeout);
+  }, []);
 
   return (
     <>
@@ -89,16 +96,18 @@ const Login: NextPage<SSRProps> = () => {
           </h1>
           <div className="mt-8 flex flex-col gap-4">
             <p className="text-center">
-              An Apple Music popup should appear soon...
+              An Apple Music popup should appear soon... If it doesn&apos;t,
+              please check if you have browser popups blocked.
             </p>
-            {/* TODO: show the button below after 3 seconds or so in case the automatic popup didnt open @stijnvdkolk */}
-            {/* <Button
-              onClick={appleMusicKitHandle}
-              className="w-full bg-applemusic/80 text-white hover:bg-applemusic/60 active:bg-applemusic/50"
-            >
-              <AppleMusicIcon className="mr-2 !fill-white" hover={false} />
-              Authorize
-            </Button> */}
+            {showButton && (
+              <Button
+                onClick={appleMusicKitHandle}
+                className="w-full bg-applemusic/80 text-white hover:bg-applemusic/60 active:bg-applemusic/50"
+              >
+                <AppleMusicIcon className="mr-2 !fill-white" hover={false} />
+                Authorize
+              </Button>
+            )}{' '}
           </div>
         </div>
       </Container>
