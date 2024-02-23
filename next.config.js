@@ -49,6 +49,11 @@ module.exports = withBundleAnalyzer({
         permanent: false,
       },
       {
+        source: '/import',
+        destination: '/settings/imports',
+        permanent: true,
+      },
+      {
         source: '/discord',
         destination: 'https://stats.fm/discord',
         permanent: false,
