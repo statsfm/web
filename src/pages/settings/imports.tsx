@@ -1,7 +1,6 @@
 'use client';
 
 /* eslint-disable no-continue */
-import { Container } from '@/components/Container';
 import { Divider } from '@/components/Divider';
 import { ImportList } from '@/components/Import/ImportList';
 import { UploadedItem } from '@/components/Import/UploadedItem';
@@ -22,8 +21,7 @@ import Dropzone from 'react-dropzone';
 import { MdFileUpload, MdWarning } from 'react-icons/md';
 import { BlobReader, TextWriter, ZipReader } from '@zip.js/zip.js';
 import { Button } from '@/components/Button';
-
-type Props = {};
+import { AccountLayout } from '@/components/settings/Layout';
 
 export const getServerSideProps: GetServerSideProps<SSRProps> = async (ctx) => {
   const user = await fetchUser(ctx);
@@ -43,7 +41,7 @@ interface ImportService {
   handleFileUpload: (file: File[]) => Promise<void> | void;
 }
 
-const ImportPage: NextPage<Props> = () => {
+const Imports = () => {
   const { user } = useAuth();
   const api = useApi();
   const toaster = useToaster();
@@ -199,8 +197,8 @@ const ImportPage: NextPage<Props> = () => {
   if (!user) return <></>;
 
   return (
-    <Container className="pt-20">
-      <Title>Import</Title>
+    <div className="relative w-full">
+      <Title>Imports</Title>
       {importWarning?.asBoolean() && (
         <div className="my-8 w-full flex-row rounded-md border-l-4 border-l-yellow-400/80 bg-yellow-400/20 p-4">
           <div className="flex w-full flex-col">
@@ -223,7 +221,7 @@ const ImportPage: NextPage<Props> = () => {
           target="blank"
           onClick={() => event('IMPORT_guide_click')}
         >
-          here in the support docs
+          in the support documentation.
         </a>
         .
       </p>
@@ -232,17 +230,19 @@ const ImportPage: NextPage<Props> = () => {
           {importAvailable?.asBoolean() ? (
             <>
               <div className="mt-5 flex flex-col items-center justify-center">
-                <SegmentedControls
-                  onChange={(id) => {
-                    setImportService(services.find((x) => x.id === id)!);
-                  }}
-                >
-                  {services.map((service) => (
-                    <Segment key={service.id} value={service.id}>
-                      {service.name}
-                    </Segment>
-                  ))}
-                </SegmentedControls>
+                {services.length > 1 && (
+                  <SegmentedControls
+                    onChange={(id) => {
+                      setImportService(services.find((x) => x.id === id)!);
+                    }}
+                  >
+                    {services.map((service) => (
+                      <Segment key={service.id} value={service.id}>
+                        {service.name}
+                      </Segment>
+                    ))}
+                  </SegmentedControls>
+                )}
                 <div className="mt-2 flex w-full items-center justify-center">
                   <Dropzone
                     onDrop={(files) => importService.handleFileUpload(files)}
@@ -275,7 +275,9 @@ const ImportPage: NextPage<Props> = () => {
                               {Object.values(importService.acceptFiles)
                                 .flatMap((x) => x)
                                 .join(', ')}{' '}
-                              for this service.
+                              for{' '}
+                              {services.length > 1 ? 'this service' : 'Spotify'}
+                              .
                             </p>
                             <input {...getInputProps()} />
                           </>
@@ -345,7 +347,17 @@ const ImportPage: NextPage<Props> = () => {
           you need stats.fm Plus.
         </h4>
       )}
-    </Container>
+    </div>
+  );
+};
+
+const ImportPage: NextPage = () => {
+  const { user } = useAuth();
+  if (!user) return null;
+  return (
+    <AccountLayout>
+      <Imports />
+    </AccountLayout>
   );
 };
 
