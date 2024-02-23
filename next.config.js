@@ -117,7 +117,7 @@ module.exports = withBundleAnalyzer({
       },
       {
         source: '/:id/listening-clocks',
-        destination: '/user/:id/listening-locks',
+        destination: '/user/:id/listening-clocks',
       },
       {
         source: '/:id/genres',
