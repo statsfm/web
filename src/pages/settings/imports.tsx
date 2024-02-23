@@ -248,7 +248,7 @@ const Imports = () => {
           target="blank"
           onClick={() => event('IMPORT_guide_click')}
         >
-          in the support documentation.
+          in the support documentation
         </a>
         .
       </p>
