@@ -43,7 +43,7 @@ export const TopListeners: FC<Props> = (props) => {
       );
       setLoading(false);
     })();
-  }, [topListenersFriends]);
+  }, [topListenersFriends, props.data.id]);
 
   return (
     <Carousel>

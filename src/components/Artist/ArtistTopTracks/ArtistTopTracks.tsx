@@ -46,7 +46,7 @@ export const ArtistTopTracks: FC<Props> = ({ artist }) => {
         );
       setLoading(false);
     })();
-  }, []);
+  }, [artist.id]);
 
   const normalTopTracks =
     !loading && topTracks.length > 0

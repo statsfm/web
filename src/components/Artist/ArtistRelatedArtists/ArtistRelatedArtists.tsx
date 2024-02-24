@@ -29,7 +29,7 @@ export const ArtistRelatedArtists: FC<Props> = ({ artist }) => {
       );
       setLoading(false);
     })();
-  }, [artist]);
+  }, [artist.id]);
 
   return (
     <Carousel slide={1} rows={3}>
