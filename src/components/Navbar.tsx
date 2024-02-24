@@ -57,6 +57,7 @@ export const NavBar = () => {
             type="search"
             name="query"
             placeholder="Search"
+            {...(router.query.query && { defaultValue: router.query.query })}
           />
           <button type="submit" className="absolute right-0 top-0 mt-5 mr-4">
             <svg

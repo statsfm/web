@@ -146,9 +146,9 @@ const ImportRequiredScope: FC<ScopeProps> = ({ children, value }) => {
   let Content = (
     <>
       Ask {target.displayName} to{' '}
-      <a className="underline" href="https://stats.fm/import">
+      <Link className="underline" href="/settings/imports">
         import their streaming history
-      </a>{' '}
+      </Link>{' '}
       to view this
     </>
   );
@@ -157,7 +157,7 @@ const ImportRequiredScope: FC<ScopeProps> = ({ children, value }) => {
     Content = (
       <>
         This feature requires{' '}
-        <Link className="underline" href="/import">
+        <Link className="underline" href="/settings/imports">
           import of streams
         </Link>
       </>
