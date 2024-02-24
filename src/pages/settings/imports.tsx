@@ -334,7 +334,7 @@ const Imports = () => {
             </>
           ) : (
             <h4 className="my-10 text-center text-neutral-400">
-              Importing is currently disabled
+              Importing is currently not available.
             </h4>
           )}
           <Divider className="my-5 border-neutral-600" />
