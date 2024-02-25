@@ -73,7 +73,12 @@ export const Avatar = ({
         width={sizes[size]}
         height={sizes[size]}
         alt={initials}
-        src={src}
+        // If src contains fbcdn or fbsbx, use "URL"
+        src={
+          src.includes('fbcdn') || src.includes('fbsbx')
+            ? 'https://cdn.stats.fm/file/statsfm/images/placeholders/users/private.webp'
+            : src
+        }
         {...props}
       />
 
