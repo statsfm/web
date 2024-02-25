@@ -37,6 +37,7 @@ export const ArtistTopTracks: FC<Props> = ({ artist }) => {
 
   useEffect(() => {
     (async () => {
+      setLoading(true);
       setTopTracks(await api.artists.tracks(artist.id).catch(() => []));
       if (user && isEligible)
         setOwnTopTracks(

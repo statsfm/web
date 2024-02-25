@@ -37,6 +37,7 @@ export const ArtistTopAlbums: FC<Props> = ({ artist }) => {
 
   useEffect(() => {
     (async () => {
+      setLoading(true);
       setTopAlbums(await api.artists.albums(artist.id).catch(() => []));
       if (user && isEligible)
         setOwnTopAlbums(
