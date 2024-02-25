@@ -70,7 +70,7 @@ export const getStaticProps = (async () => {
           id: 4,
           name: 'Daniel',
           nickname: 'daniel',
-          joined: '2020-08-03 00:00:00',
+          joined: '2023-10-18 00:00:00',
           role: 'Backend Developer',
           nickNameIsUrl: true,
           image:
