@@ -36,6 +36,7 @@ export const TopListeners: FC<Props> = (props) => {
 
   useEffect(() => {
     (async () => {
+      setLoading(true);
       setTopListeners(
         await api[type]
           .topListeners(props.data.id, topListenersFriends)
@@ -43,7 +44,7 @@ export const TopListeners: FC<Props> = (props) => {
       );
       setLoading(false);
     })();
-  }, [topListenersFriends]);
+  }, [topListenersFriends, props.data.id]);
 
   return (
     <Carousel>

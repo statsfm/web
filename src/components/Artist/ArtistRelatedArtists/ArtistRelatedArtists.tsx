@@ -24,12 +24,13 @@ export const ArtistRelatedArtists: FC<Props> = ({ artist }) => {
 
   useEffect(() => {
     (async () => {
+      setLoading(true);
       setRelated(
         await api.artists.related(artist.id).then((r) => r.filter((a) => a.id))
       );
       setLoading(false);
     })();
-  }, [artist]);
+  }, [artist.id]);
 
   return (
     <Carousel slide={1} rows={3}>

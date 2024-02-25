@@ -401,7 +401,7 @@ const User: NextPage<Props> = ({
                 {user.privacySettings?.profile &&
                   user.profile?.bio &&
                   user.userBan?.active !== true && (
-                    <pre className="whitespace-pre-wrap  font-body  text-lg line-clamp-3 md:text-left [&>a]:font-semibold [&>a]:text-primary">
+                    <pre className="whitespace-pre-wrap text-center font-body text-lg line-clamp-3 md:text-left [&>a]:font-semibold [&>a]:text-primary">
                       <Linkify
                         options={{
                           target: '_blank',

@@ -37,6 +37,7 @@ export const ArtistTopAlbums: FC<Props> = ({ artist }) => {
 
   useEffect(() => {
     (async () => {
+      setLoading(true);
       setTopAlbums(await api.artists.albums(artist.id).catch(() => []));
       if (user && isEligible)
         setOwnTopAlbums(
@@ -46,7 +47,7 @@ export const ArtistTopAlbums: FC<Props> = ({ artist }) => {
         );
       setLoading(false);
     })();
-  }, []);
+  }, [artist.id]);
 
   const normalTopTracks =
     !loading && topAlbums.length > 0
