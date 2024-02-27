@@ -2,7 +2,7 @@
 /* eslint-disable no-restricted-syntax */
 import { Platform } from '@/utils/statsfm';
 import type { Entry } from '@zip.js/zip.js';
-import { ZipReader, BlobReader, BlobWriter } from '@zip.js/zip.js';
+import { ZipReader, BlobReader, BlobWriter, TextWriter } from '@zip.js/zip.js';
 import type { ImportServiceFunction, ToasterType } from '.';
 import { UploadedFilesStatus } from '.';
 
@@ -66,7 +66,7 @@ export const AppleMusicService: ImportServiceFunction = ({
             fileNamesToImport.some((name) => entry.filename.includes(name))
           );
           for await (const entry of filteredEntries) {
-            const fileContent = await entry.getData!(new BlobWriter());
+            const fileContent = await entry.getData!(new TextWriter());
             setUploadedFiles((oldList) => [
               ...oldList,
               {
