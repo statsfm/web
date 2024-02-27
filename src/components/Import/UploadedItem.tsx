@@ -27,14 +27,15 @@ export const UploadedItem: FC<
           {UPLOADED_FILE_STATUS[data.status]}
         </div>
       </div>
-      {data.service === Platform.SPOTIFY &&
-        data.status !== UploadedFilesStatus.Error && (
-          <div className="mt-1 flex items-center gap-x-2 text-sm leading-5 text-gray-500">
-            <p className="truncate">
-              aprox {data.data.length.toLocaleString()} streams
-            </p>
-          </div>
-        )}
+      {data.service === Platform.SPOTIFY && (
+        <div className="mt-1 flex items-center gap-x-2 text-sm leading-5 text-gray-500">
+          <p className="truncate">
+            {data.status === UploadedFilesStatus.Error
+              ? data.error ?? 'Unknown error'
+              : `aprox ${data.data.length.toLocaleString()} streams`}
+          </p>
+        </div>
+      )}
     </div>
     <div className="flex flex-none gap-x-4">
       <Button
