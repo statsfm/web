@@ -28,11 +28,9 @@ export const UploadedItem: FC<
       </div>
       <div className="mt-1 flex items-center gap-x-2 text-sm leading-5 text-gray-500">
         <p className="truncate">
-          aprox{' '}
           {data.status === UploadedFilesStatus.Error
-            ? '0'
-            : data.data.length.toLocaleString()}{' '}
-          streams
+            ? data.error ?? 'Unknown error'
+            : `aprox ${data.data.length.toLocaleString()} streams`}
         </p>
       </div>
     </div>
