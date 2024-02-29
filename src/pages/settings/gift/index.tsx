@@ -1,9 +1,7 @@
 import type { GetServerSideProps, NextPage } from 'next';
-import { Container } from '@/components/Container';
 import type { FC } from 'react';
 import { useCallback, useMemo, useEffect, useState } from 'react';
 import { useApi, useAuth, useToaster } from '@/hooks';
-import { Button } from '@/components/Button';
 import type { Plan } from '@/types/gift';
 import { Coupon } from '@/components/Gift/Coupon';
 import { Title } from '@/components/Title';
@@ -13,6 +11,10 @@ import { useRemoteValue } from '@/hooks/use-remote-config';
 import { MdInfo } from 'react-icons/md';
 import type { SSRProps } from '@/utils/ssrUtils';
 import { fetchUser } from '@/utils/ssrUtils';
+import { AccountLayout } from '@/components/settings/Layout';
+import { SettingsHeader } from '@/components/settings/SettingsHeader';
+import clsx from 'clsx';
+import { Button } from '@/components/Button';
 
 const Coupons: FC = () => {
   const [giftCodes, setGiftCodes] = useState<GiftCode[]>([]);
@@ -116,7 +118,7 @@ export const getServerSideProps: GetServerSideProps<SSRProps<Props>> = async (
   };
 };
 
-const GiftPage: NextPage<Props> = ({ plans }) => {
+const Gift: FC<Props> = ({ plans }) => {
   const toaster = useToaster();
 
   const giftNoticeText = useRemoteValue('gift_notice_text');
@@ -163,7 +165,8 @@ const GiftPage: NextPage<Props> = ({ plans }) => {
   );
 
   return (
-    <Container className="pt-32">
+    <div className="relative w-full">
+      <SettingsHeader title="Gifts" />
       <Title>Gift</Title>
       {giftNoticeShow?.asBoolean() && (
         <div className="my-8 w-full flex-row rounded-md border-l-4 border-l-yellow-400/80 bg-yellow-400/20 p-4">
@@ -179,42 +182,61 @@ const GiftPage: NextPage<Props> = ({ plans }) => {
         </div>
       )}
       <section className="mb-5 mt-2 flex flex-col gap-3">
-        <div v-if="plans" className="flex w-full flex-col justify-between">
+        <div className="flex w-full flex-col justify-between">
           {plans.length > 0 ? (
-            <div className="mb-2 flex flex-col justify-center gap-3 md:flex-row">
+            <div className="isolate mx-auto mb-2 mt-10 grid max-w-md grid-cols-1 gap-8 lg:mx-0 lg:max-w-none xl:grid-cols-2">
               {plans.map((plan) => (
-                <article
+                <div
                   key={plan.id}
-                  className="relative w-full cursor-pointer select-none transition duration-200 hover:scale-105"
-                  onClick={() => startCheckout(plan.id)}
+                  className="rounded-3xl bg-foreground p-8 xl:p-10"
                 >
-                  <div className="flex max-h-max w-full flex-col items-center rounded-2xl bg-foreground p-5 py-3 text-center">
-                    {plan.isMostChosen && (
-                      <div className="absolute top-0 -translate-y-1/2 select-none rounded-lg bg-primary px-3">
-                        <span className="font-medium text-foreground">
-                          Most chosen
-                        </span>
-                      </div>
+                  <div className="flex items-center justify-between gap-x-4">
+                    <h3
+                      id={plan.id}
+                      className="text-xl font-semibold leading-8 text-white"
+                    >
+                      {plan.name}
+                    </h3>
+                    {plan.isMostChosen ? (
+                      <p className="rounded-full bg-primary px-2.5 py-1 text-xs font-semibold leading-5 text-white">
+                        Most chosen
+                      </p>
+                    ) : (
+                      <p className="rounded-full px-2.5 py-1 text-xs font-semibold leading-5 text-transparent">
+                        -
+                      </p>
                     )}
-                    <h1>{plan.quantity}x</h1>
-                    <p>{plan.name}</p>
-                    <p className="my-[-3px] font-bold text-primary">
-                      {calculateSavePercentage(plan, plans[0]!) > 0 ? (
-                        <>
-                          Save {calculateSavePercentage(plan, plans[0]!)}% with
-                          this bundle!
-                        </>
-                      ) : (
-                        <span className="text-transparent">-</span>
-                      )}
-                    </p>
                   </div>
-                  <Button className="mt-2 w-full rounded-xl py-2 text-sm">
-                    {formatAmount(plan.price.amount)}
-                    {plan.price.currency}
-                    <small className="ml-1">excl vat & fees</small>
-                  </Button>
-                </article>
+
+                  <p className="mt-2 flex items-baseline gap-x-1">
+                    <span className="text-lg font-bold tracking-tight text-white">
+                      {formatAmount(plan.price.amount)}
+                      {plan.price.currency}
+                      <small className="ml-1">excl vat & fees</small>
+                    </span>
+                  </p>
+                  {calculateSavePercentage(plan, plans[0]!) > 0 ? (
+                    <p className="my-4 font-bold text-primary">
+                      Save {calculateSavePercentage(plan, plans[0]!)}% with this
+                      bundle!
+                    </p>
+                  ) : (
+                    <p className="my-4 font-bold text-transparent">-</p>
+                  )}
+                  <div className="mt-auto flex flex-row gap-5 pt-4">
+                    <Button
+                      onClick={() => startCheckout(plan.id)}
+                      className={clsx(
+                        plan.isMostChosen
+                          ? ''
+                          : 'bg-white/10 text-white focus-visible:outline-white hover:bg-white/20',
+                        'mt-6 block w-full rounded-md py-2 px-3 text-center text-sm font-semibold leading-6 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2'
+                      )}
+                    >
+                      Buy plan
+                    </Button>
+                  </div>
+                </div>
               ))}
             </div>
           ) : (
@@ -222,24 +244,20 @@ const GiftPage: NextPage<Props> = ({ plans }) => {
               Loading...
             </div>
           )}
-          <span>
-            * you can redeem a coupon yourself or send the coupon to a friend
-          </span>
         </div>
       </section>
       <section>
         <h2>How does it work?</h2>
         <article className="prose max-w-full font-medium text-neutral-400 prose-headings:text-white prose-a:text-primary prose-li:my-0.5">
           <ol>
-            <li>Log in if you arent&apos;t already</li>
             <li>Choose between one of the packages</li>
             <li>
               You&apos;ll be redirected to a secure{' '}
               <a href="https://stripe.com">Stripe</a> checkout page
             </li>
             <li>
-              After finishing the checkout process your coupons will be shown in
-              the list below
+              After finishing the checkout process, your coupons will be shown
+              in <Link href="#your-coupons">the list below</Link>.
             </li>
             <li>
               If you want to claim the Plus yourself, you can enter it yourself
@@ -258,8 +276,19 @@ const GiftPage: NextPage<Props> = ({ plans }) => {
           </ol>
         </article>
       </section>
-      {user && <Coupons />}
-    </Container>
+      <Coupons />
+    </div>
+  );
+};
+
+const GiftPage: NextPage<Props> = (props) => {
+  const { user } = useAuth();
+  if (!user) return null;
+
+  return (
+    <AccountLayout>
+      <Gift {...props} />
+    </AccountLayout>
   );
 };
 

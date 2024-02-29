@@ -9,18 +9,18 @@ import type { SSRProps } from '@/utils/ssrUtils';
 import { fetchUser } from '@/utils/ssrUtils';
 import { event } from 'nextjs-google-analytics';
 
-const PlatformStatus = {
-  LOADING: 'LOADING',
-  CONNECTED: 'CONNECTED',
-  DISCONNECTED: 'DISCONNECTED',
-} as const;
+enum PlatformStatus {
+  LOADING = 'LOADING',
+  CONNECTED = 'CONNECTED',
+  DISCONNECTED = 'DISCONNECTED',
+}
 
-type PlatformType = {
+type SocialPlatform = {
   status: keyof typeof PlatformStatus;
   key: string;
   name: string;
   icon: string;
-  can_refresh?: boolean;
+  canRefresh?: boolean;
   description: string;
   connection: UserSocialMediaConnection | null;
   connect: () => void;
@@ -28,19 +28,19 @@ type PlatformType = {
   disconnect: () => void;
 };
 
-const useConnections = () => {
+const useSocials = () => {
   const api = useApi();
 
-  const initialPlatforms: PlatformType[] = [
+  const initialPlatforms: SocialPlatform[] = [
     {
       status: PlatformStatus.LOADING,
       key: 'discord',
       name: 'Discord',
       icon: 'https://cdn.stats.fm/file/statsfm/images/brands/discord/color.svg',
       description:
-        'Connect your Discord account to get access to personalized commands with the stats.fm Discord bot',
-      connection: null as UserSocialMediaConnection | null,
-      can_refresh: true,
+        'Connect your Discord account to get access to personalized commands with the stats.fm Discord bot, and show your Discord profile on your stats.fm profile.',
+      connection: null,
+      canRefresh: true,
       // TODO: optimistic updates for connecting
       connect: () => {
         event('SETTINGS_connections_discord_connect');
@@ -74,7 +74,7 @@ const useConnections = () => {
 
   const refetch = async () => {
     const userConnections = await api.me.socialMediaConnections();
-    const hydratedPlatforms = platforms.map<PlatformType>((platform) => {
+    const hydratedPlatforms = platforms.map<SocialPlatform>((platform) => {
       const connection = userConnections.find(
         (connection) => connection.platform.name === platform.name
       );
@@ -92,10 +92,11 @@ const useConnections = () => {
         disconnect: async () => {
           await api.me.removeSocialMediaConnection(connection.id);
 
-          const optimisticPlatforms = platforms.map<PlatformType>((platform) =>
-            platform.name === connection.platform.name
-              ? { ...platform, status: PlatformStatus.DISCONNECTED }
-              : platform
+          const optimisticPlatforms = platforms.map<SocialPlatform>(
+            (platform) =>
+              platform.name === connection.platform.name
+                ? { ...platform, status: PlatformStatus.DISCONNECTED }
+                : platform
           );
           setPlatforms(optimisticPlatforms);
           platform.disconnect();
@@ -113,16 +114,24 @@ const useConnections = () => {
   return platforms;
 };
 
+// const useStreamingServices = () => {
+//   return [];
+// };
+
 // TODO: prefetch connections on the server
 const ConnectionsList = () => {
-  const platforms = useConnections();
+  // const streamingServices = useStreamingServices();
+  const socials = useSocials();
 
   return (
     <div className="relative w-full">
       <SettingsHeader title="Connections" />
+      <h2>Streaming services</h2>
+      <p>Coming soon...</p>
 
+      <h2>Socials</h2>
       <ul className="grid grid-cols-1 gap-4 lg:grid-cols-2">
-        {platforms.map((platform) => (
+        {socials.map((platform) => (
           <li
             className="mb-4 w-full rounded-xl bg-foreground py-4 px-5"
             key={platform.key}
@@ -144,14 +153,14 @@ const ConnectionsList = () => {
             </div>
             <div className="flex flex-col gap-2 lg:flex-row">
               {platform.status === PlatformStatus.CONNECTED &&
-                platform.can_refresh &&
+                platform.canRefresh &&
                 'update' in platform && (
                   <Button
                     className="mt-auto h-min rounded-xl px-4 py-2"
-                    disabled={!platform.can_refresh}
+                    disabled={!platform.canRefresh}
                     onClick={
                       platform.status === PlatformStatus.CONNECTED &&
-                      platform.can_refresh &&
+                      platform.canRefresh &&
                       'update' in platform
                         ? platform.update
                         : () => {}
