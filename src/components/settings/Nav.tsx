@@ -54,8 +54,12 @@ const NavBody: FC = () => (
         <SideNavItem href="/settings/connections">Connections</SideNavItem>
       </NavGroup>
 
-      <NavGroup title="Stats">
+      <NavGroup title="Stats & algorithms">
         <SideNavItem href="/settings/imports">Imports</SideNavItem>
+      </NavGroup>
+
+      <NavGroup title="Plus">
+        <SideNavItem href="/settings/gift">Gifts</SideNavItem>
       </NavGroup>
     </aside>
   </nav>

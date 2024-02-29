@@ -362,10 +362,15 @@ const DeleteAccount: FC = () => {
   );
 };
 
-const AccountPrivacyInfoForm: FC<{
+type AccountPrivacyInfoFormProps = {
   pronouns: Pronoun[];
   user: UserPrivate;
-}> = ({ pronouns, user }) => {
+};
+
+const AccountPrivacyInfoForm: FC<AccountPrivacyInfoFormProps> = ({
+  pronouns,
+  user,
+}) => {
   const {
     displayName: [displayName, setDisplayName],
     customId: [customId, setCustomId],
