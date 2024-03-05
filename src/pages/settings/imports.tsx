@@ -151,22 +151,13 @@ const Imports = () => {
     if (isUploading) return;
     setIsUploading(true);
 
-    for (let i = 0; i < uploadedFiles.length; i += 1) {
-      const uploadedFile = uploadedFiles[i]!;
-
-      if (uploadedFile.status === UploadedFilesStatus.Ready) {
-        uploadedFile.status = UploadedFilesStatus.Pending;
-      }
-    }
-
-    for (let i = 0; i < uploadedFiles.length; i += 1) {
-      const uploadedFile = uploadedFiles[i]!;
-
-      if (uploadedFile!.status !== UploadedFilesStatus.Pending) continue;
+    api.options.http.apiUrl = 'https://import.stats.fm/api';
+    const oldUrl = api.options.http.apiUrl;
+    // eslint-disable-next-line no-restricted-syntax
+    for (const uploadedFile of uploadedFiles) {
+      if (uploadedFile!.status !== UploadedFilesStatus.Ready) continue;
       uploadedFile.status = UploadedFilesStatus.Uploading;
-      const oldUrl = api.options.http.apiUrl;
       try {
-        api.options.http.apiUrl = 'https://import.stats.fm/api';
         // eslint-disable-next-line no-await-in-loop
         await api.me.import({
           name: uploadedFile.name,
@@ -180,9 +171,8 @@ const Imports = () => {
       } catch (e: any) {
         uploadedFile.status = UploadedFilesStatus.Failed;
       }
-
-      api.options.http.apiUrl = oldUrl;
     }
+    api.options.http.apiUrl = oldUrl;
 
     setRefetchCounter(new Date());
     setIsUploading(false);
