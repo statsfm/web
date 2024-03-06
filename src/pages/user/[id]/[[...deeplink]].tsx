@@ -1,11 +1,9 @@
 import React, { Fragment, useEffect, useRef, useState } from 'react';
-import type { FC, PropsWithChildren, RefObject } from 'react';
+import type { RefObject } from 'react';
 import dayjs from 'dayjs';
 import type { GetServerSideProps, NextPage } from 'next';
 import * as statsfm from '@statsfm/statsfm.js';
 import Linkify from 'linkify-react';
-
-// components
 import { Section } from '@/components/Section/Section';
 import { Avatar } from '@/components/Avatar';
 import { useApi } from '@/hooks/use-api';
@@ -16,7 +14,6 @@ import { Container } from '@/components/Container';
 import Link from 'next/link';
 import { Title } from '@/components/Title';
 import Head from 'next/head';
-import { CrownIcon } from '@/components/Icons';
 import { Button } from '@/components/Button';
 import clsx from 'clsx';
 import type { SSRProps } from '@/utils/ssrUtils';
@@ -33,8 +30,7 @@ import {
   MdVisibilityOff,
   MdWarning,
 } from 'react-icons/md';
-import type { ScopeProps } from '@/components/PrivacyScope';
-import Scope, { useScopeContext } from '@/components/PrivacyScope';
+import Scope from '@/components/PrivacyScope';
 import { useRouter } from 'next/router';
 import { Square } from '@/components/Square';
 import {
@@ -54,6 +50,9 @@ import {
   BetterRange,
 } from '@/components/User/utils';
 import { Listbox, Transition } from '@headlessui/react';
+import { ImportRequiredScope } from '@/components/User/ImportRequiredScope';
+import { UserBanScope } from '@/components/User/UserBanScope';
+import { PlusBadge } from '@/components/User/PlusBadge';
 
 const Chart = dynamic(() => import('react-apexcharts'), { ssr: false });
 
@@ -132,87 +131,6 @@ export const getServerSideProps: GetServerSideProps<Props> = async (ctx) => {
       scrollIntoView,
     },
   };
-};
-
-const PlusBadge = () => (
-  <Link href="/plus">
-    <span className="mx-auto flex w-fit items-center rounded-md bg-background px-1.5 py-0.5 text-base text-plus md:mx-0">
-      <CrownIcon className="mr-1 w-4" />
-      Plus
-    </span>
-  </Link>
-);
-
-const ImportRequiredScope: FC<ScopeProps> = ({ children, value }) => {
-  const scopeContext = useScopeContext();
-
-  if (!scopeContext) throw new Error('ScopeContext not found');
-  const { target, as: viewer } = scopeContext;
-
-  if (target.hasImported) {
-    return <Scope value={value}>{children}</Scope>;
-  }
-
-  let Content = (
-    <>
-      Ask {target.displayName} to{' '}
-      <Link className="underline" href="/settings/imports">
-        import their streaming history
-      </Link>{' '}
-      to view this
-    </>
-  );
-
-  if (viewer !== null && target.id === viewer.id)
-    Content = (
-      <>
-        This feature requires{' '}
-        <Link className="underline" href="/settings/imports">
-          import of streams
-        </Link>
-      </>
-    );
-
-  return (
-    <div className="relative w-full">
-      <div className="blur-sm">
-        <ul className="grid w-full grid-cols-2 gap-4 md:grid-cols-4">
-          {['minutes streamed', 'hours streamed', 'streams'].map((label, i) => (
-            <StatsCard key={i} label={label} value="?" />
-          ))}
-        </ul>
-      </div>
-
-      <div className="absolute inset-0 grid place-items-center">
-        <p className="m-0 text-text-grey">{Content}</p>
-      </div>
-    </div>
-  );
-};
-
-const UserBanScope: FC<PropsWithChildren<{ user: statsfm.UserPublic }>> = ({
-  children,
-  user,
-}) => {
-  if (user.userBan?.active === true) {
-    return (
-      <Container className="mt-8">
-        <h3>Account banned</h3>
-        <p className="[&>a]:text-primary">
-          The account you are viewing has been banned from the platform.
-        </p>
-        <p className="[&>a]:text-primary">
-          You can view more info about banned accounts here{' '}
-          <Linkify options={{ target: '_blank', rel: 'noopener noreferrer' }}>
-            https://support.stats.fm/docs/banned
-          </Linkify>
-          .
-        </p>
-      </Container>
-    );
-  }
-
-  return <>{children}</>;
 };
 
 const User: NextPage<Props> = ({
