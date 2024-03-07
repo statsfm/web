@@ -20,6 +20,14 @@ module.exports = withBundleAnalyzer({
       },
       {
         protocol: 'https',
+        hostname: '**.stats.fm',
+      },
+      {
+        protocol: 'https',
+        hostname: 'stats.fm',
+      },
+      {
+        protocol: 'https',
         hostname: '**.scdn.co',
       },
       {
