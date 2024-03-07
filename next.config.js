@@ -66,6 +66,16 @@ module.exports = withBundleAnalyzer({
         permanent: true,
       },
       {
+        source: '/gift',
+        destination: '/settings/gift',
+        permanent: true,
+      },
+      {
+        source: '/gift/success',
+        destination: '/settings/gift/success',
+        permanent: true,
+      },
+      {
         source: '/discord',
         destination: 'https://stats.fm/discord',
         permanent: false,

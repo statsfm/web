@@ -55,13 +55,13 @@ const SuccessPage: NextPage<Props> = ({ gif }) => {
         </h1>
         <p className="mt-2 max-w-prose font-bold text-text-grey">
           Your gift codes will show up on the{' '}
-          <Link legacyBehavior href="/gift#your-coupons">
+          <Link legacyBehavior href="/settings/gift#your-coupons">
             <a className="font-bold text-primary hover:underline hover:opacity-90">
               gift page
             </a>
           </Link>
           . If they aren&apos;t on the{' '}
-          <Link legacyBehavior href="/gift#your-coupons">
+          <Link legacyBehavior href="/settings/gift#your-coupons">
             <a className="font-bold text-primary hover:underline hover:opacity-90">
               gift page
             </a>
@@ -70,7 +70,10 @@ const SuccessPage: NextPage<Props> = ({ gif }) => {
           after 24 hours, send an email with your order id (sent by Stripe in
           your email) to support@stats.fm
         </p>
-        <Button className="mt-5 max-w-fit" onClick={() => router.push('/gift')}>
+        <Button
+          className="mt-5 max-w-fit"
+          onClick={() => router.push('/settings/gift')}
+        >
           Take me to the coupons page
         </Button>
       </div>
