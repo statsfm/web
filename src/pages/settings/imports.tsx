@@ -58,9 +58,9 @@ const Imports = () => {
     if (isUploading) return;
     setIsUploading(true);
 
+    const oldUrl = api.options.http.apiUrl;
     api.options.http.apiUrl =
       process.env.NEXT_PUBLIC_API_URL_IMPORT ?? 'https://import.stats.fm/api';
-    const oldUrl = api.options.http.apiUrl;
     // eslint-disable-next-line no-restricted-syntax
     for (const uploadedFile of uploadedFiles) {
       if (uploadedFile!.status !== UploadedFilesStatus.Ready) continue;
