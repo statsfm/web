@@ -171,12 +171,11 @@ const User: NextPage<Props> = ({
       user.appleMusicAuth &&
       user.orderBy === statsfm.OrderBySetting.APPLEMUSIC
     ) {
-      setAvailableRanges(
-        user.appleMusicAuth.availableYears.sort((a, b) => b - a)
-      );
+      const sorted = user.appleMusicAuth.availableYears.sort((a, b) => b - a);
+      setAvailableRanges(sorted);
       setTimeframe((prev) => ({
         ...prev,
-        year: user.appleMusicAuth!.availableYears.slice(-1)[0],
+        year: sorted[0],
         selected: 'APPLEMUSIC',
       }));
     } else if (
