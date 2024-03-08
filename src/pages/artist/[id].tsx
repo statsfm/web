@@ -160,7 +160,7 @@ const Artist: NextPage<Props> = ({ artist }) => {
                 )}
                 {(artist.externalIds.appleMusic ?? []).length > 0 && (
                   <AppleMusicLink
-                    path={`/${user?.country ?? 'us'}/artist/${
+                    path={`/${user?.country.toLowerCase() ?? 'us'}/artist/${
                       artist.externalIds.appleMusic![0]
                     }`}
                   />
