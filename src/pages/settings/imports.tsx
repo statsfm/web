@@ -151,8 +151,8 @@ const Imports = () => {
     if (isUploading) return;
     setIsUploading(true);
 
-    api.options.http.apiUrl = 'https://import.stats.fm/api';
     const oldUrl = api.options.http.apiUrl;
+    api.options.http.apiUrl = 'https://import.stats.fm/api';
     // eslint-disable-next-line no-restricted-syntax
     for (const uploadedFile of uploadedFiles) {
       if (uploadedFile!.status !== UploadedFilesStatus.Ready) continue;
