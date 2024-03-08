@@ -1,5 +1,4 @@
 import type { FC } from 'react';
-import { useEffect, useRef, useState } from 'react';
 import { AppleMusicIcon, SpotifyIcon } from './Icons';
 
 type Props = {
@@ -18,36 +17,18 @@ export const SpotifyLink: FC<Props> = ({ path }) => {
   );
 };
 
-export const AppleMusicLink: FC<Props> = () => {
-  const [, setHover] = useState<boolean>(false);
-  const linkRef = useRef<HTMLAnchorElement>(null);
-
-  const handleMouseEnter = () => setHover(true);
-  const handleMouseLeave = () => setHover(false);
-
-  useEffect(() => {
-    if (linkRef.current) {
-      linkRef.current.addEventListener('mouseenter', handleMouseEnter);
-      linkRef.current.addEventListener('mouseleave', handleMouseLeave);
-    }
-
-    return () => {
-      linkRef.current?.removeEventListener('mouseenter', handleMouseEnter);
-      linkRef.current?.removeEventListener('mouseleave', handleMouseLeave);
-    };
-  }, [linkRef.current]);
-
+export const AppleMusicLink: FC<Props> = ({ path }) => {
   return (
     <a
-      ref={linkRef}
-      // href={`https://open.spotify.com${path}`}
-      // target="_blank"
-      // rel="noopener noreferrer"
-      aria-disabled
-      className="cursor-not-allowed"
+      href={`https://music.apple.com${path}`}
+      target="_blank"
+      rel="noopener noreferrer"
     >
       {/* TODO: switch this hover prop when apple music is alive */}
-      <AppleMusicIcon className="h-[24px] w-[24px]" hover={false} />
+      <AppleMusicIcon
+        className="h-7 w-7 !fill-icon transition-colors hover:!fill-applemusic"
+        hover={false}
+      />
     </a>
   );
 };
