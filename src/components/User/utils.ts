@@ -26,7 +26,8 @@ export enum BetterRange {
 export type TimeframeSelection = {
   range: BetterRange;
   custom?: { start: Date; end: Date };
-  selected?: 'RANGE' | 'CUSTOM';
+  selected?: 'RANGE' | 'CUSTOM' | 'APPLEMUSIC';
+  year?: number;
 };
 
 export const getTimeframeText = (timeframe: TimeframeSelection) => {
@@ -34,7 +35,15 @@ export const getTimeframeText = (timeframe: TimeframeSelection) => {
     return `from ${timeframe.custom!.start.toLocaleDateString()} to ${timeframe.custom!.end.toLocaleDateString()}`;
   }
 
-  return ranges[timeframe.range!];
+  if (timeframe.selected === 'APPLEMUSIC') {
+    return `from ${timeframe.year}`;
+  }
+
+  if (timeframe.selected === 'RANGE') {
+    return ranges[timeframe.range!];
+  }
+
+  return '';
 };
 
 export const getTimeframeOptions = (
@@ -76,6 +85,11 @@ export const getTimeframeOptions = (
     }
 
     return { range: Range.LIFETIME };
+  }
+  if (timeframe.selected === 'APPLEMUSIC') {
+    return {
+      range: timeframe.year as unknown as Range,
+    };
   }
   return { range: Range.LIFETIME };
 };
