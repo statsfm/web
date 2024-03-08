@@ -25,7 +25,7 @@ const SideNavItem: FC<
         )}
       >
         {props.children}
-        {props.external && <MdOpenInNew className="h-4" />}
+        {props.external && <MdOpenInNew className="ml-1 h-4" />}
       </a>
     </Link>
   );
@@ -59,7 +59,9 @@ const NavBody: FC = () => (
       </NavGroup>
 
       <NavGroup title="Plus">
-        <SideNavItem href="/settings/gift">Gifts</SideNavItem>
+        <SideNavItem href="/gift" external>
+          Gifts
+        </SideNavItem>
       </NavGroup>
     </aside>
   </nav>

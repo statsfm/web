@@ -59,21 +59,21 @@ export const ImportList: FC<{
     <div>
       <div className="flex items-center justify-between">
         <h2>Your imports</h2>
-        {allowRefetch && (
-          <Button
-            onClick={() => {
-              setAllowRefetch(false);
-              triggerRefetch();
-              setAllowRefetchTimeout(
-                setTimeout(() => {
-                  setAllowRefetch(true);
-                }, 30000)
-              );
-            }}
-          >
-            Refresh
-          </Button>
-        )}
+        <Button
+          disabled={!allowRefetch}
+          onClick={() => {
+            if (!allowRefetch) return;
+            setAllowRefetch(false);
+            triggerRefetch();
+            setAllowRefetchTimeout(
+              setTimeout(() => {
+                setAllowRefetch(true);
+              }, 30000)
+            );
+          }}
+        >
+          Refresh
+        </Button>
       </div>
       <ul role="list" className="mt-3 divide-y divide-foreground">
         {loading

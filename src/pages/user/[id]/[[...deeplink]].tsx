@@ -1,13 +1,10 @@
-import React, { useEffect, useRef, useState } from 'react';
-import type { FC, PropsWithChildren, RefObject } from 'react';
+import React, { Fragment, useEffect, useRef, useState } from 'react';
+import type { RefObject } from 'react';
 import dayjs from 'dayjs';
 import type { GetServerSideProps, NextPage } from 'next';
 import * as statsfm from '@/utils/statsfm';
 import Linkify from 'linkify-react';
-
-// components
 import { Section } from '@/components/Section/Section';
-import { Segment, SegmentedControls } from '@/components/SegmentedControls';
 import { Avatar } from '@/components/Avatar';
 import { useApi } from '@/hooks/use-api';
 import { useAuth } from '@/hooks';
@@ -17,7 +14,6 @@ import { Container } from '@/components/Container';
 import Link from 'next/link';
 import { Title } from '@/components/Title';
 import Head from 'next/head';
-import { CrownIcon } from '@/components/Icons';
 import { Button } from '@/components/Button';
 import clsx from 'clsx';
 import type { SSRProps } from '@/utils/ssrUtils';
@@ -28,9 +24,13 @@ import { useScrollPercentage } from '@/hooks/use-scroll-percentage';
 import formatter from '@/utils/formatter';
 import { SpotifyLink } from '@/components/SocialLink';
 import { StatsCard, StatsCardSkeleton } from '@/components/StatsCard';
-import { MdVisibilityOff, MdWarning } from 'react-icons/md';
-import type { ScopeProps } from '@/components/PrivacyScope';
-import Scope, { useScopeContext } from '@/components/PrivacyScope';
+import {
+  MdArrowDropDown,
+  MdCheck,
+  MdVisibilityOff,
+  MdWarning,
+} from 'react-icons/md';
+import Scope from '@/components/PrivacyScope';
 import { useRouter } from 'next/router';
 import { Square } from '@/components/Square';
 import {
@@ -43,7 +43,16 @@ import {
 import { clockProps, type UserScrollIntoView } from '@/utils';
 import dynamic from 'next/dynamic';
 import type { TimeframeSelection } from '@/components/User/utils';
-import { getTimeframeOptions, getTimeframeText } from '@/components/User/utils';
+import {
+  getTimeframeOptions,
+  getTimeframeText,
+  rangeToText,
+  BetterRange,
+} from '@/components/User/utils';
+import { Listbox, Transition } from '@headlessui/react';
+import { ImportRequiredScope } from '@/components/User/ImportRequiredScope';
+import { UserBanScope } from '@/components/User/UserBanScope';
+import { PlusBadge } from '@/components/User/PlusBadge';
 
 const Chart = dynamic(() => import('react-apexcharts'), { ssr: false });
 
@@ -124,87 +133,6 @@ export const getServerSideProps: GetServerSideProps<Props> = async (ctx) => {
   };
 };
 
-const PlusBadge = () => (
-  <Link href="/plus">
-    <span className="mx-auto flex w-fit items-center rounded-md bg-background px-1.5 py-0.5 text-base text-plus md:mx-0">
-      <CrownIcon className="mr-1 w-4" />
-      Plus
-    </span>
-  </Link>
-);
-
-const ImportRequiredScope: FC<ScopeProps> = ({ children, value }) => {
-  const scopeContext = useScopeContext();
-
-  if (!scopeContext) throw new Error('ScopeContext not found');
-  const { target, as: viewer } = scopeContext;
-
-  if (target.hasImported) {
-    return <Scope value={value}>{children}</Scope>;
-  }
-
-  let Content = (
-    <>
-      Ask {target.displayName} to{' '}
-      <Link className="underline" href="/settings/imports">
-        import their streaming history
-      </Link>{' '}
-      to view this
-    </>
-  );
-
-  if (viewer !== null && target.id === viewer.id)
-    Content = (
-      <>
-        This feature requires{' '}
-        <Link className="underline" href="/settings/imports">
-          import of streams
-        </Link>
-      </>
-    );
-
-  return (
-    <div className="relative w-full">
-      <div className="blur-sm">
-        <ul className="grid w-full grid-cols-2 gap-4 md:grid-cols-4">
-          {['minutes streamed', 'hours streamed', 'streams'].map((label, i) => (
-            <StatsCard key={i} label={label} value="?" />
-          ))}
-        </ul>
-      </div>
-
-      <div className="absolute inset-0 grid place-items-center">
-        <p className="m-0 text-text-grey">{Content}</p>
-      </div>
-    </div>
-  );
-};
-
-const UserBanScope: FC<PropsWithChildren<{ user: statsfm.UserPublic }>> = ({
-  children,
-  user,
-}) => {
-  if (user.userBan?.active === true) {
-    return (
-      <Container className="mt-8">
-        <h3>Account banned</h3>
-        <p className="[&>a]:text-primary">
-          The account you are viewing has been banned from the platform.
-        </p>
-        <p className="[&>a]:text-primary">
-          You can view more info about banned accounts here{' '}
-          <Linkify options={{ target: '_blank', rel: 'noopener noreferrer' }}>
-            https://support.stats.fm/docs/banned
-          </Linkify>
-          .
-        </p>
-      </Container>
-    );
-  }
-
-  return <>{children}</>;
-};
-
 const User: NextPage<Props> = ({
   userProfile: user,
   friendStatus,
@@ -215,8 +143,31 @@ const User: NextPage<Props> = ({
   const router = useRouter();
   const { user: currentUser } = useAuth();
   const [timeframe, setTimeframe] = useState<TimeframeSelection>({
-    range: statsfm.Range.WEEKS,
+    range: BetterRange.WEEKS,
+    selected: 'RANGE',
+    custom: {
+      start: new Date(),
+      end: new Date(),
+    },
   });
+  const [availableRanges, setAvailableRanges] = useState<BetterRange[]>([
+    BetterRange.WEEKS,
+    BetterRange.MONTHS,
+    BetterRange.LIFETIME,
+  ]);
+
+  useEffect(() => {
+    if (user.isPlus && user.hasImported) {
+      setAvailableRanges([
+        BetterRange.TODAY,
+        BetterRange.THIS_WEEK,
+        BetterRange.WEEKS,
+        BetterRange.MONTHS,
+        BetterRange.CURRENT_YEAR,
+        BetterRange.LIFETIME,
+      ]);
+    }
+  }, [user]);
 
   const [stats, setStats] = useState<
     { label: string; value: string | number }[]
@@ -320,18 +271,10 @@ const User: NextPage<Props> = ({
       .catch(() => {});
   }, [timeframe]);
 
-  const handleSegmentSelect = (value: statsfm.Range) => {
+  const handleSegmentSelect = (value: BetterRange) => {
     event(`USER_switch_time_${value}`);
-    if (value === statsfm.Range.TODAY) {
-      setTimeframe({
-        range: value,
-        custom: {
-          start: dayjs().startOf('day').toDate(),
-          end: dayjs().add(1, 'day').startOf('day').toDate(),
-        },
-        selected: 'CUSTOM',
-      });
-    } else setTimeframe({ range: value as statsfm.Range, selected: 'RANGE' });
+    if (timeframe.range === value && timeframe.selected === 'RANGE') return;
+    setTimeframe((prev) => ({ ...prev, range: value, selected: 'RANGE' }));
   };
 
   useScrollPercentage(30, () => event('USER_scroll_30'));
@@ -487,7 +430,64 @@ const User: NextPage<Props> = ({
             )}
 
             <section className="flex flex-col justify-between gap-5 md:flex-row-reverse">
-              <SegmentedControls
+              <div className="z-50 flex justify-center">
+                <Listbox value={timeframe.range} onChange={handleSegmentSelect}>
+                  <div className="relative mt-1 w-72">
+                    <Listbox.Button className="relative w-full cursor-default rounded-lg bg-foreground py-2 pl-3 pr-10 text-left shadow-md focus:outline-none focus-visible:border-primary focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-primary sm:text-sm">
+                      <span className="block truncate">
+                        {rangeToText(timeframe.range)}
+                      </span>
+                      <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
+                        <MdArrowDropDown
+                          className="h-5 w-5 text-gray-400"
+                          aria-hidden="true"
+                        />
+                      </span>
+                    </Listbox.Button>
+                    <Transition
+                      as={Fragment}
+                      leave="transition ease-in duration-100"
+                      leaveFrom="opacity-100"
+                      leaveTo="opacity-0"
+                    >
+                      <Listbox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-foreground py-1 text-sm shadow-lg ring-1 ring-black/5 focus:outline-none">
+                        {availableRanges.filter(Boolean).map((range) => (
+                          <Listbox.Option
+                            key={range}
+                            value={range}
+                            className={({ active }) =>
+                              `relative cursor-default select-none py-2 pl-10 pr-4 ${
+                                active ? 'bg-background/50' : 'text-gray-900'
+                              }`
+                            }
+                          >
+                            {({ selected }) => (
+                              <>
+                                <span
+                                  className={`block truncate ${
+                                    selected && 'text-white'
+                                  }`}
+                                >
+                                  {rangeToText(range)}
+                                </span>
+                                {selected ? (
+                                  <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-primary">
+                                    <MdCheck
+                                      className="h-5 w-5"
+                                      aria-hidden="true"
+                                    />
+                                  </span>
+                                ) : null}
+                              </>
+                            )}
+                          </Listbox.Option>
+                        ))}
+                      </Listbox.Options>
+                    </Transition>
+                  </div>
+                </Listbox>
+              </div>
+              {/* <SegmentedControls
                 onChange={handleSegmentSelect as (value: string) => void}
                 defaultIndex={user.isPlus && user.hasImported ? 1 : 0}
               >
@@ -499,7 +499,7 @@ const User: NextPage<Props> = ({
                 </Segment>
                 <Segment value={statsfm.Range.MONTHS}>6 months</Segment>
                 <Segment value={statsfm.Range.LIFETIME}>lifetime</Segment>
-              </SegmentedControls>
+              </SegmentedControls> */}
               {user.isPlus && (
                 <ImportRequiredScope value="streamStats">
                   <ul className="grid w-full grid-cols-2 gap-4 md:w-7/12 md:grid-cols-4">

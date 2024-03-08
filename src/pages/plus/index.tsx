@@ -582,9 +582,7 @@ const PlusPage: NextPage<
           </p>
 
           <button
-            onClick={
-              user?.isPlus ? () => router.push('/settings/gift') : startCheckout
-            }
+            onClick={user?.isPlus ? () => router.push('/gift') : startCheckout}
             className="m-0 p-0"
           >
             <a className="mt-12 block w-fit rounded-2xl bg-plus px-5 py-3 font-bold text-black hover:bg-plus/90 active:bg-plus/75">
@@ -661,7 +659,7 @@ const PlusPage: NextPage<
             </button>
             {user?.isPlus && (
               <button
-                onClick={() => router.push('/settings/gift')}
+                onClick={() => router.push('/gift')}
                 className="m-0 w-full p-0"
               >
                 <p className="block w-full rounded-lg bg-plus p-1 text-center font-medium text-black hover:bg-plus/90 active:bg-plus/75">

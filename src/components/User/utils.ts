@@ -3,25 +3,33 @@ import {
   type QueryWithDates,
   type QueryWithRange,
 } from '@/utils/statsfm';
+import dayjs from 'dayjs';
 
-export const ranges: Record<Range, string | null> = {
+export const ranges: Record<BetterRange, string | null> = {
+  today: 'from today',
+  this_week: 'from this week',
   weeks: 'from the past 4 weeks',
   months: 'from the past 6 months',
+  current_year: 'from this year',
   lifetime: '',
-  days: null,
-  today: 'from today',
 };
 
+export enum BetterRange {
+  TODAY = 'today',
+  THIS_WEEK = 'this_week',
+  WEEKS = 'weeks',
+  MONTHS = 'months',
+  CURRENT_YEAR = 'current_year',
+  LIFETIME = 'lifetime',
+}
+
 export type TimeframeSelection = {
-  range?: Range;
+  range: BetterRange;
   custom?: { start: Date; end: Date };
   selected?: 'RANGE' | 'CUSTOM';
 };
 
 export const getTimeframeText = (timeframe: TimeframeSelection) => {
-  if (timeframe.selected === 'CUSTOM' && timeframe.range === Range.TODAY) {
-    return ranges[timeframe.range!];
-  }
   if (timeframe.selected === 'CUSTOM') {
     return `from ${timeframe.custom!.start.toLocaleDateString()} to ${timeframe.custom!.end.toLocaleDateString()}`;
   }
@@ -38,8 +46,56 @@ export const getTimeframeOptions = (
       before: timeframe.custom!.end.getTime(),
     };
   }
+  if (timeframe.selected === 'RANGE') {
+    if (timeframe.range === BetterRange.TODAY) {
+      return {
+        after: dayjs().startOf('day').valueOf(),
+        before: dayjs().add(1, 'day').startOf('day').valueOf(),
+      };
+    }
+    if (timeframe.range === BetterRange.THIS_WEEK) {
+      return {
+        after: dayjs().startOf('week').valueOf(),
+        before: dayjs().endOf('week').valueOf(),
+      };
+    }
+    if (timeframe.range === BetterRange.CURRENT_YEAR) {
+      return {
+        after: dayjs().startOf('year').valueOf(),
+        before: dayjs().endOf('year').valueOf(),
+      };
+    }
+    if (timeframe.range === BetterRange.WEEKS) {
+      return {
+        range: Range.WEEKS,
+      };
+    }
 
-  return {
-    range: timeframe.range,
-  };
+    if (timeframe.range === BetterRange.MONTHS) {
+      return { range: Range.MONTHS };
+    }
+
+    return { range: Range.LIFETIME };
+  }
+  return { range: Range.LIFETIME };
+};
+
+export const rangeToText = (range: BetterRange) => {
+  if (range === BetterRange.TODAY) {
+    return 'today';
+  }
+  if (range === BetterRange.WEEKS) {
+    return '4 weeks';
+  }
+  if (range === BetterRange.MONTHS) {
+    return '6 months';
+  }
+  if (range === BetterRange.THIS_WEEK) {
+    return 'this week';
+  }
+  if (range === BetterRange.CURRENT_YEAR) {
+    return dayjs().year();
+  }
+
+  return 'lifetime';
 };

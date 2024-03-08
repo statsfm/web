@@ -14,7 +14,6 @@ export const IMPORT_STATUS = {
 export enum UploadedFilesStatus {
   Error = -1,
   Ready = 0,
-  Pending = 1,
   Uploading = 2,
   Uploaded = 3,
   Failed = 4,
@@ -31,7 +30,6 @@ export interface ImportService {
 export const UPLOADED_FILE_STATUS = {
   [UploadedFilesStatus.Error]: 'Error',
   [UploadedFilesStatus.Ready]: 'Ready to upload',
-  [UploadedFilesStatus.Pending]: 'Pending',
   [UploadedFilesStatus.Uploading]: 'Uploading...',
   [UploadedFilesStatus.Uploaded]: 'Uploaded successfully',
   [UploadedFilesStatus.Failed]:
@@ -48,7 +46,6 @@ export const IMPORT_STATUS_COLORS = {
 export const UPLOADED_FILE_STATUS_COLORS = {
   [UploadedFilesStatus.Error]: 'text-red-400 ring-red-400/30',
   [UploadedFilesStatus.Ready]: 'text-gray-400 ring-gray-400/30',
-  [UploadedFilesStatus.Pending]: 'text-yellow-400 ring-yellow-400/30',
   [UploadedFilesStatus.Uploading]: 'text-orange-400 ring-orange-400/30',
   [UploadedFilesStatus.Uploaded]: 'text-green-400 ring-green-400/30',
   [UploadedFilesStatus.Failed]: 'text-red-400 ring-red-400/30',

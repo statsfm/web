@@ -66,13 +66,13 @@ module.exports = withBundleAnalyzer({
         permanent: true,
       },
       {
-        source: '/gift',
-        destination: '/settings/gift',
+        source: '/settings/gift',
+        destination: '/gift',
         permanent: true,
       },
       {
-        source: '/gift/success',
-        destination: '/settings/gift/success',
+        source: '/settings/gift/success',
+        destination: '/gift/success',
         permanent: true,
       },
       {
