@@ -39,21 +39,22 @@ const Specter: NextPage = () => {
                     Access all your stats.fm stats now on your desktop computer!
                   </p>
                 </div>
+                <p>* Specter is currently in open beta.</p>
 
-                <div className="mt-5">
-                  {/* <a
-                      href="/"
-                      className="inline-flex items-center rounded-full bg-black font-semibold p-1 pr-3 text-white hover:text-gray-200 sm:text-base lg:text-sm xl:text-base"
-                    >
-                      <span className="ml-4 mb-0.5 text-sm">Windows</span>
-                      <MdCheck
-                        className="ml-2 h-5 w-5 text-gray-500"
-                        aria-hidden="true"
-                      />
-                    </a> */}
+                <div className="mt-4">
+                  <a
+                    href="https://github.com/statsfm/specter-releases/releases"
+                    className="pl-4 inline-flex items-center rounded-full bg-black font-semibold p-1 pr-3 text-white hover:text-gray-200 sm:text-base lg:text-sm xl:text-base"
+                  >
+                    <span className="text-sm text-gray-300">Windows</span>
+                    <MdOutlineScience
+                      className="ml-2 h-5 w-5 text-gray-300"
+                      aria-hidden="true"
+                    />
+                  </a>
                   <a
                     href="https://testflight.apple.com/join/1xVyzRwt"
-                    className="pl-4 inline-flex items-center rounded-full bg-black font-semibold p-1 pr-3 text-white hover:text-gray-200 sm:text-base lg:text-sm xl:text-base"
+                    className="ml-2 pl-4 inline-flex items-center rounded-full bg-black font-semibold p-1 pr-3 text-white hover:text-gray-200 sm:text-base lg:text-sm xl:text-base"
                   >
                     <span className="text-sm text-gray-300">macOS</span>
                     <MdOutlineScience
@@ -62,8 +63,6 @@ const Specter: NextPage = () => {
                     />
                   </a>
                 </div>
-
-                <p>* Windows beta coming soon!</p>
 
                 <div className="mt-4 sm:max-w-xl">
                   <p className="inline-flex space-x-3">
