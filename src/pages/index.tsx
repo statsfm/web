@@ -91,8 +91,8 @@ const Home: NextPage = () => {
             music taste.
           </p>
           <ChevronLink
-            href="https://spotistats.app/plus-demo"
-            onClick={() => event('HOME_header_watch_video')}
+            href="https://youtu.be/ABqhwEmR7E0"
+            onClick={() => event('HOME_header_watch_video_new')}
           >
             Watch the video
           </ChevronLink>
