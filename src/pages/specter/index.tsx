@@ -1,7 +1,6 @@
 import { Title } from '@/components/Title';
 import { MdKeyboardArrowRight, MdOutlineScience } from 'react-icons/md';
 import type { NextPage } from 'next';
-import { Logo } from '@/components/Logo';
 
 const Specter: NextPage = () => {
   return (
@@ -32,10 +31,17 @@ const Specter: NextPage = () => {
                   </a>
                 </div>
                 <div className="mt-6 sm:max-w-xl">
-                  <h1 className="text-4xl font-bold tracking-tight text-white sm:text-5xl font-bold">
+                  <h1 className="text-4xl font-bold tracking-tight text-white sm:text-5xl">
                     Specter
                   </h1>
-                  <p className="mt-1 text-xl text-gray-300 font-medium">
+                  <div className="-mt-4 sm:max-w-xl">
+                    <p className="inline-flex space-x-3">
+                      <span className="font-semibold text-gray-300">
+                        by stats.fm
+                      </span>
+                    </p>
+                  </div>
+                  <p className="mt-1 text-xl font-medium text-gray-300">
                     Access all your stats.fm stats now on your desktop computer!
                   </p>
                 </div>
@@ -44,7 +50,7 @@ const Specter: NextPage = () => {
                 <div className="mt-4">
                   <a
                     href="https://github.com/statsfm/specter-releases/releases"
-                    className="pl-4 inline-flex items-center rounded-full bg-black font-semibold p-1 pr-3 text-white hover:text-gray-200 sm:text-base lg:text-sm xl:text-base"
+                    className="inline-flex items-center rounded-full bg-black p-1 pl-4 pr-3 font-semibold text-white hover:text-gray-200 sm:text-base lg:text-sm xl:text-base"
                   >
                     <span className="text-sm text-gray-300">Windows</span>
                     <MdOutlineScience
@@ -54,7 +60,7 @@ const Specter: NextPage = () => {
                   </a>
                   <a
                     href="https://testflight.apple.com/join/1xVyzRwt"
-                    className="ml-2 pl-4 inline-flex items-center rounded-full bg-black font-semibold p-1 pr-3 text-white hover:text-gray-200 sm:text-base lg:text-sm xl:text-base"
+                    className="ml-2 inline-flex items-center rounded-full bg-black p-1 pl-4 pr-3 font-semibold text-white hover:text-gray-200 sm:text-base lg:text-sm xl:text-base"
                   >
                     <span className="text-sm text-gray-300">macOS</span>
                     <MdOutlineScience
@@ -62,15 +68,6 @@ const Specter: NextPage = () => {
                       aria-hidden="true"
                     />
                   </a>
-                </div>
-
-                <div className="mt-4 sm:max-w-xl">
-                  <p className="inline-flex space-x-3">
-                    <Logo className="h-5 w-5 cursor-pointer" />
-                    <span className="text-l text-gray-300 font-semibold">
-                      by stats.fm
-                    </span>
-                  </p>
                 </div>
               </div>
             </div>
