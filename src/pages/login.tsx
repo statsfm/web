@@ -2,7 +2,7 @@ import type { GetServerSideProps, NextPage } from 'next';
 import { useToaster } from '@/hooks';
 import { Container } from '@/components/Container';
 import { Button } from '@/components/Button';
-import { AppleMusicIcon, SpotifyIcon } from '@/components/Icons';
+import { SpotifyIcon } from '@/components/Icons';
 import { useEffect } from 'react';
 import { useRouter } from 'next/router';
 import Cookies from 'js-cookie';
@@ -50,7 +50,7 @@ const Login: NextPage = () => {
             Continue with Spotify
           </Button>
         </div>
-        <div className="mt-8 flex flex-col gap-4">
+        {/* <div className="mt-8 flex flex-col gap-4">
           <Button
             onClick={() => {
               router.push('/api/auth/apple');
@@ -60,7 +60,7 @@ const Login: NextPage = () => {
             <AppleMusicIcon className="mr-2 !fill-white" hover={false} />
             Continue with Apple
           </Button>
-        </div>
+        </div> */}
       </div>
     </Container>
   );

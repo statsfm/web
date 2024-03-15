@@ -25,7 +25,7 @@ import { Platform } from '@/utils/statsfm';
 import { AccountLayout } from '@/components/settings/Layout';
 import { SettingsHeader } from '@/components/settings/SettingsHeader';
 import { SpotifyService } from '@/utils/imports/spotifyService';
-import { AppleMusicService } from '@/utils/imports/appleMusicService';
+// import { AppleMusicService } from '@/utils/imports/appleMusicService';
 
 export const getServerSideProps: GetServerSideProps<SSRProps> = async (ctx) => {
   const user = await fetchUser(ctx);
@@ -50,7 +50,7 @@ const Imports = () => {
   const [uploadedFiles, setUploadedFiles] = useState<UploadedImportFile[]>([]);
   const [isUploading, setIsUploading] = useState(false);
 
-  const services = [SpotifyService, AppleMusicService].map((service) =>
+  const services = [SpotifyService].map((service) =>
     service({ toaster, setUploadedFiles, event })
   );
 
