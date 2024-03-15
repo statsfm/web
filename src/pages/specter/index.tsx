@@ -6,7 +6,7 @@ const Specter: NextPage = () => {
   return (
     <>
       <Title>Specter</Title>
-      <div className="bg-base-100 pb-8 pt-7 sm:pb-12 lg:pb-12">
+      <div className="pb-8 pt-7 sm:pb-12 lg:pb-12">
         <div className="overflow-hidden pt-8 sm:pt-0 lg:relative lg:py-48">
           <div className="mx-auto max-w-md px-6 sm:max-w-3xl lg:grid lg:max-w-7xl lg:grid-cols-2 lg:gap-24 lg:px-8">
             <div>
