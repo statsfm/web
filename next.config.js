@@ -20,6 +20,14 @@ module.exports = withBundleAnalyzer({
       },
       {
         protocol: 'https',
+        hostname: '**.stats.fm',
+      },
+      {
+        protocol: 'https',
+        hostname: 'stats.fm',
+      },
+      {
+        protocol: 'https',
         hostname: '**.scdn.co',
       },
       {
@@ -33,6 +41,10 @@ module.exports = withBundleAnalyzer({
       {
         protocol: 'https',
         hostname: 'crowdin-static.downloads.crowdin.com',
+      },
+      {
+        protocol: 'https',
+        hostname: '**.mzstatic.com',
       },
     ],
   },
