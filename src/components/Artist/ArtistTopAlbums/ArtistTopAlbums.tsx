@@ -4,7 +4,7 @@ import {
   type Artist,
   type Album,
   type TopAlbum,
-} from '@statsfm/statsfm.js';
+} from '@/utils/statsfm';
 import { useApi, useAuth } from '@/hooks';
 import clsx from 'clsx';
 import { event } from 'nextjs-google-analytics';

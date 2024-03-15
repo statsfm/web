@@ -1,4 +1,4 @@
-import type * as statsfm from '@statsfm/statsfm.js';
+import type * as statsfm from '@/utils/statsfm';
 import clsx from 'clsx';
 import Link from 'next/link';
 import formatter from '@/utils/formatter';

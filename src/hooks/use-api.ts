@@ -1,10 +1,10 @@
-import * as statsfm from '@statsfm/statsfm.js';
+import * as statsfm from '@/utils/statsfm';
 import Cookies from 'js-cookie';
 
-let apiUrl = 'https://api.stats.fm/api';
+let apiUrl = process.env.NEXT_PUBLIC_API_URL ?? 'https://api.stats.fm/api';
 
 if (process.env.NODE_ENV === 'development')
-  apiUrl = 'https://beta-api.stats.fm/api';
+  apiUrl = process.env.NEXT_PUBLIC_API_URL ?? 'https://beta-api.stats.fm/api';
 
 const ref = new statsfm.Api({
   http: {
@@ -12,7 +12,7 @@ const ref = new statsfm.Api({
   },
 });
 
-// TODO: maybe memoize the api based on a provided acces token or a piece of state which encloses the accestoken
+// TODO: maybe memoize the api based on a provided access token or a piece of state which encloses the accestoken
 export const useApi = () => {
   // use getApiInstance() for ssr instead of useApi();
   // try to set token when token is not set yet,

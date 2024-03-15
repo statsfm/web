@@ -1,8 +1,8 @@
 import type { GetServerSideProps, NextPage } from 'next';
-import { useAuth, useToaster } from '@/hooks';
+import { useToaster } from '@/hooks';
 import { Container } from '@/components/Container';
 import { Button } from '@/components/Button';
-import { SpotifyIcon } from '@/components/Icons';
+import { AppleMusicIcon, SpotifyIcon } from '@/components/Icons';
 import { useEffect } from 'react';
 import { useRouter } from 'next/router';
 import Cookies from 'js-cookie';
@@ -20,7 +20,6 @@ export const getServerSideProps: GetServerSideProps<SSRProps> = async (ctx) => {
 };
 
 const Login: NextPage = () => {
-  const auth = useAuth();
   const router = useRouter();
   const toaster = useToaster();
 
@@ -43,12 +42,23 @@ const Login: NextPage = () => {
         <div className="mt-8 flex flex-col gap-4">
           <Button
             onClick={() => {
-              auth.login();
+              router.push('/api/auth/spotify');
             }}
             className="w-full bg-primary/80 text-black hover:bg-primary/60 active:bg-primary/50"
           >
             <SpotifyIcon className="mr-2 !fill-black" />
             Continue with Spotify
+          </Button>
+        </div>
+        <div className="mt-8 flex flex-col gap-4">
+          <Button
+            onClick={() => {
+              router.push('/api/auth/apple');
+            }}
+            className="w-full bg-applemusic/80 text-white hover:!bg-applemusic/60 active:!bg-applemusic/50"
+          >
+            <AppleMusicIcon className="mr-2 !fill-white" hover={false} />
+            Continue with Apple
           </Button>
         </div>
       </div>

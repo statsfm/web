@@ -1,7 +1,7 @@
 import type { PropsWithChildren } from 'react';
 import Link from 'next/link';
 import { Image } from '@/components/Image';
-import type { Track } from '@statsfm/statsfm.js';
+import type { Track } from '@/utils/statsfm';
 
 interface Props extends Track {}
 

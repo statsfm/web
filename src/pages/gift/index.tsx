@@ -8,11 +8,7 @@ import type { Plan } from '@/types/gift';
 import { Coupon } from '@/components/Gift/Coupon';
 import { Title } from '@/components/Title';
 import Link from 'next/link';
-import type {
-  ItemResponse,
-  ItemsResponse,
-  GiftCode,
-} from '@statsfm/statsfm.js';
+import type { ItemResponse, ItemsResponse, GiftCode } from '@/utils/statsfm';
 import { useRemoteValue } from '@/hooks/use-remote-config';
 import { MdInfo } from 'react-icons/md';
 import type { SSRProps } from '@/utils/ssrUtils';

@@ -5,7 +5,7 @@ import { Divider } from '@/components/Divider';
 import { Overlay } from '@/components/Overlay';
 import { useApi, useAuth } from '@/hooks';
 import { Switch } from '@headlessui/react';
-import type { UserPrivacySettings, UserPrivate } from '@statsfm/statsfm.js';
+import type { UserPrivacySettings, UserPrivate } from '@/utils/statsfm';
 import clsx from 'clsx';
 import type { GetServerSideProps, NextPage } from 'next';
 import type { FC } from 'react';

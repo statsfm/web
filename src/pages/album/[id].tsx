@@ -1,6 +1,6 @@
 import type { GetServerSideProps, NextPage } from 'next';
 import { useEffect, useMemo, useState } from 'react';
-import type * as statsfm from '@statsfm/statsfm.js';
+import type * as statsfm from '@/utils/statsfm';
 
 import Link from 'next/link';
 import { Image } from '@/components/Image';
@@ -141,7 +141,11 @@ const Album: NextPage<Props> = ({ album, tracks }) => {
                   />
                 )}
                 {(album.externalIds.appleMusic ?? []).length > 0 && (
-                  <AppleMusicLink />
+                  <AppleMusicLink
+                    path={`/${user?.country.toLowerCase() ?? 'us'}/album/${
+                      album.externalIds.appleMusic![0]
+                    }`}
+                  />
                 )}
               </div>
             </div>

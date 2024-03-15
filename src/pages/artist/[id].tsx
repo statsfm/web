@@ -1,4 +1,4 @@
-import type * as statsfm from '@statsfm/statsfm.js';
+import type * as statsfm from '@/utils/statsfm';
 import { useAuth, useApi } from '@/hooks';
 import type { GetServerSideProps, NextPage } from 'next';
 import type { FC } from 'react';
@@ -159,7 +159,11 @@ const Artist: NextPage<Props> = ({ artist }) => {
                   />
                 )}
                 {(artist.externalIds.appleMusic ?? []).length > 0 && (
-                  <AppleMusicLink />
+                  <AppleMusicLink
+                    path={`/${user?.country.toLowerCase() ?? 'us'}/artist/${
+                      artist.externalIds.appleMusic![0]
+                    }`}
+                  />
                 )}
               </div>
             </div>

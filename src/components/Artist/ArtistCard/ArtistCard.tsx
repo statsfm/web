@@ -1,4 +1,4 @@
-import type * as statsfm from '@statsfm/statsfm.js';
+import type * as statsfm from '@/utils/statsfm';
 
 // components
 import Link from 'next/link';

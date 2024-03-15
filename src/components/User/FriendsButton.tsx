@@ -1,7 +1,7 @@
 import type { FC } from 'react';
 import { useState } from 'react';
-import type { UserPublic } from '@statsfm/statsfm.js';
-import { FriendStatus } from '@statsfm/statsfm.js';
+import type { UserPublic } from '@/utils/statsfm';
+import { FriendStatus } from '@/utils/statsfm';
 import { useApi } from '@/hooks';
 import { MdInfo } from 'react-icons/md';
 import { FriendsButtonFrame } from './FriendsButtonFrame';

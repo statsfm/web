@@ -19,7 +19,7 @@ import {
   type Artist,
   type Track,
   type UserPublic,
-} from '@statsfm/statsfm.js';
+} from '@/utils/statsfm';
 import type { GetServerSideProps, NextPage } from 'next';
 import { useRouter } from 'next/router';
 import type { FC } from 'react';

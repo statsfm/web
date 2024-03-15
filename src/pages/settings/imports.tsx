@@ -1,3 +1,5 @@
+/* eslint-disable no-restricted-syntax */
+
 'use client';
 
 /* eslint-disable no-continue */
@@ -8,21 +10,22 @@ import { Segment, SegmentedControls } from '@/components/SegmentedControls';
 import { Title } from '@/components/Title';
 import { useApi, useAuth, useToaster } from '@/hooks';
 import { useRemoteValue } from '@/hooks/use-remote-config';
-import type { UploadedImportFile } from '@/utils/imports';
-import { SpotifyImport, UploadedFilesStatus } from '@/utils/imports';
+import type { ImportService, UploadedImportFile } from '@/utils/imports';
+import { UploadedFilesStatus } from '@/utils/imports';
 import type { SSRProps } from '@/utils/ssrUtils';
 import { fetchUser } from '@/utils/ssrUtils';
 import clsx from 'clsx';
 import type { GetServerSideProps, NextPage } from 'next';
 import { event } from 'nextjs-google-analytics';
 import { useState } from 'react';
-import type { Accept } from 'react-dropzone';
 import Dropzone from 'react-dropzone';
 import { MdFileUpload, MdWarning } from 'react-icons/md';
-import { BlobReader, TextWriter, ZipReader } from '@zip.js/zip.js';
 import { Button } from '@/components/Button';
+import { Platform } from '@/utils/statsfm';
 import { AccountLayout } from '@/components/settings/Layout';
 import { SettingsHeader } from '@/components/settings/SettingsHeader';
+import { SpotifyService } from '@/utils/imports/spotifyService';
+import { AppleMusicService } from '@/utils/imports/appleMusicService';
 
 export const getServerSideProps: GetServerSideProps<SSRProps> = async (ctx) => {
   const user = await fetchUser(ctx);
@@ -33,14 +36,6 @@ export const getServerSideProps: GetServerSideProps<SSRProps> = async (ctx) => {
     },
   };
 };
-
-interface ImportService {
-  id: string;
-  name: string;
-  enabled: boolean;
-  acceptFiles: Accept;
-  handleFileUpload: (file: File[]) => Promise<void> | void;
-}
 
 const Imports = () => {
   const { user } = useAuth();
@@ -55,118 +50,38 @@ const Imports = () => {
   const [uploadedFiles, setUploadedFiles] = useState<UploadedImportFile[]>([]);
   const [isUploading, setIsUploading] = useState(false);
 
-  const services: ImportService[] = [
-    {
-      id: 'spotify',
-      name: 'Spotify',
-      enabled: true,
-      acceptFiles: {
-        'application/json': ['.json'],
-        'application/zip': ['.zip'],
-      },
-      handleFileUpload: async (files) => {
-        toaster.message('Processing files...');
-        if (
-          files.filter((file) => file.type === 'application/zip').length > 1
-        ) {
-          toaster.error('Only one zip file can be selected.');
-          return;
-        }
-        if (
-          files.filter((file) => file.type === 'application/json').length > 0 &&
-          files.filter((file) => file.type === 'application/zip').length > 0
-        ) {
-          toaster.error("You can't select both a zip file and a JSON file.");
-          return;
-        }
-        // eslint-disable-next-line no-restricted-syntax
-        for await (const file of files) {
-          if (file.type === 'application/json') {
-            const content = await file.text();
-            await SpotifyImport.processJSON(
-              { name: file.name, content },
-              { event, setUploadedFiles }
-            );
-          } else if (file.type === 'application/zip') {
-            const zipReader = new ZipReader(new BlobReader(file));
-            const entries = await zipReader.getEntries();
-            const filesToImport: { name: string; content: string }[] = [];
-            let accountData = false;
-            // eslint-disable-next-line no-restricted-syntax
-            for await (const entry of entries) {
-              const fileName = entry.filename.split('/').pop()!;
-              if (!fileName.includes('.json')) continue;
-              if (fileName.includes('Video')) continue;
-
-              if (
-                ['Userdata.json', 'Payments.json', 'Identity.json'].some((x) =>
-                  fileName.includes(x)
-                )
-              ) {
-                accountData = true;
-                break;
-              }
-
-              filesToImport.push({
-                name: fileName,
-                content: await entry.getData!(new TextWriter()),
-              });
-            }
-
-            if (accountData) {
-              toaster.error(
-                'It looks like you\'re trying to upload the "Account data" zip file, which is not the same as the "Extended streaming history data" zip file.'
-              );
-              return;
-            }
-
-            if (filesToImport.length === 0) {
-              toaster.error(
-                'No valid files found in the zip file. Make sure you\'re uploading the "Extended streaming history data" zip file.'
-              );
-              return;
-            }
-
-            Promise.all(
-              filesToImport.map((f) =>
-                SpotifyImport.processJSON(f, { event, setUploadedFiles })
-              )
-            );
-          }
-        }
-      },
-    },
-    // {
-    //   id: 'applemusic',
-    //   name: 'Apple Music',
-    //   enabled: false,
-    //   acceptFiles: {
-    //     'text/csv': ['.csv'],
-    //   },
-    //   handleFileUpload: async () => {},
-    // },
-  ];
+  const services = [SpotifyService, AppleMusicService].map((service) =>
+    service({ toaster, setUploadedFiles, event })
+  );
 
   const uploadFiles = async () => {
     if (isUploading) return;
     setIsUploading(true);
 
     const oldUrl = api.options.http.apiUrl;
-    api.options.http.apiUrl = 'https://import.stats.fm/api';
+    api.options.http.apiUrl =
+      process.env.NEXT_PUBLIC_API_URL_IMPORT ?? 'https://import.stats.fm/api';
     // eslint-disable-next-line no-restricted-syntax
     for (const uploadedFile of uploadedFiles) {
       if (uploadedFile!.status !== UploadedFilesStatus.Ready) continue;
       uploadedFile.status = UploadedFilesStatus.Uploading;
       try {
         // eslint-disable-next-line no-await-in-loop
-        await api.me.import({
-          name: uploadedFile.name,
-          contentType: 'application/json',
-          data: JSON.stringify(uploadedFile.data),
-          key: 'files',
-        });
+        await api.me.import(
+          {
+            name: uploadedFile.name,
+            contentType: uploadedFile.contentType,
+            data:
+              uploadedFile.service === Platform.SPOTIFY
+                ? JSON.stringify(uploadedFile.data)
+                : uploadedFile.data,
+            key: 'files',
+          },
+          // eslint-disable-next-line @typescript-eslint/no-use-before-define
+          importService.id
+        );
 
-        event('IMPORT_upload_file');
+        event(`IMPORT_${uploadedFile.service}_upload_file`);
         uploadedFile.status = UploadedFilesStatus.Uploaded;
       } catch (e: any) {
         uploadedFile.status = UploadedFilesStatus.Failed;

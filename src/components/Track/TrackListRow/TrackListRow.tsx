@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import type * as statsfm from '@statsfm/statsfm.js';
+import type * as statsfm from '@/utils/statsfm';
 import { Image } from '@/components/Image';
 import dayjs from '@/utils/dayjs';
 import { Divider } from '@/components/Divider';

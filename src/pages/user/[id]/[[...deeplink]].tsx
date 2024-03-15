@@ -2,7 +2,7 @@ import React, { Fragment, useEffect, useRef, useState } from 'react';
 import type { RefObject } from 'react';
 import dayjs from 'dayjs';
 import type { GetServerSideProps, NextPage } from 'next';
-import * as statsfm from '@statsfm/statsfm.js';
+import * as statsfm from '@/utils/statsfm';
 import Linkify from 'linkify-react';
 import { Section } from '@/components/Section/Section';
 import { Avatar } from '@/components/Avatar';
@@ -18,7 +18,7 @@ import { Button } from '@/components/Button';
 import clsx from 'clsx';
 import type { SSRProps } from '@/utils/ssrUtils';
 import { getApiInstance, fetchUser } from '@/utils/ssrUtils';
-import { FriendStatus } from '@statsfm/statsfm.js';
+import { FriendStatus } from '@/utils/statsfm';
 import { event } from 'nextjs-google-analytics';
 import { useScrollPercentage } from '@/hooks/use-scroll-percentage';
 import formatter from '@/utils/formatter';
@@ -150,20 +150,46 @@ const User: NextPage<Props> = ({
       end: new Date(),
     },
   });
-  const [availableRanges, setAvailableRanges] = useState<BetterRange[]>([
-    BetterRange.WEEKS,
-    BetterRange.MONTHS,
-    BetterRange.LIFETIME,
-  ]);
+  const [availableRanges, setAvailableRanges] = useState<
+    BetterRange[] | number[]
+  >([]);
 
   useEffect(() => {
-    if (user.isPlus && user.hasImported) {
+    if (
+      user.spotifyAuth &&
+      [
+        statsfm.OrderBySetting.PLATFORM,
+        statsfm.OrderBySetting.SPOTIFY,
+      ].includes(user.orderBy)
+    ) {
+      setAvailableRanges([
+        BetterRange.WEEKS,
+        BetterRange.MONTHS,
+        BetterRange.LIFETIME,
+      ]);
+    } else if (
+      user.appleMusicAuth &&
+      user.orderBy === statsfm.OrderBySetting.APPLEMUSIC
+    ) {
+      const sorted = user.appleMusicAuth.availableYears.sort((a, b) => b - a);
+      setAvailableRanges(sorted);
+      setTimeframe((prev) => ({
+        ...prev,
+        year: sorted[0],
+        selected: 'APPLEMUSIC',
+      }));
+    } else if (
+      user.isPlus &&
+      [statsfm.OrderBySetting.COUNT, statsfm.OrderBySetting.TIME].includes(
+        user.orderBy
+      )
+    ) {
       setAvailableRanges([
         BetterRange.TODAY,
         BetterRange.THIS_WEEK,
+        BetterRange.CURRENT_YEAR,
         BetterRange.WEEKS,
         BetterRange.MONTHS,
-        BetterRange.CURRENT_YEAR,
         BetterRange.LIFETIME,
       ]);
     }
@@ -271,10 +297,16 @@ const User: NextPage<Props> = ({
       .catch(() => {});
   }, [timeframe]);
 
-  const handleSegmentSelect = (value: BetterRange) => {
+  const handleSegmentSelectSpotify = (value: BetterRange) => {
     event(`USER_switch_time_${value}`);
     if (timeframe.range === value && timeframe.selected === 'RANGE') return;
     setTimeframe((prev) => ({ ...prev, range: value, selected: 'RANGE' }));
+  };
+
+  const handleSegmentSelectAppleMusic = (value: number) => {
+    event(`USER_switch_time_${value}`);
+    if (timeframe.year === value && timeframe.selected === 'APPLEMUSIC') return;
+    setTimeframe((prev) => ({ ...prev, year: value, selected: 'APPLEMUSIC' }));
   };
 
   useScrollPercentage(30, () => event('USER_scroll_30'));
@@ -405,7 +437,9 @@ const User: NextPage<Props> = ({
                 {user.userBan?.active !== true && (
                   <Scope value="connections" fallback={<></>}>
                     <div className="mt-2 flex flex-row items-center gap-2">
-                      <SpotifyLink path={`/user/${user.id}`} />
+                      {user.spotifyAuth && (
+                        <SpotifyLink path={`/user/${user.id}`} />
+                      )}
                     </div>
                   </Scope>
                 )}
@@ -428,76 +462,135 @@ const User: NextPage<Props> = ({
             )}
 
             <section className="flex flex-col justify-between gap-5 md:flex-row-reverse">
-              <div className="z-50 flex justify-center">
-                <Listbox value={timeframe.range} onChange={handleSegmentSelect}>
-                  <div className="relative mt-1 w-72">
-                    <Listbox.Button className="relative w-full cursor-default rounded-lg bg-foreground py-2 pl-3 pr-10 text-left shadow-md focus:outline-none focus-visible:border-primary focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-primary sm:text-sm">
-                      <span className="block truncate">
-                        {rangeToText(timeframe.range)}
-                      </span>
-                      <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
-                        <MdArrowDropDown
-                          className="h-5 w-5 text-gray-400"
-                          aria-hidden="true"
-                        />
-                      </span>
-                    </Listbox.Button>
-                    <Transition
-                      as={Fragment}
-                      leave="transition ease-in duration-100"
-                      leaveFrom="opacity-100"
-                      leaveTo="opacity-0"
+              {availableRanges.length > 0 &&
+                // if instance of number[] then it's apple music
+                (typeof availableRanges[0] === 'number' ? (
+                  <div className="z-50 flex justify-center">
+                    <Listbox
+                      value={timeframe.year}
+                      onChange={handleSegmentSelectAppleMusic}
                     >
-                      <Listbox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-foreground py-1 text-sm shadow-lg ring-1 ring-black/5 focus:outline-none">
-                        {availableRanges.filter(Boolean).map((range) => (
-                          <Listbox.Option
-                            key={range}
-                            value={range}
-                            className={({ active }) =>
-                              `relative cursor-default select-none py-2 pl-10 pr-4 ${
-                                active ? 'bg-background/50' : 'text-gray-900'
-                              }`
-                            }
-                          >
-                            {({ selected }) => (
-                              <>
-                                <span
-                                  className={`block truncate ${
-                                    selected && 'text-white'
-                                  }`}
-                                >
-                                  {rangeToText(range)}
-                                </span>
-                                {selected ? (
-                                  <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-primary">
-                                    <MdCheck
-                                      className="h-5 w-5"
-                                      aria-hidden="true"
-                                    />
-                                  </span>
-                                ) : null}
-                              </>
-                            )}
-                          </Listbox.Option>
-                        ))}
-                      </Listbox.Options>
-                    </Transition>
+                      <div className="relative mt-1 w-72">
+                        <Listbox.Button className="relative w-full cursor-default rounded-lg bg-foreground py-2 pl-3 pr-10 text-left shadow-md focus:outline-none focus-visible:border-primary focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-primary sm:text-sm">
+                          <span className="block truncate">
+                            {timeframe.year}
+                          </span>
+                          <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
+                            <MdArrowDropDown
+                              className="h-5 w-5 text-gray-400"
+                              aria-hidden="true"
+                            />
+                          </span>
+                        </Listbox.Button>
+                        <Transition
+                          as={Fragment}
+                          leave="transition ease-in duration-100"
+                          leaveFrom="opacity-100"
+                          leaveTo="opacity-0"
+                        >
+                          <Listbox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-foreground py-1 text-sm shadow-lg ring-1 ring-black/5 focus:outline-none">
+                            {(availableRanges as number[]).map((year) => (
+                              <Listbox.Option
+                                key={year}
+                                value={year}
+                                className={({ active }) =>
+                                  `relative cursor-default select-none py-2 pl-10 pr-4 ${
+                                    active
+                                      ? 'bg-background/50'
+                                      : 'text-gray-900'
+                                  }`
+                                }
+                              >
+                                {({ selected }) => (
+                                  <>
+                                    <span
+                                      className={`block truncate ${
+                                        selected && 'text-white'
+                                      }`}
+                                    >
+                                      {year}
+                                    </span>
+                                    {selected ? (
+                                      <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-primary">
+                                        <MdCheck
+                                          className="h-5 w-5"
+                                          aria-hidden="true"
+                                        />
+                                      </span>
+                                    ) : null}
+                                  </>
+                                )}
+                              </Listbox.Option>
+                            ))}
+                          </Listbox.Options>
+                        </Transition>
+                      </div>
+                    </Listbox>
                   </div>
-                </Listbox>
-              </div>
-              {/* <SegmentedControls
-                onChange={handleSegmentSelect as (value: string) => void}
-                defaultIndex={user.isPlus && user.hasImported ? 1 : 0}
-              >
-                {user.isPlus && user.hasImported && (
-                  <Segment value={statsfm.Range.TODAY}>today</Segment>
-                )}
-                <Segment selected value={statsfm.Range.WEEKS}>
-                  4 weeks
-                </Segment>
-                <Segment value={statsfm.Range.MONTHS}>6 months</Segment>
-                <Segment value={statsfm.Range.LIFETIME}>lifetime</Segment>
-              </SegmentedControls> */}
+                ) : (
+                  <div className="z-50 flex justify-center">
+                    <Listbox
+                      value={timeframe.range}
+                      onChange={handleSegmentSelectSpotify}
+                    >
+                      <div className="relative mt-1 w-72">
+                        <Listbox.Button className="relative w-full cursor-default rounded-lg bg-foreground py-2 pl-3 pr-10 text-left shadow-md focus:outline-none focus-visible:border-primary focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-primary sm:text-sm">
+                          <span className="block truncate">
+                            {rangeToText(timeframe.range)}
+                          </span>
+                          <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
+                            <MdArrowDropDown
+                              className="h-5 w-5 text-gray-400"
+                              aria-hidden="true"
+                            />
+                          </span>
+                        </Listbox.Button>
+                        <Transition
+                          as={Fragment}
+                          leave="transition ease-in duration-100"
+                          leaveFrom="opacity-100"
+                          leaveTo="opacity-0"
+                        >
+                          <Listbox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-foreground py-1 text-sm shadow-lg ring-1 ring-black/5 focus:outline-none">
+                            {(availableRanges as BetterRange[]).map((range) => (
+                              <Listbox.Option
+                                key={range}
+                                value={range}
+                                className={({ active }) =>
+                                  `relative cursor-default select-none py-2 pl-10 pr-4 ${
+                                    active
+                                      ? 'bg-background/50'
+                                      : 'text-gray-900'
+                                  }`
+                                }
+                              >
+                                {({ selected }) => (
+                                  <>
+                                    <span
+                                      className={`block truncate ${
+                                        selected && 'text-white'
+                                      }`}
+                                    >
+                                      {rangeToText(range)}
+                                    </span>
+                                    {selected ? (
+                                      <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-primary">
+                                        <MdCheck
+                                          className="h-5 w-5"
+                                          aria-hidden="true"
+                                        />
+                                      </span>
+                                    ) : null}
+                                  </>
+                                )}
+                              </Listbox.Option>
+                            ))}
+                          </Listbox.Options>
+                        </Transition>
+                      </div>
+                    </Listbox>
+                  </div>
+                ))}
               {user.isPlus && (
                 <ImportRequiredScope value="streamStats">
                   <ul className="grid w-full grid-cols-2 gap-4 md:w-7/12 md:grid-cols-4">
@@ -545,7 +638,10 @@ const User: NextPage<Props> = ({
             )}
 
             {user.isPlus &&
-              user.orderBy !== statsfm.OrderBySetting.PLATFORM && (
+              [
+                statsfm.OrderBySetting.COUNT,
+                statsfm.OrderBySetting.TIME,
+              ].includes(user.orderBy) && (
                 <Section
                   title="Listening clocks"
                   className="flex w-full flex-col gap-2 md:flex-row"

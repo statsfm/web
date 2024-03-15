@@ -7,7 +7,7 @@ import type {
   ReactNode,
   RefObject,
 } from 'react';
-import type { UserPrivacySettings } from '@statsfm/statsfm.js';
+import type { UserPrivacySettings } from '@/utils/statsfm';
 import { MdVisibilityOff } from 'react-icons/md';
 import { Popover, Transition } from '@headlessui/react';
 import Link from 'next/link';

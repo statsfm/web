@@ -25,6 +25,7 @@ module.exports = {
         plus: '#ffd700',
         swipefy: '#DBFF00',
         'text-grey': '#727272',
+        applemusic: 'rgb(251, 35, 60)',
       },
       fontFamily: {
         body: ['var(--font-statsfm-sans)', 'Statsfm Sans'],

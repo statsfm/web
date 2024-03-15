@@ -1,5 +1,5 @@
 import { useApi, useAuth } from '@/hooks';
-import type { UserPublic, TopGenre } from '@statsfm/statsfm.js';
+import type { UserPublic, TopGenre } from '@/utils/statsfm';
 import clsx from 'clsx';
 import Link from 'next/link';
 import { useEffect, type FC, useState } from 'react';
