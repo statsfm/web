@@ -4,7 +4,8 @@ import Cookies from 'js-cookie';
 let apiUrl = process.env.NEXT_PUBLIC_API_URL ?? 'https://api.stats.fm/api';
 
 if (process.env.NODE_ENV === 'development')
-  apiUrl = process.env.NEXT_PUBLIC_API_URL ?? 'https://beta-api.stats.fm/api';
+  apiUrl =
+    process.env.NEXT_PUBLIC_API_URL ?? 'https://staging-api.stats.fm/api';
 
 const ref = new statsfm.Api({
   http: {
