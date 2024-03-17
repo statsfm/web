@@ -15,7 +15,7 @@
     "@headlessui/react": "^1.7.2",
     "@next/bundle-analyzer": "^12.2.1",
     "@next/font": "^13.0.3",
-    "@statsfm/statsfm.js": "^2.2.0",
+    "@statsfm/statsfm.js": "^2.2.1",
     "@tailwindcss/line-clamp": "^0.4.0",
     "@tailwindcss/typography": "^0.5.7",
     "@zip.js/zip.js": "^2.7.33",
