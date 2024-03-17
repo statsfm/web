@@ -59,12 +59,12 @@ const Imports = () => {
     setIsUploading(true);
 
     const oldUrl = api.options.http.apiUrl;
-    api.options.http.apiUrl =
-      process.env.NEXT_PUBLIC_API_URL_IMPORT ?? 'https://import.stats.fm/api';
     // eslint-disable-next-line no-restricted-syntax
     for (const uploadedFile of uploadedFiles) {
       if (uploadedFile!.status !== UploadedFilesStatus.Ready) continue;
       uploadedFile.status = UploadedFilesStatus.Uploading;
+      api.options.http.apiUrl =
+        process.env.NEXT_PUBLIC_API_URL_IMPORT ?? 'https://import.stats.fm/api';
       try {
         // eslint-disable-next-line no-await-in-loop
         await api.me.import(
@@ -86,8 +86,8 @@ const Imports = () => {
       } catch (e: any) {
         uploadedFile.status = UploadedFilesStatus.Failed;
       }
+      api.options.http.apiUrl = oldUrl;
     }
-    api.options.http.apiUrl = oldUrl;
 
     setRefetchCounter(new Date());
     setIsUploading(false);
