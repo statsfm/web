@@ -187,9 +187,9 @@ const User: NextPage<Props> = ({
       setAvailableRanges([
         BetterRange.TODAY,
         BetterRange.THIS_WEEK,
-        BetterRange.CURRENT_YEAR,
         BetterRange.WEEKS,
         BetterRange.MONTHS,
+        BetterRange.CURRENT_YEAR,
         BetterRange.LIFETIME,
       ]);
     }
