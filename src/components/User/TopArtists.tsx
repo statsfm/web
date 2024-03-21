@@ -15,6 +15,7 @@ import { ShareMenuItem } from '../ShareMenuItem';
 import { ArtistCard, ArtistCardSkeleton } from '../Artist';
 import {
   getTimeframeOptions,
+  getTimeframeQueryParam,
   getTimeframeText,
   type TimeframeSelection,
 } from './utils';
@@ -83,7 +84,8 @@ export const TopArtists: FC<{
             )}
             <SectionToolbarInfoMenu>
               <ShareMenuItem
-                path={`/${userProfile.customId ?? userProfile.id}/artists`}
+                // eslint-disable-next-line prettier/prettier
+                path={`/${userProfile.customId ?? userProfile.id}/artists${getTimeframeQueryParam(timeframe)}`}
               />
             </SectionToolbarInfoMenu>
           </div>

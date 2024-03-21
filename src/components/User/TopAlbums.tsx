@@ -18,6 +18,7 @@ import {
   type TimeframeSelection,
   getTimeframeOptions,
   getTimeframeText,
+  getTimeframeQueryParam,
 } from './utils';
 import { NotEnoughData } from './NotEnoughData';
 
@@ -83,7 +84,8 @@ export const TopAlbums: FC<{
             )}
             <SectionToolbarInfoMenu>
               <ShareMenuItem
-                path={`/${userProfile.customId ?? userProfile.id}/albums`}
+                // eslint-disable-next-line prettier/prettier
+                path={`/${userProfile.customId ?? userProfile.id}/albums${getTimeframeQueryParam(timeframe)}`}
               />
             </SectionToolbarInfoMenu>
           </div>
