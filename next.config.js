@@ -5,6 +5,7 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
 const nextBuildId = require('next-build-id');
 
 module.exports = withBundleAnalyzer({
+  output: 'standalone',
   eslint: {
     dirs: ['.'],
   },
@@ -45,6 +46,10 @@ module.exports = withBundleAnalyzer({
       {
         protocol: 'https',
         hostname: '**.mzstatic.com',
+      },
+      {
+        protocol: 'http',
+        hostname: 'localhost',
       },
     ],
   },
