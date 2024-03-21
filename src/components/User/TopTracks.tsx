@@ -15,6 +15,7 @@ import { ShareMenuItem } from '../ShareMenuItem';
 import { TrackCard, TrackCardSkeleton } from '../Track';
 import {
   getTimeframeOptions,
+  getTimeframeQueryParam,
   getTimeframeText,
   type TimeframeSelection,
 } from './utils';
@@ -82,7 +83,8 @@ export const TopTracks: FC<{
             )}
             <SectionToolbarInfoMenu>
               <ShareMenuItem
-                path={`/${userProfile.customId ?? userProfile.id}/tracks`}
+                // eslint-disable-next-line prettier/prettier
+                path={`/${userProfile.customId ?? userProfile.id}/tracks${getTimeframeQueryParam(timeframe)}`}
               />
             </SectionToolbarInfoMenu>
           </div>

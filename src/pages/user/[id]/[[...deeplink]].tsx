@@ -61,6 +61,10 @@ type Props = SSRProps & {
   friendStatus: statsfm.FriendStatus;
   friendCount: number;
   scrollIntoView: UserScrollIntoView | null;
+  selectedTimeframe: {
+    range: BetterRange | null;
+    year: number | null;
+  };
 };
 
 function activeScrollIntoViewFromDeepLink(
@@ -86,6 +90,10 @@ function activeScrollIntoViewFromDeepLink(
 export const getServerSideProps: GetServerSideProps<Props> = async (ctx) => {
   const { identityToken } = ctx.req.cookies;
   const { id, deeplink } = ctx.params!;
+  const { range, year } = ctx.query as unknown as {
+    range: BetterRange | null;
+    year: string | null;
+  };
 
   const api = getApiInstance(identityToken);
 
@@ -129,6 +137,10 @@ export const getServerSideProps: GetServerSideProps<Props> = async (ctx) => {
       friendStatus,
       friendCount,
       scrollIntoView,
+      selectedTimeframe: {
+        range: range && range.toUpperCase() in BetterRange ? range : null,
+        year: year != null ? parseInt(year, 10) : null,
+      },
     },
   };
 };
@@ -138,12 +150,14 @@ const User: NextPage<Props> = ({
   friendStatus,
   friendCount,
   scrollIntoView,
+  selectedTimeframe: { range, year },
 }) => {
   const api = useApi();
   const router = useRouter();
   const { user: currentUser } = useAuth();
   const [timeframe, setTimeframe] = useState<TimeframeSelection>({
-    range: BetterRange.WEEKS,
+    // setting the year for apple music happens in useEffect
+    range: range ?? BetterRange.WEEKS,
     selected: 'RANGE',
     custom: {
       start: new Date(),
@@ -175,7 +189,7 @@ const User: NextPage<Props> = ({
       setAvailableRanges(sorted);
       setTimeframe((prev) => ({
         ...prev,
-        year: sorted[0],
+        year: year != null && sorted.includes(year) ? year : sorted[0],
         selected: 'APPLEMUSIC',
       }));
     } else if (
@@ -301,12 +315,18 @@ const User: NextPage<Props> = ({
     event(`USER_switch_time_${value}`);
     if (timeframe.range === value && timeframe.selected === 'RANGE') return;
     setTimeframe((prev) => ({ ...prev, range: value, selected: 'RANGE' }));
+    router.push(`/user/${user.customId || user.id}?range=${value}`, undefined, {
+      shallow: true,
+    });
   };
 
   const handleSegmentSelectAppleMusic = (value: number) => {
     event(`USER_switch_time_${value}`);
     if (timeframe.year === value && timeframe.selected === 'APPLEMUSIC') return;
     setTimeframe((prev) => ({ ...prev, year: value, selected: 'APPLEMUSIC' }));
+    router.push(`/user/${user.customId || user.id}?year=${value}`, undefined, {
+      shallow: true,
+    });
   };
 
   useScrollPercentage(30, () => event('USER_scroll_30'));

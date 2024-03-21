@@ -94,6 +94,17 @@ export const getTimeframeOptions = (
   return { range: Range.LIFETIME };
 };
 
+export const getTimeframeQueryParam = (timeframe: TimeframeSelection) => {
+  if (timeframe.selected === 'APPLEMUSIC') {
+    return `?year=${timeframe.year}`;
+  }
+  if (timeframe.selected === 'RANGE') {
+    return `?range=${timeframe.range}`;
+  }
+  // TODO: handle custom
+  return '';
+};
+
 export const rangeToText = (range: BetterRange) => {
   if (range === BetterRange.TODAY) {
     return 'today';
