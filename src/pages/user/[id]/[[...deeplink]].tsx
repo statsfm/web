@@ -473,8 +473,8 @@ const User: NextPage<Props> = ({
           <Container className="mt-8">
             {user.quarantined && (
               <section className="pb-10">
-                <div className="flex">
-                  <MdWarning className="mr-2 mt-1.5 text-white opacity-60" />
+                <div className="flex items-center">
+                  <MdWarning className="mr-2 text-white opacity-60" />
                   <p>This account&apos;s streams have been quarantined</p>
                   {/* TODO: Add info button with link to a support article or a popup message */}
                 </div>
