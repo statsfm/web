@@ -44,7 +44,7 @@ const Login: NextPage = () => {
             onClick={() => {
               router.push('/api/auth/spotify');
             }}
-            className="w-full bg-primary/80 text-black hover:bg-primary/60 active:bg-primary/50"
+            className="w-full bg-primary/80 !text-black hover:bg-primary/60 active:bg-primary/50"
           >
             <SpotifyIcon className="mr-2 !fill-black" />
             Continue with Spotify
