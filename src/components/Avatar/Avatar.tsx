@@ -67,7 +67,7 @@ export const Avatar = ({
         // eslint-disable-next-line tailwindcss/no-custom-classname
         className={clsx(
           'aspect-square bg-foreground object-cover text-center text-neutral-400',
-          `leading-[${sizes[size]}px]`
+          `leading-[${sizes[size]}px]`,
         )}
         rounded
         width={sizes[size]}

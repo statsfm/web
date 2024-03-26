@@ -20,8 +20,8 @@ export const UploadedItem: FC<
         </p>
         <div
           className={clsx(
-            'my-0 flex-none rounded-md bg-foreground py-1 px-2 text-xs font-medium',
-            UPLOADED_FILE_STATUS_COLORS[data.status]
+            'my-0 flex-none rounded-md bg-foreground px-2 py-1 text-xs font-medium',
+            UPLOADED_FILE_STATUS_COLORS[data.status],
           )}
         >
           {UPLOADED_FILE_STATUS[data.status]}

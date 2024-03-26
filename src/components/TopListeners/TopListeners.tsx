@@ -40,7 +40,7 @@ const TopListenersBase: FC<
           <div
             className={clsx(
               'flex gap-1',
-              loading ? 'pointer-events-none opacity-30' : ''
+              loading ? 'pointer-events-none opacity-30' : '',
             )}
           >
             <SectionToolbarGridMode
@@ -58,7 +58,7 @@ const TopListenersBase: FC<
               <SectionToolbarCarouselNavigation
                 callback={() =>
                   event(
-                    `${type}_top_listener${friends ? '_friends' : ''}_previous`
+                    `${type}_top_listener${friends ? '_friends' : ''}_previous`,
                   )
                 }
               />
@@ -88,7 +88,7 @@ const TopListenersBase: FC<
                     key={(Math.random() + 1).toString(36).substring(7)}
                     onClick={() =>
                       event(
-                        `${type}_top_listener${friends ? '_friends' : ''}_click`
+                        `${type}_top_listener${friends ? '_friends' : ''}_click`,
                       )
                     }
                   >
@@ -146,12 +146,12 @@ export const TopListeners: FC<Props> = (props) => {
       setLoading(true);
       setLoadingFriends(true);
       setTopListeners(
-        await api[type].topListeners(props.data.id).catch(() => [])
+        await api[type].topListeners(props.data.id).catch(() => []),
       );
       setLoading(false);
       if (user) {
         setTopListenersFriends(
-          await api[type].topListeners(props.data.id, true).catch(() => [])
+          await api[type].topListeners(props.data.id, true).catch(() => []),
         );
         setLoadingFriends(false);
       }

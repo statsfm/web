@@ -20,7 +20,7 @@ type Props<T extends statsfm.Stream | statsfm.RecentlyPlayedTrack> = {
     });
 
 export const RecentStreams = <
-  T extends statsfm.Stream | statsfm.RecentlyPlayedTrack
+  T extends statsfm.Stream | statsfm.RecentlyPlayedTrack,
 >({
   streams,
   track,

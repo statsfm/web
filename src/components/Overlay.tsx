@@ -9,7 +9,7 @@ export const Overlay: FC<
       className={clsx(
         className,
         visible ? 'opacity-100' : 'pointer-events-none opacity-0',
-        'absolute top-0 z-30 h-full w-full bg-background/60 transition-opacity'
+        'absolute top-0 z-30 size-full bg-background/60 transition-opacity',
       )}
     >
       <div className="sticky top-0 flex h-screen w-full items-center justify-center">

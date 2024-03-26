@@ -30,7 +30,7 @@ export const ImportList: FC<{
             createdAt: new Date(importItem.createdAt),
             updatedAt: new Date(importItem.updatedAt),
           }))
-          .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime())
+          .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime()),
       );
       if (
         imports.map((i) => i.status).some((s) => [0, 1].includes(s)) &&
@@ -68,7 +68,7 @@ export const ImportList: FC<{
             setAllowRefetchTimeout(
               setTimeout(() => {
                 setAllowRefetch(true);
-              }, 30000)
+              }, 30000),
             );
           }}
         >
@@ -95,8 +95,8 @@ export const ImportList: FC<{
                         .concat(importItem)
                         .sort(
                           (a, b) =>
-                            b.createdAt.getTime() - a.createdAt.getTime()
-                        )
+                            b.createdAt.getTime() - a.createdAt.getTime(),
+                        ),
                     );
                   });
                 }}

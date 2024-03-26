@@ -2,11 +2,7 @@ import { Container } from '@/components/Container';
 import { Title } from '@/components/Title';
 import dayjs from '@/utils/dayjs';
 import clsx from 'clsx';
-import {
-  GetStaticProps,
-  type NextPage,
-  type InferGetStaticPropsType,
-} from 'next';
+import type { GetStaticProps, NextPage, InferGetStaticPropsType } from 'next';
 import Link from 'next/link';
 
 export const getStaticProps = (async () => {
@@ -170,7 +166,7 @@ const CreditsPage: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
       <Title>Credits & translators</Title>
       <div className="bg-foreground pt-20">
         <Container>
-          <section className="flex flex-col items-center gap-5 pt-24 pb-10 md:flex-row md:items-start">
+          <section className="flex flex-col items-center gap-5 pb-10 pt-24 md:flex-row md:items-start">
             <div className="flex w-full flex-col justify-end">
               {/* <a className="-mb-3 flex items-center text-lg text-white">
                 ---
@@ -199,10 +195,10 @@ const CreditsPage: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
                         <div className="shrink-0">
                           <img
                             className={clsx(
-                              'h-10 w-10 rounded-full object-cover',
+                              'size-10 rounded-full object-cover',
                               member.current ?? true
                                 ? ''
-                                : 'brightness-50 grayscale'
+                                : 'brightness-50 grayscale',
                             )}
                             src={member.image ?? ''}
                             alt=""
@@ -218,7 +214,7 @@ const CreditsPage: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
                                   href={`/${member.nickname}`}
                                   className={clsx(
                                     'font-medium text-gray-500',
-                                    member.name.trim() !== '' ? 'ml-2' : ''
+                                    member.name.trim() !== '' ? 'ml-2' : '',
                                   )}
                                 >
                                   @{member.nickname}
@@ -227,7 +223,7 @@ const CreditsPage: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
                                 <span
                                   className={clsx(
                                     'font-medium text-gray-500',
-                                    member.name.trim() !== '' ? 'ml-2' : ''
+                                    member.name.trim() !== '' ? 'ml-2' : '',
                                   )}
                                 >
                                   {member.nickname ?? ''}
@@ -247,10 +243,10 @@ const CreditsPage: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
                               )}
                               <p
                                 className={clsx(
-                                  'ml-2 inline-flex rounded-full py-1 px-3 text-sm font-semibold leading-5',
+                                  'ml-2 inline-flex rounded-full px-3 py-1 text-sm font-semibold leading-5',
                                   member.current ?? true
                                     ? 'bg-primary/10 text-primary'
-                                    : 'bg-orange-500/10 text-orange-500'
+                                    : 'bg-orange-500/10 text-orange-500',
                                 )}
                               >
                                 {member.role}

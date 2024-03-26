@@ -15,7 +15,7 @@ export const Image = ({ rounded = false, className, src, ...props }: Props) => {
         className={clsx(
           'bg-foreground before:grid before:h-full before:place-items-center before:p-2 before:text-center',
           rounded && 'rounded-full',
-          className
+          className,
         )}
         placeholder="blur"
         blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAQSURBVHgBAQUA+v8ANTU1/wLhAZ/HkyyzAAAAAElFTkSuQmCC"

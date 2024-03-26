@@ -90,7 +90,7 @@ const SearchList: FC<SearchListProps> = ({ type, data, query, loading }) => {
 };
 
 export const getServerSideProps: GetServerSideProps<SSRProps<Props>> = async (
-  ctx
+  ctx,
 ) => {
   const user = await fetchUser(ctx);
 
@@ -127,7 +127,7 @@ const SearchPage: NextPage<Props> = ({ query }) => {
           SearchTypes.TRACK,
           SearchTypes.USER,
         ],
-        { limit: 50 }
+        { limit: 50 },
       );
       setArtists(data.artists ?? []);
       setAlbums(data.albums ?? []);

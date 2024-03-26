@@ -14,8 +14,8 @@ const Button = ({ disabled, children, ...props }: PropsWithChildren<Props>) => {
         disabled
           ? 'pointer-events-none !bg-primary/20 text-black'
           : 'hover:bg-primary/20 active:bg-primary/5',
-        'inline-flex items-center justify-center whitespace-nowrap rounded-2xl bg-primary/10 py-3 px-5 text-base font-bold text-primary shadow-sm transition-colors',
-        props.className
+        'inline-flex items-center justify-center whitespace-nowrap rounded-2xl bg-primary/10 px-5 py-3 text-base font-bold text-primary shadow-sm transition-colors',
+        props.className,
       )}
     >
       {children}

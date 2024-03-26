@@ -61,7 +61,7 @@ const StateContextProvider: FC<PropsWithChildren<{ user: UserPrivate }>> = ({
   const [customId, setCustomId] = useState<string>(user.customId);
   const [bio, setBio] = useState<string>(user.profile?.bio ?? '');
   const [pronouns, setPronouns] = useState<string>(
-    user.profile?.pronouns ?? 'none'
+    user.profile?.pronouns ?? 'none',
   );
   const [urlAvailable, setUrlAvailable] =
     useState<UrlAvailableOptions>('AVAILABLE');
@@ -75,7 +75,7 @@ const StateContextProvider: FC<PropsWithChildren<{ user: UserPrivate }>> = ({
       customId !== user.customId ||
       bio !== user.profile?.bio ||
       pronouns !== (user.profile?.pronouns ?? 'none'),
-    [files, displayName, customId, bio, pronouns, user]
+    [files, displayName, customId, bio, pronouns, user],
   );
 
   const uploadAvatar = useCallback(async () => {
@@ -170,7 +170,7 @@ const AvatarInput: FC<{ defaultSrc: string | undefined }> = ({
       />
       <label
         htmlFor="fileInput"
-        className="relative mx-auto mt-6 mb-4 h-min w-min cursor-pointer sm:my-0"
+        className="relative mx-auto mb-4 mt-6 size-min cursor-pointer sm:my-0"
         onMouseEnter={() => setHovering(true)}
         onMouseLeave={() => setHovering(false)}
       >
@@ -183,15 +183,15 @@ const AvatarInput: FC<{ defaultSrc: string | undefined }> = ({
         <div
           className={clsx(
             hovering ? 'opacity-40' : 'opacity-0',
-            'absolute top-0 h-full w-full rounded-full bg-black transition-opacity'
+            'absolute top-0 size-full rounded-full bg-black transition-opacity',
           )}
         />
-        <div className="absolute right-0 bottom-0 flex h-10 w-10 items-center justify-center rounded-full border-4 border-background bg-foreground">
+        <div className="absolute bottom-0 right-0 flex size-10 items-center justify-center rounded-full border-4 border-background bg-foreground">
           <MdCameraEnhance
             size="22px"
             className={clsx(
               hovering ? 'text-primary' : '',
-              'transition-colors'
+              'transition-colors',
             )}
           />
         </div>
@@ -281,7 +281,7 @@ const DeleteAccount: FC = () => {
   const deleteAccount = useCallback(async () => {
     // eslint-disable-next-line no-restricted-globals, no-alert
     const confirmed = confirm(
-      'Are you sure you want to delete your account? This action is irreversible!'
+      'Are you sure you want to delete your account? This action is irreversible!',
     );
     if (!confirmed) return;
     setStatus('DELETING');
@@ -314,7 +314,7 @@ const DeleteAccount: FC = () => {
           <>
             <div className="mb-2 flex flex-row items-start">
               <input
-                className="mt-1 mr-2"
+                className="mr-2 mt-1"
                 type="checkbox"
                 id="confirm"
                 onChange={(e) => setAgreed(e.target.checked)}
@@ -397,7 +397,7 @@ const AccountPrivacyInfoForm: FC<AccountPrivacyInfoFormProps> = ({
         <Button
           className={clsx(
             changed ? 'hover:!bg-primary/60 active:!bg-primary/40' : '',
-            ' block h-min rounded-md !bg-primary py-2 px-4 text-background'
+            ' block h-min rounded-md !bg-primary px-4 py-2 text-background',
           )}
           onClick={save}
           disabled={
@@ -499,7 +499,7 @@ type Props = SSRProps<{
 export const getServerSideProps: GetServerSideProps<Props> = async (ctx) => {
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const res = await fetch('https://en.pronouns.page/api/pronouns').then((res) =>
-    res.json()
+    res.json(),
   );
   const pronouns = Object.values(res).flat() as Pronoun[];
   const user = await fetchUser(ctx);

@@ -192,7 +192,7 @@ export const MenuRoot = ({ id, children, ...props }: MenuRootProps) => {
       items: [],
       activeItemIndex: null,
       activationTrigger: ActivationTrigger.Other,
-    }
+    },
   );
 
   useOutsideClick(
@@ -200,7 +200,7 @@ export const MenuRoot = ({ id, children, ...props }: MenuRootProps) => {
     [state.itemsRef, state.buttonRef],
     () => {
       dispatch({ type: ActionType.CloseMenu });
-    }
+    },
   );
 
   useEffect(() => {

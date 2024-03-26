@@ -123,11 +123,7 @@ export const Footer = () => {
                       {link.label}
                     </a>
                   ) : (
-                    <Link
-                      legacyBehavior
-                      href={link.href}
-                      className="text-[1rem]"
-                    >
+                    <Link legacyBehavior href={link.href} className="text-base">
                       <a>{link.label}</a>
                     </Link>
                   )}
@@ -182,7 +178,7 @@ export const Footer = () => {
               onClick={() => event(`FOOTER_${social.icon.toLowerCase()}`)}
             >
               <img
-                className="h-10 w-10"
+                className="size-10"
                 src={`/icons/social/${social.icon}.svg`}
                 alt={social.icon}
               />

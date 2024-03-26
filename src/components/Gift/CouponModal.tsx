@@ -26,7 +26,7 @@ export const CouponModal: FC<{
 
   const copyLink = useCallback(() => {
     navigator.clipboard.writeText(
-      `${window.location.origin}/redeem/${giftCode.code}`
+      `${window.location.origin}/redeem/${giftCode.code}`,
     );
   }, [giftCode]);
 

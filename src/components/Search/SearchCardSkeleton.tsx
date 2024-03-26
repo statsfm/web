@@ -12,7 +12,7 @@ export const SearchCardSkeleton: FC<{ type: string }> = ({ type }) => (
     <div
       className={clsx(
         'mt-2 flex flex-col gap-2',
-        type === 'artist' ? 'items-center' : ''
+        type === 'artist' ? 'items-center' : '',
       )}
     >
       <Skeleton.Text width="9rem" />

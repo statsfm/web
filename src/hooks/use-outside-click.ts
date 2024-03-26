@@ -4,7 +4,7 @@ import { useEffect } from 'react';
 export const useOutsideClick = (
   active: boolean,
   ignoreItems: MutableRefObject<HTMLElement | null>[],
-  callback: (e: MouseEvent | TouchEvent) => void
+  callback: (e: MouseEvent | TouchEvent) => void,
 ) => {
   useEffect(() => {
     const listener = (event: MouseEvent | TouchEvent) => {

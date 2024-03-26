@@ -14,7 +14,7 @@ export const SectionToolbarCarouselNavigation = ({
   ...props
 }: Props) => {
   const [bindings, disabled] = useNavigate(
-    next ? Direction.Next : Direction.Previous
+    next ? Direction.Next : Direction.Previous,
   );
 
   return (
@@ -24,7 +24,7 @@ export const SectionToolbarCarouselNavigation = ({
         'rounded-full bg-foreground p-2 transition-all',
         // moved from the global css file
         'focus-within:ring-2 focus:outline-none focus:ring focus:ring-neutral-500',
-        !disabled ? 'active:scale-95' : ''
+        !disabled ? 'active:scale-95' : '',
       )}
       disabled={bindings.disabled}
       onClick={() => {

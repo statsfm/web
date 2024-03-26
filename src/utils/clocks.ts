@@ -30,7 +30,7 @@ export const listeningClockTimes = [
 
 export const clockProps = (
   dateStats: Record<number, statsfm.StreamStats>,
-  type: 'minutes' | 'streams'
+  type: 'minutes' | 'streams',
 ): Props => ({
   type: 'polarArea',
   series:

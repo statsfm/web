@@ -29,7 +29,7 @@ const RedeemPage: NextPage = () => {
     // TODO: this is garbage, rewrite it
     if (trimmed.length > 8) {
       setCouponCode(
-        `${trimmed.slice(0, 4)}-${trimmed.slice(4, 8)}-${trimmed.slice(8)}`
+        `${trimmed.slice(0, 4)}-${trimmed.slice(4, 8)}-${trimmed.slice(8)}`,
       );
     } else if (trimmed.length > 4) {
       setCouponCode(`${trimmed.slice(0, 4)}-${trimmed.slice(4, 8)}`);
