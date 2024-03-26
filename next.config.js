@@ -1,4 +1,7 @@
 /* eslint-disable import/no-extraneous-dependencies */
+/**
+ * @type {(config: import('next/dist/server/config').NextConfig) => import('next/dist/server/config').NextConfig}
+ */
 const withBundleAnalyzer = require('@next/bundle-analyzer')({
   enabled: process.env.ANALYZE === 'true',
 });
@@ -13,40 +16,8 @@ module.exports = withBundleAnalyzer({
   basePath: '',
   reactStrictMode: true,
   images: {
-    remotePatterns: [
-      {
-        protocol: 'https',
-        hostname: 'cdn.stats.fm',
-      },
-      {
-        protocol: 'https',
-        hostname: '**.stats.fm',
-      },
-      {
-        protocol: 'https',
-        hostname: 'stats.fm',
-      },
-      {
-        protocol: 'https',
-        hostname: '**.scdn.co',
-      },
-      {
-        protocol: 'https',
-        hostname: '**.fbcdn.net',
-      },
-      {
-        protocol: 'https',
-        hostname: '**.fbsbx.com',
-      },
-      {
-        protocol: 'https',
-        hostname: 'crowdin-static.downloads.crowdin.com',
-      },
-      {
-        protocol: 'https',
-        hostname: '**.mzstatic.com',
-      },
-    ],
+    loader: 'custom',
+    loaderFile: './src/utils/imageLoader.ts',
   },
   async redirects() {
     return [

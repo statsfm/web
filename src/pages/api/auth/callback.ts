@@ -21,7 +21,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     const domain = host?.split(':')[0];
 
     cookies.push(
-      `identityToken=${code}; Path=/; Domain=${domain}; Expires=Tue, 01 Jan 2030 00:00:00 GMT`
+      `identityToken=${code}; Path=/; Domain=${domain}; Expires=Tue, 01 Jan 2030 00:00:00 GMT`,
     );
 
     identityToken = code as string;

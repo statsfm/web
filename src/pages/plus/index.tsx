@@ -49,7 +49,7 @@ const AdsBackground = forwardRef<HTMLDivElement>((_, ref) => {
   ];
 
   return (
-    <div ref={ref} className="absolute inset-x-0 top-[12rem] z-10 opacity-0">
+    <div ref={ref} className="absolute inset-x-0 top-48 z-10 opacity-0">
       <div className="flex flex-row gap-8">
         {positions.map((pos, i) => (
           <MdOutlineDoDisturbAlt
@@ -77,7 +77,7 @@ const Snackbar = forwardRef<
       ref={ref}
       className={clsx(
         className,
-        'absolute left-1/2 bottom-10 z-50 flex h-min w-11/12 -translate-x-1/2 flex-row items-center justify-between rounded-xl bg-background p-2 px-4 shadow-2xl shadow-black sm:w-1/2'
+        'absolute bottom-10 left-1/2 z-50 flex h-min w-11/12 -translate-x-1/2 flex-row items-center justify-between rounded-xl bg-background p-2 px-4 shadow-2xl shadow-black sm:w-1/2',
       )}
     >
       {children}
@@ -95,14 +95,14 @@ const Heading: FC<{
     <div
       className={clsx(
         visible ? 'opacity-100' : 'opacity-0',
-        'absolute inset-x-0 opacity-0'
+        'absolute inset-x-0 opacity-0',
       )}
       id={id}
     >
       <h2
         className={clsx(
           sub ? '' : 'sm:mt-8',
-          'mb-2 bg-gradient-to-br from-white to-slate-300 bg-clip-text text-2xl text-transparent sm:text-5xl'
+          'mb-2 bg-gradient-to-br from-white to-slate-300 bg-clip-text text-2xl text-transparent sm:text-5xl',
         )}
       >
         {title}
@@ -123,7 +123,7 @@ const PhoneScreen: FC<{ src: string; id: number; alt?: string }> = ({
       src={src}
       alt={alt ?? 'phone screen'}
       style={{ zIndex: id }}
-      className="absolute inset-x-4 top-3 z-[34] h-[calc(100%-22px)] w-[calc(100%-22px)]"
+      className="absolute inset-x-4 top-3 z-[34] size-[calc(100%-22px)]"
     />
   );
 };
@@ -187,13 +187,13 @@ const PlusScrollAnimation: FC<{ startCheckout: () => {} }> = ({
         {
           x: `${phoneOffset}px`,
         },
-        { x: `0px`, duration: 2 }
+        { x: `0px`, duration: 2 },
       )
       .fromTo(
         snackbarRef.current,
         { y: '100px' },
         { y: '10px', ease: Power1.easeInOut },
-        '<'
+        '<',
       );
 
     const endTl = gsap
@@ -202,7 +202,7 @@ const PlusScrollAnimation: FC<{ startCheckout: () => {} }> = ({
         snackbarRef.current,
         { y: '10px' },
         { y: '200px', ease: Power1.easeInOut },
-        '<'
+        '<',
       );
 
     if (mobile || typeof window === undefined) {
@@ -217,7 +217,7 @@ const PlusScrollAnimation: FC<{ startCheckout: () => {} }> = ({
           q('#p2'),
           { opacity: 0, y: 0 },
           { opacity: 1, y: '-= 100%' },
-          '<'
+          '<',
         )
         .to(q('#p2'), { color: '#ffd700', duration: 2 }, '<')
         .fromTo(q('#screen2'), { x: '100%' }, { x: '0%', duration: 2 }, '<')
@@ -227,7 +227,7 @@ const PlusScrollAnimation: FC<{ startCheckout: () => {} }> = ({
           q('#p3'),
           { opacity: 0, y: 0 },
           { opacity: 1, y: '-= 430%' },
-          '<'
+          '<',
         )
         .to(q('#p3'), { color: '#ffd700', duration: 2 }, '<')
         .fromTo(q('#screen3'), { x: '100%' }, { x: '0%', duration: 2 }, '<')
@@ -239,7 +239,7 @@ const PlusScrollAnimation: FC<{ startCheckout: () => {} }> = ({
           {
             x: `${phoneOffset}px`,
           },
-          '<'
+          '<',
         )
         .to(q('#hd1'), { opacity: 0 })
         .fromTo(q('#hd2'), { opacity: 0 }, { opacity: 1 }, '<')
@@ -253,7 +253,7 @@ const PlusScrollAnimation: FC<{ startCheckout: () => {} }> = ({
           q('#adsOverlay'),
           { opacity: 0 },
           { opacity: 1, duration: 2 },
-          '<'
+          '<',
         );
 
       tl.add(startTl);
@@ -278,7 +278,7 @@ const PlusScrollAnimation: FC<{ startCheckout: () => {} }> = ({
           {
             x: `${phoneOffset}px`,
           },
-          '<'
+          '<',
         )
         .to(q('#hd1'), { opacity: 0 })
         .fromTo(q('#hd2'), { opacity: 0 }, { opacity: 1 }, '<')
@@ -292,12 +292,12 @@ const PlusScrollAnimation: FC<{ startCheckout: () => {} }> = ({
           q('#soulmatesBg'),
           { opacity: 0, duration: 2 },
           { opacity: 0.5 },
-          '<'
+          '<',
         )
         .fromTo(
           q('#soulmatesBg'),
           { opacity: 0.5, duration: 4 },
-          { opacity: 0 }
+          { opacity: 0 },
         )
         .fromTo(q('#screen5'), { opacity: 0 }, { opacity: 1, duration: 2 }, '<')
         .to(q('#hd2'), { opacity: 0 }, '<')
@@ -306,7 +306,7 @@ const PlusScrollAnimation: FC<{ startCheckout: () => {} }> = ({
           q('#adsOverlay'),
           { opacity: 0 },
           { opacity: 1, duration: 2 },
-          '<'
+          '<',
         )
         .to(
           adsBegoneBackgroundRef.current,
@@ -315,18 +315,18 @@ const PlusScrollAnimation: FC<{ startCheckout: () => {} }> = ({
             duration: 4,
             ease: Power0.easeNone,
           },
-          '<'
+          '<',
         )
         .fromTo(
           adsBegoneBackgroundRef.current,
           { opacity: 0, duration: 2 },
           { opacity: 0.5 },
-          '<'
+          '<',
         )
         .fromTo(
           adsBegoneBackgroundRef.current,
           { opacity: 0.5, duration: 4 },
-          { opacity: 0 }
+          { opacity: 0 },
         );
 
       tl.add(startTl);
@@ -431,17 +431,17 @@ const PlusScrollAnimation: FC<{ startCheckout: () => {} }> = ({
         >
           <SoulmateBackgroundCol amount={6} className="-mt-4" />
           <SoulmateBackgroundCol amount={7} className="-mt-48" />
-          <SoulmateBackgroundCol amount={6} className="ml-auto -mt-4" />
+          <SoulmateBackgroundCol amount={6} className="-mt-4 ml-auto" />
           <SoulmateBackgroundCol amount={7} className="-mt-48" />
         </div>
         <div
           className={clsx(
             mobile ? 'block' : 'hidden',
-            'absolute top-0 left-0 h-full w-full flex-row gap-8'
+            'absolute left-0 top-0 size-full flex-row gap-8',
           )}
         >
           <SoulmateBackgroundCol amount={7} className="-mt-48" />
-          <SoulmateBackgroundCol amount={6} className="ml-auto -mt-4" />
+          <SoulmateBackgroundCol amount={6} className="-mt-4 ml-auto" />
         </div>
       </div>
     </section>
@@ -461,7 +461,7 @@ const TierItem: FC<{
         <MdCheckCircle
           className={clsx(
             'mr-2',
-            color === 'Yellow' || color === undefined ? 'text-plus' : ''
+            color === 'Yellow' || color === undefined ? 'text-plus' : '',
           )}
         />
       )}
@@ -560,7 +560,7 @@ const PlusPage: NextPage<
     try {
       const { item } = await api.http.get<ItemResponse<{ url: string }>>(
         `/stripe/products/spotistats_plus/prices/default/session`,
-        { authRequired: true }
+        { authRequired: true },
       );
       window.location.href = item.url;
     } catch (e) {
@@ -572,7 +572,7 @@ const PlusPage: NextPage<
     <>
       <Title>Plus</Title>
       <Container className="relative flex flex-col justify-between gap-5 overflow-hidden pt-20 lg:flex-row">
-        <div className="z-10 my-12 w-full pt-32 pb-10 sm:pb-0 md:pt-10 lg:my-28 lg:w-4/12">
+        <div className="z-10 my-12 w-full pb-10 pt-32 sm:pb-0 md:pt-10 lg:my-28 lg:w-4/12">
           <h1 className="flex items-center text-4xl leading-none sm:text-5xl">
             Plus <CrownIcon className="ml-3 inline-block h-auto w-12" />
           </h1>
@@ -590,7 +590,7 @@ const PlusPage: NextPage<
             </a>
           </button>
         </div>
-        <div className="absolute z-0 ml-auto flex items-center after:absolute after:h-full after:w-full after:bg-gradient-to-tr after:from-background after:to-background/40 lg:relative lg:after:hidden">
+        <div className="absolute z-0 ml-auto flex items-center after:absolute after:size-full after:bg-gradient-to-tr after:from-background after:to-background/40 lg:relative lg:after:hidden">
           <HeaderBubbles topArtists={topArtists} />
         </div>
       </Container>
@@ -598,11 +598,11 @@ const PlusPage: NextPage<
       <Container className="py-28">
         <h2 className="mb-24 w-full text-center text-4xl">Pick your tier</h2>
         <div className="flex h-min flex-row justify-center gap-10">
-          <div className="hidden w-[22rem] flex-col rounded-2xl bg-foreground py-7 px-8 sm:flex">
+          <div className="hidden w-[22rem] flex-col rounded-2xl bg-foreground px-8 py-7 sm:flex">
             <div className="flex items-center">
               <h3 className="text-xl">Free</h3>
             </div>
-            <p className="mt-0 mb-8 font-normal">No extra perks</p>
+            <p className="mb-8 mt-0 font-normal">No extra perks</p>
             <ul>
               <TierItem unchecked perk="Not Ad free" />
               <TierItem color="Gray" perk="50 Top tracks" />
@@ -615,19 +615,19 @@ const PlusPage: NextPage<
               You already have the free tier!
             </div>
           </div>
-          <div className="w-[22rem] rounded-2xl bg-black py-7 px-8">
+          <div className="w-[22rem] rounded-2xl bg-black px-8 py-7">
             <div className="flex items-center">
               <CrownIcon className="mr-1 h-4" />
               <h3 className="text-xl text-plus">Plus</h3>
             </div>
-            <p className="mt-0 mb-8 font-normal">Get all our perks</p>
+            <p className="mb-8 mt-0 font-normal">Get all our perks</p>
             <ul>
               <TierItem perk="Ad free" />
               <TierItem perk="99+ Top tracks" />
               <TierItem perk="99+ Top artists" />
               <TierItem perk="99+ Top albums" />
               <TierItem perk="Import history" />
-              <li className="mt-8 ml-7">
+              <li className="ml-7 mt-8">
                 <p className="font-bold text-white">After import:</p>
               </li>
               <TierItem perk="Playcounts" />
@@ -651,7 +651,7 @@ const PlusPage: NextPage<
                   'mt-12 block w-full rounded-lg p-1 text-center font-medium',
                   user?.isPlus
                     ? 'bg-foreground text-white'
-                    : 'bg-plus text-black hover:bg-plus/90 active:bg-plus/75'
+                    : 'bg-plus text-black hover:bg-plus/90 active:bg-plus/75',
                 )}
               >
                 {!user?.isPlus ? 'Unlock Plus now!' : 'You already have Plus!'}

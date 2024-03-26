@@ -43,7 +43,7 @@ export const ArtistTopTracks: FC<Props> = ({ artist }) => {
         setOwnTopTracks(
           await api.users
             .topTracksFromArtist(user.id, artist.id)
-            .catch(() => [])
+            .catch(() => []),
         );
       setLoading(false);
     })();
@@ -85,7 +85,7 @@ export const ArtistTopTracks: FC<Props> = ({ artist }) => {
           <div
             className={clsx(
               'flex gap-1',
-              loading ? 'pointer-events-none opacity-30' : ''
+              loading ? 'pointer-events-none opacity-30' : '',
             )}
           >
             {isEligible && (

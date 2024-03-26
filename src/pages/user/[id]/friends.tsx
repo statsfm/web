@@ -59,7 +59,7 @@ const FriendsPage: NextPage<Props> = ({ userProfile, friendCount }) => {
       <Title>{`${userProfile.displayName}'s friends`}</Title>
       <div className="bg-foreground pt-20">
         <Container>
-          <section className="flex flex-col items-center gap-5 pt-24 pb-10 md:flex-row md:items-start">
+          <section className="flex flex-col items-center gap-5 pb-10 pt-24 md:flex-row md:items-start">
             <div className="flex w-full flex-col justify-end">
               <Link
                 legacyBehavior
@@ -118,7 +118,7 @@ const FriendsPage: NextPage<Props> = ({ userProfile, friendCount }) => {
                             size={mobile ? '2xl' : '3xl'}
                           />
                           <div className="mt-2 text-center">
-                            <h4 className="w-full break-all line-clamp-2">
+                            <h4 className="line-clamp-2 w-full break-all">
                               {friend.displayName}
                             </h4>
                             <span>{friend.profile?.pronouns}</span>

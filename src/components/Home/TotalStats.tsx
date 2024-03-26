@@ -21,11 +21,11 @@ const TotalStatsItem: FC<{
         {props.liveIndicator && (
           <span className="relative aspect-square w-3">
             <span className="absolute aspect-square h-4 animate-ping rounded-full bg-primary/75 duration-[1000s]"></span>
-            <span className="absolute mt-0.5 ml-0.5 aspect-square w-3 rounded-full bg-primary opacity-80"></span>
+            <span className="absolute ml-0.5 mt-0.5 aspect-square w-3 rounded-full bg-primary opacity-80"></span>
           </span>
         )}
       </h2>
-      <p className="mt-0 ml-[-12px] inline-flex scale-90 text-neutral-500">
+      <p className="ml-[-12px] mt-0 inline-flex scale-90 text-neutral-500">
         <MdOutlineArrowRightAlt className="-rotate-90" />
         <span className="mr-1 font-bold text-inherit">
           {formatter.localiseNumber(Math.round(indicator))}

@@ -34,7 +34,7 @@ const unparseData = (unparsedData: string): Props => {
 
   const data = mappedVars.reduce(
     (acc, curr) => ({ ...acc, ...curr }),
-    {} as BaseProps
+    {} as BaseProps,
   );
 
   // Insert default vars
@@ -43,19 +43,19 @@ const unparseData = (unparsedData: string): Props => {
     title: data.title ?? 'Error',
     message: data.message ?? 'Something went wrong',
     buttons: (data.buttons ?? []).filter(
-      (button) => button.action && button.url
+      (button) => button.action && button.url,
     ),
     hideCode: data.hideCode ?? false,
   };
 };
 
 export const getServerSideProps: GetServerSideProps<SSRProps<Props>> = async (
-  ctx
+  ctx,
 ) => {
   // parse base64 to string text
   const parsedData = Buffer.from(
     ctx.params?.data?.toString() ?? '',
-    'base64'
+    'base64',
   ).toString();
 
   const data = unparseData(parsedData);
@@ -75,7 +75,7 @@ const MessagePage: NextPage<Props> = (data) => {
     <Container className="flex min-h-screen items-center">
       <Title>{data.title}</Title>
       <div className="flex w-full flex-col justify-center">
-        <h2 className="mb-0 text-center text-3xl font-bold lg:text-[3rem]">
+        <h2 className="mb-0 text-center text-3xl font-bold lg:text-5xl">
           {!data.hideCode ? (
             <span className="mr-2 text-gray-500">{data.code}</span>
           ) : null}

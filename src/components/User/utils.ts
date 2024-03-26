@@ -47,7 +47,7 @@ export const getTimeframeText = (timeframe: TimeframeSelection) => {
 };
 
 export const getTimeframeOptions = (
-  timeframe: TimeframeSelection
+  timeframe: TimeframeSelection,
 ): QueryWithDates | QueryWithRange => {
   if (timeframe.selected === 'CUSTOM') {
     return {

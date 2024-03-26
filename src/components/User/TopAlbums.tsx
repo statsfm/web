@@ -1,8 +1,7 @@
 import { useApi, useAuth } from '@/hooks';
 import formatter from '@/utils/formatter';
 import type { TopAlbum, UserPublic } from '@/utils/statsfm';
-import type { RefObject } from 'react';
-import { useState, type FC, useEffect } from 'react';
+import type { RefObject, useState, type FC, useEffect } from 'react';
 import { event } from 'nextjs-google-analytics';
 import { Carousel } from '../Carousel';
 import Scope from '../PrivacyScope';
@@ -51,7 +50,7 @@ export const TopAlbums: FC<{
     window.history.replaceState(
       { ...window.history.state, as: newUrl, url: newUrl },
       '',
-      newUrl
+      newUrl,
     );
 
     return !gridMode;

@@ -50,7 +50,7 @@ export const TopTracks: FC<{
     window.history.replaceState(
       { ...window.history.state, as: newUrl, url: newUrl },
       '',
-      newUrl
+      newUrl,
     );
 
     return !gridMode;
@@ -99,8 +99,8 @@ export const TopTracks: FC<{
                     .filter(
                       (topTrack, i, arr) =>
                         arr.findIndex(
-                          (t) => t.track?.id === topTrack.track?.id
-                        ) === i
+                          (t) => t.track?.id === topTrack.track?.id,
+                        ) === i,
                     )
                     .map((item) => (
                       <Carousel.Item

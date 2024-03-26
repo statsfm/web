@@ -46,8 +46,8 @@ const Login: NextPage<SSRProps> = () => {
         api.http.resolveUrl(
           '/auth/APPLEMUSIC/callback/music',
           true,
-          `mut=${encodeURIComponent(MUT)}&state=${state}`
-        )
+          `mut=${encodeURIComponent(MUT)}&state=${state}`,
+        ),
       );
     } catch (e) {
       // eslint-disable-next-line no-console
@@ -60,7 +60,7 @@ const Login: NextPage<SSRProps> = () => {
   const initializeMusicKit = () => {
     (async () => {
       const data = await api.http.get<{ item: string }>(
-        '/auth/APPLEMUSIC/developerToken'
+        '/auth/APPLEMUSIC/developerToken',
       );
       const developerToken = data.item;
       await MusicKit.configure({

@@ -51,7 +51,7 @@ const Imports = () => {
   const [isUploading, setIsUploading] = useState(false);
 
   const services = [SpotifyService].map((service) =>
-    service({ toaster, setUploadedFiles, event })
+    service({ toaster, setUploadedFiles, event }),
   );
 
   const uploadFiles = async () => {
@@ -78,7 +78,7 @@ const Imports = () => {
             key: 'files',
           },
           // eslint-disable-next-line @typescript-eslint/no-use-before-define
-          importService.id
+          importService.id,
         );
 
         event(`IMPORT_${uploadedFile.service}_upload_file`);
@@ -92,12 +92,12 @@ const Imports = () => {
     setRefetchCounter(new Date());
     setIsUploading(false);
     setUploadedFiles((oldList) =>
-      oldList.filter((x) => x.status !== UploadedFilesStatus.Uploaded)
+      oldList.filter((x) => x.status !== UploadedFilesStatus.Uploaded),
     );
   };
 
   const [importService, setImportService] = useState<ImportService>(
-    services[0]!
+    services[0]!,
   );
 
   if (!user) return <></>;
@@ -164,13 +164,13 @@ const Imports = () => {
                             'mt-2 flex h-64 w-full flex-col items-center justify-center rounded-lg border-2 border-dashed border-neutral-700 bg-foreground',
                             importService.enabled
                               ? 'cursor-pointer hover:border-neutral-600 hover:bg-foreground/70'
-                              : 'opacity-50'
+                              : 'opacity-50',
                           ),
                         })}
                       >
                         {importService.enabled ? (
                           <>
-                            <MdFileUpload className="mb-4 h-8 w-8 text-gray-400" />
+                            <MdFileUpload className="mb-4 size-8 text-gray-400" />
                             <p className="mb-2 text-sm text-white">
                               <span className="font-semibold text-primary">
                                 Click to upload
@@ -206,7 +206,7 @@ const Imports = () => {
                   <Divider className="my-5 border-neutral-600" />
                   <header
                     className={clsx(
-                      'z-30 flex items-center justify-between bg-background'
+                      'z-30 flex items-center justify-between bg-background',
                     )}
                   >
                     <div className="w-full overflow-hidden truncate">

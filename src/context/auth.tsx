@@ -1,7 +1,7 @@
 // TODO: fix dependency cycle
 // eslint-disable-next-line import/no-cycle
 import { useApi } from '@/hooks';
-import type * as statsfm from '@/utils/statsfm';
+import { UserPrivate } from '@/utils/statsfm';
 import { decodeJwt } from 'jose';
 import Cookies from 'js-cookie';
 import { useRouter } from 'next/router';
@@ -9,19 +9,17 @@ import type { PropsWithChildren } from 'react';
 import { createContext, useEffect, useMemo, useState } from 'react';
 
 export const AuthContext = createContext<{
-  user: statsfm.UserPrivate | null;
-  updateUser: (user: statsfm.UserPrivate) => void;
+  user: UserPrivate | null;
+  updateUser: (user: UserPrivate) => void;
   tokenAge: () => number | null;
   login: (redirectUrl?: string) => void;
   logout: () => void;
 } | null>(null);
 
 export const AuthProvider = (
-  props: PropsWithChildren<{ user?: statsfm.UserPrivate | null }>
+  props: PropsWithChildren<{ user?: UserPrivate | null }>,
 ) => {
-  const [user, setUser] = useState<statsfm.UserPrivate | null>(
-    props.user ?? null
-  );
+  const [user, setUser] = useState<UserPrivate | null>(props.user ?? null);
   const api = useApi();
   const router = useRouter();
 
@@ -62,7 +60,7 @@ export const AuthProvider = (
     router.push('/api/auth/logout');
   };
 
-  const updateUser = (user: statsfm.UserPrivate) => {
+  const updateUser = (user: UserPrivate) => {
     if (user.disabled || user.userBan?.active) {
       logout();
     } else setUser(user);
@@ -92,7 +90,7 @@ export const AuthProvider = (
 
   const exposed = useMemo(
     () => ({ user, updateUser, tokenAge, login, logout }),
-    [user]
+    [user],
   );
 
   return (

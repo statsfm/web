@@ -29,7 +29,7 @@ export const NavBar = () => {
 
   return (
     <nav className="absolute z-40 flex w-full">
-      <div className="fixed bottom-0 left-0 z-50 w-screen border-t-[1px] border-neutral-700 bg-background py-1 text-center">
+      <div className="fixed bottom-0 left-0 z-50 w-screen border-t-DEFAULT border-neutral-700 bg-background py-1 text-center">
         <span className="text-sm font-semibold text-primary">
           This site is still a work in progress.
         </span>
@@ -44,8 +44,10 @@ export const NavBar = () => {
           className="mr-auto flex gap-3"
           onClick={() => event('NAV_home')}
         >
-          <Logo className="h-[1.7rem] w-[1.7rem] cursor-pointer" />
-          <h3 className="mt-[-3px]">stats.fm</h3>
+          <Logo className="size-[1.7rem] cursor-pointer" />
+          <h3 className="mt-[-3px]">
+            stats.fm {router.pathname === '/business' && 'for business'}
+          </h3>
         </Link>
 
         <form
@@ -59,9 +61,9 @@ export const NavBar = () => {
             placeholder="Search"
             {...(router.query.query && { defaultValue: router.query.query })}
           />
-          <button type="submit" className="absolute right-0 top-0 mt-5 mr-4">
+          <button type="submit" className="absolute right-0 top-0 mr-4 mt-5">
             <svg
-              className="h-4 w-4 fill-current text-gray-600"
+              className="size-4 fill-current text-gray-600"
               xmlns="http://www.w3.org/2000/svg"
               version="1.1"
               id="Capa_1"
@@ -81,7 +83,7 @@ export const NavBar = () => {
             className="mr-0 flex flex-row gap-1 px-4 py-2 font-bold text-plus lg:mr-2 lg:font-medium"
             href="/plus"
           >
-            <CrownIcon className="m-[2px] mt-0 h-[20px] w-[20px] lg:mt-[2px]" />
+            <CrownIcon className="m-[2px] mt-0 size-[20px] lg:mt-[2px]" />
             Unlock Plus
           </Link>
         )}
@@ -130,7 +132,7 @@ export const NavBar = () => {
                       onClick={() => event('NAV_profile')}
                     >
                       <Link
-                        className="flex h-full w-full flex-row gap-2 px-4 py-2"
+                        className="flex size-full flex-row gap-2 px-4 py-2"
                         href={`/${user.customId ?? user.id}`}
                       >
                         <MdAccountCircle className="text-white" /> My page
@@ -141,7 +143,7 @@ export const NavBar = () => {
                       onClick={() => event('NAV_settings')}
                     >
                       <Link
-                        className="flex h-full w-full flex-row gap-2 px-4 py-2"
+                        className="flex size-full flex-row gap-2 px-4 py-2"
                         href="/settings/profile"
                       >
                         <MdManageAccounts className="text-white" /> Settings
@@ -154,15 +156,15 @@ export const NavBar = () => {
                         onClick={() => event('NAV_plus')}
                       >
                         <Link
-                          className="flex h-full w-full flex-row gap-2 px-4 py-2 text-plus"
+                          className="flex size-full flex-row gap-2 px-4 py-2 text-plus"
                           href="/plus"
                         >
-                          <CrownIcon className="m-[2px] h-[20px] w-[20px]" />{' '}
-                          Unlock Plus
+                          <CrownIcon className="m-[2px] size-[20px]" /> Unlock
+                          Plus
                         </Link>
                       </Menu.Item>
                     )}
-                    <hr className="my-1 mx-3 border-t-2 border-neutral-400/10" />
+                    <hr className="mx-3 my-1 border-t-2 border-neutral-400/10" />
                     <Menu.Item
                       icon={<MdExitToApp />}
                       onClick={() => {

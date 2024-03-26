@@ -2,7 +2,7 @@ import { useCallback, useEffect } from 'react';
 
 export const useScrollPercentage = (
   percentage: number,
-  callback: () => void
+  callback: () => void,
 ) => {
   const scrollCallback = useCallback(() => {
     const scrolledPercentage =

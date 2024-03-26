@@ -28,7 +28,7 @@ const FeatureItem: FC<PropsWithChildren<{ title: string; Icon: IconType }>> = ({
 }) => {
   return (
     <div className="flex items-start gap-3">
-      <div className="grid aspect-square min-w-[3rem] place-items-center rounded-full bg-primaryLighter text-xl font-bold text-primary">
+      <div className="grid aspect-square min-w-12 place-items-center rounded-full bg-primaryLighter text-xl font-bold text-primary">
         <Icon color="#1ed760" />
       </div>
       <div className="flex flex-col align-middle">
@@ -135,7 +135,7 @@ const Home: NextPage = () => {
               account and you&apos;ll instantly gain access to a valhalla of
               cool stats and insights
             </p>
-            <div className="mt-5 mb-8 flex flex-col gap-3">
+            <div className="mb-8 mt-5 flex flex-col gap-3">
               <FeatureItem Icon={MdLock} title="Safe & secure">
                 Privacy is key, and I&apos;ve built the platform keeping
                 security and privacy at the highest priority. As far as

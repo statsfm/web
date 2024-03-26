@@ -21,7 +21,7 @@ export const Image = ({ animation = 'pulse', width, height }: ImageProps) => (
   <span
     className={clsx(
       'block rounded-lg bg-foreground',
-      animation && animations[animation]
+      animation && animations[animation],
     )}
     style={{ width, height }}
   />
@@ -36,7 +36,7 @@ export const Text = ({ animation = 'pulse', width, height }: TextProps) => (
   <span
     className={clsx(
       'h-4 rounded-full bg-foreground',
-      animation && animations[animation]
+      animation && animations[animation],
     )}
     style={{ height, width }}
   />
@@ -50,7 +50,7 @@ export const Avatar = ({ animation = 'pulse', size = 'md' }: AvatarProps) => (
   <div
     className={clsx(
       'aspect-square rounded-full bg-foreground',
-      animation && animations[animation]
+      animation && animations[animation],
     )}
     style={{ width: sizes[size] }}
   />

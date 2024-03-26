@@ -24,7 +24,7 @@ export const StatsCard = ({
   const Card: FC<PropsWithChildren<{}>> = (props) => (
     <Component>
       {props.children}
-      <span className="m-0 text-lg line-clamp-2">{label}</span>
+      <span className="m-0 line-clamp-2 text-lg">{label}</span>
     </Component>
   );
 
