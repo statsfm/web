@@ -2,11 +2,7 @@ import { Container } from '@/components/Container';
 import { Title } from '@/components/Title';
 import dayjs from '@/utils/dayjs';
 import clsx from 'clsx';
-import type {
-  GetStaticProps,
-  type NextPage,
-  type InferGetStaticPropsType,
-} from 'next';
+import type { GetStaticProps, NextPage, InferGetStaticPropsType } from 'next';
 import Link from 'next/link';
 
 export const getStaticProps = (async () => {
