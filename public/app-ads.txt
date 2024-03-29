@@ -439,6 +439,7 @@ google.com, pub-9685734445476814, RESELLER, f08c47fec0942fa0
 gothamads.com, 1236, RESELLER, d9c86e5dec870222
 
 greedygame.com, 3002922949831012, DIRECT
+greedygame.com, 6014114479492, DIRECT
 
 groundtruth.com, 107, RESELLER, 81cbf0a75a5e0e9a
 
