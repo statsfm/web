@@ -18,7 +18,7 @@ import { useRouter } from 'next/router';
 
 const usePrivacyScope = (
   scope: keyof statsfm.UserPrivacySettings,
-  user: statsfm.UserPublic
+  user: statsfm.UserPublic,
 ) => {
   return user.privacySettings && user.privacySettings[scope];
 };
@@ -30,7 +30,7 @@ const Toolbar: FC<{ closeCallback: () => void }> = ({ closeCallback }) => (
       className={clsx(
         'mr-4 rounded-full bg-foreground p-2 ring-neutral-500 transition-all',
         // moved from the global css file
-        'focus-within:ring-2 focus:outline-none focus:ring-2 hover:ring-2'
+        'focus-within:ring-2 focus:outline-none focus:ring-2 hover:ring-2',
       )}
       onClick={() => closeCallback()}
     >

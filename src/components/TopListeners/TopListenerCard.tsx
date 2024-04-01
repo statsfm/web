@@ -27,7 +27,7 @@ export const TopListenerCard = ({
         <span
           className={clsx(
             'rounded-lg bg-foreground px-2 py-1.5 text-lg drop-shadow-lg',
-            positions[position]
+            positions[position],
           )}
         >
           #{position}

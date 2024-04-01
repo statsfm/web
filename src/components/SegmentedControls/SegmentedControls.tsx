@@ -97,7 +97,7 @@ const SegmentedControls = ({
 
     if (segments.find((segment) => segment.defaultSelected)) {
       const defaultSelectedSegment = segments.find(
-        (segment) => segment.defaultSelected
+        (segment) => segment.defaultSelected,
       );
       set(defaultSelectedSegment!.id, true);
     }
@@ -111,7 +111,7 @@ const SegmentedControls = ({
       set,
       active,
     }),
-    [active, highlight, register, set, unregister]
+    [active, highlight, register, set, unregister],
   );
 
   return (
@@ -119,13 +119,13 @@ const SegmentedControls = ({
       <ul
         className={clsx(
           'grid h-max auto-cols-[1fr] grid-flow-col rounded-2xl bg-foreground p-1.5',
-          props.className
+          props.className,
         )}
       >
         <span
           className={clsx(
             'col-[1] row-[1] rounded-xl bg-primary/10 transition-all duration-200 will-change-transform',
-            segments[activeHighlight]?.disabled && 'bg-background'
+            segments[activeHighlight]?.disabled && 'bg-background',
           )}
           style={{
             transform: `translateX(${offsetWidth * activeHighlight}px)`,

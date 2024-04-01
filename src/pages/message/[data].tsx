@@ -34,7 +34,7 @@ const unparseData = (unparsedData: string): Props => {
 
   const data = mappedVars.reduce(
     (acc, curr) => ({ ...acc, ...curr }),
-    {} as BaseProps
+    {} as BaseProps,
   );
 
   // Insert default vars
@@ -43,19 +43,19 @@ const unparseData = (unparsedData: string): Props => {
     title: data.title ?? 'Error',
     message: data.message ?? 'Something went wrong',
     buttons: (data.buttons ?? []).filter(
-      (button) => button.action && button.url
+      (button) => button.action && button.url,
     ),
     hideCode: data.hideCode ?? false,
   };
 };
 
 export const getServerSideProps: GetServerSideProps<SSRProps<Props>> = async (
-  ctx
+  ctx,
 ) => {
   // parse base64 to string text
   const parsedData = Buffer.from(
     ctx.params?.data?.toString() ?? '',
-    'base64'
+    'base64',
   ).toString();
 
   const data = unparseData(parsedData);

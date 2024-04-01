@@ -61,7 +61,7 @@ const StateContextProvider: FC<PropsWithChildren<{ user: UserPrivate }>> = ({
   const [customId, setCustomId] = useState<string>(user.customId);
   const [bio, setBio] = useState<string>(user.profile?.bio ?? '');
   const [pronouns, setPronouns] = useState<string>(
-    user.profile?.pronouns ?? 'none'
+    user.profile?.pronouns ?? 'none',
   );
   const [urlAvailable, setUrlAvailable] =
     useState<UrlAvailableOptions>('AVAILABLE');
@@ -75,7 +75,7 @@ const StateContextProvider: FC<PropsWithChildren<{ user: UserPrivate }>> = ({
       customId !== user.customId ||
       bio !== user.profile?.bio ||
       pronouns !== (user.profile?.pronouns ?? 'none'),
-    [files, displayName, customId, bio, pronouns, user]
+    [files, displayName, customId, bio, pronouns, user],
   );
 
   const uploadAvatar = useCallback(async () => {
@@ -183,7 +183,7 @@ const AvatarInput: FC<{ defaultSrc: string | undefined }> = ({
         <div
           className={clsx(
             hovering ? 'opacity-40' : 'opacity-0',
-            'absolute top-0 h-full w-full rounded-full bg-black transition-opacity'
+            'absolute top-0 h-full w-full rounded-full bg-black transition-opacity',
           )}
         />
         <div className="absolute right-0 bottom-0 flex h-10 w-10 items-center justify-center rounded-full border-4 border-background bg-foreground">
@@ -191,7 +191,7 @@ const AvatarInput: FC<{ defaultSrc: string | undefined }> = ({
             size="22px"
             className={clsx(
               hovering ? 'text-primary' : '',
-              'transition-colors'
+              'transition-colors',
             )}
           />
         </div>
@@ -281,7 +281,7 @@ const DeleteAccount: FC = () => {
   const deleteAccount = useCallback(async () => {
     // eslint-disable-next-line no-restricted-globals, no-alert
     const confirmed = confirm(
-      'Are you sure you want to delete your account? This action is irreversible!'
+      'Are you sure you want to delete your account? This action is irreversible!',
     );
     if (!confirmed) return;
     setStatus('DELETING');
@@ -397,7 +397,7 @@ const AccountPrivacyInfoForm: FC<AccountPrivacyInfoFormProps> = ({
         <Button
           className={clsx(
             changed ? 'hover:!bg-primary/60 active:!bg-primary/40' : '',
-            ' block h-min rounded-md !bg-primary py-2 px-4 text-background'
+            ' block h-min rounded-md !bg-primary py-2 px-4 text-background',
           )}
           onClick={save}
           disabled={
@@ -499,7 +499,7 @@ type Props = SSRProps<{
 export const getServerSideProps: GetServerSideProps<Props> = async (ctx) => {
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const res = await fetch('https://en.pronouns.page/api/pronouns').then((res) =>
-    res.json()
+    res.json(),
   );
   const pronouns = Object.values(res).flat() as Pronoun[];
   const user = await fetchUser(ctx);

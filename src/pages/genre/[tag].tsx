@@ -98,7 +98,7 @@ const GenrePage: NextPage<Props> = ({ tag, genre }) => {
                 genre.related
                   .filter(
                     (g1) =>
-                      genre.sub.findIndex((g2) => g1.tag === g2.tag) === -1
+                      genre.sub.findIndex((g2) => g1.tag === g2.tag) === -1,
                   )
                   .map((genre, i) => (
                     <Chip key={i}>

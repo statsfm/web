@@ -68,7 +68,7 @@ type Props = SSRProps & {
 };
 
 function activeScrollIntoViewFromDeepLink(
-  deeplink: string | string[] | undefined
+  deeplink: string | string[] | undefined,
 ): UserScrollIntoView | null {
   if (typeof deeplink !== 'object') return null;
   if (deeplink.length !== 1) return null;
@@ -127,7 +127,7 @@ export const getServerSideProps: GetServerSideProps<Props> = async (ctx) => {
   const oembedUrl = encodeURIComponent(`https://stats.fm${ctx.resolvedUrl}`);
   ctx.res.setHeader(
     'Link',
-    `<https://api.stats.fm/api/v1/oembed?url=${oembedUrl}&format=json>; rel="alternate"; type="application/json+oembed"; title=""`
+    `<https://api.stats.fm/api/v1/oembed?url=${oembedUrl}&format=json>; rel="alternate"; type="application/json+oembed"; title=""`,
   );
 
   return {
@@ -195,7 +195,7 @@ const User: NextPage<Props> = ({
     } else if (
       user.isPlus &&
       [statsfm.OrderBySetting.COUNT, statsfm.OrderBySetting.TIME].includes(
-        user.orderBy
+        user.orderBy,
       )
     ) {
       setAvailableRanges([
@@ -444,7 +444,7 @@ const User: NextPage<Props> = ({
                       </span>
                       <Button
                         className={clsx(
-                          'mx-0 w-min !bg-transparent !p-0 transition-opacity hover:opacity-80'
+                          'mx-0 w-min !bg-transparent !p-0 transition-opacity hover:opacity-80',
                         )}
                         onClick={() => router.push('/settings/profile')}
                       >
@@ -669,7 +669,7 @@ const User: NextPage<Props> = ({
                   description={`${
                     isCurrentUser ? 'Your' : `${user.displayName}'s`
                   } listening habits throughout the day ${getTimeframeText(
-                    timeframe
+                    timeframe,
                   )} `}
                   ref={listeningClocksRef}
                 >

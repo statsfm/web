@@ -56,7 +56,7 @@ const processJSON = async (
   utils: {
     event: typeof event;
     setUploadedFiles: (value: SetStateAction<UploadedImportFile[]>) => void;
-  }
+  },
 ) => {
   if (
     file.name.match(/StreamingHistory_music_\d\d?.json/g) ||
@@ -123,7 +123,7 @@ const processJSON = async (
           };
         })
         .filter((x) => x.ts && x.ms && x.tn && x.ti)
-        .map((x) => validSpotifyImportStreamSchema.parseAsync(x))
+        .map((x) => validSpotifyImportStreamSchema.parseAsync(x)),
     );
 
     utils.setUploadedFiles((oldList) => [
@@ -163,7 +163,7 @@ export const SpotifyService: ImportServiceFunction = ({
         const content = await file.text();
         await processJSON(
           { name: file.name, content },
-          { event, setUploadedFiles }
+          { event, setUploadedFiles },
         );
       } else if (file.type === 'application/zip') {
         const zipReader = new ZipReader(new BlobReader(file));
@@ -178,7 +178,7 @@ export const SpotifyService: ImportServiceFunction = ({
 
           if (
             ['Userdata.json', 'Payments.json', 'Identity.json'].some((x) =>
-              fileName.includes(x)
+              fileName.includes(x),
             )
           ) {
             accountData = true;
@@ -193,20 +193,20 @@ export const SpotifyService: ImportServiceFunction = ({
 
         if (accountData) {
           toaster.error(
-            'It looks like you\'re trying to upload the "Account data" zip file, which is not the same as the "Extended streaming history data" zip file.'
+            'It looks like you\'re trying to upload the "Account data" zip file, which is not the same as the "Extended streaming history data" zip file.',
           );
           return;
         }
 
         if (filesToImport.length === 0) {
           toaster.error(
-            'No valid files found in the zip file. Make sure you\'re uploading the "Extended streaming history data" zip file.'
+            'No valid files found in the zip file. Make sure you\'re uploading the "Extended streaming history data" zip file.',
           );
           return;
         }
 
         Promise.all(
-          filesToImport.map((f) => processJSON(f, { event, setUploadedFiles }))
+          filesToImport.map((f) => processJSON(f, { event, setUploadedFiles })),
         );
       }
     }

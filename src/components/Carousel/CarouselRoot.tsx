@@ -84,7 +84,7 @@ const reducer = (state: StateDefinition, action: Action) => {
 
       const slideTo = Math.min(
         Math.max(0, state.current - direction * numberOfItemsToSlide),
-        state.items.length
+        state.items.length,
       );
 
       const slideAmount = -1 * direction;
@@ -195,7 +195,7 @@ export const CarouselRoot = ({
       slide: props.slide,
       rows,
       gap,
-    }
+    },
   );
 
   useEffect(() => {
@@ -205,7 +205,7 @@ export const CarouselRoot = ({
     const transformY = newItemHeight + gap;
 
     const numberOfItemsVisible = Math.floor(
-      (state.itemsRef.current?.clientWidth ?? 0) / itemWidth
+      (state.itemsRef.current?.clientWidth ?? 0) / itemWidth,
     );
 
     const rowsOfItems = Math.ceil(state.items.length / numberOfItemsVisible);

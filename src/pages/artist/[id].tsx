@@ -95,7 +95,7 @@ const Artist: NextPage<Props> = ({ artist }) => {
         {
           limit: 1,
           order: 'asc',
-        }
+        },
       );
 
       setStats({

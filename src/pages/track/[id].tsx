@@ -192,10 +192,10 @@ const Track: NextPage<Props> = ({ track }) => {
 
   const [audioFeatures, setAudioFeatures] = useState<statsfm.AudioFeatures>();
   const [recentStreams, setRecentStreams] = useState<statsfm.Stream[] | null>(
-    null
+    null,
   );
   const [trackStats, setTrackStats] = useState<statsfm.StreamStats | null>(
-    null
+    null,
   );
 
   const omittedAudioFeatures = useMemo(() => {
@@ -213,7 +213,7 @@ const Track: NextPage<Props> = ({ track }) => {
   useEffect(() => {
     (async () => {
       setAudioFeatures(
-        await api.tracks.audioFeature(track.externalIds.spotify![0] ?? '')
+        await api.tracks.audioFeature(track.externalIds.spotify![0] ?? ''),
       );
     })();
   }, [track]);
@@ -392,7 +392,7 @@ const Track: NextPage<Props> = ({ track }) => {
                 value={
                   audioFeatures?.time_signature
                     ? `${formatter.localiseNumber(
-                        audioFeatures?.time_signature
+                        audioFeatures?.time_signature,
                       )}/4`
                     : '-'
                 }

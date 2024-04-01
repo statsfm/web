@@ -31,7 +31,7 @@ const Coupons: FC = () => {
       giftCodes.filter((gc) => !gc.claimedBy),
       giftCodes.filter((gc) => gc.claimedBy),
     ],
-    [giftCodes]
+    [giftCodes],
   );
 
   const loadingCheck = (type: string) =>
@@ -93,18 +93,18 @@ type Props = {
 };
 
 export const getServerSideProps: GetServerSideProps<SSRProps<Props>> = async (
-  ctx
+  ctx,
 ) => {
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const api = useApi();
   const { items } = await api.http.get<ItemsResponse<any>>(
-    `/stripe/products/spotistats_plus_coupon/prices`
+    `/stripe/products/spotistats_plus_coupon/prices`,
   );
   const plans = formatPlans(
     items.data.filter(
       (x: { product: string; active: boolean }) =>
-        x.product === 'prod_Mveep2aVG09MSl' && x.active === true
-    )
+        x.product === 'prod_Mveep2aVG09MSl' && x.active === true,
+    ),
   );
   const user = await fetchUser(ctx);
 
@@ -131,11 +131,11 @@ const GiftPage: NextPage<Props> = ({ plans }) => {
       const planAmount = plan.price.amount;
       return (
         Math.round(
-          Math.abs(((planAmount - defaultAmount) / defaultAmount) * 100) * 10
+          Math.abs(((planAmount - defaultAmount) / defaultAmount) * 100) * 10,
         ) / 10
       );
     },
-    []
+    [],
   );
 
   const formatAmount = useCallback((amount: number): number => {
@@ -152,14 +152,14 @@ const GiftPage: NextPage<Props> = ({ plans }) => {
       try {
         const { item } = await api.http.get<ItemResponse<{ url: string }>>(
           `/stripe/products/spotistats_plus_coupon/prices/${id}/session`,
-          { authRequired: true }
+          { authRequired: true },
         );
         window.location.href = item.url;
       } catch (e) {
         toaster.error('Something went wrong');
       }
     },
-    [user]
+    [user],
   );
 
   return (

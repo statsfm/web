@@ -14,7 +14,7 @@ const handler = (req: NextApiRequest, res: NextApiResponse) => {
     const { host } = req.headers;
     const domain = host?.split(':')[0];
     cookies.push(
-      `identityToken=; Path=/; Domain=${domain}; Expires=Thu, 01 Jan 1970 00:00:00 GMT`
+      `identityToken=; Path=/; Domain=${domain}; Expires=Thu, 01 Jan 1970 00:00:00 GMT`,
     );
   }
 

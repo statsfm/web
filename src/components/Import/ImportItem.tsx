@@ -27,7 +27,7 @@ export const ImportItem: FC<
               'my-0 flex-none rounded-md bg-foreground py-1 px-2 text-xs font-medium',
               IMPORT_STATUS_COLORS[
                 status.toString() as keyof typeof IMPORT_STATUS_COLORS
-              ]
+              ],
             )}
           >
             {IMPORT_STATUS[status.toString() as keyof typeof IMPORT_STATUS]}
@@ -82,7 +82,7 @@ export const ImportItem: FC<
                     onClick={() => deleteItem(id)}
                     className={clsx(
                       active ? 'bg-gray-50' : '',
-                      'block px-3 py-1 text-sm leading-6 text-gray-900'
+                      'block px-3 py-1 text-sm leading-6 text-gray-900',
                     )}
                   >
                     Delete import

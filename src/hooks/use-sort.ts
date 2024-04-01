@@ -14,7 +14,7 @@ export const useSort = <T>(list: T[], options: SortOptions<T>[]) => {
 
   const setSortKey = (key: string) => {
     setSorted(
-      [...list].sort(options.find((option) => option.value === key)?.compare)
+      [...list].sort(options.find((option) => option.value === key)?.compare),
     );
   };
 

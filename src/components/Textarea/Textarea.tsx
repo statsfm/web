@@ -16,7 +16,7 @@ export const Textarea = ({
 }: Props) => {
   const id = useId();
   const [characterCount, setCharacterCount] = useState<number>(
-    props.defaultValue?.toString().length ?? 0
+    props.defaultValue?.toString().length ?? 0,
   );
 
   useEffect(() => {
@@ -41,7 +41,7 @@ export const Textarea = ({
           id={id}
           className={clsx(
             className,
-            'flex rounded-lg bg-foreground p-4 text-base font-semibold ring-neutral-500 focus:outline-none focus:ring-2'
+            'flex rounded-lg bg-foreground p-4 text-base font-semibold ring-neutral-500 focus:outline-none focus:ring-2',
           )}
           style={{ resize }}
           // @ts-ignore
@@ -54,7 +54,7 @@ export const Textarea = ({
           <span
             className={clsx(
               'text-end text-xs',
-              characterCount > maxLength && 'font-semibold text-red-400'
+              characterCount > maxLength && 'font-semibold text-red-400',
             )}
           >
             {characterCount}/{maxLength}

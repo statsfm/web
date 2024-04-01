@@ -21,7 +21,7 @@ const SideNavItem: FC<
           props.disabled
             ? 'opacity-40 focus:bg-transparent hover:cursor-not-allowed hover:bg-transparent'
             : 'focus:bg-foreground hover:bg-foreground hover:opacity-90',
-          ' -ml-4 flex items-center rounded-lg px-4 py-1.5 font-medium'
+          ' -ml-4 flex items-center rounded-lg px-4 py-1.5 font-medium',
         )}
       >
         {props.children}

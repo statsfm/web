@@ -50,7 +50,7 @@ const useSocials = () => {
           new URLSearchParams({
             redirect_uri: window.location.href,
             authorization: api.http.accessToken!,
-          }).toString()
+          }).toString(),
         );
       },
       update: () => {
@@ -61,7 +61,7 @@ const useSocials = () => {
           new URLSearchParams({
             redirect_uri: window.location.href,
             authorization: api.http.accessToken!,
-          }).toString()
+          }).toString(),
         );
       },
       disconnect: () => {
@@ -76,7 +76,7 @@ const useSocials = () => {
     const userConnections = await api.me.socialMediaConnections();
     const hydratedPlatforms = platforms.map<SocialPlatform>((platform) => {
       const connection = userConnections.find(
-        (connection) => connection.platform.name === platform.name
+        (connection) => connection.platform.name === platform.name,
       );
 
       if (!connection)
@@ -96,7 +96,7 @@ const useSocials = () => {
             (platform) =>
               platform.name === connection.platform.name
                 ? { ...platform, status: PlatformStatus.DISCONNECTED }
-                : platform
+                : platform,
           );
           setPlatforms(optimisticPlatforms);
           platform.disconnect();

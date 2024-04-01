@@ -31,7 +31,7 @@ const useScopeContext = () => {
 
 const usePrivacyScope = (
   value: keyof statsfm.UserPrivacySettings,
-  asViewer = true
+  asViewer = true,
 ) => {
   const scopeContext = useScopeContext();
 

@@ -77,7 +77,7 @@ const Snackbar = forwardRef<
       ref={ref}
       className={clsx(
         className,
-        'absolute left-1/2 bottom-10 z-50 flex h-min w-11/12 -translate-x-1/2 flex-row items-center justify-between rounded-xl bg-background p-2 px-4 shadow-2xl shadow-black sm:w-1/2'
+        'absolute left-1/2 bottom-10 z-50 flex h-min w-11/12 -translate-x-1/2 flex-row items-center justify-between rounded-xl bg-background p-2 px-4 shadow-2xl shadow-black sm:w-1/2',
       )}
     >
       {children}
@@ -95,14 +95,14 @@ const Heading: FC<{
     <div
       className={clsx(
         visible ? 'opacity-100' : 'opacity-0',
-        'absolute inset-x-0 opacity-0'
+        'absolute inset-x-0 opacity-0',
       )}
       id={id}
     >
       <h2
         className={clsx(
           sub ? '' : 'sm:mt-8',
-          'mb-2 bg-gradient-to-br from-white to-slate-300 bg-clip-text text-2xl text-transparent sm:text-5xl'
+          'mb-2 bg-gradient-to-br from-white to-slate-300 bg-clip-text text-2xl text-transparent sm:text-5xl',
         )}
       >
         {title}
@@ -187,13 +187,13 @@ const PlusScrollAnimation: FC<{ startCheckout: () => {} }> = ({
         {
           x: `${phoneOffset}px`,
         },
-        { x: `0px`, duration: 2 }
+        { x: `0px`, duration: 2 },
       )
       .fromTo(
         snackbarRef.current,
         { y: '100px' },
         { y: '10px', ease: Power1.easeInOut },
-        '<'
+        '<',
       );
 
     const endTl = gsap
@@ -202,7 +202,7 @@ const PlusScrollAnimation: FC<{ startCheckout: () => {} }> = ({
         snackbarRef.current,
         { y: '10px' },
         { y: '200px', ease: Power1.easeInOut },
-        '<'
+        '<',
       );
 
     if (mobile || typeof window === undefined) {
@@ -217,7 +217,7 @@ const PlusScrollAnimation: FC<{ startCheckout: () => {} }> = ({
           q('#p2'),
           { opacity: 0, y: 0 },
           { opacity: 1, y: '-= 100%' },
-          '<'
+          '<',
         )
         .to(q('#p2'), { color: '#ffd700', duration: 2 }, '<')
         .fromTo(q('#screen2'), { x: '100%' }, { x: '0%', duration: 2 }, '<')
@@ -227,7 +227,7 @@ const PlusScrollAnimation: FC<{ startCheckout: () => {} }> = ({
           q('#p3'),
           { opacity: 0, y: 0 },
           { opacity: 1, y: '-= 430%' },
-          '<'
+          '<',
         )
         .to(q('#p3'), { color: '#ffd700', duration: 2 }, '<')
         .fromTo(q('#screen3'), { x: '100%' }, { x: '0%', duration: 2 }, '<')
@@ -239,7 +239,7 @@ const PlusScrollAnimation: FC<{ startCheckout: () => {} }> = ({
           {
             x: `${phoneOffset}px`,
           },
-          '<'
+          '<',
         )
         .to(q('#hd1'), { opacity: 0 })
         .fromTo(q('#hd2'), { opacity: 0 }, { opacity: 1 }, '<')
@@ -253,7 +253,7 @@ const PlusScrollAnimation: FC<{ startCheckout: () => {} }> = ({
           q('#adsOverlay'),
           { opacity: 0 },
           { opacity: 1, duration: 2 },
-          '<'
+          '<',
         );
 
       tl.add(startTl);
@@ -278,7 +278,7 @@ const PlusScrollAnimation: FC<{ startCheckout: () => {} }> = ({
           {
             x: `${phoneOffset}px`,
           },
-          '<'
+          '<',
         )
         .to(q('#hd1'), { opacity: 0 })
         .fromTo(q('#hd2'), { opacity: 0 }, { opacity: 1 }, '<')
@@ -292,12 +292,12 @@ const PlusScrollAnimation: FC<{ startCheckout: () => {} }> = ({
           q('#soulmatesBg'),
           { opacity: 0, duration: 2 },
           { opacity: 0.5 },
-          '<'
+          '<',
         )
         .fromTo(
           q('#soulmatesBg'),
           { opacity: 0.5, duration: 4 },
-          { opacity: 0 }
+          { opacity: 0 },
         )
         .fromTo(q('#screen5'), { opacity: 0 }, { opacity: 1, duration: 2 }, '<')
         .to(q('#hd2'), { opacity: 0 }, '<')
@@ -306,7 +306,7 @@ const PlusScrollAnimation: FC<{ startCheckout: () => {} }> = ({
           q('#adsOverlay'),
           { opacity: 0 },
           { opacity: 1, duration: 2 },
-          '<'
+          '<',
         )
         .to(
           adsBegoneBackgroundRef.current,
@@ -315,18 +315,18 @@ const PlusScrollAnimation: FC<{ startCheckout: () => {} }> = ({
             duration: 4,
             ease: Power0.easeNone,
           },
-          '<'
+          '<',
         )
         .fromTo(
           adsBegoneBackgroundRef.current,
           { opacity: 0, duration: 2 },
           { opacity: 0.5 },
-          '<'
+          '<',
         )
         .fromTo(
           adsBegoneBackgroundRef.current,
           { opacity: 0.5, duration: 4 },
-          { opacity: 0 }
+          { opacity: 0 },
         );
 
       tl.add(startTl);
@@ -437,7 +437,7 @@ const PlusScrollAnimation: FC<{ startCheckout: () => {} }> = ({
         <div
           className={clsx(
             mobile ? 'block' : 'hidden',
-            'absolute top-0 left-0 h-full w-full flex-row gap-8'
+            'absolute top-0 left-0 h-full w-full flex-row gap-8',
           )}
         >
           <SoulmateBackgroundCol amount={7} className="-mt-48" />
@@ -461,7 +461,7 @@ const TierItem: FC<{
         <MdCheckCircle
           className={clsx(
             'mr-2',
-            color === 'Yellow' || color === undefined ? 'text-plus' : ''
+            color === 'Yellow' || color === undefined ? 'text-plus' : '',
           )}
         />
       )}
@@ -560,7 +560,7 @@ const PlusPage: NextPage<
     try {
       const { item } = await api.http.get<ItemResponse<{ url: string }>>(
         `/stripe/products/spotistats_plus/prices/default/session`,
-        { authRequired: true }
+        { authRequired: true },
       );
       window.location.href = item.url;
     } catch (e) {
@@ -651,7 +651,7 @@ const PlusPage: NextPage<
                   'mt-12 block w-full rounded-lg p-1 text-center font-medium',
                   user?.isPlus
                     ? 'bg-foreground text-white'
-                    : 'bg-plus text-black hover:bg-plus/90 active:bg-plus/75'
+                    : 'bg-plus text-black hover:bg-plus/90 active:bg-plus/75',
                 )}
               >
                 {!user?.isPlus ? 'Unlock Plus now!' : 'You already have Plus!'}

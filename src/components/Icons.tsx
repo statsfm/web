@@ -17,7 +17,7 @@ export const SpotifyIcon: FC<{ className?: string }> = (props) => (
 );
 
 export const AppleMusicIcon: FC<{ className?: string; hover: boolean }> = (
-  props
+  props,
 ) => (
   <svg
     version="1.1"

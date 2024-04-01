@@ -63,7 +63,7 @@ export const AppleMusicService: ImportServiceFunction = ({
 
         const filterAndUploadFiles = async (entries: Entry[]) => {
           const filteredEntries = entries.filter((entry) =>
-            fileNamesToImport.some((name) => entry.filename.includes(name))
+            fileNamesToImport.some((name) => entry.filename.includes(name)),
           );
           for await (const entry of filteredEntries) {
             const fileContent = await entry.getData!(new TextWriter());
@@ -82,18 +82,18 @@ export const AppleMusicService: ImportServiceFunction = ({
         };
 
         const hasAppleMediaServicesFile = entries.some((entry) =>
-          entry.filename.match(appleMediaSerivcesFileName)
+          entry.filename.match(appleMediaSerivcesFileName),
         );
 
         if (hasAppleMediaServicesFile) {
           const appleMediaZipFile = entries.find((entry) =>
-            entry.filename.match(appleMediaSerivcesFileName)
+            entry.filename.match(appleMediaSerivcesFileName),
           )!;
           const appleMediaZipContent = await appleMediaZipFile.getData!(
-            new BlobWriter()
+            new BlobWriter(),
           );
           const appleMediaZipReader = new ZipReader(
-            new BlobReader(appleMediaZipContent)
+            new BlobReader(appleMediaZipContent),
           );
           const appleMediaEntries = await appleMediaZipReader.getEntries();
           await filterAndUploadFiles(appleMediaEntries);

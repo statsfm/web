@@ -202,7 +202,7 @@ const CreditsPage: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
                               'h-10 w-10 rounded-full object-cover',
                               member.current ?? true
                                 ? ''
-                                : 'brightness-50 grayscale'
+                                : 'brightness-50 grayscale',
                             )}
                             src={member.image ?? ''}
                             alt=""
@@ -218,7 +218,7 @@ const CreditsPage: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
                                   href={`/${member.nickname}`}
                                   className={clsx(
                                     'font-medium text-gray-500',
-                                    member.name.trim() !== '' ? 'ml-2' : ''
+                                    member.name.trim() !== '' ? 'ml-2' : '',
                                   )}
                                 >
                                   @{member.nickname}
@@ -227,7 +227,7 @@ const CreditsPage: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
                                 <span
                                   className={clsx(
                                     'font-medium text-gray-500',
-                                    member.name.trim() !== '' ? 'ml-2' : ''
+                                    member.name.trim() !== '' ? 'ml-2' : '',
                                   )}
                                 >
                                   {member.nickname ?? ''}
@@ -250,7 +250,7 @@ const CreditsPage: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
                                   'ml-2 inline-flex rounded-full py-1 px-3 text-sm font-semibold leading-5',
                                   member.current ?? true
                                     ? 'bg-primary/10 text-primary'
-                                    : 'bg-orange-500/10 text-orange-500'
+                                    : 'bg-orange-500/10 text-orange-500',
                                 )}
                               >
                                 {member.role}

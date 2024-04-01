@@ -10,7 +10,7 @@ type Props = {
 };
 
 export const getServerSideProps: GetServerSideProps<SSRProps<Props>> = async (
-  ctx
+  ctx,
 ) => {
   const gifs = [
     'https://c.tenor.com/BnEKiDKJisEAAAAC/claire-dancing.gif',

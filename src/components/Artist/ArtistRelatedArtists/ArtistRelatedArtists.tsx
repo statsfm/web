@@ -26,7 +26,7 @@ export const ArtistRelatedArtists: FC<Props> = ({ artist }) => {
     (async () => {
       setLoading(true);
       setRelated(
-        await api.artists.related(artist.id).then((r) => r.filter((a) => a.id))
+        await api.artists.related(artist.id).then((r) => r.filter((a) => a.id)),
       );
       setLoading(false);
     })();

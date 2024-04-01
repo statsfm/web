@@ -51,7 +51,7 @@ export const TopAlbums: FC<{
     window.history.replaceState(
       { ...window.history.state, as: newUrl, url: newUrl },
       '',
-      newUrl
+      newUrl,
     );
 
     return !gridMode;

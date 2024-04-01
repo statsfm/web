@@ -46,21 +46,22 @@ const Login: NextPage<SSRProps> = () => {
         api.http.resolveUrl(
           '/auth/APPLEMUSIC/callback/music',
           true,
-          `mut=${encodeURIComponent(MUT)}&state=${state}`
-        )
+          `mut=${encodeURIComponent(MUT)}&state=${state}`,
+        ),
       );
     } catch (e) {
       // eslint-disable-next-line no-console
       console.error(e);
       toaster.error('Something went wrong trying to login. Please try again.');
+    } finally {
+      setInProgress(false);
     }
-    setInProgress(false);
   };
 
   const initializeMusicKit = () => {
     (async () => {
       const data = await api.http.get<{ item: string }>(
-        '/auth/APPLEMUSIC/developerToken'
+        '/auth/APPLEMUSIC/developerToken',
       );
       const developerToken = data.item;
       await MusicKit.configure({

@@ -77,7 +77,7 @@ const Specter: NextPage = () => {
             <div className="py-12 sm:relative sm:mt-12 sm:py-16 lg:absolute lg:inset-y-0 lg:right-0 lg:w-1/2">
               <div className="relative -mr-40 pl-6 sm:mx-auto sm:max-w-3xl sm:px-0 lg:h-full lg:max-w-none lg:pl-12">
                 <img
-                  className="w-full rounded-md shadow-xl ring-1 ring-black ring-opacity-5 lg:h-full lg:w-auto lg:max-w-none"
+                  className="w-full rounded-md shadow-xl ring-1 ring-black/5 lg:h-full lg:w-auto lg:max-w-none"
                   src="/images/specter-desktop-0.webp"
                   alt=""
                 />

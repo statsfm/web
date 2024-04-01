@@ -17,7 +17,7 @@ export const Input = ({
 }: Props) => {
   const id = useId();
   const [characterCount, setCharacterCount] = useState<number>(
-    props.defaultValue?.toString().length ?? 0
+    props.defaultValue?.toString().length ?? 0,
   );
 
   useEffect(() => {
@@ -53,7 +53,7 @@ export const Input = ({
           <span
             className={clsx(
               'text-end text-xs',
-              characterCount > maxLength && 'font-semibold text-red-400'
+              characterCount > maxLength && 'font-semibold text-red-400',
             )}
           >
             {characterCount}/{maxLength}

@@ -17,10 +17,10 @@ export const AuthContext = createContext<{
 } | null>(null);
 
 export const AuthProvider = (
-  props: PropsWithChildren<{ user?: statsfm.UserPrivate | null }>
+  props: PropsWithChildren<{ user?: statsfm.UserPrivate | null }>,
 ) => {
   const [user, setUser] = useState<statsfm.UserPrivate | null>(
-    props.user ?? null
+    props.user ?? null,
   );
   const api = useApi();
   const router = useRouter();
@@ -92,7 +92,7 @@ export const AuthProvider = (
 
   const exposed = useMemo(
     () => ({ user, updateUser, tokenAge, login, logout }),
-    [user]
+    [user],
   );
 
   return (
