@@ -1,9 +1,5 @@
 name: Deploy to GKE
 
-on:
-  push:
-    tags:        
-      - v*
 jobs:
   build:
     name: Building and push image to gcr
