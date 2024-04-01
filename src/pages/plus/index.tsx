@@ -77,7 +77,7 @@ const Snackbar = forwardRef<
       ref={ref}
       className={clsx(
         className,
-        'absolute bottom-10 left-1/2 z-50 flex h-min w-11/12 -translate-x-1/2 flex-row items-center justify-between rounded-xl bg-background p-2 px-4 shadow-2xl shadow-black sm:w-1/2',
+        'absolute left-1/2 bottom-10 z-50 flex h-min w-11/12 -translate-x-1/2 flex-row items-center justify-between rounded-xl bg-background p-2 px-4 shadow-2xl shadow-black sm:w-1/2',
       )}
     >
       {children}
@@ -437,7 +437,7 @@ const PlusScrollAnimation: FC<{ startCheckout: () => {} }> = ({
         <div
           className={clsx(
             mobile ? 'block' : 'hidden',
-            'absolute left-0 top-0 size-full flex-row gap-8',
+            'absolute top-0 left-0 h-full w-full flex-row gap-8',
           )}
         >
           <SoulmateBackgroundCol amount={7} className="-mt-48" />

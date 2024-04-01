@@ -53,8 +53,9 @@ const Login: NextPage<SSRProps> = () => {
       // eslint-disable-next-line no-console
       console.error(e);
       toaster.error('Something went wrong trying to login. Please try again.');
+    } finally {
+      setInProgress(false);
     }
-    setInProgress(false);
   };
 
   const initializeMusicKit = () => {

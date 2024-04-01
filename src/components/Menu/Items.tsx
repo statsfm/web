@@ -116,7 +116,7 @@ export const Items = ({
             state.itemsRef.current = el;
           }}
           className={clsx(
-            'absolute z-20 max-h-96 min-w-max overflow-y-hidden rounded-xl bg-foreground py-2 shadow-xl',
+            'absolute z-20 max-h-96 min-w-max rounded-xl bg-foreground py-2 shadow-xl overflow-y-hidden',
             className,
           )}
           aria-activedescendant={

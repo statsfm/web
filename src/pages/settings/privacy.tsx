@@ -130,7 +130,7 @@ const PrivacyList: FC<{ user: UserPrivate }> = () => {
           disabled={!changed || status === 'SAVING'}
           className={clsx(
             changed ? 'hover:!bg-primary/60 active:!bg-primary/40' : '',
-            ' block h-min rounded-md !bg-primary px-4 py-2 text-background',
+            ' block h-min rounded-md !bg-primary py-2 px-4 text-background',
           )}
         >
           Save
@@ -166,7 +166,7 @@ const PrivacyList: FC<{ user: UserPrivate }> = () => {
                   <span
                     className={clsx(
                       value ? 'translate-x-5' : 'translate-x-[2px]',
-                      'size-[22px] rounded-full bg-white transition-transform duration-200 ease-in-out',
+                      'h-[22px] w-[22px] rounded-full bg-white transition-transform duration-200 ease-in-out',
                     )}
                   />
                 </Switch>

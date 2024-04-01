@@ -183,7 +183,7 @@ const AvatarInput: FC<{ defaultSrc: string | undefined }> = ({
         <div
           className={clsx(
             hovering ? 'opacity-40' : 'opacity-0',
-            'absolute top-0 size-full rounded-full bg-black transition-opacity',
+            'absolute top-0 h-full w-full rounded-full bg-black transition-opacity',
           )}
         />
         <div className="absolute bottom-0 right-0 flex size-10 items-center justify-center rounded-full border-4 border-background bg-foreground">
@@ -397,7 +397,7 @@ const AccountPrivacyInfoForm: FC<AccountPrivacyInfoFormProps> = ({
         <Button
           className={clsx(
             changed ? 'hover:!bg-primary/60 active:!bg-primary/40' : '',
-            ' block h-min rounded-md !bg-primary px-4 py-2 text-background',
+            ' block h-min rounded-md !bg-primary py-2 px-4 text-background',
           )}
           onClick={save}
           disabled={

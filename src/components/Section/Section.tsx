@@ -137,7 +137,7 @@ export const Section = forwardRef<HTMLElement, Props>(
           className={clsx(
             headerStyle,
             sticky === undefined || sticky === true ? 'sticky top-0' : '',
-            'z-30 flex items-center justify-between bg-background pb-3 pt-10',
+            'z-30 flex items-center justify-between bg-background pt-10 pb-3',
           )}
         >
           <div className="w-full overflow-hidden truncate">
