@@ -8,6 +8,7 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
 const nextBuildId = require('next-build-id');
 
 module.exports = withBundleAnalyzer({
+  output: 'standalone',
   eslint: {
     dirs: ['.'],
   },
