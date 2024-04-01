@@ -32,6 +32,12 @@ jobs:
     - name: Get short sha
       run: echo "sha_short=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
       id: get-short
+
+    - name: Set up QEMU
+      uses: docker/setup-qemu-action@v3
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v3
      
     - name: Build image web and push it
       uses: docker/build-push-action@v5
