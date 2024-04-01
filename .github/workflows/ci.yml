@@ -3,10 +3,10 @@ name: Continuous Integration
 on:
   push:
     branches-ignore:
-      - main
+      - vue
   pull_request:
     branches-ignore:
-      - main
+      - vue
     types: [opened, synchronize, reopened]
 
 jobs:
