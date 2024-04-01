@@ -38,4 +38,50 @@ jobs:
 
       - name: Lint
         run: yarn lint
+        
+  build-prod:
+    if: ${{ !contains(github.ref_name, 'stage')}}
+    name: Building and push production image to gcr
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: Configure GCR credentials
+      uses: google-github-actions/setup-gcloud@v0.3.0
+      with:
+        service_account_key: ${{ secrets.GCR_SERVICE_ACCOUNT_KEY }}
+        project_id: ${{ secrets.PROJECT_ID }}
+        export_default_credentials: true
+
+    - name: Configure Docker Client
+      run:  |-
+        gcloud auth configure-docker --quiet
+
+    - name: Get tag
+      run: echo "tag=$(echo ${GITHUB_REF_NAME})" >>$GITHUB_OUTPUT
+      id: get-tag
+
+    - name: Get short sha
+      run: echo "sha_short=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
+      id: get-short
+
+    - name: Build image web and push it
+      uses: docker/build-push-action@v2
+      with:
+        push: true
+        file: Dockerfile
+        tags: |
+           eu.gcr.io/spotistats-a49da/web:${{ steps.get-tag.outputs.tag }}-${{ steps.get-short.outputs.sha_short }}
+           eu.gcr.io/spotistats-a49da/web:latest
+
+    - name: Dispatch repositiry
+      uses: peter-evans/repository-dispatch@v1
+      with:
+        token: ${{ secrets.PAT }}
+        event-type: image-updates-web-prod
+        repository: stats.fm/argocd
+        client-payload: '{"tag": "${{ steps.get-tag.outputs.tag }}-${{ steps.get-short.outputs.sha_short }}"}'
+
 
