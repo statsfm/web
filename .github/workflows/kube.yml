@@ -26,7 +26,7 @@ jobs:
         gcloud auth configure-docker --quiet 
 
     - name: Get tag
-      run: echo "branch=$(echo ${GITHUB_REF_NAME})" >>$GITHUB_OUTPUT
+      run: echo "tag=$(echo ${GITHUB_REF_NAME})" >>$GITHUB_OUTPUT
       id: get-tag
 
     - name: Get short sha
