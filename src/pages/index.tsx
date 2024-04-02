@@ -131,17 +131,15 @@ const Home: NextPage = () => {
           <div className="w-full lg:w-6/12">
             <h1 className="leading-10">Easy, extensive and secure</h1>
             <p>
-              With the click of a button you&apos;ll be logged with your Spotify
-              account and you&apos;ll instantly gain access to a valhalla of
-              cool stats and insights
+              With the click of a button, you&apos;ll be logged into your
+              account, instantly gaining access to a valhalla of cool stats and
+              insights
             </p>
             <div className="mt-5 mb-8 flex flex-col gap-3">
               <FeatureItem Icon={MdLock} title="Safe & secure">
-                Privacy is key, and I&apos;ve built the platform keeping
-                security and privacy at the highest priority. As far as
-                possible, all data is saved anonymously, and is stored and
-                transferred fully encrypted. Unless you import your streaming
-                history no data is saved on the servers.
+                We prioritize privacy and security. We only store the data we
+                need to store to provide you with a magical experience, and all
+                data is stored securely.
               </FeatureItem>
               <FeatureItem
                 Icon={MdShowChart}
@@ -155,23 +153,21 @@ const Home: NextPage = () => {
                 Icon={MdFormatListBulleted}
                 title="Top tracks, artists and albums at a glance*"
               >
-                Of course most people are here to check their top lists, which
-                becomes an amazing experience on this platform. For example:
-                order the lists by times played, minutes streamed or by advanced
-                machine learning!
+                Many users love checking their top lists here—it&apos;s a
+                magical experience. You can organize lists by playtime, stream
+                count, or use provided ordering methods from connected services.
               </FeatureItem>
               <FeatureItem
                 Icon={MdHistory}
                 title="Import your lifetime history*"
               >
-                Follow the unique import process to import your lifetime
-                streaming history and unlock the full potential of the platform
-                by getting access to lots of cool features. It&apos;s really
-                cool, I promise : )
+                Take advantage of our unique import process to bring in your
+                complete streaming history and unleash a wave of fantastic
+                features. Believe us, it&apos;s really cool!
               </FeatureItem>
               <p>
                 *{' '}
-                <Link legacyBehavior href="import">
+                <Link legacyBehavior href="/settings/import">
                   <a
                     className="text-white hover:opacity-80"
                     onClick={() => {

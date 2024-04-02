@@ -19,6 +19,7 @@ module.exports = withBundleAnalyzer({
     loader: 'custom',
     loaderFile: './src/utils/imageLoader.ts',
   },
+  optimizeFonts: false,
   async redirects() {
     return [
       {
