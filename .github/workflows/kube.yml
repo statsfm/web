@@ -45,7 +45,7 @@ jobs:
         push: true
         file: Dockerfile
         tags: |
-           eu.gcr.io/spotistats-a49da/web:${{ steps.get-short.outputs.sha_short }}
+           eu.gcr.io/spotistats-a49da/web:${{ steps.get-tag.outputs.tag }}-${{ steps.get-short.outputs.sha_short }}
            eu.gcr.io/spotistats-a49da/web:latest
 
     - name: Repository Dispatch
