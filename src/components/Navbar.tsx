@@ -38,6 +38,7 @@ const navigation = [
           Plus
         </Link>
       ),
+    name: 'Plus',
   },
   { name: 'Support', href: 'https://support.stats.fm' },
   { name: 'Feedback', href: 'https://feedback.stats.fm' },
@@ -73,7 +74,7 @@ export const NavBar = () => {
         <div className="hidden lg:flex lg:gap-x-12">
           {navigation.map((item) =>
             item.link ? (
-              item.link({ user, router })
+              <div key={item.name}>{item.link({ user, router })}</div>
             ) : (
               <Link key={item.name} href={item.href} className="font-medium">
                 {item.name}
