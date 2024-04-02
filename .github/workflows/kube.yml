@@ -54,4 +54,4 @@ jobs:
         token: ${{ secrets.PAT }}
         repository: statsfm/argocd
         event-type: image-updates-web
-        client-payload: '{"tag": "${{ steps.get-tag.outputs.branch }}-${{ steps.get-short.outputs.sha_short }}"}'
+        client-payload: '{"tag": "${{ steps.get-short.outputs.sha_short }}"}'
