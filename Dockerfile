@@ -1,37 +1,27 @@
 FROM node:20.10.0-alpine as base
 
-FROM base AS deps
-# Check https://github.com/nodejs/docker-node/tree/b4117f9333da4138b03a546ec926ef50a31506c3#nodealpine to understand why libc6-compat might be needed.
-RUN apk add --no-cache libc6-compat
-WORKDIR /app
+ENV NEXT_TELEMETRY_DISABLED=1 NODE_ENV=production YARN_VERSION=4.1.1
 
-COPY package.json yarn.lock ./
-RUN yarn install --frozen-lockfile
-RUN yarn add sharp --ignore-engines
+RUN apk update && apk upgrade && apk add --no-cache libc6-compat
 
-# Rebuild the source code only when needed
-FROM base AS builder
-WORKDIR /app
-COPY --from=deps /app/node_modules ./node_modules
-COPY . .
-
-ENV NEXT_TELEMETRY_DISABLED 1
-
-
-RUN yarn build
-
-# Production image, copy all the files and run next
-FROM base AS runner
-WORKDIR /app
-
-ENV NODE_ENV production
-# Uncomment the following line in case you want to disable telemetry during runtime.
-# ENV NEXT_TELEMETRY_DISABLED 1
+RUN corepack enable && corepack prepare yarn@${YARN_VERSION}
 
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
 
-COPY --from=builder /app/public ./public
+FROM base AS builder
+WORKDIR /app
+COPY . .
+COPY package.json yarn.lock .yarnrc.yml ./
+COPY .yarn ./.yarn
+RUN yarn install --immutable
+
+RUN yarn build
+
+FROM base AS runner
+WORKDIR /app
+
+COPY --from=builder  --chown=nextjs:nodejs /app/public ./public
 
 # Set the correct permission for prerender cache
 RUN mkdir .next
