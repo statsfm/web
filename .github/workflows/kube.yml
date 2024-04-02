@@ -2,8 +2,8 @@ name: Deploy to GKE
 
 on:
   push:
-    branches:
-      - feat/docker
+    tags:
+      - v*
 
 jobs:
   build:
