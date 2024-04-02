@@ -4,14 +4,44 @@ import { useAuth } from '@/hooks';
 import { MdAccountCircle, MdExitToApp, MdManageAccounts } from 'react-icons/md';
 import { Transition } from '@headlessui/react';
 import { event } from 'nextjs-google-analytics';
+import type { NextRouter } from 'next/router';
 import { useRouter } from 'next/router';
 import Cookies from 'js-cookie';
+import type { UserPrivate } from '@statsfm/statsfm.js';
 import { Logo } from './Logo';
 import { Avatar } from './Avatar/Avatar';
 import { Menu } from './Menu';
 import { Container } from './Container';
 import { Button } from './Button';
 import { CrownIcon } from './Icons';
+
+const navigation = [
+  {
+    link: ({
+      user,
+      router,
+    }: {
+      user: UserPrivate | null;
+      router: NextRouter;
+    }) =>
+      user && !user.isPlus && !router.pathname.includes('/plus') ? (
+        <Link
+          className="flex flex-row gap-1 font-medium text-plus"
+          href="/plus"
+          onClick={() => event('NAV_plus')}
+        >
+          <CrownIcon className="m-[2px] mt-0 h-[20px] w-[20px] lg:mt-[2px]" />
+          Unlock Plus
+        </Link>
+      ) : (
+        <Link href="/plus" className="font-medium">
+          Plus
+        </Link>
+      ),
+  },
+  { name: 'Support', href: 'https://support.stats.fm' },
+  { name: 'Feedback', href: 'https://feedback.stats.fm' },
+];
 
 export const NavBar = () => {
   const { user, logout, login } = useAuth();
@@ -29,15 +59,6 @@ export const NavBar = () => {
 
   return (
     <nav className="absolute z-40 flex w-full">
-      <div className="fixed bottom-0 left-0 z-50 w-screen border-t-[1px] border-neutral-700 bg-background py-1 text-center">
-        <span className="text-sm font-semibold text-primary">
-          This site is still a work in progress.
-        </span>
-        <span className="pl-1 text-sm font-semibold text-neutral-100">
-          We are working on adding features that are in the app to the website.
-          If you want to enjoy the full experience, please use our app.
-        </span>
-      </div>
       <Container className="flex w-full items-center bg-inherit py-3">
         <Link
           href="/"
@@ -45,9 +66,21 @@ export const NavBar = () => {
           onClick={() => event('NAV_home')}
         >
           <Logo className="h-[1.7rem] w-[1.7rem] cursor-pointer" />
-          <h3 className="mt-[-3px]">stats.fm</h3>
+          <h3 className="mt-[-3px]">
+            stats.fm{router.pathname === '/business' && ' for business'}
+          </h3>
         </Link>
-
+        <div className="hidden lg:flex lg:gap-x-12">
+          {navigation.map((item) =>
+            item.link ? (
+              item.link({ user, router })
+            ) : (
+              <Link key={item.name} href={item.href} className="font-medium">
+                {item.name}
+              </Link>
+            ),
+          )}
+        </div>
         <form
           className="relative ml-auto hidden pt-2 md:mr-10 md:block"
           action="/search"
@@ -78,10 +111,10 @@ export const NavBar = () => {
 
         {user && !user.isPlus && router.pathname !== '/plus' && (
           <Link
-            className="mr-0 flex flex-row gap-1 px-4 py-2 font-bold text-plus lg:mr-2 lg:font-medium"
+            className="mr-0 flex flex-row gap-1 px-4 py-2 font-bold text-plus lg:hidden"
             href="/plus"
           >
-            <CrownIcon className="m-[2px] mt-0 h-[20px] w-[20px] lg:mt-[2px]" />
+            <CrownIcon className="m-[2px] mt-0 h-[20px] w-[20px]" />
             Unlock Plus
           </Link>
         )}
@@ -147,21 +180,6 @@ export const NavBar = () => {
                         <MdManageAccounts className="text-white" /> Settings
                       </Link>
                     </Menu.Item>
-
-                    {!user.isPlus && router.pathname !== '/plus' && (
-                      <Menu.Item
-                        className="!p-0"
-                        onClick={() => event('NAV_plus')}
-                      >
-                        <Link
-                          className="flex h-full w-full flex-row gap-2 px-4 py-2 text-plus"
-                          href="/plus"
-                        >
-                          <CrownIcon className="m-[2px] h-[20px] w-[20px]" />{' '}
-                          Unlock Plus
-                        </Link>
-                      </Menu.Item>
-                    )}
                     <hr className="my-1 mx-3 border-t-2 border-neutral-400/10" />
                     <Menu.Item
                       icon={<MdExitToApp />}
