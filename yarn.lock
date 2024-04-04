@@ -5506,13 +5506,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"next-build-id@npm:^3.0.0":
-  version: 3.0.0
-  resolution: "next-build-id@npm:3.0.0"
-  checksum: 10c0/086f059fa7cc3178047fcacd0a2bba4a4a65fa236a50a39d704c1b9d4f017865a33ec99693375b544ba463bbf1dad7f0cf6569af3e03eded24196341c3055b38
-  languageName: node
-  linkType: hard
-
 "next-seo@npm:^5.4.0":
   version: 5.4.0
   resolution: "next-seo@npm:5.4.0"
@@ -7961,7 +7954,6 @@ __metadata:
     linkify-react: "npm:^3.0.4"
     linkifyjs: "npm:^3.0.5"
     next: "npm:^13.0.3"
-    next-build-id: "npm:^3.0.0"
     next-seo: "npm:^5.4.0"
     nextjs-google-analytics: "npm:^2.1.0"
     picomatch: "npm:^4.0.2"

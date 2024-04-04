@@ -1,0 +1,61 @@
+name: Deploy to GKE
+
+on:
+  push:
+    tags:
+      - v*
+
+jobs:
+  build:
+    name: Building and push image to gcr
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    - name: Configure GCR credentials
+      uses: google-github-actions/auth@v2
+      with:
+        create_credentials_file: true
+        project_id: ${{ secrets.PROJECT_ID }}
+        credentials_json: ${{ secrets.GCR_SERVICE_ACCOUNT_KEY }}
+
+    - name: Set up Cloud SDK
+      uses: google-github-actions/setup-gcloud@v2
+
+    - name: Configure Docker client
+      run:  |-
+        gcloud auth configure-docker --quiet 
+
+    - name: Get tag
+      run: echo "tag=$(echo ${GITHUB_REF_NAME})" >>$GITHUB_OUTPUT
+      id: get-tag
+
+    - name: Get short sha
+      run: echo "sha_short=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
+      id: get-short
+
+    - name: Set up QEMU
+      uses: docker/setup-qemu-action@v3
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v3
+     
+    - name: Build image web and push it
+      uses: docker/build-push-action@v5
+      with:
+        push: true
+        platforms: linux/amd64
+        file: Dockerfile
+        tags: |
+           eu.gcr.io/spotistats-a49da/web:${{ steps.get-tag.outputs.tag }}-${{ steps.get-short.outputs.sha_short }}
+           eu.gcr.io/spotistats-a49da/web:latest
+
+    - name: Repository Dispatch
+      uses: peter-evans/repository-dispatch@v3
+      with:
+        token: ${{ secrets.PAT }}
+        repository: statsfm/argocd
+        event-type: image-updates-web
+        client-payload: '{"tag": "${{ steps.get-tag.outputs.tag }}-${{ steps.get-short.outputs.sha_short }}"}'
