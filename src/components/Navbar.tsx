@@ -42,7 +42,7 @@ const navigation = [
   },
   { name: 'Support', href: 'https://support.stats.fm' },
   { name: 'Feedback', href: 'https://feedback.stats.fm' },
-  { name: 'Business', href: '/business' },
+  // { name: 'Business', href: '/business' },
 ];
 
 export const NavBar = () => {
