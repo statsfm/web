@@ -231,7 +231,7 @@ const User: NextPage<Props> = ({
   const discordConnection = user.socialMediaConnections.find(
     (connection) => connection.platform.name === 'Discord',
   );
-  
+
   useEffect(() => {
     setStats([]);
     api.users
