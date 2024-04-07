@@ -10,7 +10,7 @@ import { ToasterContainer } from '@/context/toaster';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import type { UserPrivate } from '@/utils/statsfm';
-import localFont from '@next/font/local';
+import localFont from 'next/font/local';
 import clsx from 'clsx';
 import ErrorBoundary from '@/components/ErrorBoundary';
 
