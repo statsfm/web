@@ -9,7 +9,7 @@ We try to build the best social music platform for both music fans and their fav
 
 # Backend Engineer
 
-We are looking for a highly skilled TypeScript backend developer who can help us take the platform to the next level
+We are looking for **two** highly skilled TypeScript backend developers who can help us take the platform to the next level
 
 At stats.fm, you will be responsible for:
 - Building (and thinking of) new exciting features
