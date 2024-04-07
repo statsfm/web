@@ -51,6 +51,8 @@ jobs:
         tags: |
            eu.gcr.io/spotistats-a49da/web:${{ steps.get-tag.outputs.tag }}-${{ steps.get-short.outputs.sha_short }}
            eu.gcr.io/spotistats-a49da/web:latest
+        cache-from: type=gha
+        cache-to: type=gha,mode=max
 
     - name: Repository Dispatch
       uses: peter-evans/repository-dispatch@v3
