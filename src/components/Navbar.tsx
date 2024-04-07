@@ -69,7 +69,7 @@ export const NavBar = () => {
         >
           <Logo className="h-[1.7rem] w-[1.7rem] cursor-pointer" />
           <h3 className="mt-[-3px]">
-            stats.fm{router.pathname === '/business' && ' for business'}
+            stats.fm{router.pathname === '/partners' && ' for partners'}
           </h3>
         </Link>
         <div className="hidden lg:flex lg:gap-x-12">

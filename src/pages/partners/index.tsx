@@ -4,7 +4,7 @@ import type { SSRProps } from '@/utils/ssrUtils';
 import { fetchUser } from '@/utils/ssrUtils';
 import type { GetServerSideProps, NextPage } from 'next';
 import Script from 'next/script';
-import { MdAdsClick, MdDataset, MdScience, MdTune } from 'react-icons/md';
+import { MdAdsClick, MdDataset, MdTune } from 'react-icons/md';
 
 export const getServerSideProps: GetServerSideProps<SSRProps> = async (ctx) => {
   const user = await fetchUser(ctx);
@@ -30,12 +30,6 @@ const solutions = [
     icon: MdDataset,
   },
   {
-    name: 'Presearch Tracks',
-    description:
-      'Preview, learn, and launch your single on stats.fm, using listener data and trends.',
-    icon: MdScience,
-  },
-  {
     name: 'Custom solutions',
     description:
       'Need something specific? We can build custom solutions tailored to your needs.',
@@ -47,7 +41,7 @@ const BusinessPage: NextPage = () => {
   return (
     <>
       <Title reverse noDivider>
-        for business
+        for partners
       </Title>
       <Container className="pt-[6rem]">
         <div className="relative">
@@ -56,7 +50,7 @@ const BusinessPage: NextPage = () => {
               <div className="absolute inset-0">
                 <img
                   className="h-full w-full object-cover"
-                  src="https://media.discordapp.net/attachments/858019685119295488/1063218663731253268/austin-neill-hgO1wFPXl3I-unsplash_copy.jpg?ex=660f258b&is=65fcb08b&hm=14fff7783722de2e0c0acea114cc674a7fa9f4318048eee29bb7fa0c3d812f4c&"
+                  src="/images/partners/artist_performing.jpeg"
                   alt="Artist performing"
                 />
                 <div className="absolute inset-0 bg-gradient-to-br from-green-800 to-green-600 mix-blend-multiply" />
@@ -99,28 +93,28 @@ const BusinessPage: NextPage = () => {
               <div className="col-span-1 flex justify-center md:col-span-2 lg:col-span-1">
                 <img
                   className="h-9"
-                  src="/images/business/downtown.svg"
+                  src="/images/partners/downtown.svg"
                   alt="Downtown"
                 />
               </div>
               <div className="col-span-1 flex justify-center md:col-span-2 lg:col-span-1">
                 <img
                   className="h-9"
-                  src="/images/business/atlantic-records.svg"
+                  src="/images/partners/atlantic-records.svg"
                   alt="Atlantic Records"
                 />
               </div>
               <div className="col-span-1 flex justify-center md:col-span-2 lg:col-span-1">
                 <img
                   className="h-9"
-                  src="/images/business/fuga.svg"
+                  src="/images/partners/fuga.svg"
                   alt="FUGA"
                 />
               </div>
               <div className="col-span-1 flex justify-center md:col-span-2 lg:col-span-1">
                 <img
                   className="h-9"
-                  src="/images/business/primavera-sound.svg"
+                  src="/images/partners/primavera-sound.svg"
                   alt="Primavera Sound"
                 />
               </div>
@@ -181,8 +175,6 @@ const BusinessPage: NextPage = () => {
             />
           </div>
         </div>
-
-        <div className="mt-16"></div>
       </Container>
     </>
   );
