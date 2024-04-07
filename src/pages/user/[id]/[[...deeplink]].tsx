@@ -22,7 +22,7 @@ import { FriendStatus } from '@/utils/statsfm';
 import { event } from 'nextjs-google-analytics';
 import { useScrollPercentage } from '@/hooks/use-scroll-percentage';
 import formatter from '@/utils/formatter';
-import { SpotifyLink } from '@/components/SocialLink';
+import { SpotifyLink, DiscordLink } from '@/components/SocialLink';
 import { StatsCard, StatsCardSkeleton } from '@/components/StatsCard';
 import {
   MdArrowDropDown,
@@ -228,6 +228,10 @@ const User: NextPage<Props> = ({
 
   const isCurrentUser = currentUser?.id === user.id;
 
+  const discordConnection = user.socialMediaConnections.find(
+    (connection) => connection.platform.name === 'Discord',
+  );
+  
   useEffect(() => {
     setStats([]);
     api.users
@@ -459,6 +463,11 @@ const User: NextPage<Props> = ({
                     <div className="mt-2 flex flex-row items-center gap-2">
                       {user.spotifyAuth && (
                         <SpotifyLink path={`/user/${user.id}`} />
+                      )}
+                      {discordConnection && (
+                        <DiscordLink
+                          path={`/users/${discordConnection.platformUserId}`}
+                        />
                       )}
                     </div>
                   </Scope>
