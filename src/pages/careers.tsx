@@ -30,7 +30,7 @@ const TermsPage: NextPage<Props> = ({ content }) => {
     <Container>
       <Title>Careers at stats.fm</Title>
       <article
-        className="prose max-w-full pt-32 font-medium text-neutral-400 prose-headings:text-white prose-a:text-primary prose-li:my-0.5"
+        className="prose max-w-full pt-32 font-medium text-neutral-400 prose-headings:text-white prose-a:text-primary prose-strong:text-primary prose-li:my-0.5"
         dangerouslySetInnerHTML={{ __html: content }}
       />
     </Container>
