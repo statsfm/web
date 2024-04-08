@@ -132,7 +132,7 @@ const BusinessPage: NextPage = () => {
               </h2>
             </div>
             <div className="mx-auto mt-5 max-w-2xl lg:max-w-none">
-              <dl className="grid max-w-xl grid-cols-1 gap-x-8 gap-y-16 lg:max-w-none lg:grid-cols-4">
+              <dl className="grid max-w-xl grid-cols-1 gap-x-8 gap-y-16 lg:max-w-none lg:grid-cols-3">
                 {solutions.map((solution) => (
                   <div key={solution.name} className="flex flex-col">
                     <dt className="text-base font-semibold leading-7 text-white">
