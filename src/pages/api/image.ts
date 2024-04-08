@@ -66,10 +66,16 @@ const allowedHosts: RemotePattern[] = [
 ];
 
 function validateParams(req: NextApiRequest) {
-  const { url, w, q } = req.query as {
+  const {
+    url,
+    w,
+    q,
+    f: format,
+  } = req.query as {
     url: string;
     w: string;
     q: string;
+    f?: 'image/webp' | 'image/png';
   };
 
   let href: string;
@@ -79,6 +85,18 @@ function validateParams(req: NextApiRequest) {
   }
   if (Array.isArray(url)) {
     return { errorMessage: '"url" parameter cannot be an array' };
+  }
+
+  if (format) {
+    if (Array.isArray(format)) {
+      return { errorMessage: '"format" parameter cannot be an array' };
+    }
+    if (!([IMAGE_TYPES.WEBP, IMAGE_TYPES.PNG] as string[]).includes(format)) {
+      return {
+        errorMessage:
+          '"format" parameter must be one of "image/webp" or "image/png", if provided',
+      };
+    }
   }
 
   let isAbsolute: boolean;
@@ -150,7 +168,10 @@ function validateParams(req: NextApiRequest) {
     };
   }
 
-  const mimeType = getSupportedMimeType(['image/webp'], req.headers.accept);
+  const mimeType = getSupportedMimeType(
+    [...(format ? [format] : []), 'image/webp'],
+    req.headers.accept,
+  );
 
   return {
     href,
@@ -160,6 +181,7 @@ function validateParams(req: NextApiRequest) {
     quality,
     mimeType,
     minimumCacheTTL: 60,
+    format,
   };
 }
 
@@ -169,12 +191,14 @@ async function optimizeImage({
   quality,
   width,
   height,
+  format,
 }: {
   buffer: Buffer;
   contentType: string;
   quality: number;
   width: number;
   height?: number;
+  format?: 'image/webp' | 'image/png';
 }) {
   const transformer = sharp(buffer, {
     sequentialRead: true,
@@ -188,6 +212,12 @@ async function optimizeImage({
     transformer.resize(width, undefined, {
       withoutEnlargement: true,
     });
+  }
+
+  if (format) {
+    transformer.toFormat(format === 'image/png' ? 'png' : 'webp');
+    // eslint-disable-next-line no-param-reassign
+    contentType = format;
   }
 
   if (contentType === IMAGE_TYPES.AVIF) {
@@ -215,11 +245,11 @@ export async function imageOptimizer(
   imageUpstream: ImageUpstream,
   paramsResult: Pick<
     ImageParamsResult,
-    'href' | 'width' | 'quality' | 'mimeType'
+    'href' | 'width' | 'quality' | 'mimeType' | 'format'
   >,
   _isDev: boolean | undefined,
 ) {
-  const { href, quality, width, mimeType } = paramsResult;
+  const { href, quality, width, mimeType, format } = paramsResult;
   const upstreamBuffer = imageUpstream.buffer;
   const maxAge = getMaxAge(imageUpstream.cacheControl);
   const upstreamType =
@@ -259,7 +289,9 @@ export async function imageOptimizer(
 
   let contentType: string;
 
-  if (mimeType) {
+  if (format) {
+    contentType = format;
+  } else if (mimeType) {
     contentType = mimeType;
   } else if (
     upstreamType?.startsWith('image/') &&
@@ -278,6 +310,7 @@ export async function imageOptimizer(
       contentType,
       quality,
       width,
+      format,
     });
     if (optimizedBuffer) {
       return {

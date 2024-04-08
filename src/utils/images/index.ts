@@ -15,6 +15,7 @@ export interface ImageParamsResult {
   mimeType: string;
   sizes: number[];
   minimumCacheTTL: number;
+  format?: 'image/webp' | 'image/png';
 }
 
 export interface ImageUpstream {
