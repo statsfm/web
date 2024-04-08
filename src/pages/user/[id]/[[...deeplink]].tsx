@@ -351,18 +351,21 @@ const User: NextPage<Props> = ({
         {`${formatter.nounify(user.displayName)} stats, streams and more`}
       </Title>
       <Head>
-        <meta property="og:image" content={user.image} />
+        <meta
+          property="og:image"
+          content={`/api/og/user/${user.customId ?? user.id}`}
+        />
         <meta
           property="og:image:alt"
-          content={`${user.displayName}'s profile picture`}
+          content={`${user.displayName}'s profile stats`}
         />
-        <meta property="og:image:width" content="240" />
-        <meta property="og:image:height" content="240" />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
         <meta
           property="og:description"
           content={`View ${user.displayName} on stats.fm to see all of their listening statistics!`}
         />
-        <meta property="twitter:card" content="summary" />
+        <meta property="twitter:card" content="summary_large_image" />
       </Head>
       <Scope.Context
         as={currentUser}
