@@ -10,6 +10,7 @@ import type { NextRequest } from 'next/server';
 export const runtime = 'nodejs';
 
 type OGUserHandler = (
+  req: NextRequest,
   api: Api,
   user: UserPublic,
 ) => ReactElement<JSXElementConstructor<any>>;
@@ -36,7 +37,7 @@ export async function GET(
     variants: string | undefined;
   };
 
-  return new ImageResponse(VARIANTS[variants ?? 'default']!(api, user), {
+  return new ImageResponse(VARIANTS[variants ?? 'default']!(req, api, user), {
     // debug: true,
     width: 1200,
     fonts: [
