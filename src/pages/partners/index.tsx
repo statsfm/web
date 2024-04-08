@@ -24,9 +24,9 @@ const solutions = [
     icon: MdAdsClick,
   },
   {
-    name: 'Data Packs',
+    name: 'Insight Packs',
     description:
-      'Unlock your story with custom data dashboards for insights on festivals, tours and launches with stats.fm.',
+      'Unlock your story with custom dashboards for insights on festivals, tours and launches with stats.fm.',
     icon: MdDataset,
   },
   {
