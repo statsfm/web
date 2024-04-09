@@ -112,9 +112,9 @@ export const getServerSideProps: GetServerSideProps<Props> = async (ctx) => {
   const user = await fetchUser(ctx);
 
   let friendStatus = FriendStatus.NONE;
-  const friendCount = userProfile.privacySettings?.friends
-    ? await api.users.friendCount(userProfile.id).catch(() => 0)
-    : 0;
+  const friendCount = await api.users
+    .friendCount(userProfile.id)
+    .catch(() => 0);
 
   if (user)
     try {
