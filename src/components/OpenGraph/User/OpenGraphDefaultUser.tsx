@@ -3,14 +3,23 @@ import { Logo } from '@/components/Logo';
 import { splitStringAtLength } from '@/utils/string';
 import type { UserPublic } from '@statsfm/statsfm.js';
 import type Api from '@statsfm/statsfm.js';
-import type { NextRequest } from 'next/server';
+import type { NextApiRequest } from 'next';
 import type { JSXElementConstructor, ReactElement } from 'react';
 
 export function OpenGraphDefaultUser(
-  req: NextRequest,
+  req: NextApiRequest,
   _: Api,
   user: UserPublic,
 ): ReactElement<JSXElementConstructor<any>> {
+  const protocol =
+    process.env.NODE_ENV === 'development'
+      ? 'http'
+      : req.headers['x-forwarded-proto'] ?? 'https';
+
+  const { host } = req.headers;
+
+  const origin = `${protocol}://${host}`;
+
   return (
     <div tw="flex flex-col flex-1 w-[1200px] h-full bg-[#18181c]">
       <div tw="flex flex-row m-auto pl-32 pr-32">
@@ -19,7 +28,7 @@ export function OpenGraphDefaultUser(
             tw="rounded-full"
             height="400px"
             width="400px"
-            src={`${new URL(req.url!).origin}/api/image?url=${user.image}&w=256&q=75&f=image/png`}
+            src={`${origin}/api/image?url=${user.image}&w=256&q=75&f=image/png`}
           />
           {user.isPlus && (
             <div tw="absolute right-0 bottom-2 text-center flex text-[#ffd700] items-center text-6xl">
