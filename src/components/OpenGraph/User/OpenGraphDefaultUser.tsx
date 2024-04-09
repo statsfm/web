@@ -21,6 +21,8 @@ export function OpenGraphDefaultUser(
 
   const origin = `${protocol}://${host}`;
 
+  const customId = user.customId ?? user.id;
+
   return (
     <div tw="flex flex-col flex-1 w-[1200px] h-full bg-[#18181c]">
       <div tw="flex flex-row m-auto pl-32 pr-32">
@@ -56,7 +58,14 @@ export function OpenGraphDefaultUser(
         <Logo tw="h-8 w-8 mr-3" />
         <div tw="flex items-end">
           <h2 tw="text-[#A3A3A3] mb-5" style={{ fontFamily: 'Sans Medium' }}>
-            stats.fm/<span tw="text-white">{user.customId ?? user.id}</span>
+            stats.fm
+            {customId !== '' ? (
+              <>
+                /<span tw="text-white">{customId}</span>
+              </>
+            ) : (
+              ''
+            )}
           </h2>
         </div>
       </div>

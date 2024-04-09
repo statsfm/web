@@ -31,6 +31,22 @@ export default async function handler(
     return;
   }
 
+  if (user.userBan?.active === true) {
+    user.displayName = 'Banned User';
+    if (user.profile?.bio) user.profile.bio = '';
+    user.image = undefined;
+    user.isPlus = false;
+    user.customId = '';
+  }
+
+  if (
+    user.image === null ||
+    user.image === undefined ||
+    ['fbcdn', 'fbsbx'].some((s) => user.image!.includes(s))
+  )
+    user.image =
+      'https://cdn.stats.fm/file/statsfm/images/placeholders/users/private.webp';
+
   const image = await renderToImage(
     VARIANTS[variants ?? 'default']!(req, api, user),
     // {
