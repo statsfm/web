@@ -4,7 +4,12 @@ const handler = (req: NextApiRequest, res: NextApiResponse) => {
   let protocol = req.headers['x-forwarded-proto'] ?? 'https';
   if (process.env.NODE_ENV === 'development') protocol = 'http';
 
-  const { host } = req.headers;
+  let { host } = req.headers;
+
+  if (host?.includes('spotistats.app')) {
+    host = host.replace('spotistats.app', 'stats.fm');
+  }
+
   const origin = `${protocol}://${host}`;
 
   // remove the extra httpOnly cookie which is no longer in use
@@ -17,7 +22,7 @@ const handler = (req: NextApiRequest, res: NextApiResponse) => {
     const { host } = req.headers;
     const domain = host?.split(':')[0];
     cookies.push(
-      `identityToken=; Path=/; Domain=${domain}; Expires=Thu, 01 Jan 1970 00:00:00 GMT`
+      `identityToken=; Path=/; Domain=${domain}; Expires=Thu, 01 Jan 1970 00:00:00 GMT`,
     );
   }
 
@@ -54,7 +59,9 @@ const handler = (req: NextApiRequest, res: NextApiResponse) => {
     'user-follow-modify',
   ].join('%20');
 
-  const redirectUrl = `https://api.stats.fm/api/v1/auth/redirect/spotify?scope=${scope}&redirect_uri=${origin}/api/auth/callback`;
+  const redirectUrl = `${
+    process.env.NEXT_PUBLIC_API_URL ?? 'https://api.stats.fm/api'
+  }/v1/auth/SPOTIFY/redirect?scope=${scope}&redirect_uri=${origin}/api/auth/callback`;
   return res.redirect(redirectUrl);
 };
 

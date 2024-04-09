@@ -5,7 +5,7 @@ import { Divider } from '@/components/Divider';
 import { Overlay } from '@/components/Overlay';
 import { useApi, useAuth } from '@/hooks';
 import { Switch } from '@headlessui/react';
-import type { UserPrivacySettings, UserPrivate } from '@statsfm/statsfm.js';
+import type { UserPrivacySettings, UserPrivate } from '@/utils/statsfm';
 import clsx from 'clsx';
 import type { GetServerSideProps, NextPage } from 'next';
 import type { FC } from 'react';
@@ -85,7 +85,7 @@ const PrivacyList: FC<{ user: UserPrivate }> = () => {
   const [status, setStatus] = useState<StatusOptions>('DEFAULT');
 
   const [privacySettings, setPrivacySettings] = useState<UserPrivacySettings>(
-    user.privacySettings!
+    user.privacySettings!,
   );
 
   const changed = useMemo(() => {
@@ -114,7 +114,7 @@ const PrivacyList: FC<{ user: UserPrivate }> = () => {
     const entries = Object.entries<boolean>(
       privacySettings as unknown as {
         [key in keyof UserPrivacySettings]: boolean;
-      }
+      },
     ) as [keyof UserPrivacySettings, boolean][];
 
     const displayKeys = Object.keys(displayNames);
@@ -130,7 +130,7 @@ const PrivacyList: FC<{ user: UserPrivate }> = () => {
           disabled={!changed || status === 'SAVING'}
           className={clsx(
             changed ? 'hover:!bg-primary/60 active:!bg-primary/40' : '',
-            ' block h-min rounded-md !bg-primary py-2 px-4 text-background'
+            ' block h-min rounded-md !bg-primary py-2 px-4 text-background',
           )}
         >
           Save
@@ -160,13 +160,13 @@ const PrivacyList: FC<{ user: UserPrivate }> = () => {
                   }
                   className={clsx(
                     value ? 'bg-primary' : 'bg-primaryLighter',
-                    'relative flex h-6 w-12 shrink-0 cursor-pointer items-center rounded-full border-2 border-transparent py-3 transition-colors duration-200 ease-in-out focus:outline-none focus-visible:ring-2 focus-visible:ring-white/75'
+                    'relative flex h-6 w-12 shrink-0 cursor-pointer items-center rounded-full border-2 border-transparent py-3 transition-colors duration-200 ease-in-out focus:outline-none focus-visible:ring-2 focus-visible:ring-white/75',
                   )}
                 >
                   <span
                     className={clsx(
                       value ? 'translate-x-5' : 'translate-x-[2px]',
-                      'h-[22px] w-[22px] rounded-full bg-white transition-transform duration-200 ease-in-out'
+                      'h-[22px] w-[22px] rounded-full bg-white transition-transform duration-200 ease-in-out',
                     )}
                   />
                 </Switch>

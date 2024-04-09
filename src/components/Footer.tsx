@@ -14,6 +14,19 @@ const links: { label: string; links: { label: string; href: string }[] }[] = [
         href: '/',
       },
       {
+        label: 'Status',
+        href: 'https://status.stats.fm',
+      },
+      {
+        label: 'Feedback',
+        href: 'https://feedback.stats.fm',
+      },
+    ],
+  },
+  {
+    label: 'Resources',
+    links: [
+      {
         label: 'Support',
         href: 'https://support.stats.fm/',
       },
@@ -22,13 +35,9 @@ const links: { label: string; links: { label: string; href: string }[] }[] = [
         href: '/beta',
       },
       {
-        label: 'Credits',
-        href: '/credits',
+        label: 'stats.fm Plus',
+        href: '/plus',
       },
-      // {
-      //   label: 'Plus',
-      //   href: '/plus',
-      // },
     ],
   },
   {
@@ -41,6 +50,10 @@ const links: { label: string; links: { label: string; href: string }[] }[] = [
       {
         label: 'Jobs',
         href: '/careers',
+      },
+      {
+        label: 'Credits',
+        href: '/credits',
       },
     ],
   },
@@ -115,18 +128,7 @@ export const Footer = () => {
                       href={link.href}
                       className="text-[1rem]"
                     >
-                      <a
-                        onClick={
-                          cat.label === 'Socials'
-                            ? () =>
-                                event(
-                                  `FOOTER_${link.label.toLowerCase()}_click`
-                                )
-                            : undefined
-                        }
-                      >
-                        {link.label}
-                      </a>
+                      <a>{link.label}</a>
                     </Link>
                   )}
                 </li>
@@ -204,8 +206,8 @@ export const Footer = () => {
         no way affiliated with Spotify AB.
       </p>
       <p className="min-w-full text-center md:mt-0">
-        © 2020-2023 StatsFM B.V. (formerly Spotistats for Spotify). All rights
-        reserved. Made with ❤️ in the Netherlands.
+        © 2020-{new Date().getFullYear()} StatsFM B.V. (formerly Spotistats for
+        Spotify). All rights reserved. Made with ❤️ in the Netherlands.
       </p>
     </Container>
   );

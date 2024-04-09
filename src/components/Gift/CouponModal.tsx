@@ -1,5 +1,5 @@
 import { useApi, useToaster } from '@/hooks';
-import type { GiftCode } from '@statsfm/statsfm.js';
+import type { GiftCode } from '@/utils/statsfm';
 import { Dialog } from '@headlessui/react';
 import dayjs from 'dayjs';
 import Link from 'next/link';
@@ -26,7 +26,7 @@ export const CouponModal: FC<{
 
   const copyLink = useCallback(() => {
     navigator.clipboard.writeText(
-      `${window.location.origin}/redeem/${giftCode.code}`
+      `${window.location.origin}/redeem/${giftCode.code}`,
     );
   }, [giftCode]);
 

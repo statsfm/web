@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { Avatar } from '@/components/Avatar';
-import type { Artist } from '@statsfm/statsfm.js';
+import type { Artist } from '@/utils/statsfm';
 
 interface Props extends Artist {}
 

@@ -1,5 +1,7 @@
 import { Container } from '@/components/Container';
 import { Title } from '@/components/Title';
+import type { SSRProps } from '@/utils/ssrUtils';
+import { fetchUser } from '@/utils/ssrUtils';
 import type { GetServerSideProps, NextPage } from 'next';
 import Link from 'next/link';
 
@@ -32,7 +34,7 @@ const unparseData = (unparsedData: string): Props => {
 
   const data = mappedVars.reduce(
     (acc, curr) => ({ ...acc, ...curr }),
-    {} as BaseProps
+    {} as BaseProps,
   );
 
   // Insert default vars
@@ -41,24 +43,30 @@ const unparseData = (unparsedData: string): Props => {
     title: data.title ?? 'Error',
     message: data.message ?? 'Something went wrong',
     buttons: (data.buttons ?? []).filter(
-      (button) => button.action && button.url
+      (button) => button.action && button.url,
     ),
     hideCode: data.hideCode ?? false,
   };
 };
 
-export const getServerSideProps: GetServerSideProps<Props> = async (ctx) => {
+export const getServerSideProps: GetServerSideProps<SSRProps<Props>> = async (
+  ctx,
+) => {
   // parse base64 to string text
   const parsedData = Buffer.from(
     ctx.params?.data?.toString() ?? '',
-    'base64'
+    'base64',
   ).toString();
 
   const data = unparseData(parsedData);
+  const user = await fetchUser(ctx);
 
   ctx.res.statusCode = data.code;
   return {
-    props: data,
+    props: {
+      ...data,
+      user,
+    },
   };
 };
 

@@ -1,7 +1,7 @@
 // TODO: fix dependency cycle
 // eslint-disable-next-line import/no-cycle
 import { useApi } from '@/hooks';
-import type * as statsfm from '@statsfm/statsfm.js';
+import type * as statsfm from '@/utils/statsfm';
 import { decodeJwt } from 'jose';
 import Cookies from 'js-cookie';
 import { useRouter } from 'next/router';
@@ -17,17 +17,17 @@ export const AuthContext = createContext<{
 } | null>(null);
 
 export const AuthProvider = (
-  props: PropsWithChildren<{ user?: statsfm.UserPrivate }>
+  props: PropsWithChildren<{ user?: statsfm.UserPrivate | null }>,
 ) => {
   const [user, setUser] = useState<statsfm.UserPrivate | null>(
-    props.user ?? null
+    props.user ?? null,
   );
   const api = useApi();
   const router = useRouter();
 
   const login = (redirectUrl?: string) => {
     if (redirectUrl) Cookies.set('redirectUrl', redirectUrl);
-    router.push('/api/auth/login');
+    router.push('/login');
   };
 
   const tokenAge = () => {
@@ -92,7 +92,7 @@ export const AuthProvider = (
 
   const exposed = useMemo(
     () => ({ user, updateUser, tokenAge, login, logout }),
-    [user]
+    [user],
   );
 
   return (

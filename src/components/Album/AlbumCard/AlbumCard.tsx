@@ -1,5 +1,5 @@
 import type { PropsWithChildren } from 'react';
-import type * as statsfm from '@statsfm/statsfm.js';
+import type * as statsfm from '@/utils/statsfm';
 
 import Link from 'next/link';
 import formatter from '@/utils/formatter';

@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { Avatar } from '@/components/Avatar';
-import type { UserPublic } from '@statsfm/statsfm.js';
+import type { UserPublic } from '@/utils/statsfm';
 
 interface Props extends UserPublic {}
 

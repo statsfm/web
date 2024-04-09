@@ -8,7 +8,7 @@ export const Spinner: FC<{ className?: string }> = ({ className }) => {
         aria-hidden="true"
         className={clsx(
           className,
-          'mr-2 h-8 w-8 animate-spin fill-blue-600 text-gray-200 dark:text-gray-600'
+          'mr-2 h-8 w-8 animate-spin fill-blue-600 text-gray-200 dark:text-gray-600',
         )}
         viewBox="0 0 100 101"
         fill="none"

@@ -1,5 +1,5 @@
 import { useState, type FC, useEffect } from 'react';
-import { type Artist } from '@statsfm/statsfm.js';
+import { type Artist } from '@/utils/statsfm';
 import { useApi } from '@/hooks';
 import { event } from 'nextjs-google-analytics';
 import {
@@ -24,12 +24,13 @@ export const ArtistRelatedArtists: FC<Props> = ({ artist }) => {
 
   useEffect(() => {
     (async () => {
+      setLoading(true);
       setRelated(
-        await api.artists.related(artist.id).then((r) => r.filter((a) => a.id))
+        await api.artists.related(artist.id).then((r) => r.filter((a) => a.id)),
       );
       setLoading(false);
     })();
-  }, [artist]);
+  }, [artist.id]);
 
   return (
     <Carousel slide={1} rows={3}>

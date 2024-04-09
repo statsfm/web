@@ -1,5 +1,7 @@
 import { Button } from '@/components/Button';
 import { Container } from '@/components/Container';
+import type { SSRProps } from '@/utils/ssrUtils';
+import { fetchUser } from '@/utils/ssrUtils';
 import type { GetServerSideProps, NextPage } from 'next';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -8,7 +10,9 @@ type Props = {
   gif: string;
 };
 
-export const getServerSideProps: GetServerSideProps<Props> = async () => {
+export const getServerSideProps: GetServerSideProps<SSRProps<Props>> = async (
+  ctx,
+) => {
   const gifs = [
     'https://c.tenor.com/BnEKiDKJisEAAAAC/claire-dancing.gif',
     'https://c.tenor.com/4-C47Bn_MUgAAAAd/friday-happy-dance.gif',
@@ -25,10 +29,12 @@ export const getServerSideProps: GetServerSideProps<Props> = async () => {
   ];
 
   const gif = gifs[Math.floor(Math.random() * gifs.length)]!;
+  const user = await fetchUser(ctx);
 
   return {
     props: {
       gif,
+      user,
     },
   };
 };

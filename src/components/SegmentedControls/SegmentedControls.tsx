@@ -1,6 +1,6 @@
 import clsx from 'clsx';
 import type { PropsWithChildren } from 'react';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import type { Segment } from './context';
 import { SegmentedControlsContext } from './context';
 
@@ -94,28 +94,38 @@ const SegmentedControls = ({
     if (firstSegmentMounted) {
       set(segments[0]?.id ?? '', true);
     }
+
+    if (segments.find((segment) => segment.defaultSelected)) {
+      const defaultSelectedSegment = segments.find(
+        (segment) => segment.defaultSelected,
+      );
+      set(defaultSelectedSegment!.id, true);
+    }
   }, [segments]);
 
+  const values = useMemo(
+    () => ({
+      register,
+      unregister,
+      highlight,
+      set,
+      active,
+    }),
+    [active, highlight, register, set, unregister],
+  );
+
   return (
-    <SegmentedControlsContext.Provider
-      value={{
-        register,
-        unregister,
-        highlight,
-        set,
-        active,
-      }}
-    >
+    <SegmentedControlsContext.Provider value={values}>
       <ul
         className={clsx(
           'grid h-max auto-cols-[1fr] grid-flow-col rounded-2xl bg-foreground p-1.5',
-          props.className
+          props.className,
         )}
       >
         <span
           className={clsx(
             'col-[1] row-[1] rounded-xl bg-primary/10 transition-all duration-200 will-change-transform',
-            segments[activeHighlight]?.disabled && 'bg-background'
+            segments[activeHighlight]?.disabled && 'bg-background',
           )}
           style={{
             transform: `translateX(${offsetWidth * activeHighlight}px)`,

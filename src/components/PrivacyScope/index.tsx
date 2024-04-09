@@ -1,4 +1,4 @@
-import type * as statsfm from '@statsfm/statsfm.js';
+import type * as statsfm from '@/utils/statsfm';
 import type { FC, PropsWithChildren } from 'react';
 import { createContext, useContext } from 'react';
 
@@ -31,7 +31,7 @@ const useScopeContext = () => {
 
 const usePrivacyScope = (
   value: keyof statsfm.UserPrivacySettings,
-  asViewer = true
+  asViewer = true,
 ) => {
   const scopeContext = useScopeContext();
 

@@ -1,5 +1,5 @@
 import { useState, type FC, useEffect } from 'react';
-import type * as statsfm from '@statsfm/statsfm.js';
+import type * as statsfm from '@/utils/statsfm';
 import { event } from 'nextjs-google-analytics';
 import { useApi, useAuth } from '@/hooks';
 import { supportUrls } from '@/utils/supportUrls';
@@ -8,7 +8,6 @@ import clsx from 'clsx';
 import { Carousel } from '@/components/Carousel';
 import {
   Section,
-  SectionToolbarFriendMode,
   SectionToolbarCarouselNavigation,
   SectionToolbarGridMode,
   SectionToolbarInfoMenu,
@@ -21,57 +20,32 @@ type Props = {
   data: statsfm.Track | statsfm.Album | statsfm.Artist;
 };
 
-export const TopListeners: FC<Props> = (props) => {
-  const [topListeners, setTopListeners] = useState<statsfm.TopUser[]>([]);
-  const [topListenersFriends, setTopListenersFriends] = useState(false);
-  const [loading, setLoading] = useState(true);
-  const [gridMode, setGridMode] = useState(false);
-  const api = useApi();
+const TopListenersBase: FC<
+  {
+    topListenerData: statsfm.TopUser[];
+    friends: boolean;
+    loading: boolean;
+  } & Props
+> = ({ topListenerData, friends, loading, data, type }) => {
   const { user, login } = useAuth();
-
-  const type = `${props.type.toLowerCase()}s` as
-    | 'tracks'
-    | 'albums'
-    | 'artists';
-
-  useEffect(() => {
-    (async () => {
-      setTopListeners(
-        await api[type]
-          .topListeners(props.data.id, topListenersFriends)
-          .catch(() => [])
-      );
-      setLoading(false);
-    })();
-  }, [topListenersFriends]);
-
+  const [gridMode, setGridMode] = useState(false);
   return (
     <Carousel>
       <Section
-        title={`Top listeners ${
-          topListenersFriends ? 'among your friends' : ''
+        title={`Top listeners ${friends ? 'among your friends' : ''}`}
+        description={`${friends ? 'Friends' : 'People'} who listen a lot to ${
+          data.name
         }`}
-        description={`${
-          topListenersFriends ? 'Friends' : 'People'
-        } who listen a lot to ${props.data.name}`}
         toolbar={
           <div
             className={clsx(
               'flex gap-1',
-              loading ? 'pointer-events-none opacity-30' : ''
+              loading ? 'pointer-events-none opacity-30' : '',
             )}
           >
-            {user && (
-              <SectionToolbarFriendMode
-                callback={(data) => {
-                  setLoading(true);
-                  setTopListenersFriends(data);
-                }}
-              />
-            )}
             <SectionToolbarGridMode
               callback={(gridmode) => {
-                event(`${props.type}_top_listener_grid`, {
+                event(`${type}_top_listener${friends ? '_friends' : ''}_grid`, {
                   gridmodeOn: !gridmode,
                 });
                 setGridMode(!gridmode);
@@ -82,11 +56,17 @@ export const TopListeners: FC<Props> = (props) => {
               className={clsx(gridMode ? 'pointer-events-none opacity-30' : '')}
             >
               <SectionToolbarCarouselNavigation
-                callback={() => event(`${props.type}_top_listener_previous`)}
+                callback={() =>
+                  event(
+                    `${type}_top_listener${friends ? '_friends' : ''}_previous`,
+                  )
+                }
               />
               <SectionToolbarCarouselNavigation
                 next
-                callback={() => event(`${props.type}_top_listener_next`)}
+                callback={() =>
+                  event(`${type}_top_listener${friends ? '_friends' : ''}_next`)
+                }
               />
             </div>
             <SectionToolbarInfoMenu
@@ -98,13 +78,19 @@ export const TopListeners: FC<Props> = (props) => {
       >
         <div className="relative">
           <Carousel.Items
-            className={`${!user && topListeners.length === 0 ? 'blur-sm' : ''}`}
+            className={`${
+              !user && topListenerData.length === 0 ? 'blur-sm' : ''
+            }`}
           >
-            {!loading && topListeners.length > 0
-              ? topListeners.map((item) => (
+            {!loading && topListenerData.length > 0
+              ? topListenerData.map((item) => (
                   <Carousel.Item
                     key={(Math.random() + 1).toString(36).substring(7)}
-                    onClick={() => event(`${props.type}_top_listener_click`)}
+                    onClick={() =>
+                      event(
+                        `${type}_top_listener${friends ? '_friends' : ''}_click`,
+                      )
+                    }
                   >
                     <div className="h-[270px]">
                       <TopListenerCard {...item} />
@@ -121,7 +107,7 @@ export const TopListeners: FC<Props> = (props) => {
                     </Carousel.Item>
                   ))}
           </Carousel.Items>
-          {!user && topListeners.length === 0 && (
+          {!user && topListenerData.length === 0 && (
             <div className="absolute inset-0 grid place-items-center">
               <p className="m-0 text-lg text-text-grey">
                 <a
@@ -137,5 +123,59 @@ export const TopListeners: FC<Props> = (props) => {
         </div>
       </Section>
     </Carousel>
+  );
+};
+
+export const TopListeners: FC<Props> = (props) => {
+  const [topListeners, setTopListeners] = useState<statsfm.TopUser[]>([]);
+  const [topListenersFriends, setTopListenersFriends] = useState<
+    statsfm.TopUser[]
+  >([]);
+  const [loading, setLoading] = useState(true);
+  const [loadingFriends, setLoadingFriends] = useState(true);
+  const api = useApi();
+  const { user } = useAuth();
+
+  const type = `${props.type.toLowerCase()}s` as
+    | 'tracks'
+    | 'albums'
+    | 'artists';
+
+  useEffect(() => {
+    (async () => {
+      setLoading(true);
+      setLoadingFriends(true);
+      setTopListeners(
+        await api[type].topListeners(props.data.id).catch(() => []),
+      );
+      setLoading(false);
+      if (user) {
+        setTopListenersFriends(
+          await api[type].topListeners(props.data.id, true).catch(() => []),
+        );
+        setLoadingFriends(false);
+      }
+    })();
+  }, [props.data.id]);
+
+  return (
+    <div>
+      <TopListenersBase
+        topListenerData={topListeners}
+        friends={false}
+        loading={loading}
+        data={props.data}
+        type={props.type}
+      />
+      {user && (
+        <TopListenersBase
+          topListenerData={topListenersFriends}
+          friends
+          loading={loadingFriends}
+          data={props.data}
+          type={props.type}
+        />
+      )}
+    </div>
   );
 };

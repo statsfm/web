@@ -117,7 +117,7 @@ export const Items = ({
           }}
           className={clsx(
             'absolute z-20 max-h-96 min-w-max rounded-xl bg-foreground py-2 shadow-xl overflow-y-hidden',
-            className
+            className,
           )}
           aria-activedescendant={
             state.activeItemIndex === null

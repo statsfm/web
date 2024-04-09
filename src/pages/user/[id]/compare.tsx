@@ -1,7 +1,19 @@
 import { Container } from '@/components/Container';
 import { StoreBadge } from '@/components/StoreBadges';
 import { Title } from '@/components/Title';
-import type { NextPage } from 'next';
+import type { SSRProps } from '@/utils/ssrUtils';
+import { fetchUser } from '@/utils/ssrUtils';
+import type { GetServerSideProps, NextPage } from 'next';
+
+export const getServerSideProps: GetServerSideProps<SSRProps> = async (ctx) => {
+  const user = await fetchUser(ctx);
+
+  return {
+    props: {
+      user,
+    },
+  };
+};
 
 const ComparePage: NextPage = () => {
   return (

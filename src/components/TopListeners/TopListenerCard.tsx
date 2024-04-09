@@ -1,4 +1,4 @@
-import type * as statsfm from '@statsfm/statsfm.js';
+import type * as statsfm from '@/utils/statsfm';
 import clsx from 'clsx';
 import Link from 'next/link';
 import formatter from '@/utils/formatter';
@@ -27,7 +27,7 @@ export const TopListenerCard = ({
         <span
           className={clsx(
             'rounded-lg bg-foreground px-2 py-1.5 text-lg drop-shadow-lg',
-            positions[position]
+            positions[position],
           )}
         >
           #{position}

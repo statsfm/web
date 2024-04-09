@@ -1,7 +1,7 @@
 import type { GetServerSideProps, NextPage } from 'next';
 import { Chip, ChipGroup } from '@/components/Chip';
 import { Container } from '@/components/Container';
-import type { Artist, Genre } from '@statsfm/statsfm.js';
+import type { Artist, Genre } from '@/utils/statsfm';
 import { Section } from '@/components/Section/Section';
 import { Avatar } from '@/components/Avatar';
 import Link from 'next/link';
@@ -98,7 +98,7 @@ const GenrePage: NextPage<Props> = ({ tag, genre }) => {
                 genre.related
                   .filter(
                     (g1) =>
-                      genre.sub.findIndex((g2) => g1.tag === g2.tag) === -1
+                      genre.sub.findIndex((g2) => g1.tag === g2.tag) === -1,
                   )
                   .map((genre, i) => (
                     <Chip key={i}>

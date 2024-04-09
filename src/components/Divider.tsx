@@ -10,7 +10,7 @@ export const Divider = ({ invert = false, className, ...props }: Props) => (
     className={clsx(
       'my-2',
       invert ? 'border-background' : 'border-foreground',
-      className
+      className,
     )}
     {...props}
   />

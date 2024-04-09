@@ -9,11 +9,10 @@ import { GoogleAnalytics } from 'nextjs-google-analytics';
 import { ToasterContainer } from '@/context/toaster';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import type { UserPrivate } from '@statsfm/statsfm.js';
-import localFont from '@next/font/local';
+import type { UserPrivate } from '@/utils/statsfm';
+import localFont from 'next/font/local';
 import clsx from 'clsx';
 import ErrorBoundary from '@/components/ErrorBoundary';
-import Script from 'next/script';
 
 // TODO: this is the stupidest solution to the worst issue ever, works for now
 // https://github.com/tailwindlabs/headlessui/discussions/666#discussioncomment-1891380
@@ -61,8 +60,28 @@ const Ogp = () => (
   </>
 );
 
+// const Smartlook = () => {
+//   return (
+//     <script
+//       dangerouslySetInnerHTML={{
+//         __html: `
+//           window.smartlook||(function(d) {
+//           var o=smartlook=function(){ o.api.push(arguments)},h=d.getElementsByTagName('head')[0];
+//           var c=d.createElement('script');o.api=new Array();c.async=true;c.type='text/javascript';
+//           c.charset='utf-8';c.src='https://web-sdk.smartlook.com/recorder.js';h.appendChild(c);
+//           })(document);
+//           smartlook('init', '6262fc1ab5badfb59df569ba2daf04f562017bfd', { region: 'eu' });
+//           `,
+//       }}
+//     />
+//   );
+// };
+
 // TODO: we'll probably rewrite the auth logic to use a state management store instead of context, but we implemented this temporary for development
-const App = ({ Component, pageProps }: AppProps<{ user?: UserPrivate }>) => {
+const App = ({
+  Component,
+  pageProps,
+}: AppProps<{ user?: UserPrivate | null }>) => {
   const router = useRouter();
   // only show default ogp tags for routes who don't define their own
   const showOgp = ![
@@ -72,7 +91,7 @@ const App = ({ Component, pageProps }: AppProps<{ user?: UserPrivate }>) => {
     '/album/[id]',
   ].includes(router.pathname);
 
-  const showAds = !pageProps.user ? true : !pageProps.user.isPlus;
+  // const isProd = process.env.NODE_ENV === 'production';
 
   return (
     <main className={clsx(StatsfmSans.variable, 'font-body')}>
@@ -84,6 +103,7 @@ const App = ({ Component, pageProps }: AppProps<{ user?: UserPrivate }>) => {
           <meta property="og:type" content="website" />
           <meta property="twitter:site" content="@spotistats" />
           <meta property="twitter:creator" content="@spotistats" />
+          {/* {isProd && <Smartlook />} */}
           {showOgp && <Ogp />}
         </Head>
         <ToasterContainer>
@@ -97,13 +117,6 @@ const App = ({ Component, pageProps }: AppProps<{ user?: UserPrivate }>) => {
         </ToasterContainer>
       </AuthProvider>
       <section id="PortalRoot" />
-      {showAds && (
-        <Script
-          async
-          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6037791262117379"
-          crossOrigin="anonymous"
-        />
-      )}
     </main>
   );
 };

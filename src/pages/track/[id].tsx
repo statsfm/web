@@ -1,7 +1,7 @@
 import type { GetServerSideProps, NextPage } from 'next';
 import type { FC } from 'react';
 import { useEffect, useMemo, useState } from 'react';
-import type * as statsfm from '@statsfm/statsfm.js';
+import type * as statsfm from '@/utils/statsfm';
 import { AlbumCard } from '@/components/Album';
 import { Carousel } from '@/components/Carousel';
 import { Image } from '@/components/Image';
@@ -194,10 +194,10 @@ const Track: NextPage<Props> = ({ track }) => {
 
   const [audioFeatures, setAudioFeatures] = useState<statsfm.AudioFeatures>();
   const [recentStreams, setRecentStreams] = useState<statsfm.Stream[] | null>(
-    null
+    null,
   );
   const [trackStats, setTrackStats] = useState<statsfm.StreamStats | null>(
-    null
+    null,
   );
 
   const omittedAudioFeatures = useMemo(() => {
@@ -215,7 +215,7 @@ const Track: NextPage<Props> = ({ track }) => {
   useEffect(() => {
     (async () => {
       setAudioFeatures(
-        await api.tracks.audioFeature(track.externalIds.spotify![0] ?? '')
+        await api.tracks.audioFeature(track.externalIds.spotify![0] ?? ''),
       );
     })();
   }, [track]);
@@ -306,7 +306,11 @@ const Track: NextPage<Props> = ({ track }) => {
                   />
                 )}
                 {(track.externalIds.appleMusic ?? []).length > 0 && (
-                  <AppleMusicLink />
+                  <AppleMusicLink
+                    path={`/${user?.country.toLowerCase() ?? 'us'}/song/${
+                      track.externalIds.appleMusic![0]
+                    }`}
+                  />
                 )}
               </div>
             </div>
@@ -417,7 +421,7 @@ const Track: NextPage<Props> = ({ track }) => {
                 value={
                   audioFeatures?.time_signature
                     ? `${formatter.localiseNumber(
-                        audioFeatures?.time_signature
+                        audioFeatures?.time_signature,
                       )}/4`
                     : '-'
                 }

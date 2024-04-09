@@ -4,7 +4,7 @@ import { getApiInstance, fetchUser } from '@/utils/ssrUtils';
 import type { GetServerSideProps, NextPage } from 'next';
 import Link from 'next/link';
 import { MdChevronLeft, MdDiscFull, MdVisibilityOff } from 'react-icons/md';
-import type * as statsfm from '@statsfm/statsfm.js';
+import type * as statsfm from '@/utils/statsfm';
 import { Title } from '@/components/Title';
 import { Section } from '@/components/Section/Section';
 import { useApi } from '@/hooks';
@@ -18,7 +18,7 @@ import { useRouter } from 'next/router';
 
 const usePrivacyScope = (
   scope: keyof statsfm.UserPrivacySettings,
-  user: statsfm.UserPublic
+  user: statsfm.UserPublic,
 ) => {
   return user.privacySettings && user.privacySettings[scope];
 };
@@ -30,7 +30,7 @@ const Toolbar: FC<{ closeCallback: () => void }> = ({ closeCallback }) => (
       className={clsx(
         'mr-4 rounded-full bg-foreground p-2 ring-neutral-500 transition-all',
         // moved from the global css file
-        'focus-within:ring-2 focus:outline-none focus:ring-2 hover:ring-2'
+        'focus-within:ring-2 focus:outline-none focus:ring-2 hover:ring-2',
       )}
       onClick={() => closeCallback()}
     >
@@ -70,7 +70,7 @@ const StreamsPage: NextPage<Props> = ({ userProfile }) => {
   const router = useRouter();
 
   const [recentStreams, setRecentStreams] = useState<statsfm.Stream[]>([]);
-  const [loadMoar, setLoadMoar] = useState(true);
+  const [loadMore, setLoadMore] = useState(true);
 
   const callbackRef = async () => {
     if (!userProfile.privacySettings?.recentlyPlayed) return;
@@ -82,7 +82,7 @@ const StreamsPage: NextPage<Props> = ({ userProfile }) => {
       before: new Date(lastEndTime).getTime() || new Date().getTime(),
     });
 
-    if (streams.length === 0) setLoadMoar(false);
+    if (streams.length === 0) setLoadMore(false);
     setRecentStreams([...(recentStreams || []), ...streams.slice(1)]);
   };
 
@@ -129,7 +129,7 @@ const StreamsPage: NextPage<Props> = ({ userProfile }) => {
               <>
                 <InfiniteScroll
                   loadMore={callbackRef}
-                  hasMore={loadMoar}
+                  hasMore={loadMore}
                   loader={
                     <Spinner
                       key="bigtimerush"
@@ -145,7 +145,7 @@ const StreamsPage: NextPage<Props> = ({ userProfile }) => {
                     streams={recentStreams}
                   />
                 </InfiniteScroll>
-                {!loadMoar && (
+                {!loadMore && (
                   <div className="grid w-full place-items-center py-20">
                     <MdDiscFull />
                     <p className="m-0 text-text-grey">No streams to load!</p>

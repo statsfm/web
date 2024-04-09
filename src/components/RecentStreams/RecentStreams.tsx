@@ -1,4 +1,4 @@
-import type * as statsfm from '@statsfm/statsfm.js';
+import type * as statsfm from '@/utils/statsfm';
 import dayjs from 'dayjs';
 import type { RefObject } from 'react';
 import { useState, useEffect, useMemo } from 'react';
@@ -20,7 +20,7 @@ type Props<T extends statsfm.Stream | statsfm.RecentlyPlayedTrack> = {
     });
 
 export const RecentStreams = <
-  T extends statsfm.Stream | statsfm.RecentlyPlayedTrack
+  T extends statsfm.Stream | statsfm.RecentlyPlayedTrack,
 >({
   streams,
   track,

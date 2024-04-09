@@ -36,7 +36,7 @@ export const SectionToolbarGridMode: FC<Props> = (props) => {
         className={clsx(
           'rounded-full bg-foreground p-2 transition-all',
 
-          'focus-within:ring-2 focus:outline-none focus:ring focus:ring-neutral-500'
+          'focus-within:ring-2 focus:outline-none focus:ring focus:ring-neutral-500',
         )}
         onClick={clickHandler}
       >

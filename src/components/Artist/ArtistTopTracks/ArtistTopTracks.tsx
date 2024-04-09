@@ -4,7 +4,7 @@ import {
   type Artist,
   type TopTrack,
   type Track,
-} from '@statsfm/statsfm.js';
+} from '@/utils/statsfm';
 import { useApi, useAuth } from '@/hooks';
 import clsx from 'clsx';
 import { event } from 'nextjs-google-analytics';
@@ -37,16 +37,17 @@ export const ArtistTopTracks: FC<Props> = ({ artist }) => {
 
   useEffect(() => {
     (async () => {
+      setLoading(true);
       setTopTracks(await api.artists.tracks(artist.id).catch(() => []));
       if (user && isEligible)
         setOwnTopTracks(
           await api.users
             .topTracksFromArtist(user.id, artist.id)
-            .catch(() => [])
+            .catch(() => []),
         );
       setLoading(false);
     })();
-  }, []);
+  }, [artist.id]);
 
   const normalTopTracks =
     !loading && topTracks.length > 0
@@ -84,7 +85,7 @@ export const ArtistTopTracks: FC<Props> = ({ artist }) => {
           <div
             className={clsx(
               'flex gap-1',
-              loading ? 'pointer-events-none opacity-30' : ''
+              loading ? 'pointer-events-none opacity-30' : '',
             )}
           >
             {isEligible && (

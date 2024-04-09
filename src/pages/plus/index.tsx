@@ -3,8 +3,8 @@ import { CrownIcon } from '@/components/Icons';
 import { Image } from '@/components/Image';
 import { Title } from '@/components/Title';
 import { useApi, useAuth, useToaster } from '@/hooks';
-import { Range } from '@statsfm/statsfm.js';
-import type { TopArtist, ItemResponse } from '@statsfm/statsfm.js';
+import { Range } from '@/utils/statsfm';
+import type { TopArtist, ItemResponse } from '@/utils/statsfm';
 import clsx from 'clsx';
 import { gsap, Power0, Power1 } from 'gsap';
 import { ScrollTrigger } from 'gsap/dist/ScrollTrigger';
@@ -31,6 +31,7 @@ import {
 import type { SSRProps } from '@/utils/ssrUtils';
 import { getApiInstance, fetchUser } from '@/utils/ssrUtils';
 import { useMedia } from 'react-use';
+import { useRouter } from 'next/router';
 
 // eslint-disable-next-line react/display-name
 const AdsBackground = forwardRef<HTMLDivElement>((_, ref) => {
@@ -76,7 +77,7 @@ const Snackbar = forwardRef<
       ref={ref}
       className={clsx(
         className,
-        'absolute left-1/2 bottom-10 z-50 flex h-min w-11/12 -translate-x-1/2 flex-row items-center justify-between rounded-xl bg-background p-2 px-4 shadow-2xl shadow-black sm:w-1/2'
+        'absolute left-1/2 bottom-10 z-50 flex h-min w-11/12 -translate-x-1/2 flex-row items-center justify-between rounded-xl bg-background p-2 px-4 shadow-2xl shadow-black sm:w-1/2',
       )}
     >
       {children}
@@ -94,14 +95,14 @@ const Heading: FC<{
     <div
       className={clsx(
         visible ? 'opacity-100' : 'opacity-0',
-        'absolute inset-x-0 opacity-0'
+        'absolute inset-x-0 opacity-0',
       )}
       id={id}
     >
       <h2
         className={clsx(
           sub ? '' : 'sm:mt-8',
-          'mb-2 bg-gradient-to-br from-white to-slate-300 bg-clip-text text-2xl text-transparent sm:text-5xl'
+          'mb-2 bg-gradient-to-br from-white to-slate-300 bg-clip-text text-2xl text-transparent sm:text-5xl',
         )}
       >
         {title}
@@ -157,6 +158,7 @@ const PlusScrollAnimation: FC<{ startCheckout: () => {} }> = ({
   const phoneRef = useRef<HTMLDivElement>(null);
   const snackbarRef = useRef<HTMLDivElement>(null);
   const adsBegoneBackgroundRef = useRef<HTMLDivElement>(null);
+  const { user } = useAuth();
 
   const q = gsap.utils.selector(boxRef);
   const mobile = useMedia('(max-width: 640px)');
@@ -185,13 +187,13 @@ const PlusScrollAnimation: FC<{ startCheckout: () => {} }> = ({
         {
           x: `${phoneOffset}px`,
         },
-        { x: `0px`, duration: 2 }
+        { x: `0px`, duration: 2 },
       )
       .fromTo(
         snackbarRef.current,
         { y: '100px' },
         { y: '10px', ease: Power1.easeInOut },
-        '<'
+        '<',
       );
 
     const endTl = gsap
@@ -200,7 +202,7 @@ const PlusScrollAnimation: FC<{ startCheckout: () => {} }> = ({
         snackbarRef.current,
         { y: '10px' },
         { y: '200px', ease: Power1.easeInOut },
-        '<'
+        '<',
       );
 
     if (mobile || typeof window === undefined) {
@@ -215,7 +217,7 @@ const PlusScrollAnimation: FC<{ startCheckout: () => {} }> = ({
           q('#p2'),
           { opacity: 0, y: 0 },
           { opacity: 1, y: '-= 100%' },
-          '<'
+          '<',
         )
         .to(q('#p2'), { color: '#ffd700', duration: 2 }, '<')
         .fromTo(q('#screen2'), { x: '100%' }, { x: '0%', duration: 2 }, '<')
@@ -225,7 +227,7 @@ const PlusScrollAnimation: FC<{ startCheckout: () => {} }> = ({
           q('#p3'),
           { opacity: 0, y: 0 },
           { opacity: 1, y: '-= 430%' },
-          '<'
+          '<',
         )
         .to(q('#p3'), { color: '#ffd700', duration: 2 }, '<')
         .fromTo(q('#screen3'), { x: '100%' }, { x: '0%', duration: 2 }, '<')
@@ -237,7 +239,7 @@ const PlusScrollAnimation: FC<{ startCheckout: () => {} }> = ({
           {
             x: `${phoneOffset}px`,
           },
-          '<'
+          '<',
         )
         .to(q('#hd1'), { opacity: 0 })
         .fromTo(q('#hd2'), { opacity: 0 }, { opacity: 1 }, '<')
@@ -251,7 +253,7 @@ const PlusScrollAnimation: FC<{ startCheckout: () => {} }> = ({
           q('#adsOverlay'),
           { opacity: 0 },
           { opacity: 1, duration: 2 },
-          '<'
+          '<',
         );
 
       tl.add(startTl);
@@ -276,7 +278,7 @@ const PlusScrollAnimation: FC<{ startCheckout: () => {} }> = ({
           {
             x: `${phoneOffset}px`,
           },
-          '<'
+          '<',
         )
         .to(q('#hd1'), { opacity: 0 })
         .fromTo(q('#hd2'), { opacity: 0 }, { opacity: 1 }, '<')
@@ -290,12 +292,12 @@ const PlusScrollAnimation: FC<{ startCheckout: () => {} }> = ({
           q('#soulmatesBg'),
           { opacity: 0, duration: 2 },
           { opacity: 0.5 },
-          '<'
+          '<',
         )
         .fromTo(
           q('#soulmatesBg'),
           { opacity: 0.5, duration: 4 },
-          { opacity: 0 }
+          { opacity: 0 },
         )
         .fromTo(q('#screen5'), { opacity: 0 }, { opacity: 1, duration: 2 }, '<')
         .to(q('#hd2'), { opacity: 0 }, '<')
@@ -304,7 +306,7 @@ const PlusScrollAnimation: FC<{ startCheckout: () => {} }> = ({
           q('#adsOverlay'),
           { opacity: 0 },
           { opacity: 1, duration: 2 },
-          '<'
+          '<',
         )
         .to(
           adsBegoneBackgroundRef.current,
@@ -313,18 +315,18 @@ const PlusScrollAnimation: FC<{ startCheckout: () => {} }> = ({
             duration: 4,
             ease: Power0.easeNone,
           },
-          '<'
+          '<',
         )
         .fromTo(
           adsBegoneBackgroundRef.current,
           { opacity: 0, duration: 2 },
           { opacity: 0.5 },
-          '<'
+          '<',
         )
         .fromTo(
           adsBegoneBackgroundRef.current,
           { opacity: 0.5, duration: 4 },
-          { opacity: 0 }
+          { opacity: 0 },
         );
 
       tl.add(startTl);
@@ -396,11 +398,11 @@ const PlusScrollAnimation: FC<{ startCheckout: () => {} }> = ({
         </div>
 
         <Snackbar ref={snackbarRef}>
-          <p>Get these and even more perks available with plus.</p>
+          <p>Get these and even more perks available with stats.fm Plus.</p>
 
           <button onClick={startCheckout}>
             <p className="block shrink-0 rounded-lg bg-plus px-3 py-1.5 text-center font-medium text-black transition-colors hover:bg-plus/90 active:bg-plus/75">
-              Unlock Plus now!
+              {user?.isPlus ? 'Gift Plus now!' : 'Unlock Plus now!'}
             </p>
           </button>
         </Snackbar>
@@ -435,7 +437,7 @@ const PlusScrollAnimation: FC<{ startCheckout: () => {} }> = ({
         <div
           className={clsx(
             mobile ? 'block' : 'hidden',
-            'absolute top-0 left-0 h-full w-full flex-row gap-8'
+            'absolute top-0 left-0 h-full w-full flex-row gap-8',
           )}
         >
           <SoulmateBackgroundCol amount={7} className="-mt-48" />
@@ -459,7 +461,7 @@ const TierItem: FC<{
         <MdCheckCircle
           className={clsx(
             'mr-2',
-            color === 'Yellow' || color === undefined ? 'text-plus' : ''
+            color === 'Yellow' || color === undefined ? 'text-plus' : '',
           )}
         />
       )}
@@ -518,26 +520,6 @@ export const getServerSideProps: GetServerSideProps<
   SSRProps<{ topArtists: TopArtist[] }>
 > = async (ctx) => {
   const { identityToken } = ctx.req.cookies;
-  // const me = await fetchUser(ctx);
-  // if (!me) {
-  //   return {
-  //     redirect: {
-  //       destination: '/api/auth/login',
-  //       permanent: false,
-  //     },
-  //   };
-  // }
-
-  // return {
-  //   redirect: {
-  //     destination: `https://plus.stats.fm/order?sf_id=${identityToken}&sf_email=${
-  //       encodeURIComponent(me.email) ?? ''
-  //     }&sf_name=${encodeURIComponent(
-  //       me.displayName
-  //     )}&sf_image=${encodeURIComponent(me.image ?? '')}`,
-  //     permanent: false,
-  //   },
-  // };
 
   const api = getApiInstance(identityToken);
   const user = await fetchUser(ctx);
@@ -563,6 +545,7 @@ const PlusPage: NextPage<
   const api = useApi();
   const toaster = useToaster();
   const { user, login } = useAuth();
+  const router = useRouter();
 
   const startCheckout = useCallback(async () => {
     if (!user) {
@@ -571,14 +554,13 @@ const PlusPage: NextPage<
     }
 
     if (user.isPlus) {
-      toaster.error('You already have Plus! Thanks :)');
       return;
     }
 
     try {
       const { item } = await api.http.get<ItemResponse<{ url: string }>>(
         `/stripe/products/spotistats_plus/prices/default/session`,
-        { authRequired: true }
+        { authRequired: true },
       );
       window.location.href = item.url;
     } catch (e) {
@@ -599,9 +581,12 @@ const PlusPage: NextPage<
             your favorite music app today!
           </p>
 
-          <button onClick={startCheckout} className="m-0 p-0">
+          <button
+            onClick={user?.isPlus ? () => router.push('/gift') : startCheckout}
+            className="m-0 p-0"
+          >
             <a className="mt-12 block w-fit rounded-2xl bg-plus px-5 py-3 font-bold text-black hover:bg-plus/90 active:bg-plus/75">
-              Unlock Plus!
+              {user?.isPlus ? 'Gift Plus!' : 'Unlock Plus!'}
             </a>
           </button>
         </div>
@@ -626,8 +611,8 @@ const PlusPage: NextPage<
               <TierItem unchecked perk="No Import history" />
             </ul>
 
-            <div className="mt-auto block w-full rounded-lg bg-background py-1 text-center text-white ">
-              You already have the free tier
+            <div className="mt-auto block w-full rounded-lg bg-background p-1 text-center text-white">
+              You already have the free tier!
             </div>
           </div>
           <div className="w-[22rem] rounded-2xl bg-black py-7 px-8">
@@ -651,11 +636,37 @@ const PlusPage: NextPage<
               <TierItem perk="Custom timeframes" />
               <TierItem perk="And much more..." />
             </ul>
-            <button onClick={startCheckout} className="m-0 w-full p-0">
-              <p className="mt-12 block w-full rounded-lg bg-plus py-1 text-center font-medium text-black hover:bg-plus/90 active:bg-plus/75">
-                Unlock Plus now!
+            <button
+              onClick={
+                user?.isPlus
+                  ? () => {
+                      toaster.message('You already have Plus!');
+                    }
+                  : startCheckout
+              }
+              className="m-0 w-full p-0"
+            >
+              <p
+                className={clsx(
+                  'mt-12 block w-full rounded-lg p-1 text-center font-medium',
+                  user?.isPlus
+                    ? 'bg-foreground text-white'
+                    : 'bg-plus text-black hover:bg-plus/90 active:bg-plus/75',
+                )}
+              >
+                {!user?.isPlus ? 'Unlock Plus now!' : 'You already have Plus!'}
               </p>
             </button>
+            {user?.isPlus && (
+              <button
+                onClick={() => router.push('/gift')}
+                className="m-0 w-full p-0"
+              >
+                <p className="block w-full rounded-lg bg-plus p-1 text-center font-medium text-black hover:bg-plus/90 active:bg-plus/75">
+                  Gift Plus now!
+                </p>
+              </button>
+            )}
           </div>
         </div>
       </Container>

@@ -21,11 +21,11 @@ const SideNavItem: FC<
           props.disabled
             ? 'opacity-40 focus:bg-transparent hover:cursor-not-allowed hover:bg-transparent'
             : 'focus:bg-foreground hover:bg-foreground hover:opacity-90',
-          ' -ml-4 flex items-center rounded-lg px-4 py-1.5 font-medium'
+          ' -ml-4 flex items-center rounded-lg px-4 py-1.5 font-medium',
         )}
       >
         {props.children}
-        {props.external && <MdOpenInNew className="h-4" />}
+        {props.external && <MdOpenInNew className="ml-1 h-4" />}
       </a>
     </Link>
   );
@@ -54,15 +54,14 @@ const NavBody: FC = () => (
         <SideNavItem href="/settings/connections">Connections</SideNavItem>
       </NavGroup>
 
-      <NavGroup title="Stats">
-        <SideNavItem external href="/import">
-          Import
+      <NavGroup title="Stats & algorithms">
+        <SideNavItem href="/settings/imports">Imports</SideNavItem>
+      </NavGroup>
+
+      <NavGroup title="Plus">
+        <SideNavItem href="/gift" external>
+          Gifts
         </SideNavItem>
-        {/* <SideNavItem disabled href="/settings/algorithms">
-          Algorithms
-        </SideNavItem> */}
-        {/* <SideNavItem href="/account/algorithms">Stats & Algorithms</SideNavItem> */}
-        {/* <SideNavItem href="/account/lang">Language & Theme</SideNavItem> */}
       </NavGroup>
     </aside>
   </nav>

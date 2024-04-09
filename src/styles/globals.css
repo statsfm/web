@@ -50,7 +50,7 @@
     @apply my-2;
   }
 
-  svg {
+  button > svg {
     @apply text-icon w-6 h-6;
   }
 

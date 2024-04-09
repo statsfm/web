@@ -19,11 +19,13 @@ import {
   type Artist,
   type Track,
   type UserPublic,
-} from '@statsfm/statsfm.js';
+} from '@/utils/statsfm';
 import type { GetServerSideProps, NextPage } from 'next';
 import { useRouter } from 'next/router';
 import type { FC } from 'react';
 import { useEffect, useState } from 'react';
+import type { SSRProps } from '@/utils/ssrUtils';
+import { fetchUser } from '@/utils/ssrUtils';
 
 type Props = {
   query: string;
@@ -87,9 +89,14 @@ const SearchList: FC<SearchListProps> = ({ type, data, query, loading }) => {
   );
 };
 
-export const getServerSideProps: GetServerSideProps<Props> = async (ctx) => {
+export const getServerSideProps: GetServerSideProps<SSRProps<Props>> = async (
+  ctx,
+) => {
+  const user = await fetchUser(ctx);
+
   return {
     props: {
+      user,
       query: ctx.query.query ? ctx.query.query.toString() : '',
     },
   };
@@ -120,7 +127,7 @@ const SearchPage: NextPage<Props> = ({ query }) => {
           SearchTypes.TRACK,
           SearchTypes.USER,
         ],
-        { limit: 50 }
+        { limit: 50 },
       );
       setArtists(data.artists ?? []);
       setAlbums(data.albums ?? []);

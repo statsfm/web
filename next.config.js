@@ -1,10 +1,13 @@
 /* eslint-disable import/no-extraneous-dependencies */
+/**
+ * @type {(config: import('next/dist/server/config').NextConfig) => import('next/dist/server/config').NextConfig}
+ */
 const withBundleAnalyzer = require('@next/bundle-analyzer')({
   enabled: process.env.ANALYZE === 'true',
 });
-const nextBuildId = require('next-build-id');
 
 module.exports = withBundleAnalyzer({
+  output: 'standalone',
   eslint: {
     dirs: ['.'],
   },
@@ -13,29 +16,10 @@ module.exports = withBundleAnalyzer({
   basePath: '',
   reactStrictMode: true,
   images: {
-    remotePatterns: [
-      {
-        protocol: 'https',
-        hostname: 'cdn.stats.fm',
-      },
-      {
-        protocol: 'https',
-        hostname: '**.scdn.co',
-      },
-      {
-        protocol: 'https',
-        hostname: '**.fbcdn.net',
-      },
-      {
-        protocol: 'https',
-        hostname: '**.fbsbx.com',
-      },
-      {
-        protocol: 'https',
-        hostname: 'crowdin-static.downloads.crowdin.com',
-      },
-    ],
+    loader: 'custom',
+    loaderFile: './src/utils/imageLoader.ts',
   },
+  optimizeFonts: false,
   async redirects() {
     return [
       {
@@ -47,6 +31,21 @@ module.exports = withBundleAnalyzer({
         source: '/settings',
         destination: '/settings/profile',
         permanent: false,
+      },
+      {
+        source: '/import',
+        destination: '/settings/imports',
+        permanent: true,
+      },
+      {
+        source: '/settings/gift',
+        destination: '/gift',
+        permanent: true,
+      },
+      {
+        source: '/settings/gift/success',
+        destination: '/gift/success',
+        permanent: true,
       },
       {
         source: '/discord',
@@ -102,7 +101,27 @@ module.exports = withBundleAnalyzer({
         source: '/:id/tracks',
         destination: '/user/:id/tracks',
       },
+      {
+        source: '/:id/listeningClocks',
+        destination: '/user/:id/listening-clocks',
+      },
+      {
+        source: '/:id/listening-clocks',
+        destination: '/user/:id/listening-clocks',
+      },
+      {
+        source: '/:id/genres',
+        destination: '/user/:id/genres',
+      },
+      {
+        source: '/:id/recentStreams',
+        destination: '/user/:id/recent-streams',
+      },
+      {
+        source: '/:id/recent-streams',
+        destination: '/user/:id/recent-streams',
+      },
     ];
   },
-  generateBuildId: () => nextBuildId({ dir: __dirname }),
+  generateBuildId: () => 'statsfm-site',
 });

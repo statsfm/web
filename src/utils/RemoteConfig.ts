@@ -11,10 +11,12 @@ const firebaseConfig = {
 };
 
 const defaultConfig = {
+  import_warning_visible: false,
   import_warning_message:
-    'Due to many people uploading their files, it can take up to a few\nhours for your files to be processed succesfully.\n\nYou can close this page if your files are in the queue.',
-  import_warning_visible: true,
+    'We\u0027re currently experiencing some issues and will be back soon! Please bear with us 😅',
   import_available: false,
+  gift_show_notice: false,
+  gift_notice_text: '',
 };
 
 type DefaultConfigType = typeof defaultConfig;

@@ -6,6 +6,7 @@ import { useSegmentedControlsContext } from './context';
 interface Props {
   value: string;
   disabled?: boolean;
+  selected?: boolean;
 }
 
 type NativeAttrs = Omit<React.HTMLAttributes<HTMLLIElement>, keyof Props>;
@@ -13,6 +14,7 @@ export type SegmentProps = Props & NativeAttrs;
 
 const Segment = ({
   value,
+  selected = false,
   disabled = false,
   children,
   ...props
@@ -24,7 +26,13 @@ const Segment = ({
   const internalRef = useRef<HTMLLIElement>(null);
 
   useEffect(() => {
-    register({ id, value, ref: internalRef, disabled });
+    register({
+      id,
+      value,
+      ref: internalRef,
+      disabled,
+      defaultSelected: selected,
+    });
 
     return () => {
       unregister(id);
@@ -46,7 +54,7 @@ const Segment = ({
       className={clsx(
         'relative flex cursor-pointer select-none items-center justify-center whitespace-nowrap rounded-lg px-4 py-1 font-semibold transition duration-200 first-of-type:col-[1] first-of-type:row-[1] hover:text-primary',
         active === id ? 'text-primary' : 'text-white',
-        disabled && 'text-gray-400 cursor-not-allowed hover:text-gray-400'
+        disabled && 'cursor-not-allowed text-gray-400 hover:text-gray-400',
       )}
       onClick={handleChange}
       {...props}

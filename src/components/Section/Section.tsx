@@ -7,7 +7,7 @@ import type {
   ReactNode,
   RefObject,
 } from 'react';
-import type { UserPrivacySettings } from '@statsfm/statsfm.js';
+import type { UserPrivacySettings } from '@/utils/statsfm';
 import { MdVisibilityOff } from 'react-icons/md';
 import { Popover, Transition } from '@headlessui/react';
 import Link from 'next/link';
@@ -107,7 +107,7 @@ export const Section = forwardRef<HTMLElement, Props>(
       headerStyle,
       ...props
     },
-    ref
+    ref,
   ) => {
     const context = useContext(CarouselContext);
     const headerRef = useRef<HTMLDivElement>(null);
@@ -137,7 +137,7 @@ export const Section = forwardRef<HTMLElement, Props>(
           className={clsx(
             headerStyle,
             sticky === undefined || sticky === true ? 'sticky top-0' : '',
-            'z-30 flex items-center justify-between bg-background pt-10 pb-3'
+            'z-30 flex items-center justify-between bg-background pt-10 pb-3',
           )}
         >
           <div className="w-full overflow-hidden truncate">
@@ -156,5 +156,5 @@ export const Section = forwardRef<HTMLElement, Props>(
         </main>
       </section>
     );
-  }
+  },
 );

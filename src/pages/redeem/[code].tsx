@@ -1,17 +1,29 @@
 import { Button } from '@/components/Button';
 import { Container } from '@/components/Container';
 import { useApi, useAuth, useToaster } from '@/hooks';
-import type { GiftCode } from '@statsfm/statsfm.js';
+import type { SSRProps } from '@/utils/ssrUtils';
+import { fetchUser } from '@/utils/ssrUtils';
+import type { GiftCode } from '@/utils/statsfm';
 import JSConfetti from 'js-confetti';
-import type { NextPage } from 'next';
+import type { GetServerSideProps, NextPage } from 'next';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useCallback, useEffect, useState } from 'react';
 
+export const getServerSideProps: GetServerSideProps<SSRProps> = async (ctx) => {
+  const user = await fetchUser(ctx);
+
+  return {
+    props: {
+      user,
+    },
+  };
+};
+
 const RedeemCodePage: NextPage = () => {
   const router = useRouter();
   const api = useApi();
-  const { user } = useAuth();
+  const { user, login } = useAuth();
 
   const { code } = router.query as { code: string };
 
@@ -26,6 +38,7 @@ const RedeemCodePage: NextPage = () => {
       try {
         giftCode = await api.me.getGiftCode(code);
       } catch (e: any) {
+        if (!user) return;
         router.push('/redeem');
         return;
       }
@@ -98,7 +111,7 @@ const RedeemCodePage: NextPage = () => {
                 <p className="text-xl font-normal text-white">No message</p>
               )}
               <span>
-                Gifted By{' '}
+                Gifted by{' '}
                 <Link legacyBehavior href={`/user/${giftCode?.boughtById}`}>
                   <a
                     className="font-bold text-primary hover:opacity-80"
@@ -118,7 +131,7 @@ const RedeemCodePage: NextPage = () => {
         ) : (
           <Button
             className="w-full max-w-xl"
-            onClick={() => router.push('/login')}
+            onClick={() => login(`/redeem/${code}`)}
           >
             Login
           </Button>

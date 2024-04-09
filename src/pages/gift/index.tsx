@@ -1,4 +1,4 @@
-import type { GetStaticProps, NextPage } from 'next';
+import type { GetServerSideProps, NextPage } from 'next';
 import { Container } from '@/components/Container';
 import type { FC } from 'react';
 import { useCallback, useMemo, useEffect, useState } from 'react';
@@ -8,11 +8,11 @@ import type { Plan } from '@/types/gift';
 import { Coupon } from '@/components/Gift/Coupon';
 import { Title } from '@/components/Title';
 import Link from 'next/link';
-import type {
-  ItemResponse,
-  ItemsResponse,
-  GiftCode,
-} from '@statsfm/statsfm.js';
+import type { ItemResponse, ItemsResponse, GiftCode } from '@/utils/statsfm';
+import { useRemoteValue } from '@/hooks/use-remote-config';
+import { MdInfo } from 'react-icons/md';
+import type { SSRProps } from '@/utils/ssrUtils';
+import { fetchUser } from '@/utils/ssrUtils';
 
 const Coupons: FC = () => {
   const [giftCodes, setGiftCodes] = useState<GiftCode[]>([]);
@@ -31,7 +31,7 @@ const Coupons: FC = () => {
       giftCodes.filter((gc) => !gc.claimedBy),
       giftCodes.filter((gc) => gc.claimedBy),
     ],
-    [giftCodes]
+    [giftCodes],
   );
 
   const loadingCheck = (type: string) =>
@@ -92,29 +92,36 @@ type Props = {
   plans: Plan[];
 };
 
-export const getStaticProps: GetStaticProps<Props> = async () => {
+export const getServerSideProps: GetServerSideProps<SSRProps<Props>> = async (
+  ctx,
+) => {
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const api = useApi();
-
   const { items } = await api.http.get<ItemsResponse<any>>(
-    `/stripe/products/spotistats_plus_coupon/prices`
+    `/stripe/products/spotistats_plus_coupon/prices`,
   );
   const plans = formatPlans(
     items.data.filter(
       (x: { product: string; active: boolean }) =>
-        x.product === 'prod_Mveep2aVG09MSl' && x.active === true
-    )
+        x.product === 'prod_Mveep2aVG09MSl' && x.active === true,
+    ),
   );
+  const user = await fetchUser(ctx);
 
   return {
     props: {
       plans,
+      user,
     },
   };
 };
 
 const GiftPage: NextPage<Props> = ({ plans }) => {
   const toaster = useToaster();
+
+  const giftNoticeText = useRemoteValue('gift_notice_text');
+  const giftNoticeShow = useRemoteValue('gift_show_notice');
+
   const api = useApi();
   const { user, login } = useAuth();
 
@@ -124,11 +131,11 @@ const GiftPage: NextPage<Props> = ({ plans }) => {
       const planAmount = plan.price.amount;
       return (
         Math.round(
-          Math.abs(((planAmount - defaultAmount) / defaultAmount) * 100) * 10
+          Math.abs(((planAmount - defaultAmount) / defaultAmount) * 100) * 10,
         ) / 10
       );
     },
-    []
+    [],
   );
 
   const formatAmount = useCallback((amount: number): number => {
@@ -145,19 +152,32 @@ const GiftPage: NextPage<Props> = ({ plans }) => {
       try {
         const { item } = await api.http.get<ItemResponse<{ url: string }>>(
           `/stripe/products/spotistats_plus_coupon/prices/${id}/session`,
-          { authRequired: true }
+          { authRequired: true },
         );
         window.location.href = item.url;
       } catch (e) {
         toaster.error('Something went wrong');
       }
     },
-    [user]
+    [user],
   );
 
   return (
     <Container className="pt-32">
       <Title>Gift</Title>
+      {giftNoticeShow?.asBoolean() && (
+        <div className="my-8 w-full flex-row rounded-md border-l-4 border-l-yellow-400/80 bg-yellow-400/20 p-4">
+          <div className="flex w-full flex-col">
+            <span className="flex items-center gap-1">
+              <MdInfo className="fill-white" />
+              <h4>Warning</h4>
+            </span>
+            <span className="whitespace-pre-wrap text-white">
+              {giftNoticeText?.asString()}
+            </span>
+          </div>
+        </div>
+      )}
       <section className="mb-5 mt-2 flex flex-col gap-3">
         <div v-if="plans" className="flex w-full flex-col justify-between">
           {plans.length > 0 ? (
@@ -218,8 +238,8 @@ const GiftPage: NextPage<Props> = ({ plans }) => {
               <a href="https://stripe.com">Stripe</a> checkout page
             </li>
             <li>
-              After finishing the checkout process your coupons will be shown in
-              the list below
+              After finishing the checkout process, your coupons will be shown
+              in <Link href="#your-coupons">the list below</Link>.
             </li>
             <li>
               If you want to claim the Plus yourself, you can enter it yourself

@@ -102,7 +102,7 @@ export const Item = ({
         disabled
           ? 'text-text-grey'
           : 'cursor-pointer text-white [&>svg]:fill-white',
-        className
+        className,
       )}
       role="menuitem"
       tabIndex={disabled === true ? undefined : -1}

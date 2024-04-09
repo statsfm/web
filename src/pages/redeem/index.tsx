@@ -2,9 +2,21 @@ import { Button } from '@/components/Button';
 import { Container } from '@/components/Container';
 import { Title } from '@/components/Title';
 import { useToaster } from '@/hooks';
-import type { NextPage } from 'next';
+import type { SSRProps } from '@/utils/ssrUtils';
+import { fetchUser } from '@/utils/ssrUtils';
+import type { GetServerSideProps, NextPage } from 'next';
 import { useRouter } from 'next/router';
 import { useCallback, useState } from 'react';
+
+export const getServerSideProps: GetServerSideProps<SSRProps> = async (ctx) => {
+  const user = await fetchUser(ctx);
+
+  return {
+    props: {
+      user,
+    },
+  };
+};
 
 const RedeemPage: NextPage = () => {
   const router = useRouter();
@@ -17,7 +29,7 @@ const RedeemPage: NextPage = () => {
     // TODO: this is garbage, rewrite it
     if (trimmed.length > 8) {
       setCouponCode(
-        `${trimmed.slice(0, 4)}-${trimmed.slice(4, 8)}-${trimmed.slice(8)}`
+        `${trimmed.slice(0, 4)}-${trimmed.slice(4, 8)}-${trimmed.slice(8)}`,
       );
     } else if (trimmed.length > 4) {
       setCouponCode(`${trimmed.slice(0, 4)}-${trimmed.slice(4, 8)}`);
