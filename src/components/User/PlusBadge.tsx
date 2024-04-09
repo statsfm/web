@@ -13,8 +13,8 @@ export const PlusBadge = () => (
 export const PlusBadgePrefilled = () => {
   return (
     <svg
-      width="191"
-      height="88"
+      width="162.02"
+      height="74.65"
       viewBox="0 0 745 342"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
