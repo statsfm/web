@@ -390,9 +390,6 @@ const User: NextPage<Props> = ({
               </div>
 
               <div className="flex flex-col items-center justify-end md:items-start">
-                <h3 className="text-center font-medium md:text-left">
-                  @{user.customId}
-                </h3>
                 <span className="flex">
                   <h1 className="text-center font-extrabold md:text-left">
                     {user.displayName}
