@@ -16,6 +16,7 @@ export interface ImageParamsResult {
   sizes: number[];
   minimumCacheTTL: number;
   format?: 'image/webp' | 'image/png';
+  fallbackImg?: string;
 }
 
 export interface ImageUpstream {
@@ -179,16 +180,26 @@ function sendEtagResponse(
   return false;
 }
 
-export async function fetchExternalImage(href: string): Promise<ImageUpstream> {
-  const res = await fetch(href);
+export async function fetchExternalImage(
+  href: string,
+  fallbackImg?: string,
+): Promise<ImageUpstream> {
+  let res = await fetch(href);
 
   if (!res.ok) {
     // eslint-disable-next-line no-console
     console.error('upstream image response failed for', href, res.status);
-    throw new ImageError(
-      res.status,
-      '"url" parameter is valid but upstream response is invalid',
-    );
+    if (fallbackImg) {
+      res = await fetch(fallbackImg);
+      if (!res.ok) {
+        throw new ImageError(res.status, 'Unable to fetch fallback image');
+      }
+    } else {
+      throw new ImageError(
+        res.status,
+        '"url" parameter is valid but upstream response is invalid',
+      );
+    }
   }
 
   const buffer = Buffer.from(await res.arrayBuffer());

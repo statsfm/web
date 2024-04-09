@@ -1410,10 +1410,151 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@resvg/resvg-js-android-arm-eabi@npm:2.6.2":
+  version: 2.6.2
+  resolution: "@resvg/resvg-js-android-arm-eabi@npm:2.6.2"
+  conditions: os=android & cpu=arm
+  languageName: node
+  linkType: hard
+
+"@resvg/resvg-js-android-arm64@npm:2.6.2":
+  version: 2.6.2
+  resolution: "@resvg/resvg-js-android-arm64@npm:2.6.2"
+  conditions: os=android & cpu=arm64
+  languageName: node
+  linkType: hard
+
+"@resvg/resvg-js-darwin-arm64@npm:2.6.2":
+  version: 2.6.2
+  resolution: "@resvg/resvg-js-darwin-arm64@npm:2.6.2"
+  conditions: os=darwin & cpu=arm64
+  languageName: node
+  linkType: hard
+
+"@resvg/resvg-js-darwin-x64@npm:2.6.2":
+  version: 2.6.2
+  resolution: "@resvg/resvg-js-darwin-x64@npm:2.6.2"
+  conditions: os=darwin & cpu=x64
+  languageName: node
+  linkType: hard
+
+"@resvg/resvg-js-linux-arm-gnueabihf@npm:2.6.2":
+  version: 2.6.2
+  resolution: "@resvg/resvg-js-linux-arm-gnueabihf@npm:2.6.2"
+  conditions: os=linux & cpu=arm
+  languageName: node
+  linkType: hard
+
+"@resvg/resvg-js-linux-arm64-gnu@npm:2.6.2":
+  version: 2.6.2
+  resolution: "@resvg/resvg-js-linux-arm64-gnu@npm:2.6.2"
+  conditions: os=linux & cpu=arm64 & libc=glibc
+  languageName: node
+  linkType: hard
+
+"@resvg/resvg-js-linux-arm64-musl@npm:2.6.2":
+  version: 2.6.2
+  resolution: "@resvg/resvg-js-linux-arm64-musl@npm:2.6.2"
+  conditions: os=linux & cpu=arm64 & libc=musl
+  languageName: node
+  linkType: hard
+
+"@resvg/resvg-js-linux-x64-gnu@npm:2.6.2":
+  version: 2.6.2
+  resolution: "@resvg/resvg-js-linux-x64-gnu@npm:2.6.2"
+  conditions: os=linux & cpu=x64 & libc=glibc
+  languageName: node
+  linkType: hard
+
+"@resvg/resvg-js-linux-x64-musl@npm:2.6.2":
+  version: 2.6.2
+  resolution: "@resvg/resvg-js-linux-x64-musl@npm:2.6.2"
+  conditions: os=linux & cpu=x64 & libc=musl
+  languageName: node
+  linkType: hard
+
+"@resvg/resvg-js-win32-arm64-msvc@npm:2.6.2":
+  version: 2.6.2
+  resolution: "@resvg/resvg-js-win32-arm64-msvc@npm:2.6.2"
+  conditions: os=win32 & cpu=arm64
+  languageName: node
+  linkType: hard
+
+"@resvg/resvg-js-win32-ia32-msvc@npm:2.6.2":
+  version: 2.6.2
+  resolution: "@resvg/resvg-js-win32-ia32-msvc@npm:2.6.2"
+  conditions: os=win32 & cpu=ia32
+  languageName: node
+  linkType: hard
+
+"@resvg/resvg-js-win32-x64-msvc@npm:2.6.2":
+  version: 2.6.2
+  resolution: "@resvg/resvg-js-win32-x64-msvc@npm:2.6.2"
+  conditions: os=win32 & cpu=x64
+  languageName: node
+  linkType: hard
+
+"@resvg/resvg-js@npm:^2.6.2":
+  version: 2.6.2
+  resolution: "@resvg/resvg-js@npm:2.6.2"
+  dependencies:
+    "@resvg/resvg-js-android-arm-eabi": "npm:2.6.2"
+    "@resvg/resvg-js-android-arm64": "npm:2.6.2"
+    "@resvg/resvg-js-darwin-arm64": "npm:2.6.2"
+    "@resvg/resvg-js-darwin-x64": "npm:2.6.2"
+    "@resvg/resvg-js-linux-arm-gnueabihf": "npm:2.6.2"
+    "@resvg/resvg-js-linux-arm64-gnu": "npm:2.6.2"
+    "@resvg/resvg-js-linux-arm64-musl": "npm:2.6.2"
+    "@resvg/resvg-js-linux-x64-gnu": "npm:2.6.2"
+    "@resvg/resvg-js-linux-x64-musl": "npm:2.6.2"
+    "@resvg/resvg-js-win32-arm64-msvc": "npm:2.6.2"
+    "@resvg/resvg-js-win32-ia32-msvc": "npm:2.6.2"
+    "@resvg/resvg-js-win32-x64-msvc": "npm:2.6.2"
+  dependenciesMeta:
+    "@resvg/resvg-js-android-arm-eabi":
+      optional: true
+    "@resvg/resvg-js-android-arm64":
+      optional: true
+    "@resvg/resvg-js-darwin-arm64":
+      optional: true
+    "@resvg/resvg-js-darwin-x64":
+      optional: true
+    "@resvg/resvg-js-linux-arm-gnueabihf":
+      optional: true
+    "@resvg/resvg-js-linux-arm64-gnu":
+      optional: true
+    "@resvg/resvg-js-linux-arm64-musl":
+      optional: true
+    "@resvg/resvg-js-linux-x64-gnu":
+      optional: true
+    "@resvg/resvg-js-linux-x64-musl":
+      optional: true
+    "@resvg/resvg-js-win32-arm64-msvc":
+      optional: true
+    "@resvg/resvg-js-win32-ia32-msvc":
+      optional: true
+    "@resvg/resvg-js-win32-x64-msvc":
+      optional: true
+  checksum: 10c0/f04192e98d7ead730f9474f07e81aa9d9b28dc18218028f2a15c808e1ab0de511f07d8a77e01d058534e78f0ef7e9f33201f15f052e28bbaabaf159c68698a5e
+  languageName: node
+  linkType: hard
+
 "@rushstack/eslint-patch@npm:^1.3.3":
   version: 1.10.1
   resolution: "@rushstack/eslint-patch@npm:1.10.1"
   checksum: 10c0/db96bfdf83ededcd70de41876bfe7ecb2450b93e4c5e46bc0f2bc9dd0e0ea60e8bc5fc0d1d3b6addf902e640ea78855ed77b6c883d0d0d104269492141232995
+  languageName: node
+  linkType: hard
+
+"@shuding/opentype.js@npm:1.4.0-beta.0":
+  version: 1.4.0-beta.0
+  resolution: "@shuding/opentype.js@npm:1.4.0-beta.0"
+  dependencies:
+    fflate: "npm:^0.7.3"
+    string.prototype.codepointat: "npm:^0.2.1"
+  bin:
+    ot: bin/ot
+  checksum: 10c0/4827ce9268c1628b35f55adde7de19ed3656bd8a79f6b6467ea2b089724061056a58fe58ecd477cd65d46998194920c1f93042beeeb3dd29bfb9b4e078fde20e
   languageName: node
   linkType: hard
 
@@ -2384,6 +2525,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"base64-js@npm:0.0.8":
+  version: 0.0.8
+  resolution: "base64-js@npm:0.0.8"
+  checksum: 10c0/60f02a9fdbbbb251c0a1064834d4062f5a3c4237edd9f0313282d75980a80ce303316795f7a80c8e240e524169644d88445ec0697b03f81ab9f4458090979375
+  languageName: node
+  linkType: hard
+
 "binary-extensions@npm:^2.0.0":
   version: 2.2.0
   resolution: "binary-extensions@npm:2.2.0"
@@ -2514,6 +2662,13 @@ __metadata:
   version: 5.3.1
   resolution: "camelcase@npm:5.3.1"
   checksum: 10c0/92ff9b443bfe8abb15f2b1513ca182d16126359ad4f955ebc83dc4ddcc4ef3fdd2c078bc223f2673dc223488e75c99b16cc4d056624374b799e6a1555cf61b23
+  languageName: node
+  linkType: hard
+
+"camelize@npm:^1.0.0":
+  version: 1.0.1
+  resolution: "camelize@npm:1.0.1"
+  checksum: 10c0/4c9ac55efd356d37ac483bad3093758236ab686192751d1c9daa43188cc5a07b09bd431eb7458a4efd9ca22424bba23253e7b353feb35d7c749ba040de2385fb
   languageName: node
   linkType: hard
 
@@ -2849,6 +3004,27 @@ __metadata:
   languageName: node
   linkType: hard
 
+"css-background-parser@npm:^0.1.0":
+  version: 0.1.0
+  resolution: "css-background-parser@npm:0.1.0"
+  checksum: 10c0/1065f975b766db95a81599e4e0559abb6c2ddbeb57eeff0de92851cd7e614a832185e81acb92115279c2bd437e8095d7b3cd07d0e1178ddc85f46418cf40a53f
+  languageName: node
+  linkType: hard
+
+"css-box-shadow@npm:1.0.0-3":
+  version: 1.0.0-3
+  resolution: "css-box-shadow@npm:1.0.0-3"
+  checksum: 10c0/320e90230d66cad98b4a9858b5704765f7eecfe4e7dc8198903634653384ba182fbe2d2ce689ed574812d4107c9f7f0ec68b3d58074bd9450dc5d5c81105c170
+  languageName: node
+  linkType: hard
+
+"css-color-keywords@npm:^1.0.0":
+  version: 1.0.0
+  resolution: "css-color-keywords@npm:1.0.0"
+  checksum: 10c0/af205a86c68e0051846ed91eb3e30b4517e1904aac040013ff1d742019b3f9369ba5658ba40901dbbc121186fc4bf0e75a814321cc3e3182fbb2feb81c6d9cb7
+  languageName: node
+  linkType: hard
+
 "css-in-js-utils@npm:^2.0.0":
   version: 2.0.1
   resolution: "css-in-js-utils@npm:2.0.1"
@@ -2856,6 +3032,17 @@ __metadata:
     hyphenate-style-name: "npm:^1.0.2"
     isobject: "npm:^3.0.1"
   checksum: 10c0/6696cda3ebd596fc42ff40059546786936a8cf709e00bc8dedce6cd42c2b3edb19333a5d5bba6ac35b75b58cf55c021cee7ab3ec0f13fb2cf59fbb024ba0894f
+  languageName: node
+  linkType: hard
+
+"css-to-react-native@npm:^3.0.0":
+  version: 3.2.0
+  resolution: "css-to-react-native@npm:3.2.0"
+  dependencies:
+    camelize: "npm:^1.0.0"
+    css-color-keywords: "npm:^1.0.0"
+    postcss-value-parser: "npm:^4.0.2"
+  checksum: 10c0/fde850a511d5d3d7c55a1e9b8ed26b69a8ad4868b3487e36ebfbfc0b96fc34bc977d9cd1d61a289d0c74d3f9a662d8cee297da53d4433bf2e27d6acdff8e1003
   languageName: node
   linkType: hard
 
@@ -3160,6 +3347,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"emoji-regex@npm:^10.2.1":
+  version: 10.3.0
+  resolution: "emoji-regex@npm:10.3.0"
+  checksum: 10c0/b4838e8dcdceb44cf47f59abe352c25ff4fe7857acaf5fb51097c427f6f75b44d052eb907a7a3b86f86bc4eae3a93f5c2b7460abe79c407307e6212d65c91163
+  languageName: node
+  linkType: hard
+
 "emoji-regex@npm:^8.0.0":
   version: 8.0.0
   resolution: "emoji-regex@npm:8.0.0"
@@ -3401,6 +3595,13 @@ __metadata:
   version: 3.1.1
   resolution: "escalade@npm:3.1.1"
   checksum: 10c0/afd02e6ca91ffa813e1108b5e7756566173d6bc0d1eb951cb44d6b21702ec17c1cf116cfe75d4a2b02e05acb0b808a7a9387d0d1ca5cf9c04ad03a8445c3e46d
+  languageName: node
+  linkType: hard
+
+"escape-html@npm:^1.0.3":
+  version: 1.0.3
+  resolution: "escape-html@npm:1.0.3"
+  checksum: 10c0/524c739d776b36c3d29fa08a22e03e8824e3b2fd57500e5e44ecf3cc4707c34c60f9ca0781c0e33d191f2991161504c295e98f68c78fe7baa6e57081ec6ac0a3
   languageName: node
   linkType: hard
 
@@ -4053,6 +4254,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"fflate@npm:^0.7.3":
+  version: 0.7.4
+  resolution: "fflate@npm:0.7.4"
+  checksum: 10c0/5e749eb3a6ed61a0f6c55756abf9f4258f06f60505db689e22d18503dd252ca5af656d32668e4b7b20714adf8b313febf695d23863a8352f23e325baee0f672d
+  languageName: node
+  linkType: hard
+
 "file-entry-cache@npm:^6.0.1":
   version: 6.0.1
   resolution: "file-entry-cache@npm:6.0.1"
@@ -4673,6 +4881,13 @@ __metadata:
   version: 2.0.0
   resolution: "hast-util-whitespace@npm:2.0.0"
   checksum: 10c0/73eb60b5171815461e248a0190af9780a95034f4d95ae2271aa75ac58da505ed84f6493e63538bea3745cd73f0069c524d76fd31701deb41b94600bf2d1b44a8
+  languageName: node
+  linkType: hard
+
+"hex-rgb@npm:^4.1.0":
+  version: 4.3.0
+  resolution: "hex-rgb@npm:4.3.0"
+  checksum: 10c0/ce2c2ff260d9e0686bead74e3318c1684d8a2da856da30ed90535442f705fb4f5cd93ffe70274e2534a7319a99cda6a6617f23d4f163b72867f406e25ea30cb4
   languageName: node
   linkType: hard
 
@@ -5505,6 +5720,16 @@ __metadata:
   version: 2.0.5
   resolution: "lilconfig@npm:2.0.5"
   checksum: 10c0/eed9afcecf1b864405f4b7299abefb87945edba250c70896de54b19b08b87333abc268cc6689539bc33f0e8d098139578704bf51af8077d358f1ac95d58beef0
+  languageName: node
+  linkType: hard
+
+"linebreak@npm:^1.1.0":
+  version: 1.1.0
+  resolution: "linebreak@npm:1.1.0"
+  dependencies:
+    base64-js: "npm:0.0.8"
+    unicode-trie: "npm:^2.0.0"
+  checksum: 10c0/b350c90d7b10db30345ed56cdb869548110ce73ccdc4337100eaee50755eed78e9823490e6f2d7ed0adde14f7ed2a12d8583015e072c54f34dc70b316fde133d
   languageName: node
   linkType: hard
 
@@ -6728,6 +6953,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"pako@npm:^0.2.5":
+  version: 0.2.9
+  resolution: "pako@npm:0.2.9"
+  checksum: 10c0/79c1806ebcf325b60ae599e4d7227c2e346d7b829dc20f5cf24cef07c934079dc3a61c5b3c8278a2f7a190c4a613e343ea11e5302dbe252efd11712df4b6b041
+  languageName: node
+  linkType: hard
+
 "pako@npm:~1.0.2":
   version: 1.0.11
   resolution: "pako@npm:1.0.11"
@@ -6741,6 +6973,16 @@ __metadata:
   dependencies:
     callsites: "npm:^3.0.0"
   checksum: 10c0/c63d6e80000d4babd11978e0d3fee386ca7752a02b035fd2435960ffaa7219dc42146f07069fb65e6e8bf1caef89daf9af7535a39bddf354d78bf50d8294f556
+  languageName: node
+  linkType: hard
+
+"parse-css-color@npm:^0.2.1":
+  version: 0.2.1
+  resolution: "parse-css-color@npm:0.2.1"
+  dependencies:
+    color-name: "npm:^1.1.4"
+    hex-rgb: "npm:^4.1.0"
+  checksum: 10c0/558f1d9874295a618717b88633fb15343fd4d2952c21b274c77503f251c1ed18086df6cec422b6ca67c8f8f0511baf327fae232d4ed12d55cf116695346161d3
   languageName: node
   linkType: hard
 
@@ -6913,7 +7155,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"postcss-value-parser@npm:^4.0.0, postcss-value-parser@npm:^4.2.0":
+"postcss-value-parser@npm:^4.0.0, postcss-value-parser@npm:^4.0.2, postcss-value-parser@npm:^4.2.0":
   version: 4.2.0
   resolution: "postcss-value-parser@npm:4.2.0"
   checksum: 10c0/f4142a4f56565f77c1831168e04e3effd9ffcc5aebaf0f538eee4b2d465adfd4b85a44257bb48418202a63806a7da7fe9f56c330aebb3cac898e46b4cbf49161
@@ -7649,6 +7891,24 @@ __metadata:
   languageName: node
   linkType: hard
 
+"satori@npm:^0.10.13":
+  version: 0.10.13
+  resolution: "satori@npm:0.10.13"
+  dependencies:
+    "@shuding/opentype.js": "npm:1.4.0-beta.0"
+    css-background-parser: "npm:^0.1.0"
+    css-box-shadow: "npm:1.0.0-3"
+    css-to-react-native: "npm:^3.0.0"
+    emoji-regex: "npm:^10.2.1"
+    escape-html: "npm:^1.0.3"
+    linebreak: "npm:^1.1.0"
+    parse-css-color: "npm:^0.2.1"
+    postcss-value-parser: "npm:^4.2.0"
+    yoga-wasm-web: "npm:^0.3.3"
+  checksum: 10c0/21258f971463f6dfb7c64a11d5407507fc210c728adda5df13630f461b169a6b49a67b0cb8a41861616817b6816a11bc8a64a5d75e399d164a2a8130e74901e5
+  languageName: node
+  linkType: hard
+
 "scheduler@npm:^0.23.0":
   version: 0.23.0
   resolution: "scheduler@npm:0.23.0"
@@ -8113,6 +8373,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"string.prototype.codepointat@npm:^0.2.1":
+  version: 0.2.1
+  resolution: "string.prototype.codepointat@npm:0.2.1"
+  checksum: 10c0/83c4d2f83b6f3f8f377e0b36628b74a9efcaf5a725e6fb6354f15f30f0399c8f4b08956df883877b2b0f50dd2e644ed7e8b1f6d45bdee2dc5b3f4248796607fa
+  languageName: node
+  linkType: hard
+
 "string.prototype.matchall@npm:^4.0.10":
   version: 4.0.11
   resolution: "string.prototype.matchall@npm:4.0.11"
@@ -8522,6 +8789,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"tiny-inflate@npm:^1.0.0":
+  version: 1.0.3
+  resolution: "tiny-inflate@npm:1.0.3"
+  checksum: 10c0/fab687537254f6ec44c9a2e880048fe70da3542aba28f73cda3e74c95cabf342a339372f2a6c032e322324f01accc03ca26c04ba2bad9b3eb8cf3ee99bba7f9b
+  languageName: node
+  linkType: hard
+
 "tmp@npm:^0.2.1":
   version: 0.2.1
   resolution: "tmp@npm:0.2.1"
@@ -8857,6 +9131,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"unicode-trie@npm:^2.0.0":
+  version: 2.0.0
+  resolution: "unicode-trie@npm:2.0.0"
+  dependencies:
+    pako: "npm:^0.2.5"
+    tiny-inflate: "npm:^1.0.0"
+  checksum: 10c0/2422368645249f315640a1c9e9506046aa7738fc9c5d59e15c207cdd6ec66101c35b0b9f75dc3ac28fe7be19aaf1efc898bbea074fa1e8e295ef736aeb7904bb
+  languageName: node
+  linkType: hard
+
 "unified@npm:^10.0.0, unified@npm:^10.1.2":
   version: 10.1.2
   resolution: "unified@npm:10.1.2"
@@ -9052,6 +9336,7 @@ __metadata:
     "@hapi/accept": "npm:^6.0.3"
     "@headlessui/react": "npm:^1.7.2"
     "@next/bundle-analyzer": "npm:^12.2.1"
+    "@resvg/resvg-js": "npm:^2.6.2"
     "@statsfm/statsfm.js": "npm:^2.2.1"
     "@tailwindcss/line-clamp": "npm:^0.4.0"
     "@tailwindcss/typography": "npm:^0.5.7"
@@ -9108,6 +9393,7 @@ __metadata:
     react-use: "npm:^17.4.0"
     remark-html: "npm:^15.0.1"
     remark-parse: "npm:^10.0.1"
+    satori: "npm:^0.10.13"
     sharp: "npm:^0.33.3"
     tailwind-scrollbar: "npm:^2.0.1"
     tailwindcss: "npm:^3.1.5"
@@ -9400,6 +9686,13 @@ __metadata:
   version: 0.1.0
   resolution: "yocto-queue@npm:0.1.0"
   checksum: 10c0/dceb44c28578b31641e13695d200d34ec4ab3966a5729814d5445b194933c096b7ced71494ce53a0e8820685d1d010df8b2422e5bf2cdea7e469d97ffbea306f
+  languageName: node
+  linkType: hard
+
+"yoga-wasm-web@npm:^0.3.3":
+  version: 0.3.3
+  resolution: "yoga-wasm-web@npm:0.3.3"
+  checksum: 10c0/d46ae3a436409e89eb0ea3b8c7624dafaf2c846d9038fdf8aa0cc839f73a2577b679bdc22997596177de74c580a6cdc3206c98fd2acd91b66f85462d9d9d260a
   languageName: node
   linkType: hard
 

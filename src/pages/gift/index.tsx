@@ -231,7 +231,7 @@ const GiftPage: NextPage<Props> = ({ plans }) => {
         <h2>How does it work?</h2>
         <article className="prose max-w-full font-medium text-neutral-400 prose-headings:text-white prose-a:text-primary prose-li:my-0.5">
           <ol>
-            <li>Log in if you arent&apos;t already</li>
+            <li>Log in if you aren&apos;t already</li>
             <li>Choose between one of the packages</li>
             <li>
               You&apos;ll be redirected to a secure{' '}

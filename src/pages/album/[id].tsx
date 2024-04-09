@@ -12,7 +12,8 @@ import { Container } from '@/components/Container';
 import { ArtistList } from '@/components/Artist/ArtistList';
 import { Title } from '@/components/Title';
 import Head from 'next/head';
-import { StatsCard } from '@/components/StatsCard';
+import { StatsCardContainer } from '@/components/Stats';
+
 import { useScrollPercentage } from '@/hooks/use-scroll-percentage';
 import { event } from 'nextjs-google-analytics';
 import type { SSRProps } from '@/utils/ssrUtils';
@@ -99,6 +100,63 @@ const Album: NextPage<Props> = ({ album, tracks }) => {
     return { count, duration, firstStream: firstStream?.endTime, lastStream };
   }, [user, stats, streams]);
 
+  const statsCards = useMemo(() => {
+    return [
+      {
+        value: statsResult?.count ?? '-',
+        label: 'total times streamed',
+        loading: !statsResult,
+        loginRequired: true,
+      },
+      {
+        value: statsResult?.duration ?? '-',
+        label: 'total minutes streamed',
+        loading: !statsResult,
+        loginRequired: true,
+      },
+      {
+        value: statsResult?.firstStream
+          ? dayjs(statsResult?.firstStream).format('LL')
+          : '-',
+        label: `first streamed ${
+          statsResult?.firstStream
+            ? `at ${dayjs(statsResult.firstStream).format('LT')}`
+            : ''
+        }`,
+        loading: !statsResult,
+        loginRequired: true,
+      },
+      {
+        value: statsResult?.lastStream
+          ? dayjs(statsResult?.lastStream).format('LL')
+          : '-',
+        label: `last streamed ${
+          statsResult?.lastStream
+            ? `at ${dayjs(statsResult.lastStream).format('LT')}`
+            : ''
+        }`,
+        loading: !statsResult,
+        loginRequired: true,
+      },
+      {
+        value: formatter.localiseNumber(album.totalTracks),
+        label: 'tracks',
+      },
+      {
+        value: formatter.formatPopularity(album.spotifyPopularity),
+        label: '0-10 popularity',
+      },
+      {
+        value: album.type,
+        label: 'type of album',
+      },
+      {
+        value: dayjs(album.releaseDate).format('L'),
+        label: 'release date',
+      },
+    ];
+  }, [statsResult, album]); // Note: I changed the dependency from artist to album because the original array you gave used album data
+
   return (
     <>
       <Title>{`${album.name}, tracks, stats and more`}</Title>
@@ -154,65 +212,7 @@ const Album: NextPage<Props> = ({ album, tracks }) => {
       </div>
 
       <Container className="mt-8">
-        <ul className="grid grid-cols-2 gap-6 md:grid-cols-4">
-          <StatsCard
-            value={statsResult?.count}
-            label="total times streamed"
-            loading={!statsResult}
-            loginRequired
-          />
-          <StatsCard
-            value={statsResult?.duration}
-            label="total minutes streamed"
-            loading={!statsResult}
-            loginRequired
-          />
-
-          <StatsCard
-            value={
-              statsResult?.firstStream
-                ? dayjs(statsResult?.firstStream).format('LL')
-                : '-'
-            }
-            label={`first streamed ${
-              statsResult?.firstStream
-                ? `at ${dayjs(statsResult.firstStream).format('LT')}`
-                : ''
-            }`}
-            loading={!statsResult}
-            loginRequired
-          />
-
-          <StatsCard
-            value={
-              statsResult?.lastStream
-                ? dayjs(statsResult?.lastStream).format('LL')
-                : '-'
-            }
-            label={`last streamed ${
-              statsResult?.lastStream
-                ? `at ${dayjs(statsResult.lastStream).format('LT')}`
-                : ''
-            }`}
-            loading={!statsResult}
-            loginRequired
-          />
-
-          <StatsCard
-            value={formatter.localiseNumber(album.totalTracks)}
-            label="tracks"
-          />
-          <StatsCard
-            value={formatter.formatPopularity(album.spotifyPopularity)}
-            label="0-10 popularity"
-          />
-          <StatsCard value={album.type} label="type of album" />
-          <StatsCard
-            value={dayjs(album.releaseDate).format('L')}
-            label="release date"
-          />
-        </ul>
-
+        <StatsCardContainer stats={statsCards} />
         <Section title="Album content" description="The tracks on this album">
           <ul className="grid grid-cols-1 gap-y-3 md:grid-cols-2 lg:grid-cols-3">
             {tracks.map((track, i) => (

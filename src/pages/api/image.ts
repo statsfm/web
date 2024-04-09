@@ -71,11 +71,13 @@ function validateParams(req: NextApiRequest) {
     w,
     q,
     f: format,
+    fallbackImg,
   } = req.query as {
     url: string;
     w: string;
     q: string;
     f?: 'image/webp' | 'image/png';
+    fallbackImg?: string;
   };
 
   let href: string;
@@ -96,6 +98,15 @@ function validateParams(req: NextApiRequest) {
         errorMessage:
           '"format" parameter must be one of "image/webp" or "image/png", if provided',
       };
+    }
+  }
+
+  if (fallbackImg) {
+    if (Array.isArray(fallbackImg)) {
+      return { errorMessage: '"failImageUrl" parameter cannot be an array' };
+    }
+    if (typeof fallbackImg !== 'string') {
+      return { errorMessage: '"failImageUrl" parameter must be a string' };
     }
   }
 
@@ -182,6 +193,7 @@ function validateParams(req: NextApiRequest) {
     mimeType,
     minimumCacheTTL: 60,
     format,
+    fallbackImg,
   };
 }
 
@@ -347,13 +359,13 @@ export default async function handler(
     return;
   }
 
-  const { isAbsolute, href } = data;
+  const { isAbsolute, href, fallbackImg } = data;
 
   try {
     if (!isAbsolute)
       throw new ImageError(400, '"url" parameter must be an absolute URL');
 
-    const imageUpstream = await fetchExternalImage(href);
+    const imageUpstream = await fetchExternalImage(href, fallbackImg);
 
     const {
       buffer,
