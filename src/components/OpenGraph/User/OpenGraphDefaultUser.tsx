@@ -76,7 +76,7 @@ export function OpenGraphDefaultUser(
             {user?.displayName}
           </h1>
           {/* pre-line is necessary for linebreaks to actually work.. */}
-          <h1 style={{ whiteSpace: 'pre-line', fontFamily: 'Sans Medium' }}>
+          <h1 style={{ whiteSpace: 'pre-wrap', fontFamily: 'Sans Medium' }}>
             {splitStringAtLength(user?.profile?.bio, 40, 4).join('\n')}
           </h1>
         </div>
