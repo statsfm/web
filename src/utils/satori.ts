@@ -6,6 +6,12 @@ import { join } from 'path';
 import type { ReactElement } from 'react';
 
 const fonts: SatoriOptions['fonts'] = [
+  // the first entry is used as the default font
+  {
+    name: 'Sans',
+    data: fs.readFileSync(join('.', 'src/pages/fonts/StatsfmSans-Regular.ttf')),
+    weight: 400,
+  },
   {
     name: 'Statsfm Sans',
     data: fs.readFileSync(join('.', 'src/pages/fonts/StatsfmSans-Thin.ttf')),
@@ -15,11 +21,6 @@ const fonts: SatoriOptions['fonts'] = [
     name: 'Statsfm Sans',
     data: fs.readFileSync(join('.', 'src/pages/fonts/StatsfmSans-Light.ttf')),
     weight: 300,
-  },
-  {
-    name: 'Sans',
-    data: fs.readFileSync(join('.', 'src/pages/fonts/StatsfmSans-Regular.ttf')),
-    weight: 400,
   },
   {
     name: 'Sans Medium',
