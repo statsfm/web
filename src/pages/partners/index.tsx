@@ -159,6 +159,7 @@ const BusinessPage: NextPage = () => {
           </h2>
           <div className="flex-col gap-16 sm:gap-y-20 lg:flex-row">
             <iframe
+              id="contact"
               data-tally-src="https://tally.so/embed/woyKBb?alignLeft=1&hideTitle=1&transparentBackground=1&dynamicHeight=1"
               className="w-full"
               height="200"
