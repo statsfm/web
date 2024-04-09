@@ -21,7 +21,7 @@ const VARIANTS: Record<string, OGUserHandler> = {
 
 export async function GET(
   req: NextRequest,
-  { params }: { params: { id: string; variants: string | undefined } },
+  { params }: { params: { id: string } },
 ) {
   const api = getApiInstance();
   const user = await api.users.get(params.id).catch(() => {});
