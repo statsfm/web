@@ -31,7 +31,7 @@ export function OpenGraphDefaultUser(
             tw="rounded-full"
             height="400px"
             width="400px"
-            src={`${origin}/api/image?url=${user.image}&w=256&q=75&f=image/png&fallbackImg=https://cdn.stats.fm/file/statsfm/images/placeholders/users/private.webp`}
+            src={`${origin}/api/image?url=${user.image}&w=512&q=75&f=image/png&fallbackImg=https://cdn.stats.fm/file/statsfm/images/placeholders/users/private.webp`}
           />
           {user.isPlus && (
             <div tw="absolute right-0 bottom-2 flex">
