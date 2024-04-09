@@ -13,7 +13,6 @@ import {
   SectionToolbarCarouselNavigation,
   Section,
 } from '@/components/Section';
-// import { StatsCard } from '@/components/StatsCard';
 import { StatsCardContainer } from '@/components/Stats';
 
 import { Title } from '@/components/Title';
@@ -237,29 +236,28 @@ const Track: NextPage<Props> = ({ track }) => {
   const trackStatsCards = useMemo(() => {
     return [
       {
-        label: "total times streamed",
+        label: 'total times streamed',
         value: trackStatsResult?.count ?? '-',
         loading: !trackStatsResult,
-        loginRequired: true
+        loginRequired: true,
       },
       {
-        label: "total minutes streamed",
+        label: 'total minutes streamed',
         value: trackStatsResult?.duration ?? '-',
         loading: !trackStatsResult,
-        loginRequired: true
+        loginRequired: true,
       },
       {
-        label: "0-10 popularity",
-        value: formatter.formatPopularity(track.spotifyPopularity)
+        label: '0-10 popularity',
+        value: formatter.formatPopularity(track.spotifyPopularity),
       },
       {
-        label: "track length",
-        value: dayjs.duration(track.durationMs).format('m:ss')
-      }
+        label: 'track length',
+        value: dayjs.duration(track.durationMs).format('m:ss'),
+      },
     ];
   }, [trackStatsResult, track]);
 
-  
   return (
     <>
       <Title>{`${track.name}, artists, stats and more`}</Title>
@@ -319,30 +317,6 @@ const Track: NextPage<Props> = ({ track }) => {
       </div>
 
       <Container className="mt-8">
-        {/* TODO: make a reusable component out of this */}
-        {/* <ul className="grid grid-cols-2 gap-6 md:grid-cols-4">
-          <StatsCard
-            label="total times streamed"
-            value={trackStatsResult?.count}
-            loading={!trackStatsResult}
-            loginRequired
-          />
-
-          <StatsCard
-            label="total minutes streamed"
-            value={trackStatsResult?.duration}
-            loading={!trackStatsResult}
-            loginRequired
-          />
-          <StatsCard
-            label="0-10 popularity"
-            value={formatter.formatPopularity(track.spotifyPopularity)}
-          />
-          <StatsCard
-            label="track length"
-            value={dayjs.duration(track.durationMs).format('m:ss')}
-          />
-        </ul> */}
         <StatsCardContainer stats={trackStatsCards} />
         <Carousel>
           <Section
