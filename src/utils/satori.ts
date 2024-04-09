@@ -4,6 +4,7 @@ import { Resvg } from '@resvg/resvg-js';
 import fs from 'fs';
 import { join } from 'path';
 import type { ReactElement } from 'react';
+import { loadEmoji, getIconCode } from './twemoji';
 
 const fonts: SatoriOptions['fonts'] = [
   // the first entry is used as the default font
@@ -58,6 +59,12 @@ export async function renderToImage(
     height: options.height,
     debug: options.debug,
     fonts: options.fonts ?? fonts,
+    loadAdditionalAsset: async (code, segment) => {
+      if (code === 'emoji') {
+        return `data:image/svg+xml;base64,${btoa(await loadEmoji('twemoji', getIconCode(segment)))}`;
+      }
+      return code;
+    },
   });
 
   const w = new Resvg(svg, {
