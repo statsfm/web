@@ -49,13 +49,9 @@ export default async function handler(
 
   const image = await renderToImage(
     VARIANTS[variants ?? 'default']!(req, api, user),
-    // {
-    //   debug: true,
-    //   width: 1200,
-    //   height: 600,
-    // },
   );
 
   res.setHeader('Content-Type', 'image/png');
+  res.setHeader('Cache-Control', 'public, max-age=3600');
   res.send(image);
 }
