@@ -55,7 +55,7 @@ const Login: NextPage = () => {
             onClick={() => {
               router.push('/api/auth/apple');
             }}
-            className="w-full bg-applemusic/80 text-white hover:!bg-applemusic/60 active:!bg-applemusic/50"
+            className="w-full !bg-applemusic/80 text-white hover:!bg-applemusic/60 active:!bg-applemusic/50"
           >
             <AppleMusicIcon className="mr-2 !fill-white" hover={false} />
             Continue with Apple

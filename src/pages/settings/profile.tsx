@@ -397,7 +397,7 @@ const AccountPrivacyInfoForm: FC<AccountPrivacyInfoFormProps> = ({
         <Button
           className={clsx(
             changed ? 'hover:!bg-primary/60 active:!bg-primary/40' : '',
-            ' block h-min rounded-md !bg-primary py-2 px-4 text-background',
+            'block h-min rounded-md !bg-primary py-2 px-4 !text-background',
           )}
           onClick={save}
           disabled={

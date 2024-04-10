@@ -34,10 +34,13 @@ export const Items = ({
     dispatch({ type: ActionType.CloseMenu });
   });
 
-  useLayoutEffect(() => {
-    reference(state.buttonRef.current);
-    floating(state.itemsRef.current);
-  }, [state.itemsRef, state.buttonRef]);
+  if (typeof window !== 'undefined') {
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    useLayoutEffect(() => {
+      reference(state.buttonRef.current);
+      floating(state.itemsRef.current);
+    }, [state.itemsRef, state.buttonRef]);
+  }
 
   const useKeyDown: KeyboardEventHandler = (e) => {
     // eslint-disable-next-line default-case

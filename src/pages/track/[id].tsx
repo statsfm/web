@@ -32,6 +32,7 @@ import { event } from 'nextjs-google-analytics';
 import { Radar } from 'react-chartjs-2';
 import { AppleMusicLink, SpotifyLink } from '@/components/SocialLink';
 import { TopListeners } from '@/components/TopListeners';
+import { MdHearingDisabled } from 'react-icons/md';
 
 const AudioFeaturesRadarChart = ({
   acousticness,
@@ -213,9 +214,11 @@ const Track: NextPage<Props> = ({ track }) => {
 
   useEffect(() => {
     (async () => {
-      setAudioFeatures(
-        await api.tracks.audioFeature(track.externalIds.spotify![0] ?? ''),
-      );
+      if (track.externalIds.spotify && track.externalIds.spotify.length > 0) {
+        setAudioFeatures(
+          await api.tracks.audioFeature(track.externalIds.spotify![0]!),
+        );
+      }
     })();
   }, [track]);
 
@@ -352,63 +355,79 @@ const Track: NextPage<Props> = ({ track }) => {
 
         <Section
           title="Audio features"
-          className="grid grid-cols-1 gap-12 lg:grid-cols-2"
+          {...(audioFeatures
+            ? {
+                description: 'Audio features of the track',
+                className: 'grid grid-cols-1 gap-12 lg:grid-cols-2',
+              }
+            : {})}
         >
-          <div className="flex flex-col">
-            <ul className="mt-8 grid w-full grid-cols-2 items-stretch gap-4 gap-y-5">
-              {omittedAudioFeatures &&
-                Object.entries(omittedAudioFeatures).map((feature, i) => (
-                  <li key={i} className="flex flex-col text-neutral-300">
-                    <span className="mb-1 capitalize">{feature[0]}</span>
-                    <div className="h-2 appearance-none overflow-hidden rounded-full bg-foreground">
-                      <span
-                        className="block h-full rounded-full bg-primary"
-                        style={{ width: `${feature[1] * 100}%` }}
-                      />
-                    </div>
-                  </li>
-                ))}
-            </ul>
-            <ul className="mt-12 grid w-full grid-cols-2 gap-4 lg:grid-cols-3">
-              <FeatureCard
-                feature="Loudness"
-                value={audioFeatures?.loudness.toFixed(1) ?? '-'}
-              />
-              <FeatureCard
-                feature="Key"
-                value={keyToNote(audioFeatures?.key ?? -1)}
-              />
+          {audioFeatures ? (
+            <>
+              <div className="flex flex-col">
+                <ul className="mt-8 grid w-full grid-cols-2 items-stretch gap-4 gap-y-5">
+                  {omittedAudioFeatures &&
+                    Object.entries(omittedAudioFeatures).map((feature, i) => (
+                      <li key={i} className="flex flex-col text-neutral-300">
+                        <span className="mb-1 capitalize">{feature[0]}</span>
+                        <div className="h-2 appearance-none overflow-hidden rounded-full bg-foreground">
+                          <span
+                            className="block h-full rounded-full bg-primary"
+                            style={{ width: `${feature[1] * 100}%` }}
+                          />
+                        </div>
+                      </li>
+                    ))}
+                </ul>
+                <ul className="mt-12 grid w-full grid-cols-2 gap-4 lg:grid-cols-3">
+                  <FeatureCard
+                    feature="Loudness"
+                    value={audioFeatures?.loudness.toFixed(1) ?? '-'}
+                  />
+                  <FeatureCard
+                    feature="Key"
+                    value={keyToNote(audioFeatures?.key ?? -1)}
+                  />
 
-              <FeatureCard
-                feature="Mode"
-                value={
-                  // eslint-disable-next-line no-nested-ternary
-                  audioFeatures?.mode !== undefined
-                    ? audioFeatures?.mode === 0
-                      ? 'Minor'
-                      : 'Major'
-                    : '-'
-                }
-              />
-              <FeatureCard
-                feature="Time signature"
-                value={
-                  audioFeatures?.time_signature
-                    ? `${formatter.localiseNumber(
-                        audioFeatures?.time_signature,
-                      )}/4`
-                    : '-'
-                }
-              />
-              <FeatureCard
-                feature="BPM"
-                value={audioFeatures?.tempo.toFixed(1) ?? '-'}
-              />
-            </ul>
-          </div>
-          <div className="mx-auto w-full max-w-lg lg:max-w-none">
-            <AudioFeaturesRadarChart {...audioFeatures} />
-          </div>
+                  <FeatureCard
+                    feature="Mode"
+                    value={
+                      // eslint-disable-next-line no-nested-ternary
+                      audioFeatures?.mode !== undefined
+                        ? audioFeatures?.mode === 0
+                          ? 'Minor'
+                          : 'Major'
+                        : '-'
+                    }
+                  />
+                  <FeatureCard
+                    feature="Time signature"
+                    value={
+                      audioFeatures?.time_signature
+                        ? `${formatter.localiseNumber(
+                            audioFeatures?.time_signature,
+                          )}/4`
+                        : '-'
+                    }
+                  />
+                  <FeatureCard
+                    feature="BPM"
+                    value={audioFeatures?.tempo.toFixed(1) ?? '-'}
+                  />
+                </ul>
+              </div>
+              <div className="mx-auto w-full max-w-lg lg:max-w-none">
+                <AudioFeaturesRadarChart {...audioFeatures} />
+              </div>
+            </>
+          ) : (
+            <div className="grid w-full place-items-center py-20">
+              <MdHearingDisabled />
+              <p className="m-0 text-text-grey">
+                No audio features available for this track
+              </p>
+            </div>
+          )}
         </Section>
 
         {user && (

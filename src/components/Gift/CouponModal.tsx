@@ -50,7 +50,7 @@ export const CouponModal: FC<{
       className="fixed inset-0 z-50 flex items-center justify-center"
     >
       <Overlay visible={open} className="fixed top-0 z-20" />
-      <Dialog.Panel className="z-20 max-h-max cursor-default rounded-2xl bg-foreground p-5 shadow-xl">
+      <Dialog.Panel className="z-40 max-h-max cursor-default rounded-2xl bg-foreground p-5 shadow-xl">
         <Dialog.Title as="h1">
           Coupon <span className="text-neutral-400">#{giftCode.id}</span>
         </Dialog.Title>
