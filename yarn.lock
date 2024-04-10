@@ -914,13 +914,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@headlessui/react@npm:^1.7.2":
-  version: 1.7.2
-  resolution: "@headlessui/react@npm:1.7.2"
+"@headlessui/react@npm:^1.7.18":
+  version: 1.7.18
+  resolution: "@headlessui/react@npm:1.7.18"
+  dependencies:
+    "@tanstack/react-virtual": "npm:^3.0.0-beta.60"
+    client-only: "npm:^0.0.1"
   peerDependencies:
     react: ^16 || ^17 || ^18
     react-dom: ^16 || ^17 || ^18
-  checksum: 10c0/39fd1f3f56c50c6dde20ce60b76bc2f385fc1347f399482248ce7d247fe48d5188959c4f7d602d47c8eeef5d8cf128cb7b00356ab43cc2adf59cbcb81b5ce6d0
+  checksum: 10c0/2d88d10874879182d4b9ed9a7779266032214034481129ba544e858d3624c8d12333e6a9d9d8263f2f116bc823bcfd43a2d1f69800fbf6a47b34d989370346e5
   languageName: node
   linkType: hard
 
@@ -1589,6 +1592,25 @@ __metadata:
   peerDependencies:
     tailwindcss: "*"
   checksum: 10c0/c47f08f9051d972f86410168e7267f8b3123513f32e4c096946bb76d0f87549c3eb24585ce73570d1c054716f1c85acceba4f45780aafcc74a52d2d29cbba080
+  languageName: node
+  linkType: hard
+
+"@tanstack/react-virtual@npm:^3.0.0-beta.60":
+  version: 3.2.0
+  resolution: "@tanstack/react-virtual@npm:3.2.0"
+  dependencies:
+    "@tanstack/virtual-core": "npm:3.2.0"
+  peerDependencies:
+    react: ^16.8.0 || ^17.0.0 || ^18.0.0
+    react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
+  checksum: 10c0/e736cfa35a6381a2dfcf3f2aa29e07cd842a1ee586aa88c4851dea1c5887a6d4c262f6cbf87d8aad668e137a14612a5f1197793d222d1233d70764f2614ef164
+  languageName: node
+  linkType: hard
+
+"@tanstack/virtual-core@npm:3.2.0":
+  version: 3.2.0
+  resolution: "@tanstack/virtual-core@npm:3.2.0"
+  checksum: 10c0/04e14e238bd3246d15990b93a11f4986fe8168fbe3cec9e631adaf0cf17d1a9eed6e939f7594bae959ceeb4d16e6e58189e2c1a787c2feea7f5f5b4269a17229
   languageName: node
   linkType: hard
 
@@ -2649,7 +2671,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"client-only@npm:0.0.1":
+"client-only@npm:0.0.1, client-only@npm:^0.0.1":
   version: 0.0.1
   resolution: "client-only@npm:0.0.1"
   checksum: 10c0/9d6cfd0c19e1c96a434605added99dff48482152af791ec4172fb912a71cff9027ff174efd8cdb2160cc7f377543e0537ffc462d4f279bc4701de3f2a3c4b358
@@ -8478,7 +8500,7 @@ __metadata:
     "@commitlint/config-conventional": "npm:^19.1.0"
     "@floating-ui/react-dom": "npm:^2.0.8"
     "@hapi/accept": "npm:^6.0.3"
-    "@headlessui/react": "npm:^1.7.2"
+    "@headlessui/react": "npm:^1.7.18"
     "@next/bundle-analyzer": "npm:^12.2.1"
     "@resvg/resvg-js": "npm:^2.6.2"
     "@statsfm/statsfm.js": "npm:^2.2.1"
