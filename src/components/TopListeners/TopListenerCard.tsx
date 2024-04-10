@@ -35,7 +35,7 @@ export const TopListenerCard = ({
       </Avatar>
 
       <div className="mt-2 w-full text-center">
-        <h4 className="!block text-ellipsis line-clamp-2">
+        <h4 className="line-clamp-2 !block text-ellipsis">
           {user.displayName}
         </h4>
 

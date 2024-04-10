@@ -75,7 +75,7 @@ const MessagePage: NextPage<Props> = (data) => {
     <Container className="flex min-h-screen items-center">
       <Title>{data.title}</Title>
       <div className="flex w-full flex-col justify-center">
-        <h2 className="mb-0 text-center text-3xl font-bold lg:text-[3rem]">
+        <h2 className="mb-0 text-center text-3xl font-bold lg:text-5xl">
           {!data.hideCode ? (
             <span className="mr-2 text-gray-500">{data.code}</span>
           ) : null}

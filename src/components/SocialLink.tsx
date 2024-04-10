@@ -12,7 +12,7 @@ export const SpotifyLink: FC<Props> = ({ path }) => {
       target="_blank"
       rel="noopener noreferrer"
     >
-      <SpotifyIcon className="h-7 w-7 !fill-icon transition-colors hover:!fill-[#1DB954]" />
+      <SpotifyIcon className="size-7 !fill-icon transition-colors hover:!fill-[#1DB954]" />
     </a>
   );
 };
@@ -24,7 +24,7 @@ export const DiscordLink: FC<Props> = ({ path }) => {
       target="_blank"
       rel="noopener noreferrer"
     >
-      <DiscordIcon className="h-7 w-7 !fill-icon transition-colors hover:!fill-[#5468ff]" />
+      <DiscordIcon className="size-7 !fill-icon transition-colors hover:!fill-[#5468ff]" />
     </a>
   );
 };
@@ -38,7 +38,7 @@ export const AppleMusicLink: FC<Props> = ({ path }) => {
     >
       {/* TODO: switch this hover prop when apple music is alive */}
       <AppleMusicIcon
-        className="h-7 w-7 !fill-icon transition-colors hover:!fill-applemusic"
+        className="size-7 !fill-icon transition-colors hover:!fill-applemusic"
         hover={false}
       />
     </a>

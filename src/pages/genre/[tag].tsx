@@ -66,7 +66,7 @@ const GenrePage: NextPage<Props> = ({ tag, genre }) => {
       <Title>{tag}</Title>
       <div className="bg-foreground pt-20">
         <Container>
-          <section className="flex flex-col items-center gap-5 pt-24 pb-10 md:flex-row">
+          <section className="flex flex-col items-center gap-5 pb-10 pt-24 md:flex-row">
             <div className="flex flex-col justify-end">
               <h1 className="text-center text-5xl font-extrabold capitalize md:text-left">
                 {tag}
@@ -129,7 +129,7 @@ const GenrePage: NextPage<Props> = ({ tag, genre }) => {
                     </p>
                   </a>
                 </Link>
-                <p className="mt-1 text-center text-sm font-medium line-clamp-1">
+                <p className="mt-1 line-clamp-1 text-center text-sm font-medium">
                   {artist.genres.map((genre, i) => (
                     <span key={genre + artist}>
                       <Link legacyBehavior href={`/genre/${genre}`}>

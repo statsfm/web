@@ -175,7 +175,7 @@ const Album: NextPage<Props> = ({ album, tracks }) => {
 
       <div className="bg-foreground pt-20">
         <Container>
-          <section className="flex flex-col items-center gap-5 pt-24 pb-10 md:flex-row">
+          <section className="flex flex-col items-center gap-5 pb-10 pt-24 md:flex-row">
             {album.image && (
               <Image
                 src={album.image}
@@ -225,7 +225,7 @@ const Album: NextPage<Props> = ({ album, tracks }) => {
                     <span className="px-5">{i + 1}.</span>
 
                     <div className="overflow-hidden">
-                      <h4 className="!block overflow-hidden text-ellipsis line-clamp-2">
+                      <h4 className="line-clamp-2 !block overflow-hidden text-ellipsis">
                         {track.name}
                       </h4>
                       <p className="m-0">

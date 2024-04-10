@@ -24,7 +24,7 @@ const Specter: NextPage = () => {
                         Plus only user perk
                       </span>
                       <MdKeyboardArrowRight
-                        className="h-5 w-5 text-white"
+                        className="size-5 text-white"
                         aria-hidden="true"
                       />
                     </span>
@@ -54,7 +54,7 @@ const Specter: NextPage = () => {
                   >
                     <span className="text-sm text-gray-300">Windows</span>
                     <MdOutlineScience
-                      className="ml-2 h-5 w-5 text-gray-300"
+                      className="ml-2 size-5 text-gray-300"
                       aria-hidden="true"
                     />
                   </a>
@@ -64,7 +64,7 @@ const Specter: NextPage = () => {
                   >
                     <span className="text-sm text-gray-300">macOS</span>
                     <MdOutlineScience
-                      className="ml-2 h-5 w-5 text-gray-300"
+                      className="ml-2 size-5 text-gray-300"
                       aria-hidden="true"
                     />
                   </a>

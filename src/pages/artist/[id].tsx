@@ -187,7 +187,7 @@ const Artist: NextPage<Props> = ({ artist }) => {
 
       <div className="bg-foreground pt-20">
         <Container>
-          <section className="flex flex-col items-center gap-5 pt-24 pb-10 md:flex-row">
+          <section className="flex flex-col items-center gap-5 pb-10 pt-24 md:flex-row">
             <Avatar src={artist.image} name={artist.name} size="4xl" />
 
             <div className="flex flex-col justify-end">

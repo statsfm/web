@@ -43,20 +43,20 @@ const BusinessPage: NextPage = () => {
       <Title reverse noDivider>
         for partners
       </Title>
-      <Container className="pt-[6rem]">
+      <Container className="pt-24">
         <div className="relative">
           <div className="mx-auto max-w-7xl">
             <div className="relative shadow-xl sm:overflow-hidden sm:rounded-2xl">
               <div className="absolute inset-0">
                 <img
-                  className="h-full w-full object-cover"
+                  className="size-full object-cover"
                   src="/images/partners/artist_performing.jpeg"
                   alt="Artist performing"
                 />
                 <div className="absolute inset-0 bg-gradient-to-br from-green-800 to-green-600 mix-blend-multiply" />
               </div>
-              <div className="relative px-4 py-16 sm:px-6 sm:py-24 lg:py-32 lg:px-8">
-                <h1 className="text-center text-4xl font-extrabold leading-[2.5rem] sm:text-5xl md:leading-[3.2rem] lg:text-6xl lg:leading-[3.8rem]">
+              <div className="relative px-4 py-16 sm:px-6 sm:py-24 lg:px-8 lg:py-32">
+                <h1 className="text-center text-4xl font-extrabold leading-10 sm:text-5xl md:leading-[3.2rem] lg:text-6xl lg:leading-[3.8rem]">
                   <span className="block text-white">Your music</span>
                   <span className="block text-green-200">powered by data</span>
                 </h1>
@@ -136,9 +136,9 @@ const BusinessPage: NextPage = () => {
                 {solutions.map((solution) => (
                   <div key={solution.name} className="flex flex-col">
                     <dt className="text-base font-semibold leading-7 text-white">
-                      <div className="mb-6 flex h-10 w-10 items-center justify-center rounded-lg bg-primary">
+                      <div className="mb-6 flex size-10 items-center justify-center rounded-lg bg-primary">
                         <solution.icon
-                          className="h-6 w-6 text-white"
+                          className="size-6 text-white"
                           aria-hidden="true"
                         />
                       </div>

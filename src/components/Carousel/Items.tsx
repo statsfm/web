@@ -42,7 +42,7 @@ export const Items = ({
             }}
             className="relative w-full transition-transform"
           >
-            <div className="absolute z-20 h-full w-full transition-transform duration-300 ease-in-out">
+            <div className="absolute z-20 size-full transition-transform duration-300 ease-in-out">
               <ul
                 className="bottom-0 z-20 flex w-full flex-wrap justify-start transition-transform duration-300 ease-in-out"
                 style={{

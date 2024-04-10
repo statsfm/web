@@ -381,10 +381,10 @@ const User: NextPage<Props> = ({
       >
         <div className="bg-foreground pt-20">
           <Container>
-            <section className="flex flex-col items-center gap-5 pt-24 pb-10 md:flex-row">
+            <section className="flex flex-col items-center gap-5 pb-10 pt-24 md:flex-row">
               <div className="relative rounded-full border-2 border-background">
                 <Avatar src={user.image} name={user.displayName} size="4xl" />
-                <div className="absolute right-0 bottom-2 text-center text-lg font-medium md:text-left">
+                <div className="absolute bottom-2 right-0 text-center text-lg font-medium md:text-left">
                   {user.isPlus && <PlusBadge />}
                 </div>
               </div>
@@ -403,7 +403,7 @@ const User: NextPage<Props> = ({
                 {user.privacySettings?.profile &&
                   user.profile?.bio &&
                   user.userBan?.active !== true && (
-                    <pre className="whitespace-pre-wrap text-center font-body text-lg line-clamp-3 md:text-left [&>a]:font-semibold [&>a]:text-primary">
+                    <pre className="line-clamp-3 whitespace-pre-wrap text-center font-body text-lg md:text-left [&>a]:font-semibold [&>a]:text-primary">
                       <Linkify
                         options={{
                           target: '_blank',
@@ -509,7 +509,7 @@ const User: NextPage<Props> = ({
                           </span>
                           <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
                             <MdArrowDropDown
-                              className="h-5 w-5 text-gray-400"
+                              className="size-5 text-gray-400"
                               aria-hidden="true"
                             />
                           </span>
@@ -545,7 +545,7 @@ const User: NextPage<Props> = ({
                                     {selected ? (
                                       <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-primary">
                                         <MdCheck
-                                          className="h-5 w-5"
+                                          className="size-5"
                                           aria-hidden="true"
                                         />
                                       </span>
@@ -572,7 +572,7 @@ const User: NextPage<Props> = ({
                           </span>
                           <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
                             <MdArrowDropDown
-                              className="h-5 w-5 text-gray-400"
+                              className="size-5 text-gray-400"
                               aria-hidden="true"
                             />
                           </span>
@@ -608,7 +608,7 @@ const User: NextPage<Props> = ({
                                     {selected ? (
                                       <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-primary">
                                         <MdCheck
-                                          className="h-5 w-5"
+                                          className="size-5"
                                           aria-hidden="true"
                                         />
                                       </span>

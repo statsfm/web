@@ -170,7 +170,7 @@ const Imports = () => {
                       >
                         {importService.enabled ? (
                           <>
-                            <MdFileUpload className="mb-4 h-8 w-8 text-gray-400" />
+                            <MdFileUpload className="mb-4 size-8 text-gray-400" />
                             <p className="mb-2 text-sm text-white">
                               <span className="font-semibold text-primary">
                                 Click to upload

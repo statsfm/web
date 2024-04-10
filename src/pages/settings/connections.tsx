@@ -133,7 +133,7 @@ const ConnectionsList = () => {
       <ul className="grid grid-cols-1 gap-4 lg:grid-cols-2">
         {socials.map((platform) => (
           <li
-            className="mb-4 w-full rounded-xl bg-foreground py-4 px-5"
+            className="mb-4 w-full rounded-xl bg-foreground px-5 py-4"
             key={platform.key}
           >
             <h2 className="flex items-center gap-2">

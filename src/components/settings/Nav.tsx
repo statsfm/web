@@ -78,7 +78,7 @@ export const SideNav: FC = () => {
 export const DropDownNav: FC = () => {
   return (
     <Popover>
-      <Popover.Button className="relative z-20 flex h-10 w-10 items-center justify-center rounded-md bg-foreground sm:hidden">
+      <Popover.Button className="relative z-20 flex size-10 items-center justify-center rounded-md bg-foreground sm:hidden">
         <MdMenu className="h-10 text-white" />
       </Popover.Button>
 
@@ -104,7 +104,7 @@ export const DropDownNav: FC = () => {
         leaveTo="transform opacity-0"
       >
         <Popover.Panel className="absolute top-16 z-20 ">
-          <div className="rounded-xl bg-background py-2 pr-4 pl-6">
+          <div className="rounded-xl bg-background py-2 pl-6 pr-4">
             <NavBody />
           </div>
         </Popover.Panel>

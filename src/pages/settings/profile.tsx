@@ -170,7 +170,7 @@ const AvatarInput: FC<{ defaultSrc: string | undefined }> = ({
       />
       <label
         htmlFor="fileInput"
-        className="relative mx-auto mt-6 mb-4 h-min w-min cursor-pointer sm:my-0"
+        className="relative mx-auto mb-4 mt-6 size-min cursor-pointer sm:my-0"
         onMouseEnter={() => setHovering(true)}
         onMouseLeave={() => setHovering(false)}
       >
@@ -183,10 +183,10 @@ const AvatarInput: FC<{ defaultSrc: string | undefined }> = ({
         <div
           className={clsx(
             hovering ? 'opacity-40' : 'opacity-0',
-            'absolute top-0 h-full w-full rounded-full bg-black transition-opacity',
+            'absolute top-0 size-full rounded-full bg-black transition-opacity',
           )}
         />
-        <div className="absolute right-0 bottom-0 flex h-10 w-10 items-center justify-center rounded-full border-4 border-background bg-foreground">
+        <div className="absolute bottom-0 right-0 flex size-10 items-center justify-center rounded-full border-4 border-background bg-foreground">
           <MdCameraEnhance
             size="22px"
             className={clsx(
@@ -314,7 +314,7 @@ const DeleteAccount: FC = () => {
           <>
             <div className="mb-2 flex flex-row items-start">
               <input
-                className="mt-1 mr-2"
+                className="mr-2 mt-1"
                 type="checkbox"
                 id="confirm"
                 onChange={(e) => setAgreed(e.target.checked)}
@@ -397,7 +397,7 @@ const AccountPrivacyInfoForm: FC<AccountPrivacyInfoFormProps> = ({
         <Button
           className={clsx(
             changed ? 'hover:!bg-primary/60 active:!bg-primary/40' : '',
-            'block h-min rounded-md !bg-primary py-2 px-4 !text-background',
+            'block h-min rounded-md !bg-primary px-4 py-2 !text-background',
           )}
           onClick={save}
           disabled={

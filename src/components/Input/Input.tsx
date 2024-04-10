@@ -37,7 +37,7 @@ export const Input = ({
       )}
 
       <div className="flex flex-col">
-        <div className="flex rounded-lg bg-foreground py-2 px-4 text-base font-semibold ring-neutral-500 focus-within:ring-2">
+        <div className="flex rounded-lg bg-foreground px-4 py-2 text-base font-semibold ring-neutral-500 focus-within:ring-2">
           {prefix && <span className="flex items-center">{prefix}</span>}
           <input
             id={id}

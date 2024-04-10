@@ -16,7 +16,7 @@ export const Coupon: FC<{ giftcode: GiftCode }> = ({ giftcode }) => {
       }}
     >
       <span
-        className="w-max cursor-pointer select-none rounded-xl bg-primary/10 py-1 px-4 font-bold text-primary"
+        className="w-max cursor-pointer select-none rounded-xl bg-primary/10 px-4 py-1 font-bold text-primary"
         onClick={() => navigator.clipboard.writeText(giftcode.code)}
       >
         {giftcode.code}
@@ -38,7 +38,7 @@ export const Coupon: FC<{ giftcode: GiftCode }> = ({ giftcode }) => {
           </Link>
         </p>
       ) : (
-        <p className="mt-3 mb-0 text-center">
+        <p className="mb-0 mt-3 text-center">
           Purchased {dayjs(giftcode.purchasedAt).fromNow()}
         </p>
       )}

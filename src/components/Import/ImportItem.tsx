@@ -24,7 +24,7 @@ export const ImportItem: FC<
           </p>
           <div
             className={clsx(
-              'my-0 flex-none rounded-md bg-foreground py-1 px-2 text-xs font-medium',
+              'my-0 flex-none rounded-md bg-foreground px-2 py-1 text-xs font-medium',
               IMPORT_STATUS_COLORS[
                 status.toString() as keyof typeof IMPORT_STATUS_COLORS
               ],
@@ -46,7 +46,7 @@ export const ImportItem: FC<
           {(service === Platform.SPOTIFY ||
             (service === Platform.APPLEMUSIC && [1, 2].includes(status))) && (
             <>
-              <svg viewBox="0 0 2 2" className="h-0.5 w-0.5 fill-current">
+              <svg viewBox="0 0 2 2" className="size-0.5 fill-current">
                 <circle cx={1} cy={1} r={1} />
               </svg>
               <p className="truncate">{count.toLocaleString()} streams</p>
@@ -64,7 +64,7 @@ export const ImportItem: FC<
         <Menu as="div" className="relative flex-none sm:hidden">
           <Menu.Button className="-m-2.5 block p-2.5 text-gray-500 hover:text-gray-900">
             <span className="sr-only">Open options</span>
-            <MdMoreVert className="h-5 w-5" aria-hidden="true" />
+            <MdMoreVert className="size-5" aria-hidden="true" />
           </Menu.Button>
           <Transition
             as={Fragment}
