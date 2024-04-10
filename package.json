@@ -11,7 +11,7 @@
     "check-types": "tsc --noEmit --pretty"
   },
   "dependencies": {
-    "@floating-ui/react-dom": "^1.0.0",
+    "@floating-ui/react-dom": "^2.0.8",
     "@hapi/accept": "^6.0.3",
     "@headlessui/react": "^1.7.2",
     "@next/bundle-analyzer": "^12.2.1",

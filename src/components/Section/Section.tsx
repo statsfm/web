@@ -23,7 +23,7 @@ const ToolbarPrivacySettingsInfoPopover = ({
   const scopeContext = useScopeContext();
   const scopeValid = usePrivacyScope(scope!, false);
 
-  const { x, y, reference, floating, strategy } = useFloating({
+  const { x, y, refs, strategy } = useFloating({
     middleware: [offset(8)],
     placement: 'bottom-end',
   });
@@ -36,7 +36,7 @@ const ToolbarPrivacySettingsInfoPopover = ({
     return (
       <Popover>
         <Popover.Button
-          ref={reference}
+          ref={refs.setReference}
           className="rounded-full bg-foreground p-2 transition-all focus-within:ring-2 focus:outline-none focus:ring focus:ring-neutral-500 active:scale-95"
         >
           <MdVisibilityOff className="fill-white" />
@@ -52,7 +52,7 @@ const ToolbarPrivacySettingsInfoPopover = ({
           leaveTo="transform opacity-0 scale-95"
         >
           <Popover.Panel
-            ref={floating}
+            ref={refs.setFloating}
             style={{
               position: strategy,
               top: y ?? 0,

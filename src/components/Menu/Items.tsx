@@ -25,7 +25,7 @@ export const Items = ({
   const id = useId();
   const [state, dispatch] = useMenuContext();
 
-  const { x, y, reference, floating, strategy } = useFloating({
+  const { x, y, refs, strategy } = useFloating({
     middleware: [offset(8)],
     placement,
   });
@@ -37,8 +37,8 @@ export const Items = ({
   if (typeof window !== 'undefined') {
     // eslint-disable-next-line react-hooks/rules-of-hooks
     useLayoutEffect(() => {
-      reference(state.buttonRef.current);
-      floating(state.itemsRef.current);
+      refs.setReference(state.buttonRef.current);
+      refs.setFloating(state.itemsRef.current);
     }, [state.itemsRef, state.buttonRef]);
   }
 
@@ -114,7 +114,7 @@ export const Items = ({
           id={id}
           // TODO: this funky react business needs to go but this does the job for now.
           ref={(el) => {
-            floating(el);
+            refs.setFloating(el);
             offScreenRef(el);
             state.itemsRef.current = el;
           }}
