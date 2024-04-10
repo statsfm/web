@@ -13,7 +13,7 @@
   "dependencies": {
     "@floating-ui/react-dom": "^2.0.8",
     "@hapi/accept": "^6.0.3",
-    "@headlessui/react": "^1.7.18",
+    "@headlessui/react": "1.7.2",
     "@next/bundle-analyzer": "^12.2.1",
     "@resvg/resvg-js": "^2.6.2",
     "@statsfm/statsfm.js": "^2.2.1",

@@ -10,7 +10,7 @@ export const Coupon: FC<{ giftcode: GiftCode }> = ({ giftcode }) => {
 
   return (
     <div
-      className="max-h-max max-w-max rounded-2xl bg-foreground p-5"
+      className="max-h-max max-w-max cursor-pointer rounded-2xl bg-foreground p-5"
       onClick={() => {
         setOpen(true);
       }}
