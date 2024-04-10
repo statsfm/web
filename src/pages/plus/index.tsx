@@ -554,6 +554,7 @@ const PlusPage: NextPage<
     }
 
     if (user.isPlus) {
+      router.push('/gift');
       return;
     }
 
