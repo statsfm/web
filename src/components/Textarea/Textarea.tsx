@@ -43,7 +43,7 @@ export const Textarea = ({
             'flex rounded-lg bg-foreground p-4 text-base font-semibold ring-neutral-500 focus:outline-none focus:ring-2',
           )}
           style={{ resize }}
-          onChange={handleInput as any}
+          onChange={handleInput}
           maxLength={maxLength}
           {...props}
         />
