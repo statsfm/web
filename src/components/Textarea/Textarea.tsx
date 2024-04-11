@@ -1,8 +1,8 @@
-import type { FormEventHandler, TextareaHTMLAttributes } from 'react';
+import type { ChangeEventHandler } from 'react';
 import { useEffect, useState, useId } from 'react';
 import clsx from 'clsx';
 
-interface Props extends TextareaHTMLAttributes<HTMLInputElement> {
+interface Props extends React.ComponentPropsWithoutRef<'textarea'> {
   label?: string;
   resize?: 'both' | 'horizontal' | 'vertical' | 'none';
 }
@@ -23,8 +23,7 @@ export const Textarea = ({
     if (props.value) setCharacterCount(props.value.toString().length);
   }, [props.value]);
 
-  const handleInput: FormEventHandler<HTMLTextAreaElement> = (e) => {
-    // @ts-ignore TODO: add type checking
+  const handleInput: ChangeEventHandler<HTMLTextAreaElement> = (e) => {
     setCharacterCount(e.target.value.length);
   };
 
@@ -44,8 +43,7 @@ export const Textarea = ({
             'flex rounded-lg bg-foreground p-4 text-base font-semibold ring-neutral-500 focus:outline-none focus:ring-2',
           )}
           style={{ resize }}
-          // @ts-ignore
-          onInput={handleInput}
+          onChange={handleInput}
           maxLength={maxLength}
           {...props}
         />

@@ -14,19 +14,6 @@ import localFont from 'next/font/local';
 import clsx from 'clsx';
 import ErrorBoundary from '@/components/ErrorBoundary';
 
-// TODO: this is the stupidest solution to the worst issue ever, works for now
-// https://github.com/tailwindlabs/headlessui/discussions/666#discussioncomment-1891380
-if (typeof window !== 'undefined') {
-  const elementById = Document.prototype.getElementById;
-  // eslint-disable-next-line func-names
-  Document.prototype.getElementById = function (elementId: string) {
-    if (elementId === 'headlessui-portal-root') {
-      return document.getElementById('PortalRoot');
-    }
-    return elementById.call(this, elementId);
-  };
-}
-
 const StatsfmSans = localFont({
   variable: '--font-statsfm-sans',
   src: [
@@ -116,7 +103,6 @@ const App = ({
           <Footer />
         </ToasterContainer>
       </AuthProvider>
-      <section id="PortalRoot" />
     </main>
   );
 };

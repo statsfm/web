@@ -47,10 +47,6 @@ const PhoneAppDisplay: FC = () => (
   />
 );
 
-// TODO: fix easylist blocking this
-// https://github.dev/easylist/easylist/blob/d91346100f3faa32c25b194a1a8afbc9eff12049/easyprivacy/easyprivacy_general.txt#L5412
-// ssr works but client side props get blocked by this filter
-
 export const getServerSideProps: GetServerSideProps<SSRProps> = async (ctx) => {
   const user = await fetchUser(ctx);
 

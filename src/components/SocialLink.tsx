@@ -36,7 +36,6 @@ export const AppleMusicLink: FC<Props> = ({ path }) => {
       target="_blank"
       rel="noopener noreferrer"
     >
-      {/* TODO: switch this hover prop when apple music is alive */}
       <AppleMusicIcon
         className="size-7 !fill-icon transition-colors hover:!fill-applemusic"
         hover={false}

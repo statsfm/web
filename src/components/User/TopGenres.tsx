@@ -60,7 +60,7 @@ export const TopGenres: FC<{
                   .fill(null)
                   .map((_v, i) => (
                     <Chip
-                      className="shrink-0 animate-pulse text-transparent"
+                      className="shrink-0 animate-pulse !text-transparent"
                       key={i}
                     >
                       {i.toString().repeat(i + (10 % 17))}

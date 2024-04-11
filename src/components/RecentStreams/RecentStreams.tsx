@@ -31,7 +31,6 @@ export const RecentStreams = <
   const [streamsByDate, setStreamsByData] = useState<[string, T[]][]>([]);
 
   useEffect(() => {
-    // TODO: rewrite this to be more readable
     const pairs: Record<string, T[]> = {};
 
     streams.forEach((stream) => {
@@ -87,9 +86,8 @@ export const RecentStreams = <
                 <ul key={i}>
                   {streams[1].map((stream, i) => (
                     <li key={i} onClick={onItemClick}>
-                      {/* TODO: fix type */}
                       <TrackListRow
-                        track={(stream as any).track ?? track}
+                        track={'track' in stream ? stream.track : track}
                         {...stream}
                       />
                     </li>

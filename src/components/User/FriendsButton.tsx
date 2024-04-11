@@ -7,8 +7,6 @@ import { MdInfo } from 'react-icons/md';
 import { FriendsButtonFrame } from './FriendsButtonFrame';
 import { Square } from '../Square';
 
-// TODO: Change to useEffect
-
 export const FriendsButton: FC<{
   friendUser: UserPublic;
   initialFriendStatus: FriendStatus;
@@ -46,55 +44,6 @@ export const FriendsButton: FC<{
     // Do nothing
   };
 
-  if (friendUser.userBan) {
-    switch (friendStatus) {
-      case FriendStatus.FRIENDS:
-        return (
-          <FriendsButtonFrame red handler={handleRemove}>
-            <span className="flex items-center">
-              <span className="mr-2">
-                <MdInfo />
-              </span>
-              Remove friend
-            </span>
-          </FriendsButtonFrame>
-        );
-      case FriendStatus.REQUEST_INCOMING:
-        return (
-          <FriendsButtonFrame handler={handleDeny}>
-            <span className="flex items-center">
-              <span className="mr-2">
-                <MdInfo />
-              </span>
-              Decline friend request
-            </span>
-          </FriendsButtonFrame>
-        );
-      case FriendStatus.REQUEST_OUTGOING:
-        return (
-          <FriendsButtonFrame red handler={handleCancel}>
-            <span className="flex items-center">
-              <span className="mr-2">
-                <MdInfo />
-              </span>
-              Cancel friend request
-            </span>
-          </FriendsButtonFrame>
-        );
-      default:
-        return (
-          <FriendsButtonFrame handler={noop}>
-            <span className="flex items-center">
-              <span className="mr-2">
-                <MdInfo />
-              </span>
-              This user has been banned, you cannot send a friend request
-            </span>
-          </FriendsButtonFrame>
-        );
-    }
-  }
-
   switch (friendStatus) {
     case FriendStatus.FRIENDS:
       return (
@@ -123,6 +72,18 @@ export const FriendsButton: FC<{
         </FriendsButtonFrame>
       );
     default:
+      if (friendUser.userBan?.active) {
+        return (
+          <FriendsButtonFrame handler={noop}>
+            <span className="flex items-center">
+              <span className="mr-2">
+                <MdInfo />
+              </span>
+              This user has been banned, you cannot send a friend request
+            </span>
+          </FriendsButtonFrame>
+        );
+      }
       return (
         <FriendsButtonFrame handler={handleSend}>
           Send friend request
