@@ -2,7 +2,6 @@ import Link from 'next/link';
 import { useAuth } from '@/hooks';
 
 import { MdAccountCircle, MdExitToApp, MdManageAccounts } from 'react-icons/md';
-import { Transition } from '@headlessui/react';
 import { event } from 'nextjs-google-analytics';
 import type { NextRouter } from 'next/router';
 import { useRouter } from 'next/router';
@@ -121,81 +120,55 @@ export const NavBar = () => {
           </Link>
         )}
 
-        {/* TODO: move animation to Menu component itself? */}
         {user ? (
           <Menu>
-            {({ open }) => (
-              <>
-                <Menu.Button>
-                  <Avatar name={user.displayName} src={user.image} />
-                </Menu.Button>
+            <Menu.Button>
+              <Avatar name={user.displayName} src={user.image} />
+            </Menu.Button>
 
-                <Transition
-                  as="div"
-                  show={open}
-                  enter="transition ease-out duration-100"
-                  enterFrom="transform opacity-0 scale-95"
-                  enterTo="transform opacity-100 scale-100"
-                  leave="transition ease-in duration-75"
-                  leaveFrom="transform opacity-100 scale-100"
-                  leaveTo="transform opacity-0 scale-95"
+            <Menu.Items>
+              <Menu.Item
+                className="!p-0 focus:!bg-transparent"
+                onClick={() => event('NAV_profile')}
+              >
+                <Link
+                  className="flex gap-2 px-4 py-2"
+                  href={`/${user.customId ?? user.id}`}
                 >
-                  <Menu.Items>
-                    <Menu.Item
-                      className="!p-0 focus:!bg-transparent"
-                      onClick={() => event('NAV_profile')}
-                    >
-                      <Link
-                        className="flex gap-2 px-4 py-2"
-                        href={`/${user.customId ?? user.id}`}
-                      >
-                        <Avatar
-                          size="md"
-                          name={user.displayName}
-                          src={user.image}
-                        />
-                        <div>
-                          <h5>{user.displayName}</h5>
-                          <p className="m-0">{user.email ?? 'Unknown email'}</p>
-                        </div>
-                      </Link>
-                    </Menu.Item>
-                    <Menu.Item
-                      className="!p-0"
-                      onClick={() => event('NAV_profile')}
-                    >
-                      <Link
-                        className="flex size-full flex-row gap-2 px-4 py-2"
-                        href={`/${user.customId ?? user.id}`}
-                      >
-                        <MdAccountCircle className="text-white" /> My page
-                      </Link>
-                    </Menu.Item>
-                    <Menu.Item
-                      className="!p-0"
-                      onClick={() => event('NAV_settings')}
-                    >
-                      <Link
-                        className="flex size-full flex-row gap-2 px-4 py-2"
-                        href="/settings/profile"
-                      >
-                        <MdManageAccounts className="text-white" /> Settings
-                      </Link>
-                    </Menu.Item>
-                    <hr className="mx-3 my-1 border-t-2 border-neutral-400/10" />
-                    <Menu.Item
-                      icon={<MdExitToApp />}
-                      onClick={() => {
-                        event('NAV_logout');
-                        handleLogOutClick();
-                      }}
-                    >
-                      Log out
-                    </Menu.Item>
-                  </Menu.Items>
-                </Transition>
-              </>
-            )}
+                  <Avatar size="md" name={user.displayName} src={user.image} />
+                  <div>
+                    <h5>{user.displayName}</h5>
+                    <p className="m-0">{user.email ?? 'Unknown email'}</p>
+                  </div>
+                </Link>
+              </Menu.Item>
+              <Menu.Item className="!p-0" onClick={() => event('NAV_profile')}>
+                <Link
+                  className="flex size-full flex-row gap-2 px-4 py-2"
+                  href={`/${user.customId ?? user.id}`}
+                >
+                  <MdAccountCircle className="text-white" /> My page
+                </Link>
+              </Menu.Item>
+              <Menu.Item className="!p-0" onClick={() => event('NAV_settings')}>
+                <Link
+                  className="flex size-full flex-row gap-2 px-4 py-2"
+                  href="/settings/profile"
+                >
+                  <MdManageAccounts className="text-white" /> Settings
+                </Link>
+              </Menu.Item>
+              <hr className="mx-3 my-1 border-t-2 border-neutral-400/10" />
+              <Menu.Item
+                icon={<MdExitToApp />}
+                onClick={() => {
+                  event('NAV_logout');
+                  handleLogOutClick();
+                }}
+              >
+                Log out
+              </Menu.Item>
+            </Menu.Items>
           </Menu>
         ) : (
           <Button onClick={handleLogin} className="my-2">

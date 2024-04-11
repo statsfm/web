@@ -9,11 +9,13 @@ import type { Placement } from '@floating-ui/react-dom';
 import { offset, useFloating } from '@floating-ui/react-dom';
 import { useOffscreen } from '@/hooks/use-offscreen';
 import clsx from 'clsx';
+import { Transition } from '@headlessui/react';
 import { useMenuContext } from './context';
 import { ActionType, Focus, MenuState } from './MenuRoot';
 
 export interface ItemsProps extends HTMLAttributes<HTMLUListElement> {
   placement?: Placement;
+  open?: boolean;
 }
 
 export const Items = ({
@@ -108,7 +110,16 @@ export const Items = ({
   };
 
   return (
-    <>
+    <Transition
+      as="div"
+      show={state.menuState === MenuState.Open}
+      enter="transition ease-out duration-100"
+      enterFrom="transform opacity-0 scale-95"
+      enterTo="transform opacity-100 scale-100"
+      leave="transition ease-in duration-75"
+      leaveFrom="transform opacity-100 scale-100"
+      leaveTo="transform opacity-0 scale-95"
+    >
       {state.menuState === MenuState.Open && (
         <ul
           id={id}
@@ -141,6 +152,6 @@ export const Items = ({
           {children}
         </ul>
       )}
-    </>
+    </Transition>
   );
 };
