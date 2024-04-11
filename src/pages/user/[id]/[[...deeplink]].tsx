@@ -23,7 +23,6 @@ import { event } from 'nextjs-google-analytics';
 import { useScrollPercentage } from '@/hooks/use-scroll-percentage';
 import formatter from '@/utils/formatter';
 import { SpotifyLink, DiscordLink } from '@/components/SocialLink';
-import { StatsCard, StatsCardSkeleton } from '@/components/StatsCard';
 import {
   MdArrowDropDown,
   MdCheck,
@@ -53,6 +52,7 @@ import { Listbox, Transition } from '@headlessui/react';
 import { ImportRequiredScope } from '@/components/User/ImportRequiredScope';
 import { UserBanScope } from '@/components/User/UserBanScope';
 import { PlusBadge } from '@/components/User/PlusBadge';
+import { StatsCardContainer } from '@/components/Stats';
 
 const Chart = dynamic(() => import('react-apexcharts'), { ssr: false });
 
@@ -625,17 +625,7 @@ const User: NextPage<Props> = ({
                 ))}
               {user.isPlus && (
                 <ImportRequiredScope value="streamStats">
-                  <ul className="grid w-full grid-cols-2 gap-4 md:w-7/12 md:grid-cols-4">
-                    {stats.length > 0
-                      ? stats.map((item, i) => <StatsCard {...item} key={i} />)
-                      : Array(6)
-                          .fill(null)
-                          .map((_n, i) => (
-                            <li key={i}>
-                              <StatsCardSkeleton />
-                            </li>
-                          ))}
-                  </ul>
+                  <StatsCardContainer stats={stats} />
                 </ImportRequiredScope>
               )}
             </section>
