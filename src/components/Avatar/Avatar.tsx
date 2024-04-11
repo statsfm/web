@@ -29,8 +29,6 @@ export const sizes: Record<AvatarSize, number> = {
   '4xl': 192,
 };
 
-// TODO: conditionally render because src prop is not recieved
-// https://github.com/vercel/next.js/discussions/18531
 export const Avatar = ({
   name,
   size = 'md',

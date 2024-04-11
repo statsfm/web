@@ -31,7 +31,6 @@ export const RecentStreams = <
   const [streamsByDate, setStreamsByData] = useState<[string, T[]][]>([]);
 
   useEffect(() => {
-    // TODO: rewrite this to be more readable
     const pairs: Record<string, T[]> = {};
 
     streams.forEach((stream) => {

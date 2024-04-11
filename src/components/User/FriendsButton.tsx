@@ -7,8 +7,6 @@ import { MdInfo } from 'react-icons/md';
 import { FriendsButtonFrame } from './FriendsButtonFrame';
 import { Square } from '../Square';
 
-// TODO: Change to useEffect
-
 export const FriendsButton: FC<{
   friendUser: UserPublic;
   initialFriendStatus: FriendStatus;
