@@ -41,6 +41,7 @@ const Genres: FC<Pick<statsfm.Artist, 'genres'>> = ({ genres }) => (
 
 type Props = SSRProps & {
   artist: statsfm.Artist;
+  origin: string;
 };
 
 export const getServerSideProps: GetServerSideProps<Props> = async (ctx) => {
@@ -60,15 +61,21 @@ export const getServerSideProps: GetServerSideProps<Props> = async (ctx) => {
 
   const user = await fetchUser(ctx);
 
+  let protocol = ctx.req.headers['x-forwarded-proto'] ?? 'https';
+  if (process.env.NODE_ENV === 'development') protocol = 'http';
+
+  const { host } = ctx.req.headers;
+
   return {
     props: {
       artist,
       user,
+      origin: `${protocol}://${host}` ?? 'https://stats.fm',
     },
   };
 };
 
-const Artist: NextPage<Props> = ({ artist }) => {
+const Artist: NextPage<Props> = ({ artist, origin }) => {
   const api = useApi();
   const { user } = useAuth();
 
@@ -169,7 +176,10 @@ const Artist: NextPage<Props> = ({ artist }) => {
     <>
       <Title>{`${artist.name} music, stats and more`}</Title>
       <Head>
-        <meta property="og:image" content={`/api/og/artist/${artist.id}`} />
+        <meta
+          property="og:image"
+          content={`${origin}/api/og/artist/${artist.id}`}
+        />
         <meta
           property="og:image:alt"
           content={`${artist.name}'s artist stats`}

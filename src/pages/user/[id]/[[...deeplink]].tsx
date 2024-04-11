@@ -65,6 +65,7 @@ type Props = SSRProps & {
     range: BetterRange | null;
     year: number | null;
   };
+  origin: string;
 };
 
 function activeScrollIntoViewFromDeepLink(
@@ -130,6 +131,11 @@ export const getServerSideProps: GetServerSideProps<Props> = async (ctx) => {
     `<https://api.stats.fm/api/v1/oembed?url=${oembedUrl}&format=json>; rel="alternate"; type="application/json+oembed"; title=""`,
   );
 
+  let protocol = ctx.req.headers['x-forwarded-proto'] ?? 'https';
+  if (process.env.NODE_ENV === 'development') protocol = 'http';
+
+  const { host } = ctx.req.headers;
+
   return {
     props: {
       userProfile,
@@ -141,6 +147,7 @@ export const getServerSideProps: GetServerSideProps<Props> = async (ctx) => {
         range: range && range.toUpperCase() in BetterRange ? range : null,
         year: year != null ? parseInt(year, 10) : null,
       },
+      origin: `${protocol}://${host}` ?? 'https://stats.fm',
     },
   };
 };
@@ -151,6 +158,7 @@ const User: NextPage<Props> = ({
   friendCount,
   scrollIntoView,
   selectedTimeframe: { range, year },
+  origin,
 }) => {
   const api = useApi();
   const router = useRouter();
@@ -353,7 +361,7 @@ const User: NextPage<Props> = ({
       <Head>
         <meta
           property="og:image"
-          content={`/api/og/user/${user.customId ?? user.id}`}
+          content={`${origin}/api/og/user/${user.customId ?? user.id}`}
         />
         <meta
           property="og:image:alt"
