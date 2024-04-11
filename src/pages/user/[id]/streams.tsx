@@ -15,6 +15,7 @@ import { Spinner } from '@/components/Spinner';
 import { RecentStreams } from '@/components/RecentStreams';
 import clsx from 'clsx';
 import { useRouter } from 'next/router';
+import formatter from '@/utils/formatter';
 
 const usePrivacyScope = (
   scope: keyof statsfm.UserPrivacySettings,
@@ -103,9 +104,8 @@ const StreamsPage: NextPage<Props> = ({ userProfile }) => {
                 </a>
               </Link>
               <h1 className="text-4xl font-extrabold sm:text-5xl md:text-left">
-                {userProfile.displayName}
-                {/* TODO: pluralisation */}
-                <span className="text-white">&apos;s streaming history</span>
+                {formatter.nounify(userProfile.displayName)}
+                <span className="text-white"> streaming history</span>
               </h1>
             </div>
           </section>
