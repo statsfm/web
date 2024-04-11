@@ -169,10 +169,10 @@ const Artist: NextPage<Props> = ({ artist }) => {
     <>
       <Title>{`${artist.name} music, stats and more`}</Title>
       <Head>
-        <meta property="og:image" content={artist.image} />
+        <meta property="og:image" content={`/api/og/artist/${artist.id}`} />
         <meta
           property="og:image:alt"
-          content={`${artist.name}'s profile picture`}
+          content={`${artist.name}'s artist stats`}
         />
         <meta property="og:image:width" content="240" />
         <meta property="og:image:height" content="240" />
@@ -181,7 +181,7 @@ const Artist: NextPage<Props> = ({ artist }) => {
           property="og:description"
           content={`View ${artist.name} on stats.fm`}
         />
-        <meta property="twitter:card" content="summary" />
+        <meta property="twitter:card" content="summary_large_image" />
       </Head>
 
       <div className="bg-foreground pt-20">
