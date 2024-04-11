@@ -32,10 +32,14 @@ export interface TextProps extends DefaultProps {
   height?: string;
 }
 
-export const Text = ({ animation = 'pulse', width, height }: TextProps) => (
+export const Text = ({
+  animation = 'pulse',
+  width,
+  height = '1rem',
+}: TextProps) => (
   <span
     className={clsx(
-      'h-4 rounded-full bg-foreground',
+      `rounded-full bg-foreground`,
       animation && animations[animation],
     )}
     style={{ height, width }}
