@@ -22,7 +22,7 @@ export function OpenGraphDefaultArtist(
             tw="rounded-full"
             height="400px"
             width="400px"
-            src={`${origin}/api/image?url=${artist.image}&w=256&q=75&f=image/png`}
+            src={`${origin}/api/image?url=${artist.image}&w=256&q=75&f=image/png&fallbackImg=https://cdn.stats.fm/file/statsfm/images/placeholders/users/private.webp`}
           />
         </div>
         <div

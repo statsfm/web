@@ -179,8 +179,8 @@ const Artist: NextPage<Props> = ({ artist, origin }) => {
           property="og:image:alt"
           content={`${artist.name}'s artist stats`}
         />
-        <meta property="og:image:width" content="240" />
-        <meta property="og:image:height" content="240" />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
         <meta property="og:title" content={`${artist.name} | stats.fm`} />
         <meta
           property="og:description"
