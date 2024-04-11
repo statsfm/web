@@ -16,7 +16,7 @@ import { StatsCardContainer } from '@/components/Stats';
 import { useScrollPercentage } from '@/hooks/use-scroll-percentage';
 import { event } from 'nextjs-google-analytics';
 import type { SSRProps } from '@/utils/ssrUtils';
-import { fetchUser, getApiInstance } from '@/utils/ssrUtils';
+import { fetchUser, getApiInstance, getOrigin } from '@/utils/ssrUtils';
 import formatter from '@/utils/formatter';
 import { SpotifyLink, AppleMusicLink } from '@/components/SocialLink';
 import dayjs from 'dayjs';
@@ -61,16 +61,11 @@ export const getServerSideProps: GetServerSideProps<Props> = async (ctx) => {
 
   const user = await fetchUser(ctx);
 
-  let protocol = ctx.req.headers['x-forwarded-proto'] ?? 'https';
-  if (process.env.NODE_ENV === 'development') protocol = 'http';
-
-  const { host } = ctx.req.headers;
-
   return {
     props: {
       artist,
       user,
-      origin: `${protocol}://${host}` ?? 'https://stats.fm',
+      origin: getOrigin(ctx.req),
     },
   };
 };

@@ -1,6 +1,7 @@
 /* eslint-disable jsx-a11y/alt-text */
 import { Logo } from '@/components/Logo';
 import { PlusBadgePrefilled } from '@/components/User/PlusBadge';
+import { getOrigin } from '@/utils/ssrUtils';
 import { splitStringAtLength } from '@/utils/string';
 import type { UserPublic } from '@statsfm/statsfm.js';
 import type Api from '@statsfm/statsfm.js';
@@ -12,14 +13,7 @@ export function OpenGraphDefaultUser(
   _: Api,
   user: UserPublic,
 ): ReactElement<JSXElementConstructor<any>> {
-  const protocol =
-    process.env.NODE_ENV === 'development'
-      ? 'http'
-      : req.headers['x-forwarded-proto'] ?? 'https';
-
-  const { host } = req.headers;
-
-  const origin = `${protocol}://${host}`;
+  const origin = getOrigin(req);
 
   const customId = user.customId ?? user.id;
 

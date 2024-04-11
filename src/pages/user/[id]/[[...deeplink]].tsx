@@ -17,7 +17,7 @@ import Head from 'next/head';
 import { Button } from '@/components/Button';
 import clsx from 'clsx';
 import type { SSRProps } from '@/utils/ssrUtils';
-import { getApiInstance, fetchUser } from '@/utils/ssrUtils';
+import { getApiInstance, fetchUser, getOrigin } from '@/utils/ssrUtils';
 import { FriendStatus } from '@/utils/statsfm';
 import { event } from 'nextjs-google-analytics';
 import { useScrollPercentage } from '@/hooks/use-scroll-percentage';
@@ -131,11 +131,6 @@ export const getServerSideProps: GetServerSideProps<Props> = async (ctx) => {
     `<https://api.stats.fm/api/v1/oembed?url=${oembedUrl}&format=json>; rel="alternate"; type="application/json+oembed"; title=""`,
   );
 
-  let protocol = ctx.req.headers['x-forwarded-proto'] ?? 'https';
-  if (process.env.NODE_ENV === 'development') protocol = 'http';
-
-  const { host } = ctx.req.headers;
-
   return {
     props: {
       userProfile,
@@ -147,7 +142,7 @@ export const getServerSideProps: GetServerSideProps<Props> = async (ctx) => {
         range: range && range.toUpperCase() in BetterRange ? range : null,
         year: year != null ? parseInt(year, 10) : null,
       },
-      origin: `${protocol}://${host}` ?? 'https://stats.fm',
+      origin: getOrigin(ctx.req),
     },
   };
 };

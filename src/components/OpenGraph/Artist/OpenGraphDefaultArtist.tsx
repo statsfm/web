@@ -1,6 +1,7 @@
 /* eslint-disable jsx-a11y/alt-text */
 import { Logo } from '@/components/Logo';
 import formatter from '@/utils/formatter';
+import { getOrigin } from '@/utils/ssrUtils';
 import type { Artist } from '@/utils/statsfm';
 import type Api from '@statsfm/statsfm.js';
 import type { NextApiRequest } from 'next';
@@ -11,14 +12,7 @@ export function OpenGraphDefaultArtist(
   _: Api,
   artist: Artist,
 ): ReactElement<JSXElementConstructor<any>> {
-  const protocol =
-    process.env.NODE_ENV === 'development'
-      ? 'http'
-      : req.headers['x-forwarded-proto'] ?? 'https';
-
-  const { host } = req.headers;
-
-  const origin = `${protocol}://${host}`;
+  const origin = getOrigin(req);
 
   return (
     <div tw="flex flex-col flex-1 w-full h-full bg-[#18181c]">
