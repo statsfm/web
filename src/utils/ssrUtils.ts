@@ -30,3 +30,12 @@ export const fetchUser = async (ctx: any): Promise<UserPrivate | null> => {
 
   return user;
 };
+
+export const getOrigin = (req: any): string => {
+  let protocol = req.headers['x-forwarded-proto'] ?? 'https';
+  if (process.env.NODE_ENV === 'development') protocol = 'http';
+
+  const { host } = req.headers;
+
+  return `${protocol}://${host}` ?? 'https://stats.fm';
+};

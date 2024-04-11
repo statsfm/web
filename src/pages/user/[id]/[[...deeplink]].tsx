@@ -17,7 +17,7 @@ import Head from 'next/head';
 import { Button } from '@/components/Button';
 import clsx from 'clsx';
 import type { SSRProps } from '@/utils/ssrUtils';
-import { getApiInstance, fetchUser } from '@/utils/ssrUtils';
+import { getApiInstance, fetchUser, getOrigin } from '@/utils/ssrUtils';
 import { FriendStatus } from '@/utils/statsfm';
 import { event } from 'nextjs-google-analytics';
 import { useScrollPercentage } from '@/hooks/use-scroll-percentage';
@@ -65,6 +65,7 @@ type Props = SSRProps & {
     range: BetterRange | null;
     year: number | null;
   };
+  origin: string;
 };
 
 function activeScrollIntoViewFromDeepLink(
@@ -141,6 +142,7 @@ export const getServerSideProps: GetServerSideProps<Props> = async (ctx) => {
         range: range && range.toUpperCase() in BetterRange ? range : null,
         year: year != null ? parseInt(year, 10) : null,
       },
+      origin: getOrigin(ctx.req),
     },
   };
 };
@@ -151,6 +153,7 @@ const User: NextPage<Props> = ({
   friendCount,
   scrollIntoView,
   selectedTimeframe: { range, year },
+  origin,
 }) => {
   const api = useApi();
   const router = useRouter();
@@ -353,7 +356,7 @@ const User: NextPage<Props> = ({
       <Head>
         <meta
           property="og:image"
-          content={`/api/og/user/${user.customId ?? user.id}`}
+          content={`${origin}/api/og/user/${user.customId ?? user.id}`}
         />
         <meta
           property="og:image:alt"

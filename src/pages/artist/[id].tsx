@@ -16,7 +16,7 @@ import { StatsCardContainer } from '@/components/Stats';
 import { useScrollPercentage } from '@/hooks/use-scroll-percentage';
 import { event } from 'nextjs-google-analytics';
 import type { SSRProps } from '@/utils/ssrUtils';
-import { fetchUser, getApiInstance } from '@/utils/ssrUtils';
+import { fetchUser, getApiInstance, getOrigin } from '@/utils/ssrUtils';
 import formatter from '@/utils/formatter';
 import { SpotifyLink, AppleMusicLink } from '@/components/SocialLink';
 import dayjs from 'dayjs';
@@ -41,6 +41,7 @@ const Genres: FC<Pick<statsfm.Artist, 'genres'>> = ({ genres }) => (
 
 type Props = SSRProps & {
   artist: statsfm.Artist;
+  origin: string;
 };
 
 export const getServerSideProps: GetServerSideProps<Props> = async (ctx) => {
@@ -64,11 +65,12 @@ export const getServerSideProps: GetServerSideProps<Props> = async (ctx) => {
     props: {
       artist,
       user,
+      origin: getOrigin(ctx.req),
     },
   };
 };
 
-const Artist: NextPage<Props> = ({ artist }) => {
+const Artist: NextPage<Props> = ({ artist, origin }) => {
   const api = useApi();
   const { user } = useAuth();
 
@@ -169,7 +171,10 @@ const Artist: NextPage<Props> = ({ artist }) => {
     <>
       <Title>{`${artist.name} music, stats and more`}</Title>
       <Head>
-        <meta property="og:image" content={`/api/og/artist/${artist.id}`} />
+        <meta
+          property="og:image"
+          content={`${origin}/api/og/artist/${artist.id}`}
+        />
         <meta
           property="og:image:alt"
           content={`${artist.name}'s artist stats`}

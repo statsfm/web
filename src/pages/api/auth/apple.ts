@@ -1,16 +1,12 @@
+import { getOrigin } from '@/utils/ssrUtils';
 import type { NextApiRequest, NextApiResponse } from 'next';
 
 const handler = (req: NextApiRequest, res: NextApiResponse) => {
-  let protocol = req.headers['x-forwarded-proto'] ?? 'https';
-  if (process.env.NODE_ENV === 'development') protocol = 'http';
+  let origin = getOrigin(req);
 
-  let { host } = req.headers;
-
-  if (host?.includes('spotistats.app')) {
-    host = host.replace('spotistats.app', 'stats.fm');
+  if (origin.includes('spotistats.app')) {
+    origin = origin.replace('spotistats.app', 'stats.fm');
   }
-
-  const origin = `${protocol}://${host}`;
 
   // remove the extra httpOnly cookie which is no longer in use
   const cookies = [
