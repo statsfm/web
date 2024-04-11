@@ -51,7 +51,6 @@ export const getServerSideProps: GetServerSideProps<Props> = async (ctx) => {
     throw new Error('no param id recieved');
   }
 
-  // TODO: create some sort of parseId function
   let artist;
   try {
     artist = await api.artists.get(parseInt(id, 10));

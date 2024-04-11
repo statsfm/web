@@ -86,9 +86,8 @@ export const RecentStreams = <
                 <ul key={i}>
                   {streams[1].map((stream, i) => (
                     <li key={i} onClick={onItemClick}>
-                      {/* TODO: fix type */}
                       <TrackListRow
-                        track={(stream as any).track ?? track}
+                        track={'track' in stream ? stream.track : track}
                         {...stream}
                       />
                     </li>
