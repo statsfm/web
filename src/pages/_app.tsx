@@ -94,30 +94,39 @@ const App = ({
   // const isProd = process.env.NODE_ENV === 'production';
 
   return (
-    <main className={clsx(StatsfmSans.variable, 'font-body')}>
-      <AuthProvider user={pageProps.user}>
-        <Head>
-          <title>stats.fm</title>
-          <meta property="og:site_name" content="stats.fm" />
-          <meta property="og:url" content="https://stats.fm/" />
-          <meta property="og:type" content="website" />
-          <meta property="twitter:site" content="@spotistats" />
-          <meta property="twitter:creator" content="@spotistats" />
-          {/* {isProd && <Smartlook />} */}
-          {showOgp && <Ogp />}
-        </Head>
-        <ToasterContainer>
-          <GoogleAnalytics trackPageViews gaMeasurementId="G-GD9GE041CW" />
-          <Title />
-          <NavBar />
-          <ErrorBoundary>
-            <Component {...pageProps} />
-          </ErrorBoundary>
-          <Footer />
-        </ToasterContainer>
-      </AuthProvider>
-      <section id="PortalRoot" />
-    </main>
+    <>
+      {/* https://github.com/tailwindlabs/headlessui/issues/2189#issuecomment-1385379554 */}
+      <style jsx global>{`
+        :root {
+          --font-statsfm-sans: ${StatsfmSans.style.fontFamily};
+        }
+      `}</style>
+
+      <main className={clsx(StatsfmSans.variable, 'font-body')}>
+        <AuthProvider user={pageProps.user}>
+          <Head>
+            <title>stats.fm</title>
+            <meta property="og:site_name" content="stats.fm" />
+            <meta property="og:url" content="https://stats.fm/" />
+            <meta property="og:type" content="website" />
+            <meta property="twitter:site" content="@spotistats" />
+            <meta property="twitter:creator" content="@spotistats" />
+            {/* {isProd && <Smartlook />} */}
+            {showOgp && <Ogp />}
+          </Head>
+          <ToasterContainer>
+            <GoogleAnalytics trackPageViews gaMeasurementId="G-GD9GE041CW" />
+            <Title />
+            <NavBar />
+            <ErrorBoundary>
+              <Component {...pageProps} />
+            </ErrorBoundary>
+            <Footer />
+          </ToasterContainer>
+        </AuthProvider>
+        <section id="PortalRoot" />
+      </main>
+    </>
   );
 };
 export default App;
