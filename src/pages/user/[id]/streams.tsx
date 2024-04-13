@@ -8,14 +8,12 @@ import type * as statsfm from '@/utils/statsfm';
 import { Title } from '@/components/Title';
 import { Section } from '@/components/Section/Section';
 import { useApi } from '@/hooks';
-import type { FC } from 'react';
 import { useState } from 'react';
 import InfiniteScroll from 'react-infinite-scroller';
 import { Spinner } from '@/components/Spinner';
 import { RecentStreams } from '@/components/RecentStreams';
-import clsx from 'clsx';
-import { useRouter } from 'next/router';
 import formatter from '@/utils/formatter';
+import { ToolbarBackLink } from '@/components/Section/ToolbarBackLink';
 
 const usePrivacyScope = (
   scope: keyof statsfm.UserPrivacySettings,
@@ -23,22 +21,6 @@ const usePrivacyScope = (
 ) => {
   return user.privacySettings && user.privacySettings[scope];
 };
-
-const Toolbar: FC<{ closeCallback: () => void }> = ({ closeCallback }) => (
-  <div>
-    <button
-      aria-label="go back"
-      className={clsx(
-        'mr-4 rounded-full bg-foreground p-2 ring-neutral-500 transition-all',
-        // moved from the global css file
-        'focus-within:ring-2 focus:outline-none focus:ring-2 hover:ring-2',
-      )}
-      onClick={() => closeCallback()}
-    >
-      <MdChevronLeft className="fill-white" />
-    </button>
-  </div>
-);
 
 type Props = SSRProps & {
   userProfile: statsfm.UserPublic;
@@ -68,7 +50,6 @@ export const getServerSideProps: GetServerSideProps<Props> = async (ctx) => {
 const StreamsPage: NextPage<Props> = ({ userProfile }) => {
   const api = useApi();
   const scopePrivate = usePrivacyScope('streams', userProfile);
-  const router = useRouter();
 
   const [recentStreams, setRecentStreams] = useState<statsfm.Stream[]>([]);
   const [loadMore, setLoadMore] = useState(true);
@@ -117,10 +98,8 @@ const StreamsPage: NextPage<Props> = ({ userProfile }) => {
             headerStyle="!flex-row-reverse -mt-24 z-30 relative"
             title={`back to ${userProfile.displayName}`}
             toolbar={
-              <Toolbar
-                closeCallback={() =>
-                  router.push(`/${userProfile.customId || userProfile.id}`)
-                }
+              <ToolbarBackLink
+                path={`/${userProfile.customId || userProfile.id}`}
               />
             }
           >

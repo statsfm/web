@@ -8,29 +8,11 @@ import type * as statsfm from '@/utils/statsfm';
 import { Title } from '@/components/Title';
 import { Section } from '@/components/Section/Section';
 import { useApi, useAuth } from '@/hooks';
-import type { FC } from 'react';
 import { useState } from 'react';
 import InfiniteScroll from 'react-infinite-scroller';
 import { Spinner } from '@/components/Spinner';
 import { RecentStreams } from '@/components/RecentStreams';
-import clsx from 'clsx';
-import { useRouter } from 'next/router';
-
-const Toolbar: FC<{ closeCallback: () => void }> = ({ closeCallback }) => (
-  <div>
-    <button
-      aria-label="go back"
-      className={clsx(
-        'mr-4 rounded-full bg-foreground p-2 ring-neutral-500 transition-all',
-        // moved from the global css file
-        'focus-within:ring-2 focus:outline-none focus:ring-2 hover:ring-2',
-      )}
-      onClick={() => closeCallback()}
-    >
-      <MdChevronLeft className="fill-white" />
-    </button>
-  </div>
-);
+import { ToolbarBackLink } from '@/components/Section/ToolbarBackLink';
 
 type Props = SSRProps & {
   artist: statsfm.Artist;
@@ -64,7 +46,6 @@ export const getServerSideProps: GetServerSideProps<Props> = async (ctx) => {
 
 const ArtistStreamsPage: NextPage<Props> = ({ artist }) => {
   const api = useApi();
-  const router = useRouter();
   const { user } = useAuth();
 
   const [recentStreams, setRecentStreams] = useState<statsfm.Stream[]>([]);
@@ -107,11 +88,7 @@ const ArtistStreamsPage: NextPage<Props> = ({ artist }) => {
         <Section
           headerStyle="!flex-row-reverse -mt-24 z-30 relative"
           title={`back to ${artist.name}`}
-          toolbar={
-            <Toolbar
-              closeCallback={() => router.push(`/artist/${artist.id}`)}
-            />
-          }
+          toolbar={<ToolbarBackLink path={`/artist/${artist.id}`} />}
         >
           {({ headerRef }) => (
             <>
