@@ -63,7 +63,7 @@ export const NavBar = () => {
       <Container className="flex w-full items-center bg-inherit py-3">
         <Link
           href="/"
-          className="mr-auto flex gap-3"
+          className="mr-auto flex gap-3 lg:mr-12"
           onClick={() => event('NAV_home')}
         >
           <Logo className="size-[1.7rem] cursor-pointer" />
