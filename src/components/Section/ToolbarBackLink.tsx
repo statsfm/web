@@ -1,6 +1,6 @@
 import clsx from 'clsx';
 import { useRouter } from 'next/router';
-import { FC } from 'react';
+import type { FC } from 'react';
 import { MdChevronLeft } from 'react-icons/md';
 
 export const ToolbarBackLink: FC<{ path: string }> = (path) => {
