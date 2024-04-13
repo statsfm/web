@@ -78,10 +78,6 @@ module.exports = withBundleAnalyzer({
         destination: '/user/:id/compare',
       },
       {
-        source: '/track/:id/:ignore',
-        destination: '/track/:id',
-      },
-      {
         source: '/:id/artists',
         destination: '/user/:id/artists',
       },
