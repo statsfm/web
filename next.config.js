@@ -82,10 +82,6 @@ module.exports = withBundleAnalyzer({
         destination: '/track/:id',
       },
       {
-        source: '/album/:id/:ignore',
-        destination: '/album/:id',
-      },
-      {
         source: '/:id/artists',
         destination: '/user/:id/artists',
       },

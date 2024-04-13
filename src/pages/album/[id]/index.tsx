@@ -244,12 +244,21 @@ const Album: NextPage<Props> = ({ album, tracks }) => {
         {user && (
           <Section title="Your streams">
             {({ headerRef }) => (
-              <RecentStreams
-                headerRef={headerRef}
-                streams={streams ?? []}
-                loading={streams === null}
-                onItemClick={() => event('ALBUM_stream_track_click')}
-              />
+              <>
+                <RecentStreams
+                  headerRef={headerRef}
+                  streams={streams ?? []}
+                  loading={streams === null}
+                  onItemClick={() => event('ALBUM_stream_track_click')}
+                />
+                {user.hasImported && (
+                  <Link legacyBehavior href={`/album/${album.id}/streams`}>
+                    <a className="my-3 font-bold uppercase text-text-grey transition-colors hover:text-white">
+                      show all
+                    </a>
+                  </Link>
+                )}
+              </>
             )}
           </Section>
         )}
