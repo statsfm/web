@@ -31,6 +31,7 @@ import {
 import type { SSRProps } from '@/utils/ssrUtils';
 import { fetchUser } from '@/utils/ssrUtils';
 import { event } from 'nextjs-google-analytics';
+import { DropdownMenu } from '@/components/ui/DropdownMenu';
 
 type StatusOptions = 'SAVING' | 'SAVED' | 'ERROR' | 'DEFAULT' | 'DELETING';
 type UrlAvailableOptions = 'LOADING' | 'AVAILABLE' | 'UNAVAILABLE';
@@ -445,43 +446,29 @@ const AccountPrivacyInfoForm: FC<AccountPrivacyInfoFormProps> = ({
       <label className="font-medium" htmlFor="pronouns">
         Pronouns
       </label>
-      <Menu id="pronouns" className="z-20">
-        {({ open }) => (
-          <>
-            <Overlay
-              className="!z-20 bg-background/60 sm:bg-transparent"
-              visible={open}
-            />
-            <Menu.Button>
-              <div className="z-20 flex">
-                {pronoun}
-                <MdArrowDropDown
-                  style={{ transform: `rotate(${open ? 180 : 0}deg)` }}
-                />
-              </div>
-            </Menu.Button>
+      <div id="pronouns">
+        {/* TODO: replace with select component */}
+        <DropdownMenu>
+          <DropdownMenu.Trigger>{pronoun}</DropdownMenu.Trigger>
 
-            <Menu.Items
-              placement="bottom-start"
-              className="absolute z-30 -mt-2 h-64 !overflow-y-scroll rounded-lg bg-foreground p-2 px-1"
-            >
-              <Menu.Item value="none" onClick={(value) => setPronoun(value)}>
-                none
-              </Menu.Item>
+          <DropdownMenu.Portal>
+            <DropdownMenu.Content align="start">
+              <DropdownMenu.Item onClick={() => setPronoun('none')}>
+                None
+              </DropdownMenu.Item>
               {pronouns.map((pronoun, i) => (
-                <Menu.Item
-                  value={pronoun.aliases[0]}
-                  onClick={(value) => setPronoun(value)}
+                <DropdownMenu.Item
+                  onClick={() => setPronoun(pronoun.aliases[0] ?? '')}
                   key={i}
                 >
                   {pronoun.aliases[0]}{' '}
                   <span>{pronoun.description.toLowerCase()}</span>
-                </Menu.Item>
+                </DropdownMenu.Item>
               ))}
-            </Menu.Items>
-          </>
-        )}
-      </Menu>
+            </DropdownMenu.Content>
+          </DropdownMenu.Portal>
+        </DropdownMenu>
+      </div>
       <span className="text-sm">
         Pronouns are provided by https://pronouns.page
       </span>
