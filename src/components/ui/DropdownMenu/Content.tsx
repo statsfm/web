@@ -14,7 +14,7 @@ export const Content = forwardRef<
       ref={forwardedRef}
       className={clsx(
         className,
-        'min-w-56 max-h-96 overflow-y-scroll rounded-xl bg-foreground py-2 shadow-xl z-50',
+        'min-w-56 max-h-96 p-1 overflow-y-auto overflow-x-visible rounded-xl bg-foreground py-2 shadow-xl z-50',
       )}
       sideOffset={sideOffset}
       {...props}
