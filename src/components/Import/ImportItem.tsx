@@ -1,4 +1,4 @@
-import { Fragment, type FC } from 'react';
+import { type FC } from 'react';
 import { Platform } from '@/utils/statsfm';
 import type { UserImport } from '@/utils/statsfm';
 import clsx from 'clsx';
@@ -8,13 +8,15 @@ import {
   getMonthName,
   getOrdinal,
 } from '@/utils/imports';
-import { MdMoreVert } from 'react-icons/md';
-import { Button } from '../Button';
-import { DropdownMenu } from '@/components/ui/DropdownMenu';
+import { DeleteItemConfirmDialog } from './DeleteItemConfirmDialog';
 
 export const ImportItem: FC<
   UserImport & { deleteItem: (id: number) => Promise<void> }
 > = ({ name, status, count, createdAt, id, deleteItem, service }) => {
+  const handleDeleteImportItem = () => {
+    deleteItem(id);
+  };
+
   return (
     <li className="flex items-center justify-between gap-x-6 py-5">
       <div className="min-w-0">
@@ -54,31 +56,11 @@ export const ImportItem: FC<
           )}
         </div>
       </div>
-      <div className="flex flex-none items-center gap-x-4">
-        {/* TODO: replace with confirm dialog */}
-        <Button
-          onClick={() => deleteItem(id)}
-          className="hidden bg-red-500 text-white hover:bg-red-700 sm:block"
-        >
-          Delete
-        </Button>
-        <div className="sm:hidden">
-          <DropdownMenu>
-            <DropdownMenu.Trigger className="-m-2.5 block p-2.5 text-gray-500 hover:text-gray-900">
-              <span className="sr-only">Open options</span>
-              <MdMoreVert className="size-5" aria-hidden="true" />
-            </DropdownMenu.Trigger>
 
-            <DropdownMenu.Portal>
-              <DropdownMenu.Content align="end">
-                <DropdownMenu.Item>
-                  <a onClick={() => deleteItem(id)}>Delete import</a>
-                </DropdownMenu.Item>
-              </DropdownMenu.Content>
-            </DropdownMenu.Portal>
-          </DropdownMenu>
-        </div>
-      </div>
+      <DeleteItemConfirmDialog
+        onDeleteImportItem={handleDeleteImportItem}
+        streamCount={count}
+      />
     </li>
   );
 };
