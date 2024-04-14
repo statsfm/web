@@ -55,7 +55,7 @@
   }
 
   /* TODO: apply these styles for i11y */
-  button, textarea, input {
+  button {
     @apply focus:outline-none focus:ring-2 focus:ring-neutral-500 focus:ring-offset-2 focus:ring-offset-background
   }
  
