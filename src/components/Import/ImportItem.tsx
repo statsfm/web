@@ -35,7 +35,7 @@ export const ImportItem: FC<
             {IMPORT_STATUS[status.toString() as keyof typeof IMPORT_STATUS]}
           </div>
         </div>
-        <div className="mt-1 flex items-center gap-x-2 text-sm leading-5 text-gray-500">
+        <div className="flex items-center gap-x-2 text-sm leading-5 text-gray-500">
           <p className="whitespace-nowrap">
             Imported on the {createdAt.getDate()}
             {getOrdinal(createdAt.getDate())} of{' '}

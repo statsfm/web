@@ -33,7 +33,7 @@ export const UploadedItem: FC<
           </div>
         </div>
         {data.service === Platform.SPOTIFY && (
-          <div className="mt-1 flex items-center gap-x-2 text-sm leading-5 text-gray-500">
+          <div className="flex items-center gap-x-2 text-sm leading-5 text-gray-500">
             <p className="truncate">
               {data.status === UploadedFilesStatus.Error
                 ? data.error ?? 'Unknown error'
