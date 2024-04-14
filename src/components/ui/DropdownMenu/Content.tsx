@@ -11,7 +11,7 @@ export const Content = ({
 }: DropdownMenuContentProps) => {
   return (
     <DropdownMenuPrimitive.Content
-      className="min-w-56 rounded-xl bg-foreground py-2 shadow-xl"
+      className="min-w-56 rounded-xl bg-foreground py-2 shadow-xl z-50"
       sideOffset={sideOffset}
       {...props}
     >
