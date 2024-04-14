@@ -52,28 +52,37 @@ export const Avatar = ({
         style={{ width: sizes[size] }}
       >
         <p>{initials}</p>
+
+        <div className="absolute bottom-0 right-0">{children}</div>
       </div>
     );
   }
 
   return (
-    <Image
-      // eslint-disable-next-line tailwindcss/no-custom-classname
-      className={clsx(
-        'aspect-square bg-foreground object-cover text-center text-neutral-400',
-        `leading-[${sizes[size]}px]`,
-      )}
-      rounded
-      width={sizes[size]}
-      height={sizes[size]}
-      alt={initials}
-      // If src contains fbcdn or fbsbx, use "URL"
-      src={
-        src.includes('fbcdn') || src.includes('fbsbx')
-          ? 'https://cdn.stats.fm/file/statsfm/images/placeholders/users/private.webp'
-          : src
-      }
-      {...props}
-    />
+    <div
+      className="relative shrink-0"
+      style={{ width: sizes[size], height: sizes[size] }}
+    >
+      <Image
+        // eslint-disable-next-line tailwindcss/no-custom-classname
+        className={clsx(
+          'aspect-square bg-foreground object-cover text-center text-neutral-400',
+          `leading-[${sizes[size]}px]`,
+        )}
+        rounded
+        width={sizes[size]}
+        height={sizes[size]}
+        alt={initials}
+        // If src contains fbcdn or fbsbx, use "URL"
+        src={
+          src.includes('fbcdn') || src.includes('fbsbx')
+            ? 'https://cdn.stats.fm/file/statsfm/images/placeholders/users/private.webp'
+            : src
+        }
+        {...props}
+      />
+
+      <div className="absolute bottom-0 right-0">{children}</div>
+    </div>
   );
 };
