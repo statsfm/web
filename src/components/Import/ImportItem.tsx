@@ -8,9 +8,9 @@ import {
   getMonthName,
   getOrdinal,
 } from '@/utils/imports';
-import { Menu, Transition } from '@headlessui/react';
 import { MdMoreVert } from 'react-icons/md';
 import { Button } from '../Button';
+import { DropdownMenu } from '@/components/ui/DropdownMenu';
 
 export const ImportItem: FC<
   UserImport & { deleteItem: (id: number) => Promise<void> }
@@ -55,43 +55,29 @@ export const ImportItem: FC<
         </div>
       </div>
       <div className="flex flex-none items-center gap-x-4">
+        {/* TODO: replace with confirm dialog */}
         <Button
           onClick={() => deleteItem(id)}
           className="hidden bg-red-500 text-white hover:bg-red-700 sm:block"
         >
           Delete
         </Button>
-        <Menu as="div" className="relative flex-none sm:hidden">
-          <Menu.Button className="-m-2.5 block p-2.5 text-gray-500 hover:text-gray-900">
-            <span className="sr-only">Open options</span>
-            <MdMoreVert className="size-5" aria-hidden="true" />
-          </Menu.Button>
-          <Transition
-            as={Fragment}
-            enter="transition ease-out duration-100"
-            enterFrom="transform opacity-0 scale-95"
-            enterTo="transform opacity-100 scale-100"
-            leave="transition ease-in duration-75"
-            leaveFrom="transform opacity-100 scale-100"
-            leaveTo="transform opacity-0 scale-95"
-          >
-            <Menu.Items className="absolute right-0 z-10 mt-2 w-32 origin-top-right rounded-md bg-white py-2 shadow-lg ring-1 ring-gray-900/5 focus:outline-none">
-              <Menu.Item>
-                {({ active }) => (
-                  <a
-                    onClick={() => deleteItem(id)}
-                    className={clsx(
-                      active ? 'bg-gray-50' : '',
-                      'block px-3 py-1 text-sm leading-6 text-gray-900',
-                    )}
-                  >
-                    Delete import
-                  </a>
-                )}
-              </Menu.Item>
-            </Menu.Items>
-          </Transition>
-        </Menu>
+        <div className="sm:hidden">
+          <DropdownMenu>
+            <DropdownMenu.Trigger className="-m-2.5 block p-2.5 text-gray-500 hover:text-gray-900">
+              <span className="sr-only">Open options</span>
+              <MdMoreVert className="size-5" aria-hidden="true" />
+            </DropdownMenu.Trigger>
+
+            <DropdownMenu.Portal>
+              <DropdownMenu.Content align="end">
+                <DropdownMenu.Item>
+                  <a onClick={() => deleteItem(id)}>Delete import</a>
+                </DropdownMenu.Item>
+              </DropdownMenu.Content>
+            </DropdownMenu.Portal>
+          </DropdownMenu>
+        </div>
       </div>
     </li>
   );
