@@ -1,6 +1,6 @@
 import { useToaster } from '@/hooks';
 import { MdIosShare } from 'react-icons/md';
-import { Menu } from './Menu';
+import { DropdownMenu } from '@/components/ui/DropdownMenu';
 
 interface Props {
   path: string;
@@ -17,8 +17,9 @@ export const ShareMenuItem = ({ path }: Props) => {
   };
 
   return (
-    <Menu.Item onClick={handleShareClick} icon={<MdIosShare />}>
+    <DropdownMenu.Item onClick={handleShareClick}>
+      <MdIosShare />
       Share
-    </Menu.Item>
+    </DropdownMenu.Item>
   );
 };
