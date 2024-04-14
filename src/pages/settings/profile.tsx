@@ -3,7 +3,6 @@ import { SettingsHeader } from '@/components/settings/SettingsHeader';
 import { Avatar } from '@/components/Avatar';
 import { Button } from '@/components/Button';
 import { Input } from '@/components/Input';
-import { Menu } from '@/components/Menu';
 import { Overlay } from '@/components/Overlay';
 import { Section } from '@/components/Section/Section';
 import { Textarea } from '@/components/Textarea';
@@ -22,12 +21,7 @@ import {
   useMemo,
   useState,
 } from 'react';
-import {
-  MdArrowDropDown,
-  MdCameraEnhance,
-  MdCancel,
-  MdCheckCircle,
-} from 'react-icons/md';
+import { MdCameraEnhance, MdCancel, MdCheckCircle } from 'react-icons/md';
 import type { SSRProps } from '@/utils/ssrUtils';
 import { fetchUser } from '@/utils/ssrUtils';
 import { event } from 'nextjs-google-analytics';
