@@ -33,6 +33,7 @@ import { Radar } from 'react-chartjs-2';
 import { AppleMusicLink, SpotifyLink } from '@/components/SocialLink';
 import { TopListeners } from '@/components/TopListeners';
 import { MdHearingDisabled } from 'react-icons/md';
+import Link from 'next/link';
 
 const AudioFeaturesRadarChart = ({
   acousticness,
@@ -436,12 +437,21 @@ const Track: NextPage<Props> = ({ track }) => {
             description="Your recently played tracks"
           >
             {({ headerRef }) => (
-              <RecentStreams
-                headerRef={headerRef}
-                streams={recentStreams ?? []}
-                loading={recentStreams === null}
-                track={track}
-              />
+              <>
+                <RecentStreams
+                  headerRef={headerRef}
+                  streams={recentStreams ?? []}
+                  loading={recentStreams === null}
+                  track={track}
+                />
+                {user.hasImported && (
+                  <Link legacyBehavior href={`/track/${track.id}/streams`}>
+                    <a className="my-3 font-bold uppercase text-text-grey transition-colors hover:text-white">
+                      show all
+                    </a>
+                  </Link>
+                )}
+              </>
             )}
           </Section>
         )}

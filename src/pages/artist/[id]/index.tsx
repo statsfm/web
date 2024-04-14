@@ -241,12 +241,21 @@ const Artist: NextPage<Props> = ({ artist, origin }) => {
             description={`Your streams featuring ${artist.name}`}
           >
             {({ headerRef }) => (
-              <RecentStreams
-                headerRef={headerRef}
-                streams={streams ?? []}
-                loading={streams == null}
-                onItemClick={() => event('ARTIST_stream_click')}
-              />
+              <>
+                <RecentStreams
+                  headerRef={headerRef}
+                  streams={streams ?? []}
+                  loading={streams == null}
+                  onItemClick={() => event('ARTIST_stream_click')}
+                />
+                {user.hasImported && (
+                  <Link legacyBehavior href={`/artist/${artist.id}/streams`}>
+                    <a className="my-3 font-bold uppercase text-text-grey transition-colors hover:text-white">
+                      show all
+                    </a>
+                  </Link>
+                )}
+              </>
             )}
           </Section>
         )}
