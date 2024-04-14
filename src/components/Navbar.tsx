@@ -144,7 +144,7 @@ export const NavBar = () => {
               </Menu.Item>
               <Menu.Item className="!p-0" onClick={() => event('NAV_profile')}>
                 <Link
-                  className="flex size-full flex-row gap-2 px-4 py-2"
+                  className="flex size-full flex-row items-center gap-2 px-4 py-2"
                   href={`/${user.customId ?? user.id}`}
                 >
                   <MdAccountCircle className="text-white" /> My page
@@ -152,7 +152,7 @@ export const NavBar = () => {
               </Menu.Item>
               <Menu.Item className="!p-0" onClick={() => event('NAV_settings')}>
                 <Link
-                  className="flex size-full flex-row gap-2 px-4 py-2"
+                  className="flex size-full flex-row items-center gap-2 px-4 py-2"
                   href="/settings/profile"
                 >
                   <MdManageAccounts className="text-white" /> Settings
@@ -160,6 +160,7 @@ export const NavBar = () => {
               </Menu.Item>
               <hr className="mx-3 my-1 border-t-2 border-neutral-400/10" />
               <Menu.Item
+                className="items-center"
                 icon={<MdExitToApp />}
                 onClick={() => {
                   event('NAV_logout');
