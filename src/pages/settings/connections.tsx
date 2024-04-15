@@ -8,6 +8,9 @@ import { useEffect, useState } from 'react';
 import type { SSRProps } from '@/utils/ssrUtils';
 import { fetchUser } from '@/utils/ssrUtils';
 import { event } from 'nextjs-google-analytics';
+import { DropdownMenu } from '@/components/ui/DropdownMenu';
+import { MdMoreVert, MdRefresh, MdLinkOff, MdLaunch } from 'react-icons/md';
+import Link from 'next/link';
 
 enum PlatformStatus {
   LOADING = 'LOADING',
@@ -118,78 +121,129 @@ const useSocials = () => {
 //   return [];
 // };
 
+const EmptyStateDisplay = ({ message }: { message: string }) => {
+  return (
+    <div className="w-full h-32 flex items-center justify-center">
+      <p>{message}</p>
+    </div>
+  );
+};
+
+const ConnectionCard = ({ platform }: { platform: SocialPlatform }) => {
+  return (
+    <li
+      className="mb-4 w-full rounded-xl bg-foreground px-5 py-4"
+      key={platform.key}
+    >
+      <div className="flex justify-between">
+        <h3 className="flex items-center gap-2">
+          <img src={platform.icon} alt="icon" className="h-5 m-1" />
+          {platform.name}
+        </h3>
+
+        <DropdownMenu>
+          <DropdownMenu.Trigger>
+            <MdMoreVert />
+          </DropdownMenu.Trigger>
+          <DropdownMenu.Portal>
+            <DropdownMenu.Content>
+              <DropdownMenu.Item
+                disabled={
+                  platform.status !== PlatformStatus.CONNECTED ||
+                  !platform.canRefresh
+                }
+                onSelect={
+                  platform.canRefresh && 'update' in platform
+                    ? platform.update
+                    : () => {}
+                }
+              >
+                <MdRefresh /> Refresh
+              </DropdownMenu.Item>
+              <DropdownMenu.Item
+                disabled={platform.status !== PlatformStatus.CONNECTED}
+                onSelect={platform.disconnect}
+              >
+                <MdLinkOff /> Disconnect
+              </DropdownMenu.Item>
+
+              {/* TODO: add link to documentation */}
+              <DropdownMenu.Item asChild>
+                <Link href={'https://support.stats.fm/docs'}>
+                  <MdLaunch /> Documentation
+                </Link>
+              </DropdownMenu.Item>
+            </DropdownMenu.Content>
+          </DropdownMenu.Portal>
+        </DropdownMenu>
+      </div>
+
+      <p>{platform.description}</p>
+
+      <div className="flex flex-col gap-2 mt-2">
+        {platform.status == PlatformStatus.DISCONNECTED ? (
+          <div className="flex flex-col lg:flex-row">
+            <Button onClick={platform.connect}>Configure</Button>
+          </div>
+        ) : (
+          platform.connection && (
+            <>
+              <hr className="my-1 border-t-2 border-neutral-400/10 w-full" />
+              <div className="flex items-center gap-2">
+                <img
+                  src={platform.connection.platformUserImage}
+                  className="rounded-full aspect-square h-10"
+                />
+                <p className="mt-0">
+                  <h6>{platform.connection.platformUsername}</h6>
+                  {platform.connection.platformUserId}
+                </p>
+              </div>
+            </>
+          )
+        )}
+      </div>
+    </li>
+  );
+};
+
 // TODO: prefetch connections on the server
 const ConnectionsList = () => {
   // const streamingServices = useStreamingServices();
   const socials = useSocials();
 
+  const unconfigured = socials.filter(
+    (s) => s.status !== PlatformStatus.CONNECTED,
+  );
+  const configured = socials.filter(
+    (s) => s.status == PlatformStatus.CONNECTED,
+  );
+
   return (
     <div className="relative w-full">
       <SettingsHeader title="Connections" />
-      <h2>Streaming services</h2>
-      <p>Coming soon...</p>
+      {unconfigured.length > 0 ? (
+        <ul className="grid grid-cols-1 gap-4 lg:grid-cols-2">
+          {unconfigured.map((platform) => (
+            <ConnectionCard platform={platform} />
+          ))}
+        </ul>
+      ) : (
+        <EmptyStateDisplay message="All connections are configured" />
+      )}
 
-      <h2>Socials</h2>
-      <ul className="grid grid-cols-1 gap-4 lg:grid-cols-2">
-        {socials.map((platform) => (
-          <li
-            className="mb-4 w-full rounded-xl bg-foreground px-5 py-4"
-            key={platform.key}
-          >
-            <h2 className="flex items-center gap-2">
-              <img src={platform.icon} alt="icon" className="h-6" />
-              {platform.name}
-            </h2>
-
-            <p className="-mt-1 text-sm text-neutral-500 sm:-mt-2">
-              {platform.status === PlatformStatus.CONNECTED &&
-              platform.connection
-                ? `Connected as: ${platform.connection.platformUsername}`
-                : 'Not Connected'}
-            </p>
-
-            <div className="flex flex-col lg:flex-row">
-              <p className="">{platform.description}</p>
-            </div>
-            <div className="flex flex-col gap-2 lg:flex-row">
-              {platform.status === PlatformStatus.CONNECTED &&
-                platform.canRefresh &&
-                'update' in platform && (
-                  <Button
-                    className="mt-auto h-min rounded-xl px-4 py-2"
-                    disabled={!platform.canRefresh}
-                    onClick={
-                      platform.status === PlatformStatus.CONNECTED &&
-                      platform.canRefresh &&
-                      'update' in platform
-                        ? platform.update
-                        : () => {}
-                    }
-                  >
-                    Refresh
-                  </Button>
-                )}
-              <Button
-                className="mt-auto h-min rounded-xl px-4 py-2"
-                disabled={platform.status === PlatformStatus.LOADING}
-                onClick={
-                  platform.status === PlatformStatus.CONNECTED
-                    ? platform.disconnect
-                    : platform.connect
-                }
-              >
-                {(() => {
-                  if (platform.status === PlatformStatus.LOADING)
-                    return 'LOADING';
-                  if (platform.status === PlatformStatus.CONNECTED)
-                    return 'Disconnect';
-                  return 'Connect';
-                })()}
-              </Button>
-            </div>
-          </li>
-        ))}
-      </ul>
+      <h4>Configured</h4>
+      {configured.length > 0 ? (
+        <ul className="grid grid-cols-1 gap-4 lg:grid-cols-2">
+          {socials
+            .filter((s) => s.status == PlatformStatus.CONNECTED)
+            .map((platform) => (
+              <ConnectionCard platform={platform} />
+            ))}
+        </ul>
+      ) : (
+        <EmptyStateDisplay message="No connections configured yet" />
+      )}
     </div>
   );
 };
