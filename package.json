@@ -15,6 +15,7 @@
     "@hapi/accept": "^6.0.3",
     "@headlessui/react": "1.7.2",
     "@next/bundle-analyzer": "^12.2.1",
+    "@radix-ui/react-dialog": "^1.0.5",
     "@resvg/resvg-js": "^2.6.2",
     "@statsfm/statsfm.js": "^2.2.1",
     "@tailwindcss/typography": "^0.5.7",
