@@ -132,10 +132,10 @@ const EmptyStateDisplay = ({ message }: { message: string }) => {
 const ConnectionCard = ({ platform }: { platform: SocialPlatform }) => {
   return (
     <li
-      className="mb-4 w-full rounded-xl bg-foreground px-5 py-4"
+      className="mb-4 flex h-60 w-full flex-col justify-between overflow-hidden rounded-xl bg-foreground shadow-lg"
       key={platform.key}
     >
-      <div className="flex justify-between">
+      <div className="flex justify-between px-4 pt-4">
         <h3 className="flex items-center gap-2">
           <img src={platform.icon} alt="icon" className="m-1 h-5" />
           {platform.name}
@@ -178,29 +178,26 @@ const ConnectionCard = ({ platform }: { platform: SocialPlatform }) => {
         </DropdownMenu>
       </div>
 
-      <p>{platform.description}</p>
+      <p className="px-4">{platform.description}</p>
 
-      <div className="mt-2 flex flex-col gap-2">
+      <div className="mt-2 flex flex-col gap-2 border-t-[0.5px] border-neutral-800 bg-black p-4">
         {platform.status === PlatformStatus.DISCONNECTED ? (
           <div className="flex flex-col lg:flex-row">
             <Button onClick={platform.connect}>Configure</Button>
           </div>
         ) : (
           platform.connection && (
-            <>
-              <hr className="my-1 w-full border-t-2 border-neutral-400/10" />
-              <div className="flex items-center gap-2">
-                <img
-                  src={platform.connection.platformUserImage}
-                  className="aspect-square h-10 rounded-full"
-                  alt="avatar"
-                />
-                <p className="mt-0">
-                  <h6>{platform.connection.platformUsername}</h6>
-                  {platform.connection.platformUserId}
-                </p>
-              </div>
-            </>
+            <div className="flex items-center gap-2">
+              <img
+                src={platform.connection.platformUserImage}
+                className="aspect-square h-10 rounded-full"
+                alt="avatar"
+              />
+              <p className="mt-0">
+                <h6>{platform.connection.platformUsername}</h6>
+                {platform.connection.platformUserId}
+              </p>
+            </div>
           )
         )}
       </div>
@@ -236,11 +233,9 @@ const ConnectionsList = () => {
       <h4>Configured</h4>
       {configured.length > 0 ? (
         <ul className="grid grid-cols-1 gap-4 lg:grid-cols-2">
-          {socials
-            .filter((s) => s.status === PlatformStatus.CONNECTED)
-            .map((platform, i) => (
-              <ConnectionCard key={i} platform={platform} />
-            ))}
+          {configured.map((platform, i) => (
+            <ConnectionCard key={i} platform={platform} />
+          ))}
         </ul>
       ) : (
         <EmptyStateDisplay message="No connections configured yet" />
