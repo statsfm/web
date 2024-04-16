@@ -1,4 +1,5 @@
-import { ElementRef, PropsWithChildren, forwardRef } from 'react';
+import type { ElementRef, PropsWithChildren } from 'react';
+import { forwardRef } from 'react';
 import * as DialogPrimitive from '@radix-ui/react-dialog';
 
 type DialogProps = PropsWithChildren<DialogPrimitive.DialogProps>;
@@ -19,6 +20,7 @@ export const Trigger = forwardRef<
     </DialogPrimitive.Trigger>
   );
 });
+Trigger.displayName = 'Trigger';
 
 type DialogPortalProps = PropsWithChildren<DialogPrimitive.DialogPortalProps>;
 
@@ -35,40 +37,61 @@ export const Content = forwardRef<
   return (
     <DialogPrimitive.Content
       ref={forwardedRef}
-      className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-foreground rounded-xl p-4 shadow-2xl max-w-lg"
+      className="fixed left-1/2 top-1/2 max-w-lg -translate-x-1/2 -translate-y-1/2 rounded-xl bg-foreground p-4 shadow-2xl"
       {...props}
     >
       {children}
     </DialogPrimitive.Content>
   );
 });
+Content.displayName = 'Content';
 
 type DialogOverlayProps = PropsWithChildren<DialogPrimitive.DialogOverlayProps>;
 
-export const Overlay = ({ children, ...props }: DialogOverlayProps) => {
+export const Overlay = forwardRef<
+  ElementRef<typeof DialogPrimitive.Overlay>,
+  DialogOverlayProps
+>(({ children, ...props }, forwardedRef) => {
   return (
-    <DialogPrimitive.Overlay {...props} className="fixed inset-0 bg-black/40">
+    <DialogPrimitive.Overlay
+      ref={forwardedRef}
+      {...props}
+      className="fixed inset-0 bg-black/40"
+    >
       {children}
     </DialogPrimitive.Overlay>
   );
-};
+});
+Overlay.displayName = 'Overlay';
 
 type DialogTitleProps = PropsWithChildren<DialogPrimitive.DialogTitleProps>;
 
-export const Title = ({ children, ...props }: DialogTitleProps) => {
-  return <DialogPrimitive.Title {...props}>{children}</DialogPrimitive.Title>;
-};
+export const Title = forwardRef<
+  ElementRef<typeof DialogPrimitive.Title>,
+  DialogTitleProps
+>(({ children, ...props }, forwardedRef) => {
+  return (
+    <DialogPrimitive.Title ref={forwardedRef} {...props}>
+      {children}
+    </DialogPrimitive.Title>
+  );
+});
+Title.displayName = 'Title';
 
 type DialogDescriptionProps =
   PropsWithChildren<DialogPrimitive.DialogDescriptionProps>;
 
-export const Description = ({ children, ...props }: DialogDescriptionProps) => {
+export const Description = forwardRef<
+  ElementRef<typeof DialogPrimitive.Description>,
+  DialogDescriptionProps
+>(({ children, ...props }, forwardedRef) => {
   return (
-    <DialogPrimitive.Description {...props}>
+    <DialogPrimitive.Description ref={forwardedRef} {...props}>
       {children}
     </DialogPrimitive.Description>
   );
-};
+});
+Description.displayName = 'Descripton';
 
 type DialogCloseProps = DialogPrimitive.DialogCloseProps;
 
@@ -82,6 +105,7 @@ export const Close = forwardRef<
     </DialogPrimitive.Close>
   );
 });
+Close.displayName = 'Close';
 
 export const Dialog = Object.assign(Root, {
   Trigger,
