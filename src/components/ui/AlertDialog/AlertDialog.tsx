@@ -1,4 +1,5 @@
-import { ElementRef, PropsWithChildren, forwardRef } from 'react';
+import type { ElementRef, PropsWithChildren } from 'react';
+import { forwardRef } from 'react';
 import * as AlertDialogPrimitive from '@radix-ui/react-alert-dialog';
 import { Button } from '@/components/Button';
 
@@ -24,6 +25,7 @@ export const Trigger = forwardRef<
     </AlertDialogPrimitive.Trigger>
   );
 });
+Trigger.displayName = 'Trigger';
 
 type AlertDialogPortalProps =
   PropsWithChildren<AlertDialogPrimitive.AlertDialogPortalProps>;
@@ -46,13 +48,14 @@ export const Content = forwardRef<
   return (
     <AlertDialogPrimitive.Content
       ref={forwardedRef}
-      className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-foreground rounded-xl p-4 shadow-2xl max-w-lg"
+      className="fixed left-1/2 top-1/2 max-w-lg -translate-x-1/2 -translate-y-1/2 rounded-xl bg-foreground p-4 shadow-2xl"
       {...props}
     >
       {children}
     </AlertDialogPrimitive.Content>
   );
 });
+Content.displayName = 'Content';
 
 type AlertDialogOverlayProps =
   PropsWithChildren<AlertDialogPrimitive.AlertDialogOverlayProps>;
@@ -95,11 +98,11 @@ export const Description = ({
 
 type AlertDialogCancelProps = AlertDialogPrimitive.AlertDialogCancelProps;
 
-export const Cancel = ({ children, ...props }: AlertDialogCancelProps) => {
+export const Cancel = ({ ...props }: AlertDialogCancelProps) => {
   return (
     <AlertDialogPrimitive.Cancel {...props}>
       {/* TODO: add secundary/text variant to button */}
-      <Button className="bg-transparent hover:bg-transparent active:bg-transparent text-white">
+      <Button className="bg-transparent text-white hover:bg-transparent active:bg-transparent">
         Cancel
       </Button>
     </AlertDialogPrimitive.Cancel>
@@ -119,6 +122,7 @@ export const Action = forwardRef<
     </AlertDialogPrimitive.Action>
   );
 });
+Action.displayName = 'Action';
 
 export const AlertDialog = Object.assign(Root, {
   Trigger,

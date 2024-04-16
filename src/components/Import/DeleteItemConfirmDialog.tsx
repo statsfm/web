@@ -1,6 +1,6 @@
 import { AlertDialog } from '@/components/ui/AlertDialog';
-import { Button } from '../Button';
 import { MdDeleteOutline } from 'react-icons/md';
+import { Button } from '../Button';
 
 type DeleteItemConfirmDialogProps = {
   onDeleteImportItem: () => void;
@@ -25,7 +25,7 @@ export const DeleteItemConfirmDialog = ({
             You are about to delete {streamCount.toLocaleString()} streams. This
             action cannot be undone
           </AlertDialog.Description>
-          <div className="flex justify-end gap-2 mt-6">
+          <div className="mt-6 flex justify-end gap-2">
             <AlertDialog.Cancel />
             <AlertDialog.Action>
               <Button

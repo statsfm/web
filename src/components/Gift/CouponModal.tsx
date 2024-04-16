@@ -3,11 +3,10 @@ import type { GiftCode } from '@/utils/statsfm';
 import { Dialog, Transition } from '@headlessui/react';
 import dayjs from 'dayjs';
 import Link from 'next/link';
-import { FC, Fragment } from 'react';
-import { useCallback, useState } from 'react';
+import type { FC } from 'react';
+import { Fragment, useCallback, useState } from 'react';
 import { Button } from '@/components/Button';
 import { Divider } from '@/components/Divider';
-import { Overlay } from '@/components/Overlay';
 import { Textarea } from '@/components/Textarea';
 
 export const CouponModal: FC<{
@@ -69,7 +68,7 @@ export const CouponModal: FC<{
               leaveFrom="opacity-100 scale-100"
               leaveTo="opacity-0 scale-95"
             >
-              <Dialog.Panel className="z-40 max-h-max cursor-default rounded-2xl bg-foreground p-5 shadow-xl w-full max-w-md transform overflow-hidden text-left align-middle transition-all">
+              <Dialog.Panel className="z-40 max-h-max w-full max-w-md cursor-default overflow-hidden rounded-2xl bg-foreground p-5 text-left align-middle shadow-xl transition-all">
                 <Dialog.Title as="h1">
                   Coupon{' '}
                   <span className="text-neutral-400">#{giftCode.id}</span>
