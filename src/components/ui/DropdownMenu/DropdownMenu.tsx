@@ -1,4 +1,5 @@
-import { ElementRef, PropsWithChildren, forwardRef } from 'react';
+import type { ElementRef, PropsWithChildren } from 'react';
+import { forwardRef } from 'react';
 import * as DropdownMenuPrimitive from '@radix-ui/react-dropdown-menu';
 import clsx from 'clsx';
 
@@ -26,6 +27,7 @@ export const Trigger = forwardRef<
     </DropdownMenuPrimitive.Trigger>
   );
 });
+Trigger.displayName = 'Trigger';
 
 type DropdownMenuPortalProps =
   PropsWithChildren<DropdownMenuPrimitive.DropdownMenuPortalProps>;
@@ -50,7 +52,7 @@ export const Content = forwardRef<
       ref={forwardedRef}
       className={clsx(
         className,
-        'min-w-56 max-h-96 p-1 overflow-y-auto overflow-x-visible rounded-xl bg-foreground py-2 shadow-xl z-50',
+        'z-50 max-h-96 min-w-56 overflow-y-auto overflow-x-visible rounded-xl bg-foreground p-1 py-2 shadow-xl',
       )}
       sideOffset={sideOffset}
       {...props}
@@ -59,6 +61,7 @@ export const Content = forwardRef<
     </DropdownMenuPrimitive.Content>
   );
 });
+Content.displayName = 'Content';
 
 type DropdownMenuItemProps =
   PropsWithChildren<DropdownMenuPrimitive.DropdownMenuItemProps>;
@@ -70,13 +73,14 @@ export const Item = forwardRef<
   return (
     <DropdownMenuPrimitive.Item
       ref={forwardedRef}
-      className="group leading-none px-4 py-3 rounded-md gap-2 flex items-center font-medium relative outline-none data-[disabled]:pointer-events-none data-[highlighted]:ring-2 data-[highlighted]:ring-neutral-500 data-[highlighted]:bg-background data-[highlighted]:cursor-pointer data-[disabled]:text-neutral-400"
+      className="group relative flex items-center gap-2 rounded-md px-4 py-3 font-medium leading-none outline-none data-[disabled]:pointer-events-none data-[highlighted]:cursor-pointer data-[highlighted]:bg-background data-[disabled]:text-neutral-400 data-[highlighted]:ring-2 data-[highlighted]:ring-neutral-500"
       {...props}
     >
       {children}
     </DropdownMenuPrimitive.Item>
   );
 });
+Item.displayName = 'Item';
 
 export const Separator = () => {
   return <hr className="mx-3 my-1 border-t-2 border-neutral-400/10" />;

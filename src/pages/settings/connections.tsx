@@ -123,7 +123,7 @@ const useSocials = () => {
 
 const EmptyStateDisplay = ({ message }: { message: string }) => {
   return (
-    <div className="w-full h-32 flex items-center justify-center">
+    <div className="flex h-32 w-full items-center justify-center">
       <p>{message}</p>
     </div>
   );
@@ -137,7 +137,7 @@ const ConnectionCard = ({ platform }: { platform: SocialPlatform }) => {
     >
       <div className="flex justify-between">
         <h3 className="flex items-center gap-2">
-          <img src={platform.icon} alt="icon" className="h-5 m-1" />
+          <img src={platform.icon} alt="icon" className="m-1 h-5" />
           {platform.name}
         </h3>
 
@@ -180,19 +180,20 @@ const ConnectionCard = ({ platform }: { platform: SocialPlatform }) => {
 
       <p>{platform.description}</p>
 
-      <div className="flex flex-col gap-2 mt-2">
-        {platform.status == PlatformStatus.DISCONNECTED ? (
+      <div className="mt-2 flex flex-col gap-2">
+        {platform.status === PlatformStatus.DISCONNECTED ? (
           <div className="flex flex-col lg:flex-row">
             <Button onClick={platform.connect}>Configure</Button>
           </div>
         ) : (
           platform.connection && (
             <>
-              <hr className="my-1 border-t-2 border-neutral-400/10 w-full" />
+              <hr className="my-1 w-full border-t-2 border-neutral-400/10" />
               <div className="flex items-center gap-2">
                 <img
                   src={platform.connection.platformUserImage}
-                  className="rounded-full aspect-square h-10"
+                  className="aspect-square h-10 rounded-full"
+                  alt="avatar"
                 />
                 <p className="mt-0">
                   <h6>{platform.connection.platformUsername}</h6>
@@ -216,7 +217,7 @@ const ConnectionsList = () => {
     (s) => s.status !== PlatformStatus.CONNECTED,
   );
   const configured = socials.filter(
-    (s) => s.status == PlatformStatus.CONNECTED,
+    (s) => s.status === PlatformStatus.CONNECTED,
   );
 
   return (
@@ -224,8 +225,8 @@ const ConnectionsList = () => {
       <SettingsHeader title="Connections" />
       {unconfigured.length > 0 ? (
         <ul className="grid grid-cols-1 gap-4 lg:grid-cols-2">
-          {unconfigured.map((platform) => (
-            <ConnectionCard platform={platform} />
+          {unconfigured.map((platform, i) => (
+            <ConnectionCard key={i} platform={platform} />
           ))}
         </ul>
       ) : (
@@ -236,9 +237,9 @@ const ConnectionsList = () => {
       {configured.length > 0 ? (
         <ul className="grid grid-cols-1 gap-4 lg:grid-cols-2">
           {socials
-            .filter((s) => s.status == PlatformStatus.CONNECTED)
-            .map((platform) => (
-              <ConnectionCard platform={platform} />
+            .filter((s) => s.status === PlatformStatus.CONNECTED)
+            .map((platform, i) => (
+              <ConnectionCard key={i} platform={platform} />
             ))}
         </ul>
       ) : (

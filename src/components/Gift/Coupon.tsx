@@ -11,7 +11,7 @@ export const Coupon: FC<{ giftcode: GiftCode }> = ({ giftcode }) => {
   return (
     <>
       <div
-        className="max-h-max max-w-max rounded-2xl bg-foreground p-5 cursor-pointer"
+        className="max-h-max max-w-max cursor-pointer rounded-2xl bg-foreground p-5"
         onClick={() => setOpen(true)}
       >
         <span
@@ -48,10 +48,7 @@ export const Coupon: FC<{ giftcode: GiftCode }> = ({ giftcode }) => {
       {/* TODO: move this modal to a more central place bc this is not optimal for performance */}
       <CouponModal
         open={open}
-        onClose={() => {
-          setOpen(false);
-          console.log('close: ', open);
-        }}
+        onClose={() => setOpen(false)}
         giftCode={giftcode}
       />
     </>
