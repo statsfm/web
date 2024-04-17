@@ -432,52 +432,54 @@ const Track: NextPage<Props> = ({ track }) => {
         </Section>
 
         {user && (
-          <Section
-            title="Recent streams"
-            description="Your recently played tracks"
-          >
-            {({ headerRef }) => (
-              <>
-                <RecentStreams
-                  headerRef={headerRef}
-                  streams={recentStreams ?? []}
-                  loading={recentStreams === null}
-                  track={track}
-                />
-                {user.hasImported && (
-                  <Link legacyBehavior href={`/track/${track.id}/streams`}>
-                    <a className="my-3 font-bold uppercase text-text-grey transition-colors hover:text-white">
-                      show all
-                    </a>
-                  </Link>
-                )}
-              </>
-            )}
-          </Section>
-        )}
-        <div className="pt-10">
-          <div className="bg-foreground shadow sm:rounded-lg">
-            <div className="px-4 py-5 sm:p-6">
-              <h3 className="text-base font-semibold leading-6 text-white">
-                Report incorrect metadata
-              </h3>
-              <div className="mt-2 max-w-xl text-sm">
-                <p>Let us know what info you think is incorrect.</p>
-              </div>
-              <div className="mt-3 text-sm leading-6">
-                <Link
-                  href={`/reporting/track/${track.id}`}
-                  className="font-semibold text-primary"
-                >
-                  Report{' '}
-                  <span className="text-inherit" aria-hidden="true">
-                    &rarr;
-                  </span>
-                </Link>
+          <>
+            <Section
+              title="Recent streams"
+              description="Your recently played tracks"
+            >
+              {({ headerRef }) => (
+                <>
+                  <RecentStreams
+                    headerRef={headerRef}
+                    streams={recentStreams ?? []}
+                    loading={recentStreams === null}
+                    track={track}
+                  />
+                  {user.hasImported && (
+                    <Link legacyBehavior href={`/track/${track.id}/streams`}>
+                      <a className="my-3 font-bold uppercase text-text-grey transition-colors hover:text-white">
+                        show all
+                      </a>
+                    </Link>
+                  )}
+                </>
+              )}
+            </Section>
+            <div className="pt-10">
+              <div className="bg-foreground shadow sm:rounded-lg">
+                <div className="px-4 py-5 sm:p-6">
+                  <h3 className="text-base font-semibold leading-6 text-white">
+                    Report incorrect metadata
+                  </h3>
+                  <div className="mt-2 max-w-xl text-sm">
+                    <p>Let us know what info you think is incorrect.</p>
+                  </div>
+                  <div className="mt-3 text-sm leading-6">
+                    <Link
+                      href={`/reporting/track/${track.id}`}
+                      className="font-semibold text-primary"
+                    >
+                      Report{' '}
+                      <span className="text-inherit" aria-hidden="true">
+                        &rarr;
+                      </span>
+                    </Link>
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
-        </div>
+          </>
+        )}
       </Container>
     </>
   );
