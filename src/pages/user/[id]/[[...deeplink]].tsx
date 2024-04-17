@@ -74,16 +74,20 @@ function activeScrollIntoViewFromDeepLink(
   if (typeof deeplink !== 'object') return null;
   if (deeplink.length !== 1) return null;
 
-  const [id] = deeplink;
+  const id = deeplink[0] as UserScrollIntoView;
+
   if (
-    id !== 'genres' &&
-    id !== 'tracks' &&
-    id !== 'albums' &&
-    id !== 'artists' &&
-    id !== 'listening-clocks' &&
-    id !== 'recent-streams'
-  )
+    ![
+      'genres',
+      'tracks',
+      'albums',
+      'artists',
+      'listening-clocks',
+      'recent-streams',
+    ].includes(id)
+  ) {
     return null;
+  }
 
   return id;
 }
