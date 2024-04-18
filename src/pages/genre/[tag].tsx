@@ -30,7 +30,11 @@ export const getServerSideProps: GetServerSideProps<Props> = async (ctx) => {
   };
 
   // this is the wackiest hack, genre should throw or be optional if it doesn't exist
-  if (genre.related.length === 0 && genre.sub.length === 0)
+  if (
+    genre.related.length === 0 &&
+    genre.sub.length === 0 &&
+    genre.artists.length === 0
+  )
     return { notFound: true };
 
   const user = await fetchUser(ctx);
