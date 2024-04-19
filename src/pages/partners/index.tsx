@@ -4,7 +4,6 @@ import type { SSRProps } from '@/utils/ssrUtils';
 import { fetchUser } from '@/utils/ssrUtils';
 import type { GetServerSideProps, NextPage } from 'next';
 import Script from 'next/script';
-import { MdAdsClick, MdDataset, MdTune } from 'react-icons/md';
 
 export const getServerSideProps: GetServerSideProps<SSRProps> = async (ctx) => {
   const user = await fetchUser(ctx);
@@ -21,20 +20,20 @@ const solutions = [
     name: 'Targeted Campaigns',
     description:
       'Boost every campaign: guaranteed precise targeting for tracks, merchandise, events. Maximize clicks and value.',
-    icon: MdAdsClick,
+    image: '/images/partners/targeted_campaigns.png',
   },
   {
     name: 'Insight Packs',
     description:
       'Unlock your story with custom dashboards for insights on festivals, tours and launches with stats.fm.',
-    icon: MdDataset,
+    image: '/images/partners/insight_packs.png',
   },
-  {
-    name: 'Custom solutions',
-    description:
-      'Need something specific? We can build custom solutions tailored to your needs.',
-    icon: MdTune,
-  },
+  // {
+  //   name: 'Custom solutions',
+  //   description:
+  //     'Need something specific? We can build custom solutions tailored to your needs.',
+  //   icon: MdTune,
+  // },
 ];
 
 const BusinessPage: NextPage = () => {
@@ -132,16 +131,18 @@ const BusinessPage: NextPage = () => {
               </h2>
             </div>
             <div className="mx-auto mt-5 max-w-2xl lg:max-w-none">
-              <dl className="grid max-w-xl grid-cols-1 gap-x-8 gap-y-16 lg:max-w-none lg:grid-cols-3">
+              <dl className="grid max-w-xl grid-cols-1 gap-x-8 gap-y-16 lg:max-w-none lg:grid-cols-2">
                 {solutions.map((solution) => (
                   <div key={solution.name} className="flex flex-col">
                     <dt className="text-base font-semibold leading-7 text-white">
-                      <div className="mb-6 flex size-10 items-center justify-center rounded-lg bg-primary">
-                        <solution.icon
-                          className="size-6 text-white"
-                          aria-hidden="true"
+                      <div className="relative mb-3 w-full">
+                        <img
+                          src={solution.image}
+                          className="w-full rounded-2xl object-cover"
                         />
+                        <div className="absolute inset-0 rounded-2xl ring-1 ring-inset ring-gray-900/10" />
                       </div>
+
                       {solution.name}
                     </dt>
                     <dd className="mt-1 flex flex-auto flex-col text-base leading-7">
@@ -150,6 +151,44 @@ const BusinessPage: NextPage = () => {
                   </div>
                 ))}
               </dl>
+            </div>
+            <div className="mx-auto max-w-7xl py-24 sm:py-32">
+              <div className="relative isolate overflow-hidden bg-foreground px-6 py-24 text-center shadow-2xl sm:rounded-3xl sm:px-16">
+                <h2 className="mx-auto max-w-2xl text-3xl font-bold tracking-tight text-white sm:text-4xl">
+                  Custom solutions
+                </h2>
+                <p className="mx-auto mt-6 max-w-xl text-lg leading-8 text-neutral-400">
+                  Need something specific? We can build custom solutions
+                  tailored to your needs.
+                </p>
+                <div className="mt-10 flex items-center justify-center gap-x-6">
+                  <a
+                    href="#contact"
+                    className="text-sm font-medium leading-6 text-primary"
+                  >
+                    Get in touch <span aria-hidden="true">→</span>
+                  </a>
+                </div>
+                <svg
+                  viewBox="0 0 1024 1024"
+                  className="absolute left-1/2 top-1/2 -z-10 size-[64rem] -translate-x-1/2 [mask-image:radial-gradient(closest-side,white,transparent)]"
+                  aria-hidden="true"
+                >
+                  <circle
+                    cx={512}
+                    cy={512}
+                    r={512}
+                    fill="url(#827591b1-ce8c-4110-b064-7cb85a0b1217)"
+                    fillOpacity="0.7"
+                  />
+                  <defs>
+                    <radialGradient id="827591b1-ce8c-4110-b064-7cb85a0b1217">
+                      <stop stopColor="#1ed760" />
+                      <stop offset={1} stopColor="#1ed760" />
+                    </radialGradient>
+                  </defs>
+                </svg>
+              </div>
             </div>
           </div>
         </div>
