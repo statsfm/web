@@ -25,7 +25,10 @@ export const getServerSideProps: GetServerSideProps<Props> = async (ctx) => {
     throw new Error('no param tag recieved');
   }
 
-  const genre = (await api.genres.get(tag)) as Omit<Genre, 'artists'> & {
+  const genre = (await api.genres.get(encodeURIComponent(tag))) as Omit<
+    Genre,
+    'artists'
+  > & {
     artists: Artist[];
   };
 
