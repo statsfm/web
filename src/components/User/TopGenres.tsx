@@ -49,7 +49,10 @@ export const TopGenres: FC<{
             {topGenres?.length > 0
               ? topGenres.map((genre, i) => (
                   <Chip key={i}>
-                    <Link legacyBehavior href={`/genre/${genre.genre.tag}`}>
+                    <Link
+                      legacyBehavior
+                      href={`/genre/${encodeURIComponent(genre.genre.tag)}`}
+                    >
                       <a onClick={() => event('USER_top_genre_click')}>
                         {genre.genre.tag}
                       </a>
