@@ -352,6 +352,15 @@ const User: NextPage<Props> = ({
     };
   }
 
+  const privateProfile = !(
+    user.privacySettings?.recentlyPlayed ||
+    user.privacySettings?.topTracks ||
+    user.privacySettings?.topAlbums ||
+    user.privacySettings?.topArtists ||
+    user.privacySettings?.topGenres ||
+    user.privacySettings?.streamStats
+  );
+
   return (
     <>
       <Title>
@@ -489,241 +498,252 @@ const User: NextPage<Props> = ({
 
         {/* Active user page */}
         <UserBanScope user={user}>
-          <Container className="mt-8">
-            {user.quarantined && (
-              <section className="pb-10">
-                <div className="flex items-center">
-                  <MdWarning className="mr-2 text-white opacity-60" />
-                  <p>This account&apos;s streams have been quarantined</p>
-                  {/* TODO: Add info button with link to a support article or a popup message */}
-                </div>
-              </section>
-            )}
-
-            <section className="flex flex-col justify-between gap-5 md:flex-row-reverse">
-              {availableRanges.length > 0 &&
-                // if instance of number[] then it's apple music
-                (typeof availableRanges[0] === 'number' ? (
-                  <div className="z-50 flex justify-center">
-                    <Listbox
-                      value={timeframe.year}
-                      onChange={handleSegmentSelectAppleMusic}
-                    >
-                      <div className="relative mt-1 w-72">
-                        <Listbox.Button className="relative w-full cursor-default rounded-lg bg-foreground py-2 pl-3 pr-10 text-left shadow-md focus:outline-none focus-visible:border-primary focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-primary sm:text-sm">
-                          <span className="block truncate">
-                            {timeframe.year}
-                          </span>
-                          <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
-                            <MdArrowDropDown
-                              className="size-5 text-gray-400"
-                              aria-hidden="true"
-                            />
-                          </span>
-                        </Listbox.Button>
-                        <Transition
-                          as={Fragment}
-                          leave="transition ease-in duration-100"
-                          leaveFrom="opacity-100"
-                          leaveTo="opacity-0"
-                        >
-                          <Listbox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-foreground py-1 text-sm shadow-lg ring-1 ring-black/5 focus:outline-none">
-                            {(availableRanges as number[]).map((year) => (
-                              <Listbox.Option
-                                key={year}
-                                value={year}
-                                className={({ active }) =>
-                                  `relative cursor-default select-none py-2 pl-10 pr-4 ${
-                                    active
-                                      ? 'bg-background/50'
-                                      : 'text-gray-900'
-                                  }`
-                                }
-                              >
-                                {({ selected }) => (
-                                  <>
-                                    <span
-                                      className={`block truncate ${
-                                        selected && 'text-white'
-                                      }`}
-                                    >
-                                      {year}
-                                    </span>
-                                    {selected ? (
-                                      <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-primary">
-                                        <MdCheck
-                                          className="size-5"
-                                          aria-hidden="true"
-                                        />
-                                      </span>
-                                    ) : null}
-                                  </>
-                                )}
-                              </Listbox.Option>
-                            ))}
-                          </Listbox.Options>
-                        </Transition>
-                      </div>
-                    </Listbox>
+          {privateProfile ? (
+            <div className="my-36 grid w-full place-items-center">
+              <MdVisibilityOff />
+              <p className="m-0 text-text-grey">
+                {formatter.nounify(user.displayName)} profile is private
+              </p>
+            </div>
+          ) : (
+            <Container className="mt-8">
+              {user.quarantined && (
+                <section className="pb-10">
+                  <div className="flex items-center">
+                    <MdWarning className="mr-2 text-white opacity-60" />
+                    <p>This account&apos;s streams have been quarantined</p>
+                    {/* TODO: Add info button with link to a support article or a popup message */}
                   </div>
-                ) : (
-                  <div className="z-50 flex justify-center">
-                    <Listbox
-                      value={timeframe.range}
-                      onChange={handleSegmentSelectSpotify}
-                    >
-                      <div className="relative mt-1 w-72">
-                        <Listbox.Button className="relative w-full cursor-default rounded-lg bg-foreground py-2 pl-3 pr-10 text-left shadow-md focus:outline-none focus-visible:border-primary focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-primary sm:text-sm">
-                          <span className="block truncate">
-                            {rangeToText(timeframe.range)}
-                          </span>
-                          <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
-                            <MdArrowDropDown
-                              className="size-5 text-gray-400"
-                              aria-hidden="true"
-                            />
-                          </span>
-                        </Listbox.Button>
-                        <Transition
-                          as={Fragment}
-                          leave="transition ease-in duration-100"
-                          leaveFrom="opacity-100"
-                          leaveTo="opacity-0"
-                        >
-                          <Listbox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-foreground py-1 text-sm shadow-lg ring-1 ring-black/5 focus:outline-none">
-                            {(availableRanges as BetterRange[]).map((range) => (
-                              <Listbox.Option
-                                key={range}
-                                value={range}
-                                className={({ active }) =>
-                                  `relative cursor-default select-none py-2 pl-10 pr-4 ${
-                                    active
-                                      ? 'bg-background/50'
-                                      : 'text-gray-900'
-                                  }`
-                                }
-                              >
-                                {({ selected }) => (
-                                  <>
-                                    <span
-                                      className={`block truncate ${
-                                        selected && 'text-white'
-                                      }`}
-                                    >
-                                      {rangeToText(range)}
-                                    </span>
-                                    {selected ? (
-                                      <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-primary">
-                                        <MdCheck
-                                          className="size-5"
-                                          aria-hidden="true"
-                                        />
-                                      </span>
-                                    ) : null}
-                                  </>
-                                )}
-                              </Listbox.Option>
-                            ))}
-                          </Listbox.Options>
-                        </Transition>
-                      </div>
-                    </Listbox>
-                  </div>
-                ))}
-              {user.isPlus && (
-                <ImportRequiredScope value="streamStats">
-                  <StatsCardContainer stats={stats} />
-                </ImportRequiredScope>
+                </section>
               )}
-            </section>
 
-            <TopGenres
-              timeframe={timeframe}
-              userProfile={user}
-              topGenresRef={topGenresRef}
-            />
+              <section className="flex flex-col justify-between gap-5 md:flex-row-reverse">
+                {availableRanges.length > 0 &&
+                  // if instance of number[] then it's apple music
+                  (typeof availableRanges[0] === 'number' ? (
+                    <div className="z-50 flex justify-center">
+                      <Listbox
+                        value={timeframe.year}
+                        onChange={handleSegmentSelectAppleMusic}
+                      >
+                        <div className="relative mt-1 w-72">
+                          <Listbox.Button className="relative w-full cursor-default rounded-lg bg-foreground py-2 pl-3 pr-10 text-left shadow-md focus:outline-none focus-visible:border-primary focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-primary sm:text-sm">
+                            <span className="block truncate">
+                              {timeframe.year}
+                            </span>
+                            <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
+                              <MdArrowDropDown
+                                className="size-5 text-gray-400"
+                                aria-hidden="true"
+                              />
+                            </span>
+                          </Listbox.Button>
+                          <Transition
+                            as={Fragment}
+                            leave="transition ease-in duration-100"
+                            leaveFrom="opacity-100"
+                            leaveTo="opacity-0"
+                          >
+                            <Listbox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-foreground py-1 text-sm shadow-lg ring-1 ring-black/5 focus:outline-none">
+                              {(availableRanges as number[]).map((year) => (
+                                <Listbox.Option
+                                  key={year}
+                                  value={year}
+                                  className={({ active }) =>
+                                    `relative cursor-default select-none py-2 pl-10 pr-4 ${
+                                      active
+                                        ? 'bg-background/50'
+                                        : 'text-gray-900'
+                                    }`
+                                  }
+                                >
+                                  {({ selected }) => (
+                                    <>
+                                      <span
+                                        className={`block truncate ${
+                                          selected && 'text-white'
+                                        }`}
+                                      >
+                                        {year}
+                                      </span>
+                                      {selected ? (
+                                        <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-primary">
+                                          <MdCheck
+                                            className="size-5"
+                                            aria-hidden="true"
+                                          />
+                                        </span>
+                                      ) : null}
+                                    </>
+                                  )}
+                                </Listbox.Option>
+                              ))}
+                            </Listbox.Options>
+                          </Transition>
+                        </div>
+                      </Listbox>
+                    </div>
+                  ) : (
+                    <div className="z-50 flex justify-center">
+                      <Listbox
+                        value={timeframe.range}
+                        onChange={handleSegmentSelectSpotify}
+                      >
+                        <div className="relative mt-1 w-72">
+                          <Listbox.Button className="relative w-full cursor-default rounded-lg bg-foreground py-2 pl-3 pr-10 text-left shadow-md focus:outline-none focus-visible:border-primary focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-primary sm:text-sm">
+                            <span className="block truncate">
+                              {rangeToText(timeframe.range)}
+                            </span>
+                            <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
+                              <MdArrowDropDown
+                                className="size-5 text-gray-400"
+                                aria-hidden="true"
+                              />
+                            </span>
+                          </Listbox.Button>
+                          <Transition
+                            as={Fragment}
+                            leave="transition ease-in duration-100"
+                            leaveFrom="opacity-100"
+                            leaveTo="opacity-0"
+                          >
+                            <Listbox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-foreground py-1 text-sm shadow-lg ring-1 ring-black/5 focus:outline-none">
+                              {(availableRanges as BetterRange[]).map(
+                                (range) => (
+                                  <Listbox.Option
+                                    key={range}
+                                    value={range}
+                                    className={({ active }) =>
+                                      `relative cursor-default select-none py-2 pl-10 pr-4 ${
+                                        active
+                                          ? 'bg-background/50'
+                                          : 'text-gray-900'
+                                      }`
+                                    }
+                                  >
+                                    {({ selected }) => (
+                                      <>
+                                        <span
+                                          className={`block truncate ${
+                                            selected && 'text-white'
+                                          }`}
+                                        >
+                                          {rangeToText(range)}
+                                        </span>
+                                        {selected ? (
+                                          <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-primary">
+                                            <MdCheck
+                                              className="size-5"
+                                              aria-hidden="true"
+                                            />
+                                          </span>
+                                        ) : null}
+                                      </>
+                                    )}
+                                  </Listbox.Option>
+                                ),
+                              )}
+                            </Listbox.Options>
+                          </Transition>
+                        </div>
+                      </Listbox>
+                    </div>
+                  ))}
+                {user.isPlus && (
+                  <ImportRequiredScope value="streamStats">
+                    <StatsCardContainer stats={stats} />
+                  </ImportRequiredScope>
+                )}
+              </section>
 
-            <TopTracks
-              timeframe={timeframe}
-              userProfile={user}
-              trackRef={topTracksRef}
-              activeCarousel={scrollIntoView === 'tracks'}
-            />
-
-            <TopArtists
-              timeframe={timeframe}
-              userProfile={user}
-              artistRef={topArtistsRef}
-              activeCarousel={scrollIntoView === 'artists'}
-            />
-
-            {user.isPlus && (
-              <TopAlbums
+              <TopGenres
                 timeframe={timeframe}
                 userProfile={user}
-                albumRef={topAlbumsRef}
-                activeCarousel={scrollIntoView === 'albums'}
+                topGenresRef={topGenresRef}
               />
-            )}
 
-            {user.isPlus &&
-              [
-                statsfm.OrderBySetting.COUNT,
-                statsfm.OrderBySetting.TIME,
-              ].includes(user.orderBy) && (
-                <Section
-                  title="Listening clocks"
-                  className="flex w-full flex-col gap-2 md:flex-row"
-                  scope="streamStats"
-                  description={`${
-                    isCurrentUser ? 'Your' : `${user.displayName}'s`
-                  } listening habits throughout the day ${getTimeframeText(
-                    timeframe,
-                  )} `}
-                  ref={listeningClocksRef}
-                >
-                  <Scope value="streamStats">
-                    <div className="flex-1 content-center text-center">
-                      <Chart {...clockProps(dateStats, 'streams')} />
-                      <p>streams</p>
-                    </div>
-                    <div className="flex-1 content-center text-center">
-                      <Chart {...clockProps(dateStats, 'minutes')} />
-                      <p>minutes streamed</p>
-                    </div>
+              <TopTracks
+                timeframe={timeframe}
+                userProfile={user}
+                trackRef={topTracksRef}
+                activeCarousel={scrollIntoView === 'tracks'}
+              />
+
+              <TopArtists
+                timeframe={timeframe}
+                userProfile={user}
+                artistRef={topArtistsRef}
+                activeCarousel={scrollIntoView === 'artists'}
+              />
+
+              {user.isPlus && (
+                <TopAlbums
+                  timeframe={timeframe}
+                  userProfile={user}
+                  albumRef={topAlbumsRef}
+                  activeCarousel={scrollIntoView === 'albums'}
+                />
+              )}
+
+              {user.isPlus &&
+                [
+                  statsfm.OrderBySetting.COUNT,
+                  statsfm.OrderBySetting.TIME,
+                ].includes(user.orderBy) && (
+                  <Section
+                    title="Listening clocks"
+                    className="flex w-full flex-col gap-2 md:flex-row"
+                    scope="streamStats"
+                    description={`${
+                      isCurrentUser ? 'Your' : `${user.displayName}'s`
+                    } listening habits throughout the day ${getTimeframeText(
+                      timeframe,
+                    )} `}
+                    ref={listeningClocksRef}
+                  >
+                    <Scope value="streamStats">
+                      <div className="flex-1 content-center text-center">
+                        <Chart {...clockProps(dateStats, 'streams')} />
+                        <p>streams</p>
+                      </div>
+                      <div className="flex-1 content-center text-center">
+                        <Chart {...clockProps(dateStats, 'minutes')} />
+                        <p>minutes streamed</p>
+                      </div>
+                    </Scope>
+                  </Section>
+                )}
+
+              <Section
+                title="Recent streams"
+                description={`${
+                  isCurrentUser ? 'Your' : `${user.displayName}'s`
+                } recently played tracks`}
+                scope="recentlyPlayed"
+                ref={recentStreamsRef}
+              >
+                {({ headerRef }) => (
+                  <Scope value="recentlyPlayed">
+                    <RecentStreams
+                      headerRef={headerRef}
+                      streams={recentStreams}
+                      onItemClick={() => event('USER_recent_track_click')}
+                    />
+                    {user.hasImported && (
+                      <Link
+                        legacyBehavior
+                        href={`/${user.customId ?? user.id}/streams`}
+                      >
+                        <a className="my-3 font-bold uppercase text-text-grey transition-colors hover:text-white">
+                          show all
+                        </a>
+                      </Link>
+                    )}
                   </Scope>
-                </Section>
-              )}
-
-            <Section
-              title="Recent streams"
-              description={`${
-                isCurrentUser ? 'Your' : `${user.displayName}'s`
-              } recently played tracks`}
-              scope="recentlyPlayed"
-              ref={recentStreamsRef}
-            >
-              {({ headerRef }) => (
-                <Scope value="recentlyPlayed">
-                  <RecentStreams
-                    headerRef={headerRef}
-                    streams={recentStreams}
-                    onItemClick={() => event('USER_recent_track_click')}
-                  />
-                  {user.hasImported && (
-                    <Link
-                      legacyBehavior
-                      href={`/${user.customId ?? user.id}/streams`}
-                    >
-                      <a className="my-3 font-bold uppercase text-text-grey transition-colors hover:text-white">
-                        show all
-                      </a>
-                    </Link>
-                  )}
-                </Scope>
-              )}
-            </Section>
-          </Container>
+                )}
+              </Section>
+            </Container>
+          )}
         </UserBanScope>
       </Scope.Context>
     </>
