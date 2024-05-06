@@ -352,14 +352,15 @@ const User: NextPage<Props> = ({
     };
   }
 
-  const privateProfile = !(
-    user.privacySettings?.recentlyPlayed ||
-    user.privacySettings?.topTracks ||
-    user.privacySettings?.topAlbums ||
-    user.privacySettings?.topArtists ||
-    user.privacySettings?.topGenres ||
-    user.privacySettings?.streamStats
-  );
+  const privateProfile =
+    !(
+      user.privacySettings?.recentlyPlayed ||
+      user.privacySettings?.topTracks ||
+      user.privacySettings?.topAlbums ||
+      user.privacySettings?.topArtists ||
+      user.privacySettings?.topGenres ||
+      user.privacySettings?.streamStats
+    ) && currentUser?.id !== user.id;
 
   return (
     <>
