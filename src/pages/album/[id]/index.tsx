@@ -1,4 +1,5 @@
 import type { GetServerSideProps, NextPage } from 'next';
+import type { FC } from 'react';
 import { useEffect, useMemo, useState } from 'react';
 import type * as statsfm from '@/utils/statsfm';
 
@@ -20,9 +21,33 @@ import type { SSRProps } from '@/utils/ssrUtils';
 import { fetchUser, getApiInstance } from '@/utils/ssrUtils';
 import formatter from '@/utils/formatter';
 
-import { AppleMusicLink, SpotifyLink } from '@/components/SocialLink';
 import dayjs from 'dayjs';
 import { TopListeners } from '@/components/TopListeners';
+
+const BandsInTown: FC<{ album: statsfm.Album }> = ({ album }) => {
+  return (
+    <div>
+      <div id="amplified_100006357"></div>
+      <script
+        dangerouslySetInnerHTML={{
+          __html: `
+          window.amplified = window.amplified || {init: []};
+          amplified.init.push(function() {
+            amplified.setParams({
+              artist: "${album?.artists[0]?.name}",
+              song: "",
+              album: "${album?.name}",
+              hostname: "srv.clickfuse.com",
+            })
+            .pushAdUnit(100006357)
+            .run();
+          });
+          `,
+        }}
+      />
+    </div>
+  );
+};
 
 type Props = SSRProps & {
   album: statsfm.Album;
@@ -171,6 +196,7 @@ const Album: NextPage<Props> = ({ album, tracks }) => {
           content={`View ${album.name} on stats.fm`}
         />
         <meta property="twitter:card" content="summary" />
+        <script async src="//srv.clickfuse.com/ads/ads.js"></script>
       </Head>
 
       <div className="bg-foreground pt-20">
@@ -193,7 +219,7 @@ const Album: NextPage<Props> = ({ album, tracks }) => {
                 {album.name}
               </h1>
               <div className="mt-2 flex flex-row items-center gap-2">
-                {(album.externalIds.spotify ?? []).length > 0 && (
+                {/* {(album.externalIds.spotify ?? []).length > 0 && (
                   <SpotifyLink
                     path={`/album/${album.externalIds.spotify![0]}`}
                   />
@@ -204,7 +230,8 @@ const Album: NextPage<Props> = ({ album, tracks }) => {
                       album.externalIds.appleMusic![0]
                     }`}
                   />
-                )}
+                )} */}
+                <BandsInTown album={album} />
               </div>
             </div>
           </section>

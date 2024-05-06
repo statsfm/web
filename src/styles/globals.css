@@ -223,3 +223,7 @@
     mix-blend-mode: screen;
   }
 }
+
+.cf_class {
+  color: #eee !important;
+}

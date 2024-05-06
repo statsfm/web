@@ -30,10 +30,34 @@ import {
 import Head from 'next/head';
 import { event } from 'nextjs-google-analytics';
 import { Radar } from 'react-chartjs-2';
-import { AppleMusicLink, SpotifyLink } from '@/components/SocialLink';
 import { TopListeners } from '@/components/TopListeners';
 import { MdHearingDisabled } from 'react-icons/md';
 import Link from 'next/link';
+
+const BandsInTown: FC<{ track: statsfm.Track }> = ({ track }) => {
+  return (
+    <div>
+      <div id="amplified_100006357"></div>
+      <script
+        dangerouslySetInnerHTML={{
+          __html: `
+          window.amplified = window.amplified || {init: []};
+          amplified.init.push(function() {
+            amplified.setParams({
+              artist: "${track?.artists[0]?.name}",
+              song: "${track?.name}",
+              album: "${track?.albums[0]?.name}",
+              hostname: "srv.clickfuse.com",
+            })
+            .pushAdUnit(100006357)
+            .run();
+          });
+          `,
+        }}
+      />
+    </div>
+  );
+};
 
 const AudioFeaturesRadarChart = ({
   acousticness,
@@ -275,6 +299,7 @@ const Track: NextPage<Props> = ({ track }) => {
           content={`View ${track.name} on stats.fm`}
         />
         <meta property="twitter:card" content="summary" />
+        <script async src="//srv.clickfuse.com/ads/ads.js"></script>
       </Head>
 
       <div className="bg-foreground pt-20">
@@ -302,7 +327,7 @@ const Track: NextPage<Props> = ({ track }) => {
                 {track.name}
               </h1>
               <div className="mt-2 flex flex-row items-center gap-2">
-                {(track.externalIds.spotify ?? []).length > 0 && (
+                {/* {(track.externalIds.spotify ?? []).length > 0 && (
                   <SpotifyLink
                     path={`/track/${track.externalIds.spotify![0]}`}
                   />
@@ -313,7 +338,8 @@ const Track: NextPage<Props> = ({ track }) => {
                       track.externalIds.appleMusic![0]
                     }`}
                   />
-                )}
+                )} */}
+                <BandsInTown track={track} />
               </div>
             </div>
           </section>
