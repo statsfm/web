@@ -37,7 +37,8 @@ import Link from 'next/link';
 const BandsInTown: FC<{ track: statsfm.Track }> = ({ track }) => {
   return (
     <div>
-      <div id="amplified_100006357"></div>
+      <script async src="//srv.clickfuse.com/ads/ads.js"></script>
+      <div id="amplified_100006348"></div>
       <script
         dangerouslySetInnerHTML={{
           __html: `
@@ -49,7 +50,7 @@ const BandsInTown: FC<{ track: statsfm.Track }> = ({ track }) => {
               album: "${track?.albums[0]?.name}",
               hostname: "srv.clickfuse.com",
             })
-            .pushAdUnit(100006357)
+            .pushAdUnit(100006348)
             .run();
           });
           `,
@@ -299,7 +300,6 @@ const Track: NextPage<Props> = ({ track }) => {
           content={`View ${track.name} on stats.fm`}
         />
         <meta property="twitter:card" content="summary" />
-        <script async src="//srv.clickfuse.com/ads/ads.js"></script>
       </Head>
 
       <div className="bg-foreground pt-20">

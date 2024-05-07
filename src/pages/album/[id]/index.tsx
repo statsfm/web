@@ -27,7 +27,7 @@ import { TopListeners } from '@/components/TopListeners';
 const BandsInTown: FC<{ album: statsfm.Album }> = ({ album }) => {
   return (
     <div>
-      <div id="amplified_100006357"></div>
+      <div id="amplified_100006348"></div>
       <script
         dangerouslySetInnerHTML={{
           __html: `
@@ -39,7 +39,7 @@ const BandsInTown: FC<{ album: statsfm.Album }> = ({ album }) => {
               album: "${album?.name}",
               hostname: "srv.clickfuse.com",
             })
-            .pushAdUnit(100006357)
+            .pushAdUnit(100006348)
             .run();
           });
           `,

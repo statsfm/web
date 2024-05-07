@@ -27,7 +27,8 @@ import { ArtistRelatedArtists } from '@/components/Artist/ArtistRelatedArtists';
 const BandsInTown: FC<{ artist: statsfm.Artist }> = ({ artist }) => {
   return (
     <div>
-      <div id="amplified_100006357"></div>
+      <script async src="//srv.clickfuse.com/ads/ads.js"></script>
+      <div id="amplified_100006348"></div>
       <script
         dangerouslySetInnerHTML={{
           __html: `
@@ -39,7 +40,7 @@ const BandsInTown: FC<{ artist: statsfm.Artist }> = ({ artist }) => {
               album: "",
               hostname: "srv.clickfuse.com",
             })
-            .pushAdUnit(100006357)
+            .pushAdUnit(100006348)
             .run();
           });
           `,
@@ -211,7 +212,6 @@ const Artist: NextPage<Props> = ({ artist, origin }) => {
           content={`View ${artist.name} on stats.fm`}
         />
         <meta property="twitter:card" content="summary_large_image" />
-        <script async src="//srv.clickfuse.com/ads/ads.js"></script>
       </Head>
 
       <div className="bg-foreground pt-20">
