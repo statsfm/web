@@ -186,7 +186,16 @@ export const SpotifyService: ImportServiceFunction = ({
           { name: file.name, content, id },
           { event, setUploadedFiles },
         );
-      } else if (file.type === 'application/zip') {
+      } else if (
+        [
+          'application/zip',
+          'application/x-zip-compressed',
+          'application/x-zip',
+          'application/zip-compressed',
+          'application/octet-stream',
+          'multipart/x-zip',
+        ].includes(file.type)
+      ) {
         const zipReader = new ZipReader(new BlobReader(file));
         const entries = await zipReader.getEntries();
         const filesToImport: { name: string; content: string; id: string }[] =

@@ -59,7 +59,16 @@ export const AppleMusicService: ImportServiceFunction = ({
             service: Platform.APPLEMUSIC,
           },
         ]);
-      } else if (file.type === 'application/zip') {
+      } else if (
+        [
+          'application/zip',
+          'application/x-zip-compressed',
+          'application/x-zip',
+          'application/zip-compressed',
+          'application/octet-stream',
+          'multipart/x-zip',
+        ].includes(file.type)
+      ) {
         toaster.message('Processing ZIP file');
         const zipReader = new ZipReader(new BlobReader(file));
         const entries = await zipReader.getEntries();
