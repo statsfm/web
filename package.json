@@ -51,6 +51,7 @@
     "satori": "^0.10.13",
     "sharp": "^0.33.3",
     "tailwind-scrollbar": "^2.0.1",
+    "ulid": "^2.3.0",
     "unified": "^10.1.2",
     "zod": "^3.22.4"
   },

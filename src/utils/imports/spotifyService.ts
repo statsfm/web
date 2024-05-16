@@ -5,6 +5,7 @@ import { Platform } from '@/utils/statsfm';
 import type { event } from 'nextjs-google-analytics';
 import { ZipReader, BlobReader, TextWriter } from '@zip.js/zip.js';
 import type { SetStateAction } from 'react';
+import { ulid } from 'ulid';
 import {
   type UploadedImportFile,
   type ImportServiceFunction,
@@ -52,7 +53,7 @@ const importValidity = (files: File[], toaster: ToasterType) => {
 };
 
 const processJSON = async (
-  file: { name: string; content: string },
+  file: { name: string; content: string; id: string },
   utils: {
     event: typeof event;
     setUploadedFiles: (value: SetStateAction<UploadedImportFile[]>) => void;
@@ -63,33 +64,37 @@ const processJSON = async (
     file.name.match(/StreamingHistory\d\d?.json/g)
   ) {
     utils.event('IMPORT_SPOTIFY_selected_spotify_account_data');
-    utils.setUploadedFiles((oldList) => [
-      ...oldList,
-      {
-        name: file.name,
-        addedAt: new Date(),
-        uploaded: false,
-        status: UploadedFilesStatus.Error,
-        error:
-          'You are trying to upload the streaming history files from the "Account data" package, we do not support these files.',
-        service: Platform.SPOTIFY,
-      },
-    ]);
+    utils.setUploadedFiles((oldList) =>
+      oldList.map((f) => {
+        if (f.id === file.id) {
+          return {
+            ...f,
+            uploaded: false,
+            status: UploadedFilesStatus.Error,
+            error:
+              'You are uploading files from the "Account data" package, check the support docs for more info.',
+          };
+        }
+        return f;
+      }),
+    );
   } else {
     const fileText = file.content;
     if (!isJSONParsable(fileText)) {
       utils.event('IMPORT_SPOTIFY_selected_invalid_file');
-      utils.setUploadedFiles((oldList) => [
-        ...oldList,
-        {
-          name: file.name,
-          addedAt: new Date(),
-          uploaded: false,
-          status: UploadedFilesStatus.Error,
-          error: 'The file you selected is not a valid json file.',
-          service: Platform.SPOTIFY,
-        },
-      ]);
+      utils.setUploadedFiles((oldList) =>
+        oldList.map((f) => {
+          if (f.id === file.id) {
+            return {
+              ...f,
+              uploaded: false,
+              status: UploadedFilesStatus.Error,
+              error: 'The file you selected does not contain valid data.',
+            };
+          }
+          return f;
+        }),
+      );
       return;
     }
     const jsonStreams = JSON.parse(fileText);
@@ -98,17 +103,19 @@ const processJSON = async (
       spotifyStreams = await spotifyImportFileSchema.parseAsync(jsonStreams);
     } catch (e: any) {
       utils.event('IMPORT_SPOTIFY_selected_invalid_file');
-      utils.setUploadedFiles((oldList) => [
-        ...oldList,
-        {
-          name: file.name,
-          addedAt: new Date(),
-          uploaded: false,
-          status: UploadedFilesStatus.Error,
-          error: 'The file you selected does not contain valid data.',
-          service: Platform.SPOTIFY,
-        },
-      ]);
+      utils.setUploadedFiles((oldList) =>
+        oldList.map((f) => {
+          if (f.id === file.id) {
+            return {
+              ...f,
+              uploaded: false,
+              status: UploadedFilesStatus.Error,
+              error: 'The file you selected does not contain valid data.',
+            };
+          }
+          return f;
+        }),
+      );
       return;
     }
     // filter out invalid streams
@@ -126,18 +133,20 @@ const processJSON = async (
         .map((x) => validSpotifyImportStreamSchema.parseAsync(x)),
     );
 
-    utils.setUploadedFiles((oldList) => [
-      ...oldList,
-      {
-        name: file.name,
-        addedAt: new Date(),
-        uploaded: false,
-        status: UploadedFilesStatus.Ready,
-        data: validStreams,
-        service: Platform.SPOTIFY,
-        contentType: 'application/json',
-      },
-    ]);
+    utils.setUploadedFiles((oldList) =>
+      oldList.map((f) => {
+        if (f.id === file.id) {
+          return {
+            ...f,
+            uploaded: false,
+            status: UploadedFilesStatus.Ready,
+            data: validStreams,
+            contentType: 'application/json',
+          };
+        }
+        return f;
+      }),
+    );
   }
 };
 
@@ -159,53 +168,101 @@ export const SpotifyService: ImportServiceFunction = ({
     if (!importValidity(files, toaster)) return;
 
     for await (const file of files) {
+      const id = ulid();
       if (file.type === 'application/json') {
+        setUploadedFiles((oldList) => [
+          ...oldList,
+          {
+            id,
+            name: file.name,
+            addedAt: new Date(),
+            uploaded: false,
+            status: UploadedFilesStatus.Checking,
+            service: Platform.SPOTIFY,
+          },
+        ]);
         const content = await file.text();
         await processJSON(
-          { name: file.name, content },
+          { name: file.name, content, id },
           { event, setUploadedFiles },
         );
       } else if (file.type === 'application/zip') {
         const zipReader = new ZipReader(new BlobReader(file));
         const entries = await zipReader.getEntries();
-        const filesToImport: { name: string; content: string }[] = [];
-        let accountData = false;
+        const filesToImport: { name: string; content: string; id: string }[] =
+          [];
+        const accountData = entries.some((e) =>
+          ['Userdata.json', 'Payments.json', 'Identity.json'].some((x) =>
+            e.filename.includes(x),
+          ),
+        );
+        if (accountData) {
+          toaster.error(
+            'It looks like you\'re trying to upload the "Account data" zip file, which is not the same as the "Extended streaming history data" zip file.',
+          );
+          setUploadedFiles((oldList) => [
+            ...oldList,
+            {
+              id,
+              name: file.name,
+              addedAt: new Date(),
+              uploaded: false,
+              status: UploadedFilesStatus.Error,
+              service: Platform.SPOTIFY,
+              error:
+                'You are uploading files from the "Account data" package, check the support docs for more info.',
+            },
+          ]);
+          return;
+        }
         // eslint-disable-next-line no-restricted-syntax
         for await (const entry of entries) {
           const fileName = entry.filename.split('/').pop()!;
           if (!fileName.includes('.json') || fileName.includes('Video'))
             continue;
 
-          if (
-            ['Userdata.json', 'Payments.json', 'Identity.json'].some((x) =>
-              fileName.includes(x),
-            )
-          ) {
-            accountData = true;
-            break;
-          }
+          const fileId = ulid();
+          setUploadedFiles((oldList) => [
+            ...oldList,
+            {
+              id: fileId,
+              name: fileName,
+              addedAt: new Date(),
+              uploaded: false,
+              status: UploadedFilesStatus.Checking,
+              service: Platform.SPOTIFY,
+            },
+          ]);
 
           filesToImport.push({
             name: fileName,
             content: await entry.getData!(new TextWriter()),
+            id: fileId,
           });
-        }
-
-        if (accountData) {
-          toaster.error(
-            'It looks like you\'re trying to upload the "Account data" zip file, which is not the same as the "Extended streaming history data" zip file.',
-          );
-          return;
         }
 
         if (filesToImport.length === 0) {
           toaster.error(
             'No valid files found in the zip file. Make sure you\'re uploading the "Extended streaming history data" zip file.',
           );
+          setUploadedFiles((oldList) => [
+            ...oldList.filter(
+              (f) => !filesToImport.map((x) => x.id).includes(f.id),
+            ),
+            {
+              id,
+              name: file.name,
+              addedAt: new Date(),
+              uploaded: false,
+              status: UploadedFilesStatus.Error,
+              service: Platform.SPOTIFY,
+              error: 'No valid files found in the zip file.',
+            },
+          ]);
           return;
         }
 
-        Promise.all(
+        await Promise.all(
           filesToImport.map((f) => processJSON(f, { event, setUploadedFiles })),
         );
       }

@@ -63,7 +63,7 @@ const Imports = () => {
       process.env.NEXT_PUBLIC_API_URL_IMPORT ?? 'https://import.stats.fm/api';
     // eslint-disable-next-line no-restricted-syntax
     for (const uploadedFile of uploadedFiles) {
-      if (uploadedFile!.status !== UploadedFilesStatus.Ready) continue;
+      if (uploadedFile.status !== UploadedFilesStatus.Ready) continue;
       uploadedFile.status = UploadedFilesStatus.Uploading;
       try {
         // eslint-disable-next-line no-await-in-loop
@@ -213,9 +213,12 @@ const Imports = () => {
                       <h3>Files waiting to be imported</h3>
                     </div>
                     <div className="flex shrink-0 gap-2">
-                      <Button disabled={isUploading} onClick={uploadFiles}>
-                        Upload
-                      </Button>
+                      {!(
+                        isUploading ||
+                        uploadedFiles.filter(
+                          (f) => f.status === UploadedFilesStatus.Ready,
+                        ).length === 0
+                      ) && <Button onClick={uploadFiles}>Upload</Button>}
                     </div>
                   </header>
                   <ul role="list" className="divide-y divide-foreground pt-3">

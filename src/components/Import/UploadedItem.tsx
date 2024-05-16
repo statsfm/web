@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 import { type FC } from 'react';
 import clsx from 'clsx';
 import type { UploadedImportFile } from '@/utils/imports';
@@ -32,7 +33,11 @@ export const UploadedItem: FC<
           <p className="truncate">
             {data.status === UploadedFilesStatus.Error
               ? data.error ?? 'Unknown error'
-              : `aprox ${data.data.length.toLocaleString()} streams`}
+              : data.status === UploadedFilesStatus.Checking
+                ? 'Checking file...'
+                : data.status === UploadedFilesStatus.Ready
+                  ? `aprox ${data.data.length.toLocaleString()} streams`
+                  : 'Unknown status'}
           </p>
         </div>
       )}

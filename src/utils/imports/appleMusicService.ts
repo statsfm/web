@@ -3,6 +3,7 @@
 import { Platform } from '@/utils/statsfm';
 import type { Entry } from '@zip.js/zip.js';
 import { ZipReader, BlobReader, BlobWriter, TextWriter } from '@zip.js/zip.js';
+import { ulid } from 'ulid';
 import type { ImportServiceFunction, ToasterType } from '.';
 import { UploadedFilesStatus } from '.';
 
@@ -42,12 +43,14 @@ export const AppleMusicService: ImportServiceFunction = ({
     if (!importValidity(files, toaster)) return;
 
     for await (const file of files) {
+      const id = ulid();
       if (file.type === 'text/csv') {
         toaster.message('Processing CSV file');
         const content = await file.text();
         setUploadedFiles((oldList) => [
           ...oldList,
           {
+            id,
             name: file.name,
             addedAt: new Date(),
             contentType: file.type,
@@ -70,6 +73,7 @@ export const AppleMusicService: ImportServiceFunction = ({
             setUploadedFiles((oldList) => [
               ...oldList,
               {
+                id: ulid(),
                 name: entry.filename.split('/').pop()!,
                 addedAt: new Date(),
                 contentType: 'text/csv',

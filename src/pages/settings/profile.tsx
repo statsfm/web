@@ -498,9 +498,9 @@ type Props = SSRProps<{
 
 export const getServerSideProps: GetServerSideProps<Props> = async (ctx) => {
   // eslint-disable-next-line react-hooks/rules-of-hooks
-  const res = await fetch('https://en.pronouns.page/api/pronouns').then((res) =>
-    res.json(),
-  );
+  const res = await fetch('https://api.stats.fm/api/v1/me/available-pronouns')
+    .then((res) => res.json())
+    .then((res) => res.items);
   const pronouns = Object.values(res).flat() as Pronoun[];
   const user = await fetchUser(ctx);
 

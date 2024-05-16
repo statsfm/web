@@ -8246,6 +8246,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"ulid@npm:^2.3.0":
+  version: 2.3.0
+  resolution: "ulid@npm:2.3.0"
+  bin:
+    ulid: ./bin/cli.js
+  checksum: 10c0/070d237502781085e59cf3d8ece752ff96cd3a0990cf1c1be57273f4550597daeb72e9a7db8e5a320de31102509bb3321d280b54bfc44e98025e4628a9629773
+  languageName: node
+  linkType: hard
+
 "unbox-primitive@npm:^1.0.2":
   version: 1.0.2
   resolution: "unbox-primitive@npm:1.0.2"
@@ -8573,6 +8582,7 @@ __metadata:
     tailwind-scrollbar: "npm:^2.0.1"
     tailwindcss: "npm:^3.4.3"
     typescript: "npm:^5.4.4"
+    ulid: "npm:^2.3.0"
     unified: "npm:^10.1.2"
     zod: "npm:^3.22.4"
   languageName: unknown
