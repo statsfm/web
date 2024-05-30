@@ -72,12 +72,12 @@ const Home: NextPage = () => {
             </span>{' '}
             music,
             <br />
-            <span className="font-extrabold opacity-30 hover:text-primary hover:opacity-100">
+            <span className="relative font-extrabold opacity-30 hover:text-primary hover:opacity-100">
               your
             </span>{' '}
             stats,
             <br />
-            <span className="font-extrabold opacity-30 hover:text-primary hover:opacity-100">
+            <span className="relative font-extrabold opacity-30 hover:text-primary hover:opacity-100">
               your
             </span>{' '}
             story.
