@@ -188,7 +188,8 @@ export async function fetchExternalImage(
 
   if (!res.ok) {
     // eslint-disable-next-line no-console
-    console.error('upstream image response failed for', href, res.status);
+    if (res.status !== 404)
+      console.error('upstream image response failed for', href, res.status);
     if (fallbackImg) {
       res = await fetch(fallbackImg);
       if (!res.ok) {
