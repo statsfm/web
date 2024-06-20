@@ -2,8 +2,14 @@ import { Container } from '@/components/Container';
 import { Title } from '@/components/Title';
 import type { GetStaticProps, NextPage } from 'next';
 import fs from 'node:fs/promises';
-import remarkHtml from 'remark-html';
+import rehypeAutolinkHeadings from 'rehype-autolink-headings';
+import rehypeRaw from 'rehype-raw';
+import rehypeSanitize from 'rehype-sanitize';
+import rehypeSlug from 'rehype-slug';
+import rehypeStringify from 'rehype-stringify';
+import remarkGfm from 'remark-gfm';
 import remarkParse from 'remark-parse';
+import remarkRehype from 'remark-rehype';
 import { unified } from 'unified';
 
 type Props = {
@@ -15,7 +21,13 @@ export const getStaticProps: GetStaticProps<Props> = async () => {
 
   const content = await unified()
     .use(remarkParse)
-    .use(remarkHtml)
+    .use(remarkGfm)
+    .use(remarkRehype, { allowDangerousHtml: true })
+    .use(rehypeRaw)
+    .use(rehypeSanitize)
+    .use(rehypeSlug)
+    .use(rehypeAutolinkHeadings)
+    .use(rehypeStringify)
     .process(text);
 
   return {
