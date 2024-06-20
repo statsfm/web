@@ -22,8 +22,8 @@ We reserve the right to amend this Privacy Policy from time to time, at our sole
 
 If you have any questions, concerns or complaints regarding this Privacy Policy, or if you wish to exercise your rights, please contact us at:
 
-- **By Email**: [dpo@stats.fm](mailto:dpo@stats.fm).
-- **By Mail:** Crommelinbaan 3, 2142 EX Cruquius, the Netherlands.
+* **By Email**: [dpo@stats.fm](mailto:dpo@stats.fm).
+* **By Mail:** Crommelinbaan 3, 2142 EX Cruquius, the Netherlands.
 
 Data Protection Officer "DPO":
 
@@ -45,8 +45,8 @@ Email address: [eli@stats.fm](mailto:eli@stats.fm).
 
 Depending on your interaction with our website, App and Services, certain information will be collected, as further detailed below. We may collect the information, either by automatic means and tracking technologies, or when you voluntarily provide us your information, for example, when you register and create an account.
 
-- “**Non-Personal Data**” - meaning, information which does not identify a specific natural person and cannot reasonably be used for such identification. We collect Non-Personal Data regarding use of the website, App or Services, such as the scope, frequency, time and date you have accessed the website or App, interactions with the content displayed through our website, App or Services, language preference, and other technical information regarding the device used to install. This information is considered as Non-Personal Data when collected on an aggregate basis, or otherwise not combined with any online identifiers.
-- “**Personal Data**” - meaning information that identifies an individual or may with reasonable effort identify an individual. This may include online identifiers such as IP address, name, emails, etc. Personal Data also includes insights based on your preference and behavior, profiling, or other information that is identified with you.
+* “**Non-Personal Data**” - meaning, information which does not identify a specific natural person and cannot reasonably be used for such identification. We collect Non-Personal Data regarding use of the website, App or Services, such as the scope, frequency, time and date you have accessed the website or App, interactions with the content displayed through our website, App or Services, language preference, and other technical information regarding the device used to install. This information is considered as Non-Personal Data when collected on an aggregate basis, or otherwise not combined with any online identifiers.
+* “**Personal Data**” - meaning information that identifies an individual or may with reasonable effort identify an individual. This may include online identifiers such as IP address, name, emails, etc. Personal Data also includes insights based on your preference and behavior, profiling, or other information that is identified with you.
 
 The table below details the processing of Personal Data, the purpose, lawful basis, and processing operations:
 
@@ -69,8 +69,8 @@ In addition, we may use certain Personal Data to prevent potentially prohibited 
 
 According to the nature of your interaction with our Services, we may collect information as follows:
 
-- **Automatically** – we may use cookies, SDKs and similar tracking technologies (as elaborated in the Tracking Technologies Section below) to gather some information automatically when you access the website.
-- **Provided by you voluntarily** – we will collect information if and when you choose to provide us with information, such as when you contact us or share user generated content on our chat feature.
+* **Automatically** – we may use cookies, SDKs and similar tracking technologies (as elaborated in the Tracking Technologies Section below) to gather some information automatically when you access the website.
+* **Provided by you voluntarily** – we will collect information if and when you choose to provide us with information, such as when you contact us or share user generated content on our chat feature.
 
 ### 5. **COOKIES AND SIMILAR TRACKING TECHNOLOGIES**
 
@@ -85,7 +85,7 @@ The specific cookies, SDK and similar tracking technologies we currently use, pu
 | **Purchasely**                           | Providing the services                | <https://www.purchasely.com/privacy-policy>                                                                                                                                                                                                                                                                                                                                                 |
 | **Facebook**                             | Providing the Services                | <https://www.facebook.com/privacy/policy/>                                                                                                                                                                                                                                                                                                                                                  |
 | **Spotify**                              | Providing the Services                | <https://www.spotify.com/us/legal/privacy-policy/>                                                                                                                                                                                                                                                                                                                                          |
-| **Apple Music, Apple ID &**              | Providing the services & Registration | <https://www.apple.com/legal/privacy/>                                                                                                                                                                                                                                                                                                                                                      |
+| **Apple Music, Apple ID**              | Providing the services & Registration | <https://www.apple.com/legal/privacy/>                                                                                                                                                                                                                                                                                                                                                      |
 | **Firebase**                             | Analytical & Providing the services   | <https://firebase.google.com/support/privacy>                                                                                                                                                                                                                                                                                                                                               |
 
 Note that, some cookies or tracking technologies are classified as “strictly necessary” – meaning, necessary for our Services to function and cannot be switched off. Where we use third-party advertising cookies, such third-party may independently collect, through the use of such tracking technologies, Personal Data and may combine such information with other information they have independently collected relating to your online activities across their network of websites, for the purpose of enhanced targeting functionality and delivering personalized ads, as well as providing aggregated analytics related to the performance of our advertising campaign you interacted with. These third parties collect and use this information under their own privacy policies.
