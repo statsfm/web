@@ -35,6 +35,10 @@ const links: { label: string; links: { label: string; href: string }[] }[] = [
         href: '/beta',
       },
       {
+        label: 'Creator program',
+        href: '/creator-program',
+      },
+      {
         label: 'stats.fm Plus',
         href: '/plus',
       },
