@@ -37,7 +37,7 @@ Wait for a bank transfer from us.
 
 ## Eligible Social Media Platforms
 
-Promote stats.fm on the following platforms: TikTok, Instagram and Twitter.
+Promote stats.fm on the following platforms: TikTok, Instagram and Twitter, YouTube, and Facebook.
 
 ### Video Format
 
