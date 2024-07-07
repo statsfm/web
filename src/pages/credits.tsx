@@ -124,7 +124,7 @@ const CreditsPage: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
         <p>
           Last fetched:{' '}
           <time dateTime={lastFetched}>{dayjs(lastFetched).fromNow()}</time> (
-          {dayjs(lastFetched).format('MMMM D, YYYY [at] hh:mm')})
+          {dayjs(lastFetched).format('MMMM D, YYYY [at] HH:mm')})
         </p>
       </Container>
     </>
