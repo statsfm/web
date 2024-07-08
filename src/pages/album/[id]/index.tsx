@@ -1,5 +1,4 @@
 import type { GetServerSideProps, NextPage } from 'next';
-import type { FC } from 'react';
 import { useEffect, useMemo, useState } from 'react';
 import type * as statsfm from '@/utils/statsfm';
 
@@ -23,31 +22,7 @@ import formatter from '@/utils/formatter';
 
 import dayjs from 'dayjs';
 import { TopListeners } from '@/components/TopListeners';
-
-const BandsInTown: FC<{ album: statsfm.Album }> = ({ album }) => {
-  return (
-    <div>
-      <div id="amplified_100006348"></div>
-      <script
-        dangerouslySetInnerHTML={{
-          __html: `
-          window.amplified = window.amplified || {init: []};
-          amplified.init.push(function() {
-            amplified.setParams({
-              artist: "${album?.artists[0]?.name}",
-              song: "",
-              album: "${album?.name}",
-              hostname: "srv.clickfuse.com",
-            })
-            .pushAdUnit(100006348)
-            .run();
-          });
-          `,
-        }}
-      />
-    </div>
-  );
-};
+import { SpotifyLink, AppleMusicLink } from '@/components/SocialLink';
 
 type Props = SSRProps & {
   album: statsfm.Album;
@@ -219,7 +194,7 @@ const Album: NextPage<Props> = ({ album, tracks }) => {
                 {album.name}
               </h1>
               <div className="mt-2 flex flex-row items-center gap-2">
-                {/* {(album.externalIds.spotify ?? []).length > 0 && (
+                {(album.externalIds.spotify ?? []).length > 0 && (
                   <SpotifyLink
                     path={`/album/${album.externalIds.spotify![0]}`}
                   />
@@ -230,8 +205,7 @@ const Album: NextPage<Props> = ({ album, tracks }) => {
                       album.externalIds.appleMusic![0]
                     }`}
                   />
-                )} */}
-                <BandsInTown album={album} />
+                )}
               </div>
             </div>
           </section>

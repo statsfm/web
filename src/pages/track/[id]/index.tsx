@@ -33,32 +33,7 @@ import { Radar } from 'react-chartjs-2';
 import { TopListeners } from '@/components/TopListeners';
 import { MdHearingDisabled } from 'react-icons/md';
 import Link from 'next/link';
-
-const BandsInTown: FC<{ track: statsfm.Track }> = ({ track }) => {
-  return (
-    <div>
-      <script async src="//srv.clickfuse.com/ads/ads.js"></script>
-      <div id="amplified_100006348"></div>
-      <script
-        dangerouslySetInnerHTML={{
-          __html: `
-          window.amplified = window.amplified || {init: []};
-          amplified.init.push(function() {
-            amplified.setParams({
-              artist: "${track?.artists[0]?.name}",
-              song: "${track?.name}",
-              album: "${track?.albums[0]?.name}",
-              hostname: "srv.clickfuse.com",
-            })
-            .pushAdUnit(100006348)
-            .run();
-          });
-          `,
-        }}
-      />
-    </div>
-  );
-};
+import { SpotifyLink, AppleMusicLink } from '@/components/SocialLink';
 
 const AudioFeaturesRadarChart = ({
   acousticness,
@@ -327,7 +302,7 @@ const Track: NextPage<Props> = ({ track }) => {
                 {track.name}
               </h1>
               <div className="mt-2 flex flex-row items-center gap-2">
-                {/* {(track.externalIds.spotify ?? []).length > 0 && (
+                {(track.externalIds.spotify ?? []).length > 0 && (
                   <SpotifyLink
                     path={`/track/${track.externalIds.spotify![0]}`}
                   />
@@ -338,8 +313,7 @@ const Track: NextPage<Props> = ({ track }) => {
                       track.externalIds.appleMusic![0]
                     }`}
                   />
-                )} */}
-                <BandsInTown track={track} />
+                )}
               </div>
             </div>
           </section>

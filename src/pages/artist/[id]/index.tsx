@@ -23,32 +23,7 @@ import { ArtistTopTracks } from '@/components/Artist/ArtistTopTracks';
 import { ArtistTopAlbums } from '@/components/Artist/ArtistTopAlbums';
 import { TopListeners } from '@/components/TopListeners';
 import { ArtistRelatedArtists } from '@/components/Artist/ArtistRelatedArtists';
-
-const BandsInTown: FC<{ artist: statsfm.Artist }> = ({ artist }) => {
-  return (
-    <div>
-      <script async src="//srv.clickfuse.com/ads/ads.js"></script>
-      <div id="amplified_100006348"></div>
-      <script
-        dangerouslySetInnerHTML={{
-          __html: `
-          window.amplified = window.amplified || {init: []};
-          amplified.init.push(function() {
-            amplified.setParams({
-              artist: "${artist?.name}",
-              song: "",
-              album: "",
-              hostname: "srv.clickfuse.com",
-            })
-            .pushAdUnit(100006348)
-            .run();
-          });
-          `,
-        }}
-      />
-    </div>
-  );
-};
+import { SpotifyLink, AppleMusicLink } from '@/components/SocialLink';
 
 const Genres: FC<Pick<statsfm.Artist, 'genres'>> = ({ genres }) => (
   <Section title="Genres">
@@ -229,7 +204,7 @@ const Artist: NextPage<Props> = ({ artist, origin }) => {
               </span>
 
               <div className="mt-2 flex flex-row items-center gap-2">
-                {/* {(artist.externalIds.spotify ?? []).length > 0 && (
+                {(artist.externalIds.spotify ?? []).length > 0 && (
                   <SpotifyLink
                     path={`/artist/${artist.externalIds.spotify![0]}`}
                   />
@@ -240,8 +215,7 @@ const Artist: NextPage<Props> = ({ artist, origin }) => {
                       artist.externalIds.appleMusic![0]
                     }`}
                   />
-                )} */}
-                <BandsInTown artist={artist} />
+                )}
               </div>
             </div>
           </section>
