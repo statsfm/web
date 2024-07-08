@@ -1,4 +1,4 @@
-import type { NextApiRequest, NextApiResponse } from 'next';
+import type { NextApiRequest, NextApiResponse, PageConfig } from 'next';
 import { cpus } from 'os';
 import sharp from 'sharp';
 import { URL } from 'url';
@@ -397,3 +397,9 @@ export default async function handler(
     throw error;
   }
 }
+
+export const config = {
+  api: {
+    responseLimit: false,
+  },
+} satisfies PageConfig;
