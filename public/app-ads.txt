@@ -379,6 +379,7 @@ google.com, pub-3940256099942544, DIRECT, f08c47fec0942fa0
 google.com, pub-5988374867572426, DIRECT, f08c47fec0942fa0
 google.com, pub-6037791262117379, DIRECT, f08c47fec0942fa0
 google.com, pub-6644618667154802, DIRECT, f08c47fec0942fa0
+google.com, pub-7591615571695403, DIRECT, f08c47fec0942fa0
 google.com, pub-7839649756834603, DIRECT, f08c47fec0942fa0
 google.com, pub-7839649756834603, DIRECT, f08c47fec0942fa0
 google.com, pub-8049894195330131, DIRECT, f08c47fec0942fa0
@@ -419,6 +420,7 @@ google.com, pub-5413329544040947, RESELLER, f08c47fec0942fa0 #cm
 google.com, pub-5995202563537249, RESELLER, f08c47fec0942fa0
 google.com, pub-5995202563537249, RESELLER, f08c47fec0942fa0
 google.com, pub-6070398767421094, RESELLER, f08c47fec0942fa0
+google.com, pub-6716225838534735, RESELLER, f08c47fec0942fa0
 google.com, pub-7169237679086737, RESELLER, f08c47fec0942fa0
 google.com, pub-7214269347534569, RESELLER, f08c47fec0942fa0
 google.com, pub-7363809219244122, RESELLER, f08c47fec0942fa0
@@ -539,6 +541,7 @@ liftoff.io, 7f6945815e6, RESELLER
 lijit.com, 244287, DIRECT, fafdf38b16bf6b2b
 lijit.com, 257429-eb, DIRECT, fafdf38b16bf6b2b
 lijit.com, 310770, DIRECT, fafdf38b16bf6b2b
+lijit.com, 509119-eb, DIRECT, fafdf38b16bf6b2b
 lijit.com, 257429, RESELLER, fafdf38b16bf6b2b
 lijit.com, 260380, RESELLER, fafdf38b16bf6b2b
 lijit.com, 273644, RESELLER, fafdf38b16bf6b2b
@@ -831,6 +834,7 @@ pubmatic.com, 162968, RESELLER, 5d62403b186f2ace
 pubmatic.com, 163078, RESELLER, 5d62403b186f2ace
 pubmatic.com, 163319, RESELLER, 5d62403b186f2ace
 pubmatic.com, 163420, RESELLER, 5d62403b186f2ace
+pubmatic.com, 164927, RESELLER, 5d62403b186f2ace
 pubmatic.com, 55990, RESELLER, 5d62403b186f2ace
 
 pubnative.net, 1003601, RESELLER, d641df8625486a7b
@@ -1022,6 +1026,7 @@ smartadserver.com, 4383, RESELLER
 smartadserver.com, 4457, RESELLER, 060d053dcf45cbf3
 smartadserver.com, 4625, RESELLER, 060d053dcf45cbf3
 smartadserver.com, 4762, RESELLER, 060d053dcf45cbf3
+smartadserver.com, 4938-OB, RESELLER, 060d053dcf45cbf3
 
 smartclip.net, 12358, RESELLER
 smartclip.net, 13564, RESELLER
@@ -1099,6 +1104,8 @@ thebrave.io, 1234633, RESELLER, c25b2154543746ac
 thebrave.io, 1234634, RESELLER, c25b2154543746ac
 thebrave.io, 1234678, RESELLER, c25b2154543746ac
 thebrave.io, 9840732, RESELLER, c25b2154543746ac
+
+thegermanemedia.com, 528, DIRECT, 6716225838534735
 
 themediagrid.com, J8FXQA, DIRECT, 35d5010d7789b49d
 themediagrid.com, VIY354, DIRECT, 35d5010d7789b49d
