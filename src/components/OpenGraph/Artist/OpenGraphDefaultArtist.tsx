@@ -1,8 +1,10 @@
 /* eslint-disable jsx-a11y/alt-text */
 import { Logo } from '@/components/Logo';
+import { defaultUserImageURL } from '@/contants';
 import formatter from '@/utils/formatter';
 import { getOrigin } from '@/utils/ssrUtils';
 import type { Artist } from '@/utils/statsfm';
+import { isFacebookURL } from '@/utils/urls';
 import type Api from '@statsfm/statsfm.js';
 import type { NextApiRequest } from 'next';
 import type { JSXElementConstructor, ReactElement } from 'react';
@@ -14,6 +16,11 @@ export function OpenGraphDefaultArtist(
 ): ReactElement<JSXElementConstructor<any>> {
   const origin = getOrigin(req);
 
+  let imageURL = artist.image ?? defaultUserImageURL;
+  if (isFacebookURL(imageURL)) {
+    imageURL = defaultUserImageURL;
+  }
+
   return (
     <div tw="flex flex-col flex-1 w-full h-full bg-[#18181c]">
       <div tw="flex flex-row m-auto pl-32 pr-32">
@@ -22,7 +29,7 @@ export function OpenGraphDefaultArtist(
             tw="rounded-full"
             height="400px"
             width="400px"
-            src={`${origin}/api/image?url=${artist.image}&w=256&q=75&f=image/png&fallbackImg=https://cdn.stats.fm/file/statsfm/images/placeholders/users/private.webp`}
+            src={`${origin}/api/image?url=${encodeURIComponent(imageURL)}&w=256&q=75&f=image/png&fallbackImg=${defaultUserImageURL}`}
           />
         </div>
         <div

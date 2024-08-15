@@ -1,6 +1,8 @@
 import clsx from 'clsx';
 import { Image } from '@/components/Image';
 import type { PropsWithChildren } from 'react';
+import { defaultUserImageURL } from '@/contants';
+import { isFacebookURL } from '@/utils/urls';
 
 export type AvatarSize =
   | 'xs'
@@ -71,12 +73,7 @@ export const Avatar = ({
         width={sizes[size]}
         height={sizes[size]}
         alt={initials}
-        // If src contains fbcdn or fbsbx, use "URL"
-        src={
-          src.includes('fbcdn') || src.includes('fbsbx')
-            ? 'https://cdn.stats.fm/file/statsfm/images/placeholders/users/private.webp'
-            : src
-        }
+        src={isFacebookURL(src) ? defaultUserImageURL : src}
         {...props}
       />
 

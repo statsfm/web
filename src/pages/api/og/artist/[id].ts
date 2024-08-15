@@ -18,14 +18,7 @@ export default async function handler(
     return;
   }
 
-  const image = await renderToImage(
-    OpenGraphDefaultArtist(req, api, artist),
-    // {
-    //   debug: true,
-    //   width: 1200,
-    //   height: 600,
-    // }
-  );
+  const image = await renderToImage(OpenGraphDefaultArtist(req, api, artist));
 
   res.setHeader('Content-Type', 'image/png');
   res.send(image);

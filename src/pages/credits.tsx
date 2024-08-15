@@ -15,7 +15,9 @@ export const getStaticProps = (async () => {
     avatarUrl: string;
   }> = [];
 
-  // const res = await fetch('https://translate-credits.stats.fm');
+  // const res = await fetch('https://translate-credits.stats.fm', {
+  //   signal: AbortSignal.timeout(5_000),
+  // });
   // const translatorCredits = (await res.json()) as {
   //   id: number;
   //   username: string;
