@@ -365,7 +365,10 @@ export default async function handler(
     if (!isAbsolute)
       throw new ImageError(400, '"url" parameter must be an absolute URL');
 
-    const imageUpstream = await fetchExternalImage(href, fallbackImg);
+    const imageUpstream = await fetchExternalImage(
+      encodeURI(href),
+      fallbackImg,
+    );
 
     const {
       buffer,
