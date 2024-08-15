@@ -185,7 +185,7 @@ export async function fetchExternalImage(
   fallbackImg?: string,
 ): Promise<ImageUpstream> {
   return fetch(href, {
-    signal: AbortSignal.timeout(1_000),
+    signal: AbortSignal.timeout(5_000),
   })
     .then(async (res) => {
       if (!res.ok) {
