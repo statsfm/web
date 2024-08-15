@@ -4,6 +4,7 @@ import { Container } from '@/components/Container';
 import { Image } from '@/components/Image';
 import { Textarea } from '@/components/Textarea';
 import { Title } from '@/components/Title';
+import { defaultUserImageURL } from '@/contants';
 import { useApi, useToaster } from '@/hooks';
 import dayjs from '@/utils/dayjs';
 import formatter from '@/utils/formatter';
@@ -182,10 +183,7 @@ const Reporting: NextPage<Props> = (props) => {
               <Avatar src={props.imageUrl} name={props.name} size="4xl" />
             ) : (
               <Image
-                src={
-                  props.imageUrl ??
-                  'https://cdn.stats.fm/file/statsfm/images/placeholders/users/private.webp'
-                }
+                src={props.imageUrl ?? defaultUserImageURL}
                 alt={props.name}
                 width={192}
                 height={192}

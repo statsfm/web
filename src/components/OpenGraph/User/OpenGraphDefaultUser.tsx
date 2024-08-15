@@ -1,6 +1,7 @@
 /* eslint-disable jsx-a11y/alt-text */
 import { Logo } from '@/components/Logo';
 import { PlusBadgePrefilled } from '@/components/User/PlusBadge';
+import { defaultUserImageURL } from '@/contants';
 import { getOrigin } from '@/utils/ssrUtils';
 import { splitStringAtLength } from '@/utils/string';
 import type { UserPublic } from '@statsfm/statsfm.js';
@@ -25,7 +26,7 @@ export function OpenGraphDefaultUser(
             tw="rounded-full"
             height="400px"
             width="400px"
-            src={`${origin}/api/image?url=${user.image}&w=512&q=75&f=image/png&fallbackImg=https://cdn.stats.fm/file/statsfm/images/placeholders/users/private.webp`}
+            src={`${origin}/api/image?url=${user.image}&w=512&q=75&f=image/png&fallbackImg=${defaultUserImageURL}}`}
           />
           {user.isPlus && (
             <div tw="absolute right-0 bottom-2 flex">

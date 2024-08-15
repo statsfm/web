@@ -5,6 +5,7 @@ import type Api from '@statsfm/statsfm.js';
 import { OpenGraphDefaultUser } from '@/components/OpenGraph/User/OpenGraphDefaultUser';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { renderToImage } from '@/utils/satori';
+import { defaultUserImageURL } from '@/contants';
 
 export const runtime = 'nodejs';
 
@@ -43,9 +44,9 @@ export default async function handler(
     user.image === null ||
     user.image === undefined ||
     ['fbcdn', 'fbsbx'].some((s) => user.image!.includes(s))
-  )
-    user.image =
-      'https://cdn.stats.fm/file/statsfm/images/placeholders/users/private.webp';
+  ) {
+    user.image = defaultUserImageURL;
+  }
 
   const image = await renderToImage(
     VARIANTS[variants ?? 'default']!(req, api, user),

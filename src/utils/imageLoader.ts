@@ -1,3 +1,4 @@
+import { defaultUserImageURL } from '@/contants';
 import type { ImageLoaderProps } from 'next/image';
 
 /*
@@ -8,5 +9,5 @@ export default function customImageLoader({
   width,
   quality,
 }: ImageLoaderProps) {
-  return `/api/image?url=${encodeURIComponent(src)}&w=${width}&q=${quality ?? 75}&fallbackImg=https://cdn.stats.fm/file/statsfm/images/placeholders/users/private.webp`;
+  return `/api/image?url=${encodeURIComponent(src)}&w=${width}&q=${quality ?? 75}&fallbackImg=${defaultUserImageURL}`;
 }

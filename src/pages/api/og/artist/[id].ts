@@ -2,6 +2,7 @@ import { getApiInstance } from '@/utils/ssrUtils';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { renderToImage } from '@/utils/satori';
 import { OpenGraphDefaultArtist } from '@/components/OpenGraph/Artist/OpenGraphDefaultArtist';
+import { defaultUserImageURL } from '@/contants';
 
 export const runtime = 'nodejs';
 
@@ -16,6 +17,14 @@ export default async function handler(
   if (!artist) {
     res.status(404).json({ error: 'Artist not found' });
     return;
+  }
+
+  if (
+    artist.image === null ||
+    artist.image === undefined ||
+    ['fbcdn', 'fbsbx'].some((s) => artist.image!.includes(s))
+  ) {
+    artist.image = defaultUserImageURL;
   }
 
   const image = await renderToImage(
