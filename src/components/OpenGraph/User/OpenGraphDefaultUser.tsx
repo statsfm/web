@@ -4,6 +4,7 @@ import { PlusBadgePrefilled } from '@/components/User/PlusBadge';
 import { defaultUserImageURL } from '@/contants';
 import { getOrigin } from '@/utils/ssrUtils';
 import { splitStringAtLength } from '@/utils/string';
+import { isFacebookURL } from '@/utils/urls';
 import type { UserPublic } from '@statsfm/statsfm.js';
 import type Api from '@statsfm/statsfm.js';
 import type { NextApiRequest } from 'next';
@@ -18,6 +19,11 @@ export function OpenGraphDefaultUser(
 
   const customId = user.customId ?? user.id;
 
+  let imageURL = user.image ?? defaultUserImageURL;
+  if (isFacebookURL(imageURL)) {
+    imageURL = defaultUserImageURL;
+  }
+
   return (
     <div tw="flex flex-col flex-1 w-[1200px] h-full bg-[#18181c]">
       <div tw="flex flex-row m-auto pl-32 pr-32">
@@ -26,7 +32,7 @@ export function OpenGraphDefaultUser(
             tw="rounded-full"
             height="400px"
             width="400px"
-            src={`${origin}/api/image?url=${user.image}&w=512&q=75&f=image/png&fallbackImg=${defaultUserImageURL}}`}
+            src={`${origin}/api/image?url=${encodeURIComponent(imageURL)}&w=512&q=75&f=image/png&fallbackImg=${defaultUserImageURL}`}
           />
           {user.isPlus && (
             <div tw="absolute right-0 bottom-2 flex">

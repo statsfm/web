@@ -184,30 +184,37 @@ export async function fetchExternalImage(
   href: string,
   fallbackImg?: string,
 ): Promise<ImageUpstream> {
-  let res = await fetch(href);
-
-  if (!res.ok) {
-    if (res.status !== 404)
-      // eslint-disable-next-line no-console
-      console.error('upstream image response failed for', href, res.status);
-    if (fallbackImg) {
-      res = await fetch(fallbackImg);
+  return await fetch(href, {
+    signal: AbortSignal.timeout(1_000),
+  })
+    .then(async (res) => {
       if (!res.ok) {
-        throw new ImageError(res.status, 'Unable to fetch fallback image');
+        throw new ImageError(
+          res.status,
+          `Upstream image response failed: ${await res.text()}`,
+        );
       }
-    } else {
-      throw new ImageError(
-        res.status,
-        '"url" parameter is valid but upstream response is invalid',
-      );
-    }
-  }
 
-  const buffer = Buffer.from(await res.arrayBuffer());
-  const contentType = res.headers.get('Content-Type');
-  const cacheControl = res.headers.get('Cache-Control');
+      const content = await res.arrayBuffer();
+      const contentType = res.headers.get('Content-Type');
+      const cacheControl = res.headers.get('Cache-Control');
 
-  return { buffer, contentType, cacheControl };
+      return {
+        contentType,
+        cacheControl,
+        buffer: Buffer.from(content),
+      };
+    })
+    .catch((error) => {
+      // eslint-disable-next-line no-console
+      console.warn(`Unable to fetch external image "${href}":`, String(error));
+
+      if (fallbackImg) {
+        return fetchExternalImage(fallbackImg);
+      }
+
+      throw error;
+    });
 }
 
 function parseCacheControl(

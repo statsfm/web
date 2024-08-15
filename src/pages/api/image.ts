@@ -280,11 +280,13 @@ export async function imageOptimizer(
       IMAGE_TYPES.ANIMATABLE.includes(upstreamType) &&
       isAnimated(upstreamBuffer)
     ) {
-      return {
-        buffer: upstreamBuffer,
-        contentType: upstreamType,
-        maxAge,
-      };
+      if (!format || format === upstreamType) {
+        return {
+          buffer: upstreamBuffer,
+          contentType: upstreamType,
+          maxAge,
+        };
+      }
     }
 
     if (!upstreamType.startsWith('image/') || upstreamType.includes(',')) {
@@ -341,6 +343,7 @@ export async function imageOptimizer(
         maxAge: Math.max(maxAge, 60),
       };
     }
+
     throw new ImageError(
       400,
       'Unable to optimize image and unable to fallback to upstream image',

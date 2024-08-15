@@ -1,29 +1,17 @@
 import { getApiInstance } from '@/utils/ssrUtils';
-import type { ReactElement, JSXElementConstructor } from 'react';
-import type { UserPublic } from '@statsfm/statsfm.js';
-import type Api from '@statsfm/statsfm.js';
 import { OpenGraphDefaultUser } from '@/components/OpenGraph/User/OpenGraphDefaultUser';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { renderToImage } from '@/utils/satori';
-import { defaultUserImageURL } from '@/contants';
 
 export const runtime = 'nodejs';
-
-type OGUserHandler = (
-  req: NextApiRequest,
-  api: Api,
-  user: UserPublic,
-) => ReactElement<JSXElementConstructor<any>>;
-
-const VARIANTS: Record<string, OGUserHandler> = {
-  default: OpenGraphDefaultUser,
-};
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse,
 ) {
-  const { id, variants } = req.query as { id: string; variants: string };
+  const { id } = req.query as {
+    id: string;
+  };
 
   const api = getApiInstance();
   const user = await api.users.get(id).catch(() => {});
@@ -40,17 +28,7 @@ export default async function handler(
     user.customId = '';
   }
 
-  if (
-    user.image === null ||
-    user.image === undefined ||
-    ['fbcdn', 'fbsbx'].some((s) => user.image!.includes(s))
-  ) {
-    user.image = defaultUserImageURL;
-  }
-
-  const image = await renderToImage(
-    VARIANTS[variants ?? 'default']!(req, api, user),
-  );
+  const image = await renderToImage(OpenGraphDefaultUser(req, api, user));
 
   res.setHeader('Content-Type', 'image/png');
   res.setHeader('Cache-Control', 'public, max-age=3600');
