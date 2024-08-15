@@ -8,5 +8,5 @@ export default function customImageLoader({
   width,
   quality,
 }: ImageLoaderProps) {
-  return `/api/image?url=${src}&w=${width}&q=${quality ?? 75}`;
+  return `/api/image?url=${encodeURIComponent(src)}&w=${width}&q=${quality ?? 75}`;
 }
