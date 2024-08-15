@@ -401,8 +401,8 @@ export default async function handler(
   }
 }
 
-export const config = {
+export const config: PageConfig = {
   api: {
     responseLimit: false,
   },
-} satisfies PageConfig;
+};

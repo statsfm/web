@@ -139,6 +139,7 @@ const BusinessPage: NextPage = () => {
                         <img
                           src={solution.image}
                           className="w-full rounded-2xl object-cover"
+                          alt=""
                         />
                         <div className="absolute inset-0 rounded-2xl ring-1 ring-inset ring-gray-900/10" />
                       </div>
