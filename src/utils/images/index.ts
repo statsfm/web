@@ -185,14 +185,11 @@ export async function fetchExternalImage(
   fallbackImg?: string,
 ): Promise<ImageUpstream> {
   return fetch(href, {
-    signal: AbortSignal.timeout(1_000),
+    signal: AbortSignal.timeout(5_000),
   })
     .then(async (res) => {
       if (!res.ok) {
-        throw new ImageError(
-          res.status,
-          `Upstream image response failed: ${await res.text()}`,
-        );
+        throw new ImageError(res.status, `upstream image response failed`);
       }
 
       const content = await res.arrayBuffer();
@@ -206,12 +203,12 @@ export async function fetchExternalImage(
       };
     })
     .catch((error) => {
-      // eslint-disable-next-line no-console
-      console.warn(`Unable to fetch external image "${href}":`, String(error));
-
       if (fallbackImg) {
         return fetchExternalImage(fallbackImg);
       }
+
+      // eslint-disable-next-line no-console
+      console.warn(`Unable to fetch external image "${href}":`, error);
 
       throw error;
     });
