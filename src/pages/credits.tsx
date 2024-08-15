@@ -5,8 +5,7 @@ import clsx from 'clsx';
 import type { GetStaticProps, NextPage, InferGetStaticPropsType } from 'next';
 
 export const getStaticProps = (async () => {
-  const res = await fetch('https://translate-credits.stats.fm');
-  const translatorCredits = (await res.json()) as {
+  const translatorCredits: Array<{
     id: number;
     username: string;
     firstName: string | null;
@@ -14,7 +13,18 @@ export const getStaticProps = (async () => {
     joinDate: string;
     role: string;
     avatarUrl: string;
-  }[];
+  }> = [];
+
+  // const res = await fetch('https://translate-credits.stats.fm');
+  // const translatorCredits = (await res.json()) as {
+  //   id: number;
+  //   username: string;
+  //   firstName: string | null;
+  //   lastName: string | null;
+  //   joinDate: string;
+  //   role: string;
+  //   avatarUrl: string;
+  // }[];
   const credits = [
     {
       name: 'Translators',
