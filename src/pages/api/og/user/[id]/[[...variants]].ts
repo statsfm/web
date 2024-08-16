@@ -1,7 +1,9 @@
-import { getApiInstance } from '@/utils/ssrUtils';
+import { getApiInstance, getOrigin } from '@/utils/ssrUtils';
 import { OpenGraphDefaultUser } from '@/components/OpenGraph/User/OpenGraphDefaultUser';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { renderToImage } from '@/utils/satori';
+import { defaultUserImageURL } from '@/contants';
+import { isFacebookURL } from '@/utils/urls';
 
 export const runtime = 'nodejs';
 
@@ -28,7 +30,23 @@ export default async function handler(
     user.customId = '';
   }
 
-  const image = await renderToImage(OpenGraphDefaultUser(req, api, user));
+  // prefetch image content to avoid satori inflightRequests cache memory leak
+  // @see https://github.com/vercel/satori/issues/592#issuecomment-2293820464
+  let userImageURL = user.image ?? defaultUserImageURL;
+  if (isFacebookURL(userImageURL)) {
+    userImageURL = defaultUserImageURL;
+  }
+
+  const origin = getOrigin(req);
+  const userImageDownloadURL = `${origin}/api/image?url=${encodeURIComponent(userImageURL)}&w=512&q=75&f=image/png&fallbackImg=${defaultUserImageURL}`;
+  const userImageBase64 = await fetch(userImageDownloadURL)
+    .then((res) => res.arrayBuffer())
+    .then((content) => Buffer.from(content))
+    .then((buff) => `data:image/png;base64,${buff.toString('base64')}`);
+
+  const image = await renderToImage(
+    OpenGraphDefaultUser(user, userImageBase64),
+  );
 
   res.setHeader('Content-Type', 'image/png');
   res.setHeader('Cache-Control', 'public, max-age=3600');

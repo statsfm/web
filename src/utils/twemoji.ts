@@ -33,46 +33,53 @@ export function getIconCode(char: string) {
   return toCodePoint(!char.includes(U200D) ? char.replace(UFE0Fg, '') : char);
 }
 
-export const apis = {
-  twemoji: (code: string) =>
-    `https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/svg/${code.toLowerCase()}.svg`,
-  openmoji: 'https://cdn.jsdelivr.net/npm/@svgmoji/openmoji@2.0.0/svg/',
-  blobmoji: 'https://cdn.jsdelivr.net/npm/@svgmoji/blob@2.0.0/svg/',
-  noto: 'https://cdn.jsdelivr.net/gh/svgmoji/svgmoji/packages/svgmoji__noto/svg/',
-  fluent: (code: string) =>
-    `https://cdn.jsdelivr.net/gh/shuding/fluentui-emoji-unicode/assets/${code.toLowerCase()}_color.svg`,
-  fluentFlat: (code: string) =>
-    `https://cdn.jsdelivr.net/gh/shuding/fluentui-emoji-unicode/assets/${code.toLowerCase()}_flat.svg`,
-};
+export enum EmojiType {
+  TWEMOJI = 'twemoji',
+  OPENOJI = 'openmoji',
+  BLOBMOJI = 'blobmoji',
+  NOTO = 'noto',
+  FLUENT = 'fluent',
+  FLUENT_FLAT = 'fluentFlat',
+}
 
-const emojiCache: Record<string, Promise<string>> = {};
+function getEmojiImageUrl(code: string, type: EmojiType): string {
+  switch (type) {
+    case 'twemoji':
+      return `https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/svg/${code.toLowerCase()}.svg`;
+    case 'openmoji':
+      return `https://cdn.jsdelivr.net/npm/@svgmoji/openmoji@2.0.0/svg/${code.toUpperCase()}.svg`;
+    case 'blobmoji':
+      return `https://cdn.jsdelivr.net/npm/@svgmoji/blob@2.0.0/svg/${code.toUpperCase()}.svg`;
+    case 'noto':
+      return `https://cdn.jsdelivr.net/gh/svgmoji/svgmoji/packages/svgmoji__noto/svg/${code.toUpperCase()}.svg`;
+    case 'fluent':
+      return `https://cdn.jsdelivr.net/gh/shuding/fluentui-emoji-unicode/assets/${code.toLowerCase()}_color.svg`;
+    case 'fluentFlat':
+      return `https://cdn.jsdelivr.net/gh/shuding/fluentui-emoji-unicode/assets/${code.toLowerCase()}_flat.svg`;
+    default:
+      return `https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/svg/${code.toLowerCase()}.svg`;
+  }
+}
 
-export async function loadEmoji(type: keyof typeof apis, code: string) {
+const cachedEmojis = new Map<string, string>();
+
+export async function loadEmojiSVGEncoded(
+  type: EmojiType,
+  code: string,
+): Promise<string> {
   const key = `${type}:${code}`;
 
-  if (key in emojiCache) {
-    return emojiCache[key]!;
+  if (cachedEmojis.has(key)) {
+    return cachedEmojis.get(key)!;
   }
 
-  let selectedType = type;
+  const emojiImageURL = getEmojiImageUrl(code, type);
+  const emojiSVGEncoded = await fetch(emojiImageURL)
+    .then((res) => res.arrayBuffer())
+    .then((content) => Buffer.from(content))
+    .then((buff) => `data:image/svg+xml;base64,${buff.toString('base64')}`);
 
-  if (!type || !apis[type]) {
-    selectedType = 'twemoji';
-  }
+  cachedEmojis.set(key, emojiSVGEncoded);
 
-  const api = apis[selectedType];
-
-  let emojiPromise: Promise<string>;
-
-  if (typeof api === 'function') {
-    emojiPromise = fetch(api(code)).then(async (r) => r.text());
-  } else {
-    emojiPromise = fetch(`${api}${code.toUpperCase()}.svg`).then(async (r) =>
-      r.text(),
-    );
-  }
-
-  emojiCache[key] = emojiPromise; // Storing the promise in the cache
-
-  return emojiPromise; // Returning the promise
+  return emojiSVGEncoded;
 }

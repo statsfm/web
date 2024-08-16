@@ -1,7 +1,9 @@
-import { getApiInstance } from '@/utils/ssrUtils';
+import { getApiInstance, getOrigin } from '@/utils/ssrUtils';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { renderToImage } from '@/utils/satori';
 import { OpenGraphDefaultArtist } from '@/components/OpenGraph/Artist/OpenGraphDefaultArtist';
+import { defaultUserImageURL } from '@/contants';
+import { isFacebookURL } from '@/utils/urls';
 
 export const runtime = 'nodejs';
 
@@ -18,7 +20,23 @@ export default async function handler(
     return;
   }
 
-  const image = await renderToImage(OpenGraphDefaultArtist(req, api, artist));
+  // prefetch image content to avoid satori inflightRequests cache memory leak
+  // @see https://github.com/vercel/satori/issues/592#issuecomment-2293820464
+  let artistImageURL = artist.image ?? defaultUserImageURL;
+  if (isFacebookURL(artistImageURL)) {
+    artistImageURL = defaultUserImageURL;
+  }
+
+  const origin = getOrigin(req);
+  const artistImageDownloadURL = `${origin}/api/image?url=${encodeURIComponent(artistImageURL)}&w=256&q=75&f=image/png&fallbackImg=${defaultUserImageURL}`;
+  const artistImageBase64 = await fetch(artistImageDownloadURL)
+    .then((res) => res.arrayBuffer())
+    .then((content) => Buffer.from(content))
+    .then((buff) => `data:image/png;base64,${buff.toString('base64')}`);
+
+  const image = await renderToImage(
+    OpenGraphDefaultArtist(artist, artistImageBase64),
+  );
 
   res.setHeader('Content-Type', 'image/png');
   res.send(image);
