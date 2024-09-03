@@ -1,0 +1,11 @@
+datawrkz.com, mwpmcm285, DIRECT
+
+google.com, pub-8856559311549217, RESELLER, f08c47fec0942fa0
+
+media.net, 8CU8BGW55, DIRECT
+
+pubmatic.com, 161793, DIRECT, 5d62403b186f2ace
+
+rubiconproject.com, 23834, DIRECT, 0bfd66d529a55807
+
+smartadserver.com, 4340-OB, RESELLER, 060d053dcf45cbf3

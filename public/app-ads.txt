@@ -534,7 +534,6 @@ mars.media, 1010450, RESELLER, 8624339f102fb076
 mars.media, 107876, RESELLER, 8624339f102fb076
 
 media.net, 8CU45X5P5, DIRECT
-media.net, 8CU8BGW55, DIRECT
 media.net, 8CUD06Z68, RESELLER
 media.net, 8CUGIC7K8, DIRECT
 media.net, 8CUN37DCC, RESELLER
@@ -755,7 +754,6 @@ pubmatic.com, 161373, RESELLER, 5d62403b186f2ace
 pubmatic.com, 161480, RESELLER, 5d62403b186f2ace
 pubmatic.com, 161490, RESELLER, 5d62403b186f2ac
 pubmatic.com, 161748, RESELLER, 5d62403b186f2ace
-pubmatic.com, 161793, DIRECT, 5d62403b186f2ace
 pubmatic.com, 161853, RESELLER, 5d62403b186f2ace
 pubmatic.com, 162223, RESELLER, 5d62403b186f2ace
 pubmatic.com, 162239, RESELLER, 5d62403b186f2ace
@@ -866,7 +864,6 @@ rubiconproject.com, 22884, DIRECT, 0bfd66d529a55807
 rubiconproject.com, 23644, RESELLER, 0bfd66d529a55807
 rubiconproject.com, 23732, RESELLER, 0bfd66d529a55807
 rubiconproject.com, 23822, RESELLER, Obfd66d529a55807
-rubiconproject.com, 23834, DIRECT, 0bfd66d529a55807
 rubiconproject.com, 23876, RESELLER, 0bfd66d529a55807
 rubiconproject.com, 23980, RESELLER, 0bfd66d529a55807
 rubiconproject.com, 24170, RESELLER, 0bfd66d529a55807
@@ -929,7 +926,6 @@ smartadserver.com, 4179-OB, RESELLER, 060d053dcf45cbf3
 smartadserver.com, 4202, RESELLER
 smartadserver.com, 4210, RESELLER
 smartadserver.com, 4322, RESELLER
-smartadserver.com, 4340-OB, RESELLER, 060d053dcf45cbf3
 smartadserver.com, 4383, RESELLER
 smartadserver.com, 4457, RESELLER, 060d053dcf45cbf3
 smartadserver.com, 4625, RESELLER, 060d053dcf45cbf3
