@@ -32,17 +32,20 @@ export const TopTracks: FC<{
   const [topTracks, setTopTracks] = useState<TopTrack[]>([]);
   const [loading, setLoading] = useState(true);
 
+  const userProfileId = encodeURIComponent(userProfile.id);
+
   useEffect(() => {
     setTopTracks([]);
+
     api.users
-      .topTracks(userProfile.id, getTimeframeOptions(timeframe))
+      .topTracks(userProfileId, getTimeframeOptions(timeframe))
       .then(setTopTracks)
       .catch(() => [])
       .finally(() => setLoading(false));
-  }, [timeframe, userProfile]);
+  }, [timeframe, userProfileId]);
 
   const gridModeCallback = (gridMode: boolean) => {
-    let newUrl = `/${userProfile.customId ?? userProfile.id}`;
+    let newUrl = `/${userProfile.customId ?? userProfileId}`;
     if (!gridMode) newUrl += `/tracks`;
 
     // this is some next router weirdness
@@ -84,7 +87,7 @@ export const TopTracks: FC<{
             <SectionToolbarInfoMenu>
               <ShareMenuItem
                 // eslint-disable-next-line prettier/prettier
-                path={`/${userProfile.customId ?? userProfile.id}/tracks${getTimeframeQueryParam(timeframe)}`}
+                path={`/${userProfile.customId ?? userProfileId}/tracks${getTimeframeQueryParam(timeframe)}`}
               />
             </SectionToolbarInfoMenu>
           </div>

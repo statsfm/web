@@ -15,7 +15,10 @@ import { MdChevronLeft, MdVisibilityOff } from 'react-icons/md';
 import formatter from '@/utils/formatter';
 import Scope from '@/components/PrivacyScope';
 
-type Props = SSRProps<{ userProfile: statsfm.UserPublic; friendCount: number }>;
+type Props = SSRProps<{
+  userProfile: statsfm.UserPublic;
+  friendCount: number;
+}>;
 
 export const getServerSideProps: GetServerSideProps<Props> = async (ctx) => {
   const api = getApiInstance();
@@ -26,16 +29,19 @@ export const getServerSideProps: GetServerSideProps<Props> = async (ctx) => {
   }
 
   const userProfile = await api.users.get(id).catch(() => null);
-  if (!userProfile) return { notFound: true };
-
-  const friendCount = await api.users
-    .friendCount(userProfile.id)
-    .catch(() => 0);
+  if (!userProfile) {
+    return {
+      notFound: true,
+    };
+  }
 
   const user = await fetchUser(ctx);
+  const userProfileId = encodeURIComponent(userProfile.id);
+  const friendCount = await api.users.friendCount(userProfileId).catch(() => 0);
 
   return {
     props: {
+      userProfileId,
       userProfile,
       user,
       friendCount,
@@ -50,9 +56,11 @@ const FriendsPage: NextPage<Props> = ({ userProfile, friendCount }) => {
   const mobile = useMedia('(max-width: 640px)');
   const [friends, setFriends] = useState<statsfm.UserPublic[]>([]);
 
+  const userProfileId = encodeURIComponent(userProfile.id);
+
   useEffect(() => {
-    api.users.friends(userProfile.id).then((res) => setFriends(res));
-  }, []);
+    api.users.friends(userProfileId).then(setFriends);
+  }, [userProfileId]);
 
   return (
     <>
@@ -63,7 +71,7 @@ const FriendsPage: NextPage<Props> = ({ userProfile, friendCount }) => {
             <div className="flex w-full flex-col justify-end">
               <Link
                 legacyBehavior
-                href={`/${userProfile.customId || userProfile.id}`}
+                href={`/${userProfile.customId || userProfileId}`}
               >
                 <a className="-mb-3 flex items-center text-lg text-white">
                   <MdChevronLeft className="-mr-1 block h-12 w-6 text-white" />

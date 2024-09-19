@@ -21,14 +21,17 @@ export const TopGenres: FC<{
   const [topGenres, setTopGenres] = useState<TopGenre[]>([]);
   const [loading, setLoading] = useState(true);
 
+  const userProfileId = encodeURIComponent(userProfile.id);
+
   useEffect(() => {
     setTopGenres([]);
+
     api.users
-      .topGenres(userProfile.id, getTimeframeOptions(timeframe))
+      .topGenres(userProfileId, getTimeframeOptions(timeframe))
       .then(setTopGenres)
       .catch(() => [])
       .finally(() => setLoading(false));
-  }, [timeframe, userProfile]);
+  }, [timeframe, userProfileId]);
 
   const isCurrentUser = currentUser?.id === userProfile.id;
 
