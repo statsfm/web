@@ -109,27 +109,24 @@ export const getServerSideProps: GetServerSideProps<Props> = async (ctx) => {
   const scrollIntoView = activeScrollIntoViewFromDeepLink(deeplink);
 
   const userProfile = await api.users.get(id).catch(() => {});
-  if (!userProfile)
+  if (!userProfile) {
     return {
       notFound: true,
     };
+  }
+
+  const userProfileId = encodeURIComponent(userProfile.id);
+
+  const [friendCount, friendStatus] = await Promise.all([
+    api.users.friendCount(userProfileId).catch(() => 0),
+    api.friends.status(userProfileId).catch(() => FriendStatus.NONE),
+  ]);
 
   const user = await fetchUser(ctx);
 
-  let friendStatus = FriendStatus.NONE;
-  const friendCount = await api.users
-    .friendCount(userProfile.id)
-    .catch(() => 0);
-
-  if (user)
-    try {
-      friendStatus = await api.friends.status(userProfile.id);
-    } catch (e) {
-      friendStatus = FriendStatus.NONE;
-    }
-
   // TODO: extract this to a util function
   const oembedUrl = encodeURIComponent(`https://stats.fm${ctx.resolvedUrl}`);
+
   ctx.res.setHeader(
     'Link',
     `<https://api.stats.fm/api/v1/oembed?url=${oembedUrl}&format=json>; rel="alternate"; type="application/json+oembed"; title=""`,
@@ -296,12 +293,14 @@ const User: NextPage<Props> = ({
   }, []);
 
   // TODO: improvements
+  const userId = encodeURIComponent(user.id);
+
   useEffect(() => {
     api.users
-      .recentlyStreamed(user.id)
+      .recentlyStreamed(userId)
       .then(setRecentStreams)
       .catch(() => {});
-  }, [user]);
+  }, [userId]);
 
   useEffect(() => {
     api.users

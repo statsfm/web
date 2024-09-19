@@ -32,17 +32,20 @@ export const TopAlbums: FC<{
   const [topAlbums, setTopAlbums] = useState<TopAlbum[]>([]);
   const [loading, setLoading] = useState(true);
 
+  const userProfileId = encodeURIComponent(userProfile.id);
+
   useEffect(() => {
     setTopAlbums([]);
+
     api.users
-      .topAlbums(userProfile.id, getTimeframeOptions(timeframe))
+      .topAlbums(userProfileId, getTimeframeOptions(timeframe))
       .then(setTopAlbums)
       .catch(() => [])
       .finally(() => setLoading(false));
-  }, [timeframe, userProfile]);
+  }, [timeframe, userProfileId]);
 
   const gridModeCallback = (gridMode: boolean) => {
-    let newUrl = `/${userProfile.customId ?? userProfile.id}`;
+    let newUrl = `/${userProfile.customId ?? userProfileId}`;
     if (!gridMode) newUrl += `/albums`;
 
     // this is some next router weirdness
@@ -84,7 +87,7 @@ export const TopAlbums: FC<{
             <SectionToolbarInfoMenu>
               <ShareMenuItem
                 // eslint-disable-next-line prettier/prettier
-                path={`/${userProfile.customId ?? userProfile.id}/albums${getTimeframeQueryParam(timeframe)}`}
+                path={`/${userProfile.customId ?? userProfileId}/albums${getTimeframeQueryParam(timeframe)}`}
               />
             </SectionToolbarInfoMenu>
           </div>

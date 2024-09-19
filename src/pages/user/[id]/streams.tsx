@@ -54,12 +54,14 @@ const StreamsPage: NextPage<Props> = ({ userProfile }) => {
   const [recentStreams, setRecentStreams] = useState<statsfm.Stream[]>([]);
   const [loadMore, setLoadMore] = useState(true);
 
+  const userProfileId = encodeURIComponent(userProfile.id);
+
   const callbackRef = async () => {
     if (!userProfile.privacySettings?.recentlyPlayed) return;
     const lastEndTime = recentStreams[recentStreams.length - 1]
       ?.endTime as any as string;
 
-    const streams = await api.users.streams(userProfile.id, {
+    const streams = await api.users.streams(userProfileId, {
       limit: 200,
       before: new Date(lastEndTime).getTime() || new Date().getTime(),
     });
@@ -77,7 +79,7 @@ const StreamsPage: NextPage<Props> = ({ userProfile }) => {
             <div className="flex w-full flex-col justify-end">
               <Link
                 legacyBehavior
-                href={`/${userProfile.customId || userProfile.id}`}
+                href={`/${userProfile.customId || userProfileId}`}
               >
                 <a className="-mb-3 flex items-center text-lg text-white">
                   <MdChevronLeft className="-mr-1 block h-12 w-6 text-white" />
@@ -99,7 +101,7 @@ const StreamsPage: NextPage<Props> = ({ userProfile }) => {
             title={`back to ${userProfile.displayName}`}
             toolbar={
               <ToolbarBackLink
-                path={`/${userProfile.customId || userProfile.id}`}
+                path={`/${userProfile.customId || userProfileId}`}
               />
             }
           >

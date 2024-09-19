@@ -32,17 +32,20 @@ export const TopArtists: FC<{
   const [topArtists, setTopArtists] = useState<TopArtist[]>([]);
   const [loading, setLoading] = useState(true);
 
+  const userProfileId = encodeURIComponent(userProfile.id);
+
   useEffect(() => {
     setTopArtists([]);
+
     api.users
-      .topArtists(userProfile.id, getTimeframeOptions(timeframe))
+      .topArtists(userProfileId, getTimeframeOptions(timeframe))
       .then(setTopArtists)
       .catch(() => [])
       .finally(() => setLoading(false));
-  }, [timeframe, userProfile]);
+  }, [timeframe, userProfileId]);
 
   const gridModeCallback = (gridMode: boolean) => {
-    let newUrl = `/${userProfile.customId ?? userProfile.id}`;
+    let newUrl = `/${userProfile.customId ?? userProfileId}`;
     if (!gridMode) newUrl += `/artists`;
 
     // this is some next router weirdness
@@ -85,7 +88,7 @@ export const TopArtists: FC<{
             <SectionToolbarInfoMenu>
               <ShareMenuItem
                 // eslint-disable-next-line prettier/prettier
-                path={`/${userProfile.customId ?? userProfile.id}/artists${getTimeframeQueryParam(timeframe)}`}
+                path={`/${userProfile.customId ?? userProfileId}/artists${getTimeframeQueryParam(timeframe)}`}
               />
             </SectionToolbarInfoMenu>
           </div>
