@@ -236,10 +236,13 @@ const User: NextPage<Props> = ({
     (connection) => connection.platform.name === 'Discord',
   );
 
+  const userId = encodeURIComponent(user.id);
+
   useEffect(() => {
     setStats([]);
+
     api.users
-      .stats(user.id, getTimeframeOptions(timeframe))
+      .stats(userId, getTimeframeOptions(timeframe))
       .then((stats) => {
         const hours = dayjs.duration(stats.durationMs).asHours();
 
@@ -277,7 +280,7 @@ const User: NextPage<Props> = ({
         ]);
       })
       .catch(() => {});
-  }, [timeframe, user]);
+  }, [timeframe, userId]);
 
   useEffect(() => {
     const refs: Record<UserScrollIntoView, RefObject<HTMLElement>> = {
@@ -293,8 +296,6 @@ const User: NextPage<Props> = ({
   }, []);
 
   // TODO: improvements
-  const userId = encodeURIComponent(user.id);
-
   useEffect(() => {
     api.users
       .recentlyStreamed(userId)
@@ -304,7 +305,7 @@ const User: NextPage<Props> = ({
 
   useEffect(() => {
     api.users
-      .dateStats(user.id, {
+      .dateStats(userId, {
         ...getTimeframeOptions(timeframe),
         timeZone:
           user.timezone ??
@@ -319,7 +320,7 @@ const User: NextPage<Props> = ({
         setDateStats(tempStats);
       })
       .catch(() => {});
-  }, [timeframe]);
+  }, [timeframe, userId]);
 
   const handleSegmentSelectSpotify = (value: BetterRange) => {
     event(`USER_switch_time_${value}`);
