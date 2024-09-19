@@ -16,7 +16,6 @@ import formatter from '@/utils/formatter';
 import Scope from '@/components/PrivacyScope';
 
 type Props = SSRProps<{
-  userProfileId: string;
   userProfile: statsfm.UserPublic;
   friendCount: number;
 }>;
@@ -50,20 +49,18 @@ export const getServerSideProps: GetServerSideProps<Props> = async (ctx) => {
   };
 };
 
-const FriendsPage: NextPage<Props> = ({
-  userProfileId,
-  userProfile,
-  friendCount,
-}) => {
+const FriendsPage: NextPage<Props> = ({ userProfile, friendCount }) => {
   const api = useApi();
   const { user } = useAuth();
 
   const mobile = useMedia('(max-width: 640px)');
   const [friends, setFriends] = useState<statsfm.UserPublic[]>([]);
 
+  const userProfileId = encodeURIComponent(userProfile.id);
+
   useEffect(() => {
     api.users.friends(userProfileId).then(setFriends);
-  }, []);
+  }, [userProfileId]);
 
   return (
     <>
