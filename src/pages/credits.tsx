@@ -6,7 +6,7 @@ import type { GetStaticProps, NextPage, InferGetStaticPropsType } from 'next';
 
 export const getStaticProps = (async () => {
   const res = await fetch('https://translate-credits.stats.fm', {
-    signal: AbortSignal.timeout(5_000),
+    signal: AbortSignal.timeout(60_000),
   });
   const translatorCredits = (await res.json()) as {
     id: number;
