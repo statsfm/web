@@ -15,18 +15,18 @@ export const getStaticProps = (async () => {
     avatarUrl: string;
   }> = [];
 
-  // const res = await fetch('https://translate-credits.stats.fm', {
-  //   signal: AbortSignal.timeout(5_000),
-  // });
-  // const translatorCredits = (await res.json()) as {
-  //   id: number;
-  //   username: string;
-  //   firstName: string | null;
-  //   lastName: string | null;
-  //   joinDate: string;
-  //   role: string;
-  //   avatarUrl: string;
-  // }[];
+  const res = await fetch('https://translate-credits.stats.fm', {
+    signal: AbortSignal.timeout(5_000),
+  });
+  const translatorCredits = (await res.json()) as {
+    id: number;
+    username: string;
+    firstName: string | null;
+    lastName: string | null;
+    joinDate: string;
+    role: string;
+    avatarUrl: string;
+  }[];
   const credits = [
     {
       name: 'Translators',
