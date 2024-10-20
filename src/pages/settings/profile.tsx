@@ -465,7 +465,11 @@ const AccountPrivacyInfoForm: FC<AccountPrivacyInfoFormProps> = ({
                 none
               </Menu.Item>
               {pronouns.map(({ aliases: [name], description }, i) => (
-                <Menu.Item value={name} onClick={setPronoun} key={i}>
+                <Menu.Item
+                  value={name}
+                  onClick={(value) => setPronoun(value)}
+                  key={i}
+                >
                   {name} <span>{description.toLowerCase()}</span>
                 </Menu.Item>
               ))}
