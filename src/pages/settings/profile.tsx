@@ -40,7 +40,7 @@ type StateContextType = {
   displayName: [string, Dispatch<string>];
   customId: [string, Dispatch<string>];
   bio: [string, Dispatch<string>];
-  pronouns: [string, Dispatch<string>];
+  pronouns: [string | null, Dispatch<string | null>];
   status: [StatusOptions, Dispatch<StatusOptions>];
   urlAvailable: [UrlAvailableOptions, Dispatch<UrlAvailableOptions>];
   changed: boolean;
@@ -60,8 +60,8 @@ const StateContextProvider: FC<PropsWithChildren<{ user: UserPrivate }>> = ({
   const [displayName, setDisplayName] = useState<string>(user.displayName);
   const [customId, setCustomId] = useState<string>(user.customId);
   const [bio, setBio] = useState<string>(user.profile?.bio ?? '');
-  const [pronouns, setPronouns] = useState<string>(
-    user.profile?.pronouns ?? 'none',
+  const [pronouns, setPronouns] = useState<string | null>(
+    user.profile?.pronouns ?? null,
   );
   const [urlAvailable, setUrlAvailable] =
     useState<UrlAvailableOptions>('AVAILABLE');
@@ -92,26 +92,30 @@ const StateContextProvider: FC<PropsWithChildren<{ user: UserPrivate }>> = ({
   const save = async () => {
     setStatus('SAVING');
     try {
-      await api.me.updateProfile({
+      const profileUpdate = {
         bio,
         pronouns,
         theme: user.profile?.theme ?? 'green',
-      });
+      };
 
-      const newUser = {
+      const userUpdate = {
         ...user,
         ...(!user.isPlus ? { syncEnabled: false, hasImported: false } : {}),
         displayName,
         customId,
       };
-      await api.me.updateMe(newUser);
+
+      const [updatedUser, updatedProfile] = await Promise.all([
+        api.me.updateMe(userUpdate),
+        api.me.updateProfile(profileUpdate),
+      ]);
 
       const url = await uploadAvatar();
 
       updateUser({
-        ...newUser,
+        ...updatedUser,
         image: url ?? user.image,
-        profile: { bio, pronouns, theme: user.profile?.theme ?? 'green' },
+        profile: updatedProfile,
       });
     } catch (e) {
       setStatus('ERROR');
@@ -450,7 +454,7 @@ const AccountPrivacyInfoForm: FC<AccountPrivacyInfoFormProps> = ({
           <>
             <Menu.Button>
               <div className="z-20 flex">
-                {pronoun}
+                {pronoun ?? 'none'}
                 <MdArrowDropDown
                   style={{ transform: `rotate(${open ? 180 : 0}deg)` }}
                 />
@@ -461,7 +465,7 @@ const AccountPrivacyInfoForm: FC<AccountPrivacyInfoFormProps> = ({
               placement="bottom-start"
               className="absolute z-30 -mt-2 h-64 !overflow-y-scroll rounded-lg bg-foreground p-2 px-1"
             >
-              <Menu.Item value="none" onClick={(value) => setPronoun(value)}>
+              <Menu.Item value="none" onClick={() => setPronoun(null)}>
                 none
               </Menu.Item>
               {pronouns.map(({ aliases: [name], description }, i) => (
