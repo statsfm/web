@@ -448,10 +448,6 @@ const AccountPrivacyInfoForm: FC<AccountPrivacyInfoFormProps> = ({
       <Menu id="pronouns" className="z-20">
         {({ open }) => (
           <>
-            <Overlay
-              className="!z-20 bg-background/60 sm:bg-transparent"
-              visible={open}
-            />
             <Menu.Button>
               <div className="z-20 flex">
                 {pronoun}
@@ -468,14 +464,13 @@ const AccountPrivacyInfoForm: FC<AccountPrivacyInfoFormProps> = ({
               <Menu.Item value="none" onClick={(value) => setPronoun(value)}>
                 none
               </Menu.Item>
-              {pronouns.map((pronoun, i) => (
+              {pronouns.map(({ aliases: [name], description }, i) => (
                 <Menu.Item
-                  value={pronoun.aliases[0]}
+                  value={name}
                   onClick={(value) => setPronoun(value)}
                   key={i}
                 >
-                  {pronoun.aliases[0]}{' '}
-                  <span>{pronoun.description.toLowerCase()}</span>
+                  {name} <span>{description.toLowerCase()}</span>
                 </Menu.Item>
               ))}
             </Menu.Items>
