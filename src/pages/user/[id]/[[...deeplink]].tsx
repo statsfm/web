@@ -508,7 +508,7 @@ const User: NextPage<Props> = ({
                 )}
               </section>
 
-              <div className="bottom-8 w-full lg:absolute lg:w-4/5">
+              <div className="bottom-8 right-0 w-full lg:absolute lg:w-4/5">
                 <TopGenres
                   timeframe={timeframe}
                   userProfile={user}
@@ -517,7 +517,131 @@ const User: NextPage<Props> = ({
               </div>
             </div>
           </Container>
-          <div className="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-b from-foreground to-background" />
+        </div>
+        <div className="h-8 bg-gradient-to-b from-foreground to-background">
+          {/* TODO: move this to a separate component */}
+
+          <section className="mx-auto flex max-w-md flex-col justify-between gap-5 px-4 pt-5 sm:max-w-3xl sm:px-6 lg:max-w-7xl lg:flex-row-reverse lg:px-8">
+            {availableRanges.length > 0 &&
+              // if instance of number[] then it's apple music
+              (typeof availableRanges[0] === 'number' ? (
+                <div className="z-50 flex justify-start">
+                  <Listbox
+                    value={timeframe.year}
+                    onChange={handleSegmentSelectAppleMusic}
+                  >
+                    <div className="relative mt-1 w-72">
+                      <Listbox.Button className="relative w-full cursor-default rounded-lg bg-foreground py-2 pl-3 pr-10 text-left shadow-md focus:outline-none focus-visible:border-primary focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-primary sm:text-sm">
+                        <span className="block truncate">{timeframe.year}</span>
+                        <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
+                          <MdArrowDropDown
+                            className="size-5 text-gray-400"
+                            aria-hidden="true"
+                          />
+                        </span>
+                      </Listbox.Button>
+                      <Transition
+                        as={Fragment}
+                        leave="transition ease-in duration-100"
+                        leaveFrom="opacity-100"
+                        leaveTo="opacity-0"
+                      >
+                        <Listbox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-foreground py-1 text-sm shadow-lg ring-1 ring-black/5 focus:outline-none">
+                          {(availableRanges as number[]).map((year) => (
+                            <Listbox.Option
+                              key={year}
+                              value={year}
+                              className={({ active }) =>
+                                `relative cursor-default select-none py-2 pl-10 pr-4 ${active ? 'bg-background/50' : 'text-gray-900'
+                                }`
+                              }
+                            >
+                              {({ selected }) => (
+                                <>
+                                  <span
+                                    className={`block truncate ${selected && 'text-white'
+                                      }`}
+                                  >
+                                    {year}
+                                  </span>
+                                  {selected ? (
+                                    <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-primary">
+                                      <MdCheck
+                                        className="size-5"
+                                        aria-hidden="true"
+                                      />
+                                    </span>
+                                  ) : null}
+                                </>
+                              )}
+                            </Listbox.Option>
+                          ))}
+                        </Listbox.Options>
+                      </Transition>
+                    </div>
+                  </Listbox>
+                </div>
+              ) : (
+                <div className="z-50 flex justify-start">
+                  <Listbox
+                    value={timeframe.range}
+                    onChange={handleSegmentSelectSpotify}
+                  >
+                    <div className="relative mt-1 w-72">
+                      <Listbox.Button className="relative w-full cursor-default rounded-lg bg-foreground py-2 pl-3 pr-10 text-left shadow-md focus:outline-none focus-visible:border-primary focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-primary sm:text-sm">
+                        <span className="block truncate">
+                          {rangeToText(timeframe.range)}
+                        </span>
+                        <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
+                          <MdArrowDropDown
+                            className="size-5 text-gray-400"
+                            aria-hidden="true"
+                          />
+                        </span>
+                      </Listbox.Button>
+                      <Transition
+                        as={Fragment}
+                        leave="transition ease-in duration-100"
+                        leaveFrom="opacity-100"
+                        leaveTo="opacity-0"
+                      >
+                        <Listbox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-foreground py-1 text-sm shadow-lg ring-1 ring-black/5 focus:outline-none">
+                          {(availableRanges as BetterRange[]).map((range) => (
+                            <Listbox.Option
+                              key={range}
+                              value={range}
+                              className={({ active }) =>
+                                `relative cursor-default select-none py-2 pl-10 pr-4 ${active ? 'bg-background/50' : 'text-gray-900'
+                                }`
+                              }
+                            >
+                              {({ selected }) => (
+                                <>
+                                  <span
+                                    className={`block truncate ${selected && 'text-white'
+                                      }`}
+                                  >
+                                    {rangeToText(range)}
+                                  </span>
+                                  {selected ? (
+                                    <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-primary">
+                                      <MdCheck
+                                        className="size-5"
+                                        aria-hidden="true"
+                                      />
+                                    </span>
+                                  ) : null}
+                                </>
+                              )}
+                            </Listbox.Option>
+                          ))}
+                        </Listbox.Options>
+                      </Transition>
+                    </div>
+                  </Listbox>
+                </div>
+              ))}
+          </section>
         </div>
 
         {/* Active user page */}
@@ -540,136 +664,6 @@ const User: NextPage<Props> = ({
                   </div>
                 </section>
               )}
-
-              <section className="flex flex-col justify-between gap-5 md:flex-row-reverse">
-                {availableRanges.length > 0 &&
-                  // if instance of number[] then it's apple music
-                  (typeof availableRanges[0] === 'number' ? (
-                    <div className="z-50 flex justify-center">
-                      <Listbox
-                        value={timeframe.year}
-                        onChange={handleSegmentSelectAppleMusic}
-                      >
-                        <div className="relative mt-1 w-72">
-                          <Listbox.Button className="relative w-full cursor-default rounded-lg bg-foreground py-2 pl-3 pr-10 text-left shadow-md focus:outline-none focus-visible:border-primary focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-primary sm:text-sm">
-                            <span className="block truncate">
-                              {timeframe.year}
-                            </span>
-                            <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
-                              <MdArrowDropDown
-                                className="size-5 text-gray-400"
-                                aria-hidden="true"
-                              />
-                            </span>
-                          </Listbox.Button>
-                          <Transition
-                            as={Fragment}
-                            leave="transition ease-in duration-100"
-                            leaveFrom="opacity-100"
-                            leaveTo="opacity-0"
-                          >
-                            <Listbox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-foreground py-1 text-sm shadow-lg ring-1 ring-black/5 focus:outline-none">
-                              {(availableRanges as number[]).map((year) => (
-                                <Listbox.Option
-                                  key={year}
-                                  value={year}
-                                  className={({ active }) =>
-                                    `relative cursor-default select-none py-2 pl-10 pr-4 ${active
-                                      ? 'bg-background/50'
-                                      : 'text-gray-900'
-                                    }`
-                                  }
-                                >
-                                  {({ selected }) => (
-                                    <>
-                                      <span
-                                        className={`block truncate ${selected && 'text-white'
-                                          }`}
-                                      >
-                                        {year}
-                                      </span>
-                                      {selected ? (
-                                        <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-primary">
-                                          <MdCheck
-                                            className="size-5"
-                                            aria-hidden="true"
-                                          />
-                                        </span>
-                                      ) : null}
-                                    </>
-                                  )}
-                                </Listbox.Option>
-                              ))}
-                            </Listbox.Options>
-                          </Transition>
-                        </div>
-                      </Listbox>
-                    </div>
-                  ) : (
-                    <div className="z-50 flex justify-center">
-                      <Listbox
-                        value={timeframe.range}
-                        onChange={handleSegmentSelectSpotify}
-                      >
-                        <div className="relative mt-1 w-72">
-                          <Listbox.Button className="relative w-full cursor-default rounded-lg bg-foreground py-2 pl-3 pr-10 text-left shadow-md focus:outline-none focus-visible:border-primary focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-primary sm:text-sm">
-                            <span className="block truncate">
-                              {rangeToText(timeframe.range)}
-                            </span>
-                            <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
-                              <MdArrowDropDown
-                                className="size-5 text-gray-400"
-                                aria-hidden="true"
-                              />
-                            </span>
-                          </Listbox.Button>
-                          <Transition
-                            as={Fragment}
-                            leave="transition ease-in duration-100"
-                            leaveFrom="opacity-100"
-                            leaveTo="opacity-0"
-                          >
-                            <Listbox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-foreground py-1 text-sm shadow-lg ring-1 ring-black/5 focus:outline-none">
-                              {(availableRanges as BetterRange[]).map(
-                                (range) => (
-                                  <Listbox.Option
-                                    key={range}
-                                    value={range}
-                                    className={({ active }) =>
-                                      `relative cursor-default select-none py-2 pl-10 pr-4 ${active
-                                        ? 'bg-background/50'
-                                        : 'text-gray-900'
-                                      }`
-                                    }
-                                  >
-                                    {({ selected }) => (
-                                      <>
-                                        <span
-                                          className={`block truncate ${selected && 'text-white'
-                                            }`}
-                                        >
-                                          {rangeToText(range)}
-                                        </span>
-                                        {selected ? (
-                                          <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-primary">
-                                            <MdCheck
-                                              className="size-5"
-                                              aria-hidden="true"
-                                            />
-                                          </span>
-                                        ) : null}
-                                      </>
-                                    )}
-                                  </Listbox.Option>
-                                ),
-                              )}
-                            </Listbox.Options>
-                          </Transition>
-                        </div>
-                      </Listbox>
-                    </div>
-                  ))}
-              </section>
 
               <TopTracks
                 timeframe={timeframe}
