@@ -14,7 +14,7 @@ type StatsCardContainerProps = {
 
 export const StatsCardContainer: FC<StatsCardContainerProps> = ({ stats }) => {
   return (
-    <ul className="grid grid-cols-2 gap-6 md:grid-cols-4">
+    <ul className="flex flex-row flex-wrap gap-6 lg:flex-nowrap">
       {stats.map((stat, index) => (
         <StatsCard key={index} {...stat} />
       ))}
