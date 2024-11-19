@@ -108,7 +108,7 @@ export const getServerSideProps: GetServerSideProps<Props> = async (ctx) => {
 
   const scrollIntoView = activeScrollIntoViewFromDeepLink(deeplink);
 
-  const userProfile = await api.users.get(id).catch(() => {});
+  const userProfile = await api.users.get(id).catch(() => { });
   if (!userProfile) {
     return {
       notFound: true,
@@ -252,23 +252,23 @@ const User: NextPage<Props> = ({
             value: formatter.localiseNumber(stats.count),
           },
           {
-            label: 'minutes streamed',
+            label: 'minutes',
             value: formatter.formatMinutes(stats.durationMs),
           },
           {
-            label: 'hours streamed',
+            label: 'hours',
             value: formatter.localiseNumber(Math.round(hours)),
           },
           {
-            label: 'different tracks',
+            label: 'tracks',
             value: formatter.localiseNumber(stats.cardinality.tracks) ?? 0,
           },
           {
-            label: 'different artists',
+            label: 'artists',
             value: formatter.localiseNumber(stats.cardinality.artists) ?? 0,
           },
           {
-            label: 'different albums',
+            label: 'albums',
             value: formatter.localiseNumber(stats.cardinality.albums) ?? 0,
           },
           // {
@@ -279,7 +279,7 @@ const User: NextPage<Props> = ({
           // },
         ]);
       })
-      .catch(() => {});
+      .catch(() => { });
   }, [timeframe, userId]);
 
   useEffect(() => {
@@ -300,7 +300,7 @@ const User: NextPage<Props> = ({
     api.users
       .recentlyStreamed(userId)
       .then(setRecentStreams)
-      .catch(() => {});
+      .catch(() => { });
   }, [userId]);
 
   useEffect(() => {
@@ -319,7 +319,7 @@ const User: NextPage<Props> = ({
         }
         setDateStats(tempStats);
       })
-      .catch(() => {});
+      .catch(() => { });
   }, [timeframe, userId]);
 
   const handleSegmentSelectSpotify = (value: BetterRange) => {
@@ -398,101 +398,109 @@ const User: NextPage<Props> = ({
       >
         <div className="bg-foreground pt-20">
           <Container>
-            <section className="flex flex-col items-center gap-5 pb-10 pt-24 md:flex-row">
-              <div className="relative rounded-full border-2 border-background">
-                <Avatar src={user.image} name={user.displayName} size="4xl" />
-                <div className="absolute bottom-2 right-0 text-center text-lg font-medium md:text-left">
-                  {user.isPlus && <PlusBadge />}
+            <section className="flex flex-col justify-between gap-5 pb-10 pt-24 md:flex-row">
+              <div className="flex flex-row space-x-4">
+                <div className="relative rounded-full border-2 border-background">
+                  <Avatar src={user.image} name={user.displayName} size="4xl" />
+                  <div className="absolute bottom-2 right-0 text-center text-lg font-medium md:text-left">
+                    {user.isPlus && <PlusBadge />}
+                  </div>
                 </div>
-              </div>
 
-              <div className="flex flex-col items-center justify-end md:items-start">
-                <span className="flex">
-                  <h1 className="text-center font-extrabold md:text-left">
-                    {user.displayName}
-                  </h1>
-                  <span className="ml-2 mt-2 self-center text-center text-lg font-medium md:text-left">
-                    {user.privacySettings?.profile &&
-                      user.userBan?.active !== true &&
-                      user.profile?.pronouns}
-                  </span>
-                </span>
-                {user.privacySettings?.profile &&
-                  user.profile?.bio &&
-                  user.userBan?.active !== true && (
-                    <pre className="line-clamp-3 whitespace-pre-wrap text-center font-body text-lg md:text-left [&>a]:font-semibold [&>a]:text-primary">
-                      <Linkify
-                        options={{
-                          target: '_blank',
-                          rel: 'noopener noreferrer',
-                        }}
-                      >
-                        {user.profile.bio.replaceAll('\n', ' ')}
-                      </Linkify>
-                    </pre>
-                  )}
-                <div className="mt-2 flex items-center">
-                  {currentUser && currentUser.id !== user.id && (
-                    <>
-                      <FriendsButton
-                        friendUser={user}
-                        initialFriendStatus={friendStatus}
-                      />
-                      {user.userBan?.active !== true &&
-                        user.privacySettings?.friends === true && (
-                          <span className="mx-2">
-                            <Square />
-                          </span>
-                        )}
-                    </>
-                  )}
-
-                  <Scope value="friends" fallback={<></>}>
-                    {user.userBan?.active !== true && (
-                      <Link
-                        legacyBehavior
-                        href={`/${user.customId || user.id}/friends`}
-                      >
-                        <a className="font-medium text-neutral-400">
-                          {friendCount}{' '}
-                          {formatter.pluralise('Friend', friendCount)}
-                        </a>
-                      </Link>
-                    )}
-                  </Scope>
-
-                  {currentUser && currentUser.id === user.id && (
-                    <>
-                      <span className="mx-2">
-                        <Square />
+                <div className="flex flex-col items-center md:items-start">
+                  <span className="flex space-x-2">
+                    <div className="flex flex-row">
+                      <h1 className="text-center font-extrabold md:text-left">
+                        {user.displayName}
+                      </h1>
+                      <span className="ml-2 mt-2 self-center text-center text-lg font-medium md:text-left">
+                        {user.privacySettings?.profile &&
+                          user.userBan?.active !== true &&
+                          user.profile?.pronouns}
                       </span>
-                      <Button
-                        className={clsx(
-                          'mx-0 w-min !bg-transparent !p-0 transition-opacity hover:opacity-80',
-                        )}
-                        onClick={() => router.push('/settings/profile')}
-                      >
-                        Edit profile
-                      </Button>
-                    </>
-                  )}
-                </div>
-
-                {user.userBan?.active !== true && (
-                  <Scope value="connections" fallback={<></>}>
-                    <div className="mt-2 flex flex-row items-center gap-2">
-                      {user.spotifyAuth && (
-                        <SpotifyLink path={`/user/${user.id}`} />
-                      )}
-                      {discordConnection && (
-                        <DiscordLink
-                          path={`/users/${discordConnection.platformUserId}`}
-                        />
-                      )}
                     </div>
-                  </Scope>
-                )}
+                    {user.userBan?.active !== true && (
+                      <Scope value="connections" fallback={<></>}>
+                        <div className="mt-2 flex flex-row items-center gap-2">
+                          {user.spotifyAuth && (
+                            <SpotifyLink path={`/user/${user.id}`} />
+                          )}
+                          {discordConnection && (
+                            <DiscordLink
+                              path={`/users/${discordConnection.platformUserId}`}
+                            />
+                          )}
+                        </div>
+                      </Scope>
+                    )}
+                  </span>
+                  {user.privacySettings?.profile &&
+                    user.profile?.bio &&
+                    user.userBan?.active !== true && (
+                      <pre className="line-clamp-3 whitespace-pre-wrap text-center font-body text-lg md:text-left [&>a]:font-semibold [&>a]:text-primary">
+                        <Linkify
+                          options={{
+                            target: '_blank',
+                            rel: 'noopener noreferrer',
+                          }}
+                        >
+                          {user.profile.bio.replaceAll('\n', ' ')}
+                        </Linkify>
+                      </pre>
+                    )}
+                  <div className="mt-2 flex items-center">
+                    {currentUser && currentUser.id !== user.id && (
+                      <>
+                        <FriendsButton
+                          friendUser={user}
+                          initialFriendStatus={friendStatus}
+                        />
+                        {user.userBan?.active !== true &&
+                          user.privacySettings?.friends === true && (
+                            <span className="mx-2">
+                              <Square />
+                            </span>
+                          )}
+                      </>
+                    )}
+
+                    <Scope value="friends" fallback={<></>}>
+                      {user.userBan?.active !== true && (
+                        <Link
+                          legacyBehavior
+                          href={`/${user.customId || user.id}/friends`}
+                        >
+                          <a className="font-medium text-neutral-400">
+                            {friendCount}{' '}
+                            {formatter.pluralise('Friend', friendCount)}
+                          </a>
+                        </Link>
+                      )}
+                    </Scope>
+
+                    {currentUser && currentUser.id === user.id && (
+                      <>
+                        <span className="mx-2">
+                          <Square />
+                        </span>
+                        <Button
+                          className={clsx(
+                            'mx-0 w-min !bg-transparent !p-0 transition-opacity hover:opacity-80',
+                          )}
+                          onClick={() => router.push('/settings/profile')}
+                        >
+                          Edit profile
+                        </Button>
+                      </>
+                    )}
+                  </div>
+                </div>
               </div>
+              {user.isPlus && (
+                <ImportRequiredScope value="streamStats">
+                  <StatsCardContainer stats={stats} />
+                </ImportRequiredScope>
+              )}
             </section>
           </Container>
         </div>
@@ -551,19 +559,17 @@ const User: NextPage<Props> = ({
                                   key={year}
                                   value={year}
                                   className={({ active }) =>
-                                    `relative cursor-default select-none py-2 pl-10 pr-4 ${
-                                      active
-                                        ? 'bg-background/50'
-                                        : 'text-gray-900'
+                                    `relative cursor-default select-none py-2 pl-10 pr-4 ${active
+                                      ? 'bg-background/50'
+                                      : 'text-gray-900'
                                     }`
                                   }
                                 >
                                   {({ selected }) => (
                                     <>
                                       <span
-                                        className={`block truncate ${
-                                          selected && 'text-white'
-                                        }`}
+                                        className={`block truncate ${selected && 'text-white'
+                                          }`}
                                       >
                                         {year}
                                       </span>
@@ -615,19 +621,17 @@ const User: NextPage<Props> = ({
                                     key={range}
                                     value={range}
                                     className={({ active }) =>
-                                      `relative cursor-default select-none py-2 pl-10 pr-4 ${
-                                        active
-                                          ? 'bg-background/50'
-                                          : 'text-gray-900'
+                                      `relative cursor-default select-none py-2 pl-10 pr-4 ${active
+                                        ? 'bg-background/50'
+                                        : 'text-gray-900'
                                       }`
                                     }
                                   >
                                     {({ selected }) => (
                                       <>
                                         <span
-                                          className={`block truncate ${
-                                            selected && 'text-white'
-                                          }`}
+                                          className={`block truncate ${selected && 'text-white'
+                                            }`}
                                         >
                                           {rangeToText(range)}
                                         </span>
@@ -650,11 +654,6 @@ const User: NextPage<Props> = ({
                       </Listbox>
                     </div>
                   ))}
-                {user.isPlus && (
-                  <ImportRequiredScope value="streamStats">
-                    <StatsCardContainer stats={stats} />
-                  </ImportRequiredScope>
-                )}
               </section>
 
               <TopGenres
@@ -695,11 +694,10 @@ const User: NextPage<Props> = ({
                     title="Listening clocks"
                     className="flex w-full flex-col gap-2 md:flex-row"
                     scope="streamStats"
-                    description={`${
-                      isCurrentUser ? 'Your' : `${user.displayName}'s`
-                    } listening habits throughout the day ${getTimeframeText(
-                      timeframe,
-                    )} `}
+                    description={`${isCurrentUser ? 'Your' : `${user.displayName}'s`
+                      } listening habits throughout the day ${getTimeframeText(
+                        timeframe,
+                      )} `}
                     ref={listeningClocksRef}
                   >
                     <Scope value="streamStats">
@@ -717,9 +715,8 @@ const User: NextPage<Props> = ({
 
               <Section
                 title="Recent streams"
-                description={`${
-                  isCurrentUser ? 'Your' : `${user.displayName}'s`
-                } recently played tracks`}
+                description={`${isCurrentUser ? 'Your' : `${user.displayName}'s`
+                  } recently played tracks`}
                 scope="recentlyPlayed"
                 ref={recentStreamsRef}
               >
