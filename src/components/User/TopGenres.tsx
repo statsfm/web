@@ -1,4 +1,4 @@
-import { useApi, useAuth } from '@/hooks';
+import { useApi } from '@/hooks';
 import type { UserPublic, TopGenre } from '@/utils/statsfm';
 import clsx from 'clsx';
 import Link from 'next/link';
@@ -14,9 +14,8 @@ export const TopGenres: FC<{
   timeframe: TimeframeSelection;
   userProfile: UserPublic;
   topGenresRef: React.RefObject<HTMLElement>;
-}> = ({ userProfile, timeframe, topGenresRef: ref }) => {
+}> = ({ userProfile, timeframe }) => {
   const api = useApi();
-  const { user: currentUser } = useAuth();
   const [topGenres, setTopGenres] = useState<TopGenre[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -31,8 +30,6 @@ export const TopGenres: FC<{
       .catch(() => [])
       .finally(() => setLoading(false));
   }, [timeframe, userProfileId]);
-
-  const isCurrentUser = currentUser?.id === userProfile.id;
 
   return (
     <>
