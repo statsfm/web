@@ -40,27 +40,27 @@ export const TopGenres: FC<{
           <NotEnoughData data={topGenres} loading={loading}>
             {topGenres?.length > 0
               ? topGenres.map((genre, i) => (
-                <Chip key={i}>
-                  <Link
-                    legacyBehavior
-                    href={`/genre/${encodeURIComponent(genre.genre.tag)}`}
-                  >
-                    <a onClick={() => event('USER_top_genre_click')}>
-                      {genre.genre.tag}
-                    </a>
-                  </Link>
-                </Chip>
-              ))
-              : Array(8)
-                .fill(null)
-                .map((_v, i) => (
-                  <Chip
-                    className="shrink-0 animate-pulse !text-transparent"
-                    key={i}
-                  >
-                    {i.toString().repeat(i + (10 % 17))}
+                  <Chip key={i}>
+                    <Link
+                      legacyBehavior
+                      href={`/genre/${encodeURIComponent(genre.genre.tag)}`}
+                    >
+                      <a onClick={() => event('USER_top_genre_click')}>
+                        {genre.genre.tag}
+                      </a>
+                    </Link>
                   </Chip>
-                ))}
+                ))
+              : Array(8)
+                  .fill(null)
+                  .map((_v, i) => (
+                    <Chip
+                      className="shrink-0 animate-pulse !text-transparent"
+                      key={i}
+                    >
+                      {i.toString().repeat(i + (10 % 17))}
+                    </Chip>
+                  ))}
           </NotEnoughData>
         </ChipGroup>
       </Scope>

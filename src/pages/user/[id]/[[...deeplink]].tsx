@@ -108,7 +108,7 @@ export const getServerSideProps: GetServerSideProps<Props> = async (ctx) => {
 
   const scrollIntoView = activeScrollIntoViewFromDeepLink(deeplink);
 
-  const userProfile = await api.users.get(id).catch(() => { });
+  const userProfile = await api.users.get(id).catch(() => {});
   if (!userProfile) {
     return {
       notFound: true,
@@ -279,7 +279,7 @@ const User: NextPage<Props> = ({
           // },
         ]);
       })
-      .catch(() => { });
+      .catch(() => {});
   }, [timeframe, userId]);
 
   useEffect(() => {
@@ -300,7 +300,7 @@ const User: NextPage<Props> = ({
     api.users
       .recentlyStreamed(userId)
       .then(setRecentStreams)
-      .catch(() => { });
+      .catch(() => {});
   }, [userId]);
 
   useEffect(() => {
@@ -319,7 +319,7 @@ const User: NextPage<Props> = ({
         }
         setDateStats(tempStats);
       })
-      .catch(() => { });
+      .catch(() => {});
   }, [timeframe, userId]);
 
   const handleSegmentSelectSpotify = (value: BetterRange) => {
@@ -552,15 +552,13 @@ const User: NextPage<Props> = ({
                               key={year}
                               value={year}
                               className={({ active }) =>
-                                `relative cursor-default select-none py-2 pl-10 pr-4 ${active ? 'bg-background/50' : 'text-gray-900'
-                                }`
+                                `relative cursor-default select-none py-2 pl-10 pr-4 ${active ? 'bg-background/50' : 'text-gray-900'}`
                               }
                             >
                               {({ selected }) => (
                                 <>
                                   <span
-                                    className={`block truncate ${selected && 'text-white'
-                                      }`}
+                                    className={`block truncate ${selected && 'text-white'}`}
                                   >
                                     {year}
                                   </span>
@@ -611,15 +609,13 @@ const User: NextPage<Props> = ({
                               key={range}
                               value={range}
                               className={({ active }) =>
-                                `relative cursor-default select-none py-2 pl-10 pr-4 ${active ? 'bg-background/50' : 'text-gray-900'
-                                }`
+                                `relative cursor-default select-none py-2 pl-10 pr-4 ${active ? 'bg-background/50' : 'text-gray-900'}`
                               }
                             >
                               {({ selected }) => (
                                 <>
                                   <span
-                                    className={`block truncate ${selected && 'text-white'
-                                      }`}
+                                    className={`block truncate ${selected && 'text-white'}`}
                                   >
                                     {rangeToText(range)}
                                   </span>
@@ -697,10 +693,7 @@ const User: NextPage<Props> = ({
                     title="Listening clocks"
                     className="flex w-full flex-col gap-2 md:flex-row"
                     scope="streamStats"
-                    description={`${isCurrentUser ? 'Your' : `${user.displayName}'s`
-                      } listening habits throughout the day ${getTimeframeText(
-                        timeframe,
-                      )} `}
+                    description={`${isCurrentUser ? 'Your' : `${user.displayName}'s`} listening habits throughout the day ${getTimeframeText(timeframe)} `}
                     ref={listeningClocksRef}
                   >
                     <Scope value="streamStats">
@@ -718,8 +711,7 @@ const User: NextPage<Props> = ({
 
               <Section
                 title="Recent streams"
-                description={`${isCurrentUser ? 'Your' : `${user.displayName}'s`
-                  } recently played tracks`}
+                description={`${isCurrentUser ? 'Your' : `${user.displayName}'s`} recently played tracks`}
                 scope="recentlyPlayed"
                 ref={recentStreamsRef}
               >
