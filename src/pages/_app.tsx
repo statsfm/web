@@ -90,6 +90,11 @@ const App = ({
           <meta property="og:type" content="website" />
           <meta property="twitter:site" content="@spotistats" />
           <meta property="twitter:creator" content="@spotistats" />
+          <script
+            async
+            src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6037791262117379"
+            crossOrigin="anonymous"
+          ></script>
           {/* {isProd && <Smartlook />} */}
           {showOgp && <Ogp />}
         </Head>
