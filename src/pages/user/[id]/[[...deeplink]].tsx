@@ -252,23 +252,23 @@ const User: NextPage<Props> = ({
             value: formatter.localiseNumber(stats.count),
           },
           {
-            label: 'minutes streamed',
+            label: 'minutes',
             value: formatter.formatMinutes(stats.durationMs),
           },
           {
-            label: 'hours streamed',
+            label: 'hours',
             value: formatter.localiseNumber(Math.round(hours)),
           },
           {
-            label: 'different tracks',
+            label: 'tracks',
             value: formatter.localiseNumber(stats.cardinality.tracks) ?? 0,
           },
           {
-            label: 'different artists',
+            label: 'artists',
             value: formatter.localiseNumber(stats.cardinality.artists) ?? 0,
           },
           {
-            label: 'different albums',
+            label: 'albums',
             value: formatter.localiseNumber(stats.cardinality.albums) ?? 0,
           },
           // {
@@ -398,103 +398,246 @@ const User: NextPage<Props> = ({
       >
         <div className="bg-foreground pt-20">
           <Container>
-            <section className="flex flex-col items-center gap-5 pb-10 pt-24 md:flex-row">
-              <div className="relative rounded-full border-2 border-background">
-                <Avatar src={user.image} name={user.displayName} size="4xl" />
-                <div className="absolute bottom-2 right-0 text-center text-lg font-medium md:text-left">
-                  {user.isPlus && <PlusBadge />}
-                </div>
-              </div>
+            <div className="relative">
+              <section className="flex flex-col justify-between gap-5 pb-10 pt-24 md:flex-row">
+                <div className="flex flex-row space-x-4">
+                  <div className="relative rounded-full border-2 border-background">
+                    <Avatar
+                      src={user.image}
+                      name={user.displayName}
+                      size="4xl"
+                    />
+                    <div className="absolute bottom-2 right-0 text-center text-lg font-medium md:text-left">
+                      {user.isPlus && <PlusBadge />}
+                    </div>
+                  </div>
 
-              <div className="flex flex-col items-center justify-end md:items-start">
-                <span className="flex">
-                  <h1 className="text-center font-extrabold md:text-left">
-                    {user.displayName}
-                  </h1>
-                  <span className="ml-2 mt-2 self-center text-center text-lg font-medium md:text-left">
+                  <div className="flex flex-col items-center md:items-start">
+                    <span className="flex space-x-2">
+                      <div className="flex flex-row">
+                        <h1 className="text-center font-extrabold md:text-left">
+                          {user.displayName}
+                        </h1>
+                        <span className="ml-2 mt-2 self-center text-center text-lg font-medium md:text-left">
+                          {user.privacySettings?.profile &&
+                            user.userBan?.active !== true &&
+                            user.profile?.pronouns}
+                        </span>
+                      </div>
+                      {user.userBan?.active !== true && (
+                        <Scope value="connections" fallback={<></>}>
+                          <div className="mt-2 flex flex-row items-center gap-2">
+                            {user.spotifyAuth && (
+                              <SpotifyLink path={`/user/${user.id}`} />
+                            )}
+                            {discordConnection && (
+                              <DiscordLink
+                                path={`/users/${discordConnection.platformUserId}`}
+                              />
+                            )}
+                          </div>
+                        </Scope>
+                      )}
+                    </span>
                     {user.privacySettings?.profile &&
-                      user.userBan?.active !== true &&
-                      user.profile?.pronouns}
-                  </span>
-                </span>
-                {user.privacySettings?.profile &&
-                  user.profile?.bio &&
-                  user.userBan?.active !== true && (
-                    <pre className="line-clamp-3 whitespace-pre-wrap text-center font-body text-lg md:text-left [&>a]:font-semibold [&>a]:text-primary">
-                      <Linkify
-                        options={{
-                          target: '_blank',
-                          rel: 'noopener noreferrer',
-                        }}
-                      >
-                        {user.profile.bio.replaceAll('\n', ' ')}
-                      </Linkify>
-                    </pre>
-                  )}
-                <div className="mt-2 flex items-center">
-                  {currentUser && currentUser.id !== user.id && (
-                    <>
-                      <FriendsButton
-                        friendUser={user}
-                        initialFriendStatus={friendStatus}
-                      />
-                      {user.userBan?.active !== true &&
-                        user.privacySettings?.friends === true && (
+                      user.profile?.bio &&
+                      user.userBan?.active !== true && (
+                        <pre className="line-clamp-3 whitespace-pre-wrap text-center font-body text-lg md:text-left [&>a]:font-semibold [&>a]:text-primary">
+                          <Linkify
+                            options={{
+                              target: '_blank',
+                              rel: 'noopener noreferrer',
+                            }}
+                          >
+                            {user.profile.bio.replaceAll('\n', ' ')}
+                          </Linkify>
+                        </pre>
+                      )}
+                    <div className="mt-2 flex items-center">
+                      {currentUser && currentUser.id !== user.id && (
+                        <>
+                          <FriendsButton
+                            friendUser={user}
+                            initialFriendStatus={friendStatus}
+                          />
+                          {user.userBan?.active !== true &&
+                            user.privacySettings?.friends === true && (
+                              <span className="mx-2">
+                                <Square />
+                              </span>
+                            )}
+                        </>
+                      )}
+
+                      <Scope value="friends" fallback={<></>}>
+                        {user.userBan?.active !== true && (
+                          <Link
+                            legacyBehavior
+                            href={`/${user.customId || user.id}/friends`}
+                          >
+                            <a className="font-medium text-neutral-400">
+                              {friendCount}{' '}
+                              {formatter.pluralise('Friend', friendCount)}
+                            </a>
+                          </Link>
+                        )}
+                      </Scope>
+
+                      {currentUser && currentUser.id === user.id && (
+                        <>
                           <span className="mx-2">
                             <Square />
                           </span>
-                        )}
-                    </>
-                  )}
-
-                  <Scope value="friends" fallback={<></>}>
-                    {user.userBan?.active !== true && (
-                      <Link
-                        legacyBehavior
-                        href={`/${user.customId || user.id}/friends`}
-                      >
-                        <a className="font-medium text-neutral-400">
-                          {friendCount}{' '}
-                          {formatter.pluralise('Friend', friendCount)}
-                        </a>
-                      </Link>
-                    )}
-                  </Scope>
-
-                  {currentUser && currentUser.id === user.id && (
-                    <>
-                      <span className="mx-2">
-                        <Square />
-                      </span>
-                      <Button
-                        className={clsx(
-                          'mx-0 w-min !bg-transparent !p-0 transition-opacity hover:opacity-80',
-                        )}
-                        onClick={() => router.push('/settings/profile')}
-                      >
-                        Edit profile
-                      </Button>
-                    </>
-                  )}
-                </div>
-
-                {user.userBan?.active !== true && (
-                  <Scope value="connections" fallback={<></>}>
-                    <div className="mt-2 flex flex-row items-center gap-2">
-                      {user.spotifyAuth && (
-                        <SpotifyLink path={`/user/${user.id}`} />
-                      )}
-                      {discordConnection && (
-                        <DiscordLink
-                          path={`/users/${discordConnection.platformUserId}`}
-                        />
+                          <Button
+                            className={clsx(
+                              'mx-0 w-min !bg-transparent !p-0 transition-opacity hover:opacity-80',
+                            )}
+                            onClick={() => router.push('/settings/profile')}
+                          >
+                            Edit profile
+                          </Button>
+                        </>
                       )}
                     </div>
-                  </Scope>
+                  </div>
+                </div>
+                {user.isPlus && (
+                  <ImportRequiredScope value="streamStats">
+                    <StatsCardContainer stats={stats} />
+                  </ImportRequiredScope>
                 )}
+              </section>
+
+              <div className="bottom-8 right-0 w-full lg:absolute lg:w-4/5">
+                <TopGenres
+                  timeframe={timeframe}
+                  userProfile={user}
+                  topGenresRef={topGenresRef}
+                />
               </div>
-            </section>
+            </div>
           </Container>
+        </div>
+        <div className="h-8 bg-gradient-to-b from-foreground to-background">
+          {/* TODO: move this to a separate component */}
+
+          <section className="mx-auto flex max-w-md flex-col justify-between gap-5 px-4 pt-5 sm:max-w-3xl sm:px-6 lg:max-w-7xl lg:flex-row-reverse lg:px-8">
+            {availableRanges.length > 0 &&
+              // if instance of number[] then it's apple music
+              (typeof availableRanges[0] === 'number' ? (
+                <div className="z-50 flex justify-start">
+                  <Listbox
+                    value={timeframe.year}
+                    onChange={handleSegmentSelectAppleMusic}
+                  >
+                    <div className="relative mt-1 w-72">
+                      <Listbox.Button className="relative w-full cursor-default rounded-lg bg-foreground py-2 pl-3 pr-10 text-left shadow-md focus:outline-none focus-visible:border-primary focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-primary sm:text-sm">
+                        <span className="block truncate">{timeframe.year}</span>
+                        <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
+                          <MdArrowDropDown
+                            className="size-5 text-gray-400"
+                            aria-hidden="true"
+                          />
+                        </span>
+                      </Listbox.Button>
+                      <Transition
+                        as={Fragment}
+                        leave="transition ease-in duration-100"
+                        leaveFrom="opacity-100"
+                        leaveTo="opacity-0"
+                      >
+                        <Listbox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-foreground py-1 text-sm shadow-lg ring-1 ring-black/5 focus:outline-none">
+                          {(availableRanges as number[]).map((year) => (
+                            <Listbox.Option
+                              key={year}
+                              value={year}
+                              className={({ active }) =>
+                                `relative cursor-default select-none py-2 pl-10 pr-4 ${active ? 'bg-background/50' : 'text-gray-900'}`
+                              }
+                            >
+                              {({ selected }) => (
+                                <>
+                                  <span
+                                    className={`block truncate ${selected && 'text-white'}`}
+                                  >
+                                    {year}
+                                  </span>
+                                  {selected ? (
+                                    <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-primary">
+                                      <MdCheck
+                                        className="size-5"
+                                        aria-hidden="true"
+                                      />
+                                    </span>
+                                  ) : null}
+                                </>
+                              )}
+                            </Listbox.Option>
+                          ))}
+                        </Listbox.Options>
+                      </Transition>
+                    </div>
+                  </Listbox>
+                </div>
+              ) : (
+                <div className="z-50 flex justify-start">
+                  <Listbox
+                    value={timeframe.range}
+                    onChange={handleSegmentSelectSpotify}
+                  >
+                    <div className="relative mt-1 w-72">
+                      <Listbox.Button className="relative w-full cursor-default rounded-lg bg-foreground py-2 pl-3 pr-10 text-left shadow-md focus:outline-none focus-visible:border-primary focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-primary sm:text-sm">
+                        <span className="block truncate">
+                          {rangeToText(timeframe.range)}
+                        </span>
+                        <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
+                          <MdArrowDropDown
+                            className="size-5 text-gray-400"
+                            aria-hidden="true"
+                          />
+                        </span>
+                      </Listbox.Button>
+                      <Transition
+                        as={Fragment}
+                        leave="transition ease-in duration-100"
+                        leaveFrom="opacity-100"
+                        leaveTo="opacity-0"
+                      >
+                        <Listbox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-foreground py-1 text-sm shadow-lg ring-1 ring-black/5 focus:outline-none">
+                          {(availableRanges as BetterRange[]).map((range) => (
+                            <Listbox.Option
+                              key={range}
+                              value={range}
+                              className={({ active }) =>
+                                `relative cursor-default select-none py-2 pl-10 pr-4 ${active ? 'bg-background/50' : 'text-gray-900'}`
+                              }
+                            >
+                              {({ selected }) => (
+                                <>
+                                  <span
+                                    className={`block truncate ${selected && 'text-white'}`}
+                                  >
+                                    {rangeToText(range)}
+                                  </span>
+                                  {selected ? (
+                                    <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-primary">
+                                      <MdCheck
+                                        className="size-5"
+                                        aria-hidden="true"
+                                      />
+                                    </span>
+                                  ) : null}
+                                </>
+                              )}
+                            </Listbox.Option>
+                          ))}
+                        </Listbox.Options>
+                      </Transition>
+                    </div>
+                  </Listbox>
+                </div>
+              ))}
+          </section>
         </div>
 
         {/* Active user page */}
@@ -517,151 +660,6 @@ const User: NextPage<Props> = ({
                   </div>
                 </section>
               )}
-
-              <section className="flex flex-col justify-between gap-5 md:flex-row-reverse">
-                {availableRanges.length > 0 &&
-                  // if instance of number[] then it's apple music
-                  (typeof availableRanges[0] === 'number' ? (
-                    <div className="z-50 flex justify-center">
-                      <Listbox
-                        value={timeframe.year}
-                        onChange={handleSegmentSelectAppleMusic}
-                      >
-                        <div className="relative mt-1 w-72">
-                          <Listbox.Button className="relative w-full cursor-default rounded-lg bg-foreground py-2 pl-3 pr-10 text-left shadow-md focus:outline-none focus-visible:border-primary focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-primary sm:text-sm">
-                            <span className="block truncate">
-                              {timeframe.year}
-                            </span>
-                            <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
-                              <MdArrowDropDown
-                                className="size-5 text-gray-400"
-                                aria-hidden="true"
-                              />
-                            </span>
-                          </Listbox.Button>
-                          <Transition
-                            as={Fragment}
-                            leave="transition ease-in duration-100"
-                            leaveFrom="opacity-100"
-                            leaveTo="opacity-0"
-                          >
-                            <Listbox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-foreground py-1 text-sm shadow-lg ring-1 ring-black/5 focus:outline-none">
-                              {(availableRanges as number[]).map((year) => (
-                                <Listbox.Option
-                                  key={year}
-                                  value={year}
-                                  className={({ active }) =>
-                                    `relative cursor-default select-none py-2 pl-10 pr-4 ${
-                                      active
-                                        ? 'bg-background/50'
-                                        : 'text-gray-900'
-                                    }`
-                                  }
-                                >
-                                  {({ selected }) => (
-                                    <>
-                                      <span
-                                        className={`block truncate ${
-                                          selected && 'text-white'
-                                        }`}
-                                      >
-                                        {year}
-                                      </span>
-                                      {selected ? (
-                                        <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-primary">
-                                          <MdCheck
-                                            className="size-5"
-                                            aria-hidden="true"
-                                          />
-                                        </span>
-                                      ) : null}
-                                    </>
-                                  )}
-                                </Listbox.Option>
-                              ))}
-                            </Listbox.Options>
-                          </Transition>
-                        </div>
-                      </Listbox>
-                    </div>
-                  ) : (
-                    <div className="z-50 flex justify-center">
-                      <Listbox
-                        value={timeframe.range}
-                        onChange={handleSegmentSelectSpotify}
-                      >
-                        <div className="relative mt-1 w-72">
-                          <Listbox.Button className="relative w-full cursor-default rounded-lg bg-foreground py-2 pl-3 pr-10 text-left shadow-md focus:outline-none focus-visible:border-primary focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-primary sm:text-sm">
-                            <span className="block truncate">
-                              {rangeToText(timeframe.range)}
-                            </span>
-                            <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
-                              <MdArrowDropDown
-                                className="size-5 text-gray-400"
-                                aria-hidden="true"
-                              />
-                            </span>
-                          </Listbox.Button>
-                          <Transition
-                            as={Fragment}
-                            leave="transition ease-in duration-100"
-                            leaveFrom="opacity-100"
-                            leaveTo="opacity-0"
-                          >
-                            <Listbox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-foreground py-1 text-sm shadow-lg ring-1 ring-black/5 focus:outline-none">
-                              {(availableRanges as BetterRange[]).map(
-                                (range) => (
-                                  <Listbox.Option
-                                    key={range}
-                                    value={range}
-                                    className={({ active }) =>
-                                      `relative cursor-default select-none py-2 pl-10 pr-4 ${
-                                        active
-                                          ? 'bg-background/50'
-                                          : 'text-gray-900'
-                                      }`
-                                    }
-                                  >
-                                    {({ selected }) => (
-                                      <>
-                                        <span
-                                          className={`block truncate ${
-                                            selected && 'text-white'
-                                          }`}
-                                        >
-                                          {rangeToText(range)}
-                                        </span>
-                                        {selected ? (
-                                          <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-primary">
-                                            <MdCheck
-                                              className="size-5"
-                                              aria-hidden="true"
-                                            />
-                                          </span>
-                                        ) : null}
-                                      </>
-                                    )}
-                                  </Listbox.Option>
-                                ),
-                              )}
-                            </Listbox.Options>
-                          </Transition>
-                        </div>
-                      </Listbox>
-                    </div>
-                  ))}
-                {user.isPlus && (
-                  <ImportRequiredScope value="streamStats">
-                    <StatsCardContainer stats={stats} />
-                  </ImportRequiredScope>
-                )}
-              </section>
-
-              <TopGenres
-                timeframe={timeframe}
-                userProfile={user}
-                topGenresRef={topGenresRef}
-              />
 
               <TopTracks
                 timeframe={timeframe}
@@ -695,11 +693,7 @@ const User: NextPage<Props> = ({
                     title="Listening clocks"
                     className="flex w-full flex-col gap-2 md:flex-row"
                     scope="streamStats"
-                    description={`${
-                      isCurrentUser ? 'Your' : `${user.displayName}'s`
-                    } listening habits throughout the day ${getTimeframeText(
-                      timeframe,
-                    )} `}
+                    description={`${isCurrentUser ? 'Your' : `${user.displayName}'s`} listening habits throughout the day ${getTimeframeText(timeframe)} `}
                     ref={listeningClocksRef}
                   >
                     <Scope value="streamStats">
@@ -717,9 +711,7 @@ const User: NextPage<Props> = ({
 
               <Section
                 title="Recent streams"
-                description={`${
-                  isCurrentUser ? 'Your' : `${user.displayName}'s`
-                } recently played tracks`}
+                description={`${isCurrentUser ? 'Your' : `${user.displayName}'s`} recently played tracks`}
                 scope="recentlyPlayed"
                 ref={recentStreamsRef}
               >
