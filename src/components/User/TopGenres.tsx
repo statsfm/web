@@ -1,4 +1,4 @@
-import { useApi, useAuth } from '@/hooks';
+import { useApi } from '@/hooks';
 import type { UserPublic, TopGenre } from '@/utils/statsfm';
 import clsx from 'clsx';
 import Link from 'next/link';
@@ -6,18 +6,16 @@ import { useEffect, type FC, useState } from 'react';
 import { event } from 'nextjs-google-analytics';
 import { ChipGroup, Chip } from '../Chip';
 import Scope from '../PrivacyScope';
-import { Section } from '../Section';
 import type { TimeframeSelection } from './utils';
-import { getTimeframeOptions, getTimeframeText } from './utils';
+import { getTimeframeOptions } from './utils';
 import { NotEnoughData } from './NotEnoughData';
 
 export const TopGenres: FC<{
   timeframe: TimeframeSelection;
   userProfile: UserPublic;
   topGenresRef: React.RefObject<HTMLElement>;
-}> = ({ userProfile, timeframe, topGenresRef: ref }) => {
+}> = ({ userProfile, timeframe }) => {
   const api = useApi();
-  const { user: currentUser } = useAuth();
   const [topGenres, setTopGenres] = useState<TopGenre[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -33,17 +31,8 @@ export const TopGenres: FC<{
       .finally(() => setLoading(false));
   }, [timeframe, userProfileId]);
 
-  const isCurrentUser = currentUser?.id === userProfile.id;
-
   return (
-    <Section
-      title="Top genres"
-      description={`${
-        isCurrentUser ? 'Your' : `${userProfile.displayName}'s`
-      } top genres ${getTimeframeText(timeframe)}`}
-      scope="topGenres"
-      ref={ref}
-    >
+    <>
       <Scope value="topGenres">
         <ChipGroup
           className={clsx(topGenres.length === 0 && '!overflow-x-hidden')}
@@ -75,6 +64,6 @@ export const TopGenres: FC<{
           </NotEnoughData>
         </ChipGroup>
       </Scope>
-    </Section>
+    </>
   );
 };
