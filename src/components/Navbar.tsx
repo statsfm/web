@@ -41,7 +41,6 @@ const navigation = [
   },
   { name: 'Support', href: 'https://support.stats.fm' },
   { name: 'Feedback', href: 'https://feedback.stats.fm' },
-  { name: 'Partner with us', href: '/partners' },
 ];
 
 export const NavBar = () => {
@@ -67,9 +66,7 @@ export const NavBar = () => {
           onClick={() => event('NAV_home')}
         >
           <Logo className="size-[1.7rem] cursor-pointer" />
-          <h3 className="mt-[-3px]">
-            stats.fm{router.pathname === '/partners' && ' for partners'}
-          </h3>
+          <h3 className="mt-[-3px]">stats.fm</h3>
         </Link>
         <div className="hidden lg:flex lg:gap-x-12">
           {navigation.map((item) =>
