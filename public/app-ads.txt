@@ -1319,3 +1319,13 @@ zeta.com, 998, RESELLER
 zippormedia.com, 648519, DIRECT
 
 zoomd.com, 88478941, RESELLER
+
+#TheGermaneMedia
+MANAGERDOMAIN=thegermanemedia.com
+INVENTORYPARTNERDOMAIN=thegermanemedia.com
+thegermanemedia.com, 737, DIRECT
+
+pubmatic.com, 164927, RESELLER, 5d62403b186f2ace
+lijit.com, 509119-eb, DIRECT, fafdf38b16bf6b2b
+onetag.com, 894a7df6a5f7180-OB, DIRECT
+aps.amazon.com,c581afbf-1c21-414a-bc75-cca4502836b4,DIRECToomd.com, 88478941, RESELLER
