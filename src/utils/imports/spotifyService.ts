@@ -19,6 +19,7 @@ export const spotifyStreamInfo = z.object({
   ms_played: z.number(),
   master_metadata_track_name: z.string().nullable(),
   spotify_track_uri: z.string().nullable(),
+  platform: z.string().nullable(),
 });
 
 export type SpotifyStreamInfo = z.infer<typeof spotifyStreamInfo>;
@@ -32,6 +33,7 @@ export const validSpotifyImportStreamSchema = z.object({
   ms: z.number(),
   tn: z.string(),
   ti: z.string(),
+  platform: z.string(),
 });
 
 export type ValidSpotifyStream = z.infer<typeof validSpotifyImportStreamSchema>;
@@ -127,6 +129,7 @@ const processJSON = async (
             ms: e?.ms_played ?? undefined,
             tn: e?.master_metadata_track_name ?? undefined,
             ti: e?.spotify_track_uri?.split(':')[2] ?? undefined,
+            platform: e?.platform ?? undefined,
           };
         })
         .filter((x) => x.ts && x.ms && x.tn && x.ti)

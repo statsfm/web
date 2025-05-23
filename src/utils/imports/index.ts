@@ -5,6 +5,7 @@ import type { Accept } from 'react-dropzone';
 import type { event } from 'nextjs-google-analytics';
 
 export const IMPORT_STATUS = {
+  '-2': 'Invalid stream data!',
   '-1': 'Errored!',
   '0': 'Queued (waiting to be processed)',
   '1': 'Processing',
@@ -12,6 +13,7 @@ export const IMPORT_STATUS = {
 } as const;
 
 export enum UploadedFilesStatus {
+  InvalidData = -2,
   Error = -1,
   Checking = 0,
   Ready = 1,
@@ -30,12 +32,12 @@ export interface ImportService {
 
 export const UPLOADED_FILE_STATUS = {
   [UploadedFilesStatus.Error]: 'Error',
+  [UploadedFilesStatus.InvalidData]: 'Invalid stream data',
   [UploadedFilesStatus.Checking]: 'Checking file',
   [UploadedFilesStatus.Ready]: 'Ready to upload',
   [UploadedFilesStatus.Uploading]: 'Uploading...',
   [UploadedFilesStatus.Uploaded]: 'Uploaded successfully',
-  [UploadedFilesStatus.Failed]:
-    'Failed to upload (Server issue, try again later)',
+  [UploadedFilesStatus.Failed]: 'Failed to upload',
 } as const;
 
 export const IMPORT_STATUS_COLORS = {
@@ -43,10 +45,12 @@ export const IMPORT_STATUS_COLORS = {
   '1': 'text-gray-400 ring-gray-400/30',
   '0': 'text-yellow-400 ring-yellow-400/30',
   '-1': 'text-red-400 ring-red-400/30',
+  '-2': 'text-red-400 ring-red-400/30',
 } as const;
 
 export const UPLOADED_FILE_STATUS_COLORS = {
   [UploadedFilesStatus.Error]: 'text-red-400 ring-red-400/30',
+  [UploadedFilesStatus.InvalidData]: 'text-red-400 ring-red-400/30',
   [UploadedFilesStatus.Checking]: 'text-gray-400 ring-gray-400/30',
   [UploadedFilesStatus.Ready]: 'text-gray-400 ring-gray-400/30',
   [UploadedFilesStatus.Uploading]: 'text-orange-400 ring-orange-400/30',
@@ -102,6 +106,7 @@ export type UploadedImportFile = {
   addedAt: Date;
   status: UploadedFilesStatus;
   service: Platform;
+  error?: string;
 } & (
   | { status: UploadedFilesStatus.Error; error: string }
   | {

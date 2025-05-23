@@ -85,6 +85,10 @@ const Imports = () => {
         uploadedFile.status = UploadedFilesStatus.Uploaded;
       } catch (e: any) {
         uploadedFile.status = UploadedFilesStatus.Failed;
+        uploadedFile.error =
+          e.status < 500
+            ? e.message ?? 'Unknown error'
+            : 'Server issue, try again later';
       }
     }
     api.options.http.apiUrl = oldUrl;
