@@ -8,11 +8,11 @@ export const useStoreURL = () => {
   let url = '#';
 
   if (isIOS) {
-    url = 'https://apps.apple.com/app/stats-fm/id[APP_ID]';
+    url = 'https://apps.apple.com/app/spotistats-for-spotify/id1526912392';
   }
 
   if (isAndroid) {
-    url = 'https://play.google.com/store/apps/details?id=[APP_ID]';
+    url = 'https://play.google.com/store/apps/details?id=dev.netlob.spotistats';
   }
 
   const goToStore = () => {
