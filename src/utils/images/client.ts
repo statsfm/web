@@ -29,9 +29,11 @@ export async function fetchAndFitImage(
 
   ctx.drawImage(img, x, y, img.width * scale, img.height * scale);
 
-  const arrayBuffer: ArrayBuffer = await new Promise((res) =>
-    canvas.toBlob((blob) => blob?.arrayBuffer().then(res)),
-  );
+  const arrayBuffer: ArrayBuffer = await new Promise((resolve) => {
+    canvas.toBlob((blob) => {
+      blob?.arrayBuffer().then(resolve);
+    });
+  });
 
   return decodeImage(new Uint8Array(arrayBuffer));
 }

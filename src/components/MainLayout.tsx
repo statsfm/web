@@ -1,7 +1,8 @@
-import { FC, ReactNode } from 'react';
 import { GoogleAnalytics } from 'nextjs-google-analytics';
 
 import { ToasterContainer } from '@/context/toaster';
+
+import type { FC, ReactNode } from 'react';
 
 import { Title } from './Title';
 import { NavBar } from './Navbar';

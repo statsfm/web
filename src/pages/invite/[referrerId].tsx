@@ -93,29 +93,29 @@ const ReferralPage: NextPage<Props> = ({ inviter, origin }) => {
       <div className="absolute inset-0 z-10 flex flex-col items-center justify-center px-4 py-8 text-white">
         <div className="h-[55%] sm:h-[30%]" />
 
-        <div className="max-w-md w-full text-center">
+        <div className="w-full max-w-md text-center">
           <div className="mb-6">
             <div className="w-full overflow-hidden">
-              <span className="inline-block max-w-full px-4 py-2 bg-white/15 text-white rounded-full text-sm truncate">
+              <span className="inline-block max-w-full truncate rounded-full bg-white/15 px-4 py-2 text-sm text-white">
                 {username}
               </span>
             </div>
           </div>
 
           <div className="mb-4">
-            <h1 className="text-3xl md:text-4xl font-bold mb-3 leading-tight">
+            <h1 className="mb-3 text-3xl font-bold leading-tight md:text-4xl">
               Guess what they
               <br />
               are listening to 👀
             </h1>
-            <p className="text-gray-400 font-normal leading-6">
+            <p className="font-normal leading-6 text-gray-400">
               Accept the invite to find out
             </p>
           </div>
 
           <button
             onClick={goToStore}
-            className="w-full max-w-xs mx-auto mt-8 px-6 py-3 bg-[#1DB954] text-black font-medium rounded-xl hover:bg-[#1ed760] transition-colors text-base"
+            className="mx-auto mt-8 w-full max-w-xs rounded-xl bg-[#1DB954] px-6 py-3 text-base font-medium text-black transition-colors hover:bg-primary"
           >
             Accept invite
           </button>

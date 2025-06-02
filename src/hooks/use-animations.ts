@@ -3,10 +3,10 @@ import {
   Fit,
   Layout,
   useRive,
-  FileAsset,
   Alignment,
-  ImageAsset,
-  RiveParameters,
+  type FileAsset,
+  type ImageAsset,
+  type RiveParameters,
 } from '@rive-app/react-webgl2';
 import { fetchAndFitImage } from '@/utils/images/client';
 
@@ -27,6 +27,7 @@ interface UseRiveAnimationOptions
    * The file should be placed in `public/animations`
    */
   animation: string;
+
   /**
    * Optional custom asset loaders.
    * Currently supports 'photo' assets, allowing you to specify
@@ -64,23 +65,16 @@ export const useAnimation = ({
           targetWidth = 256,
           targetHeight = 256,
         } = assetLoaders.photo;
-        fetchAndFitImage(url, targetWidth, targetHeight)
-          .then((image) => {
-            (asset as ImageAsset).setRenderImage(image);
-            if (
-              typeof image === 'object' &&
-              'unref' in image &&
-              typeof image.unref === 'function'
-            ) {
-              image.unref();
-            }
-          })
-          .catch((error) => {
-            console.error(
-              `Error loading custom Rive 'photo' asset from ${url}:`,
-              error,
-            );
-          });
+        fetchAndFitImage(url, targetWidth, targetHeight).then((image) => {
+          (asset as ImageAsset).setRenderImage(image);
+          if (
+            typeof image === 'object' &&
+            'unref' in image &&
+            typeof image.unref === 'function'
+          ) {
+            image.unref();
+          }
+        });
         return true;
       }
 
