@@ -1,18 +1,17 @@
 import '@/styles/globals.css';
 
-import { AuthProvider } from '@/context/auth';
-import { Footer } from '@/components/Footer';
-import { NavBar } from '@/components/Navbar';
-import { Title } from '@/components/Title';
-import type { AppProps } from 'next/app';
-import { GoogleAnalytics } from 'nextjs-google-analytics';
-import { ToasterContainer } from '@/context/toaster';
+import clsx from 'clsx';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import type { UserPrivate } from '@/utils/statsfm';
 import localFont from 'next/font/local';
-import clsx from 'clsx';
-import ErrorBoundary from '@/components/ErrorBoundary';
+import type { AppProps } from 'next/app';
+
+import { AuthProvider } from '@/context/auth';
+import type { UserPrivate } from '@/utils/statsfm';
+import { MainLayout } from '@/components/MainLayout';
+import { BaseLayout } from '@/components/BaseLayout';
+import { DefaultOGPHeaders } from '@/components/DefaultOGPHeaders';
+import { PAGES_WITH_BASE_LAYOUT, PAGES_WITH_CUSTOM_OGP } from '@/constants';
 
 const StatsfmSans = localFont({
   variable: '--font-statsfm-sans',
@@ -25,60 +24,17 @@ const StatsfmSans = localFont({
   ],
 });
 
-const Ogp = () => (
-  <>
-    <meta
-      name="description"
-      content="Your music, your stats, your story. Enter a new dimension of music by getting unique insights into your music taste."
-    />
-    <meta property="og:title" content="stats.fm" />
-    <meta
-      property="og:description"
-      content="Your music, your stats, your story. Enter a new dimension of music by getting unique insights into your music taste."
-    />
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://stats.fm" />
-    <meta
-      property="og:image"
-      content="https://next.stats.fm/images/banner.png"
-    />
-
-    <meta property="twitter:card" content="summary_large_image" />
-  </>
-);
-
-// const Smartlook = () => {
-//   return (
-//     <script
-//       dangerouslySetInnerHTML={{
-//         __html: `
-//           window.smartlook||(function(d) {
-//           var o=smartlook=function(){ o.api.push(arguments)},h=d.getElementsByTagName('head')[0];
-//           var c=d.createElement('script');o.api=new Array();c.async=true;c.type='text/javascript';
-//           c.charset='utf-8';c.src='https://web-sdk.smartlook.com/recorder.js';h.appendChild(c);
-//           })(document);
-//           smartlook('init', '6262fc1ab5badfb59df569ba2daf04f562017bfd', { region: 'eu' });
-//           `,
-//       }}
-//     />
-//   );
-// };
-
 // TODO: we'll probably rewrite the auth logic to use a state management store instead of context, but we implemented this temporary for development
 const App = ({
   Component,
   pageProps,
 }: AppProps<{ user?: UserPrivate | null }>) => {
   const router = useRouter();
-  // only show default ogp tags for routes who don't define their own
-  const showOgp = ![
-    '/user/[id]/[[...deeplink]]',
-    '/artist/[id]',
-    '/track/[id]',
-    '/album/[id]',
-  ].includes(router.pathname);
 
-  // const isProd = process.env.NODE_ENV === 'production';
+  const showDefaultOgp = !PAGES_WITH_CUSTOM_OGP.includes(router.pathname);
+  const showMainLayout = !PAGES_WITH_BASE_LAYOUT.includes(router.pathname);
+
+  const LayoutComponent = showMainLayout ? MainLayout : BaseLayout;
 
   return (
     <main className={clsx(StatsfmSans.variable, 'font-body')}>
@@ -95,18 +51,11 @@ const App = ({
             src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6037791262117379"
             crossOrigin="anonymous"
           ></script>
-          {/* {isProd && <Smartlook />} */}
-          {showOgp && <Ogp />}
+          {showDefaultOgp && <DefaultOGPHeaders />}
         </Head>
-        <ToasterContainer>
-          <GoogleAnalytics trackPageViews gaMeasurementId="G-GD9GE041CW" />
-          <Title />
-          <NavBar />
-          <ErrorBoundary>
-            <Component {...pageProps} />
-          </ErrorBoundary>
-          <Footer />
-        </ToasterContainer>
+        <LayoutComponent>
+          <Component {...pageProps} />
+        </LayoutComponent>
       </AuthProvider>
     </main>
   );
