@@ -1,7 +1,7 @@
 import clsx from 'clsx';
 import { Image } from '@/components/Image';
 import type { PropsWithChildren } from 'react';
-import { defaultUserImageURL } from '@/contants';
+import { DEFAULT_USER_IMAGE_URL } from '@/constants';
 import { isFacebookURL } from '@/utils/urls';
 
 export type AvatarSize =
@@ -73,7 +73,7 @@ export const Avatar = ({
         width={sizes[size]}
         height={sizes[size]}
         alt={initials}
-        src={isFacebookURL(src) ? defaultUserImageURL : src}
+        src={isFacebookURL(src) ? DEFAULT_USER_IMAGE_URL : src}
         {...props}
       />
 
