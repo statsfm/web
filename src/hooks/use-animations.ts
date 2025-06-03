@@ -65,17 +65,26 @@ export const useAnimation = ({
           targetWidth = 256,
           targetHeight = 256,
         } = assetLoaders.photo;
-        fetchAndFitImage(url, targetWidth, targetHeight).then((image) => {
-          (asset as ImageAsset).setRenderImage(image);
-          if (
-            typeof image === 'object' &&
-            'unref' in image &&
-            typeof image.unref === 'function'
-          ) {
-            image.unref();
-          }
-        });
-        return true;
+        let externalImageLoaded = false;
+
+        fetchAndFitImage(url, targetWidth, targetHeight)
+          .then((image) => {
+            (asset as ImageAsset).setRenderImage(image);
+            externalImageLoaded = true;
+
+            if (
+              typeof image === 'object' &&
+              'unref' in image &&
+              typeof image.unref === 'function'
+            ) {
+              image.unref();
+            }
+          })
+          .catch(() => {
+            externalImageLoaded = false;
+          });
+
+        return externalImageLoaded;
       }
 
       if (assetLoader) {

@@ -7,11 +7,12 @@ import localFont from 'next/font/local';
 import type { AppProps } from 'next/app';
 
 import { AuthProvider } from '@/context/auth';
-import type { UserPrivate } from '@/utils/statsfm';
 import { MainLayout } from '@/components/MainLayout';
 import { BaseLayout } from '@/components/BaseLayout';
 import { DefaultOGPHeaders } from '@/components/DefaultOGPHeaders';
 import { PAGES_WITH_BASE_LAYOUT, PAGES_WITH_CUSTOM_OGP } from '@/constants';
+
+import type { UserPrivate } from '@/utils/statsfm';
 
 const StatsfmSans = localFont({
   variable: '--font-statsfm-sans',
