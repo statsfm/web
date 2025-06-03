@@ -1,5 +1,5 @@
 import Head from 'next/head';
-import { useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 
 import { Title } from '@/components/Title';
 import { getApiInstance } from '@/utils/ssrUtils';
@@ -8,6 +8,8 @@ import { useAnimation } from '@/hooks/use-animations';
 
 import type { GetServerSideProps, NextPage } from 'next';
 import type * as statsfm from '@/utils/statsfm';
+import useAnalytics from '@/hooks/use-analytics';
+import { useDeviceDetection } from '@/hooks/use-device-detection';
 
 type Props = {
   origin: string;
@@ -43,7 +45,24 @@ export const getServerSideProps: GetServerSideProps<Props> = async (ctx) => {
 };
 
 const ReferralPage: NextPage<Props> = ({ inviter, origin }) => {
+  const analytics = useAnalytics();
   const { goToStore } = useStoreURL();
+  const { deviceType } = useDeviceDetection();
+
+  const handleStoreRedirect = () => {
+    analytics?.track('referral_page_cta_clicked', {
+      referrer_id: inviter?.id,
+      device_type: deviceType,
+    });
+    goToStore();
+  };
+
+  useEffect(() => {
+    analytics?.track('referral_child_referral_page_viewed', {
+      referrer_id: inviter?.id,
+      device_type: deviceType,
+    });
+  }, [analytics]);
 
   const username = useMemo(
     () =>
@@ -114,7 +133,7 @@ const ReferralPage: NextPage<Props> = ({ inviter, origin }) => {
           </div>
 
           <button
-            onClick={goToStore}
+            onClick={handleStoreRedirect}
             className="mx-auto mt-8 w-full max-w-xs rounded-xl bg-[#1DB954] px-6 py-3 text-base font-medium text-black transition-colors hover:bg-primary"
           >
             Accept invite

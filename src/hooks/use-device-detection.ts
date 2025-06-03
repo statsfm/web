@@ -10,5 +10,7 @@ export const useDeviceDetection = () => {
     setIsAndroid(/android/.test(userAgent));
   }, []);
 
-  return { isIOS, isAndroid };
+  const deviceType = isIOS ? 'ios' : 'android';
+
+  return { isIOS, isAndroid, deviceType };
 };

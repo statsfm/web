@@ -1839,6 +1839,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@rudderstack/analytics-js@npm:^3.18.2":
+  version: 3.18.2
+  resolution: "@rudderstack/analytics-js@npm:3.18.2"
+  checksum: 10c0/40228b3b2e1f2912a92480fbb4d5e2248828aba2dc01139ce0b72feaa4ae7864cacfa1c31117d6051c08f362dc5ec47462160b4258ea6d11e70b5b7af8410faf
+  languageName: node
+  linkType: hard
+
 "@rushstack/eslint-patch@npm:^1.3.3":
   version: 1.10.2
   resolution: "@rushstack/eslint-patch@npm:1.10.2"
@@ -8839,6 +8846,7 @@ __metadata:
     "@radix-ui/react-dialog": "npm:^1.0.5"
     "@resvg/resvg-js": "npm:^2.6.2"
     "@rive-app/react-webgl2": "npm:^4.21.1"
+    "@rudderstack/analytics-js": "npm:^3.18.2"
     "@statsfm/statsfm.js": "npm:^2.2.1"
     "@tailwindcss/typography": "npm:^0.5.7"
     "@types/content-disposition": "npm:^0.5.8"
