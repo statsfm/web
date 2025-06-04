@@ -4,7 +4,7 @@ import { Container } from '@/components/Container';
 import { Image } from '@/components/Image';
 import { Textarea } from '@/components/Textarea';
 import { Title } from '@/components/Title';
-import { defaultUserImageURL } from '@/contants';
+import { DEFAULT_USER_IMAGE_URL } from '@/constants';
 import { useApi, useToaster } from '@/hooks';
 import dayjs from '@/utils/dayjs';
 import formatter from '@/utils/formatter';
@@ -183,7 +183,7 @@ const Reporting: NextPage<Props> = (props) => {
               <Avatar src={props.imageUrl} name={props.name} size="4xl" />
             ) : (
               <Image
-                src={props.imageUrl ?? defaultUserImageURL}
+                src={props.imageUrl ?? DEFAULT_USER_IMAGE_URL}
                 alt={props.name}
                 width={192}
                 height={192}

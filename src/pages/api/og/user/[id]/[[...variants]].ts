@@ -2,7 +2,7 @@ import { getApiInstance, getOrigin } from '@/utils/ssrUtils';
 import { OpenGraphDefaultUser } from '@/components/OpenGraph/User/OpenGraphDefaultUser';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { renderToImage } from '@/utils/satori';
-import { defaultUserImageURL } from '@/contants';
+import { DEFAULT_USER_IMAGE_URL } from '@/constants';
 import { isFacebookURL } from '@/utils/urls';
 
 export const runtime = 'nodejs';
@@ -32,13 +32,13 @@ export default async function handler(
 
   // prefetch image content to avoid satori inflightRequests cache memory leak
   // @see https://github.com/vercel/satori/issues/592#issuecomment-2293820464
-  let userImageURL = user.image ?? defaultUserImageURL;
+  let userImageURL = user.image ?? DEFAULT_USER_IMAGE_URL;
   if (isFacebookURL(userImageURL)) {
-    userImageURL = defaultUserImageURL;
+    userImageURL = DEFAULT_USER_IMAGE_URL;
   }
 
   const origin = getOrigin(req);
-  const userImageDownloadURL = `${origin}/api/image?url=${encodeURIComponent(userImageURL)}&w=512&q=75&f=image/png&fallbackImg=${defaultUserImageURL}`;
+  const userImageDownloadURL = `${origin}/api/image?url=${encodeURIComponent(userImageURL)}&w=512&q=75&f=image/png&fallbackImg=${DEFAULT_USER_IMAGE_URL}`;
   const userImageBase64 = await fetch(userImageDownloadURL)
     .then((res) => res.arrayBuffer())
     .then((content) => Buffer.from(content))

@@ -261,7 +261,7 @@ const DeleteAccount: FC = () => {
   const router = useRouter();
   const api = useApi();
 
-  // eslint-disable-next-line @typescript-eslint/naming-convention, unused-imports/no-unused-vars
+  // eslint-disable-next-line unused-imports/no-unused-vars
   const [_status, setStatus] = status;
 
   const [timeLeft, setTimeLeft] = useState(0);

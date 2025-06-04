@@ -1,5 +1,11 @@
 import clsx from 'clsx';
 import type { FC } from 'react';
+import {
+  STORE_APPLE_URL,
+  STORE_GOOGLE_URL,
+  STORE_APPLE_LOGO,
+  STORE_GOOGLE_LOGO,
+} from '@/constants';
 
 type Props = {
   store: 'apple' | 'google';
@@ -8,15 +14,8 @@ type Props = {
 };
 
 export const StoreBadge: FC<Props> = ({ store, size, onClick }) => {
-  const storeUrl =
-    store === 'apple'
-      ? 'https://apps.apple.com/app/spotistats-for-spotify/id1526912392'
-      : 'https://play.google.com/store/apps/details?id=dev.netlob.spotistats';
-
-  const imageUrl =
-    store === 'apple'
-      ? 'https://cdn.stats.fm/file/statsfm/images/brands/stores/app_store.webp'
-      : 'https://cdn.stats.fm/file/statsfm/images/brands/stores/play_store.webp';
+  const storeUrl = store === 'apple' ? STORE_APPLE_URL : STORE_GOOGLE_URL;
+  const imageUrl = store === 'apple' ? STORE_APPLE_LOGO : STORE_GOOGLE_LOGO;
 
   const isSmall = size === 'xs';
 
