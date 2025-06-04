@@ -8,7 +8,7 @@ export const PAGES_WITH_CUSTOM_OGP = [
   '/album/[id]',
 ];
 
-export const PAGES_WITH_BASE_LAYOUT = ['/invite/[referrerId]'];
+export const PAGES_WITH_BASE_LAYOUT = ['/invite'];
 
 export const STORE_APPLE_URL =
   'https://apps.apple.com/app/spotistats-for-spotify/id1526912392';

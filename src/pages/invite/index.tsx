@@ -26,25 +26,24 @@ type Props = {
 
 export const getServerSideProps: GetServerSideProps<Props> = async (ctx) => {
   const api = getApiInstance();
-  const { referrerId } = ctx.params!;
-  const { device, platform, referral_source } = ctx.query;
+  const { device, platform, referral_source, referrer_id } = ctx.query;
 
-  if (typeof referrerId !== 'string') {
+  if (typeof referrer_id !== 'string') {
     return {
       notFound: true,
     };
   }
 
   const analyticsParams: AnalyticsParams = {
-    referrer_id: referrerId,
-    referral_source:
-      typeof referral_source === 'string' ? referral_source : null,
+    referrer_id,
     device_type: typeof device === 'string' ? device : null,
     platform: typeof platform === 'string' ? platform : null,
+    referral_source:
+      typeof referral_source === 'string' ? referral_source : null,
   };
 
   try {
-    const inviter = await api.users.get(referrerId);
+    const inviter = await api.users.get(referrer_id);
     return {
       props: {
         inviter,
