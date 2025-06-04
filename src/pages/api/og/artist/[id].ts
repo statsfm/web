@@ -28,7 +28,14 @@ export default async function handler(
   }
 
   const origin = getOrigin(req);
-  const artistImageDownloadURL = `${origin}/api/image?url=${encodeURIComponent(artistImageURL)}&w=256&q=75&f=image/png&fallbackImg=${DEFAULT_USER_IMAGE_URL}`;
+  const queryParams = new URLSearchParams({
+    url: encodeURIComponent(artistImageURL),
+    w: '256',
+    q: '75',
+    f: 'image/png',
+    fallbackImg: DEFAULT_USER_IMAGE_URL,
+  });
+  const artistImageDownloadURL = `${origin}/api/image?${queryParams.toString()}`;
   const artistImageBase64 = await fetch(artistImageDownloadURL)
     .then((res) => res.arrayBuffer())
     .then((content) => Buffer.from(content))
