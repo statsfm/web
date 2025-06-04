@@ -6,8 +6,15 @@
   ],
   "overrides": [
     {
-      "files": ["**/*.ts", "**/*.tsx"],
-      "plugins": ["@typescript-eslint", "unused-imports", "tailwindcss"],
+      "files": [
+        "**/*.ts",
+        "**/*.tsx"
+      ],
+      "plugins": [
+        "@typescript-eslint",
+        "unused-imports",
+        "tailwindcss"
+      ],
       "extends": [
         "plugin:tailwindcss/recommended",
         "airbnb-typescript",
@@ -29,11 +36,14 @@
         "@typescript-eslint/no-shadow": "off",
         "no-shadow": "off",
         "@typescript-eslint/no-unused-vars": "off",
+        "@typescript-eslint/naming-convention": "off",
         "import/prefer-default-export": "off",
         "unused-imports/no-unused-imports": "error",
         "unused-imports/no-unused-vars": [
           "error",
-          { "argsIgnorePattern": "^_" }
+          {
+            "argsIgnorePattern": "^_"
+          }
         ]
       }
     }

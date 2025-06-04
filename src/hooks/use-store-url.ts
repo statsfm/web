@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router';
 
-import { useDeviceDetection } from './use-device-detection';
 import { STORE_APPLE_URL, STORE_GOOGLE_URL } from '@/constants';
+import { useDeviceDetection } from './use-device-detection';
 
 export const useStoreURL = () => {
   const router = useRouter();

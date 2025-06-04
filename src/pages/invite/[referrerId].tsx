@@ -2,23 +2,32 @@ import Head from 'next/head';
 import { useEffect, useMemo } from 'react';
 
 import { Title } from '@/components/Title';
+import useAnalytics from '@/hooks/use-analytics';
 import { getApiInstance } from '@/utils/ssrUtils';
 import { useStoreURL } from '@/hooks/use-store-url';
 import { useAnimation } from '@/hooks/use-animations';
+import { ANALYTICS_EVENTS } from '@/constants/analytics';
 
 import type { GetServerSideProps, NextPage } from 'next';
 import type * as statsfm from '@/utils/statsfm';
-import useAnalytics from '@/hooks/use-analytics';
-import { useDeviceDetection } from '@/hooks/use-device-detection';
+
+type AnalyticsParams = {
+  platform: string | null;
+  referrer_id: string | null;
+  device_type: string | null;
+  referral_source: string | null;
+};
 
 type Props = {
   origin: string;
+  analyticsParams: AnalyticsParams;
   inviter: statsfm.UserPublic | null;
 };
 
 export const getServerSideProps: GetServerSideProps<Props> = async (ctx) => {
   const api = getApiInstance();
   const { referrerId } = ctx.params!;
+  const { device, platform, referral_source } = ctx.query;
 
   if (typeof referrerId !== 'string') {
     return {
@@ -26,11 +35,20 @@ export const getServerSideProps: GetServerSideProps<Props> = async (ctx) => {
     };
   }
 
+  const analyticsParams: AnalyticsParams = {
+    referrer_id: referrerId,
+    referral_source:
+      typeof referral_source === 'string' ? referral_source : null,
+    device_type: typeof device === 'string' ? device : null,
+    platform: typeof platform === 'string' ? platform : null,
+  };
+
   try {
     const inviter = await api.users.get(referrerId);
     return {
       props: {
         inviter,
+        analyticsParams,
         origin: `https://${ctx.req.headers.host}`,
       },
     };
@@ -38,30 +56,28 @@ export const getServerSideProps: GetServerSideProps<Props> = async (ctx) => {
     return {
       props: {
         inviter: null,
+        analyticsParams,
         origin: `https://${ctx.req.headers.host}`,
       },
     };
   }
 };
 
-const ReferralPage: NextPage<Props> = ({ inviter, origin }) => {
+const ReferralPage: NextPage<Props> = ({
+  origin,
+  inviter,
+  analyticsParams,
+}) => {
   const analytics = useAnalytics();
   const { goToStore } = useStoreURL();
-  const { deviceType } = useDeviceDetection();
 
   const handleStoreRedirect = () => {
-    analytics?.track('referral_page_cta_clicked', {
-      referrer_id: inviter?.id,
-      device_type: deviceType,
-    });
+    analytics?.track(ANALYTICS_EVENTS.REFERRAL.CTA_CLICKED, analyticsParams);
     goToStore();
   };
 
   useEffect(() => {
-    analytics?.track('referral_child_referral_page_viewed', {
-      referrer_id: inviter?.id,
-      device_type: deviceType,
-    });
+    analytics?.track(ANALYTICS_EVENTS.REFERRAL.PAGE_VIEWD, analyticsParams);
   }, [analytics]);
 
   const username = useMemo(
