@@ -1,18 +1,20 @@
 import { useRouter } from 'next/router';
+
 import { useDeviceDetection } from './use-device-detection';
+import { STORE_APPLE_URL, STORE_GOOGLE_URL } from '@/constants';
 
 export const useStoreURL = () => {
   const router = useRouter();
   const { isIOS, isAndroid } = useDeviceDetection();
 
-  let url = '#';
+  let url = STORE_APPLE_URL;
 
   if (isIOS) {
-    url = 'https://apps.apple.com/app/spotistats-for-spotify/id1526912392';
+    url = STORE_APPLE_URL;
   }
 
   if (isAndroid) {
-    url = 'https://play.google.com/store/apps/details?id=dev.netlob.spotistats';
+    url = STORE_GOOGLE_URL;
   }
 
   const goToStore = () => {
