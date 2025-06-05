@@ -19,7 +19,6 @@ type AnalyticsParams = {
 };
 
 type Props = {
-  origin: string;
   analyticsParams: AnalyticsParams;
   inviter: statsfm.UserPublic | null;
 };
@@ -48,7 +47,6 @@ export const getServerSideProps: GetServerSideProps<Props> = async (ctx) => {
       props: {
         inviter,
         analyticsParams,
-        origin: `https://${ctx.req.headers.host}`,
       },
     };
   } catch (error) {
@@ -56,17 +54,12 @@ export const getServerSideProps: GetServerSideProps<Props> = async (ctx) => {
       props: {
         inviter: null,
         analyticsParams,
-        origin: `https://${ctx.req.headers.host}`,
       },
     };
   }
 };
 
-const ReferralPage: NextPage<Props> = ({
-  origin,
-  inviter,
-  analyticsParams,
-}) => {
+const ReferralPage: NextPage<Props> = ({ inviter, analyticsParams }) => {
   const analytics = useAnalytics();
   const { goToStore } = useStoreURL();
 
@@ -93,6 +86,12 @@ const ReferralPage: NextPage<Props> = ({
     [inviter],
   );
 
+  const ogImage = useMemo(() => inviter?.referralImage ?? undefined, [inviter]);
+  const ogReferralURL = useMemo(
+    () => inviter?.referralURL ?? undefined,
+    [inviter],
+  );
+
   const ProfileAnimation = useAnimation({
     animation: 'headphone.riv',
     assetLoaders: {
@@ -108,15 +107,18 @@ const ReferralPage: NextPage<Props> = ({
     <>
       <Title>{title}</Title>
       <Head>
+        <meta property="og:title" content="Tap to see my music stats" />
         <meta
           property="og:description"
           content={
             inviter
-              ? `${inviter.displayName} invited you to join stats.fm`
+              ? `See what ${inviter.displayName} is playing too. Music hits harder together`
               : 'Join the stats.fm community'
           }
         />
-        <meta property="og:image" content={`${origin}/api/og/invite`} />
+        <meta property="og:type" content="website" />
+        <meta property="og:image" content={ogImage} />
+        <meta property="og:url" content={ogReferralURL} />
         <meta property="twitter:card" content="summary_large_image" />
       </Head>
 
