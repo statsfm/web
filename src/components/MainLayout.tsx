@@ -1,3 +1,4 @@
+import { GOOGLE_ANALYTICS_ID } from '@/constants';
 import { ToasterContainer } from '@/context/toaster';
 import { GoogleAnalytics } from '@next/third-parties/google';
 
@@ -12,7 +13,7 @@ export const MainLayout: FC<{
   children: ReactNode;
 }> = ({ children }) => (
   <ToasterContainer>
-    <GoogleAnalytics gaId="G-3PMBLRJDEB" />
+    <GoogleAnalytics gaId={GOOGLE_ANALYTICS_ID} />
     <Title />
     <NavBar />
     <ErrorBoundary>{children}</ErrorBoundary>

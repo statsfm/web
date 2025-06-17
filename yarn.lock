@@ -1261,7 +1261,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@next/third-parties@npm:^15.3.3":
+"@next/third-parties@npm:15.3.3":
   version: 15.3.3
   resolution: "@next/third-parties@npm:15.3.3"
   dependencies:
@@ -8847,7 +8847,7 @@ __metadata:
     "@hapi/accept": "npm:^6.0.3"
     "@headlessui/react": "npm:1.7.2"
     "@next/bundle-analyzer": "npm:^12.2.1"
-    "@next/third-parties": "npm:^15.3.3"
+    "@next/third-parties": "npm:15.3.3"
     "@radix-ui/react-dialog": "npm:^1.0.5"
     "@resvg/resvg-js": "npm:^2.6.2"
     "@rive-app/react-webgl2": "npm:^4.21.1"
