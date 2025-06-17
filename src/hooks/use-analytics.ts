@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { RudderAnalytics } from '@rudderstack/analytics-js';
+import { sendGAEvent } from '@next/third-parties/google';
 
 const hasEnv =
   process.env.NEXT_PUBLIC_RUDDERSTACK_KEY &&
@@ -7,7 +8,7 @@ const hasEnv =
 
 const useAnalytics = (): {
   rudder: RudderAnalytics | undefined;
-  googleAnalytics: (name: string, value?: string) => void | undefined;
+  googleAnalytics: (name: string, value?: string) => void;
 } => {
   const [analytics, setAnalytics] = useState<RudderAnalytics>();
 
@@ -24,8 +25,8 @@ const useAnalytics = (): {
 
   return {
     rudder: analytics,
-    googleAnalytics: (name: string, value?: string) => {
-      (window as any)?.gtag?.('event', name, { value: value ?? 'success' });
+    googleAnalytics: (name: string, value: string = 'success') => {
+      sendGAEvent('event', name, { value });
     },
   };
 };

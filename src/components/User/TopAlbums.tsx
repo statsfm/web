@@ -2,7 +2,7 @@ import { useApi, useAuth } from '@/hooks';
 import formatter from '@/utils/formatter';
 import type { TopAlbum, UserPublic } from '@/utils/statsfm';
 import { useState, type FC, useEffect, type RefObject } from 'react';
-import { event } from 'nextjs-google-analytics';
+import { sendGAEvent } from '@next/third-parties/google';
 import { Carousel } from '../Carousel';
 import Scope from '../PrivacyScope';
 import {
@@ -76,11 +76,11 @@ export const TopAlbums: FC<{
               <>
                 <SectionToolbarGridMode callback={gridModeCallback} />
                 <SectionToolbarCarouselNavigation
-                  callback={() => event('USER_top_albums_previous')}
+                  callback={() => sendGAEvent('USER_top_albums_previous')}
                 />
                 <SectionToolbarCarouselNavigation
                   next
-                  callback={() => event('USER_top_albums_next')}
+                  callback={() => sendGAEvent('USER_top_albums_next')}
                 />
               </>
             )}
@@ -102,7 +102,7 @@ export const TopAlbums: FC<{
                     .map((item) => (
                       <Carousel.Item
                         key={item.album.id}
-                        onClick={() => event('USER_top_album_click')}
+                        onClick={() => sendGAEvent('USER_top_album_click')}
                       >
                         <AlbumCard {...item} />
                       </Carousel.Item>

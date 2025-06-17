@@ -1,6 +1,6 @@
 import { useState, type FC, useEffect } from 'react';
 import type * as statsfm from '@/utils/statsfm';
-import { event } from 'nextjs-google-analytics';
+import { sendGAEvent } from '@next/third-parties/google';
 import { useApi, useAuth } from '@/hooks';
 import { supportUrls } from '@/utils/supportUrls';
 import router from 'next/router';
@@ -45,9 +45,12 @@ const TopListenersBase: FC<
           >
             <SectionToolbarGridMode
               callback={(gridmode) => {
-                event(`${type}_top_listener${friends ? '_friends' : ''}_grid`, {
-                  gridmodeOn: !gridmode,
-                });
+                sendGAEvent(
+                  `${type}_top_listener${friends ? '_friends' : ''}_grid`,
+                  {
+                    gridmodeOn: !gridmode,
+                  },
+                );
                 setGridMode(!gridmode);
                 return !gridmode;
               }}
@@ -57,7 +60,7 @@ const TopListenersBase: FC<
             >
               <SectionToolbarCarouselNavigation
                 callback={() =>
-                  event(
+                  sendGAEvent(
                     `${type}_top_listener${friends ? '_friends' : ''}_previous`,
                   )
                 }
@@ -65,7 +68,9 @@ const TopListenersBase: FC<
               <SectionToolbarCarouselNavigation
                 next
                 callback={() =>
-                  event(`${type}_top_listener${friends ? '_friends' : ''}_next`)
+                  sendGAEvent(
+                    `${type}_top_listener${friends ? '_friends' : ''}_next`,
+                  )
                 }
               />
             </div>
@@ -87,7 +92,7 @@ const TopListenersBase: FC<
                   <Carousel.Item
                     key={(Math.random() + 1).toString(36).substring(7)}
                     onClick={() =>
-                      event(
+                      sendGAEvent(
                         `${type}_top_listener${friends ? '_friends' : ''}_click`,
                       )
                     }

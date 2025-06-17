@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { useAuth } from '@/hooks';
 
 import { MdAccountCircle, MdExitToApp, MdManageAccounts } from 'react-icons/md';
-import { event } from 'nextjs-google-analytics';
+import { sendGAEvent } from '@next/third-parties/google';
 import type { NextRouter } from 'next/router';
 import { useRouter } from 'next/router';
 import Cookies from 'js-cookie';
@@ -27,7 +27,7 @@ const navigation = [
         <Link
           className="flex flex-row gap-1 font-medium text-plus"
           href="/plus"
-          onClick={() => event('NAV_plus')}
+          onClick={() => sendGAEvent('NAV_plus')}
         >
           <CrownIcon className="m-[2px] mt-0 size-[20px] lg:mt-[2px]" />
           Unlock Plus
@@ -63,7 +63,7 @@ export const NavBar = () => {
         <Link
           href="/"
           className="mr-auto flex gap-3 lg:mr-12"
-          onClick={() => event('NAV_home')}
+          onClick={() => sendGAEvent('NAV_home')}
         >
           <Logo className="size-[1.7rem] cursor-pointer" />
           <h3 className="mt-[-3px]">stats.fm</h3>
@@ -126,7 +126,7 @@ export const NavBar = () => {
             <Menu.Items>
               <Menu.Item
                 className="!p-0 focus:!bg-transparent"
-                onClick={() => event('NAV_profile')}
+                onClick={() => sendGAEvent('NAV_profile')}
               >
                 <Link
                   className="flex gap-2 px-4 py-2"
@@ -139,7 +139,10 @@ export const NavBar = () => {
                   </div>
                 </Link>
               </Menu.Item>
-              <Menu.Item className="!p-0" onClick={() => event('NAV_profile')}>
+              <Menu.Item
+                className="!p-0"
+                onClick={() => sendGAEvent('NAV_profile')}
+              >
                 <Link
                   className="flex size-full flex-row items-center gap-2 px-4 py-2"
                   href={`/${user.customId ?? user.id}`}
@@ -147,7 +150,10 @@ export const NavBar = () => {
                   <MdAccountCircle className="text-white" /> My page
                 </Link>
               </Menu.Item>
-              <Menu.Item className="!p-0" onClick={() => event('NAV_settings')}>
+              <Menu.Item
+                className="!p-0"
+                onClick={() => sendGAEvent('NAV_settings')}
+              >
                 <Link
                   className="flex size-full flex-row items-center gap-2 px-4 py-2"
                   href="/settings/profile"
@@ -160,7 +166,7 @@ export const NavBar = () => {
                 className="items-center"
                 icon={<MdExitToApp />}
                 onClick={() => {
-                  event('NAV_logout');
+                  sendGAEvent('NAV_logout');
                   handleLogOutClick();
                 }}
               >

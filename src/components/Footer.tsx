@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { event } from 'nextjs-google-analytics';
+import { sendGAEvent } from '@next/third-parties/google';
 import { useAuth } from '@/hooks';
 import { useRouter } from 'next/router';
 import { Container } from './Container';
@@ -120,7 +120,9 @@ export const Footer = () => {
                       onClick={
                         cat.label === 'Socials'
                           ? () =>
-                              event(`FOOTER_${link.label.toLowerCase()}_click`)
+                              sendGAEvent(
+                                `FOOTER_${link.label.toLowerCase()}_click`,
+                              )
                           : undefined
                       }
                     >
@@ -143,13 +145,13 @@ export const Footer = () => {
           <StoreBadge
             store="apple"
             size="xs"
-            onClick={() => event('FOOTER_appstore')}
+            onClick={() => sendGAEvent('FOOTER_appstore')}
           />
           <div className="mt-2"></div>
           <StoreBadge
             store="google"
             size="xs"
-            onClick={() => event('FOOTER_playstore')}
+            onClick={() => sendGAEvent('FOOTER_playstore')}
           />
         </div>
         {user && !user.isPlus && pathname !== '/plus' ? (
@@ -179,7 +181,7 @@ export const Footer = () => {
               href={social.href}
               rel="noopener noreferrer"
               target="_blank"
-              onClick={() => event(`FOOTER_${social.icon.toLowerCase()}`)}
+              onClick={() => sendGAEvent(`FOOTER_${social.icon.toLowerCase()}`)}
             >
               <img
                 className="size-10"

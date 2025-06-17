@@ -7,7 +7,7 @@ import {
 } from '@/utils/statsfm';
 import { useApi, useAuth } from '@/hooks';
 import clsx from 'clsx';
-import { event } from 'nextjs-google-analytics';
+import { sendGAEvent } from '@next/third-parties/google';
 import {
   Section,
   SectionToolbarCarouselNavigation,
@@ -55,7 +55,7 @@ export const ArtistTopTracks: FC<Props> = ({ artist }) => {
           <Carousel.Item
             key={item.id}
             onClick={() =>
-              event('ARTIST_top_track_click', {
+              sendGAEvent('ARTIST_top_track_click', {
                 ownTopTracks: showOwnTopTracks,
                 gridmodeOn: !gridMode,
               })
@@ -97,7 +97,7 @@ export const ArtistTopTracks: FC<Props> = ({ artist }) => {
             )}
             <SectionToolbarGridMode
               callback={(gridmode) => {
-                event('ARTIST_top_track_grid', {
+                sendGAEvent('ARTIST_top_track_grid', {
                   ownTopTracks: showOwnTopTracks,
                   gridmodeOn: !gridmode,
                 });
@@ -110,7 +110,7 @@ export const ArtistTopTracks: FC<Props> = ({ artist }) => {
             >
               <SectionToolbarCarouselNavigation
                 callback={() =>
-                  event('ARTIST_top_track_previous', {
+                  sendGAEvent('ARTIST_top_track_previous', {
                     ownTopTracks: showOwnTopTracks,
                   })
                 }
@@ -118,7 +118,7 @@ export const ArtistTopTracks: FC<Props> = ({ artist }) => {
               <SectionToolbarCarouselNavigation
                 next
                 callback={() =>
-                  event('ARTIST_top_track_next', {
+                  sendGAEvent('ARTIST_top_track_next', {
                     ownTopTracks: showOwnTopTracks,
                   })
                 }
@@ -133,7 +133,7 @@ export const ArtistTopTracks: FC<Props> = ({ artist }) => {
                 <Carousel.Item
                   key={item.track.id}
                   onClick={() =>
-                    event('ARTIST_top_track_click', {
+                    sendGAEvent('ARTIST_top_track_click', {
                       ownTopTracks: showOwnTopTracks,
                       gridmodeOn: !gridMode,
                     })

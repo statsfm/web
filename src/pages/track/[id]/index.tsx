@@ -28,7 +28,7 @@ import {
   RadialLinearScale,
 } from 'chart.js';
 import Head from 'next/head';
-import { event } from 'nextjs-google-analytics';
+import { sendGAEvent } from '@next/third-parties/google';
 import { Radar } from 'react-chartjs-2';
 import { TopListeners } from '@/components/TopListeners';
 import { MdHearingDisabled } from 'react-icons/md';
@@ -191,7 +191,7 @@ const FeatureCard: FC<{ feature: string; value: string }> = ({
 const Track: NextPage<Props> = ({ track }) => {
   const api = useApi();
   const { user } = useAuth();
-  useScrollPercentage(30, () => event('TRACK_scroll_30'));
+  useScrollPercentage(30, () => sendGAEvent('TRACK_scroll_30'));
 
   const [audioFeatures, setAudioFeatures] = useState<statsfm.AudioFeatures>();
   const [recentStreams, setRecentStreams] = useState<statsfm.Stream[] | null>(
@@ -329,11 +329,11 @@ const Track: NextPage<Props> = ({ track }) => {
             toolbar={
               <div className="flex gap-1">
                 <SectionToolbarCarouselNavigation
-                  callback={() => event('TRACK_album_previous')}
+                  callback={() => sendGAEvent('TRACK_album_previous')}
                 />
                 <SectionToolbarCarouselNavigation
                   next
-                  callback={() => event('TRACK_album_next')}
+                  callback={() => sendGAEvent('TRACK_album_next')}
                 />
               </div>
             }
@@ -343,7 +343,7 @@ const Track: NextPage<Props> = ({ track }) => {
                 <Carousel.Item
                   key={i}
                   className="w-max"
-                  onClick={() => event('TRACK_album_click')}
+                  onClick={() => sendGAEvent('TRACK_album_click')}
                 >
                   <AlbumCard album={item} />
                 </Carousel.Item>

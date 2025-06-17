@@ -3,7 +3,7 @@ import type { UserPublic, TopGenre } from '@/utils/statsfm';
 import clsx from 'clsx';
 import Link from 'next/link';
 import { useEffect, type FC, useState } from 'react';
-import { event } from 'nextjs-google-analytics';
+import { sendGAEvent } from '@next/third-parties/google';
 import { ChipGroup, Chip } from '../Chip';
 import Scope from '../PrivacyScope';
 import { Section } from '../Section';
@@ -56,7 +56,7 @@ export const TopGenres: FC<{
                       legacyBehavior
                       href={`/genre/${encodeURIComponent(genre.genre.tag)}`}
                     >
-                      <a onClick={() => event('USER_top_genre_click')}>
+                      <a onClick={() => sendGAEvent('USER_top_genre_click')}>
                         {genre.genre.tag}
                       </a>
                     </Link>

@@ -14,7 +14,7 @@ import { Title } from '@/components/Title';
 import Head from 'next/head';
 import { StatsCardContainer } from '@/components/Stats';
 import { useScrollPercentage } from '@/hooks/use-scroll-percentage';
-import { event } from 'nextjs-google-analytics';
+import { sendGAEvent } from '@next/third-parties/google';
 import type { SSRProps } from '@/utils/ssrUtils';
 import { fetchUser, getApiInstance, getOrigin } from '@/utils/ssrUtils';
 import formatter from '@/utils/formatter';
@@ -31,7 +31,7 @@ const Genres: FC<Pick<statsfm.Artist, 'genres'>> = ({ genres }) => (
       {genres.map((genre, i) => (
         <Chip key={`${genre}-${i}`}>
           <Link legacyBehavior href={`/genre/${genre}`}>
-            <a onClick={() => event('ARTIST_genre_click')}>{genre}</a>
+            <a onClick={() => sendGAEvent('ARTIST_genre_click')}>{genre}</a>
           </Link>
         </Chip>
       ))}
@@ -83,7 +83,7 @@ const Artist: NextPage<Props> = ({ artist, origin }) => {
     | null
   >(null);
 
-  useScrollPercentage(30, () => event('ARTIST_scroll_30'));
+  useScrollPercentage(30, () => sendGAEvent('ARTIST_scroll_30'));
 
   useEffect(() => {
     if (!user) return;
@@ -247,7 +247,7 @@ const Artist: NextPage<Props> = ({ artist, origin }) => {
                     headerRef={headerRef}
                     streams={streams ?? []}
                     loading={streams == null}
-                    onItemClick={() => event('ARTIST_stream_click')}
+                    onItemClick={() => sendGAEvent('ARTIST_stream_click')}
                   />
                   {user.hasImported && (
                     <Link legacyBehavior href={`/artist/${artist.id}/streams`}>
