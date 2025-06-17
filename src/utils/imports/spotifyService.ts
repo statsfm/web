@@ -2,7 +2,7 @@
 /* eslint-disable no-restricted-syntax */
 import { z } from 'zod';
 import { Platform } from '@/utils/statsfm';
-import type { event } from 'nextjs-google-analytics';
+import type { sendGAEvent } from '@next/third-parties/google';
 import { ZipReader, BlobReader, TextWriter } from '@zip.js/zip.js';
 import type { SetStateAction } from 'react';
 import { ulid } from 'ulid';
@@ -57,7 +57,7 @@ const importValidity = (files: File[], toaster: ToasterType) => {
 const processJSON = async (
   file: { name: string; content: string; id: string },
   utils: {
-    event: typeof event;
+    event: typeof sendGAEvent;
     setUploadedFiles: (value: SetStateAction<UploadedImportFile[]>) => void;
   },
 ) => {

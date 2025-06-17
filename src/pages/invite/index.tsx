@@ -60,17 +60,17 @@ export const getServerSideProps: GetServerSideProps<Props> = async (ctx) => {
 };
 
 const ReferralPage: NextPage<Props> = ({ inviter, analyticsParams }) => {
-  const analytics = useAnalytics();
+  const { rudder } = useAnalytics();
   const { goToStore } = useStoreURL();
 
   const handleStoreRedirect = () => {
-    analytics?.track(ANALYTICS_EVENTS.REFERRAL.CTA_CLICKED, analyticsParams);
+    rudder?.track(ANALYTICS_EVENTS.REFERRAL.CTA_CLICKED, analyticsParams);
     goToStore();
   };
 
   useEffect(() => {
-    analytics?.track(ANALYTICS_EVENTS.REFERRAL.PAGE_VIEWD, analyticsParams);
-  }, [analytics]);
+    rudder?.track(ANALYTICS_EVENTS.REFERRAL.PAGE_VIEWD, analyticsParams);
+  }, [rudder]);
 
   const username = useMemo(
     () =>
@@ -130,16 +130,16 @@ const ReferralPage: NextPage<Props> = ({ inviter, analyticsParams }) => {
         <div className="h-[55%] sm:h-[30%]" />
 
         <div className="w-full max-w-md text-center">
-          <div className="mb-6">
+          <div className="mb-4">
             <div className="w-full overflow-hidden">
-              <span className="inline-block max-w-full truncate rounded-full bg-white/15 px-4 py-2 text-sm text-white">
+              <span className="inline-block max-w-full truncate rounded-full bg-white/15 px-4 py-2 text-[20px] font-normal text-white">
                 {username}
               </span>
             </div>
           </div>
 
           <div className="mb-4">
-            <h1 className="mb-3 text-3xl font-bold leading-tight md:text-4xl">
+            <h1 className="mb-4 text-[40px] font-bold leading-tight md:text-4xl">
               Guess what they
               <br />
               are listening to 👀
@@ -151,7 +151,7 @@ const ReferralPage: NextPage<Props> = ({ inviter, analyticsParams }) => {
 
           <button
             onClick={handleStoreRedirect}
-            className="mx-auto mt-8 w-full max-w-xs rounded-xl bg-[#1DB954] px-6 py-3 text-base font-medium text-black transition-colors hover:bg-primary"
+            className="mx-auto mt-4 w-full min-w-[240px] max-w-xs rounded-xl bg-[#1DB954] px-6 py-3 text-base font-medium text-black transition-colors hover:bg-primary"
           >
             Accept invite
           </button>

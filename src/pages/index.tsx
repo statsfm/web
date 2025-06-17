@@ -11,7 +11,7 @@ import type { SSRProps } from '@/utils/ssrUtils';
 import { fetchUser } from '@/utils/ssrUtils';
 import type { GetServerSideProps, NextPage } from 'next';
 import Link from 'next/link';
-import { event } from 'nextjs-google-analytics';
+import { sendGAEvent } from '@next/third-parties/google';
 import type { FC, PropsWithChildren } from 'react';
 import type { IconType } from 'react-icons';
 import {
@@ -58,7 +58,7 @@ export const getServerSideProps: GetServerSideProps<SSRProps> = async (ctx) => {
 };
 
 const Home: NextPage = () => {
-  useScrollPercentage(30, () => event('HOME_scroll_30'));
+  useScrollPercentage(30, () => sendGAEvent('HOME_scroll_30'));
   return (
     <>
       <Title reverse noDivider>
@@ -88,7 +88,7 @@ const Home: NextPage = () => {
           </p>
           <ChevronLink
             href="https://youtu.be/ABqhwEmR7E0"
-            onClick={() => event('HOME_header_watch_video_new')}
+            onClick={() => sendGAEvent('HOME_header_watch_video_new')}
           >
             Watch the video
           </ChevronLink>
@@ -96,13 +96,13 @@ const Home: NextPage = () => {
             <StoreBadge
               store="apple"
               onClick={() => {
-                event('HOME_header_appstore');
+                sendGAEvent('HOME_header_appstore');
               }}
             />
             <StoreBadge
               store="google"
               onClick={() => {
-                event('HOME_header_playstore');
+                sendGAEvent('HOME_header_playstore');
               }}
             />
           </div>
@@ -167,7 +167,7 @@ const Home: NextPage = () => {
                   <a
                     className="text-white hover:opacity-80"
                     onClick={() => {
-                      event('HOME_features_import_link');
+                      sendGAEvent('HOME_features_import_link');
                     }}
                   >
                     import of streaming history
@@ -205,7 +205,7 @@ const Home: NextPage = () => {
             <div className="h-full"></div>
 
             <ChevronLink
-              onClick={() => event('HOME_friends_example_page')}
+              onClick={() => sendGAEvent('HOME_friends_example_page')}
               href="sjoerdgaatwakawaka"
               local
             >
@@ -268,11 +268,11 @@ const Home: NextPage = () => {
             <div className="mt-8 flex flex-col items-center justify-center gap-2 md:flex-row">
               <StoreBadge
                 store="google"
-                onClick={() => event('HOME_cta_appstore')}
+                onClick={() => sendGAEvent('HOME_cta_appstore')}
               />
               <StoreBadge
                 store="apple"
-                onClick={() => event('HOME_cta_playstore')}
+                onClick={() => sendGAEvent('HOME_cta_playstore')}
               />
             </div>
           </Card>

@@ -2,7 +2,7 @@ import { useApi, useAuth } from '@/hooks';
 import formatter from '@/utils/formatter';
 import type { TopTrack, UserPublic } from '@/utils/statsfm';
 import { useState, type FC, useEffect, type RefObject } from 'react';
-import { event } from 'nextjs-google-analytics';
+import { sendGAEvent } from '@next/third-parties/google';
 import { Carousel } from '../Carousel';
 import Scope from '../PrivacyScope';
 import {
@@ -76,11 +76,11 @@ export const TopTracks: FC<{
               <>
                 <SectionToolbarGridMode callback={gridModeCallback} />
                 <SectionToolbarCarouselNavigation
-                  callback={() => event('USER_top_tracks_previous')}
+                  callback={() => sendGAEvent('USER_top_tracks_previous')}
                 />
                 <SectionToolbarCarouselNavigation
                   next
-                  callback={() => event('USER_top_tracks_next')}
+                  callback={() => sendGAEvent('USER_top_tracks_next')}
                 />
               </>
             )}
@@ -108,7 +108,7 @@ export const TopTracks: FC<{
                     .map((item) => (
                       <Carousel.Item
                         key={item.track.id}
-                        onClick={() => event('USER_top_track_click')}
+                        onClick={() => sendGAEvent('USER_top_track_click')}
                       >
                         <TrackCard {...item} />
                       </Carousel.Item>

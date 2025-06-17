@@ -1,9 +1,12 @@
 import { Button } from '@/components/Button';
 import { Container } from '@/components/Container';
+import { ANALYTICS_EVENTS } from '@/constants/analytics';
+import useAnalytics from '@/hooks/use-analytics';
 import type { SSRProps } from '@/utils/ssrUtils';
 import { fetchUser } from '@/utils/ssrUtils';
 import type { GetServerSideProps, NextPage } from 'next';
 import { useRouter } from 'next/router';
+import { useEffect } from 'react';
 
 type Props = {
   gif: string;
@@ -40,6 +43,11 @@ export const getServerSideProps: GetServerSideProps<SSRProps<Props>> = async (
 
 const SuccessPage: NextPage<Props> = ({ gif }) => {
   const router = useRouter();
+  const { googleAnalytics } = useAnalytics();
+
+  useEffect(() => {
+    googleAnalytics(ANALYTICS_EVENTS.REVENUE.STRIPE_SUCCESS);
+  }, [googleAnalytics]);
 
   return (
     <Container className="min-h-screen pt-20">

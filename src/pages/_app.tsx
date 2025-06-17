@@ -2,6 +2,7 @@ import '@/styles/globals.css';
 
 import clsx from 'clsx';
 import Head from 'next/head';
+import Script from 'next/script';
 import { useRouter } from 'next/router';
 import localFont from 'next/font/local';
 import type { AppProps } from 'next/app';
@@ -47,13 +48,13 @@ const App = ({
           <meta property="og:type" content="website" />
           <meta property="twitter:site" content="@spotistats" />
           <meta property="twitter:creator" content="@spotistats" />
-          <script
-            async
-            src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6037791262117379"
-            crossOrigin="anonymous"
-          ></script>
           {showDefaultOgp && <DefaultOGPHeaders />}
         </Head>
+        <Script
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6037791262117379"
+          crossOrigin="anonymous"
+        />
         <LayoutComponent>
           <Component {...pageProps} />
         </LayoutComponent>

@@ -12,7 +12,7 @@ import {
 import { Title } from '@/components/Title';
 import { useApi } from '@/hooks';
 import { toProperCase } from '@/utils/toProperCase';
-import { event } from 'nextjs-google-analytics';
+import { sendGAEvent } from '@next/third-parties/google';
 import {
   SearchTypes,
   type Album,
@@ -72,11 +72,11 @@ const SearchList: FC<SearchListProps> = ({ type, data, query, loading }) => {
         toolbar={
           <div className="flex gap-1">
             <SectionToolbarCarouselNavigation
-              callback={() => event(`SEARCH_${type}_previous`)}
+              callback={() => sendGAEvent(`SEARCH_${type}_previous`)}
             />
             <SectionToolbarCarouselNavigation
               next
-              callback={() => event(`SEARCH_${type}_next`)}
+              callback={() => sendGAEvent(`SEARCH_${type}_next`)}
             />
           </div>
         }

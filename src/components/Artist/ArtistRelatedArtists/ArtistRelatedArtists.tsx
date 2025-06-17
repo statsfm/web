@@ -1,7 +1,7 @@
 import { useState, type FC, useEffect } from 'react';
 import { type Artist } from '@/utils/statsfm';
 import { useApi } from '@/hooks';
-import { event } from 'nextjs-google-analytics';
+import { sendGAEvent } from '@next/third-parties/google';
 import {
   Section,
   SectionToolbarCarouselNavigation,
@@ -40,11 +40,11 @@ export const ArtistRelatedArtists: FC<Props> = ({ artist }) => {
         toolbar={
           <div className="flex gap-1">
             <SectionToolbarCarouselNavigation
-              callback={() => event('ARTIST_related_artist_previous')}
+              callback={() => sendGAEvent('ARTIST_related_artist_previous')}
             />
             <SectionToolbarCarouselNavigation
               next
-              callback={() => event('ARTIST_related_artist_next')}
+              callback={() => sendGAEvent('ARTIST_related_artist_next')}
             />
           </div>
         }
@@ -54,7 +54,7 @@ export const ArtistRelatedArtists: FC<Props> = ({ artist }) => {
             ? related.map((item) => (
                 <Carousel.Item
                   key={(Math.random() + 1).toString(36).substring(7)}
-                  onClick={() => event('ARTIST_related_artist_click')}
+                  onClick={() => sendGAEvent('ARTIST_related_artist_click')}
                 >
                   <RelatedArtistCard {...item} />
                 </Carousel.Item>

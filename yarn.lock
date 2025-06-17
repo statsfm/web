@@ -1261,6 +1261,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@next/third-parties@npm:15.3.3":
+  version: 15.3.3
+  resolution: "@next/third-parties@npm:15.3.3"
+  dependencies:
+    third-party-capital: "npm:1.0.20"
+  peerDependencies:
+    next: ^13.0.0 || ^14.0.0 || ^15.0.0
+    react: ^18.2.0 || 19.0.0-rc-de68d2f4-20241204 || ^19.0.0
+  checksum: 10c0/c0729cd4e97ca0706ff0cd15ad6d52f24e5f7808a9fb96282f0fc57f7d54fa7dc887cca561c3d789c9c5bca4f2fa0fd515d4aa72e1f70ba716b2cdf498d1c771
+  languageName: node
+  linkType: hard
+
 "@nodelib/fs.scandir@npm:2.1.5":
   version: 2.1.5
   resolution: "@nodelib/fs.scandir@npm:2.1.5"
@@ -4312,7 +4324,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"fsevents@npm:^2.3.2, fsevents@npm:~2.3.2":
+"fsevents@npm:~2.3.2":
   version: 2.3.3
   resolution: "fsevents@npm:2.3.3"
   dependencies:
@@ -4322,7 +4334,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"fsevents@patch:fsevents@npm%3A^2.3.2#optional!builtin<compat/fsevents>, fsevents@patch:fsevents@npm%3A~2.3.2#optional!builtin<compat/fsevents>":
+"fsevents@patch:fsevents@npm%3A~2.3.2#optional!builtin<compat/fsevents>":
   version: 2.3.3
   resolution: "fsevents@patch:fsevents@npm%3A2.3.3#optional!builtin<compat/fsevents>::version=2.3.3&hash=df0bf1"
   dependencies:
@@ -6493,21 +6505,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"nextjs-google-analytics@npm:^2.1.0":
-  version: 2.3.3
-  resolution: "nextjs-google-analytics@npm:2.3.3"
-  dependencies:
-    fsevents: "npm:^2.3.2"
-  peerDependencies:
-    next: ">=11.0.0"
-    react: ">=17.0.0"
-  dependenciesMeta:
-    fsevents:
-      optional: true
-  checksum: 10c0/121b26a74dc6da193111d79d70c169a61c1a64d8c880784fa0ad4880e3d36a5e08c5491a16d135b99cba83765a1670b8e69c3e5376e8c9e8152c02b9bc6fb045
-  languageName: node
-  linkType: hard
-
 "node-fetch@npm:^2.6.1":
   version: 2.7.0
   resolution: "node-fetch@npm:2.7.0"
@@ -8387,6 +8384,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"third-party-capital@npm:1.0.20":
+  version: 1.0.20
+  resolution: "third-party-capital@npm:1.0.20"
+  checksum: 10c0/7f45ff156ec9d7e2957a5b39061be22b780ffbd2d93c127252d908e2bff6cdd09f827a95909d457c8096e036f155006a38e355a06ee11cb6d63c7f4b150bbfb0
+  languageName: node
+  linkType: hard
+
 "throttle-debounce@npm:^3.0.1":
   version: 3.0.1
   resolution: "throttle-debounce@npm:3.0.1"
@@ -8843,6 +8847,7 @@ __metadata:
     "@hapi/accept": "npm:^6.0.3"
     "@headlessui/react": "npm:1.7.2"
     "@next/bundle-analyzer": "npm:^12.2.1"
+    "@next/third-parties": "npm:15.3.3"
     "@radix-ui/react-dialog": "npm:^1.0.5"
     "@resvg/resvg-js": "npm:^2.6.2"
     "@rive-app/react-webgl2": "npm:^4.21.1"
@@ -8889,7 +8894,6 @@ __metadata:
     linkifyjs: "npm:^3.0.5"
     next: "npm:^14.2.10"
     next-seo: "npm:^5.4.0"
-    nextjs-google-analytics: "npm:^2.1.0"
     picomatch: "npm:^4.0.2"
     postcss: "npm:^8.4.38"
     prettier: "npm:^3.2.5"

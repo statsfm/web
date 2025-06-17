@@ -16,7 +16,7 @@ import type { SSRProps } from '@/utils/ssrUtils';
 import { fetchUser } from '@/utils/ssrUtils';
 import clsx from 'clsx';
 import type { GetServerSideProps, NextPage } from 'next';
-import { event } from 'nextjs-google-analytics';
+import { sendGAEvent } from '@next/third-parties/google';
 import { useState } from 'react';
 import Dropzone from 'react-dropzone';
 import { MdFileUpload, MdWarning } from 'react-icons/md';
@@ -51,7 +51,7 @@ const Imports = () => {
   const [isUploading, setIsUploading] = useState(false);
 
   const services = [SpotifyService, AppleMusicService].map((service) =>
-    service({ toaster, setUploadedFiles, event }),
+    service({ toaster, setUploadedFiles, event: sendGAEvent }),
   );
 
   const uploadFiles = async () => {
@@ -81,7 +81,7 @@ const Imports = () => {
           importService.id,
         );
 
-        event(`IMPORT_${uploadedFile.service}_upload_file`);
+        sendGAEvent(`IMPORT_${uploadedFile.service}_upload_file`);
         uploadedFile.status = UploadedFilesStatus.Uploaded;
       } catch (e: any) {
         uploadedFile.status = UploadedFilesStatus.Failed;
@@ -117,7 +117,7 @@ const Imports = () => {
           className="text-primary hover:opacity-90"
           href="https://support.stats.fm/docs/import"
           target="blank"
-          onClick={() => event('IMPORT_guide_click')}
+          onClick={() => sendGAEvent('IMPORT_guide_click')}
         >
           in the support documentation
         </a>

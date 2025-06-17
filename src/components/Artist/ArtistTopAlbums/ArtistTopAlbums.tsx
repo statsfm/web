@@ -7,7 +7,7 @@ import {
 } from '@/utils/statsfm';
 import { useApi, useAuth } from '@/hooks';
 import clsx from 'clsx';
-import { event } from 'nextjs-google-analytics';
+import { sendGAEvent } from '@next/third-parties/google';
 import { Carousel } from '@/components/Carousel';
 import { AlbumCard, AlbumCardSkeleton } from '@/components/Album/AlbumCard';
 import {
@@ -55,7 +55,7 @@ export const ArtistTopAlbums: FC<Props> = ({ artist }) => {
           <Carousel.Item
             key={item.id}
             onClick={() =>
-              event('ARTIST_top_album_click', {
+              sendGAEvent('ARTIST_top_album_click', {
                 ownTopTracks: showOwnTopAlbums,
                 gridmodeOn: !gridMode,
               })
@@ -97,7 +97,7 @@ export const ArtistTopAlbums: FC<Props> = ({ artist }) => {
             )}
             <SectionToolbarGridMode
               callback={(gridmode) => {
-                event('ARTIST_top_album_grid', {
+                sendGAEvent('ARTIST_top_album_grid', {
                   ownTopAlbums: showOwnTopAlbums,
                   gridmodeOn: !gridmode,
                 });
@@ -110,7 +110,7 @@ export const ArtistTopAlbums: FC<Props> = ({ artist }) => {
             >
               <SectionToolbarCarouselNavigation
                 callback={() =>
-                  event('ARTIST_top_album_previous', {
+                  sendGAEvent('ARTIST_top_album_previous', {
                     ownTopAlbums: showOwnTopAlbums,
                   })
                 }
@@ -118,7 +118,7 @@ export const ArtistTopAlbums: FC<Props> = ({ artist }) => {
               <SectionToolbarCarouselNavigation
                 next
                 callback={() =>
-                  event('ARTIST_top_album_next', {
+                  sendGAEvent('ARTIST_top_album_next', {
                     ownTopAlbums: showOwnTopAlbums,
                   })
                 }
@@ -133,7 +133,7 @@ export const ArtistTopAlbums: FC<Props> = ({ artist }) => {
                 <Carousel.Item
                   key={item.album.id}
                   onClick={() =>
-                    event('ARTIST_top_album_click', {
+                    sendGAEvent('ARTIST_top_album_click', {
                       ownTopAlbums: showOwnTopAlbums,
                       gridmodeOn: !gridMode,
                     })

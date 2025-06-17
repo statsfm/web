@@ -2,7 +2,7 @@ import { useApi, useAuth } from '@/hooks';
 import formatter from '@/utils/formatter';
 import type { TopArtist, UserPublic } from '@/utils/statsfm';
 import { useState, type FC, useEffect, type RefObject } from 'react';
-import { event } from 'nextjs-google-analytics';
+import { sendGAEvent } from '@next/third-parties/google';
 import { Carousel } from '../Carousel';
 import Scope from '../PrivacyScope';
 import {
@@ -77,11 +77,11 @@ export const TopArtists: FC<{
                 {' '}
                 <SectionToolbarGridMode callback={gridModeCallback} />
                 <SectionToolbarCarouselNavigation
-                  callback={() => event('USER_top_artists_previous')}
+                  callback={() => sendGAEvent('USER_top_artists_previous')}
                 />
                 <SectionToolbarCarouselNavigation
                   next
-                  callback={() => event('USER_top_artists_next')}
+                  callback={() => sendGAEvent('USER_top_artists_next')}
                 />
               </>
             )}
@@ -103,7 +103,7 @@ export const TopArtists: FC<{
                     .map((item) => (
                       <Carousel.Item
                         key={item.artist.id}
-                        onClick={() => event('USER_top_artist_click')}
+                        onClick={() => sendGAEvent('USER_top_artist_click')}
                       >
                         <ArtistCard {...item} />
                       </Carousel.Item>

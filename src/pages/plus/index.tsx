@@ -21,6 +21,7 @@ import {
   forwardRef,
   useLayoutEffect,
   useRef,
+  useEffect,
 } from 'react';
 import {
   MdCancel,
@@ -32,6 +33,8 @@ import type { SSRProps } from '@/utils/ssrUtils';
 import { getApiInstance, fetchUser } from '@/utils/ssrUtils';
 import { useMedia } from 'react-use';
 import { useRouter } from 'next/router';
+import { ANALYTICS_EVENTS } from '@/constants/analytics';
+import useAnalytics from '@/hooks/use-analytics';
 
 // eslint-disable-next-line react/display-name
 const AdsBackground = forwardRef<HTMLDivElement>((_, ref) => {
@@ -546,6 +549,7 @@ const PlusPage: NextPage<
   const toaster = useToaster();
   const { user, login } = useAuth();
   const router = useRouter();
+  const { googleAnalytics } = useAnalytics();
 
   const startCheckout = useCallback(async () => {
     if (!user) {
@@ -568,6 +572,10 @@ const PlusPage: NextPage<
       toaster.error('Something went wrong');
     }
   }, [user]);
+
+  useEffect(() => {
+    googleAnalytics(ANALYTICS_EVENTS.REVENUE.UNLOCK_CLICKED);
+  }, [googleAnalytics]);
 
   return (
     <>

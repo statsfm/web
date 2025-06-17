@@ -19,3 +19,5 @@ export const STORE_APPLE_LOGO =
   'https://cdn.stats.fm/file/statsfm/images/brands/stores/app_store.webp';
 export const STORE_GOOGLE_LOGO =
   'https://cdn.stats.fm/file/statsfm/images/brands/stores/play_store.webp';
+
+export const GOOGLE_ANALYTICS_ID = 'G-3PMBLRJDEB';
