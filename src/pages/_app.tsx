@@ -14,6 +14,7 @@ import { DefaultOGPHeaders } from '@/components/DefaultOGPHeaders';
 import { PAGES_WITH_BASE_LAYOUT, PAGES_WITH_CUSTOM_OGP } from '@/constants';
 
 import type { UserPrivate } from '@/utils/statsfm';
+import { GAScript } from '@/components/GAScript';
 
 const StatsfmSans = localFont({
   variable: '--font-statsfm-sans',
@@ -55,6 +56,7 @@ const App = ({
           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6037791262117379"
           crossOrigin="anonymous"
         />
+        <GAScript />
         <LayoutComponent>
           <Component {...pageProps} />
         </LayoutComponent>

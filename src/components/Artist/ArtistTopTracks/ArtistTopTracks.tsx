@@ -7,7 +7,6 @@ import {
 } from '@/utils/statsfm';
 import { useApi, useAuth } from '@/hooks';
 import clsx from 'clsx';
-import { sendGAEvent } from '@next/third-parties/google';
 import {
   Section,
   SectionToolbarCarouselNavigation,
@@ -52,15 +51,7 @@ export const ArtistTopTracks: FC<Props> = ({ artist }) => {
   const normalTopTracks =
     !loading && topTracks.length > 0
       ? topTracks.map((item) => (
-          <Carousel.Item
-            key={item.id}
-            onClick={() =>
-              sendGAEvent('ARTIST_top_track_click', {
-                ownTopTracks: showOwnTopTracks,
-                gridmodeOn: !gridMode,
-              })
-            }
-          >
+          <Carousel.Item key={item.id}>
             <div className="h-[276px]">
               <TrackCard track={item} />
             </div>
@@ -97,10 +88,6 @@ export const ArtistTopTracks: FC<Props> = ({ artist }) => {
             )}
             <SectionToolbarGridMode
               callback={(gridmode) => {
-                sendGAEvent('ARTIST_top_track_grid', {
-                  ownTopTracks: showOwnTopTracks,
-                  gridmodeOn: !gridmode,
-                });
                 setGridMode(!gridmode);
                 return !gridmode;
               }}
@@ -108,21 +95,8 @@ export const ArtistTopTracks: FC<Props> = ({ artist }) => {
             <div
               className={clsx(gridMode ? 'pointer-events-none opacity-30' : '')}
             >
-              <SectionToolbarCarouselNavigation
-                callback={() =>
-                  sendGAEvent('ARTIST_top_track_previous', {
-                    ownTopTracks: showOwnTopTracks,
-                  })
-                }
-              />
-              <SectionToolbarCarouselNavigation
-                next
-                callback={() =>
-                  sendGAEvent('ARTIST_top_track_next', {
-                    ownTopTracks: showOwnTopTracks,
-                  })
-                }
-              />
+              <SectionToolbarCarouselNavigation />
+              <SectionToolbarCarouselNavigation next />
             </div>
           </div>
         }
@@ -130,15 +104,7 @@ export const ArtistTopTracks: FC<Props> = ({ artist }) => {
         <Carousel.Items>
           {!loading && showOwnTopTracks && isEligible && ownTopTracks.length > 0
             ? ownTopTracks.map((item, i) => (
-                <Carousel.Item
-                  key={item.track.id}
-                  onClick={() =>
-                    sendGAEvent('ARTIST_top_track_click', {
-                      ownTopTracks: showOwnTopTracks,
-                      gridmodeOn: !gridMode,
-                    })
-                  }
-                >
+                <Carousel.Item key={item.track.id}>
                   <div className="h-[276px]">
                     <TrackCard
                       track={item.track}

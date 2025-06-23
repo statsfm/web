@@ -2,7 +2,6 @@ import type { useToaster } from '@/hooks';
 import type { Platform } from '@statsfm/statsfm.js';
 import type { SetStateAction } from 'react';
 import type { Accept } from 'react-dropzone';
-import type { sendGAEvent } from '@next/third-parties/google';
 
 export const IMPORT_STATUS = {
   '-2': 'Invalid stream data!',
@@ -127,5 +126,4 @@ export type ToasterType = ReturnType<typeof useToaster>;
 export type ImportServiceFunction = (data: {
   toaster: ToasterType;
   setUploadedFiles: (value: SetStateAction<UploadedImportFile[]>) => void;
-  event: typeof sendGAEvent;
 }) => ImportService;

@@ -1,7 +1,6 @@
 import { useState, type FC, useEffect } from 'react';
 import { type Artist } from '@/utils/statsfm';
 import { useApi } from '@/hooks';
-import { sendGAEvent } from '@next/third-parties/google';
 import {
   Section,
   SectionToolbarCarouselNavigation,
@@ -25,10 +24,14 @@ export const ArtistRelatedArtists: FC<Props> = ({ artist }) => {
   useEffect(() => {
     (async () => {
       setLoading(true);
-      setRelated(
-        await api.artists.related(artist.id).then((r) => r.filter((a) => a.id)),
-      );
-      setLoading(false);
+      try {
+        const result = await api.artists.related(artist.id);
+        setRelated(result.filter((a) => !!a.id));
+      } catch {
+        setRelated([]);
+      } finally {
+        setLoading(false);
+      }
     })();
   }, [artist.id]);
 
@@ -39,13 +42,8 @@ export const ArtistRelatedArtists: FC<Props> = ({ artist }) => {
         description="Artists that fans might also like"
         toolbar={
           <div className="flex gap-1">
-            <SectionToolbarCarouselNavigation
-              callback={() => sendGAEvent('ARTIST_related_artist_previous')}
-            />
-            <SectionToolbarCarouselNavigation
-              next
-              callback={() => sendGAEvent('ARTIST_related_artist_next')}
-            />
+            <SectionToolbarCarouselNavigation />
+            <SectionToolbarCarouselNavigation next />
           </div>
         }
       >
@@ -54,7 +52,6 @@ export const ArtistRelatedArtists: FC<Props> = ({ artist }) => {
             ? related.map((item) => (
                 <Carousel.Item
                   key={(Math.random() + 1).toString(36).substring(7)}
-                  onClick={() => sendGAEvent('ARTIST_related_artist_click')}
                 >
                   <RelatedArtistCard {...item} />
                 </Carousel.Item>

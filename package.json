@@ -15,7 +15,6 @@
     "@hapi/accept": "^6.0.3",
     "@headlessui/react": "1.7.2",
     "@next/bundle-analyzer": "^12.2.1",
-    "@next/third-parties": "15.3.3",
     "@radix-ui/react-dialog": "^1.0.5",
     "@resvg/resvg-js": "^2.6.2",
     "@rive-app/react-webgl2": "^4.21.1",

@@ -14,8 +14,6 @@ import { Title } from '@/components/Title';
 import Head from 'next/head';
 import { StatsCardContainer } from '@/components/Stats';
 
-import { useScrollPercentage } from '@/hooks/use-scroll-percentage';
-import { sendGAEvent } from '@next/third-parties/google';
 import type { SSRProps } from '@/utils/ssrUtils';
 import { fetchUser, getApiInstance } from '@/utils/ssrUtils';
 import formatter from '@/utils/formatter';
@@ -64,8 +62,6 @@ const Album: NextPage<Props> = ({ album, tracks }) => {
   const [stats, setStats] = useState<statsfm.StreamStats | null>(null);
   const [firstStream, setFirstStream] = useState<statsfm.Stream | null>(null);
   const { user } = useAuth();
-
-  useScrollPercentage(30, () => sendGAEvent('ALBUM_scroll_30'));
 
   useEffect(() => {
     if (user) {
@@ -219,10 +215,7 @@ const Album: NextPage<Props> = ({ album, tracks }) => {
             {tracks.map((track, i) => (
               <li key={i}>
                 <Link legacyBehavior href={`/track/${track.id}`} passHref>
-                  <a
-                    className="flex max-w-fit overflow-hidden text-ellipsis"
-                    onClick={() => sendGAEvent('ALBUM_content_track_click')}
-                  >
+                  <a className="flex max-w-fit overflow-hidden text-ellipsis">
                     <span className="px-5">{i + 1}.</span>
 
                     <div className="overflow-hidden">
@@ -251,7 +244,6 @@ const Album: NextPage<Props> = ({ album, tracks }) => {
                     headerRef={headerRef}
                     streams={streams ?? []}
                     loading={streams === null}
-                    onItemClick={() => sendGAEvent('ALBUM_stream_track_click')}
                   />
                   {user.hasImported && (
                     <Link legacyBehavior href={`/album/${album.id}/streams`}>
