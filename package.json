@@ -19,7 +19,7 @@
     "@resvg/resvg-js": "^2.6.2",
     "@rive-app/react-webgl2": "^4.21.1",
     "@rudderstack/analytics-js": "^3.18.2",
-    "@statsfm/statsfm.js": "^2.3.1",
+    "@statsfm/statsfm.js": "2.3.1",
     "@tailwindcss/typography": "^0.5.7",
     "@zip.js/zip.js": "^2.7.33",
     "apexcharts": "^3.42.0",

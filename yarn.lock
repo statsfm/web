@@ -1865,13 +1865,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@statsfm/statsfm.js@npm:^2.3.1":
-  version: 2.3.2
-  resolution: "@statsfm/statsfm.js@npm:2.3.2"
+"@statsfm/statsfm.js@npm:2.3.1":
+  version: 2.3.1
+  resolution: "@statsfm/statsfm.js@npm:2.3.1"
   dependencies:
     file-type: "npm:16"
     isomorphic-unfetch: "npm:^3.1.0"
-  checksum: 10c0/b6a389fdd8ec80dc55a3d50de84a65f243d1a99ec6321fe605492a3ca980288b5d7862f0bd6572c5297a2037b7579d58517e7104367f9ce3288e78b9d5c61fb9
+  checksum: 10c0/0b9958f12c61dbcdc8b56586f832c859f7f3b933c41024ebd8eac128d60cd44c6b6a1e45670fee90cb83c88fc5f247561033c26ce508c05741fdc01ba57ace92
   languageName: node
   linkType: hard
 
@@ -8832,7 +8832,7 @@ __metadata:
     "@resvg/resvg-js": "npm:^2.6.2"
     "@rive-app/react-webgl2": "npm:^4.21.1"
     "@rudderstack/analytics-js": "npm:^3.18.2"
-    "@statsfm/statsfm.js": "npm:^2.3.1"
+    "@statsfm/statsfm.js": "npm:2.3.1"
     "@tailwindcss/typography": "npm:^0.5.7"
     "@types/content-disposition": "npm:^0.5.8"
     "@types/fresh": "npm:^0.5.2"
