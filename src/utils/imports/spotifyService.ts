@@ -2,7 +2,6 @@
 /* eslint-disable no-restricted-syntax */
 import { z } from 'zod';
 import { Platform } from '@/utils/statsfm';
-import type { sendGAEvent } from '@next/third-parties/google';
 import { ZipReader, BlobReader, TextWriter } from '@zip.js/zip.js';
 import type { SetStateAction } from 'react';
 import { ulid } from 'ulid';
@@ -57,7 +56,6 @@ const importValidity = (files: File[], toaster: ToasterType) => {
 const processJSON = async (
   file: { name: string; content: string; id: string },
   utils: {
-    event: typeof sendGAEvent;
     setUploadedFiles: (value: SetStateAction<UploadedImportFile[]>) => void;
   },
 ) => {
@@ -65,7 +63,6 @@ const processJSON = async (
     file.name.match(/StreamingHistory_music_\d\d?.json/g) ||
     file.name.match(/StreamingHistory\d\d?.json/g)
   ) {
-    utils.event('IMPORT_SPOTIFY_selected_spotify_account_data');
     utils.setUploadedFiles((oldList) =>
       oldList.map((f) => {
         if (f.id === file.id) {
@@ -83,7 +80,6 @@ const processJSON = async (
   } else {
     const fileText = file.content;
     if (!isJSONParsable(fileText)) {
-      utils.event('IMPORT_SPOTIFY_selected_invalid_file');
       utils.setUploadedFiles((oldList) =>
         oldList.map((f) => {
           if (f.id === file.id) {
@@ -104,7 +100,6 @@ const processJSON = async (
     try {
       spotifyStreams = await spotifyImportFileSchema.parseAsync(jsonStreams);
     } catch (e: any) {
-      utils.event('IMPORT_SPOTIFY_selected_invalid_file');
       utils.setUploadedFiles((oldList) =>
         oldList.map((f) => {
           if (f.id === file.id) {
@@ -155,7 +150,6 @@ const processJSON = async (
 
 export const SpotifyService: ImportServiceFunction = ({
   toaster,
-  event,
   setUploadedFiles,
 }) => ({
   id: Platform.SPOTIFY,
@@ -187,7 +181,7 @@ export const SpotifyService: ImportServiceFunction = ({
         const content = await file.text();
         await processJSON(
           { name: file.name, content, id },
-          { event, setUploadedFiles },
+          { setUploadedFiles },
         );
       } else if (
         [
@@ -275,7 +269,7 @@ export const SpotifyService: ImportServiceFunction = ({
         }
 
         await Promise.all(
-          filesToImport.map((f) => processJSON(f, { event, setUploadedFiles })),
+          filesToImport.map((f) => processJSON(f, { setUploadedFiles })),
         );
       }
     }

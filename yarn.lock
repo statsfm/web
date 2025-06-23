@@ -1261,18 +1261,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@next/third-parties@npm:15.3.3":
-  version: 15.3.3
-  resolution: "@next/third-parties@npm:15.3.3"
-  dependencies:
-    third-party-capital: "npm:1.0.20"
-  peerDependencies:
-    next: ^13.0.0 || ^14.0.0 || ^15.0.0
-    react: ^18.2.0 || 19.0.0-rc-de68d2f4-20241204 || ^19.0.0
-  checksum: 10c0/c0729cd4e97ca0706ff0cd15ad6d52f24e5f7808a9fb96282f0fc57f7d54fa7dc887cca561c3d789c9c5bca4f2fa0fd515d4aa72e1f70ba716b2cdf498d1c771
-  languageName: node
-  linkType: hard
-
 "@nodelib/fs.scandir@npm:2.1.5":
   version: 2.1.5
   resolution: "@nodelib/fs.scandir@npm:2.1.5"
@@ -8384,13 +8372,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"third-party-capital@npm:1.0.20":
-  version: 1.0.20
-  resolution: "third-party-capital@npm:1.0.20"
-  checksum: 10c0/7f45ff156ec9d7e2957a5b39061be22b780ffbd2d93c127252d908e2bff6cdd09f827a95909d457c8096e036f155006a38e355a06ee11cb6d63c7f4b150bbfb0
-  languageName: node
-  linkType: hard
-
 "throttle-debounce@npm:^3.0.1":
   version: 3.0.1
   resolution: "throttle-debounce@npm:3.0.1"
@@ -8847,7 +8828,6 @@ __metadata:
     "@hapi/accept": "npm:^6.0.3"
     "@headlessui/react": "npm:1.7.2"
     "@next/bundle-analyzer": "npm:^12.2.1"
-    "@next/third-parties": "npm:15.3.3"
     "@radix-ui/react-dialog": "npm:^1.0.5"
     "@resvg/resvg-js": "npm:^2.6.2"
     "@rive-app/react-webgl2": "npm:^4.21.1"

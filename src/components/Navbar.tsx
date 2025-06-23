@@ -2,7 +2,6 @@ import Link from 'next/link';
 import { useAuth } from '@/hooks';
 
 import { MdAccountCircle, MdExitToApp, MdManageAccounts } from 'react-icons/md';
-import { sendGAEvent } from '@next/third-parties/google';
 import type { NextRouter } from 'next/router';
 import { useRouter } from 'next/router';
 import Cookies from 'js-cookie';
@@ -27,7 +26,6 @@ const navigation = [
         <Link
           className="flex flex-row gap-1 font-medium text-plus"
           href="/plus"
-          onClick={() => sendGAEvent('NAV_plus')}
         >
           <CrownIcon className="m-[2px] mt-0 size-[20px] lg:mt-[2px]" />
           Unlock Plus
@@ -60,11 +58,7 @@ export const NavBar = () => {
   return (
     <nav className="absolute z-40 flex w-full">
       <Container className="flex w-full items-center bg-inherit py-3">
-        <Link
-          href="/"
-          className="mr-auto flex gap-3 lg:mr-12"
-          onClick={() => sendGAEvent('NAV_home')}
-        >
+        <Link href="/" className="mr-auto flex gap-3 lg:mr-12">
           <Logo className="size-[1.7rem] cursor-pointer" />
           <h3 className="mt-[-3px]">stats.fm</h3>
         </Link>
@@ -124,10 +118,7 @@ export const NavBar = () => {
             </Menu.Button>
 
             <Menu.Items>
-              <Menu.Item
-                className="!p-0 focus:!bg-transparent"
-                onClick={() => sendGAEvent('NAV_profile')}
-              >
+              <Menu.Item className="!p-0 focus:!bg-transparent">
                 <Link
                   className="flex gap-2 px-4 py-2"
                   href={`/${user.customId ?? user.id}`}
@@ -139,10 +130,7 @@ export const NavBar = () => {
                   </div>
                 </Link>
               </Menu.Item>
-              <Menu.Item
-                className="!p-0"
-                onClick={() => sendGAEvent('NAV_profile')}
-              >
+              <Menu.Item className="!p-0">
                 <Link
                   className="flex size-full flex-row items-center gap-2 px-4 py-2"
                   href={`/${user.customId ?? user.id}`}
@@ -150,10 +138,7 @@ export const NavBar = () => {
                   <MdAccountCircle className="text-white" /> My page
                 </Link>
               </Menu.Item>
-              <Menu.Item
-                className="!p-0"
-                onClick={() => sendGAEvent('NAV_settings')}
-              >
+              <Menu.Item className="!p-0">
                 <Link
                   className="flex size-full flex-row items-center gap-2 px-4 py-2"
                   href="/settings/profile"
@@ -166,7 +151,6 @@ export const NavBar = () => {
                 className="items-center"
                 icon={<MdExitToApp />}
                 onClick={() => {
-                  sendGAEvent('NAV_logout');
                   handleLogOutClick();
                 }}
               >

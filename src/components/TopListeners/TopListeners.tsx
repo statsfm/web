@@ -1,6 +1,5 @@
 import { useState, type FC, useEffect } from 'react';
 import type * as statsfm from '@/utils/statsfm';
-import { sendGAEvent } from '@next/third-parties/google';
 import { useApi, useAuth } from '@/hooks';
 import { supportUrls } from '@/utils/supportUrls';
 import router from 'next/router';
@@ -26,7 +25,7 @@ const TopListenersBase: FC<
     friends: boolean;
     loading: boolean;
   } & Props
-> = ({ topListenerData, friends, loading, data, type }) => {
+> = ({ topListenerData, friends, loading, data }) => {
   const { user, login } = useAuth();
   const [gridMode, setGridMode] = useState(false);
   return (
@@ -45,12 +44,6 @@ const TopListenersBase: FC<
           >
             <SectionToolbarGridMode
               callback={(gridmode) => {
-                sendGAEvent(
-                  `${type}_top_listener${friends ? '_friends' : ''}_grid`,
-                  {
-                    gridmodeOn: !gridmode,
-                  },
-                );
                 setGridMode(!gridmode);
                 return !gridmode;
               }}
@@ -58,21 +51,8 @@ const TopListenersBase: FC<
             <div
               className={clsx(gridMode ? 'pointer-events-none opacity-30' : '')}
             >
-              <SectionToolbarCarouselNavigation
-                callback={() =>
-                  sendGAEvent(
-                    `${type}_top_listener${friends ? '_friends' : ''}_previous`,
-                  )
-                }
-              />
-              <SectionToolbarCarouselNavigation
-                next
-                callback={() =>
-                  sendGAEvent(
-                    `${type}_top_listener${friends ? '_friends' : ''}_next`,
-                  )
-                }
-              />
+              <SectionToolbarCarouselNavigation />
+              <SectionToolbarCarouselNavigation next />
             </div>
             <SectionToolbarInfoMenu
               description="Learn more about what top listeners are and how they're calculated"
@@ -91,11 +71,6 @@ const TopListenersBase: FC<
               ? topListenerData.map((item) => (
                   <Carousel.Item
                     key={(Math.random() + 1).toString(36).substring(7)}
-                    onClick={() =>
-                      sendGAEvent(
-                        `${type}_top_listener${friends ? '_friends' : ''}_click`,
-                      )
-                    }
                   >
                     <div className="h-[270px]">
                       <TopListenerCard {...item} />

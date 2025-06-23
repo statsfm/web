@@ -12,7 +12,6 @@ import {
 import { Title } from '@/components/Title';
 import { useApi } from '@/hooks';
 import { toProperCase } from '@/utils/toProperCase';
-import { sendGAEvent } from '@next/third-parties/google';
 import {
   SearchTypes,
   type Album,
@@ -71,13 +70,8 @@ const SearchList: FC<SearchListProps> = ({ type, data, query, loading }) => {
         description={`${toProperCase(type)}s matching "${query}"`}
         toolbar={
           <div className="flex gap-1">
-            <SectionToolbarCarouselNavigation
-              callback={() => sendGAEvent(`SEARCH_${type}_previous`)}
-            />
-            <SectionToolbarCarouselNavigation
-              next
-              callback={() => sendGAEvent(`SEARCH_${type}_next`)}
-            />
+            <SectionToolbarCarouselNavigation />
+            <SectionToolbarCarouselNavigation next />
           </div>
         }
       >

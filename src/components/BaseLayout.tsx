@@ -1,6 +1,4 @@
 import Link from 'next/link';
-import { GOOGLE_ANALYTICS_ID } from '@/constants';
-import { GoogleAnalytics } from '@next/third-parties/google';
 
 import type { FC, ReactNode } from 'react';
 
@@ -12,7 +10,6 @@ export const BaseLayout: FC<{
   children: ReactNode;
 }> = ({ children }) => (
   <>
-    <GoogleAnalytics gaId={GOOGLE_ANALYTICS_ID} />
     <nav className="absolute z-40 flex w-full">
       <Container className="ml-2 mt-2 flex w-full items-end bg-inherit py-3">
         <Link href="/" className="mr-auto flex items-center gap-3 lg:mr-12">

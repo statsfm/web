@@ -16,7 +16,6 @@ import {
 import { StatsCardContainer } from '@/components/Stats';
 
 import { Title } from '@/components/Title';
-import { useScrollPercentage } from '@/hooks/use-scroll-percentage';
 import dayjs from '@/utils/dayjs';
 import formatter from '@/utils/formatter';
 import { fetchUser, getApiInstance, type SSRProps } from '@/utils/ssrUtils';
@@ -28,7 +27,6 @@ import {
   RadialLinearScale,
 } from 'chart.js';
 import Head from 'next/head';
-import { sendGAEvent } from '@next/third-parties/google';
 import { Radar } from 'react-chartjs-2';
 import { TopListeners } from '@/components/TopListeners';
 import { MdHearingDisabled } from 'react-icons/md';
@@ -191,7 +189,6 @@ const FeatureCard: FC<{ feature: string; value: string }> = ({
 const Track: NextPage<Props> = ({ track }) => {
   const api = useApi();
   const { user } = useAuth();
-  useScrollPercentage(30, () => sendGAEvent('TRACK_scroll_30'));
 
   const [audioFeatures, setAudioFeatures] = useState<statsfm.AudioFeatures>();
   const [recentStreams, setRecentStreams] = useState<statsfm.Stream[] | null>(
@@ -328,23 +325,14 @@ const Track: NextPage<Props> = ({ track }) => {
             description={`Albums featuring ${track.name}`}
             toolbar={
               <div className="flex gap-1">
-                <SectionToolbarCarouselNavigation
-                  callback={() => sendGAEvent('TRACK_album_previous')}
-                />
-                <SectionToolbarCarouselNavigation
-                  next
-                  callback={() => sendGAEvent('TRACK_album_next')}
-                />
+                <SectionToolbarCarouselNavigation />
+                <SectionToolbarCarouselNavigation next />
               </div>
             }
           >
             <Carousel.Items>
               {track.albums.map((item, i) => (
-                <Carousel.Item
-                  key={i}
-                  className="w-max"
-                  onClick={() => sendGAEvent('TRACK_album_click')}
-                >
+                <Carousel.Item key={i} className="w-max">
                   <AlbumCard album={item} />
                 </Carousel.Item>
               ))}

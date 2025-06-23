@@ -12,7 +12,6 @@ import type { FC } from 'react';
 import { useCallback, useMemo, useState } from 'react';
 import type { SSRProps } from '@/utils/ssrUtils';
 import { fetchUser } from '@/utils/ssrUtils';
-import { sendGAEvent } from '@next/third-parties/google';
 
 type DisplayNamesType = {
   [key in keyof UserPrivacySettings]: {
@@ -106,7 +105,6 @@ const PrivacyList: FC<{ user: UserPrivate }> = () => {
     }
 
     setStatus('SAVED');
-    sendGAEvent('SETTINGS_profile_saved');
   }, [privacySettings]);
 
   const displaySettings = useMemo(() => {
@@ -152,7 +150,7 @@ const PrivacyList: FC<{ user: UserPrivate }> = () => {
 
                 <Switch
                   checked={value}
-                  onChange={(value) =>
+                  onChange={(value: boolean) =>
                     setPrivacySettings({
                       ...privacySettings,
                       [setting]: value,
