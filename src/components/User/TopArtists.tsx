@@ -2,7 +2,6 @@ import { useApi, useAuth } from '@/hooks';
 import formatter from '@/utils/formatter';
 import type { TopArtist, UserPublic } from '@/utils/statsfm';
 import { useState, type FC, useEffect, type RefObject } from 'react';
-import { sendGAEvent } from '@next/third-parties/google';
 import { Carousel } from '../Carousel';
 import Scope from '../PrivacyScope';
 import {
@@ -76,13 +75,8 @@ export const TopArtists: FC<{
               <>
                 {' '}
                 <SectionToolbarGridMode callback={gridModeCallback} />
-                <SectionToolbarCarouselNavigation
-                  callback={() => sendGAEvent('USER_top_artists_previous')}
-                />
-                <SectionToolbarCarouselNavigation
-                  next
-                  callback={() => sendGAEvent('USER_top_artists_next')}
-                />
+                <SectionToolbarCarouselNavigation />
+                <SectionToolbarCarouselNavigation next />
               </>
             )}
             <SectionToolbarInfoMenu>
@@ -101,10 +95,7 @@ export const TopArtists: FC<{
                 ? topArtists
                     .filter((topArtist) => topArtist.artist?.id)
                     .map((item) => (
-                      <Carousel.Item
-                        key={item.artist.id}
-                        onClick={() => sendGAEvent('USER_top_artist_click')}
-                      >
+                      <Carousel.Item key={item.artist.id}>
                         <ArtistCard {...item} />
                       </Carousel.Item>
                     ))

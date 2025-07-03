@@ -19,8 +19,6 @@ import clsx from 'clsx';
 import type { SSRProps } from '@/utils/ssrUtils';
 import { getApiInstance, fetchUser, getOrigin } from '@/utils/ssrUtils';
 import { FriendStatus } from '@/utils/statsfm';
-import { sendGAEvent } from '@next/third-parties/google';
-import { useScrollPercentage } from '@/hooks/use-scroll-percentage';
 import formatter from '@/utils/formatter';
 import { SpotifyLink, DiscordLink } from '@/components/SocialLink';
 import {
@@ -323,7 +321,6 @@ const User: NextPage<Props> = ({
   }, [timeframe, userId]);
 
   const handleSegmentSelectSpotify = (value: BetterRange) => {
-    sendGAEvent(`USER_switch_time_${value}`);
     if (timeframe.range === value && timeframe.selected === 'RANGE') return;
     setTimeframe((prev) => ({ ...prev, range: value, selected: 'RANGE' }));
     router.push(`/user/${user.customId || user.id}?range=${value}`, undefined, {
@@ -332,15 +329,12 @@ const User: NextPage<Props> = ({
   };
 
   const handleSegmentSelectAppleMusic = (value: number) => {
-    sendGAEvent(`USER_switch_time_${value}`);
     if (timeframe.year === value && timeframe.selected === 'APPLEMUSIC') return;
     setTimeframe((prev) => ({ ...prev, year: value, selected: 'APPLEMUSIC' }));
     router.push(`/user/${user.customId || user.id}?year=${value}`, undefined, {
       shallow: true,
     });
   };
-
-  useScrollPercentage(30, () => sendGAEvent('USER_scroll_30'));
 
   if (user.userBan?.active === true) {
     // eslint-disable-next-line no-param-reassign
@@ -728,7 +722,6 @@ const User: NextPage<Props> = ({
                     <RecentStreams
                       headerRef={headerRef}
                       streams={recentStreams}
-                      onItemClick={() => sendGAEvent('USER_recent_track_click')}
                     />
                     {user.hasImported && (
                       <Link

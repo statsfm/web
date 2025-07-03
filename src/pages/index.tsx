@@ -6,12 +6,10 @@ import ErrorBoundary from '@/components/ErrorBoundary';
 import { TotalStats } from '@/components/Home/TotalStats';
 import { StoreBadge } from '@/components/StoreBadges';
 import { Title } from '@/components/Title';
-import { useScrollPercentage } from '@/hooks/use-scroll-percentage';
 import type { SSRProps } from '@/utils/ssrUtils';
 import { fetchUser } from '@/utils/ssrUtils';
 import type { GetServerSideProps, NextPage } from 'next';
 import Link from 'next/link';
-import { sendGAEvent } from '@next/third-parties/google';
 import type { FC, PropsWithChildren } from 'react';
 import type { IconType } from 'react-icons';
 import {
@@ -58,7 +56,6 @@ export const getServerSideProps: GetServerSideProps<SSRProps> = async (ctx) => {
 };
 
 const Home: NextPage = () => {
-  useScrollPercentage(30, () => sendGAEvent('HOME_scroll_30'));
   return (
     <>
       <Title reverse noDivider>
@@ -86,25 +83,12 @@ const Home: NextPage = () => {
             Enter a new dimension of music by getting unique insights into your
             music taste.
           </p>
-          <ChevronLink
-            href="https://youtu.be/ABqhwEmR7E0"
-            onClick={() => sendGAEvent('HOME_header_watch_video_new')}
-          >
+          <ChevronLink href="https://youtu.be/ABqhwEmR7E0">
             Watch the video
           </ChevronLink>
           <div className="mt-8 flex flex-col items-center gap-2 md:flex-row">
-            <StoreBadge
-              store="apple"
-              onClick={() => {
-                sendGAEvent('HOME_header_appstore');
-              }}
-            />
-            <StoreBadge
-              store="google"
-              onClick={() => {
-                sendGAEvent('HOME_header_playstore');
-              }}
-            />
+            <StoreBadge store="apple" />
+            <StoreBadge store="google" />
           </div>
         </div>
         <div className="mb-10 flex w-full items-end lg:w-7/12">
@@ -164,12 +148,7 @@ const Home: NextPage = () => {
               <p>
                 *{' '}
                 <Link legacyBehavior href="/settings/import">
-                  <a
-                    className="text-white hover:opacity-80"
-                    onClick={() => {
-                      sendGAEvent('HOME_features_import_link');
-                    }}
-                  >
+                  <a className="text-white hover:opacity-80">
                     import of streaming history
                   </a>
                 </Link>{' '}
@@ -204,11 +183,7 @@ const Home: NextPage = () => {
             </p>
             <div className="h-full"></div>
 
-            <ChevronLink
-              onClick={() => sendGAEvent('HOME_friends_example_page')}
-              href="sjoerdgaatwakawaka"
-              local
-            >
+            <ChevronLink href="sjoerdgaatwakawaka" local>
               Check out an example page
             </ChevronLink>
           </div>
@@ -266,14 +241,8 @@ const Home: NextPage = () => {
             </h1>
             <h4 className="py-2 text-foreground">Available on Android & iOS</h4>
             <div className="mt-8 flex flex-col items-center justify-center gap-2 md:flex-row">
-              <StoreBadge
-                store="google"
-                onClick={() => sendGAEvent('HOME_cta_appstore')}
-              />
-              <StoreBadge
-                store="apple"
-                onClick={() => sendGAEvent('HOME_cta_playstore')}
-              />
+              <StoreBadge store="google" />
+              <StoreBadge store="apple" />
             </div>
           </Card>
         </Container>

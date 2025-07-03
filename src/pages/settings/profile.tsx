@@ -30,7 +30,6 @@ import {
 } from 'react-icons/md';
 import type { SSRProps } from '@/utils/ssrUtils';
 import { fetchUser } from '@/utils/ssrUtils';
-import { sendGAEvent } from '@next/third-parties/google';
 
 type StatusOptions = 'SAVING' | 'SAVED' | 'ERROR' | 'DEFAULT' | 'DELETING';
 type UrlAvailableOptions = 'LOADING' | 'AVAILABLE' | 'UNAVAILABLE';
@@ -125,7 +124,6 @@ const StateContextProvider: FC<PropsWithChildren<{ user: UserPrivate }>> = ({
     }
 
     setStatus('SAVED');
-    sendGAEvent('SETTINGS_profile_saved');
     return true;
   };
 
@@ -292,7 +290,6 @@ const DeleteAccount: FC = () => {
 
     try {
       await api.me.deleteAccount();
-      sendGAEvent('SETTINGS_delete_account');
       logout();
       router.push('/');
     } catch (e) {

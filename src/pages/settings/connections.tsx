@@ -7,7 +7,6 @@ import type { GetServerSideProps, NextPage } from 'next';
 import { useEffect, useState } from 'react';
 import type { SSRProps } from '@/utils/ssrUtils';
 import { fetchUser } from '@/utils/ssrUtils';
-import { sendGAEvent } from '@next/third-parties/google';
 
 enum PlatformStatus {
   LOADING = 'LOADING',
@@ -43,7 +42,6 @@ const useSocials = () => {
       canRefresh: true,
       // TODO: optimistic updates for connecting
       connect: () => {
-        sendGAEvent('SETTINGS_connections_discord_connect');
         window.location.href = api.http.resolveUrl(
           '/me/connections/discord/redirect',
           true,
@@ -54,7 +52,6 @@ const useSocials = () => {
         );
       },
       update: () => {
-        sendGAEvent('SETTINGS_connections_discord_update');
         window.location.href = api.http.resolveUrl(
           '/me/connections/discord/redirect',
           true,
@@ -64,9 +61,7 @@ const useSocials = () => {
           }).toString(),
         );
       },
-      disconnect: () => {
-        sendGAEvent('SETTINGS_connections_discord_disconnect');
-      },
+      disconnect: () => {},
     },
   ];
 

@@ -7,7 +7,6 @@ import {
 } from '@/utils/statsfm';
 import { useApi, useAuth } from '@/hooks';
 import clsx from 'clsx';
-import { sendGAEvent } from '@next/third-parties/google';
 import { Carousel } from '@/components/Carousel';
 import { AlbumCard, AlbumCardSkeleton } from '@/components/Album/AlbumCard';
 import {
@@ -52,15 +51,7 @@ export const ArtistTopAlbums: FC<Props> = ({ artist }) => {
   const normalTopTracks =
     !loading && topAlbums.length > 0
       ? topAlbums.map((item) => (
-          <Carousel.Item
-            key={item.id}
-            onClick={() =>
-              sendGAEvent('ARTIST_top_album_click', {
-                ownTopTracks: showOwnTopAlbums,
-                gridmodeOn: !gridMode,
-              })
-            }
-          >
+          <Carousel.Item key={item.id}>
             <div className="h-[276px]">
               <AlbumCard album={item} />
             </div>
@@ -97,10 +88,6 @@ export const ArtistTopAlbums: FC<Props> = ({ artist }) => {
             )}
             <SectionToolbarGridMode
               callback={(gridmode) => {
-                sendGAEvent('ARTIST_top_album_grid', {
-                  ownTopAlbums: showOwnTopAlbums,
-                  gridmodeOn: !gridmode,
-                });
                 setGridMode(!gridmode);
                 return !gridmode;
               }}
@@ -108,21 +95,8 @@ export const ArtistTopAlbums: FC<Props> = ({ artist }) => {
             <div
               className={clsx(gridMode ? 'pointer-events-none opacity-30' : '')}
             >
-              <SectionToolbarCarouselNavigation
-                callback={() =>
-                  sendGAEvent('ARTIST_top_album_previous', {
-                    ownTopAlbums: showOwnTopAlbums,
-                  })
-                }
-              />
-              <SectionToolbarCarouselNavigation
-                next
-                callback={() =>
-                  sendGAEvent('ARTIST_top_album_next', {
-                    ownTopAlbums: showOwnTopAlbums,
-                  })
-                }
-              />
+              <SectionToolbarCarouselNavigation />
+              <SectionToolbarCarouselNavigation next />
             </div>
           </div>
         }
@@ -130,15 +104,7 @@ export const ArtistTopAlbums: FC<Props> = ({ artist }) => {
         <Carousel.Items>
           {!loading && showOwnTopAlbums && isEligible && ownTopAlbums.length > 0
             ? ownTopAlbums.map((item, i) => (
-                <Carousel.Item
-                  key={item.album.id}
-                  onClick={() =>
-                    sendGAEvent('ARTIST_top_album_click', {
-                      ownTopAlbums: showOwnTopAlbums,
-                      gridmodeOn: !gridMode,
-                    })
-                  }
-                >
+                <Carousel.Item key={item.album.id}>
                   <div className="h-[276px]">
                     <AlbumCard
                       album={item.album}

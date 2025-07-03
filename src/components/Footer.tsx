@@ -1,5 +1,4 @@
 import Link from 'next/link';
-import { sendGAEvent } from '@next/third-parties/google';
 import { useAuth } from '@/hooks';
 import { useRouter } from 'next/router';
 import { Container } from './Container';
@@ -113,14 +112,6 @@ export const Footer = () => {
                       href={link.href}
                       rel="noopener noreferrer"
                       target="_blank"
-                      onClick={
-                        cat.label === 'Socials'
-                          ? () =>
-                              sendGAEvent(
-                                `FOOTER_${link.label.toLowerCase()}_click`,
-                              )
-                          : undefined
-                      }
                     >
                       {link.label}
                     </a>
@@ -138,17 +129,9 @@ export const Footer = () => {
         <div className="ml-4 h-48 lg:ml-0">
           <h4 className="text-text-grey">Download</h4>
           <div className="mt-4"></div>
-          <StoreBadge
-            store="apple"
-            size="xs"
-            onClick={() => sendGAEvent('FOOTER_appstore')}
-          />
+          <StoreBadge store="apple" size="xs" />
           <div className="mt-2"></div>
-          <StoreBadge
-            store="google"
-            size="xs"
-            onClick={() => sendGAEvent('FOOTER_playstore')}
-          />
+          <StoreBadge store="google" size="xs" />
         </div>
         {user && !user.isPlus && pathname !== '/plus' ? (
           <div className="col-span-2 row-start-1 -mt-3 w-full lg:mx-0 lg:w-96">
@@ -173,12 +156,7 @@ export const Footer = () => {
       <div className="flex flex-row">
         {socials.map((social) => (
           <div key={social.icon} className="mx-4 flex flex-col lg:ml-0">
-            <a
-              href={social.href}
-              rel="noopener noreferrer"
-              target="_blank"
-              onClick={() => sendGAEvent(`FOOTER_${social.icon.toLowerCase()}`)}
-            >
+            <a href={social.href} rel="noopener noreferrer" target="_blank">
               <img
                 className="size-10"
                 src={`/icons/social/${social.icon}.svg`}

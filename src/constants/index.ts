@@ -6,6 +6,7 @@ export const PAGES_WITH_CUSTOM_OGP = [
   '/artist/[id]',
   '/track/[id]',
   '/album/[id]',
+  '/invite',
 ];
 
 export const PAGES_WITH_BASE_LAYOUT = ['/invite'];
