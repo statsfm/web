@@ -36,7 +36,6 @@
           "NOT /plus",
           "NOT /404",
           "NOT /500",
-          "NOT /creator-program",
           "/user/*",
           "/user/*/",
           "/track/*",
